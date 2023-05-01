@@ -1,0 +1,17 @@
+﻿<Styles x:Class="PleasantUI.PleasantTheme"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Styling/BaseColorsPalette.axaml" />
+                
+                <MergeResourceInclude Source="/Styling/BaseResources.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <FontFamily x:Key="NotoSansFontFamily">/Assets/Fonts/#Noto Sans</FontFamily>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <StyleInclude Source="/Styling/ControlThemes/Controls.axaml" />
+</Styles>

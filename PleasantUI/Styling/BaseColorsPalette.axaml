@@ -1,0 +1,118 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="TextFillColorPrimary">#E4000000</Color>
+            <Color x:Key="TextFillColorSecondary">#9E000000</Color>
+            <Color x:Key="TextFillColorTertiary">#72000000</Color>
+            <Color x:Key="TextFillColorDisabled">#5C000000</Color>
+            <Color x:Key="TextFillColorInverse">#FFFFFF</Color>
+            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+
+            <Color x:Key="ControlFillColorDefault">#B3FFFFFF</Color>
+            <Color x:Key="ControlFillColorSecondary">#80F9F9F9</Color>
+            <Color x:Key="ControlFillColorTertiary">#4DF9F9F9</Color>
+            <Color x:Key="ControlFillColorDisabled">#4DF9F9F9</Color>
+            <Color x:Key="ControlFillColorInputActive">#FFFFFF</Color>
+
+            <Color x:Key="ControlStrongFillColorDefault">#72000000</Color>
+
+            <Color x:Key="ControlAltFillColorSecondary">#06000000</Color>
+            <Color x:Key="ControlAltFillColorTertiary">#0F000000</Color>
+            <Color x:Key="ControlAltFillColorQuarternary">#18000000</Color>
+
+            <Color x:Key="ControlStrokeColorDefault">#0F000000</Color>
+            <Color x:Key="ControlStrongStrokeColorDefault">#72000000</Color>
+            <Color x:Key="ControlStrokeColorSecondary">#29000000</Color>
+
+            <Color x:Key="ControlSolidFillColorDefault">#FFFFFF</Color>
+
+            <Color x:Key="SubtleFillColorSecondary">#09000000</Color>
+            <Color x:Key="SubtleFillColorTertiary">#06000000</Color>
+
+            <Color x:Key="CardBackgroundFillColorDefault">#B3FFFFFF</Color>
+
+            <Color x:Key="CardStrokeColorDefault">#0F000000</Color>
+
+            <Color x:Key="NavigationViewBackground">#A8ECECEC</Color>
+
+            <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
+
+            <Color x:Key="SolidBackgroundFillColorBase">#F3F3F3</Color>
+            <Color x:Key="SolidBackgroundFillColorSecondary">#EEEEEE</Color>
+            <Color x:Key="SolidBackgroundFillColorTertiary">#F9F9F9</Color>
+            <Color x:Key="SolidBackgroundFillColorQuarternary">#FFFFFF</Color>
+
+            <Color x:Key="AcrylicInAppFillColorDefault">#F9F9F9</Color>
+
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#BF8500</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+
+            <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
+            <Color x:Key="TextFillColorSecondary">#C5FFFFFF</Color>
+            <Color x:Key="TextFillColorTertiary">#87FFFFFF</Color>
+            <Color x:Key="TextFillColorDisabled">#5DFFFFFF</Color>
+            <Color x:Key="TextFillColorInverse">#E4000000</Color>
+            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+
+            <Color x:Key="ControlFillColorDefault">#0FFFFFFF</Color>
+            <Color x:Key="ControlFillColorSecondary">#15FFFFFF</Color>
+            <Color x:Key="ControlFillColorTertiary">#08FFFFFF</Color>
+            <Color x:Key="ControlFillColorDisabled">#0BFFFFFF</Color>
+            <Color x:Key="ControlFillColorInputActive">#B31E1E1E</Color>
+
+            <Color x:Key="ControlStrongFillColorDefault">#8BFFFFFF</Color>
+
+            <Color x:Key="ControlAltFillColorSecondary">#19000000</Color>
+            <Color x:Key="ControlAltFillColorTertiary">#0BFFFFFF</Color>
+            <Color x:Key="ControlAltFillColorQuarternary">#12FFFFFF</Color>
+
+            <Color x:Key="ControlStrokeColorDefault">#12FFFFFF</Color>
+            <Color x:Key="ControlStrongStrokeColorDefault">#8BFFFFFF</Color>
+            <Color x:Key="ControlStrokeColorSecondary">#18FFFFFF</Color>
+
+            <Color x:Key="ControlSolidFillColorDefault">#454545</Color>
+
+            <Color x:Key="SubtleFillColorSecondary">#0FFFFFFF</Color>
+            <Color x:Key="SubtleFillColorTertiary">#0AFFFFFF</Color>
+
+            <Color x:Key="CardBackgroundFillColorDefault">#0DFFFFFF</Color>
+
+            <Color x:Key="CardStrokeColorDefault">#19000000</Color>
+
+            <Color x:Key="NavigationViewBackground">#A0252525</Color>
+
+            <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3000000</Color>
+
+            <Color x:Key="SolidBackgroundFillColorBase">#202020</Color>
+            <Color x:Key="SolidBackgroundFillColorSecondary">#1C1C1C</Color>
+            <Color x:Key="SolidBackgroundFillColorTertiary">#282828</Color>
+            <Color x:Key="SolidBackgroundFillColorQuarternary">#2C2C2C</Color>
+
+            <Color x:Key="AcrylicInAppFillColorDefault">#2C2C2C</Color>
+
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+
+            <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

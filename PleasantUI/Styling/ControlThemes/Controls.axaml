@@ -1,0 +1,14 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="BasicControls/Button.axaml" />
+                <MergeResourceInclude Source="BasicControls/Window.axaml" />
+                <MergeResourceInclude Source="BasicControls/ScrollBar.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <StyleInclude Source="BasicControls/UserControl.axaml" />
+</Styles>
