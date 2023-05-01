@@ -1,4 +1,4 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!-- Add Resources Here -->
+    <Geometry x:Key="ArrowRegular">F1 M12.4,10.1z M0,0z M10.6,10.1L1.7,10.1A1.7,1.7,0,0,1,0.3,7.4L4.7,0.8A1.7,1.7,0,0,1,7.6,0.8L12.1,7.4A1.8,1.8,0,0,1,10.6,10.1z</Geometry>
 </ResourceDictionary>

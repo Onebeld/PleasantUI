@@ -17,6 +17,11 @@ public static class ColorExtensions
         return HslColor.ToRgb(hslColor.H, hslColor.S, lightness, hslColor.A);
     }
 
+    /// <summary>
+    /// Inverts the color (e.g., green -> purple)
+    /// </summary>
+    /// <param name="color">Original color</param>
+    /// <returns>Inverted color</returns>
     public static Color InvertColor(this Color color)
     {
         Color invertColor = new(

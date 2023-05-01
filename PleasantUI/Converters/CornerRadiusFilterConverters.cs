@@ -18,7 +18,13 @@ public class CornerRadiusFilterConverters
     
     public static readonly CornerRadiusToDoubleConverter TopLeft =
         new() { Corner = Corners.TopLeft };
+    
+    public static readonly CornerRadiusToDoubleConverter TopRight =
+        new() { Corner = Corners.TopRight };
 
+    public static readonly CornerRadiusToDoubleConverter BottomLeft =
+        new() { Corner = Corners.BottomLeft };
+    
     public static readonly CornerRadiusToDoubleConverter BottomRight =
         new() { Corner = Corners.BottomRight };
 }

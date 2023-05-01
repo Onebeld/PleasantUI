@@ -18,6 +18,9 @@ public class WindowSettings : ViewModelBase
         set => RaiseAndSet(ref _enableCustomTitleBar, value);
     }
 
+    /// <summary>
+    /// Specifies the opacity level for windows
+    /// </summary>
     public double OpacityLevel
     {
         get => _opacityLevel;

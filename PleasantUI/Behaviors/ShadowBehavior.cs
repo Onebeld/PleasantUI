@@ -5,6 +5,9 @@ using Avalonia.Xaml.Interactivity;
 
 namespace PleasantUI.Behaviors;
 
+/// <summary>
+/// Defines <see cref="Avalonia.Media.BoxShadow"/> behavior for the control
+/// </summary>
 public class ShadowBehavior : Behavior<Control>
 {
     public static readonly StyledProperty<BoxShadow> BoxShadowProperty =
@@ -19,6 +22,9 @@ public class ShadowBehavior : Behavior<Control>
         set => SetValue(BoxShadowProperty, value);
     }
 
+    /// <summary>
+    /// Specifies whether the shadow will be shown on the control
+    /// </summary>
     public bool EnableShadowing
     {
         get => GetValue(EnableShadowingProperty);
