@@ -10,7 +10,7 @@
         
         <TextBox Text="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
         
-        <Button Content="Button" />
-        <Button Theme="{StaticResource AccentButton}" Content="Button" />
+        <Button Content="Content button" />
+        <Button Theme="{StaticResource AccentButton}" Content="Content button" />
     </StackPanel>
 </Window>

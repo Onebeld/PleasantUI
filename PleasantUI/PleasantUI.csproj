@@ -22,7 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controls\" />
       <Folder Include="Styling\ControlThemes\PleasantControls\" />
     </ItemGroup>
     
