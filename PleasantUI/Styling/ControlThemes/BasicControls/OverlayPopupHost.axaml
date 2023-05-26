@@ -3,7 +3,6 @@
     <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}"/>
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}"/>
-        <Setter Property="FontFamily" Value="{StaticResource NotoSansFontFamily}" />
         <Setter Property="FontWeight" Value="400" />
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="Template">

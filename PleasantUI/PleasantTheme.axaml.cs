@@ -34,21 +34,54 @@ public class PleasantTheme : Style
     
     public void UpdateAccentColors(Color accent)
     {
+        if (_platformSettings is null) return;
+        
+        float light1Percent;
+        float light2Percent;
+        float light3Percent;
+        float dark1Percent;
+        float dark2Percent;
+        float dark3Percent;
+
+        PlatformThemeVariant platformThemeVariant = _platformSettings.GetColorValues().ThemeVariant;
+
+        if (PleasantSettings.Instance.Theme is Theme.Dark 
+            || PleasantSettings.Instance.Theme is Theme.System && platformThemeVariant is PlatformThemeVariant.Dark)
+        {
+            dark3Percent = -0.35f;
+            dark2Percent = -0.20f;
+            dark1Percent = -0.05f;
+            // 0
+            light1Percent = 0.25f;
+            light2Percent = 0.40f;
+            light3Percent = 0.55f;
+        }
+        else
+        {
+            dark3Percent = -0.35f;
+            dark2Percent = -0.20f;
+            dark1Percent = -0.05f;
+            // 0
+            light1Percent = 0.15f;
+            light2Percent = 0.30f;
+            light3Percent = 0.45f;
+        }
+
         UpdateAccentColors(
             accent,
-            accent.LightenPercent(0.15f),
-            accent.LightenPercent(0.30f),
-            accent.LightenPercent(0.45f),
-            accent.LightenPercent(-0.15f),
-            accent.LightenPercent(-0.30f),
-            accent.LightenPercent(-0.45f),
+            accent.LightenPercent(light1Percent),
+            accent.LightenPercent(light2Percent),
+            accent.LightenPercent(light3Percent),
+            accent.LightenPercent(dark1Percent),
+            accent.LightenPercent(dark2Percent),
+            accent.LightenPercent(dark3Percent),
             accent.InvertColor(),
-            accent.InvertColor().LightenPercent(0.15f),
-            accent.InvertColor().LightenPercent(0.30f),
-            accent.InvertColor().LightenPercent(0.45f),
-            accent.InvertColor().LightenPercent(-0.15f),
-            accent.InvertColor().LightenPercent(-0.30f),
-            accent.InvertColor().LightenPercent(-0.45f));
+            accent.InvertColor().LightenPercent(light1Percent),
+            accent.InvertColor().LightenPercent(light2Percent),
+            accent.InvertColor().LightenPercent(light3Percent),
+            accent.InvertColor().LightenPercent(dark1Percent),
+            accent.InvertColor().LightenPercent(dark2Percent),
+            accent.InvertColor().LightenPercent(dark3Percent));
     }
 
     private void Init()
@@ -142,20 +175,22 @@ public class PleasantTheme : Style
         _accentColorsDictionary = new ResourceDictionary
         {
             { "SystemAccentColor", accent },
-            { "SystemAccentColorLight1", light1 },
-            { "SystemAccentColorLight2", light2 },
-            { "SystemAccentColorLight3", light3 },
-            { "SystemAccentColorDark1", dark1 },
-            { "SystemAccentColorDark2", dark2 },
-            { "SystemAccentColorDark3", dark3 },
+            
+            { "SystemAccentLightColor1", light1 },
+            { "SystemAccentLightColor2", light2 },
+            { "SystemAccentLightColor3", light3 },
+            { "SystemAccentDarkColor1", dark1 },
+            { "SystemAccentDarkColor2", dark2 },
+            { "SystemAccentDarkColor3", dark3 },
             
             { "SystemInvertAccentColor", invertAccent },
-            { "SystemInvertAccentLight1", invertLight1 },
-            { "SystemInvertAccentLight2", invertLight2 },
-            { "SystemInvertAccentLight3", invertLight3 },
-            { "SystemInvertAccentDark1", invertDark1 },
-            { "SystemInvertAccentDark2", invertDark2 },
-            { "SystemInvertAccentDark3", invertDark3 }
+            
+            { "SystemInvertAccentLightColor1", invertLight1 },
+            { "SystemInvertAccentLightColor2", invertLight2 },
+            { "SystemInvertAccentLightColor3", invertLight3 },
+            { "SystemInvertAccentDarkColor1", invertDark1 },
+            { "SystemInvertAccentDarkColor2", invertDark2 },
+            { "SystemInvertAccentDarkColor3", invertDark3 },
         };
         
         Resources.MergedDictionaries.Add(_accentColorsDictionary);

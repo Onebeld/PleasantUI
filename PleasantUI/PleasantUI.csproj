@@ -15,18 +15,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.0-preview7" />
-      <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.0-preview7" />
-      <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-preview7" />
+      <PackageReference Include="Avalonia" Version="11.0.0-preview8" />
+      <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.0-preview8" />
+      <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-preview8" />
       <PackageReference Include="System.Text.Json" Version="7.0.2" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Styling\ControlThemes\PleasantControls\" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <AvaloniaResource Include="Assets\Fonts\*.*" />
-    </ItemGroup>
-
 </Project>

@@ -1,13 +1,16 @@
 ﻿using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Styling;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
 
-public class PleasantWindow : Window, IPleasantWindow
+public class PleasantWindow : Window, IPleasantWindow, IStyleable
 {
     private Panel _modalWindowsPanel = null!;
+    
+    Type IStyleable.StyleKey => typeof(PleasantWindow);
     
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {

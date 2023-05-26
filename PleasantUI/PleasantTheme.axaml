@@ -7,9 +7,8 @@
                 <ResourceInclude Source="/Styling/BaseColorsPalette.axaml" />
                 
                 <MergeResourceInclude Source="/Styling/BaseResources.axaml" />
+                <MergeResourceInclude Source="/Assets/IconGeometries.axaml" />
             </ResourceDictionary.MergedDictionaries>
-            
-            <FontFamily x:Key="NotoSansFontFamily">/Assets/Fonts/#Noto Sans</FontFamily>
         </ResourceDictionary>
     </Styles.Resources>
     

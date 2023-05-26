@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="{x:Type PleasantWindow}" TargetType="PleasantWindow">
+        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBase}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="TransparencyLevelHint" Value="AcrylicBlur" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <ExperimentalAcrylicBorder>
+                        <ExperimentalAcrylicBorder.Material>
+                            <ExperimentalAcrylicMaterial BackgroundSource="Digger" MaterialOpacity="0.8" TintColor="Black" />
+                        </ExperimentalAcrylicBorder.Material>
+                    </ExperimentalAcrylicBorder>
+                    
+                    <VisualLayerManager>
+                        <Panel>
+                            <ContentPresenter x:Name="PART_ContentWindow"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            
+                            <Panel x:Name="PART_ModalWindowsPanel" ZIndex="5" />
+                        </Panel>
+                    </VisualLayerManager>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

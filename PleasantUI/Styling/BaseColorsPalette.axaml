@@ -115,4 +115,69 @@
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    
+    <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="{DynamicResource TextFillColorPrimary}" />
+        <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="{DynamicResource TextFillColorSecondary}" />
+        <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="{DynamicResource TextFillColorTertiary}" />
+        <SolidColorBrush x:Key="TextFillColorDisabledBrush" Color="{DynamicResource TextFillColorDisabled}" />
+        <SolidColorBrush x:Key="TextFillColorInverseBrush" Color="{DynamicResource TextFillColorInverse}" />
+        <SolidColorBrush x:Key="TextFillColorDangerBrush" Color="{DynamicResource TextFillColorDanger}" />
+
+        <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="{DynamicResource ControlFillColorDefault}" />
+        <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="{DynamicResource ControlFillColorSecondary}" />
+        <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="{DynamicResource ControlFillColorTertiary}" />
+        <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="{DynamicResource ControlFillColorDisabled}" />
+        <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="{DynamicResource ControlFillColorTransparent}" />
+        <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{DynamicResource ControlFillColorInputActive}" />
+
+        <SolidColorBrush x:Key="ControlStrongFillColorDefaultBrush"
+                         Color="{DynamicResource ControlStrongFillColorDefault}" />
+
+        <SolidColorBrush x:Key="ControlAltFillColorSecondaryBrush"
+                         Color="{DynamicResource ControlAltFillColorSecondary}" />
+        <SolidColorBrush x:Key="ControlAltFillColorTertiaryBrush" Color="{DynamicResource ControlAltFillColorTertiary}" />
+        <SolidColorBrush x:Key="ControlAltFillColorQuarternaryBrush"
+                         Color="{DynamicResource ControlAltFillColorQuarternary}" />
+
+        <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
+        <SolidColorBrush x:Key="ControlStrongStrokeColorDefaultBrush"
+                         Color="{DynamicResource ControlStrongStrokeColorDefault}" />
+        <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{DynamicResource ControlStrokeColorSecondary}" />
+
+        <SolidColorBrush x:Key="ControlSolidFillColorDefaultBrush"
+                         Color="{DynamicResource ControlSolidFillColorDefault}" />
+
+        <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
+        <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="{DynamicResource SubtleFillColorTertiary}" />
+
+        <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush"
+                         Color="{DynamicResource CardBackgroundFillColorDefault}" />
+
+        <SolidColorBrush x:Key="NavigationViewBackgroundBrush" Color="{DynamicResource NavigationViewBackground}" />
+
+        <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="{DynamicResource CardStrokeColorDefault}" />
+
+        <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
+        <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
+
+        <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorBase}" />
+        <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorSecondary}" />
+        <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorTertiary}" />
+        <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush"
+                         Color="{DynamicResource SolidBackgroundFillColorQuarternary}" />
+
+        <SolidColorBrush x:Key="AcrylicInAppFillColorDefaultBrush"
+                         Color="{DynamicResource AcrylicInAppFillColorDefault}" />
+
+        <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
+        <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
+        <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{DynamicResource SystemFillColorCaution}" />
+        <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{DynamicResource SystemFillColorNeutral}" />
+
+        <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
+        <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
+        <SolidColorBrush x:Key="SelectedColorBoxBrush" Color="{DynamicResource SelectedColorBox}" />
 </ResourceDictionary>

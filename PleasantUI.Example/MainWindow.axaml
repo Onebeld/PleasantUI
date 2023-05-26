@@ -1,16 +1,14 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿<PleasantWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:pages="clr-namespace:PleasantUI.Example.Pages"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="PleasantUI.Example.MainWindow"
         Title="MainWindow">
-    <StackPanel>
-        <TextBlock Text="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
-        
-        <TextBox Text="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
-        
-        <Button Content="Content button" />
-        <Button Theme="{StaticResource AccentButton}" Content="Content button" />
-    </StackPanel>
-</Window>
+    <NavigationView IsOpen="False"
+                    SelectionMode="AlwaysSelected">
+        <NavigationViewItem Header="Hello world!"
+                            TypeContent="{x:Type pages:HomePage}" />
+    </NavigationView>
+</PleasantWindow>

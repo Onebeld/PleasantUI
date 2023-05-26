@@ -11,7 +11,7 @@
     
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemInvertAccentLight3}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemInvertAccentDarkColor2}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="15 10" />
@@ -53,7 +53,7 @@
     </ControlTheme>
     
     <ControlTheme x:Key="AccentButton" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight3}" />
+        <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
@@ -85,10 +85,10 @@
         </Setter>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight2}" />
+            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight1}" />
+            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

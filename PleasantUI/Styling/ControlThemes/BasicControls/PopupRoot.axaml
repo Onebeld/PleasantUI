@@ -5,7 +5,6 @@
         <Setter Property="TransparencyLevelHint" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontFamily" Value="{StaticResource NotoSansFontFamily}" />
         <Setter Property="FontWeight" Value="400" />
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="Template">

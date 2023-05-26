@@ -10,10 +10,27 @@
                 <MergeResourceInclude Source="BasicControls/ScrollBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/ScrollViewer.axaml" />
                 <MergeResourceInclude Source="BasicControls/PopupRoot.axaml" />
+                <MergeResourceInclude Source="BasicControls/ComboBox.axaml" />
+                <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/EmbeddableControlRoot.axaml" />
+                <MergeResourceInclude Source="BasicControls/ListBox.axaml" />
+                <MergeResourceInclude Source="BasicControls/ListBoxItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/Menu.axaml" />
+                <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
+                <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
+                
+                <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
+                <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
+                <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
     
+    <StyleInclude Source="OtherStyles/ButtonForeground.axaml" />
+    
     <StyleInclude Source="BasicControls/UserControl.axaml" />
+    <StyleInclude Source="BasicControls/FocusAdorner.axaml" />
+    
+    <StyleInclude Source="PleasantControls/NavigationViewItem.axaml" />
 </Styles>

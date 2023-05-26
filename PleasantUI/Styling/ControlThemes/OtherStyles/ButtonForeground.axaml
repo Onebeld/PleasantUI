@@ -1,0 +1,23 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Button > Path, 
+                     ToggleButton > Path, 
+                     Button > Viewbox > Path, 
+                     ToggleButton > Viewbox > Path, 
+                     Button > StackPanel > Path, 
+                     ToggleButton > StackPanel > Path">
+        <Setter Property="Fill"
+                Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
+    </Style>
+
+    <Style
+        Selector="Button.CloseButton:pointerover > Viewbox > Path,
+                     ToggleButton.CloseButton:pointerover > Viewbox > Path">
+        <Setter Property="Fill" Value="{StaticResource TextFillColorDangerBrush}" />
+    </Style>
+    <Style
+        Selector="Button.CloseButton:pressed > Viewbox > Path,
+                     ToggleButton.CloseButton:pressed > Viewbox > Path">
+        <Setter Property="Fill" Value="{StaticResource TextFillColorDangerBrush}" />
+    </Style>
+</Styles>

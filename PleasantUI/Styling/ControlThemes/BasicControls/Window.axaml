@@ -4,7 +4,6 @@
         <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBase}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontFamily" Value="{StaticResource NotoSansFontFamily}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
