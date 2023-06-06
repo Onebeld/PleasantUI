@@ -3,7 +3,7 @@
 public class WindowSettings : ViewModelBase
 {
     private bool _enableBlur;
-    private bool _enableCustomTitleBar;
+    private bool _enableCustomTitleBar = true;
     private double _opacityLevel = 0.8;
 
     public bool EnableBlur

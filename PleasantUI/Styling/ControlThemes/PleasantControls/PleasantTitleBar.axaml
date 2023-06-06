@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="0 50">
+            <PleasantTitleBar />
+        </Border>
+    </Design.PreviewWith>
+    
+    <MenuFlyout x:Key="PleasantTitleBarMenuFlyout">
+        <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
+            
+        </MenuItem>
+    </MenuFlyout>
+    
+    <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="32" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                    <Border x:Name="PART_DragWindow"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="4"
+                            Background="Transparent"
+                            ContextFlyout="{StaticResource PleasantTitleBarMenuFlyout}" />
+                    
+                    <StackPanel Grid.Column="1"
+                                x:Name="PART_TitlePanel"
+                                Orientation="Horizontal"
+                                Margin="5 0 0 0"
+                                Spacing="5"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False">
+                        <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
+                        <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" />
+                        <TextBlock x:Name="PART_Subtitle"
+                                   FontSize="12"
+                                   Margin="3 0 0 0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                    
+                    <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
+                                            Grid.Column="3" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="PleasantTitleBarMacOSStyle" TargetType="PleasantTitleBar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="32" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Border x:Name="PART_DragWindow"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Background="Transparent"
+                            ContextFlyout="{StaticResource PleasantTitleBarMenuFlyout}" />
+                    
+                    <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
+                                            Grid.Column="0"
+                                            Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
+                    
+                    <StackPanel Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                x:Name="PART_TitlePanel"
+                                IsHitTestVisible="False"
+                                VerticalAlignment="Center"
+                                Spacing="5">
+                        <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" />
+                        <TextBlock x:Name="PART_Subtitle"
+                                   FontSize="12"
+                                   Margin="3 0 0 0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

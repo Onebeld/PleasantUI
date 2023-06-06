@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -12,12 +11,22 @@
         <Company>Onebeld</Company>
         <AssemblyVersion>3.0.0</AssemblyVersion>
         <FileVersion>3.0.0</FileVersion>
+        <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.0-preview8" />
-      <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.0-preview8" />
-      <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-preview8" />
+      <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
+      <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.0-rc1.1" />
+      <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-rc1.1" />
       <PackageReference Include="System.Text.Json" Version="7.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="**\*.axaml" />
+        <Compile Update="**\*.axaml.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 </Project>

@@ -8,7 +8,16 @@
         Title="MainWindow">
     <NavigationView IsOpen="False"
                     SelectionMode="AlwaysSelected">
-        <NavigationViewItem Header="Hello world!"
-                            TypeContent="{x:Type pages:HomePage}" />
+        <NavigationViewItem IsSelected="True"
+                            Header="Home"
+                            TypeContent="{x:Type pages:HomePage}"
+                            Icon="{StaticResource HomeScreenRegular}" />
+        
+        <NavigationViewItem Header="Settings"
+                            TypeContent="{x:Type pages:SettingsPage}"
+                            DockPanel.Dock="Bottom" Margin="0 0 0 5"
+                            Icon="{StaticResource SettingsRegular}" />
+        
+        <Panel />
     </NavigationView>
 </PleasantWindow>

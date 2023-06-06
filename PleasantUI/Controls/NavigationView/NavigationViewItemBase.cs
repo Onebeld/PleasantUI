@@ -6,7 +6,7 @@ using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
-public class NavigationViewItemBase : TreeViewItem, IHeadered
+public class NavigationViewItemBase : TreeViewItem
 {
     private Geometry? _icon;
     private Type? _typeContent;

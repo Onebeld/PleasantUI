@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
@@ -14,7 +13,7 @@ using Avalonia.Threading;
 namespace PleasantUI.Controls;
 
 [PseudoClasses(":normal", ":compact")]
-public class NavigationView : TreeView, IContentPresenterHost, IHeadered
+public class NavigationView : TreeView
 {
     private object? _selectedContent;
     private IEnumerable<string>? _itemsAsStrings;
@@ -320,22 +319,6 @@ public class NavigationView : TreeView, IContentPresenterHost, IHeadered
         if (Items is IList { Count: >= 1 } l && l[0] is ISelectable s)
             SelectSingleItem(s);
     }
-
-    public void NotClientImplementable()
-    {
-        throw new NotImplementedException();
-    }
-
-    ///<inheritdoc/>
-    IAvaloniaList<ILogical> IContentPresenterHost.LogicalChildren => LogicalChildren;
-
-    bool IContentPresenterHost.RegisterContentPresenter(IContentPresenter presenter)
-    {
-        return RegisterContentPresenter(presenter);
-    }
-
-    private bool RegisterContentPresenter(IContentPresenter presenter) =>
-        presenter.Name == "PART_SelectedContentPresenter";
 
     private void OnIsOpenChanged()
     {

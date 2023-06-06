@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
-        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBase}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}"/>
+        <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Template">
             <ControlTemplate>

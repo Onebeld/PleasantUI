@@ -19,8 +19,12 @@
                 <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
+                <MergeResourceInclude Source="BasicControls/SplitView.axaml" />
+                <MergeResourceInclude Source="BasicControls/ToolTip.axaml" />
                 
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -28,6 +32,8 @@
     </Styles.Resources>
     
     <StyleInclude Source="OtherStyles/ButtonForeground.axaml" />
+    <StyleInclude Source="OtherStyles/Transitions.axaml" />
+    <StyleInclude Source="OtherStyles/CaptionButtonsStyles.axaml" />
     
     <StyleInclude Source="BasicControls/UserControl.axaml" />
     <StyleInclude Source="BasicControls/FocusAdorner.axaml" />

@@ -10,7 +10,7 @@ public static class WindowIconExtensions
     /// </summary>
     /// <param name="icon">Window icon</param>
     /// <returns>Bitmap of the window icon</returns>
-    public static IBitmap ToBitmap(this WindowIcon icon)
+    public static Bitmap ToBitmap(this WindowIcon icon)
     {
         using MemoryStream stream = new();
         icon.Save(stream);

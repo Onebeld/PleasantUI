@@ -42,10 +42,10 @@
         </Setter>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{DynamicResource SubtleFillColorTertiary}" />
+            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondary}" />
+            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

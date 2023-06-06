@@ -144,7 +144,7 @@ public class PleasantModalWindow : ContentControl
                 PseudoClasses.Set(":close", true);
                 //((ModalBackground)(Parent as Panel)!.Children[0]).Close();
                 
-                await CloseAnimation.RunAsync(this, null);
+                await CloseAnimation.RunAsync(this);
 
                 CanOpen = false;
 

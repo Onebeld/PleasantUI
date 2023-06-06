@@ -4,8 +4,7 @@
     <Design.PreviewWith>
         <Border Padding="0" Width="700" Height="300">
             <NavigationView>
-                <NavigationViewItem Icon="{StaticResource DeleteRegular}"
-                                    Header="Header" />
+                <NavigationViewItem Header="Header" />
             </NavigationView>
         </Border>
     </Design.PreviewWith>
@@ -40,9 +39,8 @@
                                             Width="3"
                                             Margin="-2 8 0 8"
                                             HorizontalAlignment="Left"
-                                            IsVisible="False"
                                             CornerRadius="4"
-                                            Background="{StaticResource SystemAccentLightColor1}" />
+                                            Background="{StaticResource SystemAccentLightColor1Brush}" />
 
                                     <Viewbox Name="PART_ViewBox"
                                              HorizontalAlignment="Center"
@@ -167,37 +165,31 @@
             </Animation>
         </Style.Animations>
     </Style>
+    
+    <Style Selector=":is(NavigationViewItemBase) /template/ Border#PART_SelectionBorder">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
 
     <Style Selector=":is(NavigationViewItemBase):selected /template/ Border#PART_SelectionBorder">
-        <Style.Animations>
-            <Animation Duration="0:0:0.167" FillMode="Forward" Easing="SineEaseOut">
-                <KeyFrame Cue="0%">
-                    <Setter Property="IsVisible" Value="True" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="0" />
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="IsVisible" Value="True" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                </KeyFrame>
-            </Animation>
-        </Style.Animations>
+        <Setter Property="RenderTransform" Value="scaleY(1)" />
+    </Style>
+    <Style Selector=":is(NavigationViewItemBase):pointerover /template/ Border#PART_SelectionBorder">
+        <Setter Property="RenderTransform" Value="scaleY(1.2)" />
+    </Style>
+    <Style Selector=":is(NavigationViewItemBase):selected:pressed /template/ Border#PART_SelectionBorder">
+        <Setter Property="RenderTransform" Value="scaleY(0.8)" />
     </Style>
     <Style Selector=":is(NavigationViewItemBase):not(:selected) /template/ Border#PART_SelectionBorder">
-        <Style.Animations>
-            <Animation Duration="0:0:0.167" FillMode="Forward" Easing="SineEaseIn">
-                <KeyFrame Cue="0%">
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="ScaleTransform.ScaleY" Value="0" />
-                    <Setter Property="IsVisible" Value="False" />
-                </KeyFrame>
-            </Animation>
-        </Style.Animations>
+        <Setter Property="RenderTransform" Value="scaleY(0)" />
     </Style>
 
     <Style Selector=":is(NavigationViewItemBase):selected /template/ Border#PART_NavDecorator">
-        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondary}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
     </Style>
     <Style Selector=":is(NavigationViewItemBase):empty /template/ ToggleButton">
         <Setter Property="Opacity" Value="0" />
@@ -240,18 +232,36 @@
     </Style>
 
     <Style Selector=":is(NavigationViewItemBase) /template/ Border:pointerover#PART_NavDecorator">
-        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondary}" />
+        <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
     </Style>
 
     <Style Selector=":is(NavigationViewItemBase).header /template/ Border:pointerover#PART_NavDecorator">
         <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <Style Selector=":is(NavigationViewItemBase):pressed /template/ Viewbox#PART_ViewBox">
-        <Setter Property="RenderTransform" Value="scale(0.8)" />
-    </Style>
-
     <Style Selector=":is(NavigationViewItemBase)[IsExpanded=False] /template/ :is(Control)#PART_BottomBorder">
         <Setter Property="Height" Value="0" />
+    </Style>
+    
+    <Style Selector=":is(NavigationViewItemBase):selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style Selector=":is(NavigationViewItemBase) /template/ Viewbox#PART_ViewBox">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
+    <Style Selector=":is(NavigationViewItemBase):pointerover /template/ Viewbox#PART_ViewBox">
+        <Setter Property="RenderTransform" Value="scale(1.1)" />
+    </Style>
+    <Style Selector=":is(NavigationViewItemBase):pressed /template/ Viewbox#PART_ViewBox">
+        <Setter Property="RenderTransform" Value="scale(0.9)" />
+    </Style>
+    <Style Selector=":is(NavigationViewItemBase):selected /template/ Viewbox#PART_ViewBox > Path">
+        <Setter Property="Fill" Value="{StaticResource SystemAccentLightColor1Brush}" />
     </Style>
 </Styles>

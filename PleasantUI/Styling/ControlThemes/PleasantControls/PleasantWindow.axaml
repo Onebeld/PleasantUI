@@ -1,10 +1,13 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="{x:Type PleasantWindow}" TargetType="PleasantWindow">
-        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBase}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}"/>
+        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
+        <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="TransparencyLevelHint" Value="AcrylicBlur" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="PreferSystemChrome" />
         
         <Setter Property="Template">
             <ControlTemplate>
@@ -15,20 +18,37 @@
                         </ExperimentalAcrylicBorder.Material>
                     </ExperimentalAcrylicBorder>
                     
-                    <VisualLayerManager>
+                    <VisualLayerManager x:Name="PART_VisualLayerManager">
+                        <VisualLayerManager.ChromeOverlayLayer>
+                            <PleasantTitleBar x:Name="PART_PleasantTitleBar" VerticalAlignment="Top" IsVisible="{TemplateBinding EnableCustomTitleBar}" />
+                        </VisualLayerManager.ChromeOverlayLayer>
+                        
                         <Panel>
-                            <ContentPresenter x:Name="PART_ContentWindow"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Content="{TemplateBinding Content}"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <Decorator x:Name="PART_Decorator" Margin="{Binding #PART_PleasantTitleBar.Bounds.Height, Converter={x:Static SizeToMarginConverters.HeightToTopMargin}}">
+                                <ContentPresenter x:Name="PART_ContentWindow"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Content="{TemplateBinding Content}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Decorator>
                             
-                            <Panel x:Name="PART_ModalWindowsPanel" ZIndex="5" />
+                            <Panel x:Name="PART_ModalWindowsPanel" />
                         </Panel>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^[EnableTitleBarMargin=False] /template/ Decorator#PART_Decorator">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^[EnableCustomTitleBar=False] /template/ Decorator#PART_Decorator">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        
+        <Style Selector="^[TitleBarStyle=MacOS] /template/ PleasantTitleBar#PART_PleasantTitleBar">
+            <Setter Property="Theme" Value="{StaticResource PleasantTitleBarMacOSStyle}" />
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

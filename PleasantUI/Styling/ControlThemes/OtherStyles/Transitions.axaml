@@ -1,0 +1,17 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Button > Viewbox">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
+    <Style Selector="Button:pointerover > Viewbox">
+        <Setter Property="RenderTransform" Value="scale(1.1)" />
+    </Style>
+    <Style Selector="Button:pressed > Viewbox">
+        <Setter Property="RenderTransform" Value="scale(0.9)" />
+    </Style>
+</Styles>

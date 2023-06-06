@@ -16,18 +16,18 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimary}" />
-        <Setter Property="Background" Value="{DynamicResource ControlFillColorDefault}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefault}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="Padding" Value="10 5" />
         <Setter Property="MaxWidth" Value="320" />
         <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Opacity" Value="0" />
+        <Setter Property="Opacity" Value="0.5" />
         <Setter Property="Transitions">
             <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                <DoubleTransition Property="Opacity" Duration="0:0:0.5" />
             </Transitions>
         </Setter>
         <Setter Property="Template">

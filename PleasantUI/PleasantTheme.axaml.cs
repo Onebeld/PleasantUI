@@ -6,21 +6,20 @@ using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Core;
 using PleasantUI.Core.Enums;
+using PleasantUI.Core.Exceptions;
 using PleasantUI.Extensions.Media;
-
-#pragma warning disable CS0618
 
 namespace PleasantUI;
 
 public class PleasantTheme : Style
 {
-    private readonly IPlatformSettings? _platformSettings;
+    private IPlatformSettings? _platformSettings;
 
     private ResourceDictionary? _accentColorsDictionary;
     
     public PleasantTheme()
     {
-        _platformSettings = AvaloniaLocator.Current.GetService<IPlatformSettings>();
+        AvaloniaXamlLoader.Load(this);
         
         Init();
     }
@@ -86,18 +85,17 @@ public class PleasantTheme : Style
 
     private void Init()
     {
-        AvaloniaXamlLoader.Load(this);
+        if (Application.Current is null)
+            throw new ApplicationNotInitializedException("Application.Current is not initialized. Create an instance of the PleasantTheme class after initializing Application.");
+        
+        _platformSettings = Application.Current.PlatformSettings;
 
-        AvaloniaLocator.CurrentMutable.Bind<PleasantTheme>().ToConstant(this);
+        if (_platformSettings is null) return;
         
-        IPlatformSettings? platformSettings = AvaloniaLocator.Current.GetService<IPlatformSettings>();
-        
-        if (platformSettings is null) return;
-        
-        platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
+        _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
 
-        ResolveTheme(platformSettings);
-        ResolveAccentColor(platformSettings);
+        ResolveTheme(_platformSettings);
+        ResolveAccentColor(_platformSettings);
     }
 
     private void ResolveTheme(IPlatformSettings platformSettings)
@@ -114,6 +112,7 @@ public class PleasantTheme : Style
                 ThemeVariant.Light : ThemeVariant.Dark;
         }
 
+        
         if (Application.Current is not null)
             Application.Current.RequestedThemeVariant = themeVariant;
     }
@@ -121,7 +120,7 @@ public class PleasantTheme : Style
     private void ResolveAccentColor(IPlatformSettings platformSettings)
     {
         if (!PleasantSettings.Instance.PreferUserAccentColor)
-            PleasantSettings.Instance.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUint32();
+            PleasantSettings.Instance.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUInt32();
 
         Color color = Color.FromUInt32(PleasantSettings.Instance.NumericalAccentColor);
         UpdateAccentColors(color);
@@ -141,7 +140,7 @@ public class PleasantTheme : Style
         {
             Color color = e.AccentColor1;
 
-            PleasantSettings.Instance.NumericalAccentColor = color.ToUint32();
+            PleasantSettings.Instance.NumericalAccentColor = color.ToUInt32();
             
             UpdateAccentColors(color);
         }

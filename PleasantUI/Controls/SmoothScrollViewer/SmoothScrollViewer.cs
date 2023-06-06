@@ -573,14 +573,14 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// <inheritdoc/>
     public Control? CurrentAnchor => (Presenter as IScrollAnchorProvider)?.CurrentAnchor;
 
-    protected override bool RegisterContentPresenter(IContentPresenter presenter)
+    protected override bool RegisterContentPresenter(ContentPresenter presenter)
     {
         _childSubscription?.Dispose();
         _childSubscription = null;
 
         if (base.RegisterContentPresenter(presenter))
         {
-            ContentPresenter? contentPresenter = Presenter as ContentPresenter;
+            ContentPresenter? contentPresenter = Presenter;
             _childSubscription = contentPresenter?
                 .GetObservable(ContentPresenter.ChildProperty)
                 .Subscribe(ChildChanged);
