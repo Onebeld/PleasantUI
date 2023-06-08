@@ -6,12 +6,6 @@
         </Border>
     </Design.PreviewWith>
     
-    <MenuFlyout x:Key="PleasantTitleBarMenuFlyout">
-        <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
-            
-        </MenuItem>
-    </MenuFlyout>
-    
     <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="32" />
@@ -22,8 +16,64 @@
                     <Border x:Name="PART_DragWindow"
                             Grid.Column="0"
                             Grid.ColumnSpan="4"
-                            Background="Transparent"
-                            ContextFlyout="{StaticResource PleasantTitleBarMenuFlyout}" />
+                            Background="Transparent">
+                        <Border.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource SquareMultipleRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="PART_CollapseMenuItem"
+                                          Header="{DynamicResource Collapse}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource SubtractRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="PART_ExpandMenuItem"
+                                          Header="{DynamicResource Expand}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource MaximizeRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <Separator Name="PART_SeparatorMenuItem"
+                                           Background="{StaticResource ControlStrokeColorDefaultBrush}"
+                                           Height="1"
+                                           Margin="-4 1 -4 1" />
+
+                                <MenuItem Name="PART_CloseMenuItem"
+                                          Header="{DynamicResource Close}"
+                                          InputGesture="Ctrl+Q">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource DismissRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuFlyout>
+                        </Border.ContextFlyout>
+                    </Border>
                     
                     <StackPanel Grid.Column="1"
                                 x:Name="PART_TitlePanel"
@@ -42,8 +92,7 @@
                                    Foreground="{StaticResource TextFillColorTertiaryBrush}" />
                     </StackPanel>
                     
-                    <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
-                                            Grid.Column="3" />
+                    <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons" Grid.Column="3" />
                 </Grid>
             </ControlTemplate>
         </Setter>
@@ -59,8 +108,64 @@
                     <Border x:Name="PART_DragWindow"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
-                            Background="Transparent"
-                            ContextFlyout="{StaticResource PleasantTitleBarMenuFlyout}" />
+                            Background="Transparent">
+                        <Border.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource SquareMultipleRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="PART_CollapseMenuItem"
+                                          Header="{DynamicResource Collapse}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource SubtractRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Name="PART_ExpandMenuItem"
+                                          Header="{DynamicResource Expand}">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource MaximizeRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <Separator Name="PART_SeparatorMenuItem"
+                                           Background="{StaticResource ControlStrokeColorDefaultBrush}"
+                                           Height="1"
+                                           Margin="-4 1 -4 1" />
+
+                                <MenuItem Name="PART_CloseMenuItem"
+                                          Header="{DynamicResource Close}"
+                                          InputGesture="Ctrl+Q">
+                                    <MenuItem.Icon>
+                                        <Viewbox Width="12" Height="12">
+                                            <Path Data="{StaticResource DismissRegular}"
+                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  StrokeThickness="2"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuFlyout>
+                        </Border.ContextFlyout>
+                    </Border>
                     
                     <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
                                             Grid.Column="0"

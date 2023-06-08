@@ -36,11 +36,11 @@ public class PleasantTitleBar : TemplatedControl
 
         _captionButtons = e.NameScope.Get<PleasantCaptionButtons>("PART_PleasantCaptionButtons");
 
-        /*_closeMenuItem = e.NameScope.Get<MenuItem>("PART_CloseMenuItem");
+        _closeMenuItem = e.NameScope.Get<MenuItem>("PART_CloseMenuItem");
         _expandMenuItem = e.NameScope.Get<MenuItem>("PART_ExpandMenuItem");
         _collapseMenuItem = e.NameScope.Get<MenuItem>("PART_CollapseMenuItem");
         _reestablishMenuItem = e.NameScope.Get<MenuItem>("PART_ReestablishMenuItem");
-        _separator = e.NameScope.Get<Separator>("PART_SeparatorMenuItem");*/
+        _separator = e.NameScope.Get<Separator>("PART_SeparatorMenuItem");
 
         _image = e.NameScope.Get<Image>("PART_Icon");
         _title = e.NameScope.Get<TextBlock>("PART_Title");
@@ -54,10 +54,10 @@ public class PleasantTitleBar : TemplatedControl
             _host = window;
             _captionButtons.Host = window;
 
-            /*_closeMenuItem.Click += (_, _) => window.Close();
+            _closeMenuItem.Click += (_, _) => window.Close();
             _reestablishMenuItem.Click += (_, _) => window.WindowState = WindowState.Normal;
             _expandMenuItem.Click += (_, _) => window.WindowState = WindowState.Maximized;
-            _collapseMenuItem.Click += (_, _) => window.WindowState = WindowState.Minimized;*/
+            _collapseMenuItem.Click += (_, _) => window.WindowState = WindowState.Minimized;
 
             _dragWindowBorder.PointerPressed += OnDragWindowBorderOnPointerPressed;
             _dragWindowBorder.DoubleTapped += OnDragWindowBorderOnDoubleTapped;

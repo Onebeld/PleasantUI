@@ -94,10 +94,11 @@
                             </ContentPresenter>
                             <TextBlock x:Name="PART_InputGestureText"
                                        Grid.Column="2"
-                                       Theme="{StaticResource CaptionTextBlockTheme}"
                                        Margin="24 0 0 0"
                                        Text="{TemplateBinding InputGesture, Converter={x:Static MenuConverters.KeyGesture}}"
                                        HorizontalAlignment="Right"
+                                       FontSize="12"
+                                       Foreground="{StaticResource TextFillColorTertiaryBrush}"
                                        VerticalAlignment="Center" />
                             <Viewbox Name="Viewbox"
                                      Grid.Column="3"

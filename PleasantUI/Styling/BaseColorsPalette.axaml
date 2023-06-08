@@ -197,4 +197,21 @@
     <SolidColorBrush x:Key="SystemInvertAccentDarkColor1Brush" Color="{DynamicResource SystemInvertAccentDarkColor1}" />
     <SolidColorBrush x:Key="SystemInvertAccentDarkColor2Brush" Color="{DynamicResource SystemInvertAccentDarkColor2}" />
     <SolidColorBrush x:Key="SystemInvertAccentDarkColor3Brush" Color="{DynamicResource SystemInvertAccentDarkColor3}" />
+    
+    <!--Accent Foregrounds-->
+    <SolidColorBrush x:Key="ForegroundAccentColorBrush" Color="{DynamicResource ForegroundAccentColor}" />
+    <SolidColorBrush x:Key="ForegroundAccentLightColor1Brush" Color="{DynamicResource ForegroundAccentLightColor1}" />
+    <SolidColorBrush x:Key="ForegroundAccentLightColor2Brush" Color="{DynamicResource ForegroundAccentLightColor2}" />
+    <SolidColorBrush x:Key="ForegroundAccentLightColor3Brush" Color="{DynamicResource ForegroundAccentLightColor3}" />
+    <SolidColorBrush x:Key="ForegroundAccentDarkColor1Brush" Color="{DynamicResource ForegroundAccentDarkColor1}" />
+    <SolidColorBrush x:Key="ForegroundAccentDarkColor2Brush" Color="{DynamicResource ForegroundAccentDarkColor2}" />
+    <SolidColorBrush x:Key="ForegroundAccentDarkColor3Brush" Color="{DynamicResource ForegroundAccentDarkColor3}" />
+    
+    <SolidColorBrush x:Key="ForegroundInvertAccentColorBrush" Color="{DynamicResource ForegroundInvertAccentColor}" />
+    <SolidColorBrush x:Key="ForegroundInvertAccentLightColor1Brush" Color="{DynamicResource ForegroundInvertAccentLightColor1}" />
+    <SolidColorBrush x:Key="ForegroundInvertAccentLightColor2Brush" Color="{DynamicResource ForegroundInvertAccentLightColor2}" />
+    <SolidColorBrush x:Key="ForegroundInvertAccentLightColor3Brush" Color="{DynamicResource ForegroundInvertAccentLightColor3}" />
+    <SolidColorBrush x:Key="ForegroundInvertAccentDarkColor1Brush" Color="{DynamicResource ForegroundInvertAccentDarkColor1}" />
+    <SolidColorBrush x:Key="ForegroundInvertAccentDarkColor2Brush" Color="{DynamicResource ForegroundInvertAccentDarkColor2}" />
+    <SolidColorBrush x:Key="ForegroundInvertAccentDarkColor3Brush" Color="{DynamicResource ForegroundInvertAccentDarkColor3}" />
 </ResourceDictionary>

@@ -50,5 +50,10 @@
         <Style Selector="^[TitleBarStyle=MacOS] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Theme" Value="{StaticResource PleasantTitleBarMacOSStyle}" />
         </Style>
+        
+        
+        <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ VisualLayerManager#PART_VisualLayerManager">
+            <Setter Property="Margin" Value="8" />
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

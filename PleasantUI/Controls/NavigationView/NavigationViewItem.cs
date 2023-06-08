@@ -9,9 +9,9 @@ using PleasantUI.Extensions;
 
 namespace PleasantUI.Controls;
 
-public class NavigationViewItem : NavigationViewItemBase, IStyleable
+public class NavigationViewItem : NavigationViewItemBase
 {
-    Type IStyleable.StyleKey => typeof(NavigationViewItemBase);
+    protected override Type StyleKeyOverride => typeof(NavigationViewItemBase);
 
     static NavigationViewItem()
     {

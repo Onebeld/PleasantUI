@@ -43,12 +43,15 @@ public class PleasantModalWindow : ContentControl
     public static readonly StyledProperty<Animation> BackgroundCloseAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation>(nameof(BackgroundCloseAnimation));
 
-    static PleasantModalWindow()
-    {
-        
-    }
+    public static readonly StyledProperty<string> TitleProperty =
+        AvaloniaProperty.Register<PleasantModalWindow, string>(nameof(Title));
+
+    public static readonly StyledProperty<bool> ShowTitleBarProperty =
+        AvaloniaProperty.Register<PleasantModalWindow, bool>(nameof(ShowTitleBar));
+
+    static PleasantModalWindow() { }
     
-    internal Control Background;
+    internal readonly Control ModalBackground = null!;
     
     public bool IsClosed
     {
@@ -84,6 +87,18 @@ public class PleasantModalWindow : ContentControl
     {
         get => GetValue(BackgroundCloseAnimationProperty);
         set => SetValue(BackgroundCloseAnimationProperty, value);
+    }
+    
+    public string Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public bool ShowTitleBar
+    {
+        get => GetValue(ShowTitleBarProperty);
+        set => SetValue(ShowTitleBarProperty, value);
     }
     
     public bool CanOpen { get; set; }

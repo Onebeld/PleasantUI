@@ -123,7 +123,7 @@ public class PleasantWindow : Window, IPleasantWindow
         {
             IsHitTestVisible = modalWindow.IsHitTestVisible
         };
-        windowPanel.Children.Add(modalWindow.Background);
+        windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
         
         _modalWindowsPanel.Children.Add(windowPanel);

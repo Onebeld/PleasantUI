@@ -21,12 +21,22 @@
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="BasicControls/SplitView.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToolTip.axaml" />
+                <MergeResourceInclude Source="BasicControls/Separator.axaml" />
+                <MergeResourceInclude Source="BasicControls/TextBlock.axaml" />
+                <MergeResourceInclude Source="BasicControls/CheckBox.axaml" />
+                <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
+                <MergeResourceInclude Source="BasicControls/WindowNotificationManager.axaml" />
+                <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
+                <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/ToggleButton.axaml" />
                 
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
+                <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
+                <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

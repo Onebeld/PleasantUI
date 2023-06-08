@@ -24,7 +24,7 @@
         <Setter Property="Padding" Value="10 5" />
         <Setter Property="MaxWidth" Value="320" />
         <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Opacity" Value="0.5" />
+        <Setter Property="Opacity" Value="0" />
         <Setter Property="Transitions">
             <Transitions>
                 <DoubleTransition Property="Opacity" Duration="0:0:0.5" />

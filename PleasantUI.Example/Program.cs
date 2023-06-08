@@ -31,7 +31,7 @@ public class Program
             .With(new Win32PlatformOptions
             {
                 AllowEglInitialization = true,
-                OverlayPopups = false,
+                OverlayPopups = true,
                 UseWgl = false,
                 UseWindowsUIComposition = true,
             })

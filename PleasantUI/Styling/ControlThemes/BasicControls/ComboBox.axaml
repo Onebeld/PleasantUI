@@ -25,7 +25,7 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Height" Value="16" />
         <Setter Property="Width" Value="3" />
-        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1}" />
+        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
         <Setter Property="CornerRadius" Value="4" />
     </ControlTheme>
 
@@ -33,15 +33,15 @@
         <Setter Property="Padding" Value="12 0 0 0" />
         <Setter Property="MaxDropDownHeight" Value="504" />
         <Setter Property="MinHeight" Value="32" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefault}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimary}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorder}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="PlaceholderForeground" Value="{StaticResource TextFillColorSecondary}" />
+        <Setter Property="PlaceholderForeground" Value="{StaticResource TextFillColorSecondaryBrush}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel />
@@ -119,8 +119,8 @@
                               VerticalAlignment="Center"
                               Stretch="Uniform"
                               Data="{StaticResource ChevronDownRegular}"
-                              Fill="{StaticResource TextFillColorPrimary}"
-                              Stroke="{StaticResource TextFillColorPrimary}"
+                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                              Stroke="{StaticResource TextFillColorPrimaryBrush}"
                               StrokeThickness="0.2" />
 
                         <Popup Name="PART_Popup"
@@ -193,8 +193,8 @@
 
         <Style Selector="^ /template/ Border#HighlightBackground">
             <Setter Property="IsVisible" Value="False" />
-            <Setter Property="Background" Value="{StaticResource ControlFillColorDefault}" />
-            <Setter Property="BorderBrush" Value="{StaticResource FocusStrokeColorOuter}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource FocusStrokeColorOuterBrush}" />
             <Setter Property="BorderThickness" Value="2" />
         </Style>
         <Style Selector="^ /template/ Border#Pill">
@@ -207,11 +207,11 @@
         </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondary}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
         </Style>
 
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiary}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
         </Style>
 
         <Style Selector="^:focus-visible /template/ Border#Pill">
@@ -223,7 +223,7 @@
         </Style>
 
         <Style Selector="^:error">
-            <Setter Property="BorderBrush" Value="{StaticResource SystemFillColorCritical}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemFillColorCriticalBrush}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -7,6 +7,7 @@ using Avalonia.Styling;
 using PleasantUI.Core;
 using PleasantUI.Core.Enums;
 using PleasantUI.Core.Exceptions;
+using PleasantUI.Core.Helpers;
 using PleasantUI.Extensions.Media;
 
 namespace PleasantUI;
@@ -16,6 +17,7 @@ public class PleasantTheme : Style
     private IPlatformSettings? _platformSettings;
 
     private ResourceDictionary? _accentColorsDictionary;
+    private ResourceDictionary? _foregroundAccentColorsDictionary;
     
     public PleasantTheme()
     {
@@ -66,21 +68,52 @@ public class PleasantTheme : Style
             light3Percent = 0.45f;
         }
 
+        Color accentLight1 = accent.LightenPercent(light1Percent);
+        Color accentLight2 = accent.LightenPercent(light2Percent);
+        Color accentLight3 = accent.LightenPercent(light3Percent);
+        Color accentDark1 = accent.LightenPercent(dark1Percent);
+        Color accentDark2 = accent.LightenPercent(dark2Percent);
+        Color accentDark3 = accent.LightenPercent(dark3Percent);
+
+        Color invertAccent = accent.InvertColor();
+        Color invertAccentLight1 = invertAccent.LightenPercent(light1Percent);
+        Color invertAccentLight2 = invertAccent.LightenPercent(light2Percent);
+        Color invertAccentLight3 = invertAccent.LightenPercent(light3Percent);
+        Color invertAccentDark1 = invertAccent.LightenPercent(dark1Percent);
+        Color invertAccentDark2 = invertAccent.LightenPercent(dark2Percent);
+        Color invertAccentDark3 = invertAccent.LightenPercent(dark3Percent);
+
         UpdateAccentColors(
             accent,
-            accent.LightenPercent(light1Percent),
-            accent.LightenPercent(light2Percent),
-            accent.LightenPercent(light3Percent),
-            accent.LightenPercent(dark1Percent),
-            accent.LightenPercent(dark2Percent),
-            accent.LightenPercent(dark3Percent),
-            accent.InvertColor(),
-            accent.InvertColor().LightenPercent(light1Percent),
-            accent.InvertColor().LightenPercent(light2Percent),
-            accent.InvertColor().LightenPercent(light3Percent),
-            accent.InvertColor().LightenPercent(dark1Percent),
-            accent.InvertColor().LightenPercent(dark2Percent),
-            accent.InvertColor().LightenPercent(dark3Percent));
+            accentLight1,
+            accentLight2,
+            accentLight3,
+            accentDark1,
+            accentDark2,
+            accentDark3,
+            invertAccent,
+            invertAccentLight1,
+            invertAccentLight2,
+            invertAccentLight3,
+            invertAccentDark1,
+            invertAccentDark2,
+            invertAccentDark3);
+        
+        UpdateForegroundAccentColors(
+                GetForegroundFromAccent(accent),
+                GetForegroundFromAccent(accentLight1),
+                GetForegroundFromAccent(accentLight2),
+                GetForegroundFromAccent(accentLight3),
+                GetForegroundFromAccent(accentDark1),
+                GetForegroundFromAccent(accentDark2),
+                GetForegroundFromAccent(accentDark3),
+                GetForegroundFromAccent(invertAccent),
+                GetForegroundFromAccent(invertAccentLight1),
+                GetForegroundFromAccent(invertAccentLight2),
+                GetForegroundFromAccent(invertAccentLight3),
+                GetForegroundFromAccent(invertAccentDark1),
+                GetForegroundFromAccent(invertAccentDark2),
+                GetForegroundFromAccent(invertAccentDark3));
     }
 
     private void Init()
@@ -152,6 +185,12 @@ public class PleasantTheme : Style
                 ThemeVariant.Light : ThemeVariant.Dark;
     }
 
+    private Color GetForegroundFromAccent(Color accentColor)
+    {
+        double lum = ColorHelper.GetRelativeLuminance(accentColor);
+        return lum <= 0.2 ? Colors.White : Colors.Black;
+    }
+
     private void UpdateAccentColors(
         Color accent,
         Color light1,
@@ -193,5 +232,48 @@ public class PleasantTheme : Style
         };
         
         Resources.MergedDictionaries.Add(_accentColorsDictionary);
+    }
+    
+    private void UpdateForegroundAccentColors(
+        Color accent,
+        Color light1,
+        Color light2,
+        Color light3,
+        Color dark1,
+        Color dark2,
+        Color dark3,
+        Color invertAccent,
+        Color invertLight1,
+        Color invertLight2,
+        Color invertLight3,
+        Color invertDark1,
+        Color invertDark2,
+        Color invertDark3)
+    {
+        if (_foregroundAccentColorsDictionary is not null)
+            Resources.MergedDictionaries.Remove(_foregroundAccentColorsDictionary);
+
+        _foregroundAccentColorsDictionary = new ResourceDictionary
+        {
+            { "ForegroundAccentColor", accent },
+            
+            { "ForegroundAccentLightColor1", light1 },
+            { "ForegroundAccentLightColor2", light2 },
+            { "ForegroundAccentLightColor3", light3 },
+            { "ForegroundAccentDarkColor1", dark1 },
+            { "ForegroundAccentDarkColor2", dark2 },
+            { "ForegroundAccentDarkColor3", dark3 },
+            
+            { "ForegroundInvertAccentColor", invertAccent },
+            
+            { "ForegroundInvertAccentLightColor1", invertLight1 },
+            { "ForegroundInvertAccentLightColor2", invertLight2 },
+            { "ForegroundInvertAccentLightColor3", invertLight3 },
+            { "ForegroundInvertAccentDarkColor1", invertDark1 },
+            { "ForegroundInvertAccentDarkColor2", invertDark2 },
+            { "ForegroundInvertAccentDarkColor3", invertDark3 },
+        };
+        
+        Resources.MergedDictionaries.Add(_foregroundAccentColorsDictionary);
     }
 }
