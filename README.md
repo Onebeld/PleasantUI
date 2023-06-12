@@ -9,5 +9,4 @@ This library continues the OlibUI tradition of releasing only later versions, no
 ## Basic concept
 
 - Compared to previous versions of this library, version 3 has removed the ability to create themes, as this process is too complicated for ordinary users to understand;
-- The library will have two accent colors - the main color and the opposit;
-- The user interface must be unique, that is, it should not be as similar as possible, for example, to Windows 11.
+- The library will have two accent colors - the main color and the opposit.
