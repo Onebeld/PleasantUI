@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0 50">
             <PleasantTitleBar />
@@ -8,14 +9,13 @@
     
     <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Height" Value="32" />
         
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto,Auto,*,Auto">
                     <Border x:Name="PART_DragWindow"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="4"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
                             Background="Transparent">
                         <Border.ContextFlyout>
                             <MenuFlyout>
@@ -74,6 +74,8 @@
                             </MenuFlyout>
                         </Border.ContextFlyout>
                     </Border>
+                    
+                    <ContentPresenter x:Name="PART_LeftTitleBarContent" Grid.Column="0" />
                     
                     <StackPanel Grid.Column="1"
                                 x:Name="PART_TitlePanel"

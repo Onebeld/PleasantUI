@@ -1,6 +1,7 @@
 ﻿using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using PleasantUI.Extensions;
@@ -26,6 +27,8 @@ public class PleasantTitleBar : TemplatedControl
     private StackPanel? _titlePanel;
     private TextBlock? _subtitle;
 
+    private ContentPresenter? _leftTitleBarContent;
+
     private PleasantWindow? _host;
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -48,6 +51,8 @@ public class PleasantTitleBar : TemplatedControl
         _logoPath = e.NameScope.Get<Path>("PART_LogoPath");
         _dragWindowBorder = e.NameScope.Get<Border>("PART_DragWindow");
         _titlePanel = e.NameScope.Get<StackPanel>("PART_TitlePanel");
+
+        _leftTitleBarContent = e.NameScope.Get<ContentPresenter>("PART_LeftTitleBarContent");
 
         if (VisualRoot is PleasantWindow window)
         {
@@ -130,6 +135,11 @@ public class PleasantTitleBar : TemplatedControl
                     if (_image is not null && host.Icon is not null)
                         _image.Source = host.Icon.ToBitmap();
                 }
+            }),
+            host.GetObservable(PleasantWindow.LeftTitleContentProperty).Subscribe(content =>
+            {
+                if (_leftTitleBarContent is not null)
+                    _leftTitleBarContent.Content = content;
             })
         };
     }

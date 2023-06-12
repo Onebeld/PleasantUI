@@ -4,9 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Pages.SettingsPage">
-    <SmoothScrollViewer Margin="20">
-        <StackPanel>
-            <TextBlock Text="Settings" FontSize="32" FontWeight="Bold" />
+    <SmoothScrollViewer>
+        <StackPanel Spacing="5" Margin="20">
+            <TextBlock Text="Settings" FontSize="32" FontWeight="Bold" Margin="0 0 0 10" />
+            
+            <OptionsDisplayItem Header="Enable custom title bar">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  IsChecked="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}"/>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Enable blur">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  IsChecked="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}"/>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Enable shadowing">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch Classes="RightToggle"
+                                  IsChecked="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}"/>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
         </StackPanel>
     </SmoothScrollViewer>
 </UserControl>

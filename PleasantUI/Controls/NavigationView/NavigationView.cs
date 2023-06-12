@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Reactive.Disposables;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -20,6 +21,9 @@ public class NavigationView : TreeView
     private bool _headerVisible;
     private AutoCompleteBox? _autoCompleteBox;
     private ICommand? _backButtonCommand;
+
+    private PleasantWindow? _host;
+    private CompositeDisposable? _disposable;
 
     public static readonly StyledProperty<object?> HeaderProperty =
         AvaloniaProperty.Register<NavigationView, object?>(nameof(Header), "Header");
@@ -46,6 +50,9 @@ public class NavigationView : TreeView
 
     public static readonly StyledProperty<bool> DynamicDisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(DynamicDisplayMode), true);
+
+    public static readonly StyledProperty<bool> BindWindowSettingsProperty =
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(BindWindowSettings), true);
 
     public static readonly StyledProperty<SplitViewDisplayMode> DisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, SplitViewDisplayMode>(nameof(DisplayMode),
@@ -80,6 +87,9 @@ public class NavigationView : TreeView
     public static readonly DirectProperty<NavigationView, ICommand?> BackButtonCommandProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, ICommand?>(nameof(BackButtonCommand),
             navigationView => navigationView.BackButtonCommand, (navigationView, command) => navigationView.BackButtonCommand = command, enableDataValidation: true);
+
+    public static readonly StyledProperty<bool> ShowBackButtonProperty =
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
 
     public object? Header
     {
@@ -135,6 +145,12 @@ public class NavigationView : TreeView
         set => SetValue(NotMakeOffsetForContentPanelProperty, value);
     }
 
+    public bool ShowBackButton
+    {
+        get => GetValue(ShowBackButtonProperty);
+        set => SetValue(ShowBackButtonProperty, value);
+    }
+
     public SplitViewDisplayMode DisplayMode
     {
         get => GetValue(DisplayModeProperty);
@@ -178,6 +194,12 @@ public class NavigationView : TreeView
     {
         get => _autoCompleteBox;
         set => SetAndRaise(AutoCompleteBoxProperty, ref _autoCompleteBox, value);
+    }
+
+    public bool BindWindowSettings
+    {
+        get => GetValue(BindWindowSettingsProperty);
+        set => SetValue(BindWindowSettingsProperty, value);
     }
 
     /// <summary>
@@ -303,6 +325,13 @@ public class NavigationView : TreeView
                     IsOpen = true;
             };
 
+        if (VisualRoot is PleasantWindow pleasantWindow)
+        {
+            _host = pleasantWindow;
+            
+            Attach();
+        }
+
         BackButtonCommandProperty.Changed.Subscribe(x =>
         {
             if (_backButton is not null)
@@ -345,5 +374,46 @@ public class NavigationView : TreeView
         
         if (SelectedItem is NavigationViewItemBase { TypeContent: not null } itemBase)
             SelectedContent = Activator.CreateInstance(itemBase.TypeContent);
+    }
+
+    private void Attach()
+    {
+        if (_host is null) return;
+        
+        _disposable = new CompositeDisposable
+        {
+            this.GetObservable(DisplayModeProperty).Subscribe(displayMode =>
+            {
+                if (displayMode is SplitViewDisplayMode.Overlay 
+                    && !_host.EnableTitleBarMargin 
+                    && ShowBackButton)
+                {
+                    _host.LeftTitleContent = new Panel
+                    {
+                        Width = 62
+                    };
+                }
+                else if (!_host.EnableTitleBarMargin)
+                {
+                    _host.LeftTitleContent = new Panel
+                    {
+                        Width = 45
+                    };
+                }
+                else
+                {
+                    _host.LeftTitleContent = null;
+                }
+            })
+        };
+    }
+    
+    private void Detach()
+    {
+        if (_disposable is null) return;
+        
+        _disposable.Dispose();
+        _disposable = null;
+        _host = null;
     }
 }

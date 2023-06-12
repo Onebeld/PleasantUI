@@ -4,7 +4,7 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Styling/BaseColorsPalette.axaml" />
+                <MergeResourceInclude Source="/Styling/BaseColorsPalette.axaml" />
                 
                 <MergeResourceInclude Source="/Assets/IconGeometries.axaml" />
             </ResourceDictionary.MergedDictionaries>

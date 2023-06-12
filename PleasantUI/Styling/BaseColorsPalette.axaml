@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <Color x:Key="TextFillColorPrimary">#E4000000</Color>
@@ -56,6 +57,7 @@
             <Color x:Key="SelectedDangerColor">#FFF83623</Color>
 
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
+            <Color x:Key="PleasantWindowBackground">#FFFFFFFF</Color>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -113,6 +115,7 @@
             <Color x:Key="SelectedDangerColor">#FFF83623</Color>
 
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
+            <Color x:Key="PleasantWindowBackground">#FF000000</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -130,28 +133,22 @@
     <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="{DynamicResource ControlFillColorTransparent}" />
     <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{DynamicResource ControlFillColorInputActive}" />
 
-    <SolidColorBrush x:Key="ControlStrongFillColorDefaultBrush"
-                     Color="{DynamicResource ControlStrongFillColorDefault}" />
+    <SolidColorBrush x:Key="ControlStrongFillColorDefaultBrush" Color="{DynamicResource ControlStrongFillColorDefault}" />
 
-    <SolidColorBrush x:Key="ControlAltFillColorSecondaryBrush"
-                     Color="{DynamicResource ControlAltFillColorSecondary}" />
+    <SolidColorBrush x:Key="ControlAltFillColorSecondaryBrush" Color="{DynamicResource ControlAltFillColorSecondary}" />
     <SolidColorBrush x:Key="ControlAltFillColorTertiaryBrush" Color="{DynamicResource ControlAltFillColorTertiary}" />
-    <SolidColorBrush x:Key="ControlAltFillColorQuarternaryBrush"
-                     Color="{DynamicResource ControlAltFillColorQuarternary}" />
+    <SolidColorBrush x:Key="ControlAltFillColorQuarternaryBrush" Color="{DynamicResource ControlAltFillColorQuarternary}" />
 
     <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
-    <SolidColorBrush x:Key="ControlStrongStrokeColorDefaultBrush"
-                     Color="{DynamicResource ControlStrongStrokeColorDefault}" />
+    <SolidColorBrush x:Key="ControlStrongStrokeColorDefaultBrush" Color="{DynamicResource ControlStrongStrokeColorDefault}" />
     <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{DynamicResource ControlStrokeColorSecondary}" />
 
-    <SolidColorBrush x:Key="ControlSolidFillColorDefaultBrush"
-                     Color="{DynamicResource ControlSolidFillColorDefault}" />
+    <SolidColorBrush x:Key="ControlSolidFillColorDefaultBrush" Color="{DynamicResource ControlSolidFillColorDefault}" />
 
     <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
     <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="{DynamicResource SubtleFillColorTertiary}" />
 
-    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush"
-                     Color="{DynamicResource CardBackgroundFillColorDefault}" />
+    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="{DynamicResource CardBackgroundFillColorDefault}" />
 
     <SolidColorBrush x:Key="NavigationViewBackgroundBrush" Color="{DynamicResource NavigationViewBackground}" />
 
@@ -160,17 +157,12 @@
     <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
     <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
 
-    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush"
-                     Color="{DynamicResource SolidBackgroundFillColorBase}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush"
-                     Color="{DynamicResource SolidBackgroundFillColorSecondary}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush"
-                     Color="{DynamicResource SolidBackgroundFillColorTertiary}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush"
-                     Color="{DynamicResource SolidBackgroundFillColorQuarternary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{DynamicResource SolidBackgroundFillColorSecondary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{DynamicResource SolidBackgroundFillColorTertiary}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{DynamicResource SolidBackgroundFillColorQuarternary}" />
 
-    <SolidColorBrush x:Key="AcrylicInAppFillColorDefaultBrush"
-                     Color="{DynamicResource AcrylicInAppFillColorDefault}" />
+    <SolidColorBrush x:Key="AcrylicInAppFillColorDefaultBrush" Color="{DynamicResource AcrylicInAppFillColorDefault}" />
 
     <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
     <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
@@ -181,6 +173,22 @@
     <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
     <SolidColorBrush x:Key="SelectedColorBoxBrush" Color="{DynamicResource SelectedColorBox}" />
     
+    <VisualBrush x:Key="CheckeredBackgroundBrush"
+                 TileMode="Tile"
+                 Stretch="Uniform"
+                 DestinationRect="0,0,8,8">
+        <VisualBrush.Visual>
+            <Image Width="8" Height="8">
+                <DrawingImage>
+                    <DrawingGroup>
+                        <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z" Brush="Transparent" />
+                        <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z" Brush="#19808080" />
+                    </DrawingGroup>
+                </DrawingImage>
+            </Image>
+        </VisualBrush.Visual>
+    </VisualBrush>
+    
     <!--Accent Colors-->
     <SolidColorBrush x:Key="SystemAccentColorBrush" Color="{DynamicResource SystemAccentColor}" />
     <SolidColorBrush x:Key="SystemAccentLightColor1Brush" Color="{DynamicResource SystemAccentLightColor1}" />
@@ -189,14 +197,6 @@
     <SolidColorBrush x:Key="SystemAccentDarkColor1Brush" Color="{DynamicResource SystemAccentDarkColor1}" />
     <SolidColorBrush x:Key="SystemAccentDarkColor2Brush" Color="{DynamicResource SystemAccentDarkColor2}" />
     <SolidColorBrush x:Key="SystemAccentDarkColor3Brush" Color="{DynamicResource SystemAccentDarkColor3}" />
-    
-    <SolidColorBrush x:Key="SystemInvertAccentColorBrush" Color="{DynamicResource SystemInvertAccentColor}" />
-    <SolidColorBrush x:Key="SystemInvertAccentLightColor1Brush" Color="{DynamicResource SystemInvertAccentLightColor1}" />
-    <SolidColorBrush x:Key="SystemInvertAccentLightColor2Brush" Color="{DynamicResource SystemInvertAccentLightColor2}" />
-    <SolidColorBrush x:Key="SystemInvertAccentLightColor3Brush" Color="{DynamicResource SystemInvertAccentLightColor3}" />
-    <SolidColorBrush x:Key="SystemInvertAccentDarkColor1Brush" Color="{DynamicResource SystemInvertAccentDarkColor1}" />
-    <SolidColorBrush x:Key="SystemInvertAccentDarkColor2Brush" Color="{DynamicResource SystemInvertAccentDarkColor2}" />
-    <SolidColorBrush x:Key="SystemInvertAccentDarkColor3Brush" Color="{DynamicResource SystemInvertAccentDarkColor3}" />
     
     <!--Accent Foregrounds-->
     <SolidColorBrush x:Key="ForegroundAccentColorBrush" Color="{DynamicResource ForegroundAccentColor}" />
@@ -207,11 +207,26 @@
     <SolidColorBrush x:Key="ForegroundAccentDarkColor2Brush" Color="{DynamicResource ForegroundAccentDarkColor2}" />
     <SolidColorBrush x:Key="ForegroundAccentDarkColor3Brush" Color="{DynamicResource ForegroundAccentDarkColor3}" />
     
-    <SolidColorBrush x:Key="ForegroundInvertAccentColorBrush" Color="{DynamicResource ForegroundInvertAccentColor}" />
-    <SolidColorBrush x:Key="ForegroundInvertAccentLightColor1Brush" Color="{DynamicResource ForegroundInvertAccentLightColor1}" />
-    <SolidColorBrush x:Key="ForegroundInvertAccentLightColor2Brush" Color="{DynamicResource ForegroundInvertAccentLightColor2}" />
-    <SolidColorBrush x:Key="ForegroundInvertAccentLightColor3Brush" Color="{DynamicResource ForegroundInvertAccentLightColor3}" />
-    <SolidColorBrush x:Key="ForegroundInvertAccentDarkColor1Brush" Color="{DynamicResource ForegroundInvertAccentDarkColor1}" />
-    <SolidColorBrush x:Key="ForegroundInvertAccentDarkColor2Brush" Color="{DynamicResource ForegroundInvertAccentDarkColor2}" />
-    <SolidColorBrush x:Key="ForegroundInvertAccentDarkColor3Brush" Color="{DynamicResource ForegroundInvertAccentDarkColor3}" />
+    <LinearGradientBrush x:Key="ControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.33" Color="{DynamicResource ControlStrokeColorSecondary}" />
+            <GradientStop Offset="1" Color="{DynamicResource ControlStrokeColorDefault}" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="AccentControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
+        <GradientStop Offset="1.00" Color="{DynamicResource SystemAccentColor}" />
+        <GradientStop Offset="0.33" Color="{DynamicResource SystemAccentLightColor1}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="TextControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.5" Color="{DynamicResource ControlStrongStrokeColorDefault}" />
+            <GradientStop Offset="1.0" Color="{DynamicResource ControlStrokeColorDefault}" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="TextControlElevationBorderFocusedBrush" StartPoint="0,1.5" EndPoint="0,2.5">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="1.0" Color="{DynamicResource SystemAccentLightColor2}" />
+            <GradientStop Offset="1.0" Color="{DynamicResource ControlStrokeColorDefault}" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
 </ResourceDictionary>

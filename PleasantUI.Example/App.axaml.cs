@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using PleasantUI.Example.ViewModels;
 
 namespace PleasantUI.Example;
 
@@ -11,6 +12,7 @@ public partial class App : Application
     public App()
     {
         AvaloniaXamlLoader.Load(this);
+        DataContext = new ApplicationViewModel();
     }
     
     public override void OnFrameworkInitializationCompleted()

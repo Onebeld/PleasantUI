@@ -1,0 +1,166 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PleasantUI.Example.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:ApplicationViewModel"
+             x:Class="PleasantUI.Example.Pages.ControlsPage">
+    <SmoothScrollViewer>
+        <StackPanel Spacing="5" Margin="20">
+            <TextBlock Text="Controls" FontSize="32" FontWeight="Bold" Margin="0 0 0 10" />
+            
+            <OptionsDisplayItem Header="Buttons" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch />
+                </OptionsDisplayItem.ActionButton>
+                
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5">
+                        <Button Content="Content" />
+                        <Button Theme="{StaticResource AccentButton}" Content="Accent Content" />
+                        
+                        <ToggleButton Margin="0 10 0 0" Content="Toggle Button" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Progress Bar" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="15">
+                        <ProgressBar IsIndeterminate="True" />
+                        <ProgressBar Value="30" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Menu" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5">
+                        <Menu>
+                            <MenuItem Header="Files">
+                                <MenuItem Header="Open" />
+                                <MenuItem Header="Close" />
+                                <MenuItem Header="Save" />
+                                <MenuItem Header="Save As" />
+                            </MenuItem>
+                            
+                            <MenuItem Header="Other">
+                                <MenuItem Header="About" />
+                            </MenuItem>
+                        </Menu>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Text Box" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5">
+                        <TextBox Watermark="Watermark" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Text Box" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5">
+                        <Border CornerRadius="8" Height="40" Background="{StaticResource ControlFillColorDefaultBrush}">
+                            <ToolTip.Tip>
+                                <StackPanel>
+                                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ToolTip" />
+                                    <TextBlock Text="Here is a very important text! Isn't it important? How wrong you are!" />
+                                </StackPanel>
+                            </ToolTip.Tip>
+                            
+                            <TextBlock Text="Point it at me!" VerticalAlignment="Center" />
+                        </Border>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Modal Windows" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <Button Content="Show Modal" Command="{CompiledBinding ShowModalWindow}" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Pleasant TabView" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <PleasantTabView>
+                            <PleasantTabItem Header="Lorem ipsum">
+                                <TextBlock Text="Content" FontSize="20" Margin="20" />
+                            </PleasantTabItem>
+                            <PleasantTabItem Header="Leaf">
+                                <Border Background="Green"
+                                        Height="100" />
+                            </PleasantTabItem>
+                            <PleasantTabItem Header="Disabled"
+                                             IsEnabled="False" />
+                        </PleasantTabView>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="ComboBox" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <ComboBox PlaceholderText="Hello world">
+                            <ComboBoxItem Content="Item 1" />
+                            <ComboBoxItem Content="Item 2" />
+                            <ComboBoxItem Content="Item 3" />
+                            <ComboBoxItem Content="Item 4" />
+                            <ComboBoxItem Content="Item 5" />
+                            <ComboBoxItem Content="Item 6" />
+                            <ComboBoxItem Content="Item 7" />
+                            <ComboBoxItem Content="Item 8" />
+                            <ComboBoxItem Content="Item 9" />
+                            <ComboBoxItem Content="Item 10" />
+                            <ComboBoxItem Content="Item 11" />
+                            <ComboBoxItem Content="Item 12" />
+                        </ComboBox>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="Slider" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <Slider Width="150" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="NumericUpDown" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <NumericUpDown />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="TabControl" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <TabControl>
+                            <TabItem Header="Arch">
+                                <Border Background="AntiqueWhite"
+                                        Height="100">
+                                    <TextBlock Text="Content" Foreground="Black" FontSize="20" />
+                                </Border>
+                            </TabItem>
+                            <TabItem Header="Leaf">
+                                <Border Background="Green"
+                                        Height="100" />
+                            </TabItem>
+                            <TabItem Header="Disabled"
+                                     IsEnabled="False" />
+                        </TabControl>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

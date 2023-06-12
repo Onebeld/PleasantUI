@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    x:DataType="NavigationView">
+                    x:DataType="NavigationView"
+                    x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0" Width="700" Height="300">
             <NavigationView>
@@ -42,10 +43,6 @@
                                     <Border x:Name="PART_MarginPanel" Grid.Row="1"
                                             Width="{TemplateBinding CompactPaneLength}"
                                             Height="90" />
-                                    <Border Grid.Row="2"
-                                            IsVisible="{TemplateBinding AutoCompleteBoxIsVisible}"
-                                            Padding="5"
-                                            Child="{TemplateBinding AutoCompleteBox}" />
                                     <DockPanel Grid.Row="3">
                                         <SmoothScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
@@ -72,7 +69,7 @@
                                 Spacing="5"
                                 Orientation="Vertical">
                         <Button Name="PART_BackButton"
-                                Classes="EnabledIconAnimation"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 Background="#00000000"
                                 ToolTip.Tip="{DynamicResource Back}"
                                 Command="{TemplateBinding BackButtonCommand}"
@@ -82,7 +79,9 @@
                                 VerticalContentAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
-                                VerticalAlignment="Top" HorizontalAlignment="Center">
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"
+                                IsVisible="{TemplateBinding ShowBackButton}">
                             <Viewbox Width="16"
                                      Height="16">
                                 <Path Data="{StaticResource ArrowLeftRegular}"
@@ -90,7 +89,7 @@
                             </Viewbox>
                         </Button>
                         <Button Name="PART_HeaderItem"
-                                Classes="EnabledIconAnimation"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 Background="#00000000"
                                 ToolTip.Tip="{DynamicResource Menu}"
                                 Width="40"
@@ -176,8 +175,11 @@
         <Style Selector="^[DisplayMode=Overlay] /template/ StackPanel#PART_StackPanelButtons">
             <Setter Property="Orientation" Value="Horizontal" />
         </Style>
+        <Style Selector="^[ShowBackButton=False] /template/ Border#PART_MarginPanel">
+            <Setter Property="Height" Value="60" />
+        </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_MarginPanel">
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Height" Value="60" />
         </Style>
         <Style Selector="^[NotMakeOffsetForContentPanel=True] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="0 0 0 0" />

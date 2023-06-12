@@ -6,13 +6,7 @@
              x:Class="PleasantUI.Example.Pages.HomePage">
     <Panel>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal">
-                <Border Background="{StaticResource SystemAccentColorBrush}" Width="100" Height="40" CornerRadius="8 0 0 8" />
-                <Border Background="{StaticResource SystemInvertAccentColorBrush}" Width="100" Height="40" CornerRadius="0 8 8 0" />
-            </StackPanel>
-            
-            <TextBlock Text="PleasantUI" TextAlignment="Center" FontWeight="Bold" FontSize="34" />
-            <TextBlock Text="Choose your side!" TextAlignment="Center" Foreground="{StaticResource TextFillColorSecondaryBrush}" />
+            <TextBlock Text="PleasantUI" TextAlignment="Center" FontWeight="Bold" FontSize="54" />
         </StackPanel>
     </Panel>
 </UserControl>

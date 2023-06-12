@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=netstandard"
                     xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants">
+                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    x:ClassModifier="internal">
     <ControlTheme x:Key="MenuBarItemTheme" TargetType="MenuItem">
         <Setter Property="Padding" Value="10 4 10  4" />
         <Setter Property="Background" Value="Transparent" />

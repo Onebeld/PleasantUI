@@ -1,6 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:DataType="NavigationViewItemBase">
+        x:DataType="NavigationViewItemBase"
+        x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0" Width="700" Height="300">
             <NavigationView>

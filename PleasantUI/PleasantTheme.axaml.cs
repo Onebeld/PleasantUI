@@ -26,13 +26,6 @@ public class PleasantTheme : Style
         Init();
     }
 
-    public void UpdateTheme()
-    {
-        if (_platformSettings is null) return;
-        
-        ResolveTheme(_platformSettings);
-    }
-    
     public void UpdateAccentColors(Color accent)
     {
         if (_platformSettings is null) return;
@@ -75,14 +68,6 @@ public class PleasantTheme : Style
         Color accentDark2 = accent.LightenPercent(dark2Percent);
         Color accentDark3 = accent.LightenPercent(dark3Percent);
 
-        Color invertAccent = accent.InvertColor();
-        Color invertAccentLight1 = invertAccent.LightenPercent(light1Percent);
-        Color invertAccentLight2 = invertAccent.LightenPercent(light2Percent);
-        Color invertAccentLight3 = invertAccent.LightenPercent(light3Percent);
-        Color invertAccentDark1 = invertAccent.LightenPercent(dark1Percent);
-        Color invertAccentDark2 = invertAccent.LightenPercent(dark2Percent);
-        Color invertAccentDark3 = invertAccent.LightenPercent(dark3Percent);
-
         UpdateAccentColors(
             accent,
             accentLight1,
@@ -90,14 +75,7 @@ public class PleasantTheme : Style
             accentLight3,
             accentDark1,
             accentDark2,
-            accentDark3,
-            invertAccent,
-            invertAccentLight1,
-            invertAccentLight2,
-            invertAccentLight3,
-            invertAccentDark1,
-            invertAccentDark2,
-            invertAccentDark3);
+            accentDark3);
         
         UpdateForegroundAccentColors(
                 GetForegroundFromAccent(accent),
@@ -106,14 +84,7 @@ public class PleasantTheme : Style
                 GetForegroundFromAccent(accentLight3),
                 GetForegroundFromAccent(accentDark1),
                 GetForegroundFromAccent(accentDark2),
-                GetForegroundFromAccent(accentDark3),
-                GetForegroundFromAccent(invertAccent),
-                GetForegroundFromAccent(invertAccentLight1),
-                GetForegroundFromAccent(invertAccentLight2),
-                GetForegroundFromAccent(invertAccentLight3),
-                GetForegroundFromAccent(invertAccentDark1),
-                GetForegroundFromAccent(invertAccentDark2),
-                GetForegroundFromAccent(invertAccentDark3));
+                GetForegroundFromAccent(accentDark3));
     }
 
     private void Init()
@@ -198,14 +169,7 @@ public class PleasantTheme : Style
         Color light3,
         Color dark1,
         Color dark2,
-        Color dark3,
-        Color invertAccent,
-        Color invertLight1,
-        Color invertLight2,
-        Color invertLight3,
-        Color invertDark1,
-        Color invertDark2,
-        Color invertDark3)
+        Color dark3)
     {
         if (_accentColorsDictionary is not null)
             Resources.MergedDictionaries.Remove(_accentColorsDictionary);
@@ -219,16 +183,7 @@ public class PleasantTheme : Style
             { "SystemAccentLightColor3", light3 },
             { "SystemAccentDarkColor1", dark1 },
             { "SystemAccentDarkColor2", dark2 },
-            { "SystemAccentDarkColor3", dark3 },
-            
-            { "SystemInvertAccentColor", invertAccent },
-            
-            { "SystemInvertAccentLightColor1", invertLight1 },
-            { "SystemInvertAccentLightColor2", invertLight2 },
-            { "SystemInvertAccentLightColor3", invertLight3 },
-            { "SystemInvertAccentDarkColor1", invertDark1 },
-            { "SystemInvertAccentDarkColor2", invertDark2 },
-            { "SystemInvertAccentDarkColor3", invertDark3 },
+            { "SystemAccentDarkColor3", dark3 }
         };
         
         Resources.MergedDictionaries.Add(_accentColorsDictionary);
@@ -241,14 +196,7 @@ public class PleasantTheme : Style
         Color light3,
         Color dark1,
         Color dark2,
-        Color dark3,
-        Color invertAccent,
-        Color invertLight1,
-        Color invertLight2,
-        Color invertLight3,
-        Color invertDark1,
-        Color invertDark2,
-        Color invertDark3)
+        Color dark3)
     {
         if (_foregroundAccentColorsDictionary is not null)
             Resources.MergedDictionaries.Remove(_foregroundAccentColorsDictionary);
@@ -262,16 +210,7 @@ public class PleasantTheme : Style
             { "ForegroundAccentLightColor3", light3 },
             { "ForegroundAccentDarkColor1", dark1 },
             { "ForegroundAccentDarkColor2", dark2 },
-            { "ForegroundAccentDarkColor3", dark3 },
-            
-            { "ForegroundInvertAccentColor", invertAccent },
-            
-            { "ForegroundInvertAccentLightColor1", invertLight1 },
-            { "ForegroundInvertAccentLightColor2", invertLight2 },
-            { "ForegroundInvertAccentLightColor3", invertLight3 },
-            { "ForegroundInvertAccentDarkColor1", invertDark1 },
-            { "ForegroundInvertAccentDarkColor2", invertDark2 },
-            { "ForegroundInvertAccentDarkColor3", invertDark3 },
+            { "ForegroundAccentDarkColor3", dark3 }
         };
         
         Resources.MergedDictionaries.Add(_foregroundAccentColorsDictionary);

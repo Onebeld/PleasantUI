@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:ClassModifier="internal">
     <Style Selector="PleasantCaptionButtons:isactive /template/ Button:not(:pointerover):not(:pressed) > Viewbox > Path">
         <Setter Property="Fill" Value="{StaticResource TextFillColorSecondaryBrush}" />
     </Style>

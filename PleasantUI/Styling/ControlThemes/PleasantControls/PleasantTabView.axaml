@@ -1,0 +1,149 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Width="500">
+            <PleasantTabView>
+                <PleasantTabItem Header="Lorem ipsum">
+                    <TextBlock Text="Content" FontSize="20" Margin="20" />
+                </PleasantTabItem>
+                <PleasantTabItem Header="Leaf">
+                    <Border Background="Green"
+                            Height="100" />
+                </PleasantTabItem>
+                <PleasantTabItem Header="Disabled"
+                                 IsEnabled="False" />
+            </PleasantTabView>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type PleasantTabView}" TargetType="PleasantTabView">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="10 0 10 10" />
+        <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel Margin="{TemplateBinding Margin}"
+                           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                           VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    <Grid Name="PART_TabGrid"
+                          Height="40"
+                          DockPanel.Dock="{TemplateBinding TabStripPlacement}">
+                        <DockPanel>
+                            <SmoothScrollViewer Name="PART_ScrollViewer"
+                                                HorizontalAlignment="Left"
+                                                Theme="{StaticResource TabScrollViewerTheme}"
+                                                VerticalScrollBarVisibility="Disabled"
+                                                HorizontalScrollBarVisibility="Hidden"
+                                                DockPanel.Dock="Left"
+                                                Background="{x:Null}"
+                                                VerticalAlignment="Center"
+                                                Margin="0 0 40 0">
+                                <ItemsPresenter Name="PART_ItemsPresenter"
+                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                            </SmoothScrollViewer>
+                            <Button Name="PART_AdderButton"
+                                    Classes="EnabledIconAnimation"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Padding="0 4"
+                                    Width="24"
+                                    Margin="-35 0 0 0">
+                                <Viewbox Width="16" Height="16">
+                                    <Path Data="{StaticResource AddRegular}" />
+                                </Viewbox>
+                            </Button>
+                        </DockPanel>
+                    </Grid>
+                    <ContentPresenter Name="PART_SelectedContentHost"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      Margin="{TemplateBinding Padding}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Content="{TemplateBinding SelectedContent}"
+                                      ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+        <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+
+        <Style Selector="^[MarginType=Extended] /template/ Grid#PART_TabGrid">
+            <Setter Property="Margin" Value="43 0 130 0" />
+        </Style>
+        <Style Selector="^[MarginType=Little] /template/ Grid#PART_TabGrid">
+            <Setter Property="Margin" Value="43 0 5 0" />
+        </Style>
+        <Style Selector="^[MarginType=None] /template/ Grid#PART_TabGrid">
+            <Setter Property="Margin" Value="43 0 0 0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="TabScrollViewerTheme" TargetType="SmoothScrollViewer">
+        <Setter Property="SmoothScrollDuration" Value="0:0:0.015" />
+        <Setter Property="SmoothScrollEasing" Value="0,0 0.5,1" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <RepeatButton Name="PART_ScrollDecreaseButton"
+                                  Grid.Column="0"
+                                  Theme="{StaticResource AppBarRepeatButtonTheme}"
+                                  Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                  IsVisible="{TemplateBinding VisibleMaximum}"
+                                  IsEnabled="{TemplateBinding HorizontalScrollBarEnableDecrease}"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Delay="50"
+                                  Interval="100"
+                                  Margin="0 0 5 0"
+                                  Padding="6 10">
+                        <Viewbox Width="10" Height="10">
+                            <Path Data="{StaticResource CaretLeftRegular}" />
+                        </Viewbox>
+                    </RepeatButton>
+
+                    <SmoothScrollContentPresenter Name="PART_ContentPresenter"
+                                                  Grid.Column="1"
+                                                  Background="{TemplateBinding Background}"
+                                                  CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
+                                                  CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}"
+                                                  Content="{TemplateBinding Content}"
+                                                  Extent="{TemplateBinding Extent, Mode=TwoWay}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  Offset="{TemplateBinding Offset, Mode=TwoWay}"
+                                                  Viewport="{TemplateBinding Viewport, Mode=TwoWay}" />
+
+                    <RepeatButton Name="PART_ScrollIncreaseButton"
+                                  Grid.Column="2"
+                                  Theme="{StaticResource AppBarRepeatButtonTheme}"
+                                  Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                  IsVisible="{TemplateBinding VisibleMaximum}"
+                                  IsEnabled="{TemplateBinding HorizontalScrollBarEnableIncrease}"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Margin="5 0 5 0"
+                                  Delay="50"
+                                  Interval="100"
+                                  Padding="6 10">
+                        <Viewbox Width="10" Height="10">
+                            <Path Data="{StaticResource CaretLeftRegular}"
+                                  RenderTransform="rotate(180deg)" />
+                        </Viewbox>
+                    </RepeatButton>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

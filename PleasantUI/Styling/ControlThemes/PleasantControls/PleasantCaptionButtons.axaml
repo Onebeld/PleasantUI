@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantCaptionButtons}" TargetType="PleasantCaptionButtons">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         
@@ -9,6 +10,7 @@
                     <StackPanel.Styles>
                         <Style Selector="Button">
                             <Setter Property="Width" Value="45" />
+                            <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="0" />
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />

@@ -1,0 +1,192 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:DataType="TextBox"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50">
+            <StackPanel Spacing="5">
+                <TextBox />
+                <TextBox Classes="ClearTextBox" Text="Hello Down there" />
+                <TextBox Watermark="Watermark" />
+                <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="*" Text="Hello" />
+                <TextBox Text="Test" IsEnabled="False" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderBrush}" />
+        <Setter Property="SelectionBrush" Value="{StaticResource SystemAccentColorBrush}" />
+        <Setter Property="SelectionForegroundBrush" Value="{StaticResource ForegroundAccentColorBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="6 5 6 5" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="MinWidth" Value="64" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+        <Setter Property="ContextFlyout">
+            <MenuFlyout Placement="Bottom">
+                <MenuItem Header="{DynamicResource Cut}"
+                          Command="{CompiledBinding $parent[TextBox].Cut}"
+                          IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
+                          InputGesture="{x:Static TextBox.CutGesture}">
+                    <MenuItem.Icon>
+                        <Viewbox Width="16" Height="16">
+                            <Path Data="{StaticResource CutRegular}"
+                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{DynamicResource Copy}"
+                          Command="{CompiledBinding $parent[TextBox].Copy}"
+                          IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
+                          InputGesture="{x:Static TextBox.CopyGesture}">
+                    <MenuItem.Icon>
+                        <Viewbox Width="16" Height="16">
+                            <Path Data="{StaticResource CopyRegular}"
+                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{DynamicResource Paste}"
+                          Command="{CompiledBinding $parent[TextBox].Paste}"
+                          IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
+                          InputGesture="{x:Static TextBox.PasteGesture}">
+                    <MenuItem.Icon>
+                        <Viewbox Width="16" Height="16">
+                            <Path Data="{StaticResource ClipboardPasteRegular}"
+                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuFlyout>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            RenderTransform="scaleY(-1)"
+                            IsHitTestVisible="False" />
+
+                    <DataValidationErrors>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
+                            <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
+                                <TextBlock Name="PART_FloatingWatermark"
+                                           Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                           FontSize="12"
+                                           IsVisible="False"
+                                           Text="{TemplateBinding Watermark}"
+                                           FontWeight="SemiBold"
+                                           DockPanel.Dock="Top" />
+                                
+                                <SmoothScrollViewer Cursor="Ibeam"
+                                                    HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                                    VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                    <Panel>
+                                        <TextBlock Name="PART_Watermark"
+                                                   Text="{TemplateBinding Watermark}"
+                                                   Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                                   IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   IsHitTestVisible="False" />
+                                        <TextPresenter Name="PART_TextPresenter"
+                                                       Text="{TemplateBinding Text, Mode=TwoWay}"
+                                                       CaretIndex="{TemplateBinding CaretIndex}"
+                                                       SelectionStart="{TemplateBinding SelectionStart}"
+                                                       SelectionEnd="{TemplateBinding SelectionEnd}"
+                                                       TextAlignment="{TemplateBinding TextAlignment}"
+                                                       TextWrapping="{TemplateBinding TextWrapping}"
+                                                       PasswordChar="{TemplateBinding PasswordChar}"
+                                                       RevealPassword="{TemplateBinding RevealPassword}"
+                                                       SelectionBrush="{TemplateBinding SelectionBrush}"
+                                                       SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                                       CaretBrush="{TemplateBinding CaretBrush}"
+                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Panel>
+                                </SmoothScrollViewer>
+                            </DockPanel>
+                            <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
+                        </Grid>
+                    </DataValidationErrors>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
+            <Setter Property="InnerRightContent">
+                <Template>
+                    <ToggleButton Classes="EnabledIconAnimation"
+                                  Theme="{StaticResource AppBarToggleButtonTheme}"
+                                  Padding="4 2"
+                                  Margin="5"
+                                  IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
+                        <ToggleButton.Styles>
+                            <Style Selector="ToggleButton > Viewbox > Path">
+                                <Setter Property="Data" Value="{StaticResource PasswordBoxRevealButtonIcon}" />
+                            </Style>
+                            <Style Selector="ToggleButton:checked > Viewbox > Path">
+                                <Setter Property="Data" Value="{StaticResource PasswordBoxHideButtonIcon}" />
+                            </Style>
+                        </ToggleButton.Styles>
+
+                        <Viewbox Width="14">
+                            <Path Name="PART_PasswordIcon" />
+                        </Viewbox>
+                    </ToggleButton>
+                </Template>
+            </Setter>
+        </Style>
+
+        <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
+            <Setter Property="InnerRightContent">
+                <Template>
+                    <Button Classes="EnabledIconAnimation"
+                            Theme="{StaticResource AppBarButtonTheme}"
+                            Padding="7 2"
+                            Margin="5"
+                            Command="{CompiledBinding $parent[TextBox].Clear}">
+                        <Viewbox Width="8" Height="8">
+                            <Path Data="{StaticResource DismissRegular}"
+                                  StrokeThickness="2" />
+                        </Viewbox>
+                    </Button>
+                </Template>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+        </Style>
+        <Style Selector="^:focus">
+            <Setter Property="Background" Value="{StaticResource ControlFillColorInputActiveBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderFocusedBrush}" />
+            <Setter Property="BorderThickness" Value="1 2 1 1" />
+            <Setter Property="Transitions" Value="{x:Null}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        
+        <Style Selector="^[UseFloatingWatermark=true]:not(:empty) /template/ TextBlock#PART_FloatingWatermark">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

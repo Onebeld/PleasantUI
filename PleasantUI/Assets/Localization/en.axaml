@@ -5,4 +5,10 @@
     <s:String x:Key="Collapse">Collapse</s:String>
     <s:String x:Key="Expand">Expand</s:String>
     <s:String x:Key="Close">Close</s:String>
+    <s:String x:Key="Menu">Menu</s:String>
+    <s:String x:Key="Back">Back</s:String>
+    
+    <s:String x:Key="Cut">Cut</s:String>
+    <s:String x:Key="Copy">Copy</s:String>
+    <s:String x:Key="Paste">Paste</s:String>
 </ResourceDictionary>

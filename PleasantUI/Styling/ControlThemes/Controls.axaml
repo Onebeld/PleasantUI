@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:ClassModifier="internal">
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,6 +30,14 @@
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToggleButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/ToggleSwitch.axaml" />
+                <MergeResourceInclude Source="BasicControls/TextBox.axaml" />
+                <MergeResourceInclude Source="BasicControls/ButtonSpinner.axaml" />
+                <MergeResourceInclude Source="BasicControls/RepeatButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/TabControl.axaml" />
+                <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
+                <MergeResourceInclude Source="BasicControls/TabItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/Slider.axaml" />
                 
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
@@ -37,6 +46,8 @@
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
                     xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
-                    xmlns:system="clr-namespace:System;assembly=netstandard">
+                    xmlns:system="clr-namespace:System;assembly=netstandard"
+                    x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20"
                 Width="400"

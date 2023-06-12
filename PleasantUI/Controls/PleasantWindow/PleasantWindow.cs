@@ -45,13 +45,19 @@ public class PleasantWindow : Window, IPleasantWindow
     public static readonly StyledProperty<Geometry?> TitleGeometryProperty =
         AvaloniaProperty.Register<PleasantWindow, Geometry?>(nameof(TitleGeometry));
 
+    public static readonly StyledProperty<PleasantTitleBarType> TitleBarTypeProperty =
+        AvaloniaProperty.Register<PleasantWindow, PleasantTitleBarType>(nameof(TitleBarType));
+
+    public static readonly StyledProperty<bool> EnableBlurProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableBlur));
+
     public bool EnableCustomTitleBar
     {
         get => GetValue(EnableCustomTitleBarProperty);
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
 
-        public Control? TitleBarContent
+    public Control? TitleBarContent
     {
         get => GetValue(TitleBarContentProperty);
         set => SetValue(TitleBarContentProperty, value);
@@ -105,6 +111,18 @@ public class PleasantWindow : Window, IPleasantWindow
         set => SetValue(TitleGeometryProperty, value);
     }
 
+    public PleasantTitleBarType TitleBarType
+    {
+        get => GetValue(TitleBarTypeProperty);
+        set => SetValue(TitleBarTypeProperty, value);
+    }
+
+    public bool EnableBlur
+    {
+        get => GetValue(EnableBlurProperty);
+        set => SetValue(EnableBlurProperty, value);
+    }
+
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
     
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -112,9 +130,39 @@ public class PleasantWindow : Window, IPleasantWindow
         base.OnApplyTemplate(e);
 
         _modalWindowsPanel = e.NameScope.Get<Panel>("PART_ModalWindowsPanel");
+
+        TitleBar = e.NameScope.Get<PleasantTitleBar>("PART_PleasantTitleBar");
         
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == EnableCustomTitleBarProperty)
+        {
+            ExtendClientAreaToDecorationsHint = EnableCustomTitleBar;
+        }
+
+        if (change.Property == EnableBlurProperty)
+        {
+            if (EnableBlur)
+            {
+                TransparencyLevelHint = new[]
+                {
+                    WindowTransparencyLevel.AcrylicBlur,
+                };
+            }
+            else
+            {
+                TransparencyLevelHint = new[]
+                {
+                    WindowTransparencyLevel.None,
+                };
+            }
+        }
     }
 
     public void AddModalWindow(PleasantModalWindow modalWindow, Animation animation)
@@ -127,7 +175,7 @@ public class PleasantWindow : Window, IPleasantWindow
         windowPanel.Children.Add(modalWindow);
         
         _modalWindowsPanel.Children.Add(windowPanel);
-        
+
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)

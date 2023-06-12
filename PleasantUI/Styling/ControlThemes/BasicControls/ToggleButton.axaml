@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="70">
             <ToggleButton Content="Content" />
@@ -7,6 +8,65 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="11 5 11 5" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="PART_Border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            RenderTransform="scaleY(-1)"
+                            IsHitTestVisible="False" />
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Background="#00000000"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{TemplateBinding Padding}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <Style Selector="^:checked">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor1Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -49,12 +109,10 @@
 
         <Style Selector="^:checked:pointerover">
             <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
         </Style>
 
         <Style Selector="^:checked:pressed">
-            <Setter Property="Background" Value="{StaticResource SystemAccentColorBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentColorBrush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
