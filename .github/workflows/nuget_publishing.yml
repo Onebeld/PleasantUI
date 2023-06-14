@@ -1,0 +1,23 @@
+name: Publishing
+
+on:
+  push:
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+jobs:
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+    runs-on: windows-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - name: Build image
+        run: dotnet pack --configuration Release
+        
+      - name: Publish Nuget Package
+        run: dotnet nuget push "PleasantUI/bin/Release/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
