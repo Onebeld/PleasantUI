@@ -1,6 +1,8 @@
-![PleasantUI3](https://github.com/Onebeld/PleasantUI/assets/44552715/b96f687d-f081-447f-abd2-25aef0145cc8)
-
-# Pleasant UI
+<h1 align="center">
+    <img src="https://github.com/Onebeld/PleasantUI/assets/44552715/f00b7f5e-d5bf-40f9-a0a8-7ca0ed89f46b">
+    
+    PleasantUI 3
+</h1>
 
 Pleasant UI is the user interface library for Avalonia. Previously, it was only available as part of the Regul and Regul Save Cleaner projects. This project has existed since at least 2021.
 
