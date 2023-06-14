@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Build image
-        run: dotnet build --configuration Release
+        run: dotnet build "PleasantUI/PleasantUI.csproj" --configuration Release
         
       - name: Publish Nuget Package
         run: dotnet nuget push "PleasantUI/bin/Release/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
