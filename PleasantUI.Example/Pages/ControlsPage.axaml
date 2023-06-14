@@ -61,7 +61,7 @@
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
             
-            <OptionsDisplayItem Header="Text Box" Expands="True" IsExpanded="True">
+            <OptionsDisplayItem Header="ToolTip" Expands="True" IsExpanded="True">
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5">
                         <Border CornerRadius="8" Height="40" Background="{StaticResource ControlFillColorDefaultBrush}">
@@ -82,6 +82,7 @@
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5" Orientation="Horizontal">
                         <Button Content="Show Modal" Command="{CompiledBinding ShowModalWindow}" />
+                        <Button Content="Show ColorPicker" Command="{CompiledBinding ShowColorPicker}" />
                     </StackPanel>
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
@@ -158,6 +159,15 @@
                             <TabItem Header="Disabled"
                                      IsEnabled="False" />
                         </TabControl>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Header="ProgressRing" Expands="True" IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <ProgressRing IsIndeterminate="True" />
+                        <ProgressRing Value="60" />
                     </StackPanel>
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>

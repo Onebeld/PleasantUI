@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.Serialization;
+using System.Text.Json;
+using Avalonia.Collections;
 using PleasantUI.Core.Constants;
 using PleasantUI.Core.Enums;
 using PleasantUI.Core.Settings;
@@ -14,6 +16,7 @@ public class PleasantSettings : ViewModelBase
     private Theme _theme = Theme.System;
     private WindowSettings _windowSettings = null!;
     private RenderSettings _renderSettings = null!;
+    private AvaloniaList<uint> _savedColorPalette = new();
 
     static PleasantSettings()
     {
@@ -35,7 +38,7 @@ public class PleasantSettings : ViewModelBase
                 // ignored
             }
         }
-        
+
         Instance = new PleasantSettings
         {
             _windowSettings = new WindowSettings(),
@@ -48,6 +51,7 @@ public class PleasantSettings : ViewModelBase
     /// <summary>
     /// Gets or sets the color in numerical form
     /// </summary>
+    [DataMember]
     public uint NumericalAccentColor
     {
         get => _numericalAccentColor;
@@ -57,6 +61,7 @@ public class PleasantSettings : ViewModelBase
     /// <summary>
     /// Gets or sets a setting that allows or disallows the use of the accent color from the system
     /// </summary>
+    [DataMember]
     public bool PreferUserAccentColor
     {
         get => _preferUserAccentColor;
@@ -66,6 +71,7 @@ public class PleasantSettings : ViewModelBase
     /// <summary>
     /// Gets or sets the theme setting
     /// </summary>
+    [DataMember]
     public Theme Theme
     {
         get => _theme;
@@ -75,6 +81,7 @@ public class PleasantSettings : ViewModelBase
     /// <summary>
     /// Gets settings for all windows
     /// </summary>
+    [DataMember]
     public WindowSettings WindowSettings
     {
         get => _windowSettings;
@@ -90,6 +97,7 @@ public class PleasantSettings : ViewModelBase
     /// <summary>
     /// Gets the rendering settings
     /// </summary>
+    [DataMember]
     public RenderSettings RenderSettings
     {
         get => _renderSettings;
@@ -100,6 +108,13 @@ public class PleasantSettings : ViewModelBase
             
             RaiseAndSet(ref _renderSettings, value);
         }
+    }
+    
+    [DataMember]
+    public AvaloniaList<uint> SavedColorPalette
+    {
+        get => _savedColorPalette;
+        set => RaiseAndSet(ref _savedColorPalette, value);
     }
 
     /// <summary>

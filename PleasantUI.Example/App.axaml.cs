@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Example.ViewModels;
@@ -22,9 +23,19 @@ public partial class App : Application
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow();
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = DataContext
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+    
+    public static string GetString(string key)
+    {
+        if (Current!.TryFindResource(key, out object? objectText))
+            return objectText as string ?? string.Empty;
+        return key;
     }
 }

@@ -45,14 +45,14 @@ public class PleasantTitleBar : TemplatedControl
         _reestablishMenuItem = e.NameScope.Get<MenuItem>("PART_ReestablishMenuItem");
         _separator = e.NameScope.Get<Separator>("PART_SeparatorMenuItem");
 
-        _image = e.NameScope.Get<Image>("PART_Icon");
+        _image = e.NameScope.Find<Image>("PART_Icon");
         _title = e.NameScope.Get<TextBlock>("PART_Title");
         _subtitle = e.NameScope.Get<TextBlock>("PART_Subtitle");
         _logoPath = e.NameScope.Get<Path>("PART_LogoPath");
         _dragWindowBorder = e.NameScope.Get<Border>("PART_DragWindow");
         _titlePanel = e.NameScope.Get<StackPanel>("PART_TitlePanel");
 
-        _leftTitleBarContent = e.NameScope.Get<ContentPresenter>("PART_LeftTitleBarContent");
+        _leftTitleBarContent = e.NameScope.Find<ContentPresenter>("PART_LeftTitleBarContent");
 
         if (VisualRoot is PleasantWindow window)
         {

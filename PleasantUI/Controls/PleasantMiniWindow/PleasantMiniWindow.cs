@@ -81,7 +81,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         BeginMoveDrag(args);
     }
 
-    public void AddModalWindow(PleasantModalWindow modalWindow, Animation animation)
+    public void AddModalWindow(PleasantModalWindow modalWindow)
     {
         Panel windowPanel = new()
         {

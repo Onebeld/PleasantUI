@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
@@ -146,26 +145,32 @@ public class PleasantWindow : Window, IPleasantWindow
             ExtendClientAreaToDecorationsHint = EnableCustomTitleBar;
         }
 
+        if (change.Property == EnableTitleBarMarginProperty)
+        {
+            if (TitleBarStyle == PleasantTitleBarStyle.MacOS)
+                EnableTitleBarMargin = true;
+        }
+
         if (change.Property == EnableBlurProperty)
         {
             if (EnableBlur)
             {
                 TransparencyLevelHint = new[]
                 {
-                    WindowTransparencyLevel.AcrylicBlur,
+                    WindowTransparencyLevel.AcrylicBlur
                 };
             }
             else
             {
                 TransparencyLevelHint = new[]
                 {
-                    WindowTransparencyLevel.None,
+                    WindowTransparencyLevel.None
                 };
             }
         }
     }
 
-    public void AddModalWindow(PleasantModalWindow modalWindow, Animation animation)
+    public void AddModalWindow(PleasantModalWindow modalWindow)
     {
         Panel windowPanel = new()
         {
@@ -176,6 +181,7 @@ public class PleasantWindow : Window, IPleasantWindow
         
         _modalWindowsPanel.Children.Add(windowPanel);
 
+        
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)

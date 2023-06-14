@@ -7,12 +7,7 @@ namespace PleasantUI.Converters;
 
 public class IntToColumnDefinitionWidthConverter : IValueConverter
 {
-    private static readonly Lazy<IntToColumnDefinitionWidthConverter> Lazy = new(() => new IntToColumnDefinitionWidthConverter());
-
-    public static IntToColumnDefinitionWidthConverter Instance
-    {
-        get => Lazy.Value;
-    }
+    public static readonly IntToColumnDefinitionWidthConverter Instance = new();
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

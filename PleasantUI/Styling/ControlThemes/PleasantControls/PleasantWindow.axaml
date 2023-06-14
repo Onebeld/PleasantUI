@@ -37,13 +37,23 @@
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Decorator>
                             
-                            <Panel x:Name="PART_ModalWindowsPanel" Grid.Row="0" />
+                            <Panel x:Name="PART_ModalWindowsPanel" Grid.Row="0" Grid.RowSpan="2" />
                         </Grid>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
         </Setter>
         
+        <Style Selector="^[TitleBarStyle=MacOS] /template/ PleasantTitleBar#PART_PleasantTitleBar">
+            <Setter Property="Theme" Value="{StaticResource PleasantTitleBarMacOSStyle}" />
+        </Style>
+        <Style Selector="^[TitleBarStyle=MacOS]">
+            <Setter Property="EnableTitleBarMargin" Value="True" />
+        </Style>
+        
+        <Style Selector="^[EnableTitleBarMargin=True] /template/ PleasantTitleBar#PART_PleasantTitleBar">
+            <Setter Property="Grid.Row" Value="0" />
+        </Style>
         <Style Selector="^[EnableTitleBarMargin=False] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Grid.Row" Value="1" />
         </Style>
@@ -51,15 +61,11 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
         
-        <Style Selector="^[TitleBarType=Classic] /template/ PleasantTitleBar">
+        <Style Selector="^[TitleBarType=Classic] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Height" Value="32" />
         </Style>
         <Style Selector="^[TitleBarType=ClassicExtended] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Height" Value="44" />
-        </Style>
-        
-        <Style Selector="^[TitleBarStyle=MacOS] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="Theme" Value="{StaticResource PleasantTitleBarMacOSStyle}" />
         </Style>
         
         <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ VisualLayerManager#PART_VisualLayerManager">

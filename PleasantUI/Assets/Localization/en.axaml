@@ -7,6 +7,8 @@
     <s:String x:Key="Close">Close</s:String>
     <s:String x:Key="Menu">Menu</s:String>
     <s:String x:Key="Back">Back</s:String>
+    <s:String x:Key="AddYourNewColor">Add your new color!</s:String>
+    <s:String x:Key="AddColor">Add color</s:String>
     
     <s:String x:Key="Cut">Cut</s:String>
     <s:String x:Key="Copy">Copy</s:String>

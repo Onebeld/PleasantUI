@@ -14,8 +14,9 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="RadioButtonLikeButton" TargetType="RadioButton">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="Template">
@@ -45,6 +46,7 @@
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

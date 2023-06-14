@@ -178,6 +178,8 @@
                                 x:Name="PART_TitlePanel"
                                 IsHitTestVisible="False"
                                 VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
                                 Spacing="5">
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
                         <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" />

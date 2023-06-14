@@ -48,6 +48,7 @@
         </Style>
         <Style Selector="^:pressed /template/ ContentPresenter">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
     </ControlTheme>
 

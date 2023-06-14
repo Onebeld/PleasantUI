@@ -12,25 +12,8 @@ public static class ColorExtensions
         HslColor hslColor = color.ToHsl();
 
         double lightness = hslColor.L < Epsilon ? percent : hslColor.L + (hslColor.L * percent);
-        MathUtilities.Clamp(lightness, 0, 1);
+        MathUtilities.Clamp(lightness, 0.6, 0.7);
 
         return HslColor.ToRgb(hslColor.H, hslColor.S, lightness, hslColor.A);
-    }
-
-    /// <summary>
-    /// Inverts the color (e.g., green -> purple)
-    /// </summary>
-    /// <param name="color">Original color</param>
-    /// <returns>Inverted color</returns>
-    public static Color InvertColor(this Color color)
-    {
-        Color invertColor = new(
-            color.A,
-            (byte)(255 - color.R),
-            (byte)(255 - color.G),
-            (byte)(255 - color.B)
-        );
-
-        return invertColor;
     }
 }

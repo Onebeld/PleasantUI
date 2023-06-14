@@ -18,11 +18,6 @@
                         
                         <Style Selector="Button > Viewbox > Path">
                             <Setter Property="Stretch" Value="Uniform" />
-                            <Setter Property="Stroke" Value="{StaticResource TextFillColorPrimaryBrush}" />
-                        </Style>
-                        
-                        <Style Selector="Button:not(:pointerover):not(:pressed):disabled">
-                            <Setter Property="Opacity" Value="0.5" />
                         </Style>
                     </StackPanel.Styles>
                     
@@ -59,9 +54,71 @@
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Setter Property="ToolTip.Tip" Value="{DynamicResource Reestablish}" />
         </Style>
+        
+        <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
     </ControlTheme>
     
     <ControlTheme x:Key="PleasantCaptionButtonsMacOSStyle" TargetType="PleasantCaptionButtons">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Width" Value="12" />
+                            <Setter Property="Height" Value="12" />
+                            <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
+                            <Setter Property="CornerRadius" Value="99" />
+                        </Style>
+                        
+                        <Style Selector="Button > Viewbox > Path">
+                            <Setter Property="Stretch" Value="Uniform" />
+                        </Style>
+                        
+                        <Style Selector="Button#PART_CloseButton">
+                            <Setter Property="Background" Value="#FFFE4C40" />
+                        </Style>
+                        <Style Selector="Button#PART_MinimizeButton">
+                            <Setter Property="Background" Value="#FFF9B900" />
+                        </Style>
+                        <Style Selector="Button#PART_MaximizeButton">
+                            <Setter Property="Background" Value="#FF00D124" />
+                        </Style>
+                        
+                        <Style Selector="Button#PART_CloseButton:pointerover">
+                            <Setter Property="Background" Value="#FFCC362C" />
+                        </Style>
+                        <Style Selector="Button#PART_MinimizeButton:pointerover">
+                            <Setter Property="Background" Value="#FFBF8E00" />
+                        </Style>
+                        <Style Selector="Button#PART_MaximizeButton:pointerover">
+                            <Setter Property="Background" Value="#FF00B61F" />
+                        </Style>
+                    </StackPanel.Styles>
+                    
+                    <Button Name="PART_CloseButton"
+                            ToolTip.Tip="{DynamicResource Close}"
+                            Margin="10 0 0 0" />
+                    <Button Name="PART_MinimizeButton"
+                            ToolTip.Tip="{DynamicResource Collapse}"
+                            Margin="7 0" />
+                    <Button Name="PART_MaximizeButton" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Button#PART_MaximizeButton">
+            <Setter Property="ToolTip.Tip" Value="{DynamicResource Expand}" />
+        </Style>
+        <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
+            <Setter Property="ToolTip.Tip" Value="{DynamicResource Reestablish}" />
+        </Style>
+        
+        <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
+            <Setter Property="Background" Value="{StaticResource TextFillColorTertiaryBrush}" />
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
@@ -31,11 +32,17 @@ public class PleasantModalWindow : ContentControl
     public static readonly DirectProperty<PleasantModalWindow, bool> IsClosingProperty =
         AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosing), o => o.IsClosing);
 
-    public static readonly StyledProperty<Animation> OpenAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation>(nameof(OpenAnimation));
+    public static readonly StyledProperty<Animation?> OpenAnimationProperty =
+        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(OpenAnimation));
     
-    public static readonly StyledProperty<Animation> CloseAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation>(nameof(CloseAnimation));
+    public static readonly StyledProperty<Animation?> ShowBackgroundAnimationProperty =
+        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(ShowBackgroundAnimation));
+    
+    public static readonly StyledProperty<Animation?> CloseAnimationProperty =
+        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(CloseAnimation));
+    
+    public static readonly StyledProperty<Animation?> HideBackgroundAnimationProperty =
+        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(HideBackgroundAnimation));
     
     public static readonly StyledProperty<Animation> BackgroundOpenAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation>(nameof(BackgroundOpenAnimation));
@@ -51,7 +58,7 @@ public class PleasantModalWindow : ContentControl
 
     static PleasantModalWindow() { }
     
-    internal readonly Control ModalBackground = null!;
+    internal readonly Control ModalBackground;
     
     public bool IsClosed
     {
@@ -65,13 +72,25 @@ public class PleasantModalWindow : ContentControl
         set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
     }
 
-    public Animation OpenAnimation
+    public Animation? OpenAnimation
     {
         get => GetValue(OpenAnimationProperty);
         set => SetValue(OpenAnimationProperty, value);
     }
+    
+    public Animation? ShowBackgroundAnimation
+    {
+        get => GetValue(ShowBackgroundAnimationProperty);
+        set => SetValue(ShowBackgroundAnimationProperty, value);
+    }
+    
+    public Animation? HideBackgroundAnimation
+    {
+        get => GetValue(HideBackgroundAnimationProperty);
+        set => SetValue(HideBackgroundAnimationProperty, value);
+    }
 
-    public Animation CloseAnimation
+    public Animation? CloseAnimation
     {
         get => GetValue(CloseAnimationProperty);
         set => SetValue(CloseAnimationProperty, value);
@@ -102,6 +121,14 @@ public class PleasantModalWindow : ContentControl
     }
     
     public bool CanOpen { get; set; }
+
+    public PleasantModalWindow()
+    {
+        ModalBackground = new Border
+        {
+            Background = new SolidColorBrush(Color.Parse("#3A000000"))
+        };
+    }
     
     public Task Show(IPleasantWindow host) => Show<object>(host);
 
@@ -111,7 +138,10 @@ public class PleasantModalWindow : ContentControl
 
         RaiseEvent(new RoutedEventArgs(WindowOpenedEvent));
 
-        _host.AddModalWindow(this, OpenAnimation);
+        _host.AddModalWindow(this);
+
+        ShowBackgroundAnimation?.RunAsync(ModalBackground);
+        OpenAnimation?.RunAsync(this);
 
         TaskCompletionSource<T?> result = new();
 
@@ -157,9 +187,13 @@ public class PleasantModalWindow : ContentControl
                 RaiseEvent(new RoutedEventArgs(WindowClosedEvent));
                 OnClosed();
                 PseudoClasses.Set(":close", true);
-                //((ModalBackground)(Parent as Panel)!.Children[0]).Close();
-                
-                await CloseAnimation.RunAsync(this);
+
+                IsHitTestVisible = false;
+                ModalBackground.IsHitTestVisible = false;
+
+                HideBackgroundAnimation?.RunAsync(ModalBackground);
+                if (CloseAnimation is not null)
+                    await CloseAnimation.RunAsync(this);
 
                 CanOpen = false;
 

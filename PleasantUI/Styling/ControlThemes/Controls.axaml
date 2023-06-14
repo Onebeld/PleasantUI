@@ -38,6 +38,10 @@
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
                 <MergeResourceInclude Source="BasicControls/TabItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Slider.axaml" />
+                <MergeResourceInclude Source="BasicControls/ColorSlider.axaml" />
+                <MergeResourceInclude Source="BasicControls/ColorPreviewer.axaml" />
+                <MergeResourceInclude Source="BasicControls/ColorSpectrum.axaml" />
+                <MergeResourceInclude Source="BasicControls/ColorView.axaml" />
                 
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
@@ -48,6 +52,10 @@
                 <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
+                <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
+                <MergeResourceInclude Source="PleasantControls/TextBoxWithSymbol.axaml" />
+                <MergeResourceInclude Source="PleasantControls/NumericUpDownWithSymbol.axaml" />
+                <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
