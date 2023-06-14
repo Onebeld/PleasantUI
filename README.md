@@ -10,6 +10,12 @@ This library continues the OlibUI tradition of releasing only later versions, no
 
 This library is mostly focused on performance, lightness, and beauty, compared to many others.
 
+## Installing
+
+```xml
+<PackageReference Include="PleasantUI" Version="3.0.0" />
+```
+
 ## Screenshots
 
 ![image](https://github.com/Onebeld/PleasantUI/assets/44552715/f2e58a55-0c29-4845-8164-94f194799a9b)
