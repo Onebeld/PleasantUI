@@ -12,7 +12,7 @@ public class PleasantWindow : Window, IPleasantWindow
 {
     private Panel _modalWindowsPanel = null!;
     
-    public PleasantTitleBar? TitleBar;
+    internal PleasantTitleBar? TitleBar;
 
     public static readonly StyledProperty<bool> EnableCustomTitleBarProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableCustomTitleBar), true);
@@ -50,6 +50,9 @@ public class PleasantWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableBlurProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableBlur));
 
+    /// <summary>
+    /// Shows the self-created TitleBar and hides the system TitleBar.
+    /// </summary>
     public bool EnableCustomTitleBar
     {
         get => GetValue(EnableCustomTitleBarProperty);
@@ -62,18 +65,33 @@ public class PleasantWindow : Window, IPleasantWindow
         set => SetValue(TitleBarContentProperty, value);
     }
     
+    /// <summary>
+    /// Indicates content to the left of the window title.
+    /// </summary>
+    /// <remarks>
+    /// Will not display when <see cref="TitleBarStyle"/> equal MacOS.
+    /// </remarks>
     public Control? LeftTitleContent
     {
         get => GetValue(LeftTitleContentProperty);
         set => SetValue(LeftTitleContentProperty, value);
     }
 
+    /// <summary>
+    /// Specifies whether TitleBar can indent the main window content. If False, TitleBar overlaps the window content.
+    /// </summary>
     public bool EnableTitleBarMargin
     {
         get => GetValue(EnableTitleBarMarginProperty);
         set => SetValue(EnableTitleBarMarginProperty, value);
     }
-
+    
+    /// <summary>
+    /// Shows the button that allows you to switch the window to full screen mode.
+    /// </summary>
+    /// <remarks>
+    /// This field is not used yet
+    /// </remarks>
     public bool ShowFullScreenButton
     {
         get => GetValue(ShowFullScreenButtonProperty);
@@ -85,7 +103,10 @@ public class PleasantWindow : Window, IPleasantWindow
         get => GetValue(TitleBarStyleProperty);
         set => SetValue(TitleBarStyleProperty, value);
     }
-
+    
+    /// <summary>
+    /// Specifies which buttons will be displayed in the window.
+    /// </summary>
     public PleasantCaptionButtonsType CaptionButtons
     {
         get => GetValue(CaptionButtonsProperty);
@@ -180,8 +201,6 @@ public class PleasantWindow : Window, IPleasantWindow
         windowPanel.Children.Add(modalWindow);
         
         _modalWindowsPanel.Children.Add(windowPanel);
-
-        
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)

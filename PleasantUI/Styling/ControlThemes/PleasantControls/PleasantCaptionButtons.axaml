@@ -21,11 +21,6 @@
                         </Style>
                     </StackPanel.Styles>
                     
-                    <Button ToolTip.Tip="Fullscreen">
-                        <Viewbox>
-                            <Path></Path>
-                        </Viewbox>
-                    </Button>
                     <Button Name="PART_MinimizeButton"
                             ToolTip.Tip="{DynamicResource Collapse}">
                         <Viewbox Width="15" Height="1">

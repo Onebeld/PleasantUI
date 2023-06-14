@@ -42,7 +42,7 @@ public class OptionsDisplayItem : TemplatedControl
 
     public static readonly RoutedEvent<RoutedEventArgs> NavigationRequestedEvent =
         RoutedEvent.Register<OptionsDisplayItem, RoutedEventArgs>(nameof(NavigationRequested), RoutingStrategies.Bubble);
-
+    
     public string Header
     {
         get => GetValue(HeaderProperty);
@@ -72,7 +72,10 @@ public class OptionsDisplayItem : TemplatedControl
         get => GetValue(ActionButtonProperty);
         set => SetValue(ActionButtonProperty, value);
     }
-
+    
+    /// <summary>
+    /// Specifies that <see cref="OptionsDisplayItem"/> will reveal hidden content
+    /// </summary>
     public bool Expands
     {
         get => GetValue(ExpandsProperty);
@@ -85,6 +88,9 @@ public class OptionsDisplayItem : TemplatedControl
         set => SetValue(ContentProperty, value);
     }
 
+    /// <summary>
+    /// Indicates whether the <see cref="OptionsDisplayItem"/> content is open 
+    /// </summary>
     public bool IsExpanded
     {
         get => GetValue(IsExpandedProperty);

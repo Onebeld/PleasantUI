@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -30,16 +29,28 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         get => GetValue(EnableTransparencyProperty);
         set => SetValue(EnableTransparencyProperty, value);
     }
+    
+    /// <summary>
+    /// Shows a spear that allows you to dock a window on top of all other windows on the desktop.
+    /// </summary>
     public bool ShowPinButton
     {
         get => GetValue(ShowPinButtonProperty);
         set => SetValue(ShowPinButtonProperty, value);
     }
+    
+    /// <summary>
+    /// Shows a spear that allows you to hide the window.
+    /// </summary>
     public bool ShowHiddenButton
     {
         get => GetValue(ShowHiddenButtonProperty);
         set => SetValue(ShowHiddenButtonProperty, value);
     }
+    
+    /// <summary>
+    /// Shows the self-created TitleBar and hides the system TitleBar.
+    /// </summary>
     public bool EnableCustomTitleBar
     {
         get => GetValue(EnableCustomTitleBarProperty);
@@ -76,10 +87,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         });
     }
 
-    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
-    {
-        BeginMoveDrag(args);
-    }
+    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
 
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {

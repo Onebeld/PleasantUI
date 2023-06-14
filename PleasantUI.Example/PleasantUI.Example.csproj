@@ -19,6 +19,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <AvaloniaResource Include="PleasantUIIcon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
         <AdditionalFiles Include="**\*.axaml" />
         <Compile Update="**\*.axaml.cs" />
     </ItemGroup>

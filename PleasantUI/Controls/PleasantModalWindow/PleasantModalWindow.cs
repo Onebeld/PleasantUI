@@ -43,18 +43,9 @@ public class PleasantModalWindow : ContentControl
     
     public static readonly StyledProperty<Animation?> HideBackgroundAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(HideBackgroundAnimation));
-    
-    public static readonly StyledProperty<Animation> BackgroundOpenAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation>(nameof(BackgroundOpenAnimation));
-    
-    public static readonly StyledProperty<Animation> BackgroundCloseAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation>(nameof(BackgroundCloseAnimation));
 
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<PleasantModalWindow, string>(nameof(Title));
-
-    public static readonly StyledProperty<bool> ShowTitleBarProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, bool>(nameof(ShowTitleBar));
 
     static PleasantModalWindow() { }
     
@@ -72,54 +63,48 @@ public class PleasantModalWindow : ContentControl
         set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
     }
 
+    /// <summary>
+    /// Set the animation when opening a modal window.
+    /// </summary>
     public Animation? OpenAnimation
     {
         get => GetValue(OpenAnimationProperty);
         set => SetValue(OpenAnimationProperty, value);
     }
     
+    /// <summary>
+    /// Set the animation of the modal background when opening a modal window.
+    /// </summary>
     public Animation? ShowBackgroundAnimation
     {
         get => GetValue(ShowBackgroundAnimationProperty);
         set => SetValue(ShowBackgroundAnimationProperty, value);
     }
     
+    /// <summary>
+    /// Sets the animation of the modal background when the modal window is closed.
+    /// </summary>
     public Animation? HideBackgroundAnimation
     {
         get => GetValue(HideBackgroundAnimationProperty);
         set => SetValue(HideBackgroundAnimationProperty, value);
     }
 
+    /// <summary>
+    /// Sets the animation when the modal window is closed.
+    /// </summary>
     public Animation? CloseAnimation
     {
         get => GetValue(CloseAnimationProperty);
         set => SetValue(CloseAnimationProperty, value);
     }
-    
-    public Animation BackgroundOpenAnimation
-    {
-        get => GetValue(BackgroundOpenAnimationProperty);
-        set => SetValue(BackgroundOpenAnimationProperty, value);
-    }
 
-    public Animation BackgroundCloseAnimation
-    {
-        get => GetValue(BackgroundCloseAnimationProperty);
-        set => SetValue(BackgroundCloseAnimationProperty, value);
-    }
-    
     public string Title
     {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
-    public bool ShowTitleBar
-    {
-        get => GetValue(ShowTitleBarProperty);
-        set => SetValue(ShowTitleBarProperty, value);
-    }
-    
     public bool CanOpen { get; set; }
 
     public PleasantModalWindow()
