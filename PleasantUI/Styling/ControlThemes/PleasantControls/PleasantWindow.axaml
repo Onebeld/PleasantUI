@@ -5,20 +5,18 @@
         <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
         <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}"/>
+        <Setter Property="TransparencyBackgroundFallback" Value="{StaticResource SolidBackgroundFillColorBaseBrush}" />
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
-        <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome, OSXThickTitleBar" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
+        <Setter Property="TransparencyLevelHint" Value="" />
         <Setter Property="EnableBlur" Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}"></Setter>
         
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <ExperimentalAcrylicBorder>
-                        <ExperimentalAcrylicBorder.Material>
-                            <ExperimentalAcrylicMaterial BackgroundSource="Digger" MaterialOpacity="0.8" TintColor="{DynamicResource PleasantWindowBackground}" />
-                        </ExperimentalAcrylicBorder.Material>
-                    </ExperimentalAcrylicBorder>
+                    <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
                     
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
                         <Grid RowDefinitions="Auto,*">
@@ -49,6 +47,21 @@
         </Style>
         <Style Selector="^[TitleBarStyle=MacOS]">
             <Setter Property="EnableTitleBarMargin" Value="True" />
+        </Style>
+        
+        <Style Selector="^ /template/ Panel#PART_Background">
+            <Setter Property="Opacity" Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="^[EnableBlur=False] /template/ Panel#PART_Background">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <Style Selector="^[IsActive=False] /template/ Panel#PART_Background">
+            <Setter Property="Opacity" Value="1" />
         </Style>
         
         <Style Selector="^[EnableTitleBarMargin=True] /template/ PleasantTitleBar#PART_PleasantTitleBar">

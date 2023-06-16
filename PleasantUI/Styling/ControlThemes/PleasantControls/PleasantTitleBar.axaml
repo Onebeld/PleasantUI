@@ -86,7 +86,7 @@
                                 IsHitTestVisible="False">
                         <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColorPrimaryBrush}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
@@ -182,7 +182,7 @@
                                 Orientation="Horizontal"
                                 Spacing="5">
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColorPrimaryBrush}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"

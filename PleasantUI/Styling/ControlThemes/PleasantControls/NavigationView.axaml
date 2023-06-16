@@ -16,6 +16,30 @@
         <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
         <Setter Property="Icon" Value="{StaticResource LineHorizontal3Regular}" />
+        <Setter Property="TransitionAnimations">
+            <Animations>
+                <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Height}" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.Y" Value="0" />
+                    </KeyFrame>
+                </Animation>
+
+                <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="60%">
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Animations>
+        </Setter>
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <DockPanel />
@@ -26,8 +50,7 @@
             <ControlTemplate>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="{CompiledBinding $parent[NavigationView].CompactPaneLength, Converter={x:Static IntToColumnDefinitionWidthConverter.Instance}}" />
+                        <ColumnDefinition Width="{CompiledBinding $parent[NavigationView].CompactPaneLength, Converter={x:Static IntToColumnDefinitionWidthConverter.Instance}}" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <SplitView Grid.Column="0"
@@ -55,12 +78,10 @@
                         <Border Name="PART_Container"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
-                            <Grid>
-                                <ContentPresenter Name="PART_SelectedContentPresenter"
-                                                  Opacity="0"
-                                                  Content="{TemplateBinding SelectedContent}"
-                                                  ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                            </Grid>
+                            <ContentPresenter Name="PART_SelectedContentPresenter"
+                                              Content="{TemplateBinding SelectedContent}"
+                                              Opacity="1"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
                         </Border>
                     </SplitView>
                     <StackPanel Name="PART_StackPanelButtons"
@@ -115,31 +136,6 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:normal /template/ ContentPresenter#PART_SelectedContentPresenter">
-            <Style.Animations>
-                <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
-                    <KeyFrame Cue="0%">
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                    <KeyFrame Cue="60%">
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                    <KeyFrame Cue="100%">
-                        <Setter Property="Opacity" Value="1" />
-                    </KeyFrame>
-                </Animation>
-                
-                <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
-                    <KeyFrame Cue="0%">
-                        <Setter Property="(ScaleTransform.ScaleX)" Value="0.7" />
-                    </KeyFrame>
-                    <KeyFrame Cue="100%">
-                        <Setter Property="(ScaleTransform.ScaleX)" Value="1" />
-                    </KeyFrame>
-                </Animation>
-            </Style.Animations>
-        </Style>
-
         <Style Selector="^[IsOpen=true] /template/ Border#PART_Border">
             <Setter Property="Width" Value="{CompiledBinding $parent[NavigationView].OpenPaneLength}" />
         </Style>
@@ -160,7 +156,6 @@
             <Setter Property="BorderThickness" Value="0 0 1 0" />
             <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
         </Style>
-
 
         <Style Selector="^ /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8 0 0 0" />

@@ -2,17 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
-        <Setter Property="EnableCustomTitleBar"
-                Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
+        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
         <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorQuarternaryBrush}" />
-        <Setter Property="TransparencyBackgroundFallback" Value="Black" />
+        <Setter Property="TransparencyBackgroundFallback" Value="{StaticResource SolidBackgroundFillColorQuarternaryBrush}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
-        <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome, OSXThickTitleBar" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="Padding" Value="0 32 0 0" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="EnableTransparency"
+        <Setter Property="EnableBlur"
                 Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
 
         <Setter Property="Template">
@@ -96,14 +95,8 @@
                 </Transitions>
             </Setter>
         </Style>
-        <Style Selector="^[EnableTransparency=True]">
-            <Setter Property="TransparencyLevelHint"
-                    Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
-        </Style>
-        <Style Selector="^[EnableTransparency=False]">
-            <Setter Property="TransparencyLevelHint" Value="None" />
-        </Style>
-        <Style Selector="^[TransparencyLevelHint=None] /template/ Panel#PART_Background">
+
+        <Style Selector="^[EnableBlur=False] /template/ Panel#PART_Background">
             <Setter Property="Opacity" Value="1" />
         </Style>
         <Style Selector="^[IsActive=False] /template/ Panel#PART_Background">

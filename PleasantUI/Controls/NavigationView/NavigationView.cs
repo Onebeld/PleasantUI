@@ -2,6 +2,8 @@
 using System.Reactive.Disposables;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
@@ -10,6 +12,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Threading;
+using PleasantUI.Core;
 
 namespace PleasantUI.Controls;
 
@@ -54,6 +57,9 @@ public class NavigationView : TreeView
     public static readonly StyledProperty<bool> BindWindowSettingsProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(BindWindowSettings), true);
 
+    public static readonly StyledProperty<Animations?> TransitionAnimationsProperty =
+        AvaloniaProperty.Register<NavigationView, Animations?>(nameof(TransitionAnimations));
+
     public static readonly StyledProperty<SplitViewDisplayMode> DisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, SplitViewDisplayMode>(nameof(DisplayMode),
             SplitViewDisplayMode.CompactInline);
@@ -90,6 +96,8 @@ public class NavigationView : TreeView
 
     public static readonly StyledProperty<bool> ShowBackButtonProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
+    
+    private CancellationTokenSource? _cancellationTokenSource;
 
     public object? Header
     {
@@ -161,6 +169,12 @@ public class NavigationView : TreeView
     {
         get => GetValue(AutoCompleteBoxIsVisibleProperty);
         set => SetValue(AutoCompleteBoxIsVisibleProperty, value);
+    }
+
+    public Animations? TransitionAnimations
+    {
+        get => GetValue(TransitionAnimationsProperty);
+        set => SetValue(TransitionAnimationsProperty, value);
     }
 
     public IEnumerable<string>? ItemsAsStrings
@@ -277,10 +291,13 @@ public class NavigationView : TreeView
 
     internal void SelectSingleItemCore(object? item)
     {
-        if (SelectedItem != item)
+        if (SelectedItem != item && TransitionAnimations is not null && _contentPresenter is not null)
         {
-            PseudoClasses.Remove(":normal");
-            PseudoClasses.Add(":normal");
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            
+            foreach (Animation animation in TransitionAnimations)
+                animation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
         }
 
         if (SelectedItem is ISelectable selectableSelectedItem)
@@ -369,9 +386,6 @@ public class NavigationView : TreeView
 
     private void UpdateTitleAndSelectedContent()
     {
-        if (_contentPresenter is not null)
-            _contentPresenter.Opacity = 0;
-        
         if (SelectedItem is NavigationViewItemBase { TypeContent: not null } itemBase)
             SelectedContent = Activator.CreateInstance(itemBase.TypeContent);
     }

@@ -178,7 +178,10 @@ public class PleasantWindow : Window, IPleasantWindow
             {
                 TransparencyLevelHint = new[]
                 {
-                    WindowTransparencyLevel.AcrylicBlur
+                    WindowTransparencyLevel.Mica,
+                    WindowTransparencyLevel.AcrylicBlur,
+                    WindowTransparencyLevel.Blur,
+                    WindowTransparencyLevel.None
                 };
             }
             else

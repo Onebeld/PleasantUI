@@ -13,7 +13,10 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Theme="{StaticResource BorderBlockInformationTheme}">
+                <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
                         <Path Data="{TemplateBinding Icon}"
                               Fill="{StaticResource TextFillColorPrimaryBrush}"

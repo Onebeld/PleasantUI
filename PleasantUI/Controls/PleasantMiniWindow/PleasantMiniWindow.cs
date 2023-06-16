@@ -15,8 +15,8 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     private Button? _closeButton;
     private Panel? _dragWindowPanel;
 
-    public static readonly StyledProperty<bool> EnableTransparencyProperty =
-        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableTransparency));
+    public static readonly StyledProperty<bool> EnableBlurProperty =
+        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableBlur));
     public static readonly StyledProperty<bool> ShowPinButtonProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowPinButton), true);
     public static readonly StyledProperty<bool> ShowHiddenButtonProperty =
@@ -24,10 +24,10 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableCustomTitleBarProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableCustomTitleBar), true);
 
-    public bool EnableTransparency
+    public bool EnableBlur
     {
-        get => GetValue(EnableTransparencyProperty);
-        set => SetValue(EnableTransparencyProperty, value);
+        get => GetValue(EnableBlurProperty);
+        set => SetValue(EnableBlurProperty, value);
     }
     
     /// <summary>
@@ -85,6 +85,32 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         {
             ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
         });
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        
+        if (change.Property == EnableBlurProperty)
+        {
+            if (EnableBlur)
+            {
+                TransparencyLevelHint = new[]
+                {
+                    WindowTransparencyLevel.Mica,
+                    WindowTransparencyLevel.AcrylicBlur,
+                    WindowTransparencyLevel.Blur,
+                    WindowTransparencyLevel.None
+                };
+            }
+            else
+            {
+                TransparencyLevelHint = new[]
+                {
+                    WindowTransparencyLevel.None
+                };
+            }
+        }
     }
 
     private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
