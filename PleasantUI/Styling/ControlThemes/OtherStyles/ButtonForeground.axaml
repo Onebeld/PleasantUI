@@ -1,15 +1,10 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:ClassModifier="internal">
-    <Style Selector="Button > Path, 
-                     Button > Viewbox > Path, 
-                     Button > StackPanel > Path, 
-                     ToggleButton > Path, 
-                     ToggleButton > Viewbox > Path, 
-                     ToggleButton > StackPanel > Path,
-                     RepeatButton > Path,
-                     RepeatButton > Viewbox > Path,
-                     RepeatButton > StackPanel > Path">
+    <Style Selector=":is(Button) > Path,
+                     :is(Button) > Viewbox > Path,
+                     :is(Button) > StackPanel > Path
+                     :is(Button) > StackPanel > Viewbox > Path">
         <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
         <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" />
     </Style>

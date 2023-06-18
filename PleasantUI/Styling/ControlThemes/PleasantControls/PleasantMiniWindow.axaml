@@ -51,7 +51,6 @@
                                             Margin="4"
                                             IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
                                     <Button x:Name="PART_HiddenButton"
-                                            Classes="EnabledIconAnimation"
                                             Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Collapse}">
                                         <Viewbox Width="10" Height="10">
@@ -60,7 +59,6 @@
                                         </Viewbox>
                                     </Button>
                                     <Button x:Name="PART_CloseButton"
-                                            Classes="EnabledIconAnimation"
                                             Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Close}">
                                         <Viewbox Width="8" Height="8">

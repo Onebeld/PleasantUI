@@ -17,8 +17,11 @@
         <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 5 11 5" />
+        <Setter Property="CornerRadius" Value="4" />
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -27,10 +30,11 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            RenderTransform="scaleY(-1)"
                             IsHitTestVisible="False" />
                     <ContentPresenter Name="PART_ContentPresenter"
-                                      Background="#00000000"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Background="#00000000"
                                       Content="{TemplateBinding Content}"
                                       Padding="{TemplateBinding Padding}"
                                       CornerRadius="{TemplateBinding CornerRadius}"

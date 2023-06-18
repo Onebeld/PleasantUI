@@ -46,7 +46,6 @@
                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                             </SmoothScrollViewer>
                             <Button Name="PART_AdderButton"
-                                    Classes="EnabledIconAnimation"
                                     Theme="{StaticResource AppBarButtonTheme}"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"

@@ -133,8 +133,7 @@
         <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <ToggleButton Classes="EnabledIconAnimation"
-                                  Theme="{StaticResource AppBarToggleButtonTheme}"
+                    <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}"
                                   Padding="4 2"
                                   Margin="5"
                                   IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
@@ -158,8 +157,7 @@
         <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <Button Classes="EnabledIconAnimation"
-                            Theme="{StaticResource AppBarButtonTheme}"
+                    <Button Theme="{StaticResource AppBarButtonTheme}"
                             Padding="7 2"
                             Margin="5"
                             Command="{CompiledBinding $parent[TextBox].Clear}">

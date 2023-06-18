@@ -63,9 +63,26 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-
+        
         <Style Selector="^ /template/ Border#Pill">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#Pill">
+            <Setter Property="RenderTransform" Value="scaleY(1)" />
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Border#Pill">
+            <Setter Property="RenderTransform" Value="scaleY(1.2)" />
+        </Style>
+        <Style Selector="^:selected:pressed /template/ Border#Pill">
+            <Setter Property="RenderTransform" Value="scaleY(0.8)" />
+        </Style>
+        <Style Selector="^:not(:selected) /template/ Border#Pill">
+            <Setter Property="RenderTransform" Value="scaleY(0)" />
         </Style>
 
         <Style Selector="^:pointerover">

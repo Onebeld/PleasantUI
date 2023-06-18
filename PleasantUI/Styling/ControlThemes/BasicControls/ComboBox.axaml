@@ -133,9 +133,10 @@
                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                PlacementTarget="Background"
                                IsLightDismissEnabled="True"
+                               Placement="Center"
                                InheritsTransform="True">
                             <Popup.Styles>
-                                <Style Selector="Popup[IsOpen=True][PlacementMode=Top] > Border">
+                                <Style Selector="Popup[IsOpen=True][Placement=Top] > Border">
                                     <Style.Animations>
                                         <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                                             <KeyFrame Cue="0%">
@@ -149,7 +150,7 @@
                                         </Animation>
                                     </Style.Animations>
                                 </Style>
-                                <Style Selector="Popup[IsOpen=True][PlacementMode=Bottom] > Border">
+                                <Style Selector="Popup[IsOpen=True][Placement=Bottom] > Border">
                                     <Style.Animations>
                                         <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                                             <KeyFrame Cue="0%">
@@ -164,6 +165,20 @@
                                         </Animation>
                                     </Style.Animations>
                                 </Style>
+                                <Style Selector="Popup[IsOpen=True][Placement=Center] > Border">
+                                    <Style.Animations>
+                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                            <KeyFrame Cue="0%">
+                                                <Setter Property="ScaleTransform.ScaleY" Value="0.1" />
+                                                <Setter Property="Opacity" Value="0" />
+                                            </KeyFrame>
+                                            <KeyFrame Cue="100%">
+                                                <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                                                <Setter Property="Opacity" Value="1" />
+                                            </KeyFrame>
+                                        </Animation>
+                                    </Style.Animations>
+                                </Style>
                             </Popup.Styles>
                             
                             <Border x:Name="PopupBorder"
@@ -172,12 +187,12 @@
                                     BorderThickness="1"
                                     Margin="6 4 6 6"
                                     Padding="0"
-                                    Opacity="0"
+                                    Opacity="1"
                                     HorizontalAlignment="Stretch"
                                     CornerRadius="8">
                                 <Interaction.Behaviors>
                                     <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                                      EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
+                                                              EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
                                 </Interaction.Behaviors>
                                 <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                                     VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">

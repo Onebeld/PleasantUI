@@ -162,7 +162,17 @@
             <Setter Property="BorderThickness" Value="1 1 0 0" />
             <Setter Property="Margin" Value="0 45 0 0" />
         </Style>
+        <Style Selector="^[DisplayTopIndent=False] /template/ Border#PART_Container">
+            <Setter Property="CornerRadius" Value="0 0 0 0" />
+            <Setter Property="BorderThickness" Value="1 0 0 0" />
+            <Setter Property="Margin" Value="0 0 0 0" />
+        </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_Container">
+            <Setter Property="CornerRadius" Value="8 8 0 0" />
+            <Setter Property="BorderThickness" Value="0 1 0 0" />
+            <Setter Property="Margin" Value="0 45 0 0" />
+        </Style>
+        <Style Selector="^[DisplayMode=Overlay][DisplayTopIndent=False] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8 8 0 0" />
             <Setter Property="BorderThickness" Value="0 1 0 0" />
             <Setter Property="Margin" Value="0 45 0 0" />

@@ -34,6 +34,7 @@
                     </Button>
                     <Button Name="PART_CloseButton"
                             Theme="{StaticResource CloseButtonTheme}"
+                            CornerRadius="0"
                             ToolTip.Tip="{DynamicResource Close}">
                         <Viewbox Width="10" Height="10">
                             <Path Data="{StaticResource DismissRegular}" StrokeThickness="1" />

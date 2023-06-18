@@ -217,6 +217,12 @@
         <GradientStop Offset="1.00" Color="{DynamicResource SystemAccentColor}" />
         <GradientStop Offset="0.33" Color="{DynamicResource SystemAccentLightColor1}" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="DangerElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.5" Color="{DynamicResource BorderDangerColor}" />
+            <GradientStop Offset="1.0" Color="{DynamicResource DangerColor}" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
     <LinearGradientBrush x:Key="TextControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
         <LinearGradientBrush.GradientStops>
             <GradientStop Offset="0.5" Color="{DynamicResource ControlStrongStrokeColorDefault}" />

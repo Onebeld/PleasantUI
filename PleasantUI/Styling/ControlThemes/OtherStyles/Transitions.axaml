@@ -1,7 +1,8 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:ClassModifier="internal">
-    <Style Selector="Button > Viewbox">
+    <Style Selector=":is(Button) > Viewbox,
+                     :is(Button) > StackPanel > Viewbox > Path">
         <Setter Property="Transitions">
             <Transitions>
                 <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
@@ -9,10 +10,12 @@
         </Setter>
         <Setter Property="RenderTransform" Value="none" />
     </Style>
-    <Style Selector="Button:pointerover > Viewbox">
+    <Style Selector=":is(Button):pointerover > Viewbox,
+                     :is(Button):pointerover > StackPanel > Viewbox > Path">
         <Setter Property="RenderTransform" Value="scale(1.1)" />
     </Style>
-    <Style Selector="Button:pressed > Viewbox">
+    <Style Selector=":is(Button):pressed > Viewbox,
+                     :is(Button):pointerover > StackPanel > Viewbox > Path">
         <Setter Property="RenderTransform" Value="scale(0.9)" />
     </Style>
 </Styles>

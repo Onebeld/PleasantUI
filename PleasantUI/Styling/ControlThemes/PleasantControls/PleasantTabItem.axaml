@@ -75,18 +75,17 @@
 
                             <Button Grid.Column="1"
                                     Name="PART_CloseButton"
-                                    Classes="EnabledIconAnimation"
-                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Theme="{StaticResource CloseButtonTheme}"
                                     MinWidth="0"
                                     VerticalAlignment="Center"
                                     Padding="5"
                                     Margin="5 0 0 0"
                                     ToolTip.Tip="{StaticResource Close}">
-                                <Path Data="{StaticResource DismissRegular}"
-                                      StrokeThickness="0.5"
-                                      Width="8"
-                                      Height="8"
-                                      Stretch="Uniform" />
+                                <Viewbox Width="8" Height="8">
+                                    <Path Data="{StaticResource DismissRegular}"
+                                          StrokeThickness="0.5" />
+                                </Viewbox>
+                                
                             </Button>
                         </Grid>
                     </Decorator>

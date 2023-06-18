@@ -59,6 +59,10 @@
         </Setter>
     </Style>
     
+    <Style Selector="ListBox.HorizontalList > ListBoxItem">
+        <Setter Property="Theme" Value="{StaticResource HorizontalListBoxItem}" />
+    </Style>
+    
     <Style Selector="ButtonSpinner.WithoutDataValidation">
         <Setter Property="Template">
             <ControlTemplate>

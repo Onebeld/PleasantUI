@@ -14,7 +14,7 @@
     <CornerRadius x:Key="ScrollBarCornerRadius">6</CornerRadius>
 
     <ControlTheme x:Key="ScrollBarThumb" TargetType="Thumb">
-        <Setter Property="Background" Value="{DynamicResource ControlStrongFillColorDefault}" />
+        <Setter Property="Background" Value="{StaticResource ControlStrongFillColorDefaultBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -33,10 +33,10 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ Border">
-            <Setter Property="Background" Value="{DynamicResource TextFillColorSecondary}" />
+            <Setter Property="Background" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:pressed  /template/ Border">
-            <Setter Property="Background" Value="{DynamicResource TextFillColorSecondary}" />
+            <Setter Property="Background" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:disabled  /template/ Border">
             <Setter Property="Opacity" Value="0.5" />
@@ -78,13 +78,13 @@
         </Setter>
 
         <Style Selector="^ /template/ Path">
-            <Setter Property="Fill" Value="{DynamicResource ControlStrongFillColorDefault}" />
+            <Setter Property="Fill" Value="{StaticResource ControlStrongFillColorDefaultBrush}" />
         </Style>
         <Style Selector="^:pointerover /template/ Path">
-            <Setter Property="Fill" Value="{DynamicResource TextFillColorSecondary}" />
+            <Setter Property="Fill" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:disabled /template/ Path">
-            <Setter Property="Fill" Value="{DynamicResource TextFillColorSecondary}" />
+            <Setter Property="Fill" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
 
         <Style Selector="^:pressed /template/ Path">
@@ -111,7 +111,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid RowDefinitions="Auto,*,Auto">
                                 <Rectangle Name="TrackRect"
-                                           Fill="{DynamicResource AcrylicInAppFillColorDefault}"
+                                           Fill="{StaticResource AcrylicInAppFillColorDefaultBrush}"
                                            Opacity="0"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
@@ -161,7 +161,7 @@
                                     </Track.IncreaseButton>
                                     <Thumb Theme="{StaticResource ScrollBarThumb}"
                                            Opacity="1"
-                                           Background="{DynamicResource ControlStrongFillColorDefault}"
+                                           Background="{StaticResource ControlStrongFillColorDefaultBrush}"
                                            Width="6"
                                            MinHeight="30"
                                            CornerRadius="{TemplateBinding CornerRadius}"
@@ -199,7 +199,7 @@
                             <Grid ColumnDefinitions="Auto,*,Auto">
 
                                 <Rectangle Name="TrackRect"
-                                           Fill="{DynamicResource AcrylicInAppFillColorDefault}"
+                                           Fill="{StaticResource AcrylicInAppFillColorDefaultBrush}"
                                            Opacity="0"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
@@ -246,7 +246,7 @@
                                     </Track.IncreaseButton>
                                     <Thumb Theme="{StaticResource ScrollBarThumb}"
                                            Opacity="1"
-                                           Background="{StaticResource ControlStrongFillColorDefault}"
+                                           Background="{StaticResource ControlStrongFillColorDefaultBrush}"
                                            Height="6"
                                            MinWidth="30"
                                            CornerRadius="{TemplateBinding CornerRadius}"

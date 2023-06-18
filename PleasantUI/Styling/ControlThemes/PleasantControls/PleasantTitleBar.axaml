@@ -98,6 +98,13 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^:isactive /template/ TextBlock#PART_Title">
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorTertiaryBrush}" />
+        </Style>
+        <Style Selector="^:isactive /template/ Path#PART_LogoPath">
+            <Setter Property="Fill" Value="{StaticResource TextFillColorTertiaryBrush}" />
+        </Style>
     </ControlTheme>
     
     <ControlTheme x:Key="PleasantTitleBarMacOSStyle" TargetType="PleasantTitleBar">

@@ -13,6 +13,7 @@
     
     <NavigationView IsOpen="False"
                     SelectionMode="AlwaysSelected"
+                    DisplayTopIndent="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}"
                     Header="{x:Null}"
                     BindWindowSettings="True">
         <NavigationViewItem IsSelected="True"

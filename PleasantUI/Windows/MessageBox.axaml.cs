@@ -75,10 +75,22 @@ public partial class MessageBox : ContentDialog
         {
             messageBox.Buttons.Columns = 2;
             messageBox.Buttons.Children.Add(new Panel());
-            AddButton(new MessageBoxButton
+
+            try
             {
-                Text = (string)Application.Current!.FindResource("Ok")!, Result = "OK", Default = true, IsKeyDown = true
-            });
+                AddButton(new MessageBoxButton
+                {
+                    Text = (string)Application.Current!.FindResource("Ok")!, Result = "OK", Default = true, IsKeyDown = true
+                });
+            }
+            catch
+            {
+                AddButton(new MessageBoxButton
+                {
+                    Text = "OK", Result = "OK", Default = true, IsKeyDown = true
+                });
+            }
+            
         }
         else if (buttons.Count == 1)
         {

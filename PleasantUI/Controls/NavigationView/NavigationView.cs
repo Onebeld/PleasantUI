@@ -66,6 +66,9 @@ public class NavigationView : TreeView
 
     public static readonly StyledProperty<bool> AlwaysOpenProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(AlwaysOpen));
+    
+    public static readonly StyledProperty<bool> DisplayTopIndentProperty =
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(DisplayTopIndent), true);
 
     public static readonly StyledProperty<bool> NotMakeOffsetForContentPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(NotMakeOffsetForContentPanel));
@@ -145,6 +148,12 @@ public class NavigationView : TreeView
     {
         get => GetValue(AlwaysOpenProperty);
         set => SetValue(AlwaysOpenProperty, value);
+    }
+
+    public bool DisplayTopIndent
+    {
+        get => GetValue(DisplayTopIndentProperty);
+        set => SetValue(DisplayTopIndentProperty, value);
     }
 
     public bool NotMakeOffsetForContentPanel

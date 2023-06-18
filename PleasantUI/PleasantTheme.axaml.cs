@@ -87,6 +87,13 @@ public class PleasantTheme : Style
                 GetForegroundFromAccent(accentDark3));
     }
 
+    public void UpdateTheme()
+    {
+        if (_platformSettings is null) return;
+        
+        ResolveTheme(_platformSettings);
+    }
+
     private void Init()
     {
         if (Application.Current is null)

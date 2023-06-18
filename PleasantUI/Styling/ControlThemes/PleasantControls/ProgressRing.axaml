@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="{x:Type ProgressRing}" TargetType="ProgressRing">
-        <Setter Property="Foreground" Value="{DynamicResource SystemAccentLightColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor1Brush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="3" />
         <Setter Property="MinHeight" Value="16" />

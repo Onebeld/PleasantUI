@@ -8,7 +8,7 @@ namespace PleasantUI.Example;
 
 public partial class App : Application
 {
-    public PleasantTheme PleasantTheme { get; private set; } = null!;
+    public static PleasantTheme PleasantTheme { get; private set; } = null!;
     
     public App()
     {
