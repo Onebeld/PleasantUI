@@ -13,7 +13,7 @@ This library is mostly focused on performance, lightness, and beauty, compared t
 ## Installing
 
 ```xml
-<PackageReference Include="PleasantUI" Version="3.0.0" />
+<PackageReference Include="PleasantUI" Version="3.0.1" />
 ```
 
 ## Screenshots
