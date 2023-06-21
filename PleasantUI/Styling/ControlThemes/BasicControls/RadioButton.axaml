@@ -50,7 +50,6 @@
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -64,12 +63,11 @@
 
         <Style Selector="^:checked:pointerover">
             <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
         </Style>
 
         <Style Selector="^:checked:pressed">
-            <Setter Property="Background" Value="{StaticResource SystemAccentColorBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentColorBrush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

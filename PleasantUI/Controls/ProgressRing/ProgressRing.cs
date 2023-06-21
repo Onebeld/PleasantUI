@@ -22,6 +22,9 @@ public class ProgressRing : RangeBase
 
     public static readonly StyledProperty<double> StartAngleProperty =
         AvaloniaProperty.Register<ProgressRing, double>(nameof(StartAngle), 0);
+    
+    public static readonly StyledProperty<double> ThicknessProperty =
+        AvaloniaProperty.Register<ProgressRing, double>(nameof(Thickness), 3);
 
     public static readonly StyledProperty<double> EndAngleProperty =
         AvaloniaProperty.Register<ProgressRing, double>(nameof(EndAngle), 360);
@@ -68,6 +71,12 @@ public class ProgressRing : RangeBase
     {
         get => GetValue(EndAngleProperty);
         set => SetValue(EndAngleProperty, value);
+    }
+
+    public double Thickness
+    {
+        get => GetValue(ThicknessProperty);
+        set => SetValue(ThicknessProperty, value);
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)

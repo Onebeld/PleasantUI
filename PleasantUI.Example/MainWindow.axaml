@@ -16,17 +16,16 @@
                     DisplayTopIndent="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}"
                     Header="{x:Null}"
                     BindWindowSettings="True">
-        <NavigationViewItem IsSelected="True"
+        <NavigationViewItem x:Name="HomeScreenPage"
+                            IsSelected="True"
                             Header="Home"
-                            TypeContent="{x:Type pages:HomePage}"
                             Icon="{StaticResource HomeScreenRegular}" />
-        <NavigationViewItem Margin="0 5 0 0"
+        <NavigationViewItem x:Name="ControlsPage" Margin="0 5 0 0"
                             Header="Controls"
-                            TypeContent="{x:Type pages:ControlsPage}"
                             Icon="{StaticResource PinRegular}" />
         
-        <NavigationViewItem Header="Settings"
-                            TypeContent="{x:Type pages:SettingsPage}"
+        <NavigationViewItem x:Name="SettingsPage"
+                            Header="Settings"
                             DockPanel.Dock="Bottom" Margin="0 0 0 5"
                             Icon="{StaticResource SettingsRegular}" />
         

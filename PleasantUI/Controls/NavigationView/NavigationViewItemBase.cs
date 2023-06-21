@@ -14,17 +14,11 @@ public class NavigationViewItemBase : TreeViewItem
     private int _navigationViewDistance;
     private double _externalLength;
 
-    public static readonly DirectProperty<NavigationViewItemBase, object> ContentProperty =
-        AvaloniaProperty.RegisterDirect<NavigationViewItemBase, object>(
+    public static readonly DirectProperty<NavigationViewItemBase, object?> ContentProperty =
+        AvaloniaProperty.RegisterDirect<NavigationViewItemBase, object?>(
             nameof(Content),
             o => o.Content,
             (o, v) => o.Content = v);
-
-    public static readonly DirectProperty<NavigationViewItemBase, Type?> TypeContentProperty =
-        AvaloniaProperty.RegisterDirect<NavigationViewItemBase, Type?>(
-            nameof(TypeContent),
-            o => o.TypeContent,
-            (o, v) => o.TypeContent = v);
 
     public static readonly DirectProperty<NavigationViewItemBase, Geometry?> IconProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItemBase, Geometry?>(
@@ -60,13 +54,7 @@ public class NavigationViewItemBase : TreeViewItem
         AvaloniaProperty.RegisterDirect<NavigationViewItemBase, double>(nameof(ExternalLength),
             o => o.ExternalLength);
 
-    public Type? TypeContent
-    {
-        get => _typeContent;
-        set => SetAndRaise(TypeContentProperty, ref _typeContent, value);
-    }
-
-    public object Content
+    public object? Content
     {
         get => _content;
         set => SetAndRaise(ContentProperty, ref _content, value);
@@ -126,7 +114,13 @@ public class NavigationViewItemBase : TreeViewItem
         private set => SetAndRaise(ExternalLengthProperty, ref _externalLength, value);
     }
     
-    private object _content = "Content";
+    
+    /// <summary>
+    /// Needed if AOT does not support creating a class instance by type
+    /// </summary>
+    public Func<Control> FuncControl { get; set; }
+
+    private object? _content;
 
     static NavigationViewItemBase()
     {

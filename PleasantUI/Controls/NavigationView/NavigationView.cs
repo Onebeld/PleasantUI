@@ -395,8 +395,15 @@ public class NavigationView : TreeView
 
     private void UpdateTitleAndSelectedContent()
     {
-        if (SelectedItem is NavigationViewItemBase { TypeContent: not null } itemBase)
-            SelectedContent = Activator.CreateInstance(itemBase.TypeContent);
+        if (SelectedItem is not NavigationViewItemBase item) return;
+
+        if (item.Content is not null)
+        {
+            SelectedContent = item.Content;
+            return;
+        }
+
+        SelectedContent = item.FuncControl.Invoke();
     }
 
     private void Attach()
