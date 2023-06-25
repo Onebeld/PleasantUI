@@ -10,10 +10,12 @@ This library continues the OlibUI tradition of releasing only later versions, no
 
 This library is mostly focused on performance, lightness, and beauty, compared to many others.
 
+This library is fully compatible with AOT compilation, and does not need to be added to rd.xml
+
 ## Installing
 
 ```xml
-<PackageReference Include="PleasantUI" Version="3.0.3" />
+<PackageReference Include="PleasantUI" Version="3.0.4" />
 ```
 
 ## Screenshots
