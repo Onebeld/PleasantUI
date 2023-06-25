@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using PleasantUI.Core;
 using PleasantUI.Core.Interfaces;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 

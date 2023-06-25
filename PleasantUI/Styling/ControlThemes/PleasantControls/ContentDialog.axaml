@@ -46,12 +46,9 @@
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         ClipToBounds="False"
-                        BorderThickness="1">
-                    <Interaction.Behaviors>
-                        <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.ModalWindowDepth}"
-                                                  EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                    </Interaction.Behaviors>
-
+                        BorderThickness="1"
+                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ModalWindowDepth}"
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                     <Border ClipToBounds="True"
                             CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid RowDefinitions="*,Auto">

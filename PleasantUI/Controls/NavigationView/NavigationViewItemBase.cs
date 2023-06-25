@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 

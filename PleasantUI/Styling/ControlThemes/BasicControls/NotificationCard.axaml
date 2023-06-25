@@ -39,12 +39,9 @@
             <ControlTemplate>
                 <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
                     <Border CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="5 5 5 10">
-                        <Interaction.Behaviors>
-                            <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                                      EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                        </Interaction.Behaviors>
-
+                            Margin="5 5 5 10"
+                            behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                            behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"

@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Reactive.Disposables;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Animation;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
@@ -13,6 +11,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Threading;
 using PleasantUI.Core;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 

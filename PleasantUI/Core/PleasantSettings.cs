@@ -28,8 +28,7 @@ public class PleasantSettings : ViewModelBase
             try
             {
                 using FileStream fileStream = File.OpenRead(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-                Instance = JsonSerializer.Deserialize<PleasantSettings>(fileStream) 
-                             ?? throw new NullReferenceException();
+                Instance = JsonSerializer.Deserialize(fileStream, PleasantSettingsGenerationContext.Default.PleasantSettings)!;
                 
                 return;
             }
@@ -123,7 +122,7 @@ public class PleasantSettings : ViewModelBase
     public void Save()
     {
         using FileStream fileStream = File.Create(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-        JsonSerializer.Serialize(fileStream, Instance);
+        JsonSerializer.Serialize(fileStream, Instance, PleasantSettingsGenerationContext.Default.PleasantSettings);
     }
 
     /// <summary>

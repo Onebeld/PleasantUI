@@ -32,7 +32,9 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Opacity="0"
                         Padding="0"
-                        Margin="6 4 6 6">
+                        Margin="6 4 6 6"
+                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                     <Border.Styles>
                         <Style Selector="Border#LayoutRoot">
                             <Style.Animations>
@@ -51,11 +53,7 @@
                             </Style.Animations>
                         </Style>
                     </Border.Styles>
-                    <Interaction.Behaviors>
-                        <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                                  EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                    </Interaction.Behaviors>
-
+                    
                     <ContentPresenter Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Margin="{TemplateBinding Padding}"
@@ -88,7 +86,9 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Opacity="0"
                         Padding="0"
-                        Margin="6 4 6 6">
+                        Margin="6 4 6 6"
+                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                     <Border.Styles>
                         <Style Selector="Border#LayoutRoot">
                             <Style.Animations>
@@ -106,11 +106,7 @@
                             </Style.Animations>
                         </Style>
                     </Border.Styles>
-                    <Interaction.Behaviors>
-                        <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                                  EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                    </Interaction.Behaviors>
-
+            
                     <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                         <ItemsPresenter Name="PART_ItemsPresenter"

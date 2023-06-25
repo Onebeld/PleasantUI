@@ -98,7 +98,9 @@
                         Padding="{TemplateBinding Padding}"
                         Margin="6 4 6 6"
                         Opacity="0"
-                        CornerRadius="{TemplateBinding CornerRadius}">
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                     <Border.Styles>
                         <Style Selector="Border#PART_LayoutRoot">
                             <Style.Animations>
@@ -113,10 +115,7 @@
                             </Style.Animations>
                         </Style>
                     </Border.Styles>
-                    <Interaction.Behaviors>
-                        <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                                  EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                    </Interaction.Behaviors>
+                
                     <ContentPresenter Name="PART_ContentPresenter"
                                       MaxWidth="{TemplateBinding MaxWidth}"
                                       Content="{TemplateBinding Content}"

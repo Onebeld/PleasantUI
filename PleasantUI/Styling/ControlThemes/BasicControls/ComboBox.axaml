@@ -189,11 +189,9 @@
                                     Padding="0"
                                     Opacity="1"
                                     HorizontalAlignment="Stretch"
-                                    CornerRadius="8">
-                                <Interaction.Behaviors>
-                                    <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                                              EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                                </Interaction.Behaviors>
+                                    CornerRadius="8"
+                                    behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                                    behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                                 <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                                     VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                     <ItemsPresenter Name="PART_ItemsPresenter"

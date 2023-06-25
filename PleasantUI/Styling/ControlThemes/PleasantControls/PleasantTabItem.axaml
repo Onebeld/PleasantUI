@@ -41,15 +41,6 @@
                                                Easing="0,0 0,1" />
             </Transitions>
         </Setter>
-        <Setter Property="(Interaction.Behaviors)">
-            <behaviors:SharedContentTemplate>
-                <behaviors:SharedContent>
-                    <BehaviorCollection>
-                        <ItemDragBehavior Orientation="Horizontal" />
-                    </BehaviorCollection>
-                </behaviors:SharedContent>
-            </behaviors:SharedContentTemplate>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>

@@ -5,6 +5,7 @@ using Avalonia.Media;
 using PleasantUI.Controls.Chrome;
 using PleasantUI.Core.Enums;
 using PleasantUI.Core.Interfaces;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
-using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using PleasantUI.Core.Interfaces;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 

@@ -1,59 +1,56 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Xaml.Interactivity;
+using PleasantUI.Reactive;
 
 namespace PleasantUI.Behaviors;
 
 /// <summary>
 /// Defines <see cref="Avalonia.Media.BoxShadow"/> behavior for the control
 /// </summary>
-public class ShadowBehavior : Behavior<Control>
+public class ShadowBehavior : AvaloniaObject
 {
-    public static readonly StyledProperty<BoxShadow> BoxShadowProperty =
-        AvaloniaProperty.Register<ShadowBehavior, BoxShadow>(nameof(BoxShadow));
+    public static readonly AttachedProperty<BoxShadow?> BoxShadowProperty =
+        AvaloniaProperty.RegisterAttached<ShadowBehavior, BoxShadow?>("BoxShadow", typeof(BoxShadow));
 
-    public static readonly StyledProperty<bool> EnableShadowingProperty =
-        AvaloniaProperty.Register<ShadowBehavior, bool>(nameof(EnableShadowing));
+    public static readonly AttachedProperty<bool> EnableShadowingProperty =
+        AvaloniaProperty.RegisterAttached<ShadowBehavior, bool>("EnableShadowing", typeof(bool));
 
-    public BoxShadow BoxShadow
+    static ShadowBehavior()
     {
-        get => GetValue(BoxShadowProperty);
-        set => SetValue(BoxShadowProperty, value);
+        BoxShadowProperty.Changed.Subscribe(x => HandleChanged(x.Sender));
+        EnableShadowingProperty.Changed.Subscribe(x => HandleChanged(x.Sender));
     }
 
-    /// <summary>
-    /// Specifies whether the shadow will be shown on the control
-    /// </summary>
-    public bool EnableShadowing
+    public static void SetBoxShadow(AvaloniaObject element, BoxShadow? boxShadow)
     {
-        get => GetValue(EnableShadowingProperty);
-        set => SetValue(EnableShadowingProperty, value);
+        element.SetValue(BoxShadowProperty, boxShadow);
     }
 
-    protected override void OnAttachedToVisualTree()
+    public static BoxShadow? GetBoxShadow(AvaloniaObject element)
     {
-        if (EnableShadowing)
-            ApplyShadow();
-        else AssociatedObject?.SetValue(Border.BoxShadowProperty, default);
+        return element.GetValue(BoxShadowProperty);
     }
 
-    protected override void OnDetachedFromVisualTree()
+    public static void SetEnableShadowing(AvaloniaObject element, bool value)
     {
-        AssociatedObject?.SetValue(Border.BoxShadowProperty, default);
+        element.SetValue(EnableShadowingProperty, value);
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    public static bool GetEnableShadowing(AvaloniaObject element)
     {
-        base.OnPropertyChanged(change);
-        
-        if (AssociatedObject is null) return;
-
-        if (EnableShadowing)
-            ApplyShadow();
-        else
-            AssociatedObject?.SetValue(Border.BoxShadowProperty, default);
+        return element.GetValue(EnableShadowingProperty);
     }
 
-    private void ApplyShadow() => AssociatedObject?.SetValue(Border.BoxShadowProperty, new BoxShadows(BoxShadow));
+    private static void HandleChanged(AvaloniaObject element)
+    {
+        BoxShadow? boxShadow = element.GetValue(BoxShadowProperty);
+        bool enabledShadowing = element.GetValue(EnableShadowingProperty);
+
+        if (enabledShadowing && boxShadow is not null)
+        {
+            element.SetValue(Border.BoxShadowProperty, new BoxShadows(boxShadow.Value));
+        }
+        else element.SetValue(Border.BoxShadowProperty, default);
+    }
 }

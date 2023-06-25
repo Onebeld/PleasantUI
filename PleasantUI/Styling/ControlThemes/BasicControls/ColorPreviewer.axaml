@@ -56,11 +56,9 @@
                     <!-- Must be last for drop shadow Z-index -->
                     <Border Grid.Column="1"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="10">
-                        <Interaction.Behaviors>
-                            <behaviors:ShadowBehavior BoxShadow="{x:Static constants:ShadowDepths.ColorPreviewer}"
-                                                      EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}" />
-                        </Interaction.Behaviors>
+                            Margin="10"
+                            behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ColorPreviewer}"
+                            behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                         <Panel>
                             <Border Background="{StaticResource CheckeredBackgroundBrush}"
                                     CornerRadius="{TemplateBinding CornerRadius}" />
