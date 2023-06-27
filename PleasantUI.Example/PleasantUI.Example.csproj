@@ -40,10 +40,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <RdXmlFile Include="rd.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
         <AvaloniaResource Include="PleasantUIIcon.ico" />
     </ItemGroup>
 

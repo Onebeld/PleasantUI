@@ -113,7 +113,7 @@
                                             <Setter Property="MinHeight" Value="0" />
                                             <Setter Property="ContextFlyout">
                                                 <MenuFlyout>
-                                                    <MenuItem x:Name="DeleteColor" Header="Delete">
+                                                    <MenuItem x:Name="DeleteColor" Header="{DynamicResource Delete}">
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource DeleteRegular}"

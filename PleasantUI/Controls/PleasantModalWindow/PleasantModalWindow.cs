@@ -44,9 +44,6 @@ public class PleasantModalWindow : ContentControl
     public static readonly StyledProperty<Animation?> HideBackgroundAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(HideBackgroundAnimation));
 
-    public static readonly StyledProperty<string> TitleProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, string>(nameof(Title));
-
     static PleasantModalWindow() { }
     
     internal readonly Control ModalBackground;
@@ -99,14 +96,6 @@ public class PleasantModalWindow : ContentControl
         set => SetValue(CloseAnimationProperty, value);
     }
 
-    public string Title
-    {
-        get => GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
-
-    public bool CanOpen { get; set; }
-
     public PleasantModalWindow()
     {
         ModalBackground = new Border
@@ -135,8 +124,6 @@ public class PleasantModalWindow : ContentControl
                 x => Closed -= x)
             .Take(1)
             .Subscribe(_ => { result.SetResult((T?)_dialogResult); });
-
-        CanOpen = true;
 
         return result.Task;
     }
@@ -179,8 +166,6 @@ public class PleasantModalWindow : ContentControl
                 HideBackgroundAnimation?.RunAsync(ModalBackground);
                 if (CloseAnimation is not null)
                     await CloseAnimation.RunAsync(this);
-
-                CanOpen = false;
 
                 _host.RemoveModalWindow(this);
             }

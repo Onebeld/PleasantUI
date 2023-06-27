@@ -15,7 +15,7 @@ This library is fully compatible with AOT compilation, and does not need to be a
 ## Installing
 
 ```xml
-<PackageReference Include="PleasantUI" Version="3.0.4" />
+<PackageReference Include="PleasantUI" Version="3.0.5" />
 ```
 
 ## Screenshots
