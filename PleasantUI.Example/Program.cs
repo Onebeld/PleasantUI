@@ -30,19 +30,12 @@ public class Program
         appBuilder
             .With(new Win32PlatformOptions
             {
-                AllowEglInitialization = true,
-                OverlayPopups = true,
-                UseWgl = false,
-                UseWindowsUIComposition = true,
+                OverlayPopups = true
             })
             .With(new MacOSPlatformOptions
             {
                 DisableDefaultApplicationMenuItems = true,
                 ShowInDock = false
-            })
-            .With(new AvaloniaNativePlatformOptions
-            {
-                UseGpu = true,
             });
 
         return appBuilder.LogToTrace();
