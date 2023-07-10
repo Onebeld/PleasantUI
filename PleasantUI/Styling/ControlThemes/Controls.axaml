@@ -7,6 +7,7 @@
                 <MergeResourceInclude Source="BasicControls/AdornerLayer.axaml" />
                 <MergeResourceInclude Source="BasicControls/Button.axaml" />
                 <MergeResourceInclude Source="BasicControls/ButtonSpinner.axaml" />
+                <MergeResourceInclude Source="BasicControls/Carousel.axaml" />
                 <MergeResourceInclude Source="BasicControls/CheckBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ColorPreviewer.axaml" />
                 <MergeResourceInclude Source="BasicControls/ColorSlider.axaml" />
