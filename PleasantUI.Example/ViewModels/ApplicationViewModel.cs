@@ -1,7 +1,5 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
 using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Enums;

@@ -3,8 +3,6 @@ using Avalonia.Controls.Mixins;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
-using Avalonia.Styling;
-using PleasantUI.Converters;
 using PleasantUI.Extensions;
 
 namespace PleasantUI.Controls;

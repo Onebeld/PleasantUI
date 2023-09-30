@@ -57,7 +57,6 @@
             <Color x:Key="SelectedDangerColor">#FFF83623</Color>
 
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
-            <Color x:Key="PleasantWindowBackground">#FFFFFFFF</Color>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -115,7 +114,6 @@
             <Color x:Key="SelectedDangerColor">#FFF83623</Color>
 
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
-            <Color x:Key="PleasantWindowBackground">#FF000000</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
