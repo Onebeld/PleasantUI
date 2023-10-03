@@ -28,6 +28,7 @@ public class PleasantTitleBar : TemplatedControl
     private TextBlock? _subtitle;
 
     private ContentPresenter? _leftTitleBarContent;
+    private ContentPresenter? _titleBarContent;
 
     private PleasantWindow? _host;
 
@@ -53,6 +54,7 @@ public class PleasantTitleBar : TemplatedControl
         _titlePanel = e.NameScope.Get<StackPanel>("PART_TitlePanel");
 
         _leftTitleBarContent = e.NameScope.Find<ContentPresenter>("PART_LeftTitleBarContent");
+        _titleBarContent = e.NameScope.Find<ContentPresenter>("PART_TitleBarContent");
 
         if (VisualRoot is PleasantWindow window)
         {
@@ -140,6 +142,27 @@ public class PleasantTitleBar : TemplatedControl
             {
                 if (_leftTitleBarContent is not null)
                     _leftTitleBarContent.Content = content;
+            }),
+            host.GetObservable(PleasantWindow.TitleBarContentProperty).Subscribe(content =>
+            {
+                if (_titleBarContent is not null)
+                    _titleBarContent.Content = content;
+            }),
+            host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(enable =>
+            {
+                if (_dragWindowBorder is null || 
+                    _host is null || 
+                    _titlePanel is null || 
+                    _leftTitleBarContent is null || 
+                    _captionButtons is null) return;
+                
+                _dragWindowBorder.IsVisible = enable;
+                _titlePanel.IsVisible = enable;
+                _leftTitleBarContent.IsVisible = enable;
+                _captionButtons.IsVisible = enable;
+                
+                if (!_host.ShowTitleBarContentAnyway)
+                    IsVisible = enable;
             })
         };
     }

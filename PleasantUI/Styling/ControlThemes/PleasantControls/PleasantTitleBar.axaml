@@ -94,6 +94,8 @@
                                    Foreground="{StaticResource TextFillColorTertiaryBrush}" />
                     </StackPanel>
                     
+                    <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="2" />
+                    
                     <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons" Grid.Column="3" />
                 </Grid>
             </ControlTemplate>
@@ -179,6 +181,8 @@
                     <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
                                             Grid.Column="0"
                                             Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
+                    
+                    <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="1" />
                     
                     <StackPanel Grid.Column="0"
                                 Grid.ColumnSpan="3"

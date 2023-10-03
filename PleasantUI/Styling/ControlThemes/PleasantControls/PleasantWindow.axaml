@@ -10,7 +10,6 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
-        <Setter Property="TransparencyLevelHint" Value="" />
         <Setter Property="EnableBlur" Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}"></Setter>
         
         <Setter Property="Template">
@@ -23,7 +22,6 @@
                             <PleasantTitleBar x:Name="PART_PleasantTitleBar"
                                               Grid.Row="0"
                                               VerticalAlignment="Top"
-                                              IsVisible="{TemplateBinding EnableCustomTitleBar}"
                                               ZIndex="5"/>
                             
                             <Decorator x:Name="PART_Decorator" Grid.Row="1">
@@ -69,9 +67,6 @@
         </Style>
         <Style Selector="^[EnableTitleBarMargin=False] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Grid.Row" Value="1" />
-        </Style>
-        <Style Selector="^[EnableCustomTitleBar=False] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="IsVisible" Value="False" />
         </Style>
         
         <Style Selector="^[TitleBarType=Classic] /template/ PleasantTitleBar#PART_PleasantTitleBar">

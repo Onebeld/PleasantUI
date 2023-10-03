@@ -8,11 +8,14 @@
         Subtitle="Example"
         EnableTitleBarMargin="False"
         TitleBarType="ClassicExtended"
+        ShowTitleBarContentAnyway="True"
         Icon="PleasantUIIcon.ico">
+    <PleasantWindow.TitleBarContent>
+        <Button VerticalAlignment="Center" HorizontalAlignment="Right" Content="TitleBar Button" />
+    </PleasantWindow.TitleBarContent>
     
     <NavigationView IsOpen="False"
                     SelectionMode="AlwaysSelected"
-                    DisplayTopIndent="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}"
                     Header="{x:Null}"
                     BindWindowSettings="True">
         <NavigationViewItem x:Name="HomeScreenPage"

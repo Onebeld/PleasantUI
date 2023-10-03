@@ -51,6 +51,9 @@ public class PleasantWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableBlurProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableBlur));
 
+    public static readonly StyledProperty<bool> ShowTitleBarContentAnywayProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowTitleBarContentAnyway));
+
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
     /// </summary>
@@ -142,6 +145,12 @@ public class PleasantWindow : Window, IPleasantWindow
     {
         get => GetValue(EnableBlurProperty);
         set => SetValue(EnableBlurProperty, value);
+    }
+
+    public bool ShowTitleBarContentAnyway
+    {
+        get => GetValue(ShowTitleBarContentAnywayProperty);
+        set => SetValue(ShowTitleBarContentAnywayProperty, value);
     }
 
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
