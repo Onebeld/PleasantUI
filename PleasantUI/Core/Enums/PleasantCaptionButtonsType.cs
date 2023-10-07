@@ -6,5 +6,7 @@ public enum PleasantCaptionButtonsType
     
     CloseAndCollapse = 1,
     CloseAndExpand = 2,
-    Close = 3
+    Close = 3,
+    
+    None = 4
 }

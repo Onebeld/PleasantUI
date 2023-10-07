@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -116,6 +117,8 @@ public class PleasantMiniWindow : Window, IPleasantWindow
 
     private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
 
+    public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {
         Panel windowPanel = new()
@@ -124,12 +127,15 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         };
         windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
+        
+        OpenedModalWindows.Add(modalWindow);
 
         _modalWindows.Children.Add(windowPanel);
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)
     {
+        OpenedModalWindows.Remove(modalWindow);
         _modalWindows.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 }

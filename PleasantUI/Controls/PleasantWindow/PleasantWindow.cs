@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
@@ -203,6 +204,8 @@ public class PleasantWindow : Window, IPleasantWindow
         }
     }
 
+    public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {
         Panel windowPanel = new()
@@ -212,11 +215,14 @@ public class PleasantWindow : Window, IPleasantWindow
         windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
         
+        OpenedModalWindows.Add(modalWindow);
+        
         _modalWindowsPanel.Children.Add(windowPanel);
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)
     {
+        OpenedModalWindows.Remove(modalWindow);
         _modalWindowsPanel.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 }

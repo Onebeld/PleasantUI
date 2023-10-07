@@ -171,6 +171,7 @@ public class PleasantTitleBar : TemplatedControl
     {
         _host?.BeginMoveDrag(args);
     }
+    
     internal void OnDragWindowBorderOnDoubleTapped(object? o, TappedEventArgs tappedEventArgs)
     {
         if (_host is null || !_host.CanResize) return;

@@ -14,6 +14,7 @@ public class PleasantCaptionButtons : TemplatedControl
 
     private Button? _maximizeButton;
     private Button? _minimizeButton;
+    private Button? _closeButton;
 
     public PleasantWindow? Host;
 
@@ -25,6 +26,7 @@ public class PleasantCaptionButtons : TemplatedControl
         
         _maximizeButton = e.NameScope.Get<Button>("PART_MaximizeButton");
         _minimizeButton = e.NameScope.Get<Button>("PART_MinimizeButton");
+        _closeButton = e.NameScope.Get<Button>("PART_CloseButton");
         
         _maximizeButton.Click += (_, _) =>
         {
@@ -60,10 +62,49 @@ public class PleasantCaptionButtons : TemplatedControl
                 }),
                 Host.GetObservable(PleasantWindow.CaptionButtonsProperty).Subscribe(x =>
                 {
-                    if (x != PleasantCaptionButtonsType.All)
+                    if (x == PleasantCaptionButtonsType.None)
                     {
-                        if (x != PleasantCaptionButtonsType.CloseAndCollapse) _minimizeButton.IsVisible = false;
-                        if (x != PleasantCaptionButtonsType.CloseAndExpand) _maximizeButton.IsVisible = false;
+                        _minimizeButton.IsVisible = false;
+                        _maximizeButton.IsVisible = false;
+                        _closeButton.IsVisible = false;
+                        
+                        return;
+                    }
+                    
+                    if (x == PleasantCaptionButtonsType.All)
+                    {
+                        _minimizeButton.IsVisible = true;
+                        _maximizeButton.IsVisible = true;
+                        _closeButton.IsVisible = true;
+                        
+                        return;
+                    }
+                    
+                    if (x == PleasantCaptionButtonsType.Close)
+                    {
+                        _minimizeButton.IsVisible = false;
+                        _maximizeButton.IsVisible = false;
+                        _closeButton.IsVisible = true;
+                        
+                        return;
+                    }
+
+                    if (x == PleasantCaptionButtonsType.CloseAndCollapse)
+                    {
+                        _minimizeButton.IsVisible = true;
+                        _maximizeButton.IsVisible = false;
+                        _closeButton.IsVisible = true;
+                        
+                        return;
+                    }
+
+                    if (x == PleasantCaptionButtonsType.CloseAndExpand)
+                    {
+                        _minimizeButton.IsVisible = false;
+                        _maximizeButton.IsVisible = true;
+                        _closeButton.IsVisible = true;
+                        
+                        return;
                     }
                 }),
             };
