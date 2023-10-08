@@ -6,8 +6,9 @@ using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Example.ViewModels;
+using Application = Avalonia.Application;
 
-namespace PleasantUI.Example;
+namespace PleasantUI.Example.Android;
 
 public partial class App : Application
 {
@@ -26,21 +27,14 @@ public partial class App : Application
         PleasantTheme = new PleasantTheme();
         Styles.Add(PleasantTheme);
         
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
         {
-            desktop.MainWindow = new MainWindow
+            lifetime.MainView = new PleasantMainView()
             {
                 DataContext = ViewModel
             };
         }
-
+        
         base.OnFrameworkInitializationCompleted();
-    }
-    
-    public static string GetString(string key)
-    {
-        if (Current!.TryFindResource(key, out object? objectText))
-            return objectText as string ?? string.Empty;
-        return key;
     }
 }

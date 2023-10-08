@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.Text.Json;
 using Avalonia.Collections;
 using PleasantUI.Core.Constants;

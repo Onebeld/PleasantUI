@@ -16,7 +16,7 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
 
     public IDisposable Subscribe(IObserver<TResult> observer)
     {
-        var sink = new _(_resultSelector, observer);
+        _? sink = new _(_resultSelector, observer);
         sink.Run(_first, _second);
         return sink;
     }
@@ -39,8 +39,8 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
 
         public void Run(IObservable<TFirst> first, IObservable<TSecond> second)
         {
-            var fstO = new FirstObserver(this);
-            var sndO = new SecondObserver(this);
+            FirstObserver? fstO = new FirstObserver(this);
+            SecondObserver? sndO = new SecondObserver(this);
 
             fstO.SetOther(sndO);
             sndO.SetOther(fstO);
@@ -219,7 +219,7 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
 
     public IDisposable Subscribe(IObserver<TResult> observer)
     {
-        var sink = new _(_resultSelector, observer);
+        _? sink = new _(_resultSelector, observer);
         sink.Run(_sources);
         return sink;
     }
@@ -249,9 +249,9 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
 
         public void Run(IEnumerable<IObservable<TSource>> sources)
         {
-            var srcs = sources.ToArray();
+            IObservable<TSource>[]? srcs = sources.ToArray();
 
-            var N = srcs.Length;
+            int N = srcs.Length;
 
             _hasValue = new bool[N];
             _hasValueAll = false;
@@ -262,11 +262,11 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
 
             _subscriptions = new IDisposable[N];
 
-            for (var i = 0; i < N; i++)
+            for (int i = 0; i < N; i++)
             {
-                var j = i;
+                int j = i;
 
-                var o = new SourceObserver(this, j);
+                SourceObserver? o = new SourceObserver(this, j);
                 _subscriptions[j] = o;
 
                 o.Disposable = srcs[j].Subscribe(o);

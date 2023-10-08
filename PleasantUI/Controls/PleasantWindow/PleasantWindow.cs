@@ -163,6 +163,7 @@ public class PleasantWindow : Window, IPleasantWindow
         _modalWindowsPanel = e.NameScope.Get<Panel>("PART_ModalWindowsPanel");
 
         TitleBar = e.NameScope.Get<PleasantTitleBar>("PART_PleasantTitleBar");
+        VisualLayerManager = e.NameScope.Get<VisualLayerManager>("PART_VisualLayerManager");
         
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
@@ -205,6 +206,8 @@ public class PleasantWindow : Window, IPleasantWindow
     }
 
     public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+
+    public VisualLayerManager VisualLayerManager { get; private set; }
 
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {

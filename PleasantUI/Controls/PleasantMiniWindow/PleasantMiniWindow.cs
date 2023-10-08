@@ -70,6 +70,8 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
         _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
         _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
+        
+        VisualLayerManager = e.NameScope.Get<VisualLayerManager>("PART_VisualLayerManager");
 
         if (_closeButton is not null)
             _closeButton.Click += (_, _) => Close();
@@ -118,6 +120,8 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
 
     public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+
+    public VisualLayerManager VisualLayerManager { get; private set; }
 
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {

@@ -1,8 +1,10 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Mixins;
+using Avalonia.Controls.Presenters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
 using PleasantUI.Extensions;
 
 namespace PleasantUI.Controls;
@@ -37,23 +39,32 @@ public class NavigationViewItem : NavigationViewItemBase
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);
-
-        if (ClickMode == ClickMode.Press && this.PointerEffectivelyOver(e))
+        
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
-            Select();
+            e.Handled = true;
+
+            if (ClickMode == ClickMode.Press)
+            {
+                Select();
+            }
         }
-        e.Handled = true;
     }
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         base.OnPointerReleased(e);
-
-        if (ClickMode == ClickMode.Release && IsPointerOver && this.PointerEffectivelyOver(e))
+        
+        if (e.InitialPressMouseButton == MouseButton.Left)
         {
-            Select();
+            e.Handled = true;
+
+            if (ClickMode == ClickMode.Release &&
+                this.GetVisualsAt(e.GetPosition(this)).Any(c => this == c || this.IsVisualAncestorOf(c)))
+            {
+                Select();
+            }
         }
-        e.Handled = true;
     }
 
     private void Select()

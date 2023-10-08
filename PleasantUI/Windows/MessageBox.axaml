@@ -6,7 +6,7 @@
                VerticalAlignment="Center"
                HorizontalAlignment="Center"
                Margin="50"
-               MinWidth="400"
+               MinWidth="300"
                MinHeight="180"
                x:Class="PleasantUI.Windows.MessageBox">
     <SmoothScrollViewer>

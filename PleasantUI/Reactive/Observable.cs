@@ -84,7 +84,7 @@ public static class Observable
 
         return Create<T>(obs =>
         {
-            var remaining = skipCount;
+            int remaining = skipCount;
             return source.Subscribe(new AnonymousObserver<T>(
                 input =>
                 {
@@ -104,8 +104,8 @@ public static class Observable
     {
         return Create<System.EventArgs>(observer =>
         {
-            var handler = new Action<System.EventArgs>(observer.OnNext);
-            var converted = new EventHandler((_, args) => handler(args));
+            Action<EventArgs>? handler = new Action<System.EventArgs>(observer.OnNext);
+            EventHandler? converted = new EventHandler((_, args) => handler(args));
             addHandler(converted);
 
             return Disposable.Create(() => removeHandler(converted));
@@ -121,7 +121,7 @@ public static class Observable
 
         return Create<T>(obs =>
         {
-            var remaining = takeCount;
+            int remaining = takeCount;
             IDisposable? sub = null;
             sub = source.Subscribe(new AnonymousObserver<T>(
                 input =>

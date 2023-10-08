@@ -71,4 +71,5 @@
     <StyleInclude Source="BasicControls/FocusAdorner.axaml" />
     
     <StyleInclude Source="PleasantControls/NavigationViewItem.axaml" />
+    <StyleInclude Source="PleasantControls/PleasantView.axaml" />
 </Styles>

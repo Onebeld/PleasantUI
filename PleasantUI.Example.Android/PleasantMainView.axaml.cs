@@ -1,37 +1,37 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
 using PleasantUI.Core;
-using PleasantUI.Core.Enums;
-using PleasantUI.Core.Interfaces;
 using PleasantUI.Example.Pages;
 
-namespace PleasantUI.Example;
+namespace PleasantUI.Example.Android;
 
-public partial class MainWindow : PleasantWindow
+public partial class PleasantMainView : PleasantView
 {
-    public MainWindow()
+    public PleasantMainView()
     {
         InitializeComponent();
-
+        
         // Since the program compiled by AOT does not work, we have to use these lines
         HomeScreenPage.FuncControl += () => new HomePage();
         SettingsPage.FuncControl += () => new SettingsPage();
         ControlsPage.FuncControl += () => new ControlsPage();
         
-        Closing += OnClosing;
+        Unloaded += OnUnloaded;
+    }
+
+    private void OnUnloaded(object? sender, RoutedEventArgs e)
+    {
+        PleasantSettings.Instance.Save();
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-
-        if (OperatingSystem.IsMacOS())
-        {
-            EnableTitleBarMargin = true;
-            TitleBarType = PleasantTitleBarType.Classic;
-        }
         
         App.ViewModel.NotificationManager = new PleasantNotificationManager(this)
         {
@@ -40,6 +40,4 @@ public partial class MainWindow : PleasantWindow
             ZIndex = 1
         };
     }
-
-    private void OnClosing(object? sender, WindowClosingEventArgs e) => PleasantSettings.Instance.Save();
 }

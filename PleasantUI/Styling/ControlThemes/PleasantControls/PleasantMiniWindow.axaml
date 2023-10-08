@@ -20,7 +20,7 @@
                     <Border x:Name="PART_TransparencyFallback" IsHitTestVisible="False" />
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
-                    <VisualLayerManager x:Name="VisualLayerManager">
+                    <VisualLayerManager x:Name="PART_VisualLayerManager">
                         <VisualLayerManager.ChromeOverlayLayer>
                             <Panel Height="32" VerticalAlignment="Top">
                                 <Panel Name="PART_DragWindow"

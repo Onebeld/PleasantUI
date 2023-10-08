@@ -30,7 +30,7 @@
     <ControlTheme x:Key="{x:Type ContentDialog}" TargetType="ContentDialog">
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Opacity" Value="0" />
-        <Setter Property="MinWidth" Value="400" />
+        <Setter Property="MinWidth" Value="300" />
         <Setter Property="Margin" Value="40" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />

@@ -67,18 +67,18 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
 
     private static List<IDisposable?> ToList(IEnumerable<IDisposable> disposables)
     {
-        var capacity = disposables switch
+        int capacity = disposables switch
         {
             IDisposable[] a => a.Length,
             ICollection<IDisposable> c => c.Count,
             _ => 12
         };
 
-        var list = new List<IDisposable?>(capacity);
+        List<IDisposable>? list = new List<IDisposable?>(capacity);
 
         // do the copy and null-check in one step to avoid a
         // second loop for just checking for null items
-        foreach (var d in disposables)
+        foreach (IDisposable? d in disposables)
         {
             if (d == null)
             {
@@ -156,9 +156,9 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
             //
 
             // read fields as infrequently as possible
-            var current = _disposables;
+            List<IDisposable>? current = _disposables;
 
-            var i = current.IndexOf(item);
+            int i = current.IndexOf(item);
             if (i < 0)
             {
                 // not found, just return
@@ -169,9 +169,9 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
 
             if (current.Capacity > ShrinkThreshold && _count < current.Capacity / 2)
             {
-                var fresh = new List<IDisposable?>(current.Capacity / 2);
+                List<IDisposable>? fresh = new List<IDisposable?>(current.Capacity / 2);
 
-                foreach (var d in current)
+                foreach (IDisposable? d in current)
                 {
                     if (d != null)
                     {
@@ -219,7 +219,7 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
 
         if (currentDisposables != null)
         {
-            foreach (var d in currentDisposables)
+            foreach (IDisposable? d in currentDisposables)
             {
                 d?.Dispose();
             }
@@ -241,7 +241,7 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
                 return;
             }
 
-            var current = _disposables;
+            List<IDisposable>? current = _disposables;
 
             previousDisposables = current.ToArray();
             current.Clear();
@@ -249,7 +249,7 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
             Volatile.Write(ref _count, 0);
         }
 
-        foreach (var d in previousDisposables)
+        foreach (IDisposable? d in previousDisposables)
         {
             d?.Dispose();
         }
@@ -313,9 +313,9 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
             }
 
-            var i = arrayIndex;
+            int i = arrayIndex;
 
-            foreach (var d in _disposables)
+            foreach (IDisposable? d in _disposables)
             {
                 if (d != null)
                 {
@@ -391,17 +391,17 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
             // beyond the lifecycle of the enumerator.
             // Not sure if this happens by default to
             // generic array enumerators though.
-            var disposables = _disposables;
+            IDisposable[]? disposables = _disposables;
             Array.Clear(disposables, 0, disposables.Length);
         }
 
         public bool MoveNext()
         {
-            var disposables = _disposables;
+            IDisposable[]? disposables = _disposables;
 
             for (;;)
             {
-                var idx = ++_index;
+                int idx = ++_index;
 
                 if (idx >= disposables.Length)
                 {

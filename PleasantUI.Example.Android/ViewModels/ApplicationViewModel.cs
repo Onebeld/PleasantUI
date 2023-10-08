@@ -1,10 +1,15 @@
-﻿using Avalonia;
+﻿using AndroidX.Lifecycle;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Enums;
+using PleasantUI.Core.Interfaces;
+using PleasantUI.Example.Android;
 using PleasantUI.Windows;
+using Application = Avalonia.Application;
+using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace PleasantUI.Example.ViewModels;
 
@@ -40,31 +45,31 @@ public class ApplicationViewModel : ViewModelBase
     
     public void ShowModalWindow()
     {
-        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Application.Current.ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
         {
-            MessageBox.Show(desktop.MainWindow as PleasantWindow, "Test", "This is Test MessageBox");
+            MessageBox.Show(lifetime.MainView as IPleasantWindow, "Test", "This is Test MessageBox");
         }
     }
 
     public void ShowColorPicker()
     {
-        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Application.Current.ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
         {
-            ColorPickerWindow.SelectColor(desktop.MainWindow as PleasantWindow);
+            ColorPickerWindow.SelectColor(lifetime.MainView as IPleasantWindow);
         }
     }
     
     public void ShowMiniWindow()
     {
-        NotificationManager?.Show(
-            new Notification(
-                "Error", 
-                "This feature is not supported on mobile devices", 
-                NotificationType.Error, 
-                TimeSpan.FromSeconds(5))
-        );
+            NotificationManager?.Show(
+                new Notification(
+                    "Error", 
+                    "This feature is not supported on mobile devices", 
+                    NotificationType.Error, 
+                    TimeSpan.FromSeconds(5))
+            );
             
-        return;
+            return;
         
         PleasantMiniWindow pleasantMiniWindow = new()
         {

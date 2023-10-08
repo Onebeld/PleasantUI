@@ -33,7 +33,11 @@
                                                   Margin="{TemplateBinding Padding}"
                                                   Offset="{TemplateBinding Offset, Mode=TwoWay}"
                                                   Viewport="{TemplateBinding Viewport, Mode=TwoWay}">
-                     
+                        <SmoothScrollContentPresenter.GestureRecognizers>
+                            <ScrollGestureRecognizer CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"
+                                                     CanVerticallyScroll="{Binding CanVerticallyScroll, ElementName=PART_ContentPresenter}"
+                                                     IsScrollInertiaEnabled="True" />
+                        </SmoothScrollContentPresenter.GestureRecognizers>
                     </SmoothScrollContentPresenter>
                     <ScrollBar Grid.Column="0"
                                Name="PART_HorizontalScrollBar"

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Controls.Primitives;
 using PleasantUI.Controls;
 
 namespace PleasantUI.Core.Interfaces;
@@ -6,6 +7,8 @@ namespace PleasantUI.Core.Interfaces;
 public interface IPleasantWindow
 {
     AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; }
+    
+    VisualLayerManager VisualLayerManager { get; }
     
     internal void AddModalWindow(PleasantModalWindow modalWindow);
 
