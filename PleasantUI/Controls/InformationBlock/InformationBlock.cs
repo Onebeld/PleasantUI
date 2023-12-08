@@ -4,6 +4,9 @@ using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a control that displays information with an associated icon.
+/// </summary>
 public class InformationBlock : ContentControl
 {
     public static readonly StyledProperty<Geometry> IconProperty =

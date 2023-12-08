@@ -5,6 +5,9 @@ using PleasantUI.Core;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a view for displaying a pleasant color and providing color manipulation actions.
+/// </summary>
 public class PleasantColorView : ColorView
 {
     protected override Type StyleKeyOverride => typeof(ColorView);

@@ -6,8 +6,14 @@ namespace PleasantUI.Extensions.Media;
 public static class ColorExtensions
 {
     private const float Epsilon = 0.001f;
-    
-    public static Color LightenPercent(this Color color, float percent)
+
+    /// <summary>
+    /// Returns a new color that is lightened by the given percent.
+    /// </summary>
+    /// <param name="color">The color to be lightened.</param>
+    /// <param name="percent">The percentage by which to lighten the color. Positive values lighten the color, while negative values darken the color.</param>
+    /// <returns>The resulting lightened color.</returns>
+    public static Color GetLightenPercent(this Color color, float percent)
     {
         HslColor hslColor = color.ToHsl();
 

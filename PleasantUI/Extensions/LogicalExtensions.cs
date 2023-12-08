@@ -5,10 +5,10 @@ namespace PleasantUI.Extensions;
 public static class LogicalExtensions
 {
     /// <summary>
-    /// Return a parent of the ILogical indicated
+    /// Return a parent of the <see cref="ILogical"/> indicated
     /// </summary>
     /// <param name="logical">The control to get its parent</param>
-    /// <returns>the parent of the control</returns>
+    /// <returns>The parent of the control</returns>
     public static T? GetParentTOfLogical<T>(this ILogical logical) where T : class
     {
         return logical.GetSelfAndLogicalAncestors().OfType<T>().FirstOrDefault();

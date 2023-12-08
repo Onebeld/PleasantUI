@@ -10,6 +10,9 @@ using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Provides smooth scrolling behavior for a scrollable content.
+/// </summary>
 public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProvider
 {
     internal const double DefaultSmallChange = 16;

@@ -3,6 +3,9 @@ using Avalonia.Controls;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a numeric up-down control with an associated symbol.
+/// </summary>
 public class NumericUpDownWithSymbol : NumericUpDown
 {
     public static readonly StyledProperty<object?> SymbolProperty =

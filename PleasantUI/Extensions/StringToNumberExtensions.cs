@@ -4,6 +4,13 @@ namespace PleasantUI.Extensions;
 
 public static class StringToNumberExtensions
 {
+    /// <summary>
+    /// Converts the specified string representation of a number to its double-precision floating-point number equivalent.
+    /// </summary>
+    /// <param name="value">A string containing a number to convert.</param>
+    /// <returns>
+    /// A double-precision floating-point number that is equivalent to the numeric value or 1 if the conversion fails.
+    /// </returns>
     public static double GetDouble(this string value)
     {
         // Try parsing in the current culture

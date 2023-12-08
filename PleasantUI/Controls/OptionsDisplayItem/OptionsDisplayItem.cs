@@ -42,31 +42,58 @@ public class OptionsDisplayItem : TemplatedControl
 
     public static readonly RoutedEvent<RoutedEventArgs> NavigationRequestedEvent =
         RoutedEvent.Register<OptionsDisplayItem, RoutedEventArgs>(nameof(NavigationRequested), RoutingStrategies.Bubble);
-    
+
+    /// <summary>
+    /// Gets or sets the header property.
+    /// </summary>
+    /// <value>
+    /// The header value.
+    /// </value>
     public string Header
     {
         get => GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the description of the property.
+    /// </summary>
+    /// <value>
+    /// The description of the property.
+    /// </value>
     public string Description
     {
         get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the icon geometry.
+    /// </summary>
     public Geometry Icon
     {
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the control navigates.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the control navigates; otherwise, <c>false</c>.
+    /// </value>
     public bool Navigates
     {
         get => GetValue(NavigatesProperty);
         set => SetValue(NavigatesProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the action button control.
+    /// </summary>
+    /// <value>
+    /// The action button control.
+    /// </value>
     public Control ActionButton
     {
         get => GetValue(ActionButtonProperty);
@@ -82,6 +109,12 @@ public class OptionsDisplayItem : TemplatedControl
         set => SetValue(ExpandsProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the content of the property.
+    /// </summary>
+    /// <value>
+    /// The content of the property.
+    /// </value>
     public object? Content
     {
         get => GetValue(ContentProperty);
@@ -97,12 +130,24 @@ public class OptionsDisplayItem : TemplatedControl
         set => SetValue(IsExpandedProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the command to be executed for navigation.
+    /// </summary>
+    /// <value>
+    /// The navigation command.
+    /// </value>
     public ICommand? NavigationCommand
     {
         get => GetValue(NavigationCommandProperty);
         set => SetValue(NavigationCommandProperty, value);
     }
 
+    /// <summary>
+    /// Event that is raised when a navigation is requested.
+    /// </summary>
+    /// <remarks>
+    /// This event can be used to handle navigation requests in a component.
+    /// </remarks>
     public event EventHandler<RoutedEventArgs> NavigationRequested
     {
         add => AddHandler(NavigationRequestedEvent, value);

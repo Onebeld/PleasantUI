@@ -3,6 +3,9 @@ using Avalonia.Controls;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a text box control with an associated symbol that indicates the type of input expected from the user.
+/// </summary>
 public class TextBoxWithSymbol : TextBox
 {
     public static readonly StyledProperty<object?> SymbolProperty =

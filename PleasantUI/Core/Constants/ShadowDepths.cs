@@ -2,6 +2,9 @@
 
 namespace PleasantUI.Core.Constants;
 
+/// <summary>
+/// Represents a collection of predefined shadow depths for different UI elements.
+/// </summary>
 public static class ShadowDepths
 {
     public static readonly BoxShadow SmallWindow = new()

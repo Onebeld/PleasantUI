@@ -9,6 +9,9 @@ using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a custom window with pleasant features such as blur, custom title bar, and modal windows.
+/// </summary>
 public class PleasantMiniWindow : Window, IPleasantWindow
 {
     private Panel _modalWindows = null!;
@@ -26,6 +29,16 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableCustomTitleBarProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableCustomTitleBar), true);
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the blur effect is enabled.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the blur effect is enabled; otherwise, <c>false</c>.
+    /// </value>
+    /// <remarks>
+    /// The blur effect can be applied to enhance the visual aesthetics of an element.
+    /// By default, the blur effect is disabled.
+    /// </remarks>
     public bool EnableBlur
     {
         get => GetValue(EnableBlurProperty);
@@ -119,10 +132,24 @@ public class PleasantMiniWindow : Window, IPleasantWindow
 
     private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
 
+    /// <summary>
+    /// Gets the list of currently opened modal windows.
+    /// </summary>
+    /// <value>
+    /// The list of currently opened modal windows.
+    /// </value>
     public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
 
+    /// <summary>
+    /// Gets the <see cref="VisualLayerManager"/> property.
+    /// </summary>
+    /// <value>The <see cref="VisualLayerManager"/>.</value>
     public VisualLayerManager VisualLayerManager { get; private set; }
 
+    /// <summary>
+    /// Adds a modal window to the application.
+    /// </summary>
+    /// <param name="modalWindow">The <see cref="PleasantModalWindow"/> instance to be added.</param>
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {
         Panel windowPanel = new()
@@ -137,6 +164,11 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         _modalWindows.Children.Add(windowPanel);
     }
 
+    /// <summary>
+    /// Removes a modal window from the collection of opened modal windows and removes it from the parent panel.
+    /// </summary>
+    /// <param name="modalWindow">The modal window to be removed.</param>
+    /// <exception cref="NullReferenceException">Thrown when the parent of the modal window is null.</exception>
     public void RemoveModalWindow(PleasantModalWindow modalWindow)
     {
         OpenedModalWindows.Remove(modalWindow);

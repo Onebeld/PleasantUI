@@ -1,5 +1,4 @@
-﻿using AndroidX.Lifecycle;
-using Avalonia;
+﻿using System;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using PleasantUI.Controls;

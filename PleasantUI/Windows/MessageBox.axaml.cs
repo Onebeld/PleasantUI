@@ -13,8 +13,17 @@ public partial class MessageBox : ContentDialog
 {
     public MessageBox() => InitializeComponent();
 
+    /// <summary>
+    /// Displays a message box with the given title and text, and optional buttons and additional text.
+    /// </summary>
+    /// <param name="parent">The parent window.</param>
+    /// <param name="title">The title of the message box.</param>
+    /// <param name="text">The text of the message box.</param>
+    /// <param name="buttons">The optional buttons to display in the message box.</param>
+    /// <param name="additionalText">The optional additional text to display in the message box.</param>
+    /// <returns>A Task representing the completion of the message box.</returns>
     public static Task<string> Show(IPleasantWindow parent, string title, string text,
-        IReadOnlyList<MessageBoxButton>? buttons = null, string? additionalText = null)
+                                    IReadOnlyList<MessageBoxButton>? buttons = null, string? additionalText = null)
     {
         MessageBox messageBox = new();
 

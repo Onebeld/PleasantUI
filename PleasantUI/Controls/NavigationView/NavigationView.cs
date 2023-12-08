@@ -15,6 +15,13 @@ using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a navigation view control that displays a tree of items.
+/// </summary>
+/// <remarks>
+/// The <c>NavigationView</c> control inherits from the <c>TreeView</c> control and adds additional
+/// properties for customizing the appearance and behavior of the navigation view.
+/// </remarks>
 [PseudoClasses(":normal", ":compact")]
 public class NavigationView : TreeView
 {
@@ -101,90 +108,194 @@ public class NavigationView : TreeView
     
     private CancellationTokenSource? _cancellationTokenSource;
 
+    /// <summary>
+    /// Gets or sets the header for the object.
+    /// </summary>
+    /// <value>
+    /// The header for the object.
+    /// </value>
     public object? Header
     {
         get => GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the geometry of the icon.
+    /// </summary>
+    /// <value>
+    /// The geometry of the icon.
+    /// </value>
     public Geometry Icon
     {
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the selected content.
+    /// </summary>
+    /// <remarks>
+    /// The selected content property represents the currently selected content item.
+    /// It can be any object or null.
+    /// </remarks>
     public object? SelectedContent
     {
         get => _selectedContent;
         private set => SetAndRaise(SelectedContentProperty, ref _selectedContent, value);
     }
 
+    /// <summary>
+    /// Gets or sets the data template used for the selected content of the property.
+    /// </summary>
+    /// <remarks>
+    /// The data template defines the appearance and layout of the selected content.
+    /// </remarks>
+    /// <value>
+    /// The data template used for the selected content.
+    /// </value>
     public IDataTemplate SelectedContentTemplate
     {
         get => GetValue(SelectedContentTemplateProperty);
         set => SetValue(SelectedContentTemplateProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the length of the compact pane.
+    /// </summary>
+    /// <value>
+    /// The length of the compact pane.
+    /// </value>
     public double CompactPaneLength
     {
         get => GetValue(CompactPaneLengthProperty);
         set => SetValue(CompactPaneLengthProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the length of the open pane.
+    /// </summary>
+    /// <value>
+    /// The length of the open pane.
+    /// </value>
     public double OpenPaneLength
     {
         get => GetValue(OpenPaneLengthProperty);
         set => SetValue(OpenPaneLengthProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the open state of the object.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the object is open; otherwise, <c>false</c>.
+    /// </value>
     public bool IsOpen
     {
         get => GetValue(IsOpenProperty);
         set => SetValue(IsOpenProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the property AlwaysOpen is enabled.
+    /// </summary>
+    /// <value>
+    /// True if the property AlwaysOpen is enabled; otherwise, false.
+    /// </value>
     public bool AlwaysOpen
     {
         get => GetValue(AlwaysOpenProperty);
         set => SetValue(AlwaysOpenProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the top indent is displayed.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the top indent is displayed; otherwise, <c>false</c>.
+    /// </value>
     public bool DisplayTopIndent
     {
         get => GetValue(DisplayTopIndentProperty);
         set => SetValue(DisplayTopIndentProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the content panel should have an offset or not.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the content panel should not have an offset; otherwise, <c>false</c>.
+    /// </value>
     public bool NotMakeOffsetForContentPanel
     {
         get => GetValue(NotMakeOffsetForContentPanelProperty);
         set => SetValue(NotMakeOffsetForContentPanelProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the back button should be shown.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if back button should be shown; otherwise, <c>false</c>.
+    /// </value>
     public bool ShowBackButton
     {
         get => GetValue(ShowBackButtonProperty);
         set => SetValue(ShowBackButtonProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the display mode of the SplitView control.
+    /// </summary>
+    /// <remarks>
+    /// The display mode controls how the content and pane of the SplitView control are displayed.
+    /// </remarks>
     public SplitViewDisplayMode DisplayMode
     {
         get => GetValue(DisplayModeProperty);
         set => SetValue(DisplayModeProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="AutoCompleteBox"/> is visible.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the AutoCompleteBox is visible; otherwise, <c>false</c>.
+    /// </value>
+    /// <remarks>
+    /// The AutoCompleteBoxIsVisible property determines the visibility of the AutoCompleteBox.
+    /// When set to <c>true</c>, the AutoCompleteBox is displayed on the screen.
+    /// When set to <c>false</c>, the AutoCompleteBox is hidden from the screen.
+    /// </remarks>
     public bool AutoCompleteBoxIsVisible
     {
         get => GetValue(AutoCompleteBoxIsVisibleProperty);
         set => SetValue(AutoCompleteBoxIsVisibleProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the transition animations for the property.
+    /// </summary>
+    /// <value>
+    /// The transition animations for the property.
+    /// </value>
     public Animations? TransitionAnimations
     {
         get => GetValue(TransitionAnimationsProperty);
         set => SetValue(TransitionAnimationsProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the collection of items as strings.
+    /// </summary>
+    /// <remarks>
+    /// The collection of items as strings is an IEnumerable of strings.
+    /// It can only be modified internally through the private setter.
+    /// </remarks>
+    /// <value>
+    /// The collection of items as strings.
+    /// </value>
+    /// <seealso cref="ViewModelBase.RaiseAndSet{T}"/>
     public IEnumerable<string>? ItemsAsStrings
     {
         get => _itemsAsStrings;
@@ -194,30 +305,69 @@ public class NavigationView : TreeView
         }
     }
 
+    /// <summary>
+    /// Gets or sets the value indicating whether the dynamic display mode is enabled.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the dynamic display mode is enabled; otherwise, <c>false</c>.
+    /// </value>
+    /// <remarks>
+    /// When the dynamic display mode is enabled, the display behavior will dynamically adjust based on certain conditions or events.
+    /// </remarks>
     public bool DynamicDisplayMode
     {
         get => GetValue(DynamicDisplayModeProperty);
         set => SetValue(DynamicDisplayModeProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the header is floating.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the header is floating; otherwise, <c>false</c>.
+    /// </value>
     public bool IsFloatingHeader
     {
         get => GetValue(IsFloatingHeaderProperty);
         set => SetValue(IsFloatingHeaderProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the header is visible.
+    /// </summary>
+    /// <remarks>
+    /// This property determines whether the header of a control is visible or not.
+    /// If set to <c>true</c>, the header will be displayed. If set to <c>false</c>,
+    /// the header will be hidden.
+    /// </remarks>
     public bool HeaderVisible
     {
         get => _headerVisible;
         private set => SetAndRaise(HeaderVisibleProperty, ref _headerVisible, value);
     }
 
+    /// <summary>
+    /// Gets or sets the <see cref="AutoCompleteBox"/>.
+    /// </summary>
+    /// <value>
+    /// The AutoCompleteBox.
+    /// </value>
     public AutoCompleteBox? AutoCompleteBox
     {
         get => _autoCompleteBox;
         set => SetAndRaise(AutoCompleteBoxProperty, ref _autoCompleteBox, value);
     }
 
+    /// <summary>
+    /// Gets or sets the value indicating whether the window settings should be bound.
+    /// </summary>
+    /// <remarks>
+    /// The BindWindowSettings property determines if the window settings should be bound. When set to true, the window settings will be updated when the property changes. When set to false
+    /// , the window settings will remain unchanged.
+    /// </remarks>
+    /// <value>
+    /// true if the window settings should be bound; otherwise, false.
+    /// </value>
     public bool BindWindowSettings
     {
         get => GetValue(BindWindowSettingsProperty);

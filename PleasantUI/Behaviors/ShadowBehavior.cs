@@ -22,21 +22,43 @@ public class ShadowBehavior : AvaloniaObject
         EnableShadowingProperty.Changed.Subscribe(x => HandleChanged(x.Sender));
     }
 
+    /// <summary>
+    /// Sets the box shadow of the specified <see cref="AvaloniaObject"/>.
+    /// </summary>
+    /// <param name="element">The AvaloniaObject.</param>
+    /// <param name="boxShadow">The <see cref="BoxShadow"/> to set. Use <see langword="null"/> to remove the box shadow.</param>
     public static void SetBoxShadow(AvaloniaObject element, BoxShadow? boxShadow)
     {
         element.SetValue(BoxShadowProperty, boxShadow);
     }
 
+    /// <summary>
+    /// Retrieves the value of the BoxShadow property for the specified AvaloniaObject.
+    /// </summary>
+    /// <param name="element">The AvaloniaObject to get the BoxShadow value from.</param>
+    /// <returns>
+    /// The BoxShadow value of the specified AvaloniaObject if set; otherwise, null.
+    /// </returns>
     public static BoxShadow? GetBoxShadow(AvaloniaObject element)
     {
         return element.GetValue(BoxShadowProperty);
     }
 
+    /// <summary>
+    /// Sets the value of the EnableShadowing attached property for the specified <see cref="AvaloniaObject"/>.
+    /// </summary>
+    /// <param name="element">The AvaloniaObject to set the value for.</param>
+    /// <param name="value">The value to set.</param>
     public static void SetEnableShadowing(AvaloniaObject element, bool value)
     {
         element.SetValue(EnableShadowingProperty, value);
     }
 
+    /// <summary>
+    /// Gets the value of the EnableShadowing property for the specified <see cref="AvaloniaObject"/>.
+    /// </summary>
+    /// <param name="element">The AvaloniaObject to get the value from.</param>
+    /// <returns>The value of the EnableShadowing property for the specified AvaloniaObject.</returns>
     public static bool GetEnableShadowing(AvaloniaObject element)
     {
         return element.GetValue(EnableShadowingProperty);

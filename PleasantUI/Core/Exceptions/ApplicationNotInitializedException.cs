@@ -1,9 +1,6 @@
 ﻿namespace PleasantUI.Core.Exceptions;
 
-public class ApplicationNotInitializedException : Exception
-{
-    public ApplicationNotInitializedException(string? message) : base(message)
-    {
-        
-    }
-}
+/// <summary>
+/// Represents an exception that is thrown when the application is not initialized.
+/// </summary>
+public class ApplicationNotInitializedException(string? message) : Exception(message);

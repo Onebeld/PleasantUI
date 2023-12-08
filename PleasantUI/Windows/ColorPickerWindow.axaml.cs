@@ -9,6 +9,15 @@ public partial class ColorPickerWindow : ContentDialog
 {
     public ColorPickerWindow() => InitializeComponent();
 
+    /// <summary>
+    /// Opens a color picker window for the user to select a color.
+    /// </summary>
+    /// <param name="parent">The parent window to attach the color picker to.</param>
+    /// <param name="defaultColor">The optional default color to pre-select in the color picker.</param>
+    /// <returns>
+    /// A <see cref="Task"/> that represents the asynchronous operation. The task result is
+    /// the selected color if the user confirms the selection, or <c>null</c> if the user cancels.
+    /// </returns>
     public static Task<Color?> SelectColor(IPleasantWindow parent, uint? defaultColor = null)
     {
         bool cancel = true;

@@ -47,13 +47,25 @@ public class PleasantModalWindow : ContentControl
     static PleasantModalWindow() { }
     
     internal readonly Control ModalBackground;
-    
+
+    /// <summary>
+    /// Gets or sets a value indicating that the window has been closed.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the window is closed; otherwise, <c>false</c>.
+    /// </value>
     public bool IsClosed
     {
         get => _isClosed;
         set => SetAndRaise(IsClosedProperty, ref _isClosed, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the window is currently closing.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the window is closing; otherwise, <c>false</c>.
+    /// </value>
     public bool IsClosing
     {
         get => _isClosing;
@@ -103,9 +115,20 @@ public class PleasantModalWindow : ContentControl
             Background = new SolidColorBrush(Color.Parse("#3A000000"))
         };
     }
-    
+
+    /// <summary>
+    /// Shows a <see cref="PleasantWindow"/> asynchronously.
+    /// </summary>
+    /// <param name="host">The <see cref="IPleasantWindow"/> to show.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public Task Show(IPleasantWindow host) => Show<object>(host);
 
+    /// <summary>
+    /// Shows a modal window and returns a task that completes with the dialog result.
+    /// </summary>
+    /// <typeparam name="T">The type of the dialog result.</typeparam>
+    /// <param name="host">The <see cref="IPleasantWindow"/> implementation representing the hosting window.</param>
+    /// <returns>A task that completes with the dialog result.</returns>
     public Task<T?> Show<T>(IPleasantWindow host)
     {
         _host = host ?? throw new ArgumentNullException(nameof(host));
@@ -127,12 +150,19 @@ public class PleasantModalWindow : ContentControl
 
         return result.Task;
     }
-    
+
+    /// <summary>
+    /// Closes the window.
+    /// </summary>
     public void Close()
     {
         Close(false);
     }
 
+    /// <summary>
+    /// Closes the current dialog with an optional dialog result.
+    /// </summary>
+    /// <param name="dialogResult">The dialog result to be set.</param>
     public void Close(object? dialogResult)
     {
         _dialogResult = dialogResult;

@@ -43,6 +43,12 @@ public class ProgressRing : RangeBase
         UpdatePseudoClasses(IsIndeterminate, PreserveAspect);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the property is in an indeterminate state.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the property is in an indeterminate state; otherwise, <c>false</c>.
+    /// </value>
     public bool IsIndeterminate
     {
         get => GetValue(IsIndeterminateProperty);

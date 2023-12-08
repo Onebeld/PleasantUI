@@ -61,12 +61,12 @@ public class PleasantTheme : Style
             light3Percent = 0.45f;
         }
 
-        Color accentLight1 = accent.LightenPercent(light1Percent);
-        Color accentLight2 = accent.LightenPercent(light2Percent);
-        Color accentLight3 = accent.LightenPercent(light3Percent);
-        Color accentDark1 = accent.LightenPercent(dark1Percent);
-        Color accentDark2 = accent.LightenPercent(dark2Percent);
-        Color accentDark3 = accent.LightenPercent(dark3Percent);
+        Color accentLight1 = accent.GetLightenPercent(light1Percent);
+        Color accentLight2 = accent.GetLightenPercent(light2Percent);
+        Color accentLight3 = accent.GetLightenPercent(light3Percent);
+        Color accentDark1 = accent.GetLightenPercent(dark1Percent);
+        Color accentDark2 = accent.GetLightenPercent(dark2Percent);
+        Color accentDark3 = accent.GetLightenPercent(dark3Percent);
 
         UpdateAccentColors(
             accent,

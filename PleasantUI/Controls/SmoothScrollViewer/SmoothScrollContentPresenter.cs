@@ -11,6 +11,9 @@ using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a control that provides smooth scrolling behavior for its content.
+/// </summary>
 public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScrollAnchorProvider
 {
     private const double EdgeDetectionTolerance = 0.1;

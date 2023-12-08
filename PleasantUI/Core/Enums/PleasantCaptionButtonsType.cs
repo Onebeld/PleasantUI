@@ -1,5 +1,8 @@
 ﻿namespace PleasantUI.Core.Enums;
 
+/// <summary>
+/// Represents the types of pleasant caption buttons.
+/// </summary>
 public enum PleasantCaptionButtonsType
 {
     All = 0,

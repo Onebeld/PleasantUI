@@ -2,23 +2,14 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0-android</TargetFramework>
-        <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-        <OutputType>Exe</OutputType>
+        <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <AndroidPackageFormat>apk</AndroidPackageFormat>
-        <ApplicationId>com.Onebeld.PleasantUI.Example.Android</ApplicationId>
-        <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
+        <ApplicationId>com.CompanyName.PleasantUI.Exampl</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-    </PropertyGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
-    </ItemGroup>
-
-    <PropertyGroup Condition="'$(AndroidEnableProfiler)'=='True'">
-        <IsEmulator Condition="'$(IsEmulator)' == ''">True</IsEmulator>
-        <DebugSymbols>True</DebugSymbols>
+        <AndroidPackageFormat>apk</AndroidPackageFormat>
+        <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+        <DisableTransitiveFrameworkReferences>true</DisableTransitiveFrameworkReferences>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,9 +17,13 @@
             <Link>Resources\drawable\Icon.png</Link>
         </AndroidResource>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <PackageReference Include="Avalonia.Android" Version="11.0.5" />
+        <PackageReference Include="Avalonia.Android" Version="11.0.5"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\PleasantUI\PleasantUI.csproj" />
     </ItemGroup>
 </Project>

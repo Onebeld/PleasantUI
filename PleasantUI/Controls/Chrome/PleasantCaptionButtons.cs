@@ -111,6 +111,10 @@ public class PleasantCaptionButtons : TemplatedControl
         }
     }
 
+    /// <summary>
+    /// Detaches the object from its host by disposing the disposable object and setting it to null.
+    /// Also sets the host object to null.
+    /// </summary>
     public void Detach()
     {
         if (_disposable is null) return;

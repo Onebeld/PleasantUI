@@ -4,9 +4,9 @@ using Avalonia.Collections;
 namespace PleasantUI.Core;
 
 /// <summary>
-/// A collection of <see cref="Avalonia.Controls.Control"/>s.
+/// Represents a collection of animations.
 /// </summary>
-public class Animations : AvaloniaList<Animation>
+public sealed class Animations : AvaloniaList<Animation>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Controls"/> class.

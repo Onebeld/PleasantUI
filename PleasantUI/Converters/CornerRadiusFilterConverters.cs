@@ -2,7 +2,7 @@
 
 namespace PleasantUI.Converters;
 
-public class CornerRadiusFilterConverters
+public static class CornerRadiusFilterConverters
 {
     public static readonly CornerRadiusFilterConverter Top =
         new() { Filter = Corners.TopLeft | Corners.TopRight };
