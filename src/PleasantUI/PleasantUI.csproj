@@ -21,6 +21,7 @@
         <RepositoryType>Public</RepositoryType>
         <PackageIcon>PleasantUIIcon.png</PackageIcon>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <UserSecretsId>3068faa3-bffb-476d-a698-4f8b58a874e2</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
