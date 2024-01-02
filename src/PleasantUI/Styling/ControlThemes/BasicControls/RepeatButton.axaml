@@ -5,47 +5,43 @@
         <Border Padding="50">
             <StackPanel Spacing="5">
                 <RepeatButton Content="Button" />
+                <RepeatButton Theme="{StaticResource AppBarRepeatButtonTheme}" Content="App Bar Button" />
                 <RepeatButton Content="Button" IsEnabled="False" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton">
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="11 5 11 5" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Panel>
-                    <Border Name="BorderElement"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            RenderTransform="scaleY(-1)"
-                            IsHitTestVisible="False"
-                            CornerRadius="{TemplateBinding CornerRadius}" />
-
-                    <ContentPresenter Name="PART_ContentPresenter"
-                                      Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Padding="{TemplateBinding Padding}"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      CornerRadius="{TemplateBinding CornerRadius}" />
-                </Panel>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  CornerRadius="{TemplateBinding CornerRadius}" />
             </ControlTemplate>
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -54,12 +50,11 @@
 
     <ControlTheme x:Key="AppBarRepeatButtonTheme" TargetType="RepeatButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="11 5 11 5" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -75,10 +70,10 @@
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

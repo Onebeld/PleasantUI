@@ -16,6 +16,6 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\PleasantUI.Example\PleasantUI.Example.csproj" />
+      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
     </ItemGroup>
 </Project>

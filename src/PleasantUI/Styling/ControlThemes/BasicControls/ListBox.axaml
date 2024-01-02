@@ -3,19 +3,31 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
-            <ListBox>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-            </ListBox>
+            <StackPanel>
+                <ListBox>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+                <ListBox ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">

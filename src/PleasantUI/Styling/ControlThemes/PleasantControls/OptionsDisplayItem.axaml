@@ -29,11 +29,11 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type OptionsDisplayItem}" TargetType="OptionsDisplayItem">
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorSecondaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 0 11 0" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -54,7 +54,7 @@
                                      Margin="8 4 14 4">
                                 <Path Stretch="Uniform"
                                       Data="{TemplateBinding Icon}"
-                                      Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                                      Fill="{StaticResource TextFillColor1Brush}" />
                             </Viewbox>
 
                             <StackPanel Grid.Row="0" Grid.Column="1"
@@ -64,7 +64,7 @@
                                            Text="{TemplateBinding Header}" />
                                 <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
                                            Text="{TemplateBinding Description}"
-                                           Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                           Foreground="{StaticResource TextFillColor2Brush}"
                                            IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                             </StackPanel>
 
@@ -78,14 +78,12 @@
                             <Viewbox Name="ChevronHost"
                                      Grid.Column="3"
                                      Grid.Row="0"
-                                     Width="12"
-                                     Height="12"
+                                     Width="14"
+                                     Height="14"
                                      Margin="11 0 8 0">
                                 <Path Name="Chevron"
                                       Margin="1"
-                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                      Stroke="{StaticResource TextFillColorPrimaryBrush}"
-                                      StrokeThickness="2"
+                                      Fill="{StaticResource TextFillColor2Brush}"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Center"
                                       Stretch="Uniform" />
@@ -100,7 +98,7 @@
                                       HorizontalContentAlignment="Stretch"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch"
-                                      Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                      Background="{StaticResource BackgroundColor2Brush}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="1 0 1 1"
                                       ZIndex="-1"
@@ -120,10 +118,10 @@
         </Style>
 
         <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed /template/ Border#LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:icon /template/ Viewbox#IconHost">

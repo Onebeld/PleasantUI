@@ -20,12 +20,12 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="6 5 6 5" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinWidth" Value="64" />
@@ -34,10 +34,6 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ButtonSpinner Name="PART_Spinner"
-                               Background="{TemplateBinding Background}"
-                               BorderThickness="{TemplateBinding BorderThickness}"
-                               BorderBrush="{TemplateBinding BorderBrush}"
-                               CornerRadius="{TemplateBinding CornerRadius}"
                                Padding="0"
                                HorizontalContentAlignment="Stretch"
                                VerticalContentAlignment="Stretch"
@@ -46,10 +42,10 @@
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <TextBox Name="PART_TextBox"
-                             Background="#00000000"
-                             BorderBrush="#00000000"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
                              BorderThickness="0"
-                             Margin="0"
+                             Margin="1"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"
                              Watermark="{TemplateBinding Watermark}"
@@ -65,8 +61,8 @@
     </ControlTheme>
 
     <ControlTheme x:Key="NumericUpDownWithoutDataValidationErrors" TargetType="NumericUpDown">
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="6 5 6 5" />

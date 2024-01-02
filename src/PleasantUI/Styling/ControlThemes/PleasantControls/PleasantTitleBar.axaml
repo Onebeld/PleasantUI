@@ -23,8 +23,8 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SquareMultipleRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Stroke="{StaticResource TextFillColor1Brush}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -35,8 +35,8 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SubtractRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Stroke="{StaticResource TextFillColor1Brush}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -47,14 +47,14 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource MaximizeRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <Separator Name="PART_SeparatorMenuItem"
-                                           Background="{StaticResource ControlStrokeColorDefaultBrush}"
+                                           Background="{StaticResource ControlBorderColorBrush}"
                                            Height="1"
                                            Margin="-4 1 -4 1" />
 
@@ -64,8 +64,8 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource DismissRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Stroke="{StaticResource TextFillColor1Brush}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -86,12 +86,12 @@
                                 IsHitTestVisible="False">
                         <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColor1Brush}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
                                    VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                   Foreground="{StaticResource TextFillColor3Brush}" />
                     </StackPanel>
                     
                     <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="2" />
@@ -102,10 +102,10 @@
         </Setter>
         
         <Style Selector="^:isactive /template/ TextBlock#PART_Title">
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorTertiaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
         </Style>
         <Style Selector="^:isactive /template/ Path#PART_LogoPath">
-            <Setter Property="Fill" Value="{StaticResource TextFillColorTertiaryBrush}" />
+            <Setter Property="Fill" Value="{StaticResource TextFillColor3Brush}" />
         </Style>
     </ControlTheme>
     
@@ -126,8 +126,8 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SquareMultipleRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Stroke="{StaticResource TextFillColor1Brush}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -138,8 +138,8 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SubtractRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Stroke="{StaticResource TextFillColor1Brush}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -150,14 +150,14 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource MaximizeRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <Separator Name="PART_SeparatorMenuItem"
-                                           Background="{StaticResource ControlStrokeColorDefaultBrush}"
+                                           Background="{StaticResource ControlBorderColorBrush}"
                                            Height="1"
                                            Margin="-4 1 -4 1" />
 
@@ -167,8 +167,8 @@
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource DismissRegular}"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Stroke="{StaticResource TextFillColor1Brush}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -193,12 +193,12 @@
                                 Orientation="Horizontal"
                                 Spacing="5">
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColor1Brush}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
                                    VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                   Foreground="{StaticResource TextFillColor3Brush}" />
                     </StackPanel>
                 </Grid>
             </ControlTemplate>

@@ -21,7 +21,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="11 5 11 7" />
@@ -86,26 +86,26 @@
         </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:selected">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:selected /template/ Border#Pill">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^:selected:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:selected:pressed /template/ Border#LayoutRoot">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:disabled">

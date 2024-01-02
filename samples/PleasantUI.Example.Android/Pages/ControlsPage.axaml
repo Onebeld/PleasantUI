@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:PleasantUI.Example.ViewModels"
+             xmlns:viewModels="using:*.*"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="viewModels:ApplicationViewModel"
              x:Class="PleasantUI.Example.Pages.ControlsPage">
@@ -19,7 +19,7 @@
                     <StackPanel Spacing="5">
                         <Button Content="Content" />
                         <Button Theme="{StaticResource DangerButtonTheme}" Content="Danger Content" />
-                        <Button Theme="{StaticResource AccentButton}" Content="Accent Content" />
+                        <Button Theme="{StaticResource Accent}" Content="Accent Content" />
                         
                         <ToggleButton Margin="0 10 0 0" Content="Toggle Button" />
                     </StackPanel>
@@ -110,7 +110,7 @@
             <OptionsDisplayItem Header="ToolTip" Expands="True" IsExpanded="True">
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5">
-                        <Border CornerRadius="8" Height="40" Background="{StaticResource ControlFillColorDefaultBrush}">
+                        <Border CornerRadius="8" Height="40" Background="{StaticResource ControlFillColor1Brush}">
                             <ToolTip.Tip>
                                 <StackPanel>
                                     <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ToolTip" />

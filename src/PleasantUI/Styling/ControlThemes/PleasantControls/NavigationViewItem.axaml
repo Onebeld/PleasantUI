@@ -57,7 +57,7 @@
                                         </Viewbox.Transitions>
 
                                         <Path Data="{TemplateBinding Icon}"
-                                              Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                              Fill="{StaticResource TextFillColor1Brush}"
                                               Stretch="Uniform" />
                                     </Viewbox>
                                 </Grid>
@@ -90,7 +90,7 @@
                                         <Viewbox Name="PART_ChevronDown" Width="15" Height="15">
                                             <Path Name="PART_PathChevronDown"
                                                   Margin="2.5"
-                                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                  Fill="{StaticResource TextFillColor1Brush}"
                                                   Data="{StaticResource ChevronDownRegular}"
                                                   Stretch="Uniform">
                                                 <Path.Transitions>
@@ -190,7 +190,7 @@
     </Style>
 
     <Style Selector=":is(NavigationViewItemBase):selected /template/ Border#PART_NavDecorator">
-        <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
     </Style>
     <Style Selector=":is(NavigationViewItemBase):empty /template/ ToggleButton">
         <Setter Property="Opacity" Value="0" />

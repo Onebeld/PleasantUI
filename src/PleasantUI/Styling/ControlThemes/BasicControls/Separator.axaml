@@ -4,7 +4,7 @@
     <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Height" Value="1" />
-        <Setter Property="Background" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Padding="{TemplateBinding Margin}"

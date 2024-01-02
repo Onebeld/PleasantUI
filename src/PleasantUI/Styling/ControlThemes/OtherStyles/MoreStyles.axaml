@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:ClassModifier="internal">
     <Style Selector="MenuItem > Separator, ContextMenu > Separator">
-        <Setter Property="Background" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Margin" Value="-4 1 -4 1" />
         <Setter Property="Height" Value="1" />
@@ -28,7 +28,7 @@
                                 <Panel>
                                     <TextBlock Name="PART_Watermark"
                                                Text="{TemplateBinding Watermark}"
-                                               Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                               Foreground="{StaticResource TextFillColor2Brush}"
                                                TextAlignment="{TemplateBinding TextAlignment}"
                                                TextWrapping="{TemplateBinding TextWrapping}"
                                                IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"

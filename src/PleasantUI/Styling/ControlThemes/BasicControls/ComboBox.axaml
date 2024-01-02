@@ -32,17 +32,17 @@
 
     <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
         <Setter Property="Padding" Value="12 0 0 0" />
-        <Setter Property="MaxDropDownHeight" Value="504" />
+        <Setter Property="MaxDropDownHeight" Value="500" />
         <Setter Property="MinHeight" Value="32" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="PlaceholderForeground" Value="{StaticResource TextFillColorTertiaryBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="PlaceholderForeground" Value="{StaticResource TextFillColor3Brush}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel />
@@ -114,15 +114,13 @@
                         <Path Grid.Row="1"
                               Grid.Column="1"
                               IsHitTestVisible="False"
-                              Width="8"
+                              Width="10"
                               Margin="20 0 15 0"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               Stretch="Uniform"
                               Data="{StaticResource ChevronDownRegular}"
-                              Fill="{StaticResource TextFillColorPrimaryBrush}"
-                              Stroke="{StaticResource TextFillColorPrimaryBrush}"
-                              StrokeThickness="0.2" />
+                              Fill="{StaticResource TextFillColor2Brush}" />
 
                         <Popup Name="PART_Popup"
                                Grid.Column="0"
@@ -182,14 +180,14 @@
                             </Popup.Styles>
                             
                             <Border x:Name="PopupBorder"
-                                    Background="{StaticResource AcrylicInAppFillColorDefaultBrush}"
-                                    BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
-                                    BorderThickness="1"
+                                    Background="{StaticResource ControlFillColor1Brush}"
+                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                    BorderThickness="{StaticResource ControlBorderThickness}"
                                     Margin="6 4 6 6"
                                     Padding="0"
                                     Opacity="1"
                                     HorizontalAlignment="Stretch"
-                                    CornerRadius="8"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
                                     behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
                                     behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                                 <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
@@ -207,7 +205,7 @@
 
         <Style Selector="^ /template/ Border#HighlightBackground">
             <Setter Property="IsVisible" Value="False" />
-            <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
             <Setter Property="BorderBrush" Value="{StaticResource FocusStrokeColorOuterBrush}" />
             <Setter Property="BorderThickness" Value="2" />
         </Style>
@@ -221,11 +219,11 @@
         </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:focus-visible /template/ Border#Pill">

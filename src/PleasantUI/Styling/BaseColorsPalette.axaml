@@ -3,30 +3,41 @@
                     x:ClassModifier="internal">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <Color x:Key="TextFillColorPrimary">#E4000000</Color>
-            <Color x:Key="TextFillColorSecondary">#9E000000</Color>
-            <Color x:Key="TextFillColorTertiary">#72000000</Color>
-            <Color x:Key="TextFillColorDisabled">#5C000000</Color>
-            <Color x:Key="TextFillColorInverse">#FFFFFF</Color>
+            <Color x:Key="TextFillColor1">#E4000000</Color>
+            <Color x:Key="TextFillColor2">#9E000000</Color>
+            <Color x:Key="TextFillColor3">#72000000</Color>
+
+            <Color x:Key="ControlFillColor1">#DCFFFFFF</Color>
+            <Color x:Key="ControlFillColor2">#C8E6E6E6</Color>
+            <Color x:Key="ControlFillColor3">#B4D7D7D7</Color>
+
+            <Color x:Key="ControlBorderColor">#D2D2D2</Color>
+            
+            <Color x:Key="BackgroundColor1">#F0F0F0</Color>
+            <Color x:Key="BackgroundColor2">#EBEBEB</Color>
+            <Color x:Key="BackgroundColor3">#E6E6E6</Color>
+            <Color x:Key="BackgroundColor4">#E1E1E1</Color>
+            
+            <Color x:Key="ScrollBarColor1">#78000000</Color>
+            <Color x:Key="ScrollBarColor2">#82000000</Color>
+            <Color x:Key="ScrollBarColor3">#96000000</Color>
+            
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#BF8500</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
             <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+            
+            <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
+            
+            
 
-            <Color x:Key="ControlFillColorDefault">#B3FFFFFF</Color>
-            <Color x:Key="ControlFillColorSecondary">#80F9F9F9</Color>
-            <Color x:Key="ControlFillColorTertiary">#4DF9F9F9</Color>
-            <Color x:Key="ControlFillColorDisabled">#4DF9F9F9</Color>
-            <Color x:Key="ControlFillColorInputActive">#FFFFFF</Color>
-
-            <Color x:Key="ControlStrongFillColorDefault">#72000000</Color>
-
-            <Color x:Key="ControlAltFillColorSecondary">#06000000</Color>
-            <Color x:Key="ControlAltFillColorTertiary">#0F000000</Color>
-            <Color x:Key="ControlAltFillColorQuarternary">#18000000</Color>
-
-            <Color x:Key="ControlStrokeColorDefault">#0F000000</Color>
-            <Color x:Key="ControlStrongStrokeColorDefault">#72000000</Color>
-            <Color x:Key="ControlStrokeColorSecondary">#29000000</Color>
-
-            <Color x:Key="ControlSolidFillColorDefault">#FFFFFF</Color>
+            
 
             <Color x:Key="SubtleFillColorSecondary">#09000000</Color>
             <Color x:Key="SubtleFillColorTertiary">#06000000</Color>
@@ -37,54 +48,53 @@
 
             <Color x:Key="NavigationViewBackground">#A8ECECEC</Color>
 
-            <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
-            <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
-
-            <Color x:Key="SolidBackgroundFillColorBase">#F3F3F3</Color>
-            <Color x:Key="SolidBackgroundFillColorSecondary">#EEEEEE</Color>
-            <Color x:Key="SolidBackgroundFillColorTertiary">#F9F9F9</Color>
-            <Color x:Key="SolidBackgroundFillColorQuarternary">#FFFFFF</Color>
+            
 
             <Color x:Key="AcrylicInAppFillColorDefault">#F9F9F9</Color>
 
-            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
-            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
-            <Color x:Key="SystemFillColorCaution">#BF8500</Color>
-            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
-
-            <Color x:Key="DangerColor">#FFD72F1E</Color>
-            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
-            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+            
 
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
-            <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
-            <Color x:Key="TextFillColorSecondary">#C5FFFFFF</Color>
-            <Color x:Key="TextFillColorTertiary">#87FFFFFF</Color>
-            <Color x:Key="TextFillColorDisabled">#5DFFFFFF</Color>
-            <Color x:Key="TextFillColorInverse">#E4000000</Color>
+            <Color x:Key="TextFillColor1">#FFFFFF</Color>
+            <Color x:Key="TextFillColor2">#C5FFFFFF</Color>
+            <Color x:Key="TextFillColor3">#87FFFFFF</Color>
+
+            <Color x:Key="ControlFillColor1">#0FFFFFFF</Color>
+            <Color x:Key="ControlFillColor2">#15FFFFFF</Color>
+            <Color x:Key="ControlFillColor3">#08FFFFFF</Color>
+
+            <Color x:Key="ControlBorderColor">#8BFFFFFF</Color>
+            
+            <Color x:Key="BackgroundColor1">#202020</Color>
+            <Color x:Key="BackgroundColor2">#1C1C1C</Color>
+            <Color x:Key="BackgroundColor3">#282828</Color>
+            <Color x:Key="BackgroundColor4">#2C2C2C</Color>
+            
+            <Color x:Key="ScrollBarColor1">#78000000</Color>
+            <Color x:Key="ScrollBarColor2">#82000000</Color>
+            <Color x:Key="ScrollBarColor3">#96000000</Color>
+            
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
             <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
-
-            <Color x:Key="ControlFillColorDefault">#0FFFFFFF</Color>
-            <Color x:Key="ControlFillColorSecondary">#15FFFFFF</Color>
-            <Color x:Key="ControlFillColorTertiary">#08FFFFFF</Color>
-            <Color x:Key="ControlFillColorDisabled">#0BFFFFFF</Color>
-            <Color x:Key="ControlFillColorInputActive">#B31E1E1E</Color>
-
-            <Color x:Key="ControlStrongFillColorDefault">#8BFFFFFF</Color>
-
-            <Color x:Key="ControlAltFillColorSecondary">#19000000</Color>
-            <Color x:Key="ControlAltFillColorTertiary">#0BFFFFFF</Color>
-            <Color x:Key="ControlAltFillColorQuarternary">#12FFFFFF</Color>
-
-            <Color x:Key="ControlStrokeColorDefault">#12FFFFFF</Color>
-            <Color x:Key="ControlStrongStrokeColorDefault">#8BFFFFFF</Color>
-            <Color x:Key="ControlStrokeColorSecondary">#18FFFFFF</Color>
-
-            <Color x:Key="ControlSolidFillColorDefault">#454545</Color>
-
+            
+            <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3000000</Color>
+            
+            
+            
+            
+            
+            
             <Color x:Key="SubtleFillColorSecondary">#0FFFFFFF</Color>
             <Color x:Key="SubtleFillColorTertiary">#0AFFFFFF</Color>
 
@@ -94,82 +104,64 @@
 
             <Color x:Key="NavigationViewBackground">#A0252525</Color>
 
-            <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
-            <Color x:Key="FocusStrokeColorInner">#B3000000</Color>
+            
 
-            <Color x:Key="SolidBackgroundFillColorBase">#202020</Color>
-            <Color x:Key="SolidBackgroundFillColorSecondary">#1C1C1C</Color>
-            <Color x:Key="SolidBackgroundFillColorTertiary">#282828</Color>
-            <Color x:Key="SolidBackgroundFillColorQuarternary">#2C2C2C</Color>
+            
 
             <Color x:Key="AcrylicInAppFillColorDefault">#2C2C2C</Color>
 
-            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
-            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
-            <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
-            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
-
-            <Color x:Key="DangerColor">#FFD72F1E</Color>
-            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
-            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+            
 
             <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="{DynamicResource TextFillColorPrimary}" />
-    <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="{DynamicResource TextFillColorSecondary}" />
-    <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="{DynamicResource TextFillColorTertiary}" />
-    <SolidColorBrush x:Key="TextFillColorDisabledBrush" Color="{DynamicResource TextFillColorDisabled}" />
-    <SolidColorBrush x:Key="TextFillColorInverseBrush" Color="{DynamicResource TextFillColorInverse}" />
+    <SolidColorBrush x:Key="TextFillColor1Brush" Color="{DynamicResource TextFillColor1}" />
+    <SolidColorBrush x:Key="TextFillColor2Brush" Color="{DynamicResource TextFillColor2}" />
+    <SolidColorBrush x:Key="TextFillColor3Brush" Color="{DynamicResource TextFillColor3}" />
     <SolidColorBrush x:Key="TextFillColorDangerBrush" Color="{DynamicResource TextFillColorDanger}" />
 
-    <SolidColorBrush x:Key="ControlFillColorDefaultBrush" Color="{DynamicResource ControlFillColorDefault}" />
-    <SolidColorBrush x:Key="ControlFillColorSecondaryBrush" Color="{DynamicResource ControlFillColorSecondary}" />
-    <SolidColorBrush x:Key="ControlFillColorTertiaryBrush" Color="{DynamicResource ControlFillColorTertiary}" />
-    <SolidColorBrush x:Key="ControlFillColorDisabledBrush" Color="{DynamicResource ControlFillColorDisabled}" />
-    <SolidColorBrush x:Key="ControlFillColorTransparentBrush" Color="{DynamicResource ControlFillColorTransparent}" />
+    <SolidColorBrush x:Key="ControlFillColor1Brush" Color="{DynamicResource ControlFillColor1}" />
+    <SolidColorBrush x:Key="ControlFillColor2Brush" Color="{DynamicResource ControlFillColor2}" />
+    <SolidColorBrush x:Key="ControlFillColor3Brush" Color="{DynamicResource ControlFillColor3}" />
     <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{DynamicResource ControlFillColorInputActive}" />
 
-    <SolidColorBrush x:Key="ControlStrongFillColorDefaultBrush" Color="{DynamicResource ControlStrongFillColorDefault}" />
+    <SolidColorBrush x:Key="ControlBorderColorBrush" Color="{DynamicResource ControlBorderColor}" />
+    
+    <SolidColorBrush x:Key="BackgroundColor1Brush" Color="{DynamicResource BackgroundColor1}" />
+    <SolidColorBrush x:Key="BackgroundColor2Brush" Color="{DynamicResource BackgroundColor2}" />
+    <SolidColorBrush x:Key="BackgroundColor3Brush" Color="{DynamicResource BackgroundColor3}" />
+    <SolidColorBrush x:Key="BackgroundColor4Brush" Color="{DynamicResource BackgroundColor4}" />
+    
+    <SolidColorBrush x:Key="ScrollBarColor1Brush" Color="{DynamicResource ScrollBarColor1}" />
+    <SolidColorBrush x:Key="ScrollBarColor2Brush" Color="{DynamicResource ScrollBarColor2}" />
+    <SolidColorBrush x:Key="ScrollBarColor3Brush" Color="{DynamicResource ScrollBarColor3}" />
+    
+    <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
+    <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
+    <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{DynamicResource SystemFillColorCaution}" />
+    <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{DynamicResource SystemFillColorNeutral}" />
+    
+    <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
+    <SolidColorBrush x:Key="BorderDangerColorBrush" Color="{DynamicResource BorderDangerColor}" />
+    <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
+    <SolidColorBrush x:Key="SelectedColorBoxBrush" Color="{DynamicResource SelectedColorBox}" />
+    
+    <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
+    <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
+    
+    
 
-    <SolidColorBrush x:Key="ControlAltFillColorSecondaryBrush" Color="{DynamicResource ControlAltFillColorSecondary}" />
-    <SolidColorBrush x:Key="ControlAltFillColorTertiaryBrush" Color="{DynamicResource ControlAltFillColorTertiary}" />
-    <SolidColorBrush x:Key="ControlAltFillColorQuarternaryBrush" Color="{DynamicResource ControlAltFillColorQuarternary}" />
-
-    <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
-    <SolidColorBrush x:Key="ControlStrongStrokeColorDefaultBrush" Color="{DynamicResource ControlStrongStrokeColorDefault}" />
-    <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush" Color="{DynamicResource ControlStrokeColorSecondary}" />
-
-    <SolidColorBrush x:Key="ControlSolidFillColorDefaultBrush" Color="{DynamicResource ControlSolidFillColorDefault}" />
-
+    
     <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
     <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="{DynamicResource SubtleFillColorTertiary}" />
-
-    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="{DynamicResource CardBackgroundFillColorDefault}" />
 
     <SolidColorBrush x:Key="NavigationViewBackgroundBrush" Color="{DynamicResource NavigationViewBackground}" />
 
     <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="{DynamicResource CardStrokeColorDefault}" />
 
-    <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
-    <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
+    
 
-    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{DynamicResource SolidBackgroundFillColorBase}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{DynamicResource SolidBackgroundFillColorSecondary}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{DynamicResource SolidBackgroundFillColorTertiary}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{DynamicResource SolidBackgroundFillColorQuarternary}" />
-
-    <SolidColorBrush x:Key="AcrylicInAppFillColorDefaultBrush" Color="{DynamicResource AcrylicInAppFillColorDefault}" />
-
-    <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
-    <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
-    <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{DynamicResource SystemFillColorCaution}" />
-    <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{DynamicResource SystemFillColorNeutral}" />
-
-    <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
-    <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
-    <SolidColorBrush x:Key="SelectedColorBoxBrush" Color="{DynamicResource SelectedColorBox}" />
     
     <VisualBrush x:Key="CheckeredBackgroundBrush"
                  TileMode="Tile"
@@ -204,33 +196,4 @@
     <SolidColorBrush x:Key="ForegroundAccentDarkColor1Brush" Color="{DynamicResource ForegroundAccentDarkColor1}" />
     <SolidColorBrush x:Key="ForegroundAccentDarkColor2Brush" Color="{DynamicResource ForegroundAccentDarkColor2}" />
     <SolidColorBrush x:Key="ForegroundAccentDarkColor3Brush" Color="{DynamicResource ForegroundAccentDarkColor3}" />
-    
-    <LinearGradientBrush x:Key="ControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
-        <LinearGradientBrush.GradientStops>
-            <GradientStop Offset="0.33" Color="{DynamicResource ControlStrokeColorSecondary}" />
-            <GradientStop Offset="1" Color="{DynamicResource ControlStrokeColorDefault}" />
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="AccentControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,3">
-        <GradientStop Offset="1.00" Color="{DynamicResource SystemAccentColor}" />
-        <GradientStop Offset="0.33" Color="{DynamicResource SystemAccentLightColor1}" />
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="DangerElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
-        <LinearGradientBrush.GradientStops>
-            <GradientStop Offset="0.5" Color="{DynamicResource BorderDangerColor}" />
-            <GradientStop Offset="1.0" Color="{DynamicResource DangerColor}" />
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="TextControlElevationBorderBrush" StartPoint="0,0" EndPoint="0,2">
-        <LinearGradientBrush.GradientStops>
-            <GradientStop Offset="0.5" Color="{DynamicResource ControlStrongStrokeColorDefault}" />
-            <GradientStop Offset="1.0" Color="{DynamicResource ControlStrokeColorDefault}" />
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="TextControlElevationBorderFocusedBrush" StartPoint="0,1.5" EndPoint="0,2.5">
-        <LinearGradientBrush.GradientStops>
-            <GradientStop Offset="1.0" Color="{DynamicResource SystemAccentLightColor2}" />
-            <GradientStop Offset="1.0" Color="{DynamicResource ControlStrokeColorDefault}" />
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
 </ResourceDictionary>

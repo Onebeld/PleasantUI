@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    xmlns:behaviors="using:PleasantUI.Behaviors"
+                    xmlns:constants="using:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20"
@@ -16,12 +16,12 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
-        <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="MinHeight" Value="40" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -66,15 +66,15 @@
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
-        <Setter Property="Background" Value="{StaticResource AcrylicInAppFillColorDefaultBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="MaxWidth" Value="456" />
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>

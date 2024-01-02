@@ -3,12 +3,12 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
         <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
-        <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorQuarternaryBrush}" />
-        <Setter Property="TransparencyBackgroundFallback" Value="{StaticResource SolidBackgroundFillColorQuarternaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+        <Setter Property="TransparencyBackgroundFallback" Value="{StaticResource BackgroundColor1Brush}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="Padding" Value="0 32 0 0" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="EnableBlur"
@@ -37,7 +37,7 @@
                                     </Viewbox>
                                 </ToggleButton>
 
-                                <Border Background="{StaticResource TextFillColorTertiaryBrush}"
+                                <Border Background="{StaticResource TextFillColor3Brush}"
                                         IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}"
                                         IsHitTestVisible="False"
                                         HorizontalAlignment="Center"
@@ -62,8 +62,7 @@
                                             Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Close}">
                                         <Viewbox Width="8" Height="8">
-                                            <Path Data="{StaticResource DismissRegular}"
-                                                  StrokeThickness="2" />
+                                            <Path Data="{StaticResource DismissRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </StackPanel>

@@ -18,7 +18,7 @@
                 </SmoothScrollViewer>
                 <ContentDialog.BottomPanelContent>
                     <UniformGrid Margin="15 0" Rows="0" Columns="2">
-                        <Button Classes="Accent" Content="OK" VerticalAlignment="Center" Margin="5" />
+                        <Button Theme="{StaticResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center" Margin="5" />
 
                         <Button Content="Cancel" VerticalAlignment="Center" Margin="5" />
                     </UniformGrid>
@@ -28,7 +28,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ContentDialog}" TargetType="ContentDialog">
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="MinWidth" Value="300" />
         <Setter Property="Margin" Value="40" />
@@ -40,13 +40,13 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border CornerRadius="{TemplateBinding CornerRadius}"
-                        Background="{StaticResource SolidBackgroundFillColorQuarternaryBrush}"
-                        BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                        Background="{StaticResource BackgroundColor1Brush}"
+                        BorderBrush="{StaticResource ControlBorderColorBrush}"
                         MinWidth="{TemplateBinding MinWidth}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         ClipToBounds="False"
-                        BorderThickness="1"
+                        BorderThickness="{StaticResource ControlBorderThickness}"
                         behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ModalWindowDepth}"
                         behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                     <Border ClipToBounds="True"
@@ -59,8 +59,8 @@
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 
                             <Border Grid.Row="1"
-                                    BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
-                                    Background="{StaticResource SolidBackgroundFillColorBaseBrush}"
+                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                    Background="{StaticResource BackgroundColor3Brush}"
                                     BorderThickness="0 1 0 0"
                                     CornerRadius="0 0 8 8"
                                     IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"

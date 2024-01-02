@@ -3,48 +3,45 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="70">
-            <ToggleButton Content="Content" />
+            <StackPanel Spacing="5">
+                <ToggleButton Content="Content" />
+                <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}" Content="Content" />
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="11 5 11 5" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Panel>
-                    <Border Name="PART_Border"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            RenderTransform="scaleY(-1)"
-                            IsHitTestVisible="False" />
-                    <ContentPresenter Name="PART_ContentPresenter"
-                                      Background="#00000000"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Content="{TemplateBinding Content}"
-                                      Padding="{TemplateBinding Padding}"
-                                      CornerRadius="{TemplateBinding CornerRadius}"
-                                      TextBlock.Foreground="{TemplateBinding Foreground}"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                </Panel>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}"
+                                  Padding="{TemplateBinding Padding}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  TextBlock.Foreground="{TemplateBinding Foreground}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
             </ControlTemplate>
         </Setter>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -52,8 +49,9 @@
 
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor3Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
 
         <Style Selector="^:checked:pointerover">
@@ -68,13 +66,12 @@
     
     <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="11 5 11 5" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -92,10 +89,10 @@
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -103,8 +100,8 @@
 
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor3Brush}" />
         </Style>
 
         <Style Selector="^:checked:pointerover">

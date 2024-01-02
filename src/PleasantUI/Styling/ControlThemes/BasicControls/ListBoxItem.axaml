@@ -3,12 +3,25 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
-            <ListBox>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-            </ListBox>
+            <StackPanel>
+                <ListBox>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+                <ListBox ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
 
@@ -29,8 +42,8 @@
         </ControlTheme.Animations>
 
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="12 0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -57,7 +70,7 @@
                             Width="3"
                             Height="16"
                             Margin="1 0 0 0"
-                            CornerRadius="4"
+                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
                             Background="{StaticResource SystemAccentLightColor1Brush}" />
                 </Panel>
             </ControlTemplate>
@@ -85,22 +98,22 @@
         </Style>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:selected">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:selected:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:selected:pressed">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:disabled">
@@ -125,19 +138,11 @@
         </ControlTheme.Animations>
         
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <Border Name="SelectionIndicator"
-                            Background="{StaticResource SystemAccentLightColor1Brush}"
-                            Height="3"
-                            MinWidth="16"
-                            CornerRadius="4"
-                            VerticalAlignment="Top"
-                            Margin="20 1 20 0 " />
-
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -149,6 +154,14 @@
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       CornerRadius="{TemplateBinding CornerRadius}"
                                       Margin="5 2 5 5" />
+                    
+                    <Border Name="SelectionIndicator"
+                            Background="{StaticResource SystemAccentLightColor1Brush}"
+                            Height="3"
+                            MinWidth="16"
+                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                            VerticalAlignment="Top"
+                            Margin="20 1 20 0 " />
                 </Panel>
             </ControlTemplate>
         </Setter>
@@ -175,22 +188,22 @@
         </Style>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:selected">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         
         <Style Selector="^:selected:pointerover">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:selected:pressed">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:disabled">

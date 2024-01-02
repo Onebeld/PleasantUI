@@ -1,6 +1,12 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <PleasantCaptionButtons />
+        </Border>
+    </Design.PreviewWith>
+    
     <ControlTheme x:Key="{x:Type PleasantCaptionButtons}" TargetType="PleasantCaptionButtons">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         
@@ -13,7 +19,7 @@
                             <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="0" />
                             <Setter Property="Padding" Value="0" />
-                            <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
                         </Style>
                         
                         <Style Selector="Button > Viewbox > Path">
@@ -37,7 +43,7 @@
                             CornerRadius="0"
                             ToolTip.Tip="{DynamicResource Close}">
                         <Viewbox Width="10" Height="10">
-                            <Path Data="{StaticResource DismissRegular}" StrokeThickness="1" />
+                            <Path Data="{StaticResource DismissRegular}" />
                         </Viewbox>
                     </Button>
                 </StackPanel>
@@ -114,7 +120,7 @@
         </Style>
         
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
-            <Setter Property="Background" Value="{StaticResource TextFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource TextFillColor3Brush}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -11,6 +11,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -47,69 +48,70 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid
-                            x:Name="SwitchAreaGrid"
-                            Grid.RowSpan="3"
-                            Grid.ColumnSpan="3"
-                            Background="{DynamicResource ToggleSwitchContainerBackground}"
-                            Margin="0,5"
-                            TemplatedControl.IsTemplateFocusTarget="True" />
+                        <Grid Grid.Row="0"
+                              Grid.Column="0"
+                              x:Name="SwitchAreaGrid"
+                              Grid.RowSpan="3"
+                              Grid.ColumnSpan="3"
+                              Background="{DynamicResource ToggleSwitchContainerBackground}"
+                              Margin="0,5"
+                              TemplatedControl.IsTemplateFocusTarget="True" />
 
-                        <ContentPresenter
-                            x:Name="PART_OffContentPresenter"
-                            Grid.RowSpan="3"
-                            Grid.Column="2"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding OffContent}"
-                            ContentTemplate="{TemplateBinding OffContentTemplate}" />
+                        <ContentPresenter Grid.Row="0"
+                                          x:Name="PART_OffContentPresenter"
+                                          Grid.RowSpan="3"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding OffContent}"
+                                          ContentTemplate="{TemplateBinding OffContentTemplate}" />
 
-                        <ContentPresenter
-                            x:Name="PART_OnContentPresenter"
-                            Grid.RowSpan="3"
-                            Grid.Column="2"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding OnContent}"
-                            ContentTemplate="{TemplateBinding OnContentTemplate}" />
+                        <ContentPresenter Grid.Row="0"
+                                          x:Name="PART_OnContentPresenter"
+                                          Grid.RowSpan="3"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding OnContent}"
+                                          ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
-                        <Border
-                            x:Name="OuterBorder"
-                            Grid.Row="1"
-                            Width="40"
-                            Height="20"
-                            Background="{StaticResource ControlAltFillColorSecondaryBrush}"
-                            BorderBrush="{StaticResource ControlStrongFillColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="10" />
+                        <Border Grid.Column="0"
+                                x:Name="OuterBorder"
+                                Grid.Row="1"
+                                Width="40"
+                                Height="20"
+                                Background="{StaticResource ControlFillColor1Brush}"
+                                BorderBrush="{StaticResource ScrollBarColor1Brush}"
+                                BorderThickness="1"
+                                CornerRadius="10" />
 
-                        <Border
-                            x:Name="SwitchKnobBounds"
-                            Grid.Row="1"
-                            Width="40"
-                            Height="20"
-                            IsVisible="False"
-                            Background="{StaticResource SystemAccentLightColor1Brush}"
-                            BorderBrush="{StaticResource SystemAccentLightColor1Brush}"
-                            BorderThickness="1"
-                            CornerRadius="10" />
+                        <Border Grid.Column="0"
+                                x:Name="SwitchKnobBounds"
+                                Grid.Row="1"
+                                Width="40"
+                                Height="20"
+                                IsVisible="False"
+                                Background="{StaticResource SystemAccentLightColor3Brush}"
+                                BorderBrush="{StaticResource SystemAccentLightColor3Brush}"
+                                BorderThickness="1"
+                                CornerRadius="10" />
 
-                        <Canvas
-                            x:Name="PART_SwitchKnob"
-                            Grid.Row="1"
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Left">
+                        <Canvas Grid.Column="0"
+                                x:Name="PART_SwitchKnob"
+                                Grid.Row="1"
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Left">
 
                             <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                 <Ellipse
                                     x:Name="SwitchKnobOn"
-                                    Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
+                                    Fill="{StaticResource ScrollBarColor1Brush}"
                                     Width="10"
                                     Height="10" />
                                 <Ellipse
                                     x:Name="SwitchKnobOff"
-                                    Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
+                                    Fill="{StaticResource ScrollBarColor1Brush}"
                                     Width="10"
                                     Height="10" />
                             </Grid>
@@ -148,15 +150,16 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Grid
-                                x:Name="SwitchAreaGrid"
-                                Grid.RowSpan="3"
-                                Grid.ColumnSpan="3"
-                                Background="{DynamicResource ToggleSwitchContainerBackground}"
-                                Margin="0,5"
-                                TemplatedControl.IsTemplateFocusTarget="True" />
+                            <Grid Grid.Row="0"
+                                  Grid.Column="0"
+                                  x:Name="SwitchAreaGrid"
+                                  Grid.RowSpan="3"
+                                  Grid.ColumnSpan="3"
+                                  Background="{DynamicResource ToggleSwitchContainerBackground}"
+                                  Margin="0,5"
+                                  TemplatedControl.IsTemplateFocusTarget="True" />
 
-                            <ContentPresenter
+                            <ContentPresenter Grid.Row="0"
                                 x:Name="PART_OffContentPresenter"
                                 Grid.RowSpan="3"
                                 Grid.Column="0"
@@ -165,7 +168,7 @@
                                 Content="{TemplateBinding OffContent}"
                                 ContentTemplate="{TemplateBinding OffContentTemplate}" />
 
-                            <ContentPresenter
+                            <ContentPresenter Grid.Row="0"
                                 x:Name="PART_OnContentPresenter"
                                 Grid.RowSpan="3"
                                 Grid.Column="0"
@@ -179,8 +182,8 @@
                                     Grid.Row="1"
                                     Width="40"
                                     Height="20"
-                                    Background="{StaticResource ControlAltFillColorSecondaryBrush}"
-                                    BorderBrush="{StaticResource ControlStrongFillColorDefaultBrush}"
+                                    Background="{StaticResource ControlFillColor1Brush}"
+                                    BorderBrush="{StaticResource ScrollBarColor1Brush}"
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
@@ -190,8 +193,8 @@
                                     Width="40"
                                     Height="20"
                                     IsVisible="False"
-                                    Background="{StaticResource SystemAccentLightColor1Brush}"
-                                    BorderBrush="{StaticResource SystemAccentLightColor1Brush}"
+                                    Background="{StaticResource SystemAccentLightColor3Brush}"
+                                    BorderBrush="{StaticResource SystemAccentLightColor3Brush}"
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
@@ -205,12 +208,12 @@
                                 <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                     <Ellipse
                                         x:Name="SwitchKnobOn"
-                                        Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
+                                        Fill="{StaticResource ScrollBarColor1Brush}"
                                         Width="10"
                                         Height="10" />
                                     <Ellipse
                                         x:Name="SwitchKnobOff"
-                                        Fill="{StaticResource ControlStrongFillColorDefaultBrush}"
+                                        Fill="{StaticResource ScrollBarColor1Brush}"
                                         Width="10"
                                         Height="10" />
                                 </Grid>
@@ -229,7 +232,7 @@
         </Style>
 
         <Style Selector="^ /template/ Ellipse#SwitchKnobOff">
-            <Setter Property="Fill" Value="{StaticResource ControlStrongFillColorDefaultBrush}" />
+            <Setter Property="Fill" Value="{StaticResource ControlBorderColorBrush}" />
             <Setter Property="Width" Value="12" />
             <Setter Property="Height" Value="12" />
         </Style>
@@ -247,19 +250,19 @@
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#OuterBorder">
-            <Setter Property="Background" Value="{StaticResource ControlAltFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#OuterBorder">
-            <Setter Property="Background" Value="{StaticResource ControlAltFillColorQuarternaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds">
             <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor2Brush}" />
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
             <Setter Property="Opacity" Value="0.8" />
         </Style>
 

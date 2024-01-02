@@ -14,9 +14,9 @@
             <ControlTemplate>
                 <Grid RowDefinitions="Auto,Auto">
                     <TabControl Grid.Row="0"
-                                Background="{StaticResource ControlFillColorDefaultBrush}"
+                                Background="{StaticResource ControlFillColor1Brush}"
                                 BorderThickness="0 1 0 0"
-                                BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                                BorderBrush="{StaticResource ControlBorderColorBrush}"
                                 Height="338"
                                 Width="350">
                         <TabControl.Styles>
@@ -117,7 +117,7 @@
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource DeleteRegular}"
-                                                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                                                      Fill="{StaticResource TextFillColor1Brush}"
                                                                       Stretch="Uniform" />
                                                             </Viewbox>
                                                         </MenuItem.Icon>
@@ -169,7 +169,7 @@
                                            IsVisible="{CompiledBinding !SavedColorPalette.Count, Source={x:Static PleasantSettings.Instance}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
-                                           Foreground="{StaticResource TextFillColorTertiaryBrush}" />
+                                           Foreground="{StaticResource TextFillColor3Brush}" />
 
                                 <Button x:Name="AddColorButton"
                                         Grid.Row="1"
@@ -371,7 +371,7 @@
                     </TabControl>
                     <!-- Previewer -->
                     <ColorPreviewer Grid.Row="1"
-                                    Background="{StaticResource ControlFillColorDefaultBrush}"
+                                    Background="{StaticResource ControlFillColor1Brush}"
                                     IsAccentColorsVisible="{TemplateBinding IsAccentColorsVisible}"
                                     Padding="5 0"
                                     HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"

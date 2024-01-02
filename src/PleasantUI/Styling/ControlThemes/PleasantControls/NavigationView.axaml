@@ -15,7 +15,7 @@
         <Setter Property="OpenPaneLength" Value="250" />
         <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
-        <Setter Property="Icon" Value="{StaticResource LineHorizontal3Regular}" />
+        <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
         <Setter Property="TransitionAnimations">
             <Animations>
                 <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
@@ -106,7 +106,7 @@
                             <Viewbox Width="16"
                                      Height="16">
                                 <Path Data="{StaticResource ArrowLeftRegular}"
-                                      Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                                      Fill="{StaticResource TextFillColor1Brush}" />
                             </Viewbox>
                         </Button>
                         <Button Name="PART_HeaderItem"
@@ -122,7 +122,7 @@
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
                             <Viewbox Width="16">
                                 <Path Data="{CompiledBinding $parent[NavigationView].Icon}"
-                                      Fill="{StaticResource TextFillColorPrimaryBrush}" />
+                                      Fill="{StaticResource TextFillColor1Brush}" />
                             </Viewbox>
                         </Button>
                     </StackPanel>
@@ -145,16 +145,16 @@
         </Style>
 
         <Style Selector="^[DisplayMode=CompactOverlay][IsOpen=true] /template/ Border#PART_Border">
-            <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}" />
+            <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
             <Setter Property="CornerRadius" Value="0 8 8 0" />
             <Setter Property="BorderThickness" Value="0 0 1 0" />
-            <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay][IsOpen=true] /template/ Border#PART_Border">
-            <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorBaseBrush}" />
+            <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
             <Setter Property="CornerRadius" Value="0 8 8 0" />
             <Setter Property="BorderThickness" Value="0 0 1 0" />
-            <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         </Style>
 
         <Style Selector="^ /template/ Border#PART_Container">

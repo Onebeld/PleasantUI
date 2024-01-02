@@ -3,26 +3,30 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="50">
-            <InformationBlock Content="500"
-                              Icon="{StaticResource PinRegular}" />
+            <InformationBlock Content="500" Icon="{StaticResource PinRegular}" />
         </Border>
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type InformationBlock}" TargetType="InformationBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{StaticResource ControlStrokeColorSecondaryBrush}"
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="1"
-                        CornerRadius="4">
+                        CornerRadius="{TemplateBinding CornerRadius}">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                        <Path Data="{TemplateBinding Icon}"
-                              Fill="{StaticResource TextFillColorPrimaryBrush}"
-                              Width="14"
-                              VerticalAlignment="Center"
-                              Stretch="Uniform" />
+                        <Viewbox Width="14" Height="14">
+                            <Path Data="{TemplateBinding Icon}"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
                         
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"

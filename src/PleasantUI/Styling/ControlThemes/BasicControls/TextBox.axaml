@@ -3,26 +3,27 @@
                     x:DataType="TextBox"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
-        <Border Padding="50">
+        <Border Padding="50" MaxWidth="300">
             <StackPanel Spacing="5">
                 <TextBox />
-                <TextBox Classes="ClearTextBox" Text="Hello Down there" />
+                <TextBox Classes="ClearTextBox" Text="Hello Down there, so loooooooong" />
                 <TextBox Watermark="Watermark" />
-                <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="*" Text="Hello" />
-                <TextBox Text="Test" IsEnabled="False" />
+                <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="●" Text="Hello" />
+                <TextBox Text="Disabled Text Box" IsEnabled="False" />
+                <TextBox Classes="TextField" Height="100" Text="Field" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-        <Setter Property="CaretBrush" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="SelectionBrush" Value="{StaticResource SystemAccentColorBrush}" />
         <Setter Property="SelectionForegroundBrush" Value="{StaticResource ForegroundAccentColorBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="6 5 6 5" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="Padding" Value="10 5 10 5" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -36,8 +37,8 @@
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
                             <Path Data="{StaticResource CutRegular}"
-                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                  Fill="{StaticResource TextFillColor1Brush}"
+                                  Stroke="{StaticResource TextFillColor1Brush}"
                                   Stretch="Uniform" />
                         </Viewbox>
                     </MenuItem.Icon>
@@ -49,8 +50,8 @@
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
                             <Path Data="{StaticResource CopyRegular}"
-                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                                  Fill="{StaticResource TextFillColor1Brush}"
+                                  Stroke="{StaticResource TextFillColor1Brush}"
                                   Stretch="Uniform" />
                         </Viewbox>
                     </MenuItem.Icon>
@@ -61,9 +62,9 @@
                           InputGesture="{x:Static TextBox.PasteGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource ClipboardPasteRegular}"
-                                  Fill="{StaticResource TextFillColorPrimaryBrush}"
-                                  Stroke="{StaticResource TextFillColorPrimaryBrush}"
+                            <Path Data="{StaticResource PasteRegular}"
+                                  Fill="{StaticResource TextFillColor1Brush}"
+                                  Stroke="{StaticResource TextFillColor1Brush}"
                                   Stretch="Uniform" />
                         </Viewbox>
                     </MenuItem.Icon>
@@ -78,7 +79,6 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            RenderTransform="scaleY(-1)"
                             IsHitTestVisible="False" />
 
                     <DataValidationErrors>
@@ -86,7 +86,7 @@
                             <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
                             <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
                                 <TextBlock Name="PART_FloatingWatermark"
-                                           Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                           Foreground="{StaticResource TextFillColor2Brush}"
                                            FontSize="12"
                                            IsVisible="False"
                                            Text="{TemplateBinding Watermark}"
@@ -99,7 +99,7 @@
                                     <Panel>
                                         <TextBlock Name="PART_Watermark"
                                                    Text="{TemplateBinding Watermark}"
-                                                   Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                                                   Foreground="{StaticResource TextFillColor3Brush}"
                                                    TextAlignment="{TemplateBinding TextAlignment}"
                                                    TextWrapping="{TemplateBinding TextWrapping}"
                                                    IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
@@ -134,8 +134,9 @@
             <Setter Property="InnerRightContent">
                 <Template>
                     <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}"
-                                  Padding="4 2"
+                                  Padding="4"
                                   Margin="5"
+                                  CornerRadius="{StaticResource RoundedControlCornerRadius}"
                                   IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
                         <ToggleButton.Styles>
                             <Style Selector="ToggleButton > Viewbox > Path">
@@ -146,7 +147,7 @@
                             </Style>
                         </ToggleButton.Styles>
 
-                        <Viewbox Width="14">
+                        <Viewbox Width="14" Height="14">
                             <Path Name="PART_PasswordIcon" />
                         </Viewbox>
                     </ToggleButton>
@@ -160,24 +161,29 @@
                     <Button Theme="{StaticResource AppBarButtonTheme}"
                             Padding="7 2"
                             Margin="5"
+                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
                             Command="{CompiledBinding $parent[TextBox].Clear}">
-                        <Viewbox Width="8" Height="8">
-                            <Path Data="{StaticResource DismissRegular}"
-                                  StrokeThickness="2" />
+                        <Viewbox Width="10" Height="10">
+                            <Path Data="{StaticResource DismissRegular}" />
                         </Viewbox>
                     </Button>
                 </Template>
             </Setter>
         </Style>
+        
+        <Style Selector="^.TextField">
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+        </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
         <Style Selector="^:focus">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorInputActiveBrush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource TextControlElevationBorderFocusedBrush}" />
-            <Setter Property="BorderThickness" Value="1 2 1 1" />
-            <Setter Property="Transitions" Value="{x:Null}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor3Brush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

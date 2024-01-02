@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
-                    xmlns:system="clr-namespace:System;assembly=netstandard"
+                    xmlns:behaviors="using:PleasantUI.Behaviors"
+                    xmlns:constants="using:PleasantUI.Core.Constants"
+                    xmlns:system="using:System"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20"
@@ -17,7 +17,7 @@
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
                                 <Path Data="{StaticResource CheckmarkRegular}"
-                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                      Fill="{StaticResource TextFillColor1Brush}"
                                       Stretch="Uniform" />
                             </Viewbox>
                         </MenuItem.Icon>
@@ -53,9 +53,8 @@
 
     <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="11 4 11 5" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -99,7 +98,8 @@
                                        Text="{TemplateBinding InputGesture, Converter={x:Static MenuConverters.KeyGesture}}"
                                        HorizontalAlignment="Right"
                                        FontSize="12"
-                                       Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                                       Foreground="{StaticResource TextFillColor3Brush}"
+                                       FontWeight="SemiBold"
                                        VerticalAlignment="Center" />
                             <Viewbox Name="Viewbox"
                                      Grid.Column="3"
@@ -107,14 +107,14 @@
                                      Height="10"
                                      Width="10">
                                 <Path Data="{StaticResource ChevronRightRegular}"
-                                      Fill="{StaticResource TextFillColorPrimaryBrush}"
+                                      Fill="{StaticResource TextFillColor2Brush}"
                                       Stretch="Uniform" />
                             </Viewbox>
                         </Grid>
                     </Border>
                     <Popup Name="PART_Popup"
                            WindowManagerAddShadowHint="False"
-                           PlacementMode="Right"
+                           Placement="Right"
                            HorizontalOffset="-4"
                            IsLightDismissEnabled="False"
                            IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
@@ -136,15 +136,15 @@
                             </Style>
                         </Popup.Styles>
                         
-                        <Border Background="{StaticResource AcrylicInAppFillColorDefaultBrush}"
-                                BorderBrush="{StaticResource ControlStrokeColorDefaultBrush}"
+                        <Border Background="{StaticResource BackgroundColor1Brush}"
+                                BorderBrush="{StaticResource ControlBorderColorBrush}"
                                 Opacity="0"
                                 BorderThickness="1"
                                 MaxWidth="456"
                                 MinHeight="32"
                                 HorizontalAlignment="Stretch"
                                 Margin="6 4 6 6"
-                                CornerRadius="8"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
                                 behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
                                 behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
                             <SmoothScrollViewer HorizontalScrollBarVisibility="Auto"
@@ -168,16 +168,16 @@
         </Style>
 
         <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorSecondaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
         </Style>
 
         <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
         </Style>
 
         <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
         <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-            <Setter Property="Background" Value="{StaticResource SubtleFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:disabled">

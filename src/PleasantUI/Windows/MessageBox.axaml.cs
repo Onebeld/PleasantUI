@@ -77,7 +77,7 @@ public partial class MessageBox : ContentDialog
             button.Classes.Add("Accent");
 
             if (Application.Current != null)
-                button.Theme = (ControlTheme)Application.Current.FindResource("AccentButton")!;
+                button.Theme = (ControlTheme)Application.Current.FindResource("Accent")!;
         }
 
         if (buttons is null || buttons.Count == 0)

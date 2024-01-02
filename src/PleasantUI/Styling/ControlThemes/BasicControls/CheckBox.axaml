@@ -16,8 +16,8 @@
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="Padding" Value="8 0 0 0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="Root"
@@ -25,25 +25,23 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <Grid ColumnDefinitions="20,*" VerticalAlignment="Center">
+                    <Grid ColumnDefinitions="24,*" VerticalAlignment="Center">
                         <Grid Grid.Column="0" Height="32">
                             <Border Name="NormalRectangle"
                                     UseLayoutRounding="False"
-                                    Height="20"
+                                    Height="24"
                                     CornerRadius="{TemplateBinding CornerRadius}" />
 
                             <Path Name="CheckGlyph"
                                   Stretch="Uniform"
                                   Data="{StaticResource CheckmarkRegular}"
-                                  Fill="{StaticResource ForegroundAccentLightColor1Brush}"
-                                  Stroke="{StaticResource ForegroundAccentLightColor1Brush}"
+                                  Fill="{StaticResource ForegroundAccentLightColor3Brush}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
-                                  StrokeThickness="0.5"
-                                  Margin="0 13 0 12" />
+                                  Margin="0 12 0 12" />
 
                             <Rectangle Name="IndeterminateGlyph"
-                                       Fill="{StaticResource SystemAccentLightColor1Brush}"
+                                       Fill="{StaticResource ForegroundAccentLightColor3Brush}"
                                        Width="10"
                                        Height="2" />
                         </Grid>
@@ -61,8 +59,8 @@
         </Setter>
 
         <Style Selector="^ /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorDefaultBrush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource ControlStrongStrokeColorDefaultBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
             <Setter Property="BorderThickness" Value="1" />
         </Style>
         <Style Selector="^ /template/ Path#CheckGlyph">
@@ -77,11 +75,11 @@
         </Style>
 
         <Style Selector="^:pressed /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource ControlFillColorTertiaryBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
             <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
         <Style Selector="^:checked /template/ Path#CheckGlyph">
@@ -101,7 +99,7 @@
         </Style>
 
         <Style Selector="^:indeterminate /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
             <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
         <Style Selector="^:indeterminate /template/ Rectangle#IndeterminateGlyph">
@@ -109,11 +107,11 @@
         </Style>
 
         <Style Selector="^:indeterminate:pointerover /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
         </Style>
 
         <Style Selector="^:indeterminate:pressed /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
         <Style Selector="^:indeterminate:pressed /template/ Rectangle#IndeterminateGlyph">

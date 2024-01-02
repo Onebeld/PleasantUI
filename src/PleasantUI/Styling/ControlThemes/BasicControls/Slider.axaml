@@ -17,9 +17,9 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="SliderThumbTheme" TargetType="Thumb">
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlElevationBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -27,7 +27,7 @@
                     <Border Margin="-2"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{StaticResource ControlSolidFillColorDefaultBrush}"
+                            Background="{StaticResource ControlFillColor1Brush}"
                             CornerRadius="10"
                             RenderTransform="scaleY(-1)">
                         <Ellipse Name="SliderInnerThumb"
@@ -59,9 +59,9 @@
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
-        <Setter Property="Background" Value="{StaticResource ControlStrongFillColorDefaultBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor3Brush}" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -240,6 +240,7 @@
                                                 </RepeatButton>
                                             </Track.IncreaseButton>
                                             <Thumb Classes="SliderThumbStyle"
+                                                   Theme="{StaticResource SliderThumbTheme}"
                                                    Name="SliderThumb" Margin="0"
                                                    Padding="0" DataContext="{TemplateBinding Value}"
                                                    Height="18"
@@ -277,7 +278,7 @@
         </Style>
 
         <Style Selector="^:pointerover /template/ RepeatButton#PART_IncreaseButton">
-            <Setter Property="Background" Value="{StaticResource ControlStrongFillColorDefaultBrush}" />
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
 
         <Style Selector="^:pointerover /template/ Thumb.SliderThumbStyle">
@@ -285,7 +286,7 @@
         </Style>
 
         <Style Selector="^:pointerover /template/ RepeatButton#PART_DecreaseButton">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
         </Style>
 
         <Style Selector="^[TickPlacement=TopLeft] /template/ TickBar#LeftTickBar">

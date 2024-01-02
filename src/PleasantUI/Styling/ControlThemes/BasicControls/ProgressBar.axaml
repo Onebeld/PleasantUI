@@ -4,7 +4,7 @@
     <Design.PreviewWith>
         <Border Padding="20">
             <StackPanel Spacing="10">
-                <ProgressBar VerticalAlignment="Center" IsIndeterminate="False" />
+                <ProgressBar VerticalAlignment="Center" IsIndeterminate="True" />
                 <ProgressBar VerticalAlignment="Center" Value="5" Maximum="100" />
                 <ProgressBar VerticalAlignment="Center" Value="50" />
                 <ProgressBar VerticalAlignment="Center" Value="50" Minimum="25" Maximum="75" />
@@ -14,11 +14,9 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
-        <Setter Property="Background" Value="{StaticResource ControlStrongStrokeColorDefaultBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor1Brush}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor3Brush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="VerticalAlignment" Value="Center" />
 
         <Setter Property="Template">
@@ -34,7 +32,7 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="0.5" />
+                                    CornerRadius="{TemplateBinding CornerRadius}" />
                             <Border CornerRadius="{TemplateBinding CornerRadius}"
                                     Name="PART_Indicator"
                                     Background="{TemplateBinding Foreground}" />
@@ -53,13 +51,6 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^:horizontal /template/ Border#ProgressBarTrack">
-            <Setter Property="Height" Value="1" />
-        </Style>
-        <Style Selector="^:vertical /template/ Border#ProgressBarTrack">
-            <Setter Property="Width" Value="1" />
-        </Style>
 
         <Style Selector="^:horizontal /template/ Border#PART_Indicator">
             <Setter Property="HorizontalAlignment" Value="Left" />

@@ -4,7 +4,7 @@
                     xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
-        <Border Padding="20" Background="White">
+        <Border Padding="20">
             <NotificationCard Content="Testing" />
         </Border>
     </Design.PreviewWith>
@@ -31,10 +31,10 @@
         <Setter Property="Opacity" Value="0" />
         <Setter Property="RenderTransformOrigin" Value="50%,75%" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="{StaticResource SolidBackgroundFillColorTertiaryBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlStrokeColorDefaultBrush}" />
-        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
@@ -51,7 +51,7 @@
                                         Height="5"
                                         DockPanel.Dock="Top"
                                         Margin="20 -3 20 0"
-                                        CornerRadius="10" />
+                                        CornerRadius="{StaticResource RoundedControlCornerRadius}" />
                                 <ContentPresenter Name="PART_Content" Content="{TemplateBinding Content}" />
                             </DockPanel>
                         </Border>

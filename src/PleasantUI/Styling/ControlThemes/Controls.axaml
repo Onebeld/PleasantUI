@@ -18,13 +18,17 @@
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
                 <MergeResourceInclude Source="BasicControls/EmbeddableControlRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
+                <MergeResourceInclude Source="BasicControls/ItemsControl.axaml" />
+                <MergeResourceInclude Source="BasicControls/Label.axaml" />
                 <MergeResourceInclude Source="BasicControls/ListBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ListBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Menu.axaml" />
                 <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/NativeMenuBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
                 <MergeResourceInclude Source="BasicControls/OverlayPopupHost.axaml" />
+                <MergeResourceInclude Source="BasicControls/PathIcon.axaml" />
                 <MergeResourceInclude Source="BasicControls/PopupRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
@@ -38,6 +42,7 @@
                 <MergeResourceInclude Source="BasicControls/TabItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/TextBlock.axaml" />
                 <MergeResourceInclude Source="BasicControls/TextBox.axaml" />
+                <MergeResourceInclude Source="BasicControls/ThemeVariantScope.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToggleButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToggleSwitch.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToolTip.axaml" />

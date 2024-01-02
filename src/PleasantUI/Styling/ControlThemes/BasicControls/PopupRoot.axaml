@@ -4,8 +4,8 @@
     <ControlTheme x:Key="{x:Type PopupRoot}" TargetType="PopupRoot">
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="TransparencyLevelHint" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorPrimaryBrush}" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
         <Setter Property="FontWeight" Value="400" />
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="Template">

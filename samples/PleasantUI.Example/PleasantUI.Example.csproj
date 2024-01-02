@@ -36,16 +36,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
-      <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <AvaloniaResource Include="PleasantUIIcon.ico" />
     </ItemGroup>
 
     <ItemGroup>
         <AdditionalFiles Include="**\*.axaml" />
         <Compile Update="**\*.axaml.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\PleasantUI.DataGrid\PleasantUI.DataGrid.csproj" />
+      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
     </ItemGroup>
 </Project>

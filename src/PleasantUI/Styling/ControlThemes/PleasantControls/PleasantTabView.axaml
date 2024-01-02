@@ -20,10 +20,10 @@
     <ControlTheme x:Key="{x:Type PleasantTabView}" TargetType="PleasantTabView">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="10 0 10 10" />
-        <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
         <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel Margin="{TemplateBinding Margin}"
@@ -52,7 +52,7 @@
                                     Padding="0 4"
                                     Width="24"
                                     Margin="-35 0 0 0">
-                                <Viewbox Width="16" Height="16">
+                                <Viewbox Width="14" Height="14">
                                     <Path Data="{StaticResource AddRegular}" />
                                 </Viewbox>
                             </Button>
@@ -99,7 +99,7 @@
                     <RepeatButton Name="PART_ScrollDecreaseButton"
                                   Grid.Column="0"
                                   Theme="{StaticResource AppBarRepeatButtonTheme}"
-                                  Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                  Foreground="{StaticResource TextFillColor2Brush}"
                                   IsVisible="{TemplateBinding VisibleMaximum}"
                                   IsEnabled="{TemplateBinding HorizontalScrollBarEnableDecrease}"
                                   HorizontalAlignment="Left"
@@ -127,7 +127,7 @@
                     <RepeatButton Name="PART_ScrollIncreaseButton"
                                   Grid.Column="2"
                                   Theme="{StaticResource AppBarRepeatButtonTheme}"
-                                  Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                  Foreground="{StaticResource TextFillColor2Brush}"
                                   IsVisible="{TemplateBinding VisibleMaximum}"
                                   IsEnabled="{TemplateBinding HorizontalScrollBarEnableIncrease}"
                                   HorizontalAlignment="Right"

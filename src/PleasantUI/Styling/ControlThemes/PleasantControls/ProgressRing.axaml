@@ -3,13 +3,16 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
-            <ProgressBar IsIndeterminate="True" />
+            <StackPanel Spacing="5">
+                <ProgressRing IsIndeterminate="True" />
+                <ProgressRing Value="50" />
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type ProgressRing}" TargetType="ProgressRing">
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor1Brush}" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor3Brush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         <Setter Property="Thickness" Value="3" />
         <Setter Property="MinHeight" Value="16" />
         <Setter Property="MinWidth" Value="16" />
@@ -28,6 +31,10 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^:indeterminate">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
 
         <Style Selector="^:indeterminate /template/ Arc#Fill">
             <Setter Property="StartAngle" Value="0" />
