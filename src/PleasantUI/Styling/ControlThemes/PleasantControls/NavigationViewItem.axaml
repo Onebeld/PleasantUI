@@ -64,8 +64,7 @@
                                 <Grid Grid.Column="1"
                                       Name="PART_ContainerGrid"
                                       ColumnDefinitions="5,*,5,Auto,5">
-                                    <Border Grid.Column="1"
-                                            Name="PART_ContainerBorder">
+                                    <Border Grid.Column="1" Name="PART_ContainerBorder">
                                         <Border.Transitions>
                                             <Transitions>
                                                 <DoubleTransition Property="Opacity" Duration="0:0:0.4"
@@ -74,7 +73,7 @@
                                         </Border.Transitions>
                                         <ContentPresenter Name="PART_ContentPresenter"
                                                           Content="{TemplateBinding Header}"
-                                                          ContentTemplate="{Binding $parent[NavigationView].HeaderTemplate}"
+                                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
                                                           HorizontalAlignment="Left"
                                                           ClipToBounds="True"
                                                           VerticalAlignment="Center" />
@@ -95,8 +94,7 @@
                                                   Stretch="Uniform">
                                                 <Path.Transitions>
                                                     <Transitions>
-                                                        <DoubleTransition Property="RotateTransform.Angle"
-                                                                          Duration="0:0:1" />
+                                                        <DoubleTransition Property="RotateTransform.Angle" Duration="0:0:1" />
                                                     </Transitions>
                                                 </Path.Transitions>
                                             </Path>
@@ -128,7 +126,7 @@
 
     <Style Selector=":is(NavigationViewItemBase) /template/ Grid#PART_InternalGrid">
         <Setter Property="Margin"
-                Value="{Binding $parent[NavigationView].NavigationViewDistance, Mode=OneWay, Converter={x:Static MenuConverters.MarginMultiplier}}" />
+                Value="{CompiledBinding $parent[NavigationViewItemBase].NavigationViewDistance, Mode=OneWay, Converter={x:Static MenuConverters.MarginMultiplier}}" />
     </Style>
     <Style Selector=":is(NavigationViewItemBase).header /template/ Grid#PART_InternalGrid">
         <Setter Property="Margin" Value="0" />
@@ -157,7 +155,7 @@
         <Style.Animations>
             <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
                 <KeyFrame Cue="0%">
-                    <Setter Property="TranslateTransform.Y" Value="{Binding $parent.Bounds.Height}" />
+                    <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $parent[NavigationViewItemBase].Bounds.Height}" />
                     <Setter Property="Opacity" Value="0" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
@@ -233,7 +231,7 @@
     </Style>
 
     <Style Selector=":is(NavigationViewItemBase) /template/ Border:pointerover#PART_NavDecorator">
-        <Setter Property="Background" Value="{StaticResource SubtleFillColorSecondaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
     </Style>
 
     <Style Selector=":is(NavigationViewItemBase).header /template/ Border:pointerover#PART_NavDecorator">
@@ -263,6 +261,6 @@
         <Setter Property="RenderTransform" Value="scale(0.9)" />
     </Style>
     <Style Selector=":is(NavigationViewItemBase):selected /template/ Viewbox#PART_ViewBox > Path">
-        <Setter Property="Fill" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        <Setter Property="Fill" Value="{StaticResource SystemAccentLightColor3Brush}" />
     </Style>
 </Styles>

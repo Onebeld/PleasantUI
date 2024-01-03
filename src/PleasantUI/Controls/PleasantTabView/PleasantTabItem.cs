@@ -9,7 +9,6 @@ using PleasantUI.Reactive;
 namespace PleasantUI.Controls;
 
 [TemplatePart("PART_CloseButton", typeof(Button))]
-[PseudoClasses(":dragging")]
 public partial class PleasantTabItem : TabItem
 {
     private bool _isClosing;
@@ -33,12 +32,6 @@ public partial class PleasantTabItem : TabItem
     public static readonly DirectProperty<PleasantTabItem, bool> IsClosingProperty =
         AvaloniaProperty.RegisterDirect<PleasantTabItem, bool>(nameof(IsClosing), o => o.IsClosing);
 
-    /// <summary>
-    ///     Defines the <see cref="CanBeDragged" /> property.
-    /// </summary>
-    public static readonly StyledProperty<bool> CanBeDraggedProperty =
-        AvaloniaProperty.Register<PleasantTabItem, bool>(nameof(CanBeDragged), true);
-
     public static readonly StyledProperty<bool> IsEditedIndicatorProperty =
         AvaloniaProperty.Register<PleasantTabItem, bool>(nameof(IsEditedIndicator));
 
@@ -58,12 +51,6 @@ public partial class PleasantTabItem : TabItem
     {
         get => _isClosing;
         set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
-    }
-
-    public bool CanBeDragged
-    {
-        get => GetValue(CanBeDraggedProperty);
-        set => SetValue(CanBeDraggedProperty, value);
     }
 
     public bool IsEditedIndicator
@@ -86,8 +73,6 @@ public partial class PleasantTabItem : TabItem
     
     static PleasantTabItem()
     {
-        CanBeDraggedProperty.Changed.AddClassHandler<PleasantTabItem>((x, e) =>
-            x.OnCanDraggablePropertyChanged(x, e));
         IsSelectedProperty.Changed.AddClassHandler<PleasantTabItem>((x, _) => UpdatePseudoClass(x));
         IsClosableProperty.Changed.Subscribe(e =>
         {
@@ -112,12 +97,12 @@ public partial class PleasantTabItem : TabItem
 
     public bool CloseCore()
     {
-        TabControl x = (Parent as TabControl)!;
+        PleasantTabView x = (Parent as PleasantTabView)!;
         try
         {
-            if (this.DataContext is not null)
+            if (DataContext is not null)
             {
-                x.CloseTab(this.DataContext);
+                x.CloseTab(DataContext);
                 return true;
             }
 
@@ -136,22 +121,7 @@ public partial class PleasantTabItem : TabItem
     public bool Close()
     {
         RaiseEvent(new RoutedEventArgs(ClosingEvent));
-        if (IsClosing)
-            return CloseCore();
-        return false;
-    }
-
-    protected void OnCanDraggablePropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e)
-    {
-        switch (CanBeDragged)
-        {
-            case true:
-                PseudoClasses.Add(":lockdrag");
-                break;
-            case false:
-                PseudoClasses.Remove(":lockdrag");
-                break;
-        }
+        return IsClosing && CloseCore();
     }
 
     /// <inheritdoc />

@@ -12,15 +12,16 @@
             <Color x:Key="ControlFillColor3">#B4D7D7D7</Color>
 
             <Color x:Key="ControlBorderColor">#D2D2D2</Color>
+            <Color x:Key="ContentBorderColor">#1E000000</Color>
             
             <Color x:Key="BackgroundColor1">#F0F0F0</Color>
-            <Color x:Key="BackgroundColor2">#EBEBEB</Color>
-            <Color x:Key="BackgroundColor3">#E6E6E6</Color>
-            <Color x:Key="BackgroundColor4">#E1E1E1</Color>
+            <Color x:Key="BackgroundColor2">#E6E6E6</Color>
+            <Color x:Key="BackgroundColor3">#DCDCDC</Color>
+            <Color x:Key="BackgroundColor4">#D2D2D2</Color>
             
-            <Color x:Key="ScrollBarColor1">#78000000</Color>
-            <Color x:Key="ScrollBarColor2">#82000000</Color>
-            <Color x:Key="ScrollBarColor3">#96000000</Color>
+            <Color x:Key="ControlColor1">#78000000</Color>
+            <Color x:Key="ControlColor2">#82000000</Color>
+            <Color x:Key="ControlColor3">#96000000</Color>
             
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -34,27 +35,6 @@
             
             <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
             <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
-            
-            
-
-            
-
-            <Color x:Key="SubtleFillColorSecondary">#09000000</Color>
-            <Color x:Key="SubtleFillColorTertiary">#06000000</Color>
-
-            <Color x:Key="CardBackgroundFillColorDefault">#B3FFFFFF</Color>
-
-            <Color x:Key="CardStrokeColorDefault">#0F000000</Color>
-
-            <Color x:Key="NavigationViewBackground">#A8ECECEC</Color>
-
-            
-
-            <Color x:Key="AcrylicInAppFillColorDefault">#F9F9F9</Color>
-
-            
-
-            <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -63,19 +43,20 @@
             <Color x:Key="TextFillColor3">#87FFFFFF</Color>
 
             <Color x:Key="ControlFillColor1">#0FFFFFFF</Color>
-            <Color x:Key="ControlFillColor2">#15FFFFFF</Color>
-            <Color x:Key="ControlFillColor3">#08FFFFFF</Color>
+            <Color x:Key="ControlFillColor2">#19FFFFFF</Color>
+            <Color x:Key="ControlFillColor3">#23FFFFFF</Color>
 
-            <Color x:Key="ControlBorderColor">#8BFFFFFF</Color>
+            <Color x:Key="ControlBorderColor">#32FFFFFF</Color>
+            <Color x:Key="ContentBorderColor">#96000000</Color>
             
             <Color x:Key="BackgroundColor1">#202020</Color>
             <Color x:Key="BackgroundColor2">#1C1C1C</Color>
             <Color x:Key="BackgroundColor3">#282828</Color>
             <Color x:Key="BackgroundColor4">#2C2C2C</Color>
             
-            <Color x:Key="ScrollBarColor1">#78000000</Color>
-            <Color x:Key="ScrollBarColor2">#82000000</Color>
-            <Color x:Key="ScrollBarColor3">#96000000</Color>
+            <Color x:Key="ControlColor1">#4BFFFFFF</Color>
+            <Color x:Key="ControlColor2">#55FFFFFF</Color>
+            <Color x:Key="ControlColor3">#64FFFFFF</Color>
             
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -89,30 +70,6 @@
             
             <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
             <Color x:Key="FocusStrokeColorInner">#B3000000</Color>
-            
-            
-            
-            
-            
-            
-            <Color x:Key="SubtleFillColorSecondary">#0FFFFFFF</Color>
-            <Color x:Key="SubtleFillColorTertiary">#0AFFFFFF</Color>
-
-            <Color x:Key="CardBackgroundFillColorDefault">#0DFFFFFF</Color>
-
-            <Color x:Key="CardStrokeColorDefault">#19000000</Color>
-
-            <Color x:Key="NavigationViewBackground">#A0252525</Color>
-
-            
-
-            
-
-            <Color x:Key="AcrylicInAppFillColorDefault">#2C2C2C</Color>
-
-            
-
-            <Color x:Key="SelectedColorBox">#B3FFFFFF</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -124,18 +81,18 @@
     <SolidColorBrush x:Key="ControlFillColor1Brush" Color="{DynamicResource ControlFillColor1}" />
     <SolidColorBrush x:Key="ControlFillColor2Brush" Color="{DynamicResource ControlFillColor2}" />
     <SolidColorBrush x:Key="ControlFillColor3Brush" Color="{DynamicResource ControlFillColor3}" />
-    <SolidColorBrush x:Key="ControlFillColorInputActiveBrush" Color="{DynamicResource ControlFillColorInputActive}" />
 
     <SolidColorBrush x:Key="ControlBorderColorBrush" Color="{DynamicResource ControlBorderColor}" />
+    <SolidColorBrush x:Key="ContentBorderColorBrush" Color="{DynamicResource ContentBorderColor}" />
     
     <SolidColorBrush x:Key="BackgroundColor1Brush" Color="{DynamicResource BackgroundColor1}" />
     <SolidColorBrush x:Key="BackgroundColor2Brush" Color="{DynamicResource BackgroundColor2}" />
     <SolidColorBrush x:Key="BackgroundColor3Brush" Color="{DynamicResource BackgroundColor3}" />
     <SolidColorBrush x:Key="BackgroundColor4Brush" Color="{DynamicResource BackgroundColor4}" />
     
-    <SolidColorBrush x:Key="ScrollBarColor1Brush" Color="{DynamicResource ScrollBarColor1}" />
-    <SolidColorBrush x:Key="ScrollBarColor2Brush" Color="{DynamicResource ScrollBarColor2}" />
-    <SolidColorBrush x:Key="ScrollBarColor3Brush" Color="{DynamicResource ScrollBarColor3}" />
+    <SolidColorBrush x:Key="ControlColor1Brush" Color="{DynamicResource ControlColor1}" />
+    <SolidColorBrush x:Key="ControlColor2Brush" Color="{DynamicResource ControlColor2}" />
+    <SolidColorBrush x:Key="ControlColor3Brush" Color="{DynamicResource ControlColor3}" />
     
     <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
     <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
@@ -145,23 +102,9 @@
     <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
     <SolidColorBrush x:Key="BorderDangerColorBrush" Color="{DynamicResource BorderDangerColor}" />
     <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
-    <SolidColorBrush x:Key="SelectedColorBoxBrush" Color="{DynamicResource SelectedColorBox}" />
     
     <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
     <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
-    
-    
-
-    
-    <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
-    <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush" Color="{DynamicResource SubtleFillColorTertiary}" />
-
-    <SolidColorBrush x:Key="NavigationViewBackgroundBrush" Color="{DynamicResource NavigationViewBackground}" />
-
-    <SolidColorBrush x:Key="CardStrokeColorDefaultBrush" Color="{DynamicResource CardStrokeColorDefault}" />
-
-    
-
     
     <VisualBrush x:Key="CheckeredBackgroundBrush"
                  TileMode="Tile"

@@ -100,11 +100,11 @@ public static class Observable
         });
     }
     
-    public static IObservable<System.EventArgs> FromEventPattern(Action<EventHandler> addHandler, Action<EventHandler> removeHandler)
+    public static IObservable<EventArgs> FromEventPattern(Action<EventHandler> addHandler, Action<EventHandler> removeHandler)
     {
-        return Create<System.EventArgs>(observer =>
+        return Create<EventArgs>(observer =>
         {
-            Action<EventArgs>? handler = new Action<System.EventArgs>(observer.OnNext);
+            Action<EventArgs>? handler = new Action<EventArgs>(observer.OnNext);
             EventHandler? converted = new EventHandler((_, args) => handler(args));
             addHandler(converted);
 

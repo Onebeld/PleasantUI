@@ -14,7 +14,7 @@
     <CornerRadius x:Key="ScrollBarCornerRadius">6</CornerRadius>
 
     <ControlTheme x:Key="ScrollBarThumb" TargetType="Thumb">
-        <Setter Property="Background" Value="{StaticResource ScrollBarColor1Brush}" />
+        <Setter Property="Background" Value="{StaticResource ControlColor1Brush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -33,10 +33,10 @@
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ScrollBarColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource ControlColor2Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ScrollBarColor3Brush}" />
+            <Setter Property="Background" Value="{StaticResource ControlColor3Brush}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -78,13 +78,13 @@
         </Setter>
 
         <Style Selector="^ /template/ Path">
-            <Setter Property="Fill" Value="{StaticResource ScrollBarColor1Brush}" />
+            <Setter Property="Fill" Value="{StaticResource ControlColor1Brush}" />
         </Style>
         <Style Selector="^:pointerover /template/ Path">
-            <Setter Property="Fill" Value="{StaticResource ScrollBarColor2Brush}" />
+            <Setter Property="Fill" Value="{StaticResource ControlColor2Brush}" />
         </Style>
         <Style Selector="^:disabled /template/ Path">
-            <Setter Property="Fill" Value="{StaticResource ScrollBarColor3Brush}" />
+            <Setter Property="Fill" Value="{StaticResource ControlColor3Brush}" />
         </Style>
 
         <Style Selector="^:pressed /template/ Path">

@@ -81,7 +81,7 @@
                                 Width="40"
                                 Height="20"
                                 Background="{StaticResource ControlFillColor1Brush}"
-                                BorderBrush="{StaticResource ScrollBarColor1Brush}"
+                                BorderBrush="{StaticResource ControlColor1Brush}"
                                 BorderThickness="1"
                                 CornerRadius="10" />
 
@@ -106,12 +106,12 @@
                             <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                 <Ellipse
                                     x:Name="SwitchKnobOn"
-                                    Fill="{StaticResource ScrollBarColor1Brush}"
+                                    Fill="{StaticResource ControlColor1Brush}"
                                     Width="10"
                                     Height="10" />
                                 <Ellipse
                                     x:Name="SwitchKnobOff"
-                                    Fill="{StaticResource ScrollBarColor1Brush}"
+                                    Fill="{StaticResource ControlColor1Brush}"
                                     Width="10"
                                     Height="10" />
                             </Grid>
@@ -183,7 +183,7 @@
                                     Width="40"
                                     Height="20"
                                     Background="{StaticResource ControlFillColor1Brush}"
-                                    BorderBrush="{StaticResource ScrollBarColor1Brush}"
+                                    BorderBrush="{StaticResource ControlColor1Brush}"
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
@@ -208,12 +208,12 @@
                                 <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                     <Ellipse
                                         x:Name="SwitchKnobOn"
-                                        Fill="{StaticResource ScrollBarColor1Brush}"
+                                        Fill="{StaticResource ControlColor1Brush}"
                                         Width="10"
                                         Height="10" />
                                     <Ellipse
                                         x:Name="SwitchKnobOff"
-                                        Fill="{StaticResource ScrollBarColor1Brush}"
+                                        Fill="{StaticResource ControlColor1Brush}"
                                         Width="10"
                                         Height="10" />
                                 </Grid>

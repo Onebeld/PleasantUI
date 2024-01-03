@@ -17,11 +17,11 @@
             <ControlTemplate TargetType="DataValidationErrors">
                 <DockPanel LastChildFill="True">
                     <ContentPresenter x:Name="InlineDataValidationContentControl"
-                                      Content="{Binding (DataValidationErrors.Errors)}"
+                                      Content="{CompiledBinding (DataValidationErrors.Errors)}"
                                       ContentTemplate="{TemplateBinding ErrorTemplate}"
                                       DataContext="{TemplateBinding Owner}"
                                       DockPanel.Dock="Right"
-                                      IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                                      IsVisible="{CompiledBinding (DataValidationErrors.HasErrors)}" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Padding="{TemplateBinding Padding}"
                                       Background="{TemplateBinding Background}"

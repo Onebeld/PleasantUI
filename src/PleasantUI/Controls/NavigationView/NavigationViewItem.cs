@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Mixins;
-using Avalonia.Controls.Presenters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -11,6 +10,7 @@ namespace PleasantUI.Controls;
 
 public class NavigationViewItem : NavigationViewItemBase
 {
+    /// <inheritdoc cref="StyleKeyOverride"/>
     protected override Type StyleKeyOverride => typeof(NavigationViewItemBase);
 
     static NavigationViewItem()
@@ -25,9 +25,7 @@ public class NavigationViewItem : NavigationViewItemBase
         base.OnClosed(sender, e);
 
         if (SelectOnClose)
-        {
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
-        }
     }
 
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
@@ -45,9 +43,7 @@ public class NavigationViewItem : NavigationViewItemBase
             e.Handled = true;
 
             if (ClickMode == ClickMode.Press)
-            {
                 Select();
-            }
         }
     }
 
@@ -70,8 +66,6 @@ public class NavigationViewItem : NavigationViewItemBase
     private void Select()
     {
         if (!IsSelected)
-        {
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
-        }
     }
 }

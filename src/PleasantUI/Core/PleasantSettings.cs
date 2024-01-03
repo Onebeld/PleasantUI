@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using System.Security.Cryptography;
 using System.Text.Json;
 using Avalonia.Collections;
 using PleasantUI.Core.Constants;
@@ -17,7 +16,7 @@ public class PleasantSettings : ViewModelBase
     private Theme _theme = Theme.System;
     private WindowSettings _windowSettings = null!;
     private RenderSettings _renderSettings = null!;
-    private AvaloniaList<uint> _savedColorPalette = new();
+    private AvaloniaList<uint> _colorPalettes = new();
 
     static PleasantSettings()
     {
@@ -111,16 +110,16 @@ public class PleasantSettings : ViewModelBase
     }
     
     [DataMember]
-    public AvaloniaList<uint> SavedColorPalette
+    public AvaloniaList<uint> ColorPalettes
     {
-        get => _savedColorPalette;
-        set => RaiseAndSet(ref _savedColorPalette, value);
+        get => _colorPalettes;
+        set => RaiseAndSet(ref _colorPalettes, value);
     }
 
     /// <summary>
     /// Saves all library settings to its own folder
     /// </summary>
-    public void Save()
+    public static void Save()
     {
         using FileStream fileStream = File.Create(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
         JsonSerializer.Serialize(fileStream, Instance, GenerationContexts.PleasantSettingsGenerationContext.Default.PleasantSettings);

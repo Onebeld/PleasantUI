@@ -1,13 +1,4 @@
-﻿using System;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Notifications;
-using PleasantUI.Controls;
-using PleasantUI.Core;
-using PleasantUI.Core.Enums;
-using PleasantUI.Core.Interfaces;
-using PleasantUI.Example.Android;
-using PleasantUI.Windows;
-using Application = Avalonia.Application;
+﻿using PleasantUI.Example.Android;
 using Notification = Avalonia.Controls.Notifications.Notification;
 
 namespace PleasantUI.Example.ViewModels;

@@ -1,10 +1,4 @@
-﻿using Android.App;
-using Android.Content.PM;
-using Avalonia;
-using Avalonia.Android;
-using PleasantUI.Core;
-
-namespace PleasantUI.Example.Android;
+﻿namespace PleasantUI.Example.Android;
 
 [Activity(
     Label = "PleasantUI.Example",

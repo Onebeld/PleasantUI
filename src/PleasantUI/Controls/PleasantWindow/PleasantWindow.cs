@@ -28,9 +28,6 @@ public class PleasantWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableTitleBarMarginProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableTitleBarMargin), true);
 
-    public static readonly StyledProperty<bool> ShowFullScreenButtonProperty =
-        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowFullScreenButton));
-
     public static readonly StyledProperty<PleasantTitleBarStyle> TitleBarStyleProperty =
         AvaloniaProperty.Register<PleasantWindow, PleasantTitleBarStyle>(nameof(TitleBarStyle));
 
@@ -91,18 +88,6 @@ public class PleasantWindow : Window, IPleasantWindow
         set => SetValue(EnableTitleBarMarginProperty, value);
     }
     
-    /// <summary>
-    /// Shows the button that allows you to switch the window to full screen mode.
-    /// </summary>
-    /// <remarks>
-    /// This field is not used yet
-    /// </remarks>
-    public bool ShowFullScreenButton
-    {
-        get => GetValue(ShowFullScreenButtonProperty);
-        set => SetValue(ShowFullScreenButtonProperty, value);
-    }
-
     public PleasantTitleBarStyle TitleBarStyle
     {
         get => GetValue(TitleBarStyleProperty);
@@ -205,7 +190,7 @@ public class PleasantWindow : Window, IPleasantWindow
         }
     }
 
-    public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = new();
 
     public VisualLayerManager VisualLayerManager { get; private set; }
 
@@ -218,14 +203,14 @@ public class PleasantWindow : Window, IPleasantWindow
         windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
         
-        OpenedModalWindows.Add(modalWindow);
+        ModalWindows.Add(modalWindow);
         
         _modalWindowsPanel.Children.Add(windowPanel);
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)
     {
-        OpenedModalWindows.Remove(modalWindow);
+        ModalWindows.Remove(modalWindow);
         _modalWindowsPanel.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 }

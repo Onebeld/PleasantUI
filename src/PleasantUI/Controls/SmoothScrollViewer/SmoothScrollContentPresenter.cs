@@ -632,7 +632,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         }
     }
 
-    private void SmoothScrollTimer_Elapsed(object? sender, System.EventArgs e)
+    private void SmoothScrollTimer_Elapsed(object? sender, EventArgs e)
     {
         double totalDistanceX = _offsetX - _animStartOffsetX;
         double totalDistanceY = _offsetY - _animStartOffsetY;
@@ -694,7 +694,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         }
     }
 
-    private void ScrollInvalidated(object? sender, System.EventArgs e)
+    private void ScrollInvalidated(object? sender, EventArgs e)
     {
         UpdateFromScrollable((ILogicalScrollable)sender!);
     }

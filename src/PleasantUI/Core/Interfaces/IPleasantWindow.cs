@@ -6,7 +6,7 @@ namespace PleasantUI.Core.Interfaces;
 
 public interface IPleasantWindow
 {
-    AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; }
+    AvaloniaList<PleasantModalWindow> ModalWindows { get; }
     
     VisualLayerManager VisualLayerManager { get; }
     

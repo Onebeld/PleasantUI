@@ -628,7 +628,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         CalculatedPropertiesChanged();
     }
 
-    private void LogicalScrollInvalidated(object? sender, System.EventArgs e)
+    private void LogicalScrollInvalidated(object? sender, EventArgs e)
     {
         CalculatedPropertiesChanged();
     }
@@ -770,7 +770,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         IsExpanded = isExpanded;
     }
 
-    private void OnLayoutUpdated(object? sender, System.EventArgs e) => RaiseScrollChanged();
+    private void OnLayoutUpdated(object? sender, EventArgs e) => RaiseScrollChanged();
 
     private void RaiseScrollChanged()
     {

@@ -9,10 +9,11 @@ public class PleasantView : ContentControl, IPleasantWindow
 {
     private Panel _modalWindowsPanel = null!;
     
-    public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = new();
 
     public VisualLayerManager VisualLayerManager { get; private set; }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -30,14 +31,14 @@ public class PleasantView : ContentControl, IPleasantWindow
         windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
         
-        OpenedModalWindows.Add(modalWindow);
+        ModalWindows.Add(modalWindow);
         
         _modalWindowsPanel.Children.Add(windowPanel);
     }
 
     public void RemoveModalWindow(PleasantModalWindow modalWindow)
     {
-        OpenedModalWindows.Remove(modalWindow);
+        ModalWindows.Remove(modalWindow);
         _modalWindowsPanel.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 }

@@ -1,21 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
+        <PublishTrimmed>true</PublishTrimmed>
+        <PublishAot>true</PublishAot>
+        <Company>Dmitry Zhutkov (Onebeld)</Company>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows'))">true</IsWindows>
+        <IsAndroid Condition="$([MSBuild]::IsOSPlatform('Android'))">true</IsAndroid>
+        <IsLinux Condition="$([MSBuild]::IsOSPlatform('Linux'))">true</IsLinux>
+        <IsOSX Condition="$([MSBuild]::IsOSPlatform('OSX'))">true</IsOSX>
 
+        <DefineConstants Condition="'$(IsWindows)'=='true'">Windows</DefineConstants>
+        <DefineConstants Condition="'$(IsOSX)'=='true'">OSX</DefineConstants>
+        <DefineConstants Condition="'$(IsLinux)'=='true'">Linux</DefineConstants>
+        <DefineConstants Condition="'$(IsAndroid)'=='true'">Android</DefineConstants>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.6"/>
         <PackageReference Include="Avalonia.Desktop" Version="11.0.6"/>
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
     </ItemGroup>
 
-
     <ItemGroup>
-      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
+      <ProjectReference Include="..\PleasantUI.Example\PleasantUI.Example.csproj" />
     </ItemGroup>
 </Project>

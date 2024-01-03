@@ -8,11 +8,9 @@
                     <TextBlock Text="Content" FontSize="20" Margin="20" />
                 </PleasantTabItem>
                 <PleasantTabItem Header="Leaf">
-                    <Border Background="Green"
-                            Height="100" />
+                    <Border Background="Green" Height="100" />
                 </PleasantTabItem>
-                <PleasantTabItem Header="Disabled"
-                                 IsEnabled="False" />
+                <PleasantTabItem Header="Disabled" IsEnabled="False" />
             </PleasantTabView>
         </Border>
     </Design.PreviewWith>
@@ -21,7 +19,7 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="10 0 10 10" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
-        <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColor2Brush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Template">

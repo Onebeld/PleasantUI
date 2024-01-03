@@ -5,7 +5,6 @@
         <NavigationView Width="300"
                         Height="400"
                         DisplayMode="CompactOverlay"
-                        Header="Nice"
                         IsFloatingHeader="True">
             <NavigationViewItem Header="Header" Title="Item Title"
                                 Content="Item Content">
@@ -48,8 +47,7 @@
                     <Grid Name="Container" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <!-- why is this throwing a binding error? -->
-                            <ColumnDefinition
-                                Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
+                            <ColumnDefinition Width="{CompiledBinding $parent[SplitView].TemplateSettings.PaneColumnGridLength}" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -84,8 +82,7 @@
         </Style>
 
         <Style Selector="^:overlay:left /template/ Border#PaneLayoutRoot">
-            <Setter Property="Width"
-                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
             <!-- ColumnSpan should be 2 -->
             <Setter Property="Grid.ColumnSpan" Value="1" />
             <Setter Property="Grid.Column" Value="0" />
@@ -98,8 +95,7 @@
         <Style Selector="^:compactinline:left /template/ Border#PaneLayoutRoot">
             <Setter Property="Grid.ColumnSpan" Value="1" />
             <Setter Property="Grid.Column" Value="0" />
-            <Setter Property="Width"
-                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
         </Style>
         <Style Selector="^:compactinline:left /template/ Panel#ContentRoot">
             <Setter Property="Grid.Column" Value="1" />
@@ -110,8 +106,7 @@
             <!-- ColumnSpan should be 2 -->
             <Setter Property="Grid.ColumnSpan" Value="1" />
             <Setter Property="Grid.Column" Value="0" />
-            <Setter Property="Width"
-                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
         </Style>
         <Style Selector="^:compactoverlay:left /template/ Panel#ContentRoot">
             <Setter Property="Grid.Column" Value="1" />
@@ -121,8 +116,7 @@
         <Style Selector="^:inline:left /template/ Border#PaneLayoutRoot">
             <Setter Property="Grid.ColumnSpan" Value="1" />
             <Setter Property="Grid.Column" Value="0" />
-            <Setter Property="Width"
-                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
         </Style>
         <Style Selector="^:inline:left /template/ Panel#ContentRoot">
             <Setter Property="Grid.Column" Value="1" />
@@ -135,8 +129,7 @@
                     <DoubleTransition Property="Width" Duration="00:00:00.2" Easing="0.1,0.9,0.2,1.0" />
                 </Transitions>
             </Setter>
-            <Setter Property="Width"
-                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenPaneLength}" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].OpenPaneLength}" />
         </Style>
         <Style Selector="^:open /template/ Rectangle#LightDismissLayer">
             <Setter Property="Transitions">
@@ -153,8 +146,7 @@
                     <DoubleTransition Property="Width" Duration="00:00:00.1" Easing="0.1,0.9,0.2,1.0" />
                 </Transitions>
             </Setter>
-            <Setter Property="Width"
-                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
         </Style>
         <Style Selector="^:closed /template/ Rectangle#LightDismissLayer">
             <Setter Property="Transitions">
@@ -167,11 +159,11 @@
 
         <Style Selector="^ /template/ Rectangle#LightDismissLayer">
             <Setter Property="IsVisible" Value="False" />
-            <Setter Property="Fill" Value="#00000000" />
+            <Setter Property="Fill" Value="Transparent" />
         </Style>
-        <Style Selector="^:lightdismiss /template/ Rectangle#LightDismissLayer">
+        <!--<Style Selector="^:lightdismiss /template/ Rectangle#LightDismissLayer">
             <Setter Property="Fill" Value="{DynamicResource SplitViewLightDismissOverlayBackground}" />
-        </Style>
+        </Style>-->
 
         <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
             <Setter Property="IsVisible" Value="True" />

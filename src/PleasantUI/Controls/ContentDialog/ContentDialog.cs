@@ -19,8 +19,10 @@ public class ContentDialog : PleasantModalWindow
     
     static ContentDialog() { }
     
+    /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(ContentDialog);
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);

@@ -13,8 +13,8 @@
     <ControlTheme x:Key="{x:Type NavigationView}" TargetType="NavigationView">
         <Setter Property="CompactPaneLength" Value="50" />
         <Setter Property="OpenPaneLength" Value="250" />
-        <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
-        <Setter Property="Background" Value="{StaticResource NavigationViewBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ContentBorderColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColor2Brush}" />
         <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
         <Setter Property="TransitionAnimations">
             <Animations>
@@ -121,17 +121,11 @@
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
                             <Viewbox Width="16">
-                                <Path Data="{CompiledBinding $parent[NavigationView].Icon}"
+                                <Path Data="{TemplateBinding Icon}"
                                       Fill="{StaticResource TextFillColor1Brush}" />
                             </Viewbox>
                         </Button>
                     </StackPanel>
-                    <ContentPresenter Grid.Column="1"
-                                      IsVisible="{TemplateBinding HeaderVisible}"
-                                      Name="PART_HeaderPresenter"
-                                      HorizontalAlignment="Left"
-                                      Content="{TemplateBinding Header}"
-                                      Margin="20 14 0 0" />
                 </Grid>
             </ControlTemplate>
         </Setter>

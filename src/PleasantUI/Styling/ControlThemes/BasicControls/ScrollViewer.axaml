@@ -36,8 +36,8 @@
                                             Padding="{TemplateBinding Padding}">
                         <ScrollContentPresenter.GestureRecognizers>
                             <ScrollGestureRecognizer
-                                CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"
-                                CanVerticallyScroll="{Binding CanVerticallyScroll, ElementName=PART_ContentPresenter}"
+                                CanHorizontallyScroll="{CompiledBinding $parent[ScrollContentPresenter].CanHorizontallyScroll}"
+                                CanVerticallyScroll="{CompiledBinding $parent[ScrollContentPresenter].CanVerticallyScroll}"
                                 IsScrollInertiaEnabled="True" />
                         </ScrollContentPresenter.GestureRecognizers>
                     </ScrollContentPresenter>

@@ -32,6 +32,7 @@ public partial class MessageBox : ContentDialog
         if (Application.Current!.TryFindResource(title, out object? objectTitleValue))
             titleValue = objectTitleValue as string ?? string.Empty;
         else titleValue = title;
+        
         if (Application.Current!.TryFindResource(text, out object? objectTextValue))
             textValue = objectTextValue as string ?? string.Empty;
         else textValue = text;
@@ -73,6 +74,7 @@ public partial class MessageBox : ContentDialog
             }
 
             if (!messageBoxButton.Default) return;
+            
             result = messageBoxButton.Result;
             button.Classes.Add("Accent");
 
@@ -121,6 +123,7 @@ public partial class MessageBox : ContentDialog
         else messageBox.AdditionalText.IsVisible = false;
 
         TaskCompletionSource<string> taskCompletionSource = new();
+        
         messageBox.Closed += (_, _) => taskCompletionSource.TrySetResult(result);
         messageBox.Show(parent);
 

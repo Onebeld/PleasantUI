@@ -1,12 +1,10 @@
-﻿<Application xmlns="https://github.com/avaloniaui"
+<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="PleasantUI.Example.App">
-    
+             x:Class="PleasantUI.Designer.App"
+             RequestedThemeVariant="Default">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="Assets/Icons.axaml" />
-                
                 <ResourceInclude Source="avares://PleasantUI/Assets/Localization/en.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

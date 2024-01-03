@@ -70,9 +70,7 @@ public class ShadowBehavior : AvaloniaObject
         bool enabledShadowing = element.GetValue(EnableShadowingProperty);
 
         if (enabledShadowing && boxShadow is not null)
-        {
             element.SetValue(Border.BoxShadowProperty, new BoxShadows(boxShadow.Value));
-        }
         else element.SetValue(Border.BoxShadowProperty, default);
     }
 }

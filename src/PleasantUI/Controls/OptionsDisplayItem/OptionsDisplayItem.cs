@@ -154,6 +154,7 @@ public class OptionsDisplayItem : TemplatedControl
         remove => RemoveHandler(NavigationRequestedEvent, value);
     }
     
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -182,6 +183,7 @@ public class OptionsDisplayItem : TemplatedControl
         }
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -194,31 +196,31 @@ public class OptionsDisplayItem : TemplatedControl
 
     private void OnLayoutRootPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonPressed)
-        {
-            _isPressed = true;
-            PseudoClasses.Set(":pressed", true);
-        }
+        if (e.GetCurrentPoint(this).Properties.PointerUpdateKind != PointerUpdateKind.LeftButtonPressed)
+            return;
+
+        _isPressed = true;
+        PseudoClasses.Set(":pressed", true);
     }
 
     private void OnLayoutRootPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         PointerPoint pt = e.GetCurrentPoint(this);
-        if (_isPressed && pt.Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonReleased)
-        {
-            _isPressed = false;
+        if (!_isPressed || pt.Properties.PointerUpdateKind != PointerUpdateKind.LeftButtonReleased)
+            return;
 
-            PseudoClasses.Set(":pressed", false);
+        _isPressed = false;
 
-            if (Expands)
-                IsExpanded = !IsExpanded;
+        PseudoClasses.Set(":pressed", false);
 
-            if (Navigates)
-            {
-                RaiseEvent(new RoutedEventArgs(NavigationRequestedEvent, this));
-                NavigationCommand?.Execute(null);
-            }
-        }
+        if (Expands)
+            IsExpanded = !IsExpanded;
+
+        if (!Navigates)
+            return;
+
+        RaiseEvent(new RoutedEventArgs(NavigationRequestedEvent, this));
+        NavigationCommand?.Execute(null);
     }
 
     private void OnLayoutRootPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)

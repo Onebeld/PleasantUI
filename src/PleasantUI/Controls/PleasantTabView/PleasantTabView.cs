@@ -3,29 +3,18 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
 using Avalonia.Media;
 using PleasantUI.Core.Enums;
-using PleasantUI.Extensions;
 
 namespace PleasantUI.Controls;
 
 [TemplatePart("PART_ScrollViewer", typeof(SmoothScrollViewer))]
 [TemplatePart("PART_AdderButton", typeof(Button))]
-public partial class PleasantTabView : TabControl
+public class PleasantTabView : TabControl
 {
-    private object _fallbackContent = new TextBlock
-    {
-        Text = "Nothing here", 
-        HorizontalAlignment  = HorizontalAlignment.Center, 
-        VerticalAlignment = VerticalAlignment.Center,
-        FontSize = 16
-    };
-
     private double _heightRemainingSpace;
     private double _widthRemainingSpace;
     private Grid? _grid;
-    private double _lastSelectIndex = 0;
 
     public Button? AdderButton;
 
@@ -35,15 +24,6 @@ public partial class PleasantTabView : TabControl
     public static readonly RoutedEvent<RoutedEventArgs> ClickOnAddingButtonEvent =
         RoutedEvent.Register<PleasantTabView, RoutedEventArgs>(nameof(ClickOnAddingButton),
             RoutingStrategies.Bubble);
-
-    /// <summary>
-    ///     Defines the <see cref="FallBackContent" /> property.
-    /// </summary>
-    public static readonly DirectProperty<PleasantTabView, object> FallBackContentProperty =
-        AvaloniaProperty.RegisterDirect<PleasantTabView, object>
-        (nameof(FallBackContent),
-            o => o.FallBackContent,
-            (o, v) => o.FallBackContent = v);
 
     /// <summary>
     ///     Defines the <see cref="AdderButtonIsVisible" /> property.
@@ -82,29 +62,8 @@ public partial class PleasantTabView : TabControl
             nameof(WidthRemainingSpace),
             o => o.WidthRemainingSpace);
 
-    /// <summary>
-    ///     Defines the <see cref="ReorderableTabs" /> property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ReorderableTabsProperty =
-        AvaloniaProperty.Register<PleasantTabView, bool>(nameof(ReorderableTabs), true);
-
-    /// <summary>
-    ///     Defines the <see cref="ImmediateDrag" /> property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ImmediateDragProperty =
-        AvaloniaProperty.Register<PleasantTabView, bool>(nameof(ImmediateDrag), true);
-
     public static readonly StyledProperty<TabViewMarginType> MarginTypeProperty =
         AvaloniaProperty.Register<PleasantTabView, TabViewMarginType>(nameof(MarginType), TabViewMarginType.None);
-
-    /// <summary>
-    ///     This content is showed when there is no item.
-    /// </summary>
-    public object FallBackContent
-    {
-        get => _fallbackContent;
-        set => SetAndRaise(FallBackContentProperty, ref _fallbackContent, value);
-    }
 
     /// <summary>
     ///     This property defines if the AdderButton can be visible, the default value is true.
@@ -134,7 +93,7 @@ public partial class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     Sets the margin of the itemspresenter
+    ///     Sets the margin of the items presenter
     /// </summary>
     public Thickness ItemsMargin
     {
@@ -160,24 +119,6 @@ public partial class PleasantTabView : TabControl
         private set => SetAndRaise(WidthRemainingSpaceProperty, ref _widthRemainingSpace, value);
     }
 
-    /// <summary>
-    ///     Gets or Sets if the Children-Tabs can be reorganized by dragging.
-    /// </summary>
-    public bool ReorderableTabs
-    {
-        get => GetValue(ReorderableTabsProperty);
-        set => SetValue(ReorderableTabsProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets if the DraggableTabsChildren can be dragged Immediate or on PointerReleased only.
-    /// </summary>
-    public bool ImmediateDrag
-    {
-        get => GetValue(ImmediateDragProperty);
-        set => SetValue(ImmediateDragProperty, value);
-    }
-
     public TabViewMarginType MarginType
     {
         get => GetValue(MarginTypeProperty);
@@ -198,6 +139,7 @@ public partial class PleasantTabView : TabControl
         SelectionModeProperty.OverrideDefaultValue<PleasantTabView>(SelectionMode.Single);
     }
 
+    
     protected void AdderButtonClicked(object? sender, RoutedEventArgs e)
     {
         RoutedEventArgs routedEventArgs = new(ClickOnAddingButtonEvent);
@@ -205,6 +147,7 @@ public partial class PleasantTabView : TabControl
         routedEventArgs.Handled = true;
     }
 
+    /// <inheritdoc />
     protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -214,15 +157,16 @@ public partial class PleasantTabView : TabControl
             await Task.Delay(100);
 
             double d = ItemCount * 0.5;
-            if ((_lastSelectIndex < d) & (ItemCount != 0))
+            if ((d > 0) & (ItemCount != 0))
             {
                 SelectedItem = Items.OfType<object>().FirstOrDefault();
             }
-            else if ((_lastSelectIndex >= d) & (ItemCount != 0))
+            else if ((d <= 0) & (ItemCount != 0))
                 SelectedItem = Items.OfType<object>().LastOrDefault();
         }
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -241,15 +185,5 @@ public partial class PleasantTabView : TabControl
 
         WidthRemainingSpace = _grid.Bounds.Width;
         HeightRemainingSpace = _grid.Bounds.Height;
-    }
-
-    /// <summary>
-    ///     Add a <see cref="PleasantTabItem" />
-    /// </summary>
-    /// <param name="itemToAdd">The Item to Add</param>
-    /// <param name="isSelected"></param>
-    public void AddTab(PleasantTabItem itemToAdd, bool isSelected = true)
-    {
-        TabViewExtensions.AddTab(this, itemToAdd, isSelected);
     }
 }

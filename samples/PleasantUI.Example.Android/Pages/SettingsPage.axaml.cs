@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-
-namespace PleasantUI.Example.Pages;
+﻿namespace PleasantUI.Example.Pages;
 
 public partial class SettingsPage : UserControl
 {

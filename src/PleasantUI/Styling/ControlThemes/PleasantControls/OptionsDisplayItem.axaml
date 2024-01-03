@@ -182,11 +182,11 @@
 
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="CornerRadius"
-                    Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
+                    Value="{CompiledBinding $parent[OptionsDisplayItem].CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
         </Style>
         <Style Selector="^:expanded /template/ Border#LayoutRoot">
             <Setter Property="CornerRadius"
-                    Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
+                    Value="{CompiledBinding $parent[OptionsDisplayItem].CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
         </Style>
 
         <Style Selector="^:not(:expands):expanded /template/ ContentPresenter#ExpandedContentPresenter">

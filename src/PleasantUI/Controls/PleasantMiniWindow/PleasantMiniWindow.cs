@@ -72,8 +72,10 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
     
+    /// <inheritdoc cref="StyleKeyOverride"/>
     protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
 
+    /// <inheritdoc cref="OnApplyTemplate"/>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -104,6 +106,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         });
     }
 
+    /// <inheritdoc cref="OnPropertyChanged"/>
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -114,7 +117,6 @@ public class PleasantMiniWindow : Window, IPleasantWindow
             {
                 TransparencyLevelHint = new[]
                 {
-                    WindowTransparencyLevel.Mica,
                     WindowTransparencyLevel.AcrylicBlur,
                     WindowTransparencyLevel.Blur,
                     WindowTransparencyLevel.None
@@ -138,7 +140,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// <value>
     /// The list of currently opened modal windows.
     /// </value>
-    public AvaloniaList<PleasantModalWindow> OpenedModalWindows { get; } = new();
+    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = new();
 
     /// <summary>
     /// Gets the <see cref="VisualLayerManager"/> property.
@@ -159,7 +161,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
         
-        OpenedModalWindows.Add(modalWindow);
+        ModalWindows.Add(modalWindow);
 
         _modalWindows.Children.Add(windowPanel);
     }
@@ -171,7 +173,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// <exception cref="NullReferenceException">Thrown when the parent of the modal window is null.</exception>
     public void RemoveModalWindow(PleasantModalWindow modalWindow)
     {
-        OpenedModalWindows.Remove(modalWindow);
+        ModalWindows.Remove(modalWindow);
         _modalWindows.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 }

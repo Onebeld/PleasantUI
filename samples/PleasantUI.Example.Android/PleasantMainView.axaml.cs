@@ -1,12 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
-using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using PleasantUI.Controls;
-using PleasantUI.Core;
-using PleasantUI.Example.Pages;
+﻿using PleasantUI.Example.Pages;
 
 namespace PleasantUI.Example.Android;
 

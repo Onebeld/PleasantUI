@@ -122,7 +122,6 @@ public class PleasantTheme : Style
             themeVariant = PleasantSettings.Instance.Theme is Theme.Light ? 
                 ThemeVariant.Light : ThemeVariant.Dark;
         }
-
         
         if (Application.Current is not null)
             Application.Current.RequestedThemeVariant = themeVariant;
@@ -137,7 +136,7 @@ public class PleasantTheme : Style
         UpdateAccentColors(color);
     }
 
-    private void PlatformSettingsOnColorValuesChanged(object sender, PlatformColorValues e)
+    private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
     {
         if (PleasantSettings.Instance.Theme is Theme.System && Application.Current is not null)
         {

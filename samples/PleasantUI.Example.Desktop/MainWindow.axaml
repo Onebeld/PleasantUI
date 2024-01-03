@@ -1,9 +1,19 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="PleasantUI.Example.Desktop.MainWindow"
-        Title="PleasantUI.Example.Desktop">
-        <Button Content="Hello world!" HorizontalAlignment="Center" VerticalAlignment="Center" />
-</Window>
+<PleasantWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:example="clr-namespace:PleasantUI.Example;assembly=PleasantUI.Example"
+                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                x:Class="PleasantUI.Example.Desktop.MainWindow"
+                Title="PleasantUI"
+                ShowTitleBarContentAnyway="True"
+                EnableTitleBarMargin="False"
+                TitleBarType="ClassicExtended"
+                WindowStartupLocation="CenterScreen"
+                MinWidth="600"
+                MinHeight="500"
+                Width="1200"
+                Height="700"
+                Subtitle="Example">
+    <example:MainView />
+</PleasantWindow>

@@ -27,23 +27,17 @@ public class NavigationView : TreeView
 {
     private object? _selectedContent;
     private IEnumerable<string>? _itemsAsStrings;
-    private bool _headerVisible;
     private AutoCompleteBox? _autoCompleteBox;
     private ICommand? _backButtonCommand;
 
     private PleasantWindow? _host;
     private CompositeDisposable? _disposable;
 
-    public static readonly StyledProperty<object?> HeaderProperty =
-        AvaloniaProperty.Register<NavigationView, object?>(nameof(Header), "Header");
-
     public static readonly StyledProperty<Geometry> IconProperty =
         AvaloniaProperty.Register<NavigationView, Geometry>(nameof(Icon));
 
     public static readonly DirectProperty<NavigationView, object?> SelectedContentProperty =
-        AvaloniaProperty.RegisterDirect<NavigationView, object?>(
-            nameof(SelectedContent),
-            o => o.SelectedContent);
+        AvaloniaProperty.RegisterDirect<NavigationView, object?>(nameof(SelectedContent), o => o.SelectedContent);
 
     public static readonly StyledProperty<IDataTemplate> SelectedContentTemplateProperty =
         AvaloniaProperty.Register<NavigationView, IDataTemplate>(nameof(SelectedContentTemplate));
@@ -89,9 +83,6 @@ public class NavigationView : TreeView
     public static readonly StyledProperty<bool> IsFloatingHeaderProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsFloatingHeader));
 
-    public static readonly DirectProperty<NavigationView, bool> HeaderVisibleProperty =
-        AvaloniaProperty.RegisterDirect<NavigationView, bool>(nameof(HeaderVisible), o => o.HeaderVisible);
-
     public static readonly DirectProperty<NavigationView, AutoCompleteBox?> AutoCompleteBoxProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, AutoCompleteBox?>(nameof(AutoCompleteBox),
             o => o.AutoCompleteBox, (o, v) => o.AutoCompleteBox = v);
@@ -107,18 +98,6 @@ public class NavigationView : TreeView
         AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
     
     private CancellationTokenSource? _cancellationTokenSource;
-
-    /// <summary>
-    /// Gets or sets the header for the object.
-    /// </summary>
-    /// <value>
-    /// The header for the object.
-    /// </value>
-    public object? Header
-    {
-        get => GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
 
     /// <summary>
     /// Gets or sets the geometry of the icon.
@@ -333,20 +312,6 @@ public class NavigationView : TreeView
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the header is visible.
-    /// </summary>
-    /// <remarks>
-    /// This property determines whether the header of a control is visible or not.
-    /// If set to <c>true</c>, the header will be displayed. If set to <c>false</c>,
-    /// the header will be hidden.
-    /// </remarks>
-    public bool HeaderVisible
-    {
-        get => _headerVisible;
-        private set => SetAndRaise(HeaderVisibleProperty, ref _headerVisible, value);
-    }
-
-    /// <summary>
     /// Gets or sets the <see cref="AutoCompleteBox"/>.
     /// </summary>
     /// <value>
@@ -386,7 +351,6 @@ public class NavigationView : TreeView
     private Button? _headerItem;
     private Button? _backButton;
     private ContentPresenter? _contentPresenter;
-    private SplitView? _splitView;
     private const double LittleWidth = 1005;
     private const double VeryLittleWidth = 650;
 
@@ -395,12 +359,6 @@ public class NavigationView : TreeView
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
         FocusableProperty.OverrideDefaultValue<NavigationView>(true);
-        IsOpenProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnIsOpenChanged());
-        IsFloatingHeaderProperty.Changed.Subscribe(x =>
-        {
-            if (x.Sender is NavigationView navigationView)
-                navigationView.UpdateHeaderVisibility();
-        });
     }
 
     public NavigationView()
@@ -475,19 +433,18 @@ public class NavigationView : TreeView
         SelectSingleItemCore(item);
     }
 
-    private void UpdateHeaderVisibility() => HeaderVisible = IsOpen | IsFloatingHeader;
-
     private void OnSelectedItemChanged()
     {
         UpdateTitleAndSelectedContent();
     }
 
+    /// <inheritdoc cref="OnApplyTemplate"/>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
-        _splitView = e.NameScope.Find<SplitView>("split");
+        e.NameScope.Find<SplitView>("split");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
 
@@ -516,6 +473,7 @@ public class NavigationView : TreeView
         UpdateTitleAndSelectedContent();
     }
 
+    /// <inheritdoc cref="OnAttachedToLogicalTree"/>
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
@@ -524,9 +482,12 @@ public class NavigationView : TreeView
             SelectSingleItem(s);
     }
 
-    private void OnIsOpenChanged()
+    /// <inheritdoc cref="OnDetachedFromLogicalTree"/>
+    protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
-        UpdateHeaderVisibility();
+        base.OnDetachedFromLogicalTree(e);
+        
+        Detach();
     }
 
     private void UpdatePseudoClasses(bool isCompact)

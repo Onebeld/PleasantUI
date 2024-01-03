@@ -10,8 +10,10 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class PleasantColorView : ColorView
 {
+    /// <inheritdoc cref="StyleKeyOverride"/>
     protected override Type StyleKeyOverride => typeof(ColorView);
-
+    
+    /// <inheritdoc cref="OnApplyTemplate"/>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -29,7 +31,7 @@ public class PleasantColorView : ColorView
     private void DeleteColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUInt32();
-        PleasantSettings.Instance.SavedColorPalette.Remove(color);
+        PleasantSettings.Instance.ColorPalettes.Remove(color);
         
         Color = Avalonia.Media.Color.FromUInt32(color);
     }
@@ -37,8 +39,8 @@ public class PleasantColorView : ColorView
     private void AddColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUInt32();
-        if (PleasantSettings.Instance.SavedColorPalette.Contains(color)) return;
+        if (PleasantSettings.Instance.ColorPalettes.Contains(color)) return;
 
-        PleasantSettings.Instance.SavedColorPalette.Add(color);
+        PleasantSettings.Instance.ColorPalettes.Add(color);
     }
 }
