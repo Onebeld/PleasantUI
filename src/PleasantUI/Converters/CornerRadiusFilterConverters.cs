@@ -2,6 +2,7 @@
 
 namespace PleasantUI.Converters;
 
+/// <inheritdoc cref="CornerRadiusFilterConverter" />
 public static class CornerRadiusFilterConverters
 {
     public static readonly CornerRadiusFilterConverter Top =

@@ -18,6 +18,7 @@
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
@@ -50,64 +51,17 @@
         </Style>
     </ControlTheme>
     
-    <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button">
+    <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-
-        <Setter Property="Template">
-            <ControlTemplate>
-                <ContentPresenter Name="PART_ContentPresenter"
-                                  Background="{TemplateBinding Background}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  Content="{TemplateBinding Content}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </ControlTemplate>
-        </Setter>
-
-        <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
-        </Style>
-        <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
-        </Style>
-        <Style Selector="^:disabled">
-            <Setter Property="Opacity" Value="0.5" />
-        </Style>
+        <Setter Property="BorderThickness" Value="0" />
     </ControlTheme>
 
-    <ControlTheme x:Key="AccentButtonTheme" TargetType="Button">
+    <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
         <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor3Brush}" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="Padding" Value="11 5 11 5" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-
-        <Setter Property="Template">
-            <ControlTemplate>
-                <ContentPresenter Name="PART_ContentPresenter"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  Background="{TemplateBinding Background}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Content="{TemplateBinding Content}"
-                                  Padding="{TemplateBinding Padding}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  TextBlock.Foreground="{TemplateBinding Foreground}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </ControlTemplate>
-        </Setter>
-
+        <Setter Property="FontWeight" Value="SemiBold" />
+        
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
         </Style>
@@ -115,36 +69,13 @@
             <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
-        <Style Selector="^:disabled">
-            <Setter Property="Opacity" Value="0.5" />
-        </Style>
     </ControlTheme>
     
-    <ControlTheme x:Key="DangerButtonTheme" TargetType="Button">
+    <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderDangerColorBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="Padding" Value="11 5 11 5" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-
-        <Setter Property="Template">
-            <ControlTemplate>
-                <ContentPresenter Name="PART_ContentPresenter"
-                                  Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Content="{TemplateBinding Content}"
-                                  Padding="{TemplateBinding Padding}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  TextBlock.Foreground="{TemplateBinding Foreground}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </ControlTemplate>
-        </Setter>
 
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
@@ -152,34 +83,15 @@
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
             <Setter Property="Opacity" Value="0.6" />
-        </Style>
-        <Style Selector="^:disabled">
-            <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
     
-    <ControlTheme x:Key="CloseButtonTheme" TargetType="Button">
+    <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="Padding" Value="11 5 11 6" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="4" />
-
-        <Setter Property="Template">
-            <ControlTemplate>
-                <ContentPresenter Name="PART_ContentPresenter"
-                                  Background="{TemplateBinding Background}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  Content="{TemplateBinding Content}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </ControlTemplate>
-        </Setter>
-
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+        
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
             <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
@@ -188,9 +100,6 @@
             <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
             <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
             <Setter Property="Opacity" Value="0.6" />
-        </Style>
-        <Style Selector="^:disabled">
-            <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

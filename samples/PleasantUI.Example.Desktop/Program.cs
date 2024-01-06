@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Win32;
 
 namespace PleasantUI.Example.Desktop;

@@ -144,7 +144,7 @@
 
         <Style Selector="^:expanded /template/ Viewbox#ChevronHost">
             <Style.Animations>
-                <Animation FillMode="Both" Duration="0:0:0.1" Easing="0,0 0,1">
+                <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0">
                         <Setter Property="RotateTransform.Angle" Value="0" />
                     </KeyFrame>

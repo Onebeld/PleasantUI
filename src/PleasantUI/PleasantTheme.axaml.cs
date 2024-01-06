@@ -14,6 +14,9 @@ namespace PleasantUI;
 
 public class PleasantTheme : Style
 {
+    private const int AccentColorCount = 3;
+    private const float AccentColorPercentStep = 0.15f;
+    
     private IPlatformSettings? _platformSettings;
 
     private ResourceDictionary? _accentColorsDictionary;
@@ -26,65 +29,28 @@ public class PleasantTheme : Style
         Init();
     }
 
-    public void UpdateAccentColors(Color accent)
+    public void UpdateAccentColors(Color accentColor)
     {
         if (_platformSettings is null) return;
+
+        float lightPercent = 0.25f;
+        float darkPercent = -0.35f;
         
-        float light1Percent;
-        float light2Percent;
-        float light3Percent;
-        float dark1Percent;
-        float dark2Percent;
-        float dark3Percent;
+        List<Color> lightColors = new();
+        List<Color> darkColors = new();
 
-        PlatformThemeVariant platformThemeVariant = _platformSettings.GetColorValues().ThemeVariant;
-
-        if (PleasantSettings.Instance.Theme is Theme.Dark 
-            || PleasantSettings.Instance.Theme is Theme.System && platformThemeVariant is PlatformThemeVariant.Dark)
+        for (int i = 0; i < AccentColorCount; i++)
         {
-            dark3Percent = -0.35f;
-            dark2Percent = -0.20f;
-            dark1Percent = -0.05f;
-            // 0
-            light1Percent = 0.25f;
-            light2Percent = 0.40f;
-            light3Percent = 0.55f;
+            lightColors.Add(accentColor.GetLightenPercent(lightPercent));
+            darkColors.Add(accentColor.GetLightenPercent(darkPercent));
+            
+            lightPercent += AccentColorPercentStep;
+            darkPercent += AccentColorPercentStep;
         }
-        else
-        {
-            dark3Percent = -0.35f;
-            dark2Percent = -0.20f;
-            dark1Percent = -0.05f;
-            // 0
-            light1Percent = 0.15f;
-            light2Percent = 0.30f;
-            light3Percent = 0.45f;
-        }
-
-        Color accentLight1 = accent.GetLightenPercent(light1Percent);
-        Color accentLight2 = accent.GetLightenPercent(light2Percent);
-        Color accentLight3 = accent.GetLightenPercent(light3Percent);
-        Color accentDark1 = accent.GetLightenPercent(dark1Percent);
-        Color accentDark2 = accent.GetLightenPercent(dark2Percent);
-        Color accentDark3 = accent.GetLightenPercent(dark3Percent);
-
-        UpdateAccentColors(
-            accent,
-            accentLight1,
-            accentLight2,
-            accentLight3,
-            accentDark1,
-            accentDark2,
-            accentDark3);
         
-        UpdateForegroundAccentColors(
-                GetForegroundFromAccent(accent),
-                GetForegroundFromAccent(accentLight1),
-                GetForegroundFromAccent(accentLight2),
-                GetForegroundFromAccent(accentLight3),
-                GetForegroundFromAccent(accentDark1),
-                GetForegroundFromAccent(accentDark2),
-                GetForegroundFromAccent(accentDark3));
+        UpdateAccentColors(accentColor, lightColors, darkColors);
+        
+        UpdateForegroundAccentColors(accentColor, lightColors, darkColors);
     }
 
     public void UpdateTheme()
@@ -132,8 +98,8 @@ public class PleasantTheme : Style
         if (!PleasantSettings.Instance.PreferUserAccentColor)
             PleasantSettings.Instance.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUInt32();
 
-        Color color = Color.FromUInt32(PleasantSettings.Instance.NumericalAccentColor);
-        UpdateAccentColors(color);
+        Color accentColor = Color.FromUInt32(PleasantSettings.Instance.NumericalAccentColor);
+        UpdateAccentColors(accentColor);
     }
 
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
@@ -148,11 +114,11 @@ public class PleasantTheme : Style
 
         if (!PleasantSettings.Instance.PreferUserAccentColor)
         {
-            Color color = e.AccentColor1;
+            Color accentColor = e.AccentColor1;
 
-            PleasantSettings.Instance.NumericalAccentColor = color.ToUInt32();
+            PleasantSettings.Instance.NumericalAccentColor = accentColor.ToUInt32();
             
-            UpdateAccentColors(color);
+            UpdateAccentColors(accentColor);
         }
     }
     
@@ -168,56 +134,40 @@ public class PleasantTheme : Style
         return lum <= 0.2 ? Colors.White : Colors.Black;
     }
 
-    private void UpdateAccentColors(
-        Color accent,
-        Color light1,
-        Color light2,
-        Color light3,
-        Color dark1,
-        Color dark2,
-        Color dark3)
+    private void UpdateAccentColors(Color accentColor, List<Color> lightAccentColors, List<Color> darkAccentColors)
     {
         if (_accentColorsDictionary is not null)
             Resources.MergedDictionaries.Remove(_accentColorsDictionary);
 
         _accentColorsDictionary = new ResourceDictionary
         {
-            { "SystemAccentColor", accent },
-            
-            { "SystemAccentLightColor1", light1 },
-            { "SystemAccentLightColor2", light2 },
-            { "SystemAccentLightColor3", light3 },
-            { "SystemAccentDarkColor1", dark1 },
-            { "SystemAccentDarkColor2", dark2 },
-            { "SystemAccentDarkColor3", dark3 }
+            { "SystemAccentColor", accentColor }
         };
+        
+        foreach (Color lightAccentColor in lightAccentColors)
+            _accentColorsDictionary.Add($"SystemAccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}", lightAccentColor);
+        
+        foreach (Color darkAccentColor in darkAccentColors)
+            _accentColorsDictionary.Add($"SystemAccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}", darkAccentColor);
         
         Resources.MergedDictionaries.Add(_accentColorsDictionary);
     }
     
-    private void UpdateForegroundAccentColors(
-        Color accent,
-        Color light1,
-        Color light2,
-        Color light3,
-        Color dark1,
-        Color dark2,
-        Color dark3)
+    private void UpdateForegroundAccentColors(Color accentColor, List<Color> lightAccentColors, List<Color> darkAccentColors)
     {
         if (_foregroundAccentColorsDictionary is not null)
             Resources.MergedDictionaries.Remove(_foregroundAccentColorsDictionary);
 
         _foregroundAccentColorsDictionary = new ResourceDictionary
         {
-            { "ForegroundAccentColor", accent },
-            
-            { "ForegroundAccentLightColor1", light1 },
-            { "ForegroundAccentLightColor2", light2 },
-            { "ForegroundAccentLightColor3", light3 },
-            { "ForegroundAccentDarkColor1", dark1 },
-            { "ForegroundAccentDarkColor2", dark2 },
-            { "ForegroundAccentDarkColor3", dark3 }
+            { "ForegroundAccentColor", GetForegroundFromAccent(accentColor) },
         };
+
+        foreach (Color lightAccentColor in lightAccentColors)
+            _foregroundAccentColorsDictionary.Add($"ForegroundAccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}", GetForegroundFromAccent(lightAccentColor));
+        
+        foreach (Color darkAccentColor in darkAccentColors)
+            _foregroundAccentColorsDictionary.Add($"ForegroundAccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}", GetForegroundFromAccent(darkAccentColor));
         
         Resources.MergedDictionaries.Add(_foregroundAccentColorsDictionary);
     }

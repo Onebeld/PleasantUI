@@ -17,6 +17,7 @@
                 <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
                 <MergeResourceInclude Source="BasicControls/EmbeddableControlRoot.axaml" />
+                <MergeResourceInclude Source="BasicControls/Expander.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="BasicControls/ItemsControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/Label.axaml" />
