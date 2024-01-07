@@ -79,15 +79,15 @@
         </Style>
 
         <Style Selector="^:checked /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
         </Style>
         <Style Selector="^:checked /template/ Path#CheckGlyph">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Border#NormalRectangle">
@@ -99,19 +99,19 @@
         </Style>
 
         <Style Selector="^:indeterminate /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
         </Style>
         <Style Selector="^:indeterminate /template/ Rectangle#IndeterminateGlyph">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^:indeterminate:pointerover /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
 
         <Style Selector="^:indeterminate:pressed /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
         <Style Selector="^:indeterminate:pressed /template/ Rectangle#IndeterminateGlyph">

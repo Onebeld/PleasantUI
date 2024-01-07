@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
+                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <AutoCompleteBox Width="200">
+                <AutoCompleteBox.ItemsSource>
+                    <generic:List x:TypeArguments="x:String">
+                        Alabama
+                        Alaska
+                        Arizona
+                        Arkansas
+                        California
+                        Colorado
+                        Connecticut
+                        Delaware
+                    </generic:List>
+                </AutoCompleteBox.ItemsSource>
+            </AutoCompleteBox>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="Padding" Value="10 5 10 5" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Name="PART_LayoutRoot">
+                    <TextBox Name="PART_TextBox"
+                             Watermark="{TemplateBinding Watermark}"
+                             Width="{TemplateBinding Width}"
+                             Foreground="{TemplateBinding Foreground}"
+                             Background="{TemplateBinding Background}"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             CornerRadius="{TemplateBinding CornerRadius}"
+                             Padding="{TemplateBinding Padding}"
+                             Margin="0"
+                             DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}" />
+                    <Popup Name="PART_Popup"
+                           MinWidth="{CompiledBinding $self.Bounds.Width}"
+                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                           IsLightDismissEnabled="True"
+                           PlacementTarget="{TemplateBinding}">
+                        <Popup.Styles>
+                            <Style Selector="Popup[IsOpen=True][Placement=Bottom] > Border">
+                                <Style.Animations>
+                                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                        <KeyFrame Cue="0%">
+                                            <Setter Property="TranslateTransform.Y"
+                                                    Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static NumberConverters.DoubleInverse}}" />
+                                            <Setter Property="Opacity" Value="0" />
+                                        </KeyFrame>
+                                        <KeyFrame Cue="100%">
+                                            <Setter Property="TranslateTransform.Y" Value="0" />
+                                            <Setter Property="Opacity" Value="1" />
+                                        </KeyFrame>
+                                    </Animation>
+                                </Style.Animations>
+                            </Style>
+                        </Popup.Styles>
+                        
+                        <Border Name="PART_SuggestionsContainer"
+                                Padding="0"
+                                Background="{StaticResource ControlFillColor1Brush}"
+                                BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                BorderThickness="{StaticResource ControlBorderThickness}"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Margin="6 4 6 6"
+                                Opacity="1"
+                                behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                                behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                            <ListBox Name="PART_SelectingItemsControl"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     ItemTemplate="{TemplateBinding ItemTemplate}"
+                                     Margin="5" />
+                        </Border>
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

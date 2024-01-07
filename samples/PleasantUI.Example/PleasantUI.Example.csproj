@@ -11,17 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\Pages\HomePage.axaml.cs">
-        <DependentUpon>HomePage.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Views\Pages\ControlPages\CheckBoxPage.axaml" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="ViewModels\Pages\" />
     </ItemGroup>
 

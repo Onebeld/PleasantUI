@@ -58,9 +58,10 @@
     </ControlTheme>
 
     <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
         <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor1Brush}" />
         
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />

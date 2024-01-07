@@ -1,0 +1,143 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20" MinWidth="300">
+            <TreeView>
+                <TreeViewItem Header="Level 1" IsExpanded="True">
+                    <TreeViewItem Header="Level 2.1" IsSelected="True" IsExpanded="True">
+                        <TreeViewItem Header="Level 3.1" />
+                        <TreeViewItem Header="Level 3.2" IsSelected="True">
+                            <TreeViewItem Header="Level 4" />
+                        </TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Level 2.2" IsEnabled="False" />
+                </TreeViewItem>
+            </TreeView>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="TreeViewExpandCollapseChevron" TargetType="ToggleButton">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="Transparent"
+                        Width="24"
+                        Height="24">
+                    <Viewbox x:Name="ChevronViewbox"
+                             Width="{TemplateBinding Width}"
+                             Height="{TemplateBinding Height}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center">
+                        <Viewbox.RenderTransform>
+                            <RotateTransform />
+                        </Viewbox.RenderTransform>
+                        
+                        <Path x:Name="ChevronPath"
+                              Data="{StaticResource ChevronRightRegular}"
+                              Fill="{StaticResource TextFillColor2Brush}"
+                              Stretch="Uniform"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                    </Viewbox>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:not(:checked) /template/ Viewbox#ChevronViewbox">
+            <Style.Animations>
+                <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="90" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^:checked /template/ Viewbox#ChevronViewbox">
+            <Style.Animations>
+                <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
+                    <KeyFrame Cue="0">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="90" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="MinHeight" Value="25" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+                    <Border Name="PART_LayoutRoot"
+                            Classes="TreeViewItemLayoutRoot"
+                            Focusable="True"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            MinHeight="{TemplateBinding MinHeight}"
+                            TemplatedControl.IsTemplateFocusTarget="True">
+                        <Grid Name="PART_Header"
+                              ColumnDefinitions="Auto,*"
+                              Margin="{TemplateBinding Level, Mode=OneWay, Converter={x:Static TreeViewItemMarginConverters.Left}}">
+                            <Panel Name="PART_ExpandCollapseChevronContainer"
+                                   Grid.Column="0"
+                                   Margin="12 0 12 0">
+                                <ToggleButton Name="PART_ExpandCollapseChevron"
+                                              Theme="{StaticResource TreeViewExpandCollapseChevron}"
+                                              Focusable="False"
+                                              IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
+                            </Panel>
+                            <ContentPresenter Name="PART_HeaderPresenter"
+                                              Grid.Column="1"
+                                              Focusable="False"
+                                              Background="Transparent"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                              Margin="{TemplateBinding Padding}" />
+                        </Grid>
+                    </Border>
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    IsVisible="{TemplateBinding IsExpanded}"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        
+        <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+        </Style>
+        
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        
+        <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:empty /template/ Panel#Part_ExpandCollapseChevronContainer">
+            <Setter Property="Width" Value="12" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

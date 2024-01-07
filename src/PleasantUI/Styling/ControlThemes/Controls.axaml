@@ -5,6 +5,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <MergeResourceInclude Source="BasicControls/AdornerLayer.axaml" />
+                <MergeResourceInclude Source="BasicControls/AutoCompleteBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/Button.axaml" />
                 <MergeResourceInclude Source="BasicControls/ButtonSpinner.axaml" />
                 <MergeResourceInclude Source="BasicControls/Carousel.axaml" />
@@ -15,10 +16,12 @@
                 <MergeResourceInclude Source="BasicControls/ColorView.axaml" />
                 <MergeResourceInclude Source="BasicControls/ComboBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/ContextMenu.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
                 <MergeResourceInclude Source="BasicControls/EmbeddableControlRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/Expander.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
+                <MergeResourceInclude Source="BasicControls/HeaderedContentControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/ItemsControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/Label.axaml" />
                 <MergeResourceInclude Source="BasicControls/ListBox.axaml" />
@@ -33,9 +36,11 @@
                 <MergeResourceInclude Source="BasicControls/PopupRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/RefreshContainer.axaml" />
                 <MergeResourceInclude Source="BasicControls/RepeatButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/ScrollBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/ScrollViewer.axaml" />
+                <MergeResourceInclude Source="BasicControls/SelectableTextBlock.axaml" />
                 <MergeResourceInclude Source="BasicControls/Separator.axaml" />
                 <MergeResourceInclude Source="BasicControls/Slider.axaml" />
                 <MergeResourceInclude Source="BasicControls/SplitView.axaml" />
@@ -48,6 +53,8 @@
                 <MergeResourceInclude Source="BasicControls/ToggleSwitch.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToolTip.axaml" />
                 <MergeResourceInclude Source="BasicControls/TransitioningContentControl.axaml" />
+                <MergeResourceInclude Source="BasicControls/TreeView.axaml" />
+                <MergeResourceInclude Source="BasicControls/TreeViewItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Window.axaml" />
                 <MergeResourceInclude Source="BasicControls/WindowNotificationManager.axaml" />
                 

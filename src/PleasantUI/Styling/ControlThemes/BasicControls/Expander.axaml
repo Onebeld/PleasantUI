@@ -81,12 +81,13 @@
                                      Height="12"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center">
-                                <Path x:Name="ExpandCollapseChevron"
-                                      Stretch="Uniform"
-                                      Fill="{TemplateBinding Foreground}" />
                                 <Viewbox.RenderTransform>
                                     <RotateTransform />
                                 </Viewbox.RenderTransform>
+                                
+                                <Path x:Name="ExpandCollapseChevron"
+                                      Stretch="Uniform"
+                                      Fill="{StaticResource TextFillColor2Brush}" />
                             </Viewbox>
                         </Border>
                     </Grid>
@@ -127,10 +128,10 @@
             <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
         </Style>
         <Style Selector="^:checked /template/ Border#ExpandCollapseChevronBorder">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
         </Style>
         <Style Selector="^:checked /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Fill" Value="{StaticResource ForegroundAccentLightColor3Brush}" />
+            <Setter Property="Fill" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
         </Style>
         <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
             <Setter Property="Opacity" Value="0.5" />
@@ -176,7 +177,8 @@
                                   IsEnabled="{TemplateBinding IsEnabled}"
                                   Content="{TemplateBinding Header}"
                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                  IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
+                                  IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                                  ZIndex="1" />
                     
                     <Border x:Name="ExpanderContent"
                             IsVisible="{TemplateBinding IsExpanded, Mode=TwoWay}"

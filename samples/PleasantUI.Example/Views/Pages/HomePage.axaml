@@ -2,11 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.HomePage">
     <Grid RowDefinitions="Auto,*">
         <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="8">
-            <Image Source="{StaticResource PleasantUILogo}" Margin="50" />
+            <Image Source="{StaticResource PleasantUI}" Margin="50" />
         </Border>
         
         <!--TODO: Controls-->
