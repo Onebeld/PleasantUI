@@ -37,6 +37,7 @@
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/RefreshContainer.axaml" />
+                <MergeResourceInclude Source="BasicControls/RefreshVisualizer.axaml" />
                 <MergeResourceInclude Source="BasicControls/RepeatButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/ScrollBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/ScrollViewer.axaml" />

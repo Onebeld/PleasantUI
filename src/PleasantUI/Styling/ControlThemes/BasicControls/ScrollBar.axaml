@@ -63,7 +63,7 @@
                         <Path Name="ArrowGlyph"
                               Margin="3"
                               Stretch="Uniform"
-                              Data="{StaticResource ArrowRegular}" />
+                              Data="{StaticResource FillArrowRegular}" />
                     </Viewbox>
                 </Border>
             </ControlTemplate>

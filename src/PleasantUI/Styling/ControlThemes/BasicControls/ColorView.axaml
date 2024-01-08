@@ -40,7 +40,7 @@
                             <TabItem.Header>
                                 <!-- Fluent UI System Icons : ic_fluent_inking_tool_20_regular.svg -->
                                 <Viewbox Width="92" Height="18">
-                                    <Path Data="{StaticResource InkingToolRegular}"
+                                    <Path Data="{StaticResource BrushRegular}"
                                           Stretch="Uniform"
                                           Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 </Viewbox>
@@ -95,7 +95,7 @@
                         <TabItem>
                             <TabItem.Header>
                                 <Viewbox Width="92" Height="18">
-                                    <Path Data="{StaticResource ColorRegular}"
+                                    <Path Data="{StaticResource PaletteRegular}"
                                           Stretch="Uniform"
                                           Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 </Viewbox>
@@ -187,7 +187,7 @@
                             <TabItem.Header>
                                 <!-- Fluent UI System Icons : ic_fluent_options_20_regular.svg -->
                                 <Viewbox Width="92" Height="18">
-                                    <Path Data="{StaticResource OptionsRegular}"
+                                    <Path Data="{StaticResource TuneRegular}"
                                           Stretch="Uniform"
                                           Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
                                 </Viewbox>

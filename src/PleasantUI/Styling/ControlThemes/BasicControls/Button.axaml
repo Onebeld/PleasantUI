@@ -4,6 +4,7 @@
     <Design.PreviewWith>
         <Border Padding="50">
             <StackPanel Spacing="5">
+                <PathIcon Data="{StaticResource SquareRegular}"></PathIcon>
                 <Button Content="Button" Padding="50 10" />
                 <Button Theme="{StaticResource AppBarButtonTheme}" Content="App Bar Button" />
                 <Button Theme="{StaticResource AccentButtonTheme}" Content="Accent Button" Padding="50 10" />

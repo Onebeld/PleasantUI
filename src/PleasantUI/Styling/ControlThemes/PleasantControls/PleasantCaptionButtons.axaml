@@ -29,18 +29,17 @@
                     
                     <Button Name="PART_MinimizeButton"
                             ToolTip.Tip="{DynamicResource Collapse}">
-                        <Viewbox Width="15" Height="1">
-                            <Path Data="{StaticResource SubtractRegular}" StrokeThickness="1" />
+                        <Viewbox Width="10" Height="10">
+                            <Path Data="{StaticResource SubtractRegular}" />
                         </Viewbox>
                     </Button>
                     <Button Name="PART_MaximizeButton">
                         <Viewbox Width="10" Height="10">
-                            <Path></Path>
+                            <Path />
                         </Viewbox>
                     </Button>
                     <Button Name="PART_CloseButton"
                             Theme="{StaticResource CloseButtonTheme}"
-                            CornerRadius="0"
                             ToolTip.Tip="{DynamicResource Close}">
                         <Viewbox Width="10" Height="10">
                             <Path Data="{StaticResource DismissRegular}" />
@@ -74,10 +73,6 @@
                             <Setter Property="Height" Value="12" />
                             <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="99" />
-                        </Style>
-                        
-                        <Style Selector="Button > Viewbox > Path">
-                            <Setter Property="Stretch" Value="Uniform" />
                         </Style>
                         
                         <Style Selector="Button#PART_CloseButton">

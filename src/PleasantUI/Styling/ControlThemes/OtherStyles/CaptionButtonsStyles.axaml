@@ -11,6 +11,5 @@
     
     <Style Selector="PleasantCaptionButtons:maximized /template/ Button#PART_MaximizeButton > Viewbox > Path">
         <Setter Property="Data" Value="{StaticResource SquareMultipleRegular}" />
-        <Setter Property="StrokeThickness" Value="2" />
     </Style>
 </Styles>

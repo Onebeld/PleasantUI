@@ -25,7 +25,6 @@
                                             <Path Data="{StaticResource SquareMultipleRegular}"
                                                   Fill="{StaticResource TextFillColor1Brush}"
                                                   Stroke="{StaticResource TextFillColor1Brush}"
-                                                  StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
@@ -37,7 +36,6 @@
                                             <Path Data="{StaticResource SubtractRegular}"
                                                   Fill="{StaticResource TextFillColor1Brush}"
                                                   Stroke="{StaticResource TextFillColor1Brush}"
-                                                  StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
