@@ -62,13 +62,13 @@
         <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
         <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>

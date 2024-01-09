@@ -8,6 +8,10 @@
                 <MergeResourceInclude Source="BasicControls/AutoCompleteBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/Button.axaml" />
                 <MergeResourceInclude Source="BasicControls/ButtonSpinner.axaml" />
+                <MergeResourceInclude Source="BasicControls/Calendar.axaml" />
+                <MergeResourceInclude Source="BasicControls/CalendarButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/CalendarDayButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/CalendarItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Carousel.axaml" />
                 <MergeResourceInclude Source="BasicControls/CheckBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ColorPreviewer.axaml" />
@@ -18,6 +22,7 @@
                 <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/ContextMenu.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
+                <MergeResourceInclude Source="BasicControls/DropDownButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/EmbeddableControlRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/Expander.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
