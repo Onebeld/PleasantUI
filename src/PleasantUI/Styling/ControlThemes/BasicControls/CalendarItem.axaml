@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:system="using:System"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -8,7 +8,7 @@
                 <Calendar.BlackoutDates>
                     <CalendarDateRange>
                         <x:Arguments>
-                            <system:DateTime>2000-01-01</system:DateTime>
+                            <system:DateTime>2000-01-01</system:DateTime> 
                             <system:DateTime>2000-01-05</system:DateTime>
                         </x:Arguments>
                     </CalendarDateRange>
@@ -28,7 +28,7 @@
             <ControlTemplate>
                 <!-- HCA was changed here to ensure nav arrows display correctly -->
                 <ContentPresenter Name="Text" Background="{TemplateBinding Background}"
-                                  BorderBrush="{DynamicResource CalendarViewNavigationButtonBorderBrush}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   Content="{TemplateBinding Content}"
                                   Margin="{TemplateBinding Margin}"
@@ -47,7 +47,7 @@
         </Style>
         <Style Selector="^:disabled /template/ ContentPresenter">
             <Setter Property="Opacity" Value="0.5" />
-        </Style>
+        </Style> 
     </ControlTheme>
     
     <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
@@ -73,34 +73,35 @@
                                     Grid.Column="0"
                                     Theme="{StaticResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
+                                    FontWeight="SemiBold"
                                     Padding="12,0,0,0"
                                     HorizontalContentAlignment="Left" />
                             <Button Name="PART_PreviousButton"
                                     Grid.Column="1"
                                     Theme="{StaticResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
-                                    Padding="1"
                                     HorizontalContentAlignment="Left">
-                                <Path Data="{StaticResource FillArrowRegular}"
-                                      RenderTransform="rotate(180deg)"
-                                      HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center" />
+                                <PathIcon Data="{StaticResource FillArrowRegular}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          RenderTransform="rotate(180deg)"
+                                          Width="10"
+                                          Height="10" />
                             </Button>
                             <Button Name="PART_NextButton"
                                     Grid.Column="2"
                                     Theme="{StaticResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
-                                    Padding="1" 
                                     HorizontalContentAlignment="Left">
-                                <Path Data="{StaticResource FillArrowRegular}" 
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center" />
+                                <PathIcon Data="{StaticResource FillArrowRegular}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          Width="10"
+                                          Height="10" />
                             </Button>
                         </Grid>
                         
                         <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="0,38,0,0" IsVisible="{Binding #PART_MonthView.IsVisible}" Grid.Row="1" />
                         
-                        <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290">
+                        <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290" TextElement.FontSize="12" TextElement.FontWeight="SemiBold">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="38" />
                                 <RowDefinition Height="Auto" />

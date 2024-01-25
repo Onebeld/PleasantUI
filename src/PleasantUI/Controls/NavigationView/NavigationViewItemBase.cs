@@ -10,7 +10,6 @@ namespace PleasantUI.Controls;
 public class NavigationViewItemBase : TreeViewItem
 {
     private Geometry? _icon;
-    private Type? _typeContent;
     private object _title = "Title";
     private int _navigationViewDistance;
     private double _externalLength;
@@ -220,38 +219,28 @@ public class NavigationViewItemBase : TreeViewItem
     static NavigationViewItemBase()
     {
         IsExpandedProperty.Changed.AddClassHandler<NavigationViewItemBase>(
-            (x, _) =>
+            (navigationViewItemBase, _) =>
             {
-                switch (x.IsExpanded)
+                if (navigationViewItemBase.IsExpanded)
                 {
-                    case true:
-                    {
-                        RoutedEventArgs routedEventArgs = new(OpenedEvent);
-                        x.RaiseEvent(routedEventArgs);
-                        break;
-                    }
-                    case false:
-                    {
-                        RoutedEventArgs routedEventArgs = new(ClosedEvent);
-                        x.RaiseEvent(routedEventArgs);
-                        break;
-                    }
+                    RoutedEventArgs routedEventArgs = new(OpenedEvent);
+                    navigationViewItemBase.RaiseEvent(routedEventArgs);
+                }
+                else
+                {
+                    RoutedEventArgs routedEventArgs = new(ClosedEvent);
+                    navigationViewItemBase.RaiseEvent(routedEventArgs);
                 }
             });
         OpenedEvent.AddClassHandler<NavigationViewItemBase>((x, e) => x.OnOpened(x, e));
         ClosedEvent.AddClassHandler<NavigationViewItemBase>((x, e) => x.OnClosed(x, e));
         IsSelectedProperty.Changed.AddClassHandler<NavigationViewItemBase>
-        ((x, e) =>
+        ((navigationViewItemBase, e) =>
         {
-            switch (x.IsSelected)
-            {
-                case true:
-                    x.OnSelected(x, e);
-                    break;
-                case false:
-                    x.OnDeselected(x, e);
-                    break;
-            }
+            if (navigationViewItemBase.IsSelected)
+                navigationViewItemBase.OnSelected(navigationViewItemBase, e);
+            else
+                navigationViewItemBase.OnDeselected(navigationViewItemBase, e);
         });
         IsOpenProperty.Changed.Subscribe(OnIsOpenChanged);
         OpenPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
@@ -260,9 +249,9 @@ public class NavigationViewItemBase : TreeViewItem
 
     private static void OnPaneSizesChanged(AvaloniaPropertyChangedEventArgs<double> e)
     {
-        if (e.Sender is NavigationViewItemBase n)
+        if (e.Sender is NavigationViewItemBase navigationViewItemBase)
         {
-            n.ExternalLength = n.OpenPaneLength - n.CompactPaneLength;
+            navigationViewItemBase.ExternalLength = navigationViewItemBase.OpenPaneLength - navigationViewItemBase.CompactPaneLength;
         }
     }
 
@@ -270,9 +259,9 @@ public class NavigationViewItemBase : TreeViewItem
     {
         if (e.Sender is NavigationViewItem sender)
         {
-            if (sender.IsSelected && sender.Parent is NavigationViewItem { Parent: NavigationView nwp, SelectOnClose: true } nw)
+            if (sender.IsSelected && sender.Parent is NavigationViewItem { Parent: NavigationView navigationView, SelectOnClose: true } navigationViewItem)
             {
-                nwp.SelectSingleItem(nw);
+                navigationView.SelectSingleItem(navigationViewItem);
             }
 
             switch (sender.IsOpen)

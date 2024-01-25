@@ -27,7 +27,6 @@ public class NavigationView : TreeView
 {
     private object? _selectedContent;
     private IEnumerable<string>? _itemsAsStrings;
-    private AutoCompleteBox? _autoCompleteBox;
     private ICommand? _backButtonCommand;
 
     private PleasantWindow? _host;
@@ -73,19 +72,12 @@ public class NavigationView : TreeView
     public static readonly StyledProperty<bool> NotMakeOffsetForContentPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(NotMakeOffsetForContentPanel));
 
-    public static readonly StyledProperty<bool> AutoCompleteBoxIsVisibleProperty =
-        AvaloniaProperty.Register<NavigationView, bool>(nameof(AutoCompleteBoxIsVisible), true);
-
     public static readonly DirectProperty<NavigationView, IEnumerable<string>?> ItemsAsStringsProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, IEnumerable<string>?>(nameof(ItemsAsStrings),
             o => o.ItemsAsStrings);
 
     public static readonly StyledProperty<bool> IsFloatingHeaderProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsFloatingHeader));
-
-    public static readonly DirectProperty<NavigationView, AutoCompleteBox?> AutoCompleteBoxProperty =
-        AvaloniaProperty.RegisterDirect<NavigationView, AutoCompleteBox?>(nameof(AutoCompleteBox),
-            o => o.AutoCompleteBox, (o, v) => o.AutoCompleteBox = v);
 
     /// <summary>
     /// Defines the <see cref="ICommand"/> property.
@@ -236,23 +228,6 @@ public class NavigationView : TreeView
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="AutoCompleteBox"/> is visible.
-    /// </summary>
-    /// <value>
-    /// <c>true</c> if the AutoCompleteBox is visible; otherwise, <c>false</c>.
-    /// </value>
-    /// <remarks>
-    /// The AutoCompleteBoxIsVisible property determines the visibility of the AutoCompleteBox.
-    /// When set to <c>true</c>, the AutoCompleteBox is displayed on the screen.
-    /// When set to <c>false</c>, the AutoCompleteBox is hidden from the screen.
-    /// </remarks>
-    public bool AutoCompleteBoxIsVisible
-    {
-        get => GetValue(AutoCompleteBoxIsVisibleProperty);
-        set => SetValue(AutoCompleteBoxIsVisibleProperty, value);
-    }
-
-    /// <summary>
     /// Gets or sets the transition animations for the property.
     /// </summary>
     /// <value>
@@ -309,18 +284,6 @@ public class NavigationView : TreeView
     {
         get => GetValue(IsFloatingHeaderProperty);
         set => SetValue(IsFloatingHeaderProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the <see cref="AutoCompleteBox"/>.
-    /// </summary>
-    /// <value>
-    /// The AutoCompleteBox.
-    /// </value>
-    public AutoCompleteBox? AutoCompleteBox
-    {
-        get => _autoCompleteBox;
-        set => SetAndRaise(AutoCompleteBoxProperty, ref _autoCompleteBox, value);
     }
 
     /// <summary>
@@ -444,7 +407,6 @@ public class NavigationView : TreeView
         base.OnApplyTemplate(e);
 
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
-        e.NameScope.Find<SplitView>("split");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
 
@@ -490,6 +452,11 @@ public class NavigationView : TreeView
         Detach();
     }
 
+    protected virtual void OnIsOpenChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        
+    }
+
     private void UpdatePseudoClasses(bool isCompact)
     {
         switch (isCompact)
@@ -513,7 +480,8 @@ public class NavigationView : TreeView
             return;
         }
 
-        SelectedContent = item.FuncControl.Invoke();
+        if (item.FuncControl.GetInvocationList().Length > 0)
+            SelectedContent = item.FuncControl.Invoke();
     }
 
     private void Attach()

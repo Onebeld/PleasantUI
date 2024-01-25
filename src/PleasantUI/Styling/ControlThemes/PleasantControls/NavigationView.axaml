@@ -42,7 +42,7 @@
         </Setter>
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
-                <DockPanel />
+                <DockPanel LastChildFill="False" />
             </ItemsPanelTemplate>
         </Setter>
 
@@ -62,19 +62,22 @@
                                DisplayMode="{TemplateBinding DisplayMode}">
                         <SplitView.Pane>
                             <Border Name="PART_Border" Padding="0">
-                                <Grid RowDefinitions="Auto,Auto,Auto,*">
+                                <Grid RowDefinitions="Auto,Auto,*">
                                     <Border x:Name="PART_MarginPanel" Grid.Row="1"
                                             Width="{TemplateBinding CompactPaneLength}"
                                             Height="90" />
-                                    <DockPanel Grid.Row="3">
+                                    
+                                    <DockPanel Grid.Row="2">
                                         <SmoothScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
-                                                            ItemsPanel="{TemplateBinding ItemsPanel}" Margin="0 0 0 5" />
+                                                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                            Margin="0 0 0 5" />
                                         </SmoothScrollViewer>
                                     </DockPanel>
                                 </Grid>
                             </Border>
                         </SplitView.Pane>
+                        
                         <Border Name="PART_Container"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
@@ -84,6 +87,7 @@
                                               ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
                         </Border>
                     </SplitView>
+                    
                     <StackPanel Name="PART_StackPanelButtons"
                                 Grid.Column="0"
                                 Margin="5"

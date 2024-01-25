@@ -7,6 +7,7 @@
     <NavigationView IsOpen="False"
                     SelectionMode="AlwaysSelected">
         <NavigationViewItem x:Name="HomeView"
+                            IsSelected="True"
                             Header="Home" />
         
         <NavigationViewItem x:Name="AboutView"
@@ -16,7 +17,5 @@
         <NavigationViewItem x:Name="SettingsView"
                             Header="Bottom"
                             DockPanel.Dock="Bottom" />
-        
-        <Panel />
     </NavigationView>
 </UserControl>

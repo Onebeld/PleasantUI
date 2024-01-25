@@ -91,7 +91,7 @@ public partial class MessageBox : ContentDialog
             {
                 AddButton(new MessageBoxButton
                 {
-                    Text = (string)Application.Current!.FindResource("Ok")!, Result = "OK", Default = true, IsKeyDown = true
+                    Text = (string)Application.Current?.FindResource("Ok") ?? "OK", Result = "OK", Default = true, IsKeyDown = true
                 });
             }
             catch
