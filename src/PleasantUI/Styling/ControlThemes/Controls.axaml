@@ -71,23 +71,43 @@
                 <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
-                <MergeResourceInclude Source="PleasantControls/NumericUpDownWithSymbol.axaml" />
+                <MergeResourceInclude Source="PleasantControls/NavigationViewItem.axaml" />
+                <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
-                <MergeResourceInclude Source="PleasantControls/TextBoxWithSymbol.axaml" />
+                <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
     
-    <StyleInclude Source="OtherStyles/Transitions.axaml" />
     <StyleInclude Source="BasicControls/UserControl.axaml" />
-    <StyleInclude Source="PleasantControls/NavigationViewItem.axaml" />
+    <StyleInclude Source="PleasantControls/PleasantView.axaml" />
+    
+    <Style Selector=":is(Button) > PathIcon,
+                     :is(Button) > StackPanel > PathIcon
+                     :is(Button) > DockPanel > PathIcon">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+        <Setter Property="RenderTransform" Value="none" />
+    </Style>
+    <Style Selector=":is(Button):pointerover > PathIcon,
+                     :is(Button):pointerover > StackPanel > PathIcon,
+                     :is(Button):pointerover > DockPanel > PathIcon">
+        <Setter Property="RenderTransform" Value="scale(1.1)" />
+    </Style>
+    <Style Selector=":is(Button):pressed > PathIcon,
+                     :is(Button):pressed > StackPanel > PathIcon,
+                     :is(Button):pressed > DockPanel > PathIcon">
+        <Setter Property="RenderTransform" Value="scale(0.9)" />
+    </Style>
 </Styles>

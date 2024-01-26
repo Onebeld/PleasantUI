@@ -19,8 +19,8 @@ public class PleasantWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableCustomTitleBarProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableCustomTitleBar), true);
 
-    public static readonly StyledProperty<Control?> TitleBarContentProperty =
-        AvaloniaProperty.Register<PleasantWindow, Control?>(nameof(TitleBarContent));
+    public static readonly StyledProperty<Control?> TitleContentProperty =
+        AvaloniaProperty.Register<PleasantWindow, Control?>(nameof(TitleContent));
     
     public static readonly StyledProperty<Control?> LeftTitleContentProperty =
         AvaloniaProperty.Register<PleasantWindow, Control?>(nameof(LeftTitleContent));
@@ -61,10 +61,10 @@ public class PleasantWindow : Window, IPleasantWindow
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
 
-    public Control? TitleBarContent
+    public Control? TitleContent
     {
-        get => GetValue(TitleBarContentProperty);
-        set => SetValue(TitleBarContentProperty, value);
+        get => GetValue(TitleContentProperty);
+        set => SetValue(TitleContentProperty, value);
     }
     
     /// <summary>

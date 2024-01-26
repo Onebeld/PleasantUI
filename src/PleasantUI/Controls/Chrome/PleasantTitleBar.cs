@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -9,6 +10,20 @@ using Path = Avalonia.Controls.Shapes.Path;
 
 namespace PleasantUI.Controls.Chrome;
 
+[TemplatePart("PART_PleasantCaptionButtons", typeof(PleasantCaptionButtons))]
+[TemplatePart("PART_CloseMenuItem", typeof(MenuItem))]
+[TemplatePart("PART_ExpandMenuItem", typeof(MenuItem))]
+[TemplatePart("PART_ReestablishMenuItem", typeof(MenuItem))]
+[TemplatePart("PART_CollapseMenuItem", typeof(MenuItem))]
+[TemplatePart("PART_DragWindow", typeof(Border))]
+[TemplatePart("PART_Icon", typeof(Image))]
+[TemplatePart("PART_Title", typeof(TextBlock))]
+[TemplatePart("PART_Subtitle", typeof(TextBlock))]
+[TemplatePart("PART_LogoPath", typeof(Path))]
+[TemplatePart("PART_SeparatorMenuItem", typeof(Separator))]
+[TemplatePart("PART_LeftTitleBarContent", typeof(ContentPresenter))]
+[TemplatePart("PART_TitleBarContent", typeof(ContentPresenter))]
+[TemplatePart("PART_TitlePanel", typeof(StackPanel))]
 public class PleasantTitleBar : TemplatedControl
 {
     private PleasantCaptionButtons? _captionButtons;
@@ -143,7 +158,7 @@ public class PleasantTitleBar : TemplatedControl
                 if (_leftTitleBarContent is not null)
                     _leftTitleBarContent.Content = content;
             }),
-            host.GetObservable(PleasantWindow.TitleBarContentProperty).Subscribe(content =>
+            host.GetObservable(PleasantWindow.TitleContentProperty).Subscribe(content =>
             {
                 if (_titleBarContent is not null)
                     _titleBarContent.Content = content;

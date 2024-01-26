@@ -1,7 +1,6 @@
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using PleasantUI.Controls;
-using PleasantUI.Core;
 
 namespace PleasantUI.Example.Desktop;
 

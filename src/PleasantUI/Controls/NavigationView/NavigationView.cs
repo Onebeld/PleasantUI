@@ -23,6 +23,9 @@ namespace PleasantUI.Controls;
 /// properties for customizing the appearance and behavior of the navigation view.
 /// </remarks>
 [PseudoClasses(":normal", ":compact")]
+[TemplatePart("PART_HeaderItem", typeof(Button))]
+[TemplatePart("PART_BackButton", typeof(Button))]
+[TemplatePart("PART_SelectedContentPresenter", typeof(ContentPresenter))]
 public class NavigationView : TreeView
 {
     private object? _selectedContent;
@@ -350,9 +353,9 @@ public class NavigationView : TreeView
                 UpdatePseudoClasses(false);
                 DisplayMode = SplitViewDisplayMode.CompactOverlay;
                 IsOpen = false;
-                foreach (NavigationViewItemBase navigationViewItemBase in this.GetLogicalDescendants().OfType<NavigationViewItemBase>())
+                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
                 {
-                    navigationViewItemBase.IsExpanded = false;
+                    navigationViewItem.IsExpanded = false;
                 }
             }
             else if (isLittle && isVeryLittle)
@@ -360,9 +363,9 @@ public class NavigationView : TreeView
                 UpdatePseudoClasses(true);
                 DisplayMode = SplitViewDisplayMode.Overlay;
                 IsOpen = false;
-                foreach (NavigationViewItemBase navigationViewItemBase in this.GetLogicalDescendants().OfType<NavigationViewItemBase>())
+                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
                 {
-                    navigationViewItemBase.IsExpanded = false;
+                    navigationViewItem.IsExpanded = false;
                 }
             }
         }
@@ -472,7 +475,7 @@ public class NavigationView : TreeView
 
     private void UpdateTitleAndSelectedContent()
     {
-        if (SelectedItem is not NavigationViewItemBase item) return;
+        if (SelectedItem is not NavigationViewItem item) return;
 
         if (item.Content is not null)
         {

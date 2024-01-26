@@ -4,14 +4,14 @@
     <Design.PreviewWith>
         <Border Padding="20">
             <StackPanel Spacing="20">
-                <NumericUpDownWithSymbol Minimum="0"
-                                         Symbol="A"
+                <MarkedNumericUpDown Minimum="0"
+                                         Mark="A"
                                          Maximum="10"
                                          Increment="0.5"
                                          Width="120"
                                          Watermark="Enter text" />
-                <NumericUpDownWithSymbol Minimum="0"
-                                         Symbol="B"
+                <MarkedNumericUpDown Minimum="0"
+                                         Mark="B"
                                          Maximum="10"
                                          Increment="0.5"
                                          Width="150"
@@ -21,7 +21,7 @@
         </Border>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type NumericUpDownWithSymbol}" TargetType="NumericUpDownWithSymbol">
+    <ControlTheme x:Key="{x:Type MarkedNumericUpDown}" TargetType="MarkedNumericUpDown">
         <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -44,8 +44,8 @@
                                ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
-                    <TextBoxWithSymbol Name="PART_TextBox"
-                                       Symbol="{TemplateBinding Symbol}"
+                    <MarkedTextBox Name="PART_TextBox"
+                                       Mark="{TemplateBinding Mark}"
                                        Padding="{TemplateBinding Padding}"
                                        Watermark="{TemplateBinding Watermark}"
                                        IsReadOnly="{TemplateBinding IsReadOnly}"

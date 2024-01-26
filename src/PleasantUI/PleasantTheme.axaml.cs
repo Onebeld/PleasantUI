@@ -7,7 +7,6 @@ using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Core;
 using PleasantUI.Core.Enums;
-using PleasantUI.Core.Exceptions;
 using PleasantUI.Core.Helpers;
 using PleasantUI.Extensions.Media;
 
@@ -45,7 +44,7 @@ public class PleasantTheme : Styles, IResourceNode
     private void Init()
     {
         if (Application.Current is null)
-            throw new ApplicationNotInitializedException("Application.Current is not initialized");
+            throw new NullReferenceException("Current application is not initialized");
         
         _platformSettings = Application.Current.PlatformSettings;
 

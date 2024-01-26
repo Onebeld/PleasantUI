@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
@@ -13,6 +14,10 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// Provides smooth scrolling behavior for a scrollable content.
 /// </summary>
+[TemplatePart("PART_ScrollDecreaseButton", typeof(RepeatButton))]
+[TemplatePart("PART_ScrollIncreaseButton", typeof(RepeatButton))]
+[TemplatePart("PART_HorizontalScrollBar", typeof(ScrollBar))]
+[TemplatePart("PART_VerticalScrollBar", typeof(ScrollBar))]
 public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProvider
 {
     internal const double DefaultSmallChange = 16;

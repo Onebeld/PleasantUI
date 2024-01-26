@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Avalonia.Controls;
 
 namespace PleasantUI;
 
 public class ViewModelBase : INotifyPropertyChanged
 {
+    /// <inheritdoc />
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>

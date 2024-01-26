@@ -4,15 +4,15 @@
     <Design.PreviewWith>
         <Border Padding="50">
             <StackPanel Spacing="5">
-                <TextBoxWithSymbol Symbol="R" />
-                <TextBoxWithSymbol Symbol="#" Text="Hello Down there" />
-                <TextBoxWithSymbol Symbol="B" Watermark="Watermark" />
-                <TextBoxWithSymbol Symbol="C" Text="Test" IsEnabled="False" />
+                <MarkedTextBox Mark="R" />
+                <MarkedTextBox Mark="#" Text="Hello Down there" />
+                <MarkedTextBox Mark="B" Watermark="Watermark" />
+                <MarkedTextBox Mark="C" Text="Test" IsEnabled="False" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type TextBoxWithSymbol}" TargetType="TextBoxWithSymbol">
+    <ControlTheme x:Key="{x:Type MarkedTextBox}" TargetType="MarkedTextBox">
         <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
         <Setter Property="CaretBrush" Value="{StaticResource TextFillColor1Brush}" />
@@ -86,7 +86,7 @@
                                         CornerRadius="18 0 0 18"
                                         Width="35">
                                     <ContentPresenter x:Name="SymbolTextBlock"
-                                                      Content="{TemplateBinding Symbol}"
+                                                      Content="{TemplateBinding Mark}"
                                                       TextElement.Foreground="{StaticResource TextFillColor3Brush}"
                                                       TextElement.FontWeight="SemiBold"
                                                       VerticalContentAlignment="Center"

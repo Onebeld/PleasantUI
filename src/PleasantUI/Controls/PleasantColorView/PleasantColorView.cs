@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using PleasantUI.Core;
@@ -8,6 +9,8 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// Represents a view for displaying a pleasant color and providing color manipulation actions.
 /// </summary>
+[TemplatePart("DeleteColor", typeof(MenuItem))]
+[TemplatePart("AddColorButton", typeof(Button))]
 public class PleasantColorView : ColorView
 {
     /// <inheritdoc cref="StyleKeyOverride"/>

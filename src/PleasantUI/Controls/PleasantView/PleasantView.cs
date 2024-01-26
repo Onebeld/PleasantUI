@@ -1,10 +1,13 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
 
+[TemplatePart("PART_ModalWindowsPanel", typeof(Panel))]
+[TemplatePart("PART_VisualLayerManager", typeof(VisualLayerManager))]
 public class PleasantView : ContentControl, IPleasantWindow
 {
     private Panel _modalWindowsPanel = null!;

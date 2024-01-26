@@ -10,6 +10,7 @@ namespace PleasantUI.Controls;
 
 [TemplatePart("PART_ScrollViewer", typeof(SmoothScrollViewer))]
 [TemplatePart("PART_AdderButton", typeof(Button))]
+[TemplatePart("PART_InternalGrid", typeof(Grid))]
 public class PleasantTabView : TabControl
 {
     private double _heightRemainingSpace;

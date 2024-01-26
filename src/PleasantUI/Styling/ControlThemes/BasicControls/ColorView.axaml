@@ -212,16 +212,16 @@
                                                  IsChecked="{TemplateBinding ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Hsva}, Mode=TwoWay}"
                                                  CornerRadius="0 999 999 0" />
 
-                                    <TextBoxWithSymbol x:Name="PART_HexTextBox"
+                                    <MarkedTextBox x:Name="PART_HexTextBox"
                                                        Grid.Column="3"
                                                        AutomationProperties.Name="Hexadecimal Color"
                                                        VerticalAlignment="Center"
                                                        MaxLength="8"
-                                                       Symbol="#" />
+                                                       Mark="#" />
                                 </Grid>
                                 <!-- Color component editing controls -->
                                 <!-- Component 1 RGB:Red HSV:Hue -->
-                                <NumericUpDownWithSymbol Grid.Column="0"
+                                <MarkedNumericUpDown Grid.Column="0"
                                                          Grid.ColumnSpan="2"
                                                          Grid.Row="2"
                                                          AllowSpin="True"
@@ -232,15 +232,15 @@
                                                          Minimum="{CompiledBinding #Component1Slider.Minimum}"
                                                          Maximum="{CompiledBinding #Component1Slider.Maximum}"
                                                          Value="{CompiledBinding #Component1Slider.Value}">
-                                    <NumericUpDownWithSymbol.Symbol>
+                                    <MarkedNumericUpDown.Mark>
                                         <Panel>
                                             <TextBlock Text="R"
                                                        IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Rgba}}" />
                                             <TextBlock Text="H"
                                                        IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Hsva}}" />
                                         </Panel>
-                                    </NumericUpDownWithSymbol.Symbol>
-                                </NumericUpDownWithSymbol>
+                                    </MarkedNumericUpDown.Mark>
+                                </MarkedNumericUpDown>
                                 <ColorSlider x:Name="Component1Slider"
                                                         Grid.Column="2"
                                                         Grid.Row="2"
@@ -254,7 +254,7 @@
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Center" />
                                 <!-- Component 2 RGB:Green HSV:Saturation -->
-                                <NumericUpDownWithSymbol Grid.Column="0"
+                                <MarkedNumericUpDown Grid.Column="0"
                                                          Grid.ColumnSpan="2"
                                                          Grid.Row="3"
                                                          AllowSpin="True"
@@ -265,15 +265,15 @@
                                                          Minimum="{CompiledBinding #Component2Slider.Minimum}"
                                                          Maximum="{CompiledBinding #Component2Slider.Maximum}"
                                                          Value="{CompiledBinding #Component2Slider.Value}">
-                                    <NumericUpDownWithSymbol.Symbol>
+                                    <MarkedNumericUpDown.Mark>
                                         <Panel>
                                             <TextBlock Text="G"
                                                        IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Rgba}}" />
                                             <TextBlock Text="S"
                                                        IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Hsva}}" />
                                         </Panel>
-                                    </NumericUpDownWithSymbol.Symbol>
-                                </NumericUpDownWithSymbol>
+                                    </MarkedNumericUpDown.Mark>
+                                </MarkedNumericUpDown>
                                 <ColorSlider x:Name="Component2Slider"
                                                         Grid.Column="2"
                                                         Grid.Row="3"
@@ -287,7 +287,7 @@
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Center" />
                                 <!-- Component 3 RGB:Blue HSV:Value -->
-                                <NumericUpDownWithSymbol Grid.Column="0"
+                                <MarkedNumericUpDown Grid.Column="0"
                                                          Grid.ColumnSpan="2"
                                                          Grid.Row="4"
                                                          AllowSpin="True"
@@ -298,15 +298,15 @@
                                                          Minimum="{CompiledBinding #Component3Slider.Minimum}"
                                                          Maximum="{CompiledBinding #Component3Slider.Maximum}"
                                                          Value="{CompiledBinding #Component3Slider.Value}">
-                                    <NumericUpDownWithSymbol.Symbol>
+                                    <MarkedNumericUpDown.Mark>
                                         <Panel>
                                             <TextBlock Text="B"
                                                        IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Rgba}}" />
                                             <TextBlock Text="V"
                                                        IsVisible="{CompiledBinding $parent[ColorView].ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Hsva}}" />
                                         </Panel>
-                                    </NumericUpDownWithSymbol.Symbol>
-                                </NumericUpDownWithSymbol>
+                                    </MarkedNumericUpDown.Mark>
+                                </MarkedNumericUpDown>
                                 <ColorSlider x:Name="Component3Slider"
                                                         Grid.Column="2"
                                                         Grid.Row="4"
@@ -320,10 +320,10 @@
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Center" />
                                 <!-- Alpha Component -->
-                                <NumericUpDownWithSymbol Grid.Column="0"
+                                <MarkedNumericUpDown Grid.Column="0"
                                                          Grid.ColumnSpan="2"
                                                          Grid.Row="5"
-                                                         Symbol="A"
+                                                         Mark="A"
                                                          AllowSpin="True"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"

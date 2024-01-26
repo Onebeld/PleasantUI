@@ -8,6 +8,9 @@ using PleasantUI.Reactive;
 namespace PleasantUI.Controls.Chrome;
 
 [PseudoClasses(":minimized", ":normal", ":maximized", ":isactive")]
+[TemplatePart("PART_CloseButton", typeof(Button))]
+[TemplatePart("PART_MaximizeButton", typeof(Button))]
+[TemplatePart("PART_MinimizeButton", typeof(Button))]
 public class PleasantCaptionButtons : TemplatedControl
 {
     private CompositeDisposable? _disposable;
