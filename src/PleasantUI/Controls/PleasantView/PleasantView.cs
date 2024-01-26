@@ -9,7 +9,7 @@ public class PleasantView : ContentControl, IPleasantWindow
 {
     private Panel _modalWindowsPanel = null!;
     
-    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = new();
+    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
     public VisualLayerManager VisualLayerManager { get; private set; }
 

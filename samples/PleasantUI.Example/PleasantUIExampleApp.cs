@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Example.ViewModels;
 
@@ -7,7 +8,7 @@ namespace PleasantUI.Example;
 
 public class PleasantUIExampleApp : Application
 {
-    public static PleasantTheme PleasantTheme { get; private set; } = null!;
+    public static PleasantTheme PleasantTheme { get; protected set; } = null!;
 
     public static IPleasantWindow Main { get; protected set; } = null!;
     
@@ -23,11 +24,5 @@ public class PleasantUIExampleApp : Application
     public PleasantUIExampleApp()
     {
         DataContext = ViewModel;
-    }
-
-    public override void OnFrameworkInitializationCompleted()
-    {
-        PleasantTheme = new PleasantTheme();
-        Styles.Add(PleasantTheme);
     }
 }

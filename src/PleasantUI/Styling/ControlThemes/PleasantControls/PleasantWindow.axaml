@@ -10,7 +10,7 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
-        <Setter Property="EnableBlur" Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}"></Setter>
+        <Setter Property="EnableBlur" Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
         
         <Setter Property="Template">
             <ControlTemplate>
@@ -23,15 +23,14 @@
                                               Grid.Row="0"
                                               VerticalAlignment="Top"
                                               ZIndex="5"/>
-                            
-                            <Decorator x:Name="PART_Decorator" Grid.Row="1">
-                                <ContentPresenter x:Name="PART_ContentWindow"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Content="{TemplateBinding Content}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </Decorator>
+
+                            <ContentPresenter x:Name="PART_ContentWindow"
+                                              Grid.Row="1"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                             
                             <Panel x:Name="PART_ModalWindowsPanel" Grid.Row="0" Grid.RowSpan="2" />
                         </Grid>

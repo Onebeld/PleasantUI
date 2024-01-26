@@ -11,7 +11,7 @@ public partial class App : PleasantUIExampleApp
 
     public override void OnFrameworkInitializationCompleted()
     {
-        base.OnFrameworkInitializationCompleted();
+        PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
         
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
             return;
@@ -30,5 +30,7 @@ public partial class App : PleasantUIExampleApp
         TopLevel = TopLevel.GetTopLevel(Main as PleasantWindow) ?? throw new NullReferenceException("TopLevel is null");
             
         desktop.MainWindow = Main as PleasantWindow;
+        
+        base.OnFrameworkInitializationCompleted();
     }
 }

@@ -19,7 +19,7 @@
             <CheckBox Grid.Column="1"
                       Margin="5"
                       Grid.Row="0"
-                      IsChecked="{Binding ElementName=Border, Path=(ToolTip.IsOpen)}"
+                      IsChecked="{CompiledBinding ElementName=Border, Path=(ToolTip.IsOpen)}"
                       Content="ToolTip Open" />
             <Border Name="Border"
                     CornerRadius="4"

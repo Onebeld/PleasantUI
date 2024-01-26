@@ -134,36 +134,7 @@
                                Placement="Center"
                                InheritsTransform="True">
                             <Popup.Styles>
-                                <Style Selector="Popup[IsOpen=True][Placement=Top] > Border">
-                                    <Style.Animations>
-                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                            <KeyFrame Cue="0%">
-                                                <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Height}" />
-                                                <Setter Property="Opacity" Value="0" />
-                                            </KeyFrame>
-                                            <KeyFrame Cue="100%">
-                                                <Setter Property="TranslateTransform.Y" Value="0" />
-                                                <Setter Property="Opacity" Value="1" />
-                                            </KeyFrame>
-                                        </Animation>
-                                    </Style.Animations>
-                                </Style>
-                                <Style Selector="Popup[IsOpen=True][Placement=Bottom] > Border">
-                                    <Style.Animations>
-                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                            <KeyFrame Cue="0%">
-                                                <Setter Property="TranslateTransform.Y"
-                                                        Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static NumberConverters.DoubleInverse}}" />
-                                                <Setter Property="Opacity" Value="0" />
-                                            </KeyFrame>
-                                            <KeyFrame Cue="100%">
-                                                <Setter Property="TranslateTransform.Y" Value="0" />
-                                                <Setter Property="Opacity" Value="1" />
-                                            </KeyFrame>
-                                        </Animation>
-                                    </Style.Animations>
-                                </Style>
-                                <Style Selector="Popup[IsOpen=True][Placement=Center] > Border">
+                                <Style Selector="Popup[IsOpen=True] > Border">
                                     <Style.Animations>
                                         <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                                             <KeyFrame Cue="0%">
@@ -180,7 +151,7 @@
                             </Popup.Styles>
                             
                             <Border x:Name="PopupBorder"
-                                    Background="{StaticResource ControlFillColor1Brush}"
+                                    Background="{StaticResource BackgroundColor1Brush}"
                                     BorderBrush="{StaticResource ControlBorderColorBrush}"
                                     BorderThickness="{StaticResource ControlBorderThickness}"
                                     Margin="6 4 6 6"

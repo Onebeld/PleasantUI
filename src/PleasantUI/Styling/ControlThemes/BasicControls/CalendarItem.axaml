@@ -99,9 +99,9 @@
                             </Button>
                         </Grid>
                         
-                        <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="0,38,0,0" IsVisible="{Binding #PART_MonthView.IsVisible}" Grid.Row="1" />
+                        <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="0,38,0,0" IsVisible="{CompiledBinding #PART_MonthView.IsVisible}" Grid.Row="1" />
                         
-                        <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290" TextElement.FontSize="12" TextElement.FontWeight="SemiBold">
+                        <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290" TextElement.FontSize="12" TextElement.FontWeight="Bold">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="38" />
                                 <RowDefinition Height="Auto" />

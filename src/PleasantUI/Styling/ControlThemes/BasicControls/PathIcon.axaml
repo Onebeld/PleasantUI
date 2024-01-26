@@ -3,20 +3,17 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
         <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
-        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="32" />
         <Setter Property="Width" Value="32" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}">
-                    <Viewbox Width="{TemplateBinding Width}"
-                             Height="{TemplateBinding Height}">
-                        <Path Data="{TemplateBinding Data}"
-                              Fill="{TemplateBinding Foreground}"
-                              Stretch="Uniform" />
-                    </Viewbox>
-                </Border>
+                <Viewbox Width="{TemplateBinding Width}"
+                         Height="{TemplateBinding Height}">
+                    <Path Data="{TemplateBinding Data}"
+                          Fill="{TemplateBinding Foreground}"
+                          Stretch="Uniform" />
+                </Viewbox>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

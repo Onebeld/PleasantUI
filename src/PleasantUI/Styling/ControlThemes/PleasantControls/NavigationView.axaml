@@ -16,6 +16,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource ContentBorderColorBrush}" />
         <Setter Property="Background" Value="{StaticResource BackgroundColor2Brush}" />
         <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
+        
         <Setter Property="TransitionAnimations">
             <Animations>
                 <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
@@ -107,11 +108,7 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center"
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <Viewbox Width="16"
-                                     Height="16">
-                                <Path Data="{StaticResource ArrowLeftRegular}"
-                                      Fill="{StaticResource TextFillColor1Brush}" />
-                            </Viewbox>
+                            <PathIcon Data="{StaticResource ArrowLeftRegular}" Foreground="{StaticResource TextFillColor1Brush}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
                                 Theme="{StaticResource AppBarButtonTheme}"
@@ -124,10 +121,7 @@
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <Viewbox Width="16">
-                                <Path Data="{TemplateBinding Icon}"
-                                      Fill="{StaticResource TextFillColor1Brush}" />
-                            </Viewbox>
+                            <PathIcon Data="{TemplateBinding Icon}" Foreground="{StaticResource TextFillColor1Brush}" Width="16" Height="16" />
                         </Button>
                     </StackPanel>
                 </Grid>

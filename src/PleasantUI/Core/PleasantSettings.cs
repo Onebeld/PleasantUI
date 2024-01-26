@@ -9,14 +9,14 @@ namespace PleasantUI.Core;
 
 public class PleasantSettings : ViewModelBase
 {
-    public static PleasantSettings Instance { get; }
-
     private uint _numericalAccentColor = 9426;
     private bool _preferUserAccentColor;
     private Theme _theme = Theme.System;
     private WindowSettings _windowSettings = null!;
     private RenderSettings _renderSettings = null!;
-    private AvaloniaList<uint> _colorPalettes = new();
+    private AvaloniaList<uint> _colorPalettes = [];
+    
+    public static PleasantSettings Instance { get; }
 
     static PleasantSettings()
     {
@@ -143,13 +143,8 @@ public class PleasantSettings : ViewModelBase
         if (operatingSystem.Platform is PlatformID.Win32NT)
         {
             Version currentVersion = operatingSystem.Version;
-
-            if (currentVersion >= new Version(10, 22000))
-            {
-                Instance.WindowSettings.EnableBlur = true;
-                Instance.WindowSettings.EnableCustomTitleBar = true;
-            }
-            else if (currentVersion >= new Version(10, 0, 10586))
+            
+            if (currentVersion >= new Version(10, 0, 10586))
             {
                 Instance.WindowSettings.EnableBlur = true;
                 Instance.WindowSettings.EnableCustomTitleBar = true;
@@ -159,11 +154,6 @@ public class PleasantSettings : ViewModelBase
                 Instance.WindowSettings.EnableBlur = false;
                 Instance.WindowSettings.EnableCustomTitleBar = false;
             }
-        }
-        else if (operatingSystem.Platform is PlatformID.MacOSX)
-        {
-            Instance.WindowSettings.EnableBlur = true;
-            Instance.WindowSettings.EnableCustomTitleBar = true;
         }
         else
         {

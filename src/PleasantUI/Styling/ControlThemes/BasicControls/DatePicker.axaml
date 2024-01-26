@@ -1,0 +1,224 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
+                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="200 20" Height="500">
+            <StackPanel Spacing="20" VerticalAlignment="Center">
+                <DatePicker />
+                <DatePicker CornerRadius="8" />
+                <DatePicker IsEnabled="False" />
+                <!--<DatePicker>
+                    <DataValidationErrors.Error>
+                        <system:Exception>
+                            <x:Arguments>
+                                <x:String>Error</x:String>
+                            </x:Arguments>
+                        </system:Exception>
+                    </DataValidationErrors.Error>
+                </DatePicker>-->
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DataValidationErrors>
+                    <Panel Name="LayoutRoot">
+                        <Button Name="PART_FlyoutButton"
+                                Foreground="{TemplateBinding Foreground}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                IsEnabled="{TemplateBinding IsEnabled}"
+                                Padding="0"
+                                TemplatedControl.IsTemplateFocusTarget="True">
+                            <Grid Name="PART_ButtonContentGrid"
+                                  ColumnDefinitions="132*,Auto,78*,Auto,78*">
+                                
+                                <TextBlock Grid.Column="0"
+                                           Name="PART_DayTextBlock"
+                                           Text="day"
+                                           HorizontalAlignment="Center"
+                                           Padding="11 5 11 5"/>
+                                <TextBlock Grid.Column="2"
+                                           Name="PART_MonthTextBlock"
+                                           Text="month"
+                                           TextAlignment="Left"
+                                           Padding="11 5 11 5"/>
+                                <TextBlock Grid.Column="4"
+                                           Name="PART_YearTextBlock"
+                                           Text="year"
+                                           HorizontalAlignment="Center"
+                                           Padding="11 5 30 5"/>
+                                
+                                <Rectangle x:Name="PART_FirstSpacer"
+                                           Fill="{TemplateBinding BorderBrush}"
+                                           HorizontalAlignment="Center"
+                                           Width="1"
+                                           Grid.Column="1" />
+                                
+                                <Rectangle x:Name="PART_SecondSpacer"
+                                           Fill="{TemplateBinding BorderBrush}"
+                                           HorizontalAlignment="Center"
+                                           Width="1"
+                                           Grid.Column="3" />
+                            </Grid>
+                        </Button>
+                        
+                        <Popup Name="PART_Popup"
+                               WindowManagerAddShadowHint="False"
+                               IsLightDismissEnabled="True"
+                               InheritsTransform="True"
+                               PlacementTarget="{TemplateBinding}"
+                               Placement="Bottom">
+                            <Popup.Styles>
+                                    <Style Selector="Popup[IsOpen=True] > Border">
+                                        <Style.Animations>
+                                            <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                                <KeyFrame Cue="0%">
+                                                    <Setter Property="ScaleTransform.ScaleY" Value="0.1" />
+                                                    <Setter Property="Opacity" Value="0" />
+                                                </KeyFrame>
+                                                <KeyFrame Cue="100%">
+                                                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                                                    <Setter Property="Opacity" Value="1" />
+                                                </KeyFrame>
+                                            </Animation>
+                                        </Style.Animations>
+                                    </Style>
+                                </Popup.Styles>
+                            
+                            <Border Background="{StaticResource BackgroundColor1Brush}"
+                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                    BorderThickness="{StaticResource ControlBorderThickness}"
+                                    Margin="6 4 6 6"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                                    behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                                <DatePickerPresenter Name="PART_PickerPresenter" />
+                            </Border>
+                        </Popup>
+                    </Panel>
+                </DataValidationErrors>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
+        <Setter Property="Width" Value="296" />
+        <Setter Property="MinWidth" Value="296" />
+        <Setter Property="MaxHeight" Value="398" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Name="ContentRoot" RowDefinitions="*,Auto,Auto">
+                    <Grid Grid.Row="0" Name="PART_PickerContainer" ColumnDefinitions="*,Auto,*,Auto,*">
+                        <Grid.Styles>
+                            <Style Selector="DateTimePickerPanel > ListBoxItem">
+                                <Setter Property="Theme" Value="{StaticResource DateTimePickerItem}" />
+                            </Style>
+                        </Grid.Styles>
+                        
+                        <Panel Grid.Column="0" Name="PART_MonthHost">
+                            <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Hidden">
+                                <DateTimePickerPanel Name="PART_MonthSelector"
+                                                     PanelType="Month"
+                                                     ItemHeight="40"
+                                                     ShouldLoop="True" />
+                            </SmoothScrollViewer>
+                            
+                            <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                            <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                        </Panel>
+                        <Panel Grid.Column="2" Name="PART_DayHost">
+                            <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Hidden">
+                                <DateTimePickerPanel Name="PART_DaySelector"
+                                                     PanelType="Day"
+                                                     ItemHeight="40"
+                                                     ShouldLoop="True" />
+                            </SmoothScrollViewer>
+                            
+                            <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                            <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                        </Panel>
+                        <Panel Grid.Column="4" Name="PART_YearHost">
+                            <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Hidden">
+                                <DateTimePickerPanel Name="PART_YearSelector"
+                                                     PanelType="Year"
+                                                     ItemHeight="40"
+                                                     ShouldLoop="True" />
+                            </SmoothScrollViewer>
+                            
+                            <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                            <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                        </Panel>
+                        
+                        <Rectangle Name="HighlightRect"
+                                   Fill="{StaticResource SystemAccentLightColor2Brush}"
+                                   IsHitTestVisible="False"
+                                   ZIndex="-1"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="5"
+                                   VerticalAlignment="Center"
+                                   Height="40" />
+                        
+                        <Rectangle x:Name="PART_FirstSpacer"
+                                   Fill="{TemplateBinding BorderBrush}"
+                                   HorizontalAlignment="Center"
+                                   Width="1"
+                                   Grid.Column="1" />
+                        <Rectangle x:Name="PART_SecondSpacer"
+                                   Fill="{TemplateBinding BorderBrush}"
+                                   HorizontalAlignment="Center"
+                                   Width="1"
+                                   Grid.Column="3" />
+                    </Grid>
+                    
+                    <Rectangle x:Name="PART_Spacer"
+                               Fill="{TemplateBinding BorderBrush}"
+                               Height="1"
+                               Grid.Row="1" />
+                    
+                    <Grid Name="AcceptDismissGrid"
+                          Grid.Row="2"
+                          ColumnDefinitions="*,*">
+                        <Button Grid.Column="0"
+                                Name="PART_AcceptButton"
+                                Theme="{StaticResource AppBarButtonTheme}"
+                                Margin="2"
+                                Height="40">
+                            <PathIcon Data="{StaticResource CheckmarkRegular}" Width="14" Height="14" />
+                        </Button>
+                        
+                        <Button Grid.Column="1"
+                                Name="PART_DismissButton"
+                                Theme="{StaticResource AppBarButtonTheme}"
+                                Margin="2"
+                                Height="40">
+                            <PathIcon Foreground="{CompiledBinding $parent[Button].Foreground}" Data="{StaticResource DismissRegular}" Width="14" Height="14" />
+                        </Button>
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Panel">
+            <Style Selector="^:pointerover RepeatButton">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

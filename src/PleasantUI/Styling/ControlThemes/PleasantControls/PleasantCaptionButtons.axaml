@@ -22,28 +22,22 @@
                             <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
                         </Style>
                         
-                        <Style Selector="Button > Viewbox > Path">
-                            <Setter Property="Stretch" Value="Uniform" />
+                        <Style Selector="Button > PathIcon">
+                            <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
                         </Style>
                     </StackPanel.Styles>
                     
                     <Button Name="PART_MinimizeButton"
                             ToolTip.Tip="{DynamicResource Collapse}">
-                        <Viewbox Width="10" Height="10">
-                            <Path Data="{StaticResource SubtractRegular}" />
-                        </Viewbox>
+                        <PathIcon Data="{StaticResource SubtractRegular}" Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_MaximizeButton">
-                        <Viewbox Width="10" Height="10">
-                            <Path />
-                        </Viewbox>
+                        <PathIcon Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_CloseButton"
                             Theme="{StaticResource CloseButtonTheme}"
                             ToolTip.Tip="{DynamicResource Close}">
-                        <Viewbox Width="10" Height="10">
-                            <Path Data="{StaticResource DismissRegular}" />
-                        </Viewbox>
+                        <PathIcon Data="{StaticResource DismissRegular}" Width="10" Height="10" />
                     </Button>
                 </StackPanel>
             </ControlTemplate>
@@ -58,6 +52,19 @@
         
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
             <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+        </Style>
+        
+        <Style Selector="^ /template/ Button#PART_MaximizeButton">
+            <Style Selector="^ PathIcon">
+                <Setter Property="Data" Value="{StaticResource MaximizeRegular}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
+            <Style Selector="^ PathIcon">
+                <Setter Property="Data" Value="{StaticResource SquareMultipleRegular}" />
+            </Style>
         </Style>
     </ControlTheme>
     

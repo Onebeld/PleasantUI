@@ -11,4 +11,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+    
+    <Application.Styles>
+        <PleasantTheme />
+    </Application.Styles>
 </Application>

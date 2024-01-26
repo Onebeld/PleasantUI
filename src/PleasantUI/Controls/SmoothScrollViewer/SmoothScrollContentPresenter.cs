@@ -276,7 +276,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                 "An anchor control must be a visual descendent of the SmoothScrollContentPresenter.");
         }
 
-        _anchorCandidates ??= new List<Control>();
+        _anchorCandidates ??= [];
         _anchorCandidates.Add(element);
         _isAnchorElementDirty = true;
     }

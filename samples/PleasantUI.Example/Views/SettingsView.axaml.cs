@@ -4,8 +4,5 @@ namespace PleasantUI.Example.Views;
 
 public partial class SettingsView : UserControl
 {
-    public SettingsView()
-    {
-        InitializeComponent();
-    }
+    public SettingsView() => InitializeComponent();
 }

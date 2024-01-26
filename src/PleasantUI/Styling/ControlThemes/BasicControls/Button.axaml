@@ -4,8 +4,10 @@
     <Design.PreviewWith>
         <Border Padding="50">
             <StackPanel Spacing="5">
-                <PathIcon Data="{StaticResource SquareRegular}"></PathIcon>
                 <Button Content="Button" Padding="50 10" />
+                <Button Padding="50 10">
+                    <PathIcon Data="{StaticResource FillArrowRegular}" Width="14" Height="14" />
+                </Button>
                 <Button Theme="{StaticResource AppBarButtonTheme}" Content="App Bar Button" />
                 <Button Theme="{StaticResource AccentButtonTheme}" Content="Accent Button" Padding="50 10" />
                 <Button Theme="{StaticResource DangerButtonTheme}" Content="Danger" Padding="50 10" />
@@ -81,9 +83,11 @@
 
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>

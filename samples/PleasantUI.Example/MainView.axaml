@@ -15,7 +15,8 @@
                             DockPanel.Dock="Bottom" />
         
         <NavigationViewItem x:Name="SettingsView"
-                            Header="Bottom"
-                            DockPanel.Dock="Bottom" />
+                            Header="Settings"
+                            DockPanel.Dock="Bottom"
+                            Margin="0 0 0 5" />
     </NavigationView>
 </UserControl>

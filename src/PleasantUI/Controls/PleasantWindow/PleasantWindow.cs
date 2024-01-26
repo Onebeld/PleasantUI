@@ -190,7 +190,7 @@ public class PleasantWindow : Window, IPleasantWindow
         }
     }
 
-    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = new();
+    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
     public VisualLayerManager VisualLayerManager { get; private set; }
 

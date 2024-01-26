@@ -114,8 +114,8 @@
             <Image Width="8" Height="8">
                 <DrawingImage>
                     <DrawingGroup>
-                        <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z" Brush="Transparent" />
-                        <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z" Brush="#19808080" />
+                        <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z" Brush="#555555" />
+                        <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z" Brush="DimGray" />
                     </DrawingGroup>
                 </DrawingImage>
             </Image>

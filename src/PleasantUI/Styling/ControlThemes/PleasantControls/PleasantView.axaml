@@ -1,39 +1,34 @@
-﻿<Style xmlns="https://github.com/avaloniaui"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       Selector=":is(PleasantView)"
-       x:ClassModifier="internal">
-    <Style.Resources>
-        <ControlTheme x:Key="PleasantViewControl" TargetType="PleasantView">
-            <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}"/>
-            <Setter Property="FontSize" Value="14"/>
-            
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Panel>
-                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                    
-                        <VisualLayerManager x:Name="PART_VisualLayerManager">
-                            <Panel>
-                                <ContentPresenter Name="PART_ContentPresenter"
-                                                  Background="{TemplateBinding Background}"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Content="{TemplateBinding Content}"
-                                                  Padding="{TemplateBinding Padding}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-                            
-                                <Panel x:Name="PART_ModalWindowsPanel" />
-                            </Panel>
-                        </VisualLayerManager>
-                    </Panel>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-    </Style.Resources>
-  
-    <Setter Property="Theme" Value="{StaticResource PleasantViewControl}" />
-</Style>
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <ControlTheme x:Key="{x:Type PleasantView}" TargetType="PleasantView">
+        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="FontSize" Value="14" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+
+                    <VisualLayerManager x:Name="PART_VisualLayerManager">
+                        <Panel>
+                            <ContentPresenter Name="PART_ContentPresenter"
+                                              Background="{TemplateBinding Background}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              CornerRadius="{TemplateBinding CornerRadius}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Padding="{TemplateBinding Padding}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+
+                            <Panel x:Name="PART_ModalWindowsPanel" />
+                        </Panel>
+                    </VisualLayerManager>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

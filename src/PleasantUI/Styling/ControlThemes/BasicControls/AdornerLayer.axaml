@@ -3,7 +3,16 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type AdornerLayer}" TargetType="AdornerLayer">
         <Setter Property="DefaultFocusAdorner">
-            <FocusAdornerTemplate />
+            <FocusAdornerTemplate>
+                <Border BorderThickness="2"
+                        BorderBrush="{StaticResource FocusStrokeColorOuterBrush}"
+                        Margin="0"
+                        CornerRadius="4">
+                    <Border BorderThickness="1"
+                            BorderBrush="{StaticResource FocusStrokeColorInnerBrush}"
+                            CornerRadius="4" />
+                </Border>
+            </FocusAdornerTemplate>
         </Setter>
     </ControlTheme>
 </ResourceDictionary>

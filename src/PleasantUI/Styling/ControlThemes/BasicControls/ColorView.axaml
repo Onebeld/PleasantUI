@@ -20,30 +20,29 @@
                                 Height="338"
                                 Width="350">
                         <TabControl.Styles>
-                            <Style Selector="TabItem > Viewbox">
+                            <Style Selector="TabItem > PathIcon">
                                 <Setter Property="Transitions">
                                     <Transitions>
                                         <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
                                     </Transitions>
                                 </Setter>
                                 <Setter Property="RenderTransform" Value="none" />
+                                
+                                <Setter Property="Foreground" Value="{CompiledBinding $parent[TabItem].Foreground}" />
+                                <Setter Property="Width" Value="92" />
+                                <Setter Property="Height" Value="18" />
                             </Style>
-                            <Style Selector="TabItem:pointerover > Viewbox">
+                            <Style Selector="TabItem:pointerover > PathIcon">
                                 <Setter Property="RenderTransform" Value="scale(1.1)" />
                             </Style>
-                            <Style Selector="TabItem:pressed > Viewbox">
+                            <Style Selector="TabItem:pressed > PathIcon">
                                 <Setter Property="RenderTransform" Value="scale(0.9)" />
                             </Style>
                         </TabControl.Styles>
                         <!-- Spectrum Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <!-- Fluent UI System Icons : ic_fluent_inking_tool_20_regular.svg -->
-                                <Viewbox Width="92" Height="18">
-                                    <Path Data="{StaticResource BrushRegular}"
-                                          Stretch="Uniform"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
-                                </Viewbox>
+                                <PathIcon Data="{StaticResource BrushRegular}" />
                             </TabItem.Header>
                             <Grid ColumnDefinitions="Auto,*,Auto"
                                   RowDefinitions="Auto,*" Margin="10">
@@ -55,8 +54,8 @@
                                                         IsPerceptive="True"
                                                         Orientation="Vertical"
                                                         ColorModel="Hsva"
-                                                        ColorComponent="{Binding ThirdComponent, ElementName=ColorSpectrum}"
-                                                        HsvColor="{Binding HsvColor, ElementName=ColorSpectrum}"
+                                                        ColorComponent="{CompiledBinding ThirdComponent, ElementName=ColorSpectrum}"
+                                                        HsvColor="{CompiledBinding HsvColor, ElementName=ColorSpectrum}"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Stretch"
                                                         Margin="0,0,12,0"
@@ -84,7 +83,7 @@
                                                         Orientation="Vertical"
                                                         ColorModel="Hsva"
                                                         ColorComponent="Alpha"
-                                                        HsvColor="{Binding HsvColor, ElementName=ColorSpectrum}"
+                                                        HsvColor="{CompiledBinding HsvColor, ElementName=ColorSpectrum}"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Stretch"
                                                         Margin="12,0,0,0"
@@ -94,11 +93,7 @@
                         <!-- Palette Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <Viewbox Width="92" Height="18">
-                                    <Path Data="{StaticResource PaletteRegular}"
-                                          Stretch="Uniform"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
-                                </Viewbox>
+                                <PathIcon Data="{StaticResource PaletteRegular}" />
                             </TabItem.Header>
                             <Grid RowDefinitions="*,30">
                                 <ListBox Grid.Row="0"
@@ -175,22 +170,14 @@
                                         Grid.Row="1"
                                         Margin="50 0"
                                         ToolTip.Tip="{DynamicResource AddColor}">
-                                    <Path Data="{StaticResource AddRegular}"
-                                          StrokeThickness="0.5"
-                                          Margin="2"
-                                          Stretch="Uniform" />
+                                    <PathIcon Data="{StaticResource AddRegular}" Foreground="{StaticResource TextFillColor1Brush}" Width="16" Height="16" />
                                 </Button>
                             </Grid>
                         </TabItem>
                         <!-- Components Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <!-- Fluent UI System Icons : ic_fluent_options_20_regular.svg -->
-                                <Viewbox Width="92" Height="18">
-                                    <Path Data="{StaticResource TuneRegular}"
-                                          Stretch="Uniform"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}" />
-                                </Viewbox>
+                                <PathIcon Data="{StaticResource TuneRegular}" />
                             </TabItem.Header>
                             <Grid ColumnDefinitions="30,80,*"
                                   Margin="10"
@@ -203,7 +190,7 @@
                                     <!-- Content RGB/HSV names are hard-coded in ColorPicker as well -->
                                     <!-- ToggleButtons are styled to look like a 'SegmentedControl' or 'ButtonGroup' -->
                                     <RadioButton x:Name="RgbToggleButton"
-                                                 Theme="{StaticResource RadioButtonLikeButton}"
+                                                 Theme="{StaticResource ButtonedRadioButton}"
                                                  Grid.Column="0"
                                                  Content="RGB"
                                                  HorizontalAlignment="Stretch"
@@ -212,9 +199,9 @@
                                                  IsThreeState="False"
                                                  IsChecked="{TemplateBinding ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Rgba}, Mode=TwoWay}"
                                                  GroupName="ColorMode"
-                                                 CornerRadius="4 0 0 4" />
+                                                 CornerRadius="999 0 0 999" />
                                     <RadioButton x:Name="HsvToggleButton"
-                                                 Theme="{StaticResource RadioButtonLikeButton}"
+                                                 Theme="{StaticResource ButtonedRadioButton}"
                                                  Grid.Column="1"
                                                  Content="HSV"
                                                  HorizontalAlignment="Stretch"
@@ -223,7 +210,7 @@
                                                  IsThreeState="False"
                                                  GroupName="ColorMode"
                                                  IsChecked="{TemplateBinding ColorModel, Converter={x:Static OtherConverters.EnumToBool}, ConverterParameter={x:Static ColorModel.Hsva}, Mode=TwoWay}"
-                                                 CornerRadius="0 4 4 0" />
+                                                 CornerRadius="0 999 999 0" />
 
                                     <TextBoxWithSymbol x:Name="PART_HexTextBox"
                                                        Grid.Column="3"
@@ -242,9 +229,9 @@
                                                          HorizontalAlignment="Center"
                                                          Width="110"
                                                          NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{Binding Minimum, ElementName=Component1Slider}"
-                                                         Maximum="{Binding Maximum, ElementName=Component1Slider}"
-                                                         Value="{Binding Value, ElementName=Component1Slider}">
+                                                         Minimum="{CompiledBinding #Component1Slider.Minimum}"
+                                                         Maximum="{CompiledBinding #Component1Slider.Maximum}"
+                                                         Value="{CompiledBinding #Component1Slider.Value}">
                                     <NumericUpDownWithSymbol.Symbol>
                                         <Panel>
                                             <TextBlock Text="R"
@@ -275,9 +262,9 @@
                                                          HorizontalAlignment="Center"
                                                          Width="110"
                                                          NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{Binding Minimum, ElementName=Component2Slider}"
-                                                         Maximum="{Binding Maximum, ElementName=Component2Slider}"
-                                                         Value="{Binding Value, ElementName=Component2Slider}">
+                                                         Minimum="{CompiledBinding #Component2Slider.Minimum}"
+                                                         Maximum="{CompiledBinding #Component2Slider.Maximum}"
+                                                         Value="{CompiledBinding #Component2Slider.Value}">
                                     <NumericUpDownWithSymbol.Symbol>
                                         <Panel>
                                             <TextBlock Text="G"
@@ -308,9 +295,9 @@
                                                          HorizontalAlignment="Center"
                                                          Width="110"
                                                          NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{Binding Minimum, ElementName=Component3Slider}"
-                                                         Maximum="{Binding Maximum, ElementName=Component3Slider}"
-                                                         Value="{Binding Value, ElementName=Component3Slider}">
+                                                         Minimum="{CompiledBinding #Component3Slider.Minimum}"
+                                                         Maximum="{CompiledBinding #Component3Slider.Maximum}"
+                                                         Value="{CompiledBinding #Component3Slider.Value}">
                                     <NumericUpDownWithSymbol.Symbol>
                                         <Panel>
                                             <TextBlock Text="B"
@@ -342,9 +329,9 @@
                                                          HorizontalAlignment="Center"
                                                          Width="110"
                                                          NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{Binding Minimum, ElementName=AlphaComponentSlider}"
-                                                         Maximum="{Binding Maximum, ElementName=AlphaComponentSlider}"
-                                                         Value="{Binding Value, ElementName=AlphaComponentSlider}" />
+                                                         Minimum="{CompiledBinding #AlphaComponentSlider.Minimum}"
+                                                         Maximum="{CompiledBinding #AlphaComponentSlider.Maximum}"
+                                                         Value="{CompiledBinding #AlphaComponentSlider.Value}" />
                                 <ColorSlider x:Name="AlphaComponentSlider"
                                                         Grid.Column="2"
                                                         Grid.Row="5"
@@ -359,10 +346,8 @@
                                                         VerticalAlignment="Center">
                                     <ColorSlider.IsVisible>
                                         <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                            <Binding RelativeSource="{RelativeSource TemplatedParent}"
-                                                     Path="IsAlphaVisible" />
-                                            <Binding RelativeSource="{RelativeSource TemplatedParent}"
-                                                     Path="IsComponentSliderVisible" />
+                                            <CompiledBinding Path="$parent[ColorView].IsAlphaVisible" />
+                                            <CompiledBinding Path="$parent[ColorView].IsComponentSliderVisible" />
                                         </MultiBinding>
                                     </ColorSlider.IsVisible>
                                 </ColorSlider>

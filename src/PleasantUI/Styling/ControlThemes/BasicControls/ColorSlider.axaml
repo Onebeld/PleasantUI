@@ -3,25 +3,27 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="ColorSliderThumbTheme" TargetType="Thumb">
         <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="10" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="10" />
+                            CornerRadius="{TemplateBinding CornerRadius}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </ControlTheme>
 
-    <ControlTheme x:Key="{x:Type ColorSlider}"
-                  TargetType="ColorSlider">
-
+    <ControlTheme x:Key="{x:Type ColorSlider}" TargetType="ColorSlider">
         <Style Selector="^:horizontal">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="Height" Value="20" />
+            
             <Setter Property="Template">
                 <ControlTemplate TargetType="{x:Type ColorSlider}">
                     <Border BorderThickness="{TemplateBinding BorderThickness}"

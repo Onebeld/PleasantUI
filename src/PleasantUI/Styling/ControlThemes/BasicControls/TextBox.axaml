@@ -93,8 +93,7 @@
                                            FontWeight="SemiBold"
                                            DockPanel.Dock="Top" />
                                 
-                                <SmoothScrollViewer Cursor="Ibeam"
-                                                    HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                     <Panel>
                                         <TextBlock Name="PART_Watermark"
@@ -121,6 +120,11 @@
                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Panel>
+                                    <SmoothScrollViewer.Styles>
+                                        <Style Selector="SmoothScrollContentPresenter#PART_ContentPresenter">
+                                            <Setter Property="Cursor" Value="IBeam" />
+                                        </Style>
+                                    </SmoothScrollViewer.Styles>
                                 </SmoothScrollViewer>
                             </DockPanel>
                             <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
@@ -159,7 +163,7 @@
             <Setter Property="InnerRightContent">
                 <Template>
                     <Button Theme="{StaticResource AppBarButtonTheme}"
-                            Padding="7 2"
+                            Padding="6"
                             Margin="5"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"
                             Command="{CompiledBinding $parent[TextBox].Clear}">

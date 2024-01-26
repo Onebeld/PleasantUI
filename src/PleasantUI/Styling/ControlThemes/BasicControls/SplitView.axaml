@@ -60,13 +60,11 @@
                                 HorizontalAlignment="Left"
                                 ZIndex="100"
                                 CornerRadius="{TemplateBinding CornerRadius}">
-                            <!-- PaneRoot is hardcoded into the SplitView.cs, so we can't remove it... -->
                             <Panel Name="PART_PaneRoot">
                                 <ContentPresenter x:Name="PART_PanePresenter"
                                                   Content="{TemplateBinding Pane}"
                                                   ContentTemplate="{TemplateBinding PaneTemplate}"
                                                   CornerRadius="{TemplateBinding CornerRadius}" />
-                                <!--<Rectangle Name="HCPaneBorder" Fill="{DynamicResource SystemControlForegroundTransparentBrush}" Width="1" HorizontalAlignment="Right"  />-->
                             </Panel>
                         </Border>
 

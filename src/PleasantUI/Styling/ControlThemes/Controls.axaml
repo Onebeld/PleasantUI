@@ -10,6 +10,7 @@
                 <MergeResourceInclude Source="BasicControls/ButtonSpinner.axaml" />
                 <MergeResourceInclude Source="BasicControls/Calendar.axaml" />
                 <MergeResourceInclude Source="BasicControls/CalendarButton.axaml" />
+                <MergeResourceInclude Source="BasicControls/CalendarDatePicker.axaml" />
                 <MergeResourceInclude Source="BasicControls/CalendarDayButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/CalendarItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Carousel.axaml" />
@@ -22,10 +23,13 @@
                 <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/ContextMenu.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
+                <MergeResourceInclude Source="BasicControls/DatePicker.axaml" />
+                <MergeResourceInclude Source="BasicControls/DateTimePickerShared.axaml" />
                 <MergeResourceInclude Source="BasicControls/DropDownButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/EmbeddableControlRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/Expander.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
+                <MergeResourceInclude Source="BasicControls/GridSplitter.axaml" />
                 <MergeResourceInclude Source="BasicControls/HeaderedContentControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/ItemsControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/Label.axaml" />
@@ -74,6 +78,7 @@
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
@@ -82,13 +87,7 @@
         </ResourceDictionary>
     </Styles.Resources>
     
-    <StyleInclude Source="OtherStyles/ButtonForeground.axaml" />
     <StyleInclude Source="OtherStyles/Transitions.axaml" />
-    <StyleInclude Source="OtherStyles/CaptionButtonsStyles.axaml" />
-    
     <StyleInclude Source="BasicControls/UserControl.axaml" />
-    <StyleInclude Source="BasicControls/FocusAdorner.axaml" />
-    
     <StyleInclude Source="PleasantControls/NavigationViewItem.axaml" />
-    <StyleInclude Source="PleasantControls/PleasantView.axaml" />
 </Styles>

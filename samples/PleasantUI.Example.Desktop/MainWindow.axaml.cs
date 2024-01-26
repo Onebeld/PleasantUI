@@ -19,9 +19,5 @@ public partial class MainWindow : PleasantWindow
             MaxItems = 3,
             ZIndex = 1
         };
-        
-        Closed += OnClosed;
     }
-
-    private void OnClosed(object? sender, EventArgs e) => PleasantSettings.Save();
 }

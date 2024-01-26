@@ -83,14 +83,15 @@
                                 <Border x:Name="SymbolBox"
                                         Grid.Column="0"
                                         Background="{StaticResource ControlFillColor3Brush}"
-                                        CornerRadius="15 0 0 15"
+                                        CornerRadius="18 0 0 18"
                                         Width="35">
                                     <ContentPresenter x:Name="SymbolTextBlock"
                                                       Content="{TemplateBinding Symbol}"
                                                       TextElement.Foreground="{StaticResource TextFillColor3Brush}"
                                                       TextElement.FontWeight="SemiBold"
                                                       VerticalContentAlignment="Center"
-                                                      HorizontalContentAlignment="Center" />
+                                                      HorizontalContentAlignment="Center"
+                                                      Margin="14 0 0 0"/>
                                 </Border>
                                 
                                 <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />

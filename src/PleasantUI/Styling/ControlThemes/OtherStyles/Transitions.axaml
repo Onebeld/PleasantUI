@@ -1,9 +1,9 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:ClassModifier="internal">
-    <Style Selector=":is(Button) > Viewbox,
-                     :is(Button) > StackPanel > Viewbox > Path
-                     :is(Button) > DockPanel > Viewbox > Path">
+    <Style Selector=":is(Button) > PathIcon,
+                     :is(Button) > StackPanel > PathIcon
+                     :is(Button) > DockPanel > PathIcon">
         <Setter Property="Transitions">
             <Transitions>
                 <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
@@ -11,14 +11,14 @@
         </Setter>
         <Setter Property="RenderTransform" Value="none" />
     </Style>
-    <Style Selector=":is(Button):pointerover > Viewbox,
-                     :is(Button):pointerover > StackPanel > Viewbox > Path,
-                     :is(Button):pointerover > DockPanel > Viewbox > Path">
+    <Style Selector=":is(Button):pointerover > PathIcon,
+                     :is(Button):pointerover > StackPanel > PathIcon,
+                     :is(Button):pointerover > DockPanel > PathIcon">
         <Setter Property="RenderTransform" Value="scale(1.1)" />
     </Style>
-    <Style Selector=":is(Button):pressed > Viewbox,
-                     :is(Button):pressed > StackPanel > Viewbox > Path,
-                     :is(Button):pressed > DockPanel > Viewbox > Path">
+    <Style Selector=":is(Button):pressed > PathIcon,
+                     :is(Button):pressed > StackPanel > PathIcon,
+                     :is(Button):pressed > DockPanel > PathIcon">
         <Setter Property="RenderTransform" Value="scale(0.9)" />
     </Style>
 </Styles>

@@ -40,10 +40,10 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                         
                         <PathIcon x:Name="DropDownGlyph"
-                                  Grid.Column="1" 
+                                  Grid.Column="1"
                                   UseLayoutRounding="False"
-                                  IsHitTestVisible="False" 
-                                  Height="12" 
+                                  IsHitTestVisible="False"
+                                  Height="12"
                                   Width="12"
                                   Margin="0,0,10,0"
                                   Data="{StaticResource ChevronDownRegular}"

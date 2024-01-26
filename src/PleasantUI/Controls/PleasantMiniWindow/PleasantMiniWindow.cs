@@ -140,7 +140,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// <value>
     /// The list of currently opened modal windows.
     /// </value>
-    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = new();
+    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
     /// <summary>
     /// Gets the <see cref="VisualLayerManager"/> property.

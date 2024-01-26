@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -12,9 +13,18 @@ using PleasantUI.Extensions.Media;
 
 namespace PleasantUI;
 
-public class PleasantTheme : Style
+/// <summary>
+/// Includes the pleasant theme in an application
+/// </summary>
+public class PleasantTheme : Styles, IResourceNode
 {
+    /// <summary>
+    /// Specifies how many accent colors PleasantTheme will create (for both light and dark at the same time)
+    /// </summary>
     private const int AccentColorCount = 3;
+    /// <summary>
+    /// Percentage at which the brightness of the color is increased or decreased per step
+    /// </summary>
     private const float AccentColorPercentStep = 0.15f;
     
     private IPlatformSettings? _platformSettings;
@@ -22,22 +32,60 @@ public class PleasantTheme : Style
     private ResourceDictionary? _accentColorsDictionary;
     private ResourceDictionary? _foregroundAccentColorsDictionary;
     
-    public PleasantTheme()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PleasantTheme"/> class
+    /// </summary>
+    /// <param name="serviceProvider">The parent's service provider</param>
+    public PleasantTheme(IServiceProvider? serviceProvider = null)
     {
-        AvaloniaXamlLoader.Load(this);
-        
+        AvaloniaXamlLoader.Load(serviceProvider, this);
         Init();
     }
+    
+    private void Init()
+    {
+        if (Application.Current is null)
+            throw new ApplicationNotInitializedException("Application.Current is not initialized");
+        
+        _platformSettings = Application.Current.PlatformSettings;
 
-    public void UpdateAccentColors(Color accentColor)
+        if (_platformSettings is null) return;
+        
+        _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
+        PleasantSettings.Instance.PropertyChanged += PleasantSettingsOnPropertyChanged;
+        
+        AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
+
+        ResolveTheme(_platformSettings);
+        ResolveAccentColor(_platformSettings);
+    }
+
+    private void CurrentDomainOnProcessExit(object? sender, EventArgs e)
+    {
+        PleasantSettings.Save();
+    }
+
+    private void PleasantSettingsOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_platformSettings is null) return;
+        
+        switch (e.PropertyName)
+        {
+            case nameof(PleasantSettings.Instance.Theme):
+                ResolveTheme(_platformSettings);
+                break;
+        }
+    }
+
+    private void UpdateAccentColors(Color accentColor)
     {
         if (_platformSettings is null) return;
 
         float lightPercent = 0.25f;
-        float darkPercent = -0.35f;
+        float darkPercent = -0.25f;
         
-        List<Color> lightColors = new();
-        List<Color> darkColors = new();
+        List<Color> lightColors = [];
+        List<Color> darkColors = [];
 
         for (int i = 0; i < AccentColorCount; i++)
         {
@@ -51,28 +99,6 @@ public class PleasantTheme : Style
         UpdateAccentColors(accentColor, lightColors, darkColors);
         
         UpdateForegroundAccentColors(accentColor, lightColors, darkColors);
-    }
-
-    public void UpdateTheme()
-    {
-        if (_platformSettings is null) return;
-        
-        ResolveTheme(_platformSettings);
-    }
-
-    private void Init()
-    {
-        if (Application.Current is null)
-            throw new ApplicationNotInitializedException("Application.Current is not initialized. Create an instance of the PleasantTheme class after initializing Application.");
-        
-        _platformSettings = Application.Current.PlatformSettings;
-
-        if (_platformSettings is null) return;
-        
-        _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
-
-        ResolveTheme(_platformSettings);
-        ResolveAccentColor(_platformSettings);
     }
 
     private void ResolveTheme(IPlatformSettings platformSettings)

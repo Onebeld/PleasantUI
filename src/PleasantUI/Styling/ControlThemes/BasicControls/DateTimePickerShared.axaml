@@ -1,0 +1,125 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <ControlTheme x:Key="DateTimePickerItem" TargetType="ListBoxItem">
+        <Setter Property="Padding" Value="0 3 0 3"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}"
+                                  Padding="{TemplateBinding Padding}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Margin="2" />
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^.MonthItem">
+            <Setter Property="Padding" Value="9 3 0 3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+        </Style>
+        
+        <Style Selector="^:selected">
+            <Style Selector="^">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="DateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="2" />
+        
+        <Setter Property="Content">
+            <Template>
+                <PathIcon Width="10"
+                          Height="10"
+                          Data="{StaticResource FillArrowRegular}" />
+            </Template>
+        </Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{StaticResource BackgroundColor1Brush}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{TemplateBinding Padding}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="DateTimePickerDownButton" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="2" />
+
+        <Setter Property="Content">
+            <Template>
+                <PathIcon Width="10"
+                          Height="10"
+                          Data="{StaticResource FillArrowRegular}"
+                          RenderTransform="rotate(180deg)" />
+            </Template>
+        </Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{StaticResource BackgroundColor1Brush}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{TemplateBinding Padding}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
