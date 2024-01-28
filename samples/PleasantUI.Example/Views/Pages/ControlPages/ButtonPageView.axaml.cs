@@ -3,11 +3,9 @@ using PleasantUI.Example.Interfaces;
 
 namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-public partial class ButtonPage : UserControl, IPage
+public partial class ButtonPageView : UserControl
 {
-    public string Title { get; } = "Button";
-    
-    public ButtonPage()
+    public ButtonPageView()
     {
         InitializeComponent();
     }

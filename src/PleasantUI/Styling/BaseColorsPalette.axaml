@@ -8,16 +8,16 @@
             <Color x:Key="TextFillColor3">#72000000</Color>
 
             <Color x:Key="ControlFillColor1">#DCFFFFFF</Color>
-            <Color x:Key="ControlFillColor2">#C8E6E6E6</Color>
+            <Color x:Key="ControlFillColor2">#C8DCDCDC</Color>
             <Color x:Key="ControlFillColor3">#B4D7D7D7</Color>
 
             <Color x:Key="ControlBorderColor">#D2D2D2</Color>
             <Color x:Key="ContentBorderColor">#1E000000</Color>
             
             <Color x:Key="BackgroundColor1">#F0F0F0</Color>
-            <Color x:Key="BackgroundColor2">#E6E6E6</Color>
-            <Color x:Key="BackgroundColor3">#DCDCDC</Color>
-            <Color x:Key="BackgroundColor4">#D2D2D2</Color>
+            <Color x:Key="BackgroundColor2">#EBEBEB</Color>
+            <Color x:Key="BackgroundColor3">#E6E6E6</Color>
+            <Color x:Key="BackgroundColor4">#E1E1E1</Color>
             
             <Color x:Key="ControlColor1">#78000000</Color>
             <Color x:Key="ControlColor2">#82000000</Color>
@@ -30,7 +30,7 @@
 
             <Color x:Key="DangerColor">#FFD72F1E</Color>
             <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
-            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+            <Color x:Key="SelectedDangerColor">#B93C22</Color>
             <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
             
             <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
@@ -65,7 +65,7 @@
 
             <Color x:Key="DangerColor">#FFD72F1E</Color>
             <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
-            <Color x:Key="SelectedDangerColor">#FFF83623</Color>
+            <Color x:Key="SelectedDangerColor">#B93C22</Color>
             <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
             
             <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
@@ -76,7 +76,6 @@
     <SolidColorBrush x:Key="TextFillColor1Brush" Color="{DynamicResource TextFillColor1}" />
     <SolidColorBrush x:Key="TextFillColor2Brush" Color="{DynamicResource TextFillColor2}" />
     <SolidColorBrush x:Key="TextFillColor3Brush" Color="{DynamicResource TextFillColor3}" />
-    <SolidColorBrush x:Key="TextFillColorDangerBrush" Color="{DynamicResource TextFillColorDanger}" />
 
     <SolidColorBrush x:Key="ControlFillColor1Brush" Color="{DynamicResource ControlFillColor1}" />
     <SolidColorBrush x:Key="ControlFillColor2Brush" Color="{DynamicResource ControlFillColor2}" />
@@ -102,7 +101,8 @@
     <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
     <SolidColorBrush x:Key="BorderDangerColorBrush" Color="{DynamicResource BorderDangerColor}" />
     <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
-    
+    <SolidColorBrush x:Key="TextFillColorDangerBrush" Color="{DynamicResource TextFillColorDanger}" />
+
     <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
     <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
     

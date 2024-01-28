@@ -3,11 +3,37 @@
                     x:DataType="NavigationView"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
-        <Border Padding="0" Width="700" Height="300">
-            <NavigationView>
-                <NavigationViewItem Header="Header" Icon="{StaticResource DeleteRegular}" />
-            </NavigationView>
-        </Border>
+        <NavigationView Width="300"
+                        Height="400"
+                        DisplayMode="CompactOverlay"
+                        IsFloatingHeader="True">
+            <NavigationViewItem Header="Header"
+                                DockPanel.Dock="Top"
+                                Icon="{StaticResource DeleteRegular}"
+                                Title="Item Title"
+                                Content="Item Content">
+                <NavigationViewItem Header="Sub Item" IsExpanded="True" Title="SubItem Title" Content="SubItem Content">
+                    <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
+                    <NavigationViewItem Header="SubItem 3" Title="SubItem 3 Title" Content="SubItem 3 Content" />
+                </NavigationViewItem>
+            </NavigationViewItem>
+            
+            <NavigationViewItem Header="Header" DockPanel.Dock="Top" Title="Item Title" Icon="{StaticResource DeleteRegular}"
+                                Content="Item Content">
+                <NavigationViewItem Header="Sub Item" Title="SubItem Title" Content="SubItem Content">
+                    <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
+                    <NavigationViewItem Header="SubItem 3" Title="SubItem 3 Title" Content="SubItem 3 Content" />
+                </NavigationViewItem>
+                <NavigationViewItem Header="Header" Title="Item Title"
+                                    Content="Item Content">
+                    <NavigationViewItem Header="Sub Item" IsExpanded="True" Title="SubItem Title"
+                                        Content="SubItem Content">
+                        <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
+                        <NavigationViewItem Header="SubItem 3" Title="SubItem 3 Title" Content="SubItem 3 Content" />
+                    </NavigationViewItem>
+                </NavigationViewItem>
+            </NavigationViewItem>
+        </NavigationView>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type NavigationView}" TargetType="NavigationView">

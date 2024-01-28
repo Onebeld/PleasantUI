@@ -1,15 +1,14 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using PleasantUI.Example.Interfaces;
+using PleasantUI.Example.Pages;
 using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Views.Pages;
 
-public partial class HomePage : UserControl, IPage
+public partial class HomePageView : UserControl
 {
-    public string Title { get; } = "Home";
-    
-    public HomePage()
+    public HomePageView()
     {
         InitializeComponent();
     }

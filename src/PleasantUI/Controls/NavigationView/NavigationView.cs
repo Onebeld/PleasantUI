@@ -7,6 +7,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Threading;
@@ -28,6 +29,13 @@ namespace PleasantUI.Controls;
 [TemplatePart("PART_SelectedContentPresenter", typeof(ContentPresenter))]
 public class NavigationView : TreeView
 {
+    private const double LittleWidth = 1005;
+    private const double VeryLittleWidth = 650;
+    
+    private Button? _headerItem;
+    private Button? _backButton;
+    private ContentPresenter? _contentPresenter;
+    
     private object? _selectedContent;
     private IEnumerable<string>? _itemsAsStrings;
     private ICommand? _backButtonCommand;
@@ -313,12 +321,6 @@ public class NavigationView : TreeView
         get => _backButtonCommand;
         set => SetAndRaise(BackButtonCommandProperty, ref _backButtonCommand, value);
     }
-    
-    private Button? _headerItem;
-    private Button? _backButton;
-    private ContentPresenter? _contentPresenter;
-    private const double LittleWidth = 1005;
-    private const double VeryLittleWidth = 650;
 
     static NavigationView()
     {
@@ -414,7 +416,7 @@ public class NavigationView : TreeView
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
 
         if (_headerItem != null)
-            _headerItem.Click += delegate
+            _headerItem.Click += (_, _) =>
             {
                 if (!AlwaysOpen)
                     IsOpen = !IsOpen;
@@ -425,8 +427,7 @@ public class NavigationView : TreeView
         if (VisualRoot is PleasantWindow pleasantWindow)
         {
             _host = pleasantWindow;
-            
-            Attach();
+            AttachToPleasantWindow();
         }
 
         BackButtonCommandProperty.Changed.Subscribe(x =>
@@ -487,7 +488,7 @@ public class NavigationView : TreeView
             SelectedContent = item.FuncControl.Invoke();
     }
 
-    private void Attach()
+    private void AttachToPleasantWindow()
     {
         if (_host is null) return;
         

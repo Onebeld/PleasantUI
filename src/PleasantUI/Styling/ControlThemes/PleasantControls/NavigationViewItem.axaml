@@ -7,6 +7,7 @@
                         DisplayMode="CompactOverlay"
                         IsFloatingHeader="True">
             <NavigationViewItem Header="Header"
+                                DockPanel.Dock="Top"
                                 Title="Item Title"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" IsExpanded="True" Title="SubItem Title" Content="SubItem Content">
@@ -15,8 +16,9 @@
                 </NavigationViewItem>
             </NavigationViewItem>
             
+            <Separator DockPanel.Dock="Top" />
             
-            <NavigationViewItem Header="Header" Title="Item Title"
+            <NavigationViewItem Header="Header" DockPanel.Dock="Top" Title="Item Title"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" Title="SubItem Title" Content="SubItem Content">
                     <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
@@ -257,6 +259,7 @@
     
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor2Brush}" />
     </Style>
     
     <Style Selector="^ /template/ PathIcon#PART_PathIcon">

@@ -104,8 +104,8 @@ public static class Observable
     {
         return Create<EventArgs>(observer =>
         {
-            Action<EventArgs>? handler = new Action<EventArgs>(observer.OnNext);
-            EventHandler? converted = new EventHandler((_, args) => handler(args));
+            Action<EventArgs>? handler = new(observer.OnNext);
+            EventHandler? converted = new((_, args) => handler(args));
             addHandler(converted);
 
             return Disposable.Create(() => removeHandler(converted));

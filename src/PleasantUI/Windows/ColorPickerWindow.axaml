@@ -12,9 +12,8 @@
     <ContentDialog.BottomPanelContent>
         <UniformGrid Margin="15 0" Rows="0" Columns="2">
             <Button x:Name="OkButton"
-                    Theme="{StaticResource Accent}"
+                    Theme="{StaticResource AccentButtonTheme}"
                     Content="{DynamicResource Ok}"
-                    FontWeight="SemiBold"
                     VerticalAlignment="Center"
                     Margin="5" />
 

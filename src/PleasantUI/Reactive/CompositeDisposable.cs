@@ -4,7 +4,7 @@ namespace PleasantUI.Reactive;
 
 internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
 {
-    private readonly object _gate = new object();
+    private readonly object _gate = new();
     private bool _disposed;
     private List<IDisposable?> _disposables;
     private int _count;
@@ -74,7 +74,7 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
             _ => 12
         };
 
-        List<IDisposable>? list = new List<IDisposable?>(capacity);
+        List<IDisposable>? list = new(capacity);
 
         // do the copy and null-check in one step to avoid a
         // second loop for just checking for null items
@@ -169,7 +169,7 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
 
             if (current.Capacity > ShrinkThreshold && _count < current.Capacity / 2)
             {
-                List<IDisposable>? fresh = new List<IDisposable?>(current.Capacity / 2);
+                List<IDisposable>? fresh = new(current.Capacity / 2);
 
                 foreach (IDisposable? d in current)
                 {
@@ -364,8 +364,7 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
     /// An empty enumerator for the <see cref="GetEnumerator"/>
     /// method to avoid allocation on disposed or empty composites.
     /// </summary>
-    private static readonly CompositeEnumerator EmptyEnumerator =
-        new CompositeEnumerator(Array.Empty<IDisposable?>());
+    private static readonly CompositeEnumerator EmptyEnumerator = new(Array.Empty<IDisposable?>());
 
     /// <summary>
     /// An enumerator for an array of disposables.

@@ -16,7 +16,7 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
 
     public IDisposable Subscribe(IObserver<TResult> observer)
     {
-        _? sink = new _(_resultSelector, observer);
+        _? sink = new(_resultSelector, observer);
         sink.Run(_first, _second);
         return sink;
     }
@@ -24,7 +24,7 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
     internal sealed class _ : IdentitySink<TResult>
     {
         private readonly Func<TFirst, TSecond, TResult> _resultSelector;
-        private readonly object _gate = new object();
+        private readonly object _gate = new();
 
         public _(Func<TFirst, TSecond, TResult> resultSelector, IObserver<TResult> observer)
             : base(observer)
@@ -39,8 +39,8 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
 
         public void Run(IObservable<TFirst> first, IObservable<TSecond> second)
         {
-            FirstObserver? fstO = new FirstObserver(this);
-            SecondObserver? sndO = new SecondObserver(this);
+            FirstObserver? fstO = new(this);
+            SecondObserver? sndO = new(this);
 
             fstO.SetOther(sndO);
             sndO.SetOther(fstO);
@@ -219,14 +219,14 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
 
     public IDisposable Subscribe(IObserver<TResult> observer)
     {
-        _? sink = new _(_resultSelector, observer);
+        _? sink = new(_resultSelector, observer);
         sink.Run(_sources);
         return sink;
     }
 
     internal sealed class _ : IdentitySink<TResult>
     {
-        private readonly object _gate = new object();
+        private readonly object _gate = new();
         private readonly Func<TSource[], TResult> _resultSelector;
 
         public _(Func<TSource[], TResult> resultSelector, IObserver<TResult> observer)
@@ -266,7 +266,7 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
             {
                 int j = i;
 
-                SourceObserver? o = new SourceObserver(this, j);
+                SourceObserver? o = new(this, j);
                 _subscriptions[j] = o;
 
                 o.Disposable = srcs[j].Subscribe(o);

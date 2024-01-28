@@ -1,24 +1,33 @@
 ﻿using Avalonia.Controls.Notifications;
 using PleasantUI.Example.Interfaces;
-using HomePage = PleasantUI.Example.Views.Pages.HomePage;
+using PleasantUI.Example.Pages;
+using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.ViewModels;
 
 public class AppViewModel : ViewModelBase
 {
     private IPage _page = null!;
+    private bool _isForwardAnimation = true;
     
     public IManagedNotificationManager? NotificationManager { get; set; }
     
+    /// <summary>
+    /// The current page
+    /// </summary>
     public IPage Page
     {
         get => _page;
         set => RaiseAndSet(ref _page, value);
     }
 
-    public bool IsHomePage
+    /// <summary>
+    /// Indicates whether the animation should be forward or backward
+    /// </summary>
+    public bool IsForwardAnimation
     {
-        get => Page is HomePage;
+        get => _isForwardAnimation;
+        private set => RaiseAndSet(ref _isForwardAnimation, value);
     }
 
     public AppViewModel()
@@ -30,10 +39,11 @@ public class AppViewModel : ViewModelBase
     /// Changes the current page
     /// </summary>
     /// <param name="page">The new page</param>
-    public void ChangePage(IPage page)
+    /// <param name="forward">The direction of the animation</param>
+    public void ChangePage(IPage page, bool forward = true)
     {
+        IsForwardAnimation = forward;
         Page = page;
-        RaisePropertyChanged(nameof(IsHomePage));
     }
 
     /// <summary>
@@ -41,7 +51,7 @@ public class AppViewModel : ViewModelBase
     /// </summary>
     public void BackToHomePage()
     {
+        IsForwardAnimation = false;
         Page = new HomePage();
-        RaisePropertyChanged(nameof(IsHomePage));
     }
 }

@@ -3,13 +3,11 @@ using PleasantUI.Example.Interfaces;
 
 namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-public partial class CheckBoxPage : UserControl, IPage
+public partial class CheckBoxPageView : UserControl
 {
-    public string Title { get; } = "CheckBox";
     
-    public CheckBoxPage()
+    public CheckBoxPageView()
     {
         InitializeComponent();
     }
-
 }

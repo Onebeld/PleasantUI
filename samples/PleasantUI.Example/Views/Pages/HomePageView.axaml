@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PleasantUI.Example.Views.Pages.HomePage">
+             x:Class="PleasantUI.Example.Views.Pages.HomePageView">
     <Grid RowDefinitions="Auto,*">
         <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="8">
             <Image Source="{StaticResource PleasantUI}" Margin="50" />
