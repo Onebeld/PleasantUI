@@ -26,7 +26,7 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Height" Value="16" />
         <Setter Property="Width" Value="3" />
-        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
         <Setter Property="CornerRadius" Value="4" />
     </ControlTheme>
 
@@ -110,17 +110,16 @@
                                 Width="30"
                                 IsVisible="False"
                                 HorizontalAlignment="Right" />
-
-                        <Path Grid.Row="1"
-                              Grid.Column="1"
-                              IsHitTestVisible="False"
-                              Width="10"
-                              Margin="20 0 15 0"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Center"
-                              Stretch="Uniform"
-                              Data="{StaticResource ChevronDownRegular}"
-                              Fill="{StaticResource TextFillColor2Brush}" />
+                        
+                        <PathIcon Grid.Row="1"
+                                  Grid.Column="1"
+                                  IsHitTestVisible="False"
+                                  Width="10"
+                                  Height="10"
+                                  Margin="20 0 15 0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource ChevronDownRegular}" />
 
                         <Popup Name="PART_Popup"
                                Grid.Column="0"

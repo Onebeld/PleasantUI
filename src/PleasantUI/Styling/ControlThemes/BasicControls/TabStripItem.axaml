@@ -2,25 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
-        <Border Width="400">
-            <TabControl>
-                <TabItem Header="Arch">
-                    <Border Background="AntiqueWhite"
-                            Height="100">
-                        <TextBlock Text="Content" Foreground="Black" FontSize="20" />
-                    </Border>
-                </TabItem>
-                <TabItem Header="Leaf">
-                    <Border Background="Green"
-                            Height="100" />
-                </TabItem>
-                <TabItem Header="Disabled"
-                         IsEnabled="False" />
-            </TabControl>
+        <Border Padding="20">
+            <StackPanel Spacing="20">
+                <TabStripItem>Leaf</TabStripItem>
+                <TabStripItem IsSelected="True">Arch</TabStripItem>
+                <TabStripItem Background="Yellow">Background</TabStripItem>
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
-
-    <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
+    
+    <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
         <Setter Property="Padding" Value="12 0 12 0" />
@@ -31,33 +22,32 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_LayoutRoot"
+                        Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
                         Padding="{TemplateBinding Padding}">
                     <Panel>
                         <ContentPresenter Name="PART_ContentPresenter"
-                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          Content="{TemplateBinding Header}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          TextBlock.FontFamily="{TemplateBinding FontFamily}"
-                                          TextBlock.FontSize="{TemplateBinding FontSize}"
-                                          TextBlock.FontWeight="{TemplateBinding FontWeight}" />
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        
                         <Border Name="PART_SelectedPipe"
                                 CornerRadius="8"
-                                Background="{StaticResource SystemAccentLightColor2Brush}" />
+                                Background="{StaticResource SystemAccentLightColor2Brush}"
+                                Width="48"
+                                Height="3"
+                                Margin="0 0 0 2"
+                                VerticalAlignment="Bottom" />
                     </Panel>
                 </Border>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^ /template/ Border#PART_LayoutRoot">
-            <Setter Property="Background" Value="{CompiledBinding $parent[TabItem].Background}" />
-        </Style>
         
-        <Style Selector="^:pointerover">
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Style Selector="^ /template/ Border#PART_LayoutRoot">
+            <Setter Property="Background" Value="{CompiledBinding $parent[TabStripItem].Background}" />
         </Style>
 
         <Style Selector="^:selected">
@@ -84,20 +74,6 @@
         </Style>
         <Style Selector="^:not(:selected) /template/ Border#PART_SelectedPipe">
             <Setter Property="RenderTransform" Value="scaleX(0)" />
-        </Style>
-
-        <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe">
-            <Setter Property="Height" Value="2" />
-            <Setter Property="Margin" Value="5 0 5 2" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
-        </Style>
-
-        <Style Selector="^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
-            <Setter Property="Height" Value="2" />
-            <Setter Property="Margin" Value="5 0 5 2" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
 
         <Style Selector="^:disabled">

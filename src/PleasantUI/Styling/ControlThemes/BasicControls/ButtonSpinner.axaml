@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="using:System"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -9,18 +8,12 @@
                 <ButtonSpinner ButtonSpinnerLocation="Right"
                                Content="Right disabled inline spinner"
                                AllowSpin="False">
-                    <DataValidationErrors.Error>
-                        <system:Exception />
-                    </DataValidationErrors.Error>
                 </ButtonSpinner>
                 <ButtonSpinner ButtonSpinnerLocation="Left"
                                Content="Left spinner" />
                 <ButtonSpinner ButtonSpinnerLocation="Left"
                                Content="Left disabled inline spinner"
                                AllowSpin="False">
-                    <DataValidationErrors.Error>
-                        <system:Exception />
-                    </DataValidationErrors.Error>
                 </ButtonSpinner>
                 <ButtonSpinner ShowButtonSpinner="False"
                                Content="Hide spinner" />
@@ -103,9 +96,7 @@
                                                       Theme="{StaticResource ButtonSpinnerRepeatButton}"
                                                       VerticalContentAlignment="Center"
                                                       Height="14">
-                                            <Path Data="{StaticResource ChevronUpRegular}"
-                                                  Stretch="Uniform"
-                                                  Width="10" />
+                                            <PathIcon Data="{StaticResource ChevronUpRegular}" Width="10" Height="10" />
                                         </RepeatButton>
 
                                         <RepeatButton Name="PART_DecreaseButton"
@@ -113,9 +104,7 @@
                                                       VerticalContentAlignment="Center"
                                                       FontSize="18"
                                                       Height="14">
-                                            <Path Data="{StaticResource ChevronDownRegular}"
-                                                  Stretch="Uniform"
-                                                  Width="10" />
+                                            <PathIcon Data="{StaticResource ChevronDownRegular}" Width="10" Height="10" />
                                         </RepeatButton>
                                     </StackPanel>
                                 </Grid>

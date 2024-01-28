@@ -56,9 +56,12 @@
                 <MergeResourceInclude Source="BasicControls/SplitView.axaml" />
                 <MergeResourceInclude Source="BasicControls/TabControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/TabItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/TabStrip.axaml" />
+                <MergeResourceInclude Source="BasicControls/TabStripItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/TextBlock.axaml" />
                 <MergeResourceInclude Source="BasicControls/TextBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ThemeVariantScope.axaml" />
+                <MergeResourceInclude Source="BasicControls/TimePicker.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToggleButton.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToggleSwitch.axaml" />
                 <MergeResourceInclude Source="BasicControls/ToolTip.axaml" />
@@ -88,7 +91,6 @@
     </Styles.Resources>
     
     <StyleInclude Source="BasicControls/UserControl.axaml" />
-    <StyleInclude Source="PleasantControls/PleasantView.axaml" />
     
     <Style Selector=":is(Button) > PathIcon,
                      :is(Button) > StackPanel > PathIcon

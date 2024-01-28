@@ -91,8 +91,8 @@
                                 Width="40"
                                 Height="20"
                                 IsVisible="False"
-                                Background="{StaticResource SystemAccentLightColor3Brush}"
-                                BorderBrush="{StaticResource SystemAccentLightColor3Brush}"
+                                Background="{StaticResource SystemAccentLightColor2Brush}"
+                                BorderBrush="{StaticResource SystemAccentColorBrush}"
                                 BorderThickness="1"
                                 CornerRadius="10" />
 
@@ -193,8 +193,8 @@
                                     Width="40"
                                     Height="20"
                                     IsVisible="False"
-                                    Background="{StaticResource SystemAccentLightColor3Brush}"
-                                    BorderBrush="{StaticResource SystemAccentLightColor3Brush}"
+                                    Background="{StaticResource SystemAccentLightColor2Brush}"
+                                    BorderBrush="{StaticResource SystemAccentColorBrush}"
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
@@ -258,11 +258,11 @@
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentColorBrush}" />
             <Setter Property="Opacity" Value="0.8" />
         </Style>
 

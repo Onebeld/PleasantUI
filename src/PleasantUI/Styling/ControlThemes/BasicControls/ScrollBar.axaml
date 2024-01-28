@@ -58,14 +58,10 @@
     <ControlTheme x:Key="ScrollBarLineButton" TargetType="RepeatButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border x:Name="Root">
-                    <Viewbox Name="ViewboxGlyph" Width="12" Height="12">
-                        <Path Name="ArrowGlyph"
-                              Margin="3"
-                              Stretch="Uniform"
-                              Data="{StaticResource FillArrowRegular}" />
-                    </Viewbox>
-                </Border>
+                <PathIcon Width="8"
+                          Height="8"
+                          Margin="3"
+                          Data="{StaticResource FillArrowRegular}" />
             </ControlTemplate>
         </Setter>
         <Setter Property="RenderTransform" Value="scale(1)" />
@@ -77,21 +73,17 @@
             </Transitions>
         </Setter>
 
-        <Style Selector="^ /template/ Path">
-            <Setter Property="Fill" Value="{StaticResource ControlColor1Brush}" />
+        <Style Selector="^ /template/ PathIcon">
+            <Setter Property="Foreground" Value="{StaticResource ControlColor1Brush}" />
         </Style>
-        <Style Selector="^:pointerover /template/ Path">
-            <Setter Property="Fill" Value="{StaticResource ControlColor2Brush}" />
+        <Style Selector="^:pointerover /template/ PathIcon">
+            <Setter Property="Foreground" Value="{StaticResource ControlColor2Brush}" />
         </Style>
-        <Style Selector="^:disabled /template/ Path">
-            <Setter Property="Fill" Value="{StaticResource ControlColor3Brush}" />
-        </Style>
-
-        <Style Selector="^:pressed /template/ Path">
-            <Setter Property="RenderTransform" Value="scale(0.875)" />
+        <Style Selector="^:disabled /template/ PathIcon">
+            <Setter Property="Foreground" Value="{StaticResource ControlColor3Brush}" />
         </Style>
 
-        <Style Selector="^:disabled /template/ Path">
+        <Style Selector="^:disabled /template/ PathIcon">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>

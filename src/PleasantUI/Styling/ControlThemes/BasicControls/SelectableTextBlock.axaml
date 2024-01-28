@@ -10,7 +10,9 @@
                   Header="{DynamicResource Copy}"
                   Command="{CompiledBinding $parent[SelectableTextBlock].Copy}"
                   IsEnabled="{CompiledBinding $parent[SelectableTextBlock].CanCopy}"
-                  InputGesture="{x:Static TextBox.CopyGesture}" />
+                  InputGesture="{x:Static TextBox.CopyGesture}">
+            
+        </MenuItem>
     </MenuFlyout>
     
     <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">

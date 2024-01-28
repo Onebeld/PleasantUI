@@ -73,6 +73,9 @@ public class PleasantTheme : Styles, IResourceNode
             case nameof(PleasantSettings.Instance.Theme):
                 ResolveTheme(_platformSettings);
                 break;
+            case nameof(PleasantSettings.Instance.NumericalAccentColor):
+                UpdateAccentColors(Color.FromUInt32(PleasantSettings.Instance.NumericalAccentColor));
+                break;
         }
     }
 
@@ -80,8 +83,8 @@ public class PleasantTheme : Styles, IResourceNode
     {
         if (_platformSettings is null) return;
 
-        float lightPercent = 0.25f;
-        float darkPercent = -0.25f;
+        float lightPercent = 0.20f;
+        float darkPercent = -0.20f;
         
         List<Color> lightColors = [];
         List<Color> darkColors = [];

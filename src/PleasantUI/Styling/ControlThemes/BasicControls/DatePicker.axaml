@@ -39,6 +39,8 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 IsEnabled="{TemplateBinding IsEnabled}"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
                                 Padding="0"
                                 TemplatedControl.IsTemplateFocusTarget="True">
                             <Grid Name="PART_ButtonContentGrid"
@@ -81,21 +83,21 @@
                                PlacementTarget="{TemplateBinding}"
                                Placement="Bottom">
                             <Popup.Styles>
-                                    <Style Selector="Popup[IsOpen=True] > Border">
-                                        <Style.Animations>
-                                            <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                                <KeyFrame Cue="0%">
-                                                    <Setter Property="ScaleTransform.ScaleY" Value="0.1" />
-                                                    <Setter Property="Opacity" Value="0" />
-                                                </KeyFrame>
-                                                <KeyFrame Cue="100%">
-                                                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                                                    <Setter Property="Opacity" Value="1" />
-                                                </KeyFrame>
-                                            </Animation>
-                                        </Style.Animations>
-                                    </Style>
-                                </Popup.Styles>
+                                <Style Selector="Popup[IsOpen=True] > Border">
+                                    <Style.Animations>
+                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                            <KeyFrame Cue="0%">
+                                                <Setter Property="ScaleTransform.ScaleY" Value="0.1" />
+                                                <Setter Property="Opacity" Value="0" />
+                                            </KeyFrame>
+                                            <KeyFrame Cue="100%">
+                                                <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                                                <Setter Property="Opacity" Value="1" />
+                                            </KeyFrame>
+                                        </Animation>
+                                    </Style.Animations>
+                                </Style>
+                            </Popup.Styles>
                             
                             <Border Background="{StaticResource BackgroundColor1Brush}"
                                     BorderBrush="{StaticResource ControlBorderColorBrush}"
@@ -208,7 +210,7 @@
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 Margin="2"
                                 Height="40">
-                            <PathIcon Foreground="{CompiledBinding $parent[Button].Foreground}" Data="{StaticResource DismissRegular}" Width="14" Height="14" />
+                            <PathIcon Data="{StaticResource DismissRegular}" Width="12" Height="12" />
                         </Button>
                     </Grid>
                 </Grid>
@@ -218,6 +220,12 @@
         <Style Selector="^ /template/ Panel">
             <Style Selector="^:pointerover RepeatButton">
                 <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^ /template/ Grid#AcceptDismissGrid">
+            <Style Selector="^ PathIcon">
+                <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
             </Style>
         </Style>
     </ControlTheme>

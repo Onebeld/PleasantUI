@@ -27,27 +27,19 @@
                 <Border Background="Transparent"
                         Width="24"
                         Height="24">
-                    <Viewbox x:Name="ChevronViewbox"
-                             Width="{TemplateBinding Width}"
-                             Height="{TemplateBinding Height}"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center">
-                        <Viewbox.RenderTransform>
+                    <PathIcon x:Name="ChevronPath"
+                              Width="{TemplateBinding Width}"
+                              Height="{TemplateBinding Height}"
+                              Data="{StaticResource ChevronRightRegular}">
+                        <PathIcon.RenderTransform>
                             <RotateTransform />
-                        </Viewbox.RenderTransform>
-                        
-                        <Path x:Name="ChevronPath"
-                              Data="{StaticResource ChevronRightRegular}"
-                              Fill="{StaticResource TextFillColor2Brush}"
-                              Stretch="Uniform"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
-                    </Viewbox>
+                        </PathIcon.RenderTransform>
+                    </PathIcon>
                 </Border>
             </ControlTemplate>
         </Setter>
         
-        <Style Selector="^:not(:checked) /template/ Viewbox#ChevronViewbox">
+        <Style Selector="^:not(:checked) /template/ PathIcon#ChevronPath">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0%">
@@ -59,7 +51,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^:checked /template/ Viewbox#ChevronViewbox">
+        <Style Selector="^:checked /template/ PathIcon#ChevronPath">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0">

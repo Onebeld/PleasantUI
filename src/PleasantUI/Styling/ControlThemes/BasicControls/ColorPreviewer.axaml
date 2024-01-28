@@ -23,6 +23,7 @@
                                 Background="{StaticResource CheckeredBackgroundBrush}" />
                         <Border x:Name="PART_AccentDecrement2Border"
                                 Grid.Column="0"
+                                ClipToBounds="True"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
                                 Tag="-2"
                                 Background="{TemplateBinding HsvColor, Converter={x:Static ColorConverters.AccentColor}, ConverterParameter='-2'}" />
@@ -49,6 +50,7 @@
                                 Background="{TemplateBinding HsvColor, Converter={x:Static ColorConverters.AccentColor}, ConverterParameter='1'}" />
                         <Border x:Name="PART_AccentIncrement2Border"
                                 Grid.Column="1"
+                                ClipToBounds="True"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                 Tag="2"
                                 Background="{TemplateBinding HsvColor, Converter={x:Static ColorConverters.AccentColor}, ConverterParameter='2'}" />

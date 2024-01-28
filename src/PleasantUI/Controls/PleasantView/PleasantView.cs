@@ -1,13 +1,20 @@
-﻿using Avalonia.Collections;
+﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
+using Avalonia.Data;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Media;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
 
 [TemplatePart("PART_ModalWindowsPanel", typeof(Panel))]
 [TemplatePart("PART_VisualLayerManager", typeof(VisualLayerManager))]
+[TemplatePart("PART_ContentPresenter", typeof(ContentPresenter))]
 public class PleasantView : ContentControl, IPleasantWindow
 {
     private Panel _modalWindowsPanel = null!;
@@ -15,6 +22,62 @@ public class PleasantView : ContentControl, IPleasantWindow
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
     public VisualLayerManager VisualLayerManager { get; private set; }
+
+    static PleasantView()
+    {
+        if (Application.Current is null) throw new NullReferenceException("Current application is null");
+        
+        if (Application.Current.TryFindResource("BackgroundColor1Brush", out object? backgroundBrush))
+            BackgroundProperty.OverrideDefaultValue<PleasantView>(backgroundBrush as IBrush);
+        
+        if (Application.Current.TryFindResource("TextFillColor1Brush", out object? foregroundBrush))
+            ForegroundProperty.OverrideDefaultValue<PleasantView>(foregroundBrush as IBrush);
+        
+        FontSizeProperty.OverrideDefaultValue<PleasantView>(14);
+        
+        TemplateProperty.OverrideDefaultValue<PleasantView>(new FuncControlTemplate((_, nameScope) =>
+            new Panel
+            {
+                Children =
+                {
+                    new Border
+                    {
+                        [~BackgroundProperty] = new TemplateBinding(BackgroundProperty),
+                        IsHitTestVisible = false
+                    },
+                    
+                    new VisualLayerManager
+                    {
+                        Name = "PART_VisualLayerManager",
+                        Child = new Panel
+                        {
+                            Children =
+                            {
+                                new ContentPresenter
+                                {
+                                    Name = "PART_ContentPresenter",
+                                    [~BackgroundProperty] = new TemplateBinding(BackgroundProperty),
+                                    [~BorderBrushProperty] = new TemplateBinding(BorderBrushProperty),
+                                    [~BorderThicknessProperty] = new TemplateBinding(BorderThicknessProperty),
+                                    [~CornerRadiusProperty] = new TemplateBinding(CornerRadiusProperty),
+                                    [~ContentTemplateProperty] = new TemplateBinding(ContentTemplateProperty),
+                                    [~ContentProperty] = new TemplateBinding(ContentProperty),
+                                    [~PaddingProperty] = new TemplateBinding(PaddingProperty),
+                                    [~VerticalContentAlignmentProperty] = new TemplateBinding(VerticalContentAlignmentProperty),
+                                    [~HorizontalContentAlignmentProperty] = new TemplateBinding(HorizontalContentAlignmentProperty)
+                                },
+                                
+                                new Panel
+                                {
+                                    Name = "PART_ModalWindowsPanel"
+                                }
+                            }
+                        }
+                    }
+                }
+            }.RegisterInNameScope(nameScope)
+        ));
+    }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

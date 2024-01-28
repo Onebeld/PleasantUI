@@ -101,15 +101,12 @@
                                        Foreground="{StaticResource TextFillColor3Brush}"
                                        FontWeight="SemiBold"
                                        VerticalAlignment="Center" />
-                            <Viewbox Name="Viewbox"
-                                     Grid.Column="3"
-                                     Margin="24 0 0 0"
-                                     Height="10"
-                                     Width="10">
-                                <Path Data="{StaticResource ChevronRightRegular}"
-                                      Fill="{StaticResource TextFillColor2Brush}"
-                                      Stretch="Uniform" />
-                            </Viewbox>
+                            
+                            <PathIcon Name="PART_ChevronIcon" Grid.Column="3"
+                                      Margin="24 0 0 0"
+                                      Width="10"
+                                      Height="10"
+                                      Data="{StaticResource ChevronRightRegular}"/>
                         </Grid>
                     </Border>
                     <Popup Name="PART_Popup"
@@ -184,7 +181,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
 
-        <Style Selector="^:empty /template/ Viewbox#Viewbox">
+        <Style Selector="^:empty /template/ PathIcon#PART_ChevronIcon">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                    x:ClassModifier="internal">
     <CornerRadius x:Key="RoundedControlCornerRadius">999</CornerRadius>
     <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
     

@@ -71,7 +71,7 @@
                             Height="16"
                             Margin="1 0 0 0"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"
-                            Background="{StaticResource SystemAccentLightColor1Brush}" />
+                            Background="{StaticResource SystemAccentLightColor2Brush}" />
                 </Panel>
             </ControlTemplate>
         </Setter>
@@ -156,7 +156,7 @@
                                       Margin="5 2 5 5" />
                     
                     <Border Name="SelectionIndicator"
-                            Background="{StaticResource SystemAccentLightColor1Brush}"
+                            Background="{StaticResource SystemAccentLightColor2Brush}"
                             Height="3"
                             MinWidth="16"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"

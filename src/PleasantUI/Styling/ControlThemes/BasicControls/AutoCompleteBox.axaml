@@ -49,9 +49,10 @@
                            MinWidth="{CompiledBinding $self.Bounds.Width}"
                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                            IsLightDismissEnabled="True"
-                           PlacementTarget="{TemplateBinding}">
+                           PlacementTarget="{TemplateBinding}"
+                           Placement="Bottom">
                         <Popup.Styles>
-                            <Style Selector="Popup[IsOpen=True][Placement=Bottom] > Border">
+                            <Style Selector="Popup[IsOpen=True] > Border">
                                 <Style.Animations>
                                     <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                                         <KeyFrame Cue="0%">

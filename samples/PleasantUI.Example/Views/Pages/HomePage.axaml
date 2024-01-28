@@ -29,8 +29,6 @@
             <Button x:Name="FlyoutPage" CornerRadius="8" Margin="5">
                 <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Flyout" />
             </Button>
-            
-            <ColorView />
         </WrapPanel>
     </Grid>
 </UserControl>

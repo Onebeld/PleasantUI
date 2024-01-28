@@ -38,7 +38,7 @@
                                   Fill="{StaticResource ForegroundAccentLightColor3Brush}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
-                                  Margin="0 12 0 12" />
+                                  Margin="0 10 0 10" />
 
                             <Rectangle Name="IndeterminateGlyph"
                                        Fill="{StaticResource ForegroundAccentLightColor3Brush}"
