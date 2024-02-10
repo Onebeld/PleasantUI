@@ -9,7 +9,7 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
         
-        HomeView.FuncControl += () => new HomeView();
+        HomeView.FuncControl += () => new HomeView { DataContext = DataContext };
         SettingsView.FuncControl += () => new SettingsView();
         AboutView.FuncControl += () => new AboutView();
     }

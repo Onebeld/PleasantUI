@@ -51,8 +51,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <Separator Name="PART_SeparatorMenuItem"
-                                           Background="{StaticResource ControlBorderColorBrush}"
+                                <Separator Background="{StaticResource ControlBorderColorBrush}"
                                            Height="1"
                                            Margin="-4 1 -4 1" />
 

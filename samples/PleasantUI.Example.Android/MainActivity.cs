@@ -1,4 +1,10 @@
-﻿namespace PleasantUI.Example.Android;
+﻿using Android.App;
+using Android.Content.PM;
+using Avalonia;
+using Avalonia.Android;
+using PleasantUI.Core;
+
+namespace PleasantUI.Example.Android;
 
 [Activity(
     Label = "PleasantUI.Example",
@@ -15,7 +21,7 @@ public class MainActivity : AvaloniaMainActivity<App>
 
     protected override void OnStop()
     {
-        PleasantSettings.Instance.Save();
+        PleasantSettings.Save();
         
         base.OnStop();
     }

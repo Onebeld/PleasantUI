@@ -4,19 +4,44 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.MainView">
-    <NavigationView IsOpen="False"
-                    SelectionMode="AlwaysSelected">
-        <NavigationViewItem x:Name="HomeView"
-                            IsSelected="True"
-                            Header="Home" />
+    <Panel>
+        <NavigationView>
+            <NavigationViewItem x:Name="HomeView"
+                                Header="Home"
+                                Icon="{StaticResource HomeRegular}"/>
         
-        <NavigationViewItem x:Name="AboutView"
-                            Header="About"
-                            DockPanel.Dock="Bottom" />
+            <NavigationViewItem x:Name="AboutView"
+                                Header="About"
+                                Icon="{StaticResource InfoRegular}"
+                                DockPanel.Dock="Bottom" />
         
-        <NavigationViewItem x:Name="SettingsView"
-                            Header="Settings"
-                            DockPanel.Dock="Bottom"
-                            Margin="0 0 0 5" />
-    </NavigationView>
+            <NavigationViewItem x:Name="SettingsView"
+                                Header="Settings"
+                                DockPanel.Dock="Bottom"
+                                Icon="{StaticResource SettingsRegular}"
+                                Margin="0 0 0 5" />
+        </NavigationView>
+        
+        <OnFormFactor>
+            <OnFormFactor.Default>
+                <Control />
+            </OnFormFactor.Default>
+            <OnFormFactor.Mobile>
+                <StackPanel Spacing="5"
+                            Margin="50 0"
+                            Height="45"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            IsHitTestVisible="False">
+                    <Image Source="{StaticResource PleasantUILogo}" Width="16" Height="16" VerticalAlignment="Center" />
+                    <TextBlock Text="PleasantUI" VerticalAlignment="Center" />
+                    <TextBlock Text="Example"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="{StaticResource TextFillColor3Brush}" />
+                </StackPanel>
+            </OnFormFactor.Mobile>
+        </OnFormFactor>
+    </Panel>
 </UserControl>

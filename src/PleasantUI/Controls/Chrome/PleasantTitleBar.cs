@@ -20,7 +20,6 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_Title", typeof(TextBlock))]
 [TemplatePart("PART_Subtitle", typeof(TextBlock))]
 [TemplatePart("PART_LogoPath", typeof(Path))]
-[TemplatePart("PART_SeparatorMenuItem", typeof(Separator))]
 [TemplatePart("PART_LeftTitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitlePanel", typeof(StackPanel))]
@@ -32,7 +31,6 @@ public class PleasantTitleBar : TemplatedControl
     private MenuItem? _collapseMenuItem;
     private MenuItem? _expandMenuItem;
     private MenuItem? _reestablishMenuItem;
-    private Separator? _separator;
 
     private Border? _dragWindowBorder;
     private Image? _image;
@@ -59,7 +57,6 @@ public class PleasantTitleBar : TemplatedControl
         _expandMenuItem = e.NameScope.Get<MenuItem>("PART_ExpandMenuItem");
         _collapseMenuItem = e.NameScope.Get<MenuItem>("PART_CollapseMenuItem");
         _reestablishMenuItem = e.NameScope.Get<MenuItem>("PART_ReestablishMenuItem");
-        _separator = e.NameScope.Get<Separator>("PART_SeparatorMenuItem");
 
         _image = e.NameScope.Find<Image>("PART_Icon");
         _title = e.NameScope.Get<TextBlock>("PART_Title");
@@ -184,7 +181,8 @@ public class PleasantTitleBar : TemplatedControl
     
     internal void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
     {
-        _host?.BeginMoveDrag(args);
+        if (args.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            _host?.BeginMoveDrag(args);
     }
     
     internal void OnDragWindowBorderOnDoubleTapped(object? o, TappedEventArgs tappedEventArgs)

@@ -128,12 +128,12 @@ public class PleasantSettings : ViewModelBase
     /// <summary>
     /// Resets all settings to defaults
     /// </summary>
-    public void Reset()
+    public static void Reset()
     {
         Setup();
 
-        WindowSettings = new WindowSettings();
-        RenderSettings = new RenderSettings();
+        Instance.WindowSettings = new WindowSettings();
+        Instance.RenderSettings = new RenderSettings();
     }
 
     private static void Setup()

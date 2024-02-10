@@ -373,9 +373,9 @@ public class NavigationView : TreeView
         }
     }
 
-    internal void SelectSingleItemCore(object? item)
+    internal void SelectSingleItemCore(object? item, bool runAnimation = true)
     {
-        if (SelectedItem != item && TransitionAnimations is not null && _contentPresenter is not null)
+        if (SelectedItem != item && TransitionAnimations is not null && _contentPresenter is not null && runAnimation)
         {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -384,21 +384,18 @@ public class NavigationView : TreeView
                 animation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
         }
 
-        if (SelectedItem is ISelectable selectableSelectedItem)
-            selectableSelectedItem.IsSelected = false;
-
         if (item is ISelectable selectableItem)
             selectableItem.IsSelected = true;
-
-        SelectedItems.Clear();
-        SelectedItems.Add(item);
 
         SelectedItem = item;
     }
 
-    internal void SelectSingleItem(object item)
+    internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
     {
-        SelectSingleItemCore(item);
+        if (item.IsSelected)
+            return;
+        
+        SelectSingleItemCore(item, runAnimation);
     }
 
     private void OnSelectedItemChanged()
@@ -439,13 +436,24 @@ public class NavigationView : TreeView
         UpdateTitleAndSelectedContent();
     }
 
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+
+        // Hack. For some reason it does not highlight the first item in the list after running the program
+        if (Items.Count > 0)
+            SelectSingleItem(Items[0] as ISelectable, false);
+    }
+
     /// <inheritdoc cref="OnAttachedToLogicalTree"/>
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
 
-        if (Items is IList { Count: >= 1 } l && l[0] is ISelectable s)
-            SelectSingleItem(s);
+        if (Items.Count > 0)
+        {
+            SelectSingleItem(Items[0] as ISelectable);
+        }
     }
 
     /// <inheritdoc cref="OnDetachedFromLogicalTree"/>
@@ -484,7 +492,7 @@ public class NavigationView : TreeView
             return;
         }
 
-        if (item.FuncControl.GetInvocationList().Length > 0)
+        if (item.FuncControl?.GetInvocationList().Length > 0)
             SelectedContent = item.FuncControl.Invoke();
     }
 

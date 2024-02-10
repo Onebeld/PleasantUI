@@ -91,6 +91,7 @@
     </Styles.Resources>
     
     <StyleInclude Source="BasicControls/UserControl.axaml" />
+    <StyleInclude Source="PleasantControls/PleasantView.axaml" />
     
     <Style Selector=":is(Button) > PathIcon,
                      :is(Button) > StackPanel > PathIcon

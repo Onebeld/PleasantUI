@@ -42,6 +42,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource ContentBorderColorBrush}" />
         <Setter Property="Background" Value="{StaticResource BackgroundColor2Brush}" />
         <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
+        <Setter Property="SelectionMode" Value="AlwaysSelected" />
         
         <Setter Property="TransitionAnimations">
             <Animations>

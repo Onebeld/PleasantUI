@@ -4,10 +4,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="Assets/Icons.axaml" />
-                
+                <ResourceInclude Source="avares://PleasantUI.Example/Assets/IconGeometries.axaml" />
+                <ResourceInclude Source="avares://PleasantUI.Example/Assets/Images.axaml" />
                 <ResourceInclude Source="avares://PleasantUI/Assets/Localization/en.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+    
+    <Application.Styles>
+        <PleasantTheme />
+    </Application.Styles>
 </Application>

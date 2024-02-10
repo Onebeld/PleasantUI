@@ -1,24 +1,19 @@
-﻿using PleasantUI.Example.ViewModels;
+﻿using System;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
+using PleasantUI.Example.ViewModels;
 using Application = Avalonia.Application;
 
 namespace PleasantUI.Example.Android;
 
-public partial class App : Application
+public partial class App : PleasantUIExampleApp
 {
-    public static PleasantTheme PleasantTheme { get; private set; } = null!;
     
-    public static ApplicationViewModel ViewModel { get; private set; }
-    
-    public App()
-    {
-        AvaloniaXamlLoader.Load(this);
-        DataContext = ViewModel = new ApplicationViewModel();
-    }
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
     
     public override void OnFrameworkInitializationCompleted()
     {
-        PleasantTheme = new PleasantTheme();
-        Styles.Add(PleasantTheme);
+        PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
         
         if (ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
         {

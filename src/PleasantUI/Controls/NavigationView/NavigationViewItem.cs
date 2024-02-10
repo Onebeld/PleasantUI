@@ -41,7 +41,7 @@ public class NavigationViewItem : TreeViewItem
             (o, v) => o.Title = v);
     
     public static readonly StyledProperty<bool> IsOpenProperty =
-        AvaloniaProperty.Register<NavigationViewItem, bool>(nameof(IsOpen), true);
+        AvaloniaProperty.Register<NavigationViewItem, bool>(nameof(IsOpen));
 
     public static readonly StyledProperty<bool> SelectOnCloseProperty =
         AvaloniaProperty.Register<NavigationViewItem, bool>(nameof(SelectOnClose));
@@ -220,7 +220,7 @@ public class NavigationViewItem : TreeViewItem
     /// <summary>
     /// Needed if AOT does not support creating a class instance by type
     /// </summary>
-    public Func<Control> FuncControl { get; set; }
+    public Func<Control>? FuncControl { get; set; }
 
     private object? _content;
 
@@ -254,7 +254,6 @@ public class NavigationViewItem : TreeViewItem
         OpenPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
         CompactPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
         
-        SelectableMixin.Attach<NavigationViewItem>(IsSelectedProperty);
         FocusableProperty.OverrideDefaultValue<NavigationViewItem>(true);
         ClickModeProperty.OverrideDefaultValue<NavigationViewItem>(ClickMode.Release);
     }
@@ -302,7 +301,6 @@ public class NavigationViewItem : TreeViewItem
 
     protected virtual void OnDeselected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
-
     }
 
     protected virtual void OnSelected(object sender, AvaloniaPropertyChangedEventArgs e)

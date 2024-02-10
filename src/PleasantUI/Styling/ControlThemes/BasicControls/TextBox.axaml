@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime"
                     x:DataType="TextBox"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
@@ -10,6 +11,11 @@
                 <TextBox Watermark="Watermark" />
                 <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="●" Text="Hello" />
                 <TextBox Text="Disabled Text Box" IsEnabled="False" />
+                <TextBox Text="Sample">
+                    <DataValidationErrors.Error>
+                        <system:Exception />
+                    </DataValidationErrors.Error>
+                </TextBox>
                 <TextBox Classes="TextField" Height="100" Text="Field" />
             </StackPanel>
         </Border>

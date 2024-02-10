@@ -44,7 +44,7 @@ public class PleasantTheme : Styles, IResourceNode
     private void Init()
     {
         if (Application.Current is null)
-            throw new NullReferenceException("Current application is not initialized");
+            throw new NullReferenceException("Current application is not initialized. You need to load the xaml in the Initialize method");
         
         _platformSettings = Application.Current.PlatformSettings;
 

@@ -19,11 +19,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Android" Version="11.0.5"/>
+        <PackageReference Include="Avalonia.Android" Version="11.0.9"/>
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\PleasantUI\PleasantUI.csproj" />
+      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
+      <ProjectReference Include="..\PleasantUI.Example\PleasantUI.Example.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Pages\ControlsPage.axaml" />
+      <UpToDateCheckInput Remove="Pages\HomePage.axaml" />
+      <UpToDateCheckInput Remove="Pages\SettingsPage.axaml" />
     </ItemGroup>
 </Project>

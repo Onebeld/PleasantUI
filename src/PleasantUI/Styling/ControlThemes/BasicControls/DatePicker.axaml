@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
                     xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="200 20" Height="500">
@@ -9,7 +10,7 @@
                 <DatePicker />
                 <DatePicker CornerRadius="8" />
                 <DatePicker IsEnabled="False" />
-                <!--<DatePicker>
+                <DatePicker>
                     <DataValidationErrors.Error>
                         <system:Exception>
                             <x:Arguments>
@@ -17,7 +18,7 @@
                             </x:Arguments>
                         </system:Exception>
                     </DataValidationErrors.Error>
-                </DatePicker>-->
+                </DatePicker>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
