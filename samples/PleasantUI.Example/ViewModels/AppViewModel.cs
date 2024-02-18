@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls.Notifications;
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Pages;
-using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.ViewModels;
 

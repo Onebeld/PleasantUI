@@ -7,11 +7,11 @@
             <Color x:Key="TextFillColor2">#9E000000</Color>
             <Color x:Key="TextFillColor3">#72000000</Color>
 
-            <Color x:Key="ControlFillColor1">#DCFFFFFF</Color>
-            <Color x:Key="ControlFillColor2">#C8DCDCDC</Color>
-            <Color x:Key="ControlFillColor3">#B4D7D7D7</Color>
+            <Color x:Key="ControlFillColor1">#05000000</Color>
+            <Color x:Key="ControlFillColor2">#0A000000</Color>
+            <Color x:Key="ControlFillColor3">#0F000000</Color>
 
-            <Color x:Key="ControlBorderColor">#D2D2D2</Color>
+            <Color x:Key="ControlBorderColor">#1E000000</Color>
             <Color x:Key="ContentBorderColor">#1E000000</Color>
             
             <Color x:Key="BackgroundColor1">#F0F0F0</Color>

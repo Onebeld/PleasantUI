@@ -1,8 +1,6 @@
 ﻿using System;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using PleasantUI.Example.ViewModels;
-using Application = Avalonia.Application;
 
 namespace PleasantUI.Example.Android;
 

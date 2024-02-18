@@ -4,12 +4,20 @@
         <TargetFramework>net8.0-android</TargetFramework>
         <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
-        <ApplicationId>com.CompanyName.PleasantUI.Exampl</ApplicationId>
+        <ApplicationId>com.Onebeld.PleasantUI.Example</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <AndroidPackageFormat>apk</AndroidPackageFormat>
-        <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
         <DisableTransitiveFrameworkReferences>true</DisableTransitiveFrameworkReferences>
+
+        <!--Not supported-->
+        <!--<PublishTrimmed>true</PublishTrimmed>
+        <PublishAot>true</PublishAot>-->
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <RunAOTCompilation>true</RunAOTCompilation>
+        <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
     </PropertyGroup>
 
     <ItemGroup>

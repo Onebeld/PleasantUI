@@ -4,8 +4,16 @@
     <Design.PreviewWith>
         <Grid Height="100" Width="100" Margin="10">
             <SmoothScrollViewer HorizontalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBlock Text="Lorem ipsum hello world world world world world world world world world world world world world" />
+                <StackPanel Spacing="20" Width="210">
+                    <TextBlock>Item 1</TextBlock>
+                    <TextBlock>Item 2</TextBlock>
+                    <TextBlock>Item 3</TextBlock>
+                    <TextBlock>Item 4</TextBlock>
+                    <TextBlock>Item 5</TextBlock>
+                    <TextBlock>Item 6</TextBlock>
+                    <TextBlock>Item 7</TextBlock>
+                    <TextBlock>Item 8</TextBlock>
+                    <TextBlock>Item 9</TextBlock>
                 </StackPanel>
             </SmoothScrollViewer>
         </Grid>

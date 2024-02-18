@@ -64,6 +64,7 @@
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PathIcon">
                 <Setter Property="Data" Value="{StaticResource SquareMultipleRegular}" />
+                <Setter Property="FontSize" Value="2" />
             </Style>
         </Style>
     </ControlTheme>

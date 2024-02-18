@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
@@ -23,14 +23,10 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DebugType>embedded</DebugType>
-        <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
-    </PropertyGroup>
-
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="11.0.9" />
       <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.9" />
+      <PackageReference Include="System.Text.Json" Version="8.0.2" />
     </ItemGroup>
 
     <ItemGroup>

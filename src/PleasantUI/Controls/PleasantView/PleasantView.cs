@@ -1,13 +1,8 @@
-﻿using Avalonia;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
-using Avalonia.Data;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Media;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;

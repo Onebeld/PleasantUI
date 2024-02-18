@@ -21,33 +21,26 @@
                             <MenuFlyout>
                                 <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
                                     <MenuItem.Icon>
-                                        <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource SquareMultipleRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stroke="{StaticResource TextFillColor1Brush}"
-                                                  Stretch="Uniform" />
-                                        </Viewbox>
+                                        <PathIcon Width="12"
+                                                  Height="12"
+                                                  Data="{StaticResource SquareMultipleRegular}"
+                                                  FontSize="2" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
                                           Header="{DynamicResource Collapse}">
                                     <MenuItem.Icon>
-                                        <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource SubtractRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stroke="{StaticResource TextFillColor1Brush}"
-                                                  Stretch="Uniform" />
-                                        </Viewbox>
+                                        <PathIcon Width="12"
+                                                  Height="12"
+                                                  Data="{StaticResource SubtractRegular}" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
                                           Header="{DynamicResource Expand}">
                                     <MenuItem.Icon>
-                                        <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource MaximizeRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stretch="Uniform" />
-                                        </Viewbox>
+                                        <PathIcon Width="12"
+                                                  Height="12"
+                                                  Data="{StaticResource MaximizeRegular}" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
@@ -59,11 +52,9 @@
                                           Header="{DynamicResource Close}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
-                                        <Viewbox Width="12" Height="12">
-                                            <Path Data="{StaticResource DismissRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stretch="Uniform" />
-                                        </Viewbox>
+                                        <PathIcon Width="12"
+                                                  Height="12"
+                                                  Data="{StaticResource DismissRegular}" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </MenuFlyout>
