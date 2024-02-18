@@ -9,7 +9,7 @@ namespace PleasantUI.Core;
 
 public class PleasantSettings : ViewModelBase
 {
-    private uint _numericalAccentColor = 9426;
+    private uint _numericalAccentColor;
     private bool _preferUserAccentColor;
     private Theme _theme = Theme.System;
     private WindowSettings _windowSettings = null!;
@@ -155,10 +155,15 @@ public class PleasantSettings : ViewModelBase
                 Instance.WindowSettings.EnableCustomTitleBar = false;
             }
         }
-        else
+        else if (operatingSystem.Platform is PlatformID.MacOSX)
         {
             Instance.WindowSettings.EnableBlur = true;
             Instance.WindowSettings.EnableCustomTitleBar = true;
+        }
+        else
+        {
+            Instance.WindowSettings.EnableBlur = false;
+            Instance.WindowSettings.EnableCustomTitleBar = false;
         }
     }
 }
