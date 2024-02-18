@@ -1,0 +1,167 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
+                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Margin="100, 20, 100, 400">
+            <CalendarDatePicker Width="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="CalendarDatePickerButton" TargetType="Button">
+        <Setter Property="Width" Value="35" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Margin" Value="0 1 1 1" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{TemplateBinding Background}">
+                    <Grid Width="35"
+                          Height="24"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Margin="0"
+                          ColumnDefinitions="*,*,*,*"
+                          RowDefinitions="23*,19*,19*,19*"
+                          ClipToBounds="False">
+                        <TextBlock Margin="0,-1,0,0"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Grid.Column="0"
+                                   Grid.Row="1"
+                                   Grid.ColumnSpan="4"
+                                   Grid.RowSpan="3"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="14"
+                                   Text="{CompiledBinding Source={x:Static sys:DateTime.Today}, Path=Day}" />
+                        <Ellipse Grid.Row="0"
+                                 Grid.Column="0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Fill="{TemplateBinding Foreground}"
+                                 StrokeThickness="0"
+                                 Grid.ColumnSpan="4"
+                                 Width="3"
+                                 Height="3" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="IsTodayHighlighted" Value="True" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DataValidationErrors>
+                    <Panel x:Name="LayoutRoot"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch">
+                        <Border x:Name="Background"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}" />
+                        
+                        <Grid ColumnDefinitions="*,1,Auto">
+                            <TextBox Grid.Column="0"
+                                     Name="PART_TextBox"
+                                     Foreground="{TemplateBinding Foreground}"
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                     CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
+                                     Margin="1 1 0 1"
+                                     Padding="{TemplateBinding Padding}"
+                                     Watermark="{TemplateBinding Watermark}"
+                                     UseFloatingWatermark="{TemplateBinding UseFloatingWatermark}"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                
+                            </TextBox>
+                            
+                            <Rectangle Fill="{TemplateBinding BorderBrush}"
+                                       HorizontalAlignment="Center"
+                                       Width="1"
+                                       Grid.Column="1" />
+                            
+                            <Button Name="PART_Button"
+                                    Theme="{StaticResource CalendarDatePickerButton}"
+                                    CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
+                                    Grid.Column="2"
+                                    Focusable="False" />
+                            
+                            <Popup Grid.Column="0"
+                                   Name="PART_Popup"
+                                   PlacementTarget="{TemplateBinding}"
+                                   IsLightDismissEnabled="True"
+                                   Placement="Bottom">
+                                <Popup.Styles>
+                                    <Style Selector="Popup[IsOpen=True] > Border">
+                                        <Style.Animations>
+                                            <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                                <KeyFrame Cue="0%">
+                                                    <Setter Property="TranslateTransform.Y"
+                                                            Value="{CompiledBinding $self.Bounds.Height, Converter={x:Static NumberConverters.DoubleInverse}}" />
+                                                    <Setter Property="Opacity" Value="0" />
+                                                </KeyFrame>
+                                                <KeyFrame Cue="100%">
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                    <Setter Property="Opacity" Value="1" />
+                                                </KeyFrame>
+                                            </Animation>
+                                        </Style.Animations>
+                                    </Style>
+                                </Popup.Styles>
+                                
+                                <Border x:Name="PopupBorder"
+                                        Background="{StaticResource BackgroundColor1Brush}"
+                                        BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                        BorderThickness="{StaticResource ControlBorderThickness}"
+                                        Margin="6 4 6 6"
+                                        Padding="0"
+                                        Opacity="1"
+                                        HorizontalAlignment="Stretch"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                                    <Calendar Name="PART_Calendar"
+                                              Margin="5"
+                                              FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                              IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                              SelectedDate="{CompiledBinding $parent[CalendarDatePicker].SelectedDate, Mode=TwoWay}"
+                                              DisplayDate="{TemplateBinding DisplayDate}"
+                                              DisplayDateStart="{TemplateBinding DisplayDateStart}"
+                                              DisplayDateEnd="{TemplateBinding DisplayDateEnd}" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Panel>
+                </DataValidationErrors>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

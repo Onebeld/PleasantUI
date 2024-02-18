@@ -1,0 +1,199 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                    x:DataType="TextBox"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50" MaxWidth="300">
+            <StackPanel Spacing="5">
+                <TextBox />
+                <TextBox Classes="ClearTextBox" Text="Hello Down there, so loooooooong" />
+                <TextBox Watermark="Watermark" />
+                <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="●" Text="Hello" />
+                <TextBox Text="Disabled Text Box" IsEnabled="False" />
+                <TextBox Text="Sample">
+                    <DataValidationErrors.Error>
+                        <system:Exception />
+                    </DataValidationErrors.Error>
+                </TextBox>
+                <TextBox Classes="TextField" Height="100" Text="Field" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="SelectionBrush" Value="{StaticResource SystemAccentColorBrush}" />
+        <Setter Property="SelectionForegroundBrush" Value="{StaticResource ForegroundAccentColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="Padding" Value="10 5 10 5" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="MinWidth" Value="64" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+        <Setter Property="ContextFlyout">
+            <MenuFlyout Placement="Bottom">
+                <MenuItem Header="{DynamicResource Cut}"
+                          Command="{CompiledBinding $parent[TextBox].Cut}"
+                          IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
+                          InputGesture="{x:Static TextBox.CutGesture}">
+                    <MenuItem.Icon>
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Data="{StaticResource CutRegular}"
+                                  Foreground="{StaticResource TextFillColor1Brush}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{DynamicResource Copy}"
+                          Command="{CompiledBinding $parent[TextBox].Copy}"
+                          IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
+                          InputGesture="{x:Static TextBox.CopyGesture}">
+                    <MenuItem.Icon>
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Data="{StaticResource CopyRegular}"
+                                  Foreground="{StaticResource TextFillColor1Brush}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{DynamicResource Paste}"
+                          Command="{CompiledBinding $parent[TextBox].Paste}"
+                          IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
+                          InputGesture="{x:Static TextBox.PasteGesture}">
+                    <MenuItem.Icon>
+                        <PathIcon Width="16"
+                                  Height="16"
+                                  Data="{StaticResource PasteRegular}"
+                                  Foreground="{StaticResource TextFillColor1Brush}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuFlyout>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            IsHitTestVisible="False" />
+
+                    <DataValidationErrors>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
+                            <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
+                                <TextBlock Name="PART_FloatingWatermark"
+                                           Foreground="{StaticResource TextFillColor2Brush}"
+                                           FontSize="12"
+                                           IsVisible="False"
+                                           Text="{TemplateBinding Watermark}"
+                                           FontWeight="SemiBold"
+                                           DockPanel.Dock="Top" />
+                                
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                                    VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                    <Panel>
+                                        <TextBlock Name="PART_Watermark"
+                                                   Text="{TemplateBinding Watermark}"
+                                                   Foreground="{StaticResource TextFillColor3Brush}"
+                                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                                   IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   IsHitTestVisible="False" />
+                                        <TextPresenter Name="PART_TextPresenter"
+                                                       Text="{TemplateBinding Text, Mode=TwoWay}"
+                                                       CaretIndex="{TemplateBinding CaretIndex}"
+                                                       SelectionStart="{TemplateBinding SelectionStart}"
+                                                       SelectionEnd="{TemplateBinding SelectionEnd}"
+                                                       TextAlignment="{TemplateBinding TextAlignment}"
+                                                       TextWrapping="{TemplateBinding TextWrapping}"
+                                                       PasswordChar="{TemplateBinding PasswordChar}"
+                                                       RevealPassword="{TemplateBinding RevealPassword}"
+                                                       SelectionBrush="{TemplateBinding SelectionBrush}"
+                                                       SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                                       CaretBrush="{TemplateBinding CaretBrush}"
+                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Panel>
+                                    <SmoothScrollViewer.Styles>
+                                        <Style Selector="SmoothScrollContentPresenter#PART_ContentPresenter">
+                                            <Setter Property="Cursor" Value="IBeam" />
+                                        </Style>
+                                    </SmoothScrollViewer.Styles>
+                                </SmoothScrollViewer>
+                            </DockPanel>
+                            <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
+                        </Grid>
+                    </DataValidationErrors>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
+            <Setter Property="InnerRightContent">
+                <Template>
+                    <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}"
+                                  Padding="4"
+                                  Margin="5"
+                                  CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                                  IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
+                        <ToggleButton.Styles>
+                            <Style Selector="ToggleButton > PathIcon">
+                                <Setter Property="Data" Value="{StaticResource PasswordBoxRevealButtonIcon}" />
+                            </Style>
+                            <Style Selector="ToggleButton:checked > PathIcon">
+                                <Setter Property="Data" Value="{StaticResource PasswordBoxHideButtonIcon}" />
+                                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+                            </Style>
+                        </ToggleButton.Styles>
+
+                        <PathIcon Name="PART_PasswordIcon" Width="14" Height="14" />
+                    </ToggleButton>
+                </Template>
+            </Setter>
+        </Style>
+
+        <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
+            <Setter Property="InnerRightContent">
+                <Template>
+                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                            Padding="6"
+                            Margin="5"
+                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                            Command="{CompiledBinding $parent[TextBox].Clear}">
+                        <PathIcon Width="10"
+                                  Height="10"
+                                  Data="{StaticResource DismissRegular}" />
+                    </Button>
+                </Template>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^.TextField">
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+        </Style>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        <Style Selector="^:focus">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor3Brush}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        
+        <Style Selector="^[UseFloatingWatermark=true]:not(:empty) /template/ TextBlock#PART_FloatingWatermark">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

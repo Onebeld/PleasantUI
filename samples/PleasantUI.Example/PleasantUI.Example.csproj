@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DebugType>Full</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugType>embedded</DebugType>
+        <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\PleasantUI.DataGrid\PleasantUI.DataGrid.csproj" />
+      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
+    </ItemGroup>
+</Project>

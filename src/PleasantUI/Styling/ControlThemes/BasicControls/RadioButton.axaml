@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50">
+            <StackPanel Spacing="5">
+                <RadioButton Content="Content 1" GroupName="Group1" />
+                <RadioButton Content="Content 2" GroupName="Group1" />
+                
+                <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="Content 1" GroupName="Group2" />
+                <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="Content 2" GroupName="Group2" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        
+        <Setter Property="Template">
+            <ControlTemplate TargetType="RadioButton">
+                <Grid ColumnDefinitions="25,*">
+                    <Grid Name="Glyph" Grid.Column="0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Ellipse Name="OuterEllipse"
+                                 Width="20"
+                                 Height="20"
+                                 Fill="{TemplateBinding Background}"
+                                 Stroke="{TemplateBinding BorderBrush}"
+                                 StrokeThickness="1"
+                                 UseLayoutRounding="False" />
+                        
+                        <Ellipse Name="CheckGlyph"
+                                 IsVisible="False"
+                                 Width="8"
+                                 Height="8"
+                                 Fill="{StaticResource ForegroundAccentLightColor3Brush}"
+                                 UseLayoutRounding="False"/>
+                    </Grid>
+                    
+                    <ContentPresenter Grid.Column="1"
+                                      Name="PART_ContentPresenter"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      RecognizesAccessKey="True" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        </Style>
+        <Style Selector="^:checked /template/ Ellipse#CheckGlyph">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        </Style>
+        
+        <Style Selector="^:checked:pressed /template/ Grid#Glyph">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type Button}}">
+        <Style Selector="^:checked">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor3Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

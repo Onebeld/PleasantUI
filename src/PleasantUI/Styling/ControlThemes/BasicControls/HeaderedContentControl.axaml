@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <ControlTheme x:Key="{x:Type HeaderedContentControl}" TargetType="HeaderedContentControl">
+        <Setter Property="Padding" Value="3" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{TemplateBinding Background}"
+                        Padding="{TemplateBinding Padding}">
+                    <Grid RowDefinitions="Auto,*">
+                        <ContentPresenter Name="PART_HeaderPresenter"
+                                          Grid.Row="0"
+                                          Content="{TemplateBinding Header}"
+                                          RecognizesAccessKey="True"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Grid.Row="1"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          RecognizesAccessKey="True"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel Spacing="20">
+                <TabStripItem>Leaf</TabStripItem>
+                <TabStripItem IsSelected="True">Arch</TabStripItem>
+                <TabStripItem Background="Yellow">Background</TabStripItem>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
+        <Setter Property="Padding" Value="12 0 12 0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_LayoutRoot"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <Panel>
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        
+                        <Border Name="PART_SelectedPipe"
+                                CornerRadius="8"
+                                Background="{StaticResource SystemAccentLightColor2Brush}"
+                                Width="48"
+                                Height="3"
+                                Margin="0 0 0 2"
+                                VerticalAlignment="Bottom" />
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Border#PART_LayoutRoot">
+            <Setter Property="Background" Value="{CompiledBinding $parent[TabStripItem].Background}" />
+        </Style>
+
+        <Style Selector="^:selected">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        </Style>
+        
+        <Style Selector="^ /template/ Border#PART_SelectedPipe">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
+            <Setter Property="RenderTransform" Value="scaleX(1)" />
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Border#PART_SelectedPipe">
+            <Setter Property="RenderTransform" Value="scaleX(1.2)" />
+        </Style>
+        <Style Selector="^:selected:pressed /template/ Border#PART_SelectedPipe">
+            <Setter Property="RenderTransform" Value="scaleX(0.8)" />
+        </Style>
+        <Style Selector="^:not(:selected) /template/ Border#PART_SelectedPipe">
+            <Setter Property="RenderTransform" Value="scaleX(0)" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

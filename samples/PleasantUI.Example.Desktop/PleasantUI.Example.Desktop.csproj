@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <PublishTrimmed>true</PublishTrimmed>
+        <PublishAot>true</PublishAot>
+        <Company>Dmitry Zhutkov (Onebeld)</Company>
+        <ApplicationIcon>PleasantUIIcon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows'))">true</IsWindows>
+        <IsAndroid Condition="$([MSBuild]::IsOSPlatform('Android'))">true</IsAndroid>
+        <IsLinux Condition="$([MSBuild]::IsOSPlatform('Linux'))">true</IsLinux>
+        <IsOSX Condition="$([MSBuild]::IsOSPlatform('OSX'))">true</IsOSX>
+
+        <DefineConstants Condition="'$(IsWindows)'=='true'">Windows</DefineConstants>
+        <DefineConstants Condition="'$(IsOSX)'=='true'">OSX</DefineConstants>
+        <DefineConstants Condition="'$(IsLinux)'=='true'">Linux</DefineConstants>
+        <DefineConstants Condition="'$(IsAndroid)'=='true'">Android</DefineConstants>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugType>embedded</DebugType>
+        <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.0.9" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.9" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.9" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <AvaloniaResource Include="PleasantUIIcon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PleasantUI.Example\PleasantUI.Example.csproj" />
+    </ItemGroup>
+</Project>

@@ -1,0 +1,245 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
+                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20" Height="500">
+            <StackPanel Spacing="20" VerticalAlignment="Center">
+                <TimePicker />
+                <TimePicker CornerRadius="8" />
+                <TimePicker IsEnabled="False"/>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DataValidationErrors>
+                    <Grid Name="LayoutRoot" Margin="{TemplateBinding Padding}">
+                        <Button x:Name="PART_FlyoutButton"
+                                Foreground="{TemplateBinding Foreground}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                IsEnabled="{TemplateBinding IsEnabled}"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Padding="0"
+                                MinWidth="242"
+                                MaxWidth="456"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                            <Grid Name="PART_FlyoutButtonContentGrid">
+                                <Border x:Name="PART_FirstPickerHost"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch">
+                                    <TextBlock x:Name="PART_HourTextBlock"
+                                               HorizontalAlignment="Center"
+                                               Padding="0 3 0 6" />
+                                </Border>
+                                
+                                <Rectangle x:Name="PART_FirstColumnDivider"
+                                           Grid.Column="1"
+                                           Fill="{StaticResource ControlBorderColorBrush}"
+                                           Width="1"
+                                           HorizontalAlignment="Center" />
+                                
+                                <Border x:Name="PART_SecondPickerHost"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch">
+                                    <TextBlock x:Name="PART_MinuteTextBlock"
+                                               HorizontalAlignment="Center"
+                                               Padding="0 3 0 6" />
+                                </Border>
+                                
+                                <Rectangle x:Name="PART_SecondColumnDivider"
+                                           Grid.Column="3"
+                                           Fill="{StaticResource ControlBorderColorBrush}"
+                                           Width="1"
+                                           HorizontalAlignment="Center" />
+                                
+                                <Border x:Name="PART_ThirdPickerHost"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch">
+                                    <TextBlock x:Name="PART_PeriodTextBlock"
+                                               HorizontalAlignment="Center"
+                                               Padding="0 3 0 6" />
+                                </Border>
+                            </Grid>
+                        </Button>
+                        
+                        <Popup Name="PART_Popup"
+                               WindowManagerAddShadowHint="False"
+                               IsLightDismissEnabled="True"
+                               PlacementTarget="{TemplateBinding}"
+                               Placement="Bottom">
+                            <Popup.Styles>
+                                <Style Selector="Popup[IsOpen=True] > Border">
+                                    <Style.Animations>
+                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                            <KeyFrame Cue="0%">
+                                                <Setter Property="ScaleTransform.ScaleY" Value="0.1" />
+                                                <Setter Property="Opacity" Value="0" />
+                                            </KeyFrame>
+                                            <KeyFrame Cue="100%">
+                                                <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                                                <Setter Property="Opacity" Value="1" />
+                                            </KeyFrame>
+                                        </Animation>
+                                    </Style.Animations>
+                                </Style>
+                            </Popup.Styles>
+                            
+                            <Border Background="{StaticResource BackgroundColor1Brush}"
+                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                    BorderThickness="{StaticResource ControlBorderThickness}"
+                                    Margin="6 4 6 6"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                                    behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                                <TimePickerPresenter Name="PART_PickerPresenter" />
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </DataValidationErrors>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
+        <Setter Property="Width" Value="242" />
+        <Setter Property="MinWidth" Value="242" />
+        <Setter Property="MaxHeight" Value="398" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="Background"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        MaxHeight="398">
+                    <Grid Name="ContentPanel" RowDefinitions="*,Auto">
+                        <Grid Name="PART_PickerContainer">
+                            <Grid.Styles>
+                                <Style Selector="DateTimePickerPanel > ListBoxItem">
+                                    <Setter Property="Theme" Value="{StaticResource DateTimePickerItem}" />
+                                </Style>
+                            </Grid.Styles>
+                            
+                            <Panel Name="PART_HourHost" Grid.Column="0">
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Hidden">
+                                    <DateTimePickerPanel Name="PART_HourSelector"
+                                                         PanelType="Hour"
+                                                         ShouldLoop="True"
+                                                         ItemHeight="40" />
+                                </SmoothScrollViewer>
+                                
+                                <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                                <RepeatButton Name="PART_HourDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                            </Panel>
+                            
+                            <Panel Name="PART_MinuteHost" Grid.Column="2">
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Hidden">
+                                    <DateTimePickerPanel Name="PART_MinuteSelector"
+                                                         PanelType="Minute"
+                                                         ShouldLoop="True"
+                                                         ItemHeight="40" />
+                                </SmoothScrollViewer>
+                                
+                                <RepeatButton Name="PART_MinuteUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                                <RepeatButton Name="PART_MinuteDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                            </Panel>
+                            
+                            <Panel Name="PART_PeriodHost" Grid.Column="4">
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Hidden">
+                                    <DateTimePickerPanel Name="PART_PeriodSelector"
+                                                         PanelType="TimePeriod"
+                                                         ShouldLoop="False"
+                                                         ItemHeight="40" />
+                                </SmoothScrollViewer>
+                                
+                                <RepeatButton Name="PART_PeriodUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                                <RepeatButton Name="PART_PeriodDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                            </Panel>
+                            
+                            <Rectangle Name="HighlightRect"
+                                       Fill="{StaticResource SystemAccentLightColor2Brush}"
+                                       IsHitTestVisible="False"
+                                       ZIndex="-1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="5"
+                                       VerticalAlignment="Center"
+                                       Height="40" />
+                        
+                            <Rectangle x:Name="PART_FirstSpacer"
+                                       Fill="{TemplateBinding BorderBrush}"
+                                       HorizontalAlignment="Center"
+                                       Width="1"
+                                       Grid.Column="1" />
+                            <Rectangle x:Name="PART_SecondSpacer"
+                                       Fill="{TemplateBinding BorderBrush}"
+                                       HorizontalAlignment="Center"
+                                       Width="1"
+                                       Grid.Column="3" />
+                        </Grid>
+                        
+                        <Rectangle x:Name="PART_Spacer"
+                                   Fill="{TemplateBinding BorderBrush}"
+                                   VerticalAlignment="Top"
+                                   Height="1"
+                                   Grid.Row="1" />
+                        
+                        <Grid Name="AcceptDismissGrid"
+                              Margin="0 1 0 0"
+                              Grid.Row="1"
+                              ColumnDefinitions="*,*">
+                            <Button Grid.Column="0"
+                                    Name="PART_AcceptButton"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Margin="2"
+                                    Height="40">
+                                <PathIcon Data="{StaticResource CheckmarkRegular}" Width="14" Height="14" />
+                            </Button>
+                        
+                            <Button Grid.Column="1"
+                                    Name="PART_DismissButton"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Margin="2"
+                                    Height="40">
+                                <PathIcon Data="{StaticResource DismissRegular}" Width="12" Height="12" />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Panel">
+            <Style Selector="^:pointerover RepeatButton">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^ /template/ Grid#AcceptDismissGrid">
+            <Style Selector="^ PathIcon">
+                <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
+            </Style>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

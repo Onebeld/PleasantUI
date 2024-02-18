@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50">
+            <StackPanel Spacing="5">
+                <RepeatButton Content="Button" />
+                <RepeatButton Theme="{StaticResource AppBarRepeatButtonTheme}" Content="App Bar Button" />
+                <RepeatButton Content="Button" IsEnabled="False" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton" BasedOn="{StaticResource {x:Type Button}}" />
+
+    <ControlTheme x:Key="AppBarRepeatButtonTheme" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}" />
+</ResourceDictionary>

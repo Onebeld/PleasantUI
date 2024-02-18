@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel>
+                <ListBox>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+                <ListBox Classes="Horizontal" ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="border"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <SmoothScrollViewer Background="{TemplateBinding Background}"
+                                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                        <ItemsPresenter Name="PART_ItemsPresenter"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                        Margin="{TemplateBinding Padding}" />
+                    </SmoothScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^.Horizontal">
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

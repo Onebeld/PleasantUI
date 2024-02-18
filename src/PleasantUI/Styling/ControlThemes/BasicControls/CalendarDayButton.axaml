@@ -1,0 +1,124 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel Spacing="20">
+                <Calendar />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
+        <Setter Property="ClickMode" Value="Release" />
+        <Setter Property="MinWidth" Value="40" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="14" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="Border"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderThickness="1" />
+                    
+                    <Border Name="Root"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            ClipToBounds="True">
+                        <ContentPresenter Name="Content"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}" />
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+        </Style>
+
+        <Style Selector="^:selected">
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        </Style>
+        
+        <Style Selector="^:today">
+            <Style Selector="^">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+            </Style>
+            <Style Selector="^ /template/ Border#Border">
+                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            </Style>
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^:pointerover /template/ Border#Border">
+                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            </Style>
+            
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#Border">
+                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+                <Setter Property="Opacity" Value="0.6" />
+            </Style>
+            
+            <Style Selector="^:selected">
+                <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+            </Style>
+            <Style Selector="^:selected /template/ Border#Border">
+                <Setter Property="Margin" Value="2" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:inactive">
+            <Style Selector="^">
+                <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
+                <Setter Property="FontWeight" Value="Normal" />
+            </Style>
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:blackout">
+            <Style Selector="^">
+                <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+            </Style>
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

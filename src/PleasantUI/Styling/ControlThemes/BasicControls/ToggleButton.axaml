@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="70">
+            <StackPanel Spacing="5">
+                <ToggleButton Content="Content" />
+                <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}" Content="Content" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type Button}}">
+        <Style Selector="^:checked">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor3Brush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+    </ControlTheme>
+</ResourceDictionary>

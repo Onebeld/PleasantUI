@@ -1,0 +1,35 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PleasantUI.Example.Views.Pages.HomePageView">
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="8">
+            <Image Source="{StaticResource PleasantUI}" Margin="50" />
+        </Border>
+        
+        <!--TODO: Controls-->
+        <WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="ButtonPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Button" />
+            </Button>
+            <Button x:Name="CarouselPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Carousel" />
+            </Button>
+            <Button x:Name="CheckBoxPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="CheckBox" />
+            </Button>
+            <Button x:Name="ColorViewPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ColorView" />
+            </Button>
+            <Button x:Name="ComboBoxPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ComboBox" />
+            </Button>
+            <Button x:Name="FlyoutPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Flyout" />
+            </Button>
+        </WrapPanel>
+    </Grid>
+</UserControl>

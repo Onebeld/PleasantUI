@@ -1,0 +1,142 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="TextFillColor1">#E4000000</Color>
+            <Color x:Key="TextFillColor2">#9E000000</Color>
+            <Color x:Key="TextFillColor3">#72000000</Color>
+
+            <Color x:Key="ControlFillColor1">#05000000</Color>
+            <Color x:Key="ControlFillColor2">#0A000000</Color>
+            <Color x:Key="ControlFillColor3">#0F000000</Color>
+
+            <Color x:Key="ControlBorderColor">#1E000000</Color>
+            <Color x:Key="ContentBorderColor">#1E000000</Color>
+            
+            <Color x:Key="BackgroundColor1">#F0F0F0</Color>
+            <Color x:Key="BackgroundColor2">#EBEBEB</Color>
+            <Color x:Key="BackgroundColor3">#E6E6E6</Color>
+            <Color x:Key="BackgroundColor4">#E1E1E1</Color>
+            
+            <Color x:Key="ControlColor1">#78000000</Color>
+            <Color x:Key="ControlColor2">#82000000</Color>
+            <Color x:Key="ControlColor3">#96000000</Color>
+            
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#BF8500</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#B93C22</Color>
+            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+            
+            <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="TextFillColor1">#FFFFFF</Color>
+            <Color x:Key="TextFillColor2">#C5FFFFFF</Color>
+            <Color x:Key="TextFillColor3">#87FFFFFF</Color>
+
+            <Color x:Key="ControlFillColor1">#0FFFFFFF</Color>
+            <Color x:Key="ControlFillColor2">#19FFFFFF</Color>
+            <Color x:Key="ControlFillColor3">#23FFFFFF</Color>
+
+            <Color x:Key="ControlBorderColor">#32FFFFFF</Color>
+            <Color x:Key="ContentBorderColor">#96000000</Color>
+            
+            <Color x:Key="BackgroundColor1">#202020</Color>
+            <Color x:Key="BackgroundColor2">#1C1C1C</Color>
+            <Color x:Key="BackgroundColor3">#282828</Color>
+            <Color x:Key="BackgroundColor4">#2C2C2C</Color>
+            
+            <Color x:Key="ControlColor1">#4BFFFFFF</Color>
+            <Color x:Key="ControlColor2">#55FFFFFF</Color>
+            <Color x:Key="ControlColor3">#64FFFFFF</Color>
+            
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#B93C22</Color>
+            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+            
+            <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3000000</Color>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <SolidColorBrush x:Key="TextFillColor1Brush" Color="{DynamicResource TextFillColor1}" />
+    <SolidColorBrush x:Key="TextFillColor2Brush" Color="{DynamicResource TextFillColor2}" />
+    <SolidColorBrush x:Key="TextFillColor3Brush" Color="{DynamicResource TextFillColor3}" />
+
+    <SolidColorBrush x:Key="ControlFillColor1Brush" Color="{DynamicResource ControlFillColor1}" />
+    <SolidColorBrush x:Key="ControlFillColor2Brush" Color="{DynamicResource ControlFillColor2}" />
+    <SolidColorBrush x:Key="ControlFillColor3Brush" Color="{DynamicResource ControlFillColor3}" />
+
+    <SolidColorBrush x:Key="ControlBorderColorBrush" Color="{DynamicResource ControlBorderColor}" />
+    <SolidColorBrush x:Key="ContentBorderColorBrush" Color="{DynamicResource ContentBorderColor}" />
+    
+    <SolidColorBrush x:Key="BackgroundColor1Brush" Color="{DynamicResource BackgroundColor1}" />
+    <SolidColorBrush x:Key="BackgroundColor2Brush" Color="{DynamicResource BackgroundColor2}" />
+    <SolidColorBrush x:Key="BackgroundColor3Brush" Color="{DynamicResource BackgroundColor3}" />
+    <SolidColorBrush x:Key="BackgroundColor4Brush" Color="{DynamicResource BackgroundColor4}" />
+    
+    <SolidColorBrush x:Key="ControlColor1Brush" Color="{DynamicResource ControlColor1}" />
+    <SolidColorBrush x:Key="ControlColor2Brush" Color="{DynamicResource ControlColor2}" />
+    <SolidColorBrush x:Key="ControlColor3Brush" Color="{DynamicResource ControlColor3}" />
+    
+    <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
+    <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
+    <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{DynamicResource SystemFillColorCaution}" />
+    <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{DynamicResource SystemFillColorNeutral}" />
+    
+    <SolidColorBrush x:Key="DangerColorBrush" Color="{DynamicResource DangerColor}" />
+    <SolidColorBrush x:Key="BorderDangerColorBrush" Color="{DynamicResource BorderDangerColor}" />
+    <SolidColorBrush x:Key="SelectedDangerColorBrush" Color="{DynamicResource SelectedDangerColor}" />
+    <SolidColorBrush x:Key="TextFillColorDangerBrush" Color="{DynamicResource TextFillColorDanger}" />
+
+    <SolidColorBrush x:Key="FocusStrokeColorOuterBrush" Color="{DynamicResource FocusStrokeColorOuter}" />
+    <SolidColorBrush x:Key="FocusStrokeColorInnerBrush" Color="{DynamicResource FocusStrokeColorInner}" />
+    
+    <VisualBrush x:Key="CheckeredBackgroundBrush"
+                 TileMode="Tile"
+                 Stretch="Uniform"
+                 DestinationRect="0,0,8,8">
+        <VisualBrush.Visual>
+            <Image Width="8" Height="8">
+                <DrawingImage>
+                    <DrawingGroup>
+                        <GeometryDrawing Geometry="M0,0 L2,0 2,2, 0,2Z" Brush="#555555" />
+                        <GeometryDrawing Geometry="M0,1 L2,1 2,2, 1,2 1,0 0,0Z" Brush="DimGray" />
+                    </DrawingGroup>
+                </DrawingImage>
+            </Image>
+        </VisualBrush.Visual>
+    </VisualBrush>
+    
+    <!--Accent Colors-->
+    <SolidColorBrush x:Key="SystemAccentColorBrush" Color="{DynamicResource SystemAccentColor}" />
+    <SolidColorBrush x:Key="SystemAccentLightColor1Brush" Color="{DynamicResource SystemAccentLightColor1}" />
+    <SolidColorBrush x:Key="SystemAccentLightColor2Brush" Color="{DynamicResource SystemAccentLightColor2}" />
+    <SolidColorBrush x:Key="SystemAccentLightColor3Brush" Color="{DynamicResource SystemAccentLightColor3}" />
+    <SolidColorBrush x:Key="SystemAccentDarkColor1Brush" Color="{DynamicResource SystemAccentDarkColor1}" />
+    <SolidColorBrush x:Key="SystemAccentDarkColor2Brush" Color="{DynamicResource SystemAccentDarkColor2}" />
+    <SolidColorBrush x:Key="SystemAccentDarkColor3Brush" Color="{DynamicResource SystemAccentDarkColor3}" />
+    
+    <!--Accent Foregrounds-->
+    <SolidColorBrush x:Key="ForegroundAccentColorBrush" Color="{DynamicResource ForegroundAccentColor}" />
+    <SolidColorBrush x:Key="ForegroundAccentLightColor1Brush" Color="{DynamicResource ForegroundAccentLightColor1}" />
+    <SolidColorBrush x:Key="ForegroundAccentLightColor2Brush" Color="{DynamicResource ForegroundAccentLightColor2}" />
+    <SolidColorBrush x:Key="ForegroundAccentLightColor3Brush" Color="{DynamicResource ForegroundAccentLightColor3}" />
+    <SolidColorBrush x:Key="ForegroundAccentDarkColor1Brush" Color="{DynamicResource ForegroundAccentDarkColor1}" />
+    <SolidColorBrush x:Key="ForegroundAccentDarkColor2Brush" Color="{DynamicResource ForegroundAccentDarkColor2}" />
+    <SolidColorBrush x:Key="ForegroundAccentDarkColor3Brush" Color="{DynamicResource ForegroundAccentDarkColor3}" />
+</ResourceDictionary>

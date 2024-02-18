@@ -1,0 +1,86 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel Spacing="20">
+                <CalendarButton/>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type CalendarButton}" TargetType="CalendarButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Width" Value="70" />
+        <Setter Property="Height" Value="70" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="Root"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderThickness="0"
+                            ClipToBounds="True">
+                        <ContentPresenter Name="Content"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}" />
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+        </Style>
+        
+        <Style Selector="^:selected">
+            <Style Selector="^">
+                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+            </Style>
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            </Style>
+            
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{StaticResource SystemAccentColorBrush}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:inactive">
+            <Style Selector="^">
+                <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
+                <Setter Property="FontWeight" Value="Normal" />
+            </Style>
+            
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+                <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            </Style>
+            
+            <Style Selector="^:pressed">
+                <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+                <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

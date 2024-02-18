@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50">
+            <InformationBlock Content="500" Icon="{StaticResource PinRegular}" />
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type InformationBlock}" TargetType="InformationBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
+                        <Viewbox Width="14" Height="14">
+                            <Path Data="{TemplateBinding Icon}"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
+                        
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

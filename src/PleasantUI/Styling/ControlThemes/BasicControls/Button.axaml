@@ -1,0 +1,113 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50">
+            <StackPanel Spacing="5">
+                <Button Content="Button" Padding="50 10" />
+                <Button Padding="50 10">
+                    <PathIcon Data="{StaticResource FillArrowRegular}" Width="14" Height="14" />
+                </Button>
+                <Button Theme="{StaticResource AppBarButtonTheme}" Content="App Bar Button" />
+                <Button Theme="{StaticResource AccentButtonTheme}" Content="Accent Button" Padding="50 10" />
+                <Button Theme="{StaticResource DangerButtonTheme}" Content="Danger" Padding="50 10" />
+                <Button Content="Disabled Button" IsEnabled="False" Padding="50 10" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="Padding" Value="11 5 11 5" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}"
+                                  Padding="{TemplateBinding Padding}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  TextBlock.Foreground="{TemplateBinding Foreground}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </ControlTheme>
+    
+    <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderDangerColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+        
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

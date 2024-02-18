@@ -1,0 +1,37 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PleasantUI.Example.ViewModels"
+             xmlns:interfaces="clr-namespace:PleasantUI.Example.Interfaces"
+             xmlns:transitions="clr-namespace:PleasantUI.Transitions;assembly=PleasantUI"
+             xmlns:views="clr-namespace:PleasantUI.Example.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PleasantUI.Example.Views.HomeView"
+             x:DataType="viewModels:AppViewModel">
+    <SmoothScrollViewer>
+            <TransitioningContentControl Content="{CompiledBinding Page}">
+                <TransitioningContentControl.PageTransition>
+                    <transitions:PleasantPageSlide Orientation="Horizontal" Duration="0:0:0.3" Forward="{CompiledBinding IsForwardAnimation}" />
+                </TransitioningContentControl.PageTransition>
+                <TransitioningContentControl.ContentTemplate>
+                    <DataTemplate DataType="interfaces:IPage">
+                        <StackPanel Margin="15">
+                            <StackPanel Orientation="Horizontal" Spacing="5" IsVisible="{CompiledBinding ShowTitle}">
+                                 <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
+                                         ToolTip.Tip="Back to home page">
+                                     <PathIcon Data="{StaticResource ArrowLeftRegular}"
+                                               Foreground="{StaticResource TextFillColor1Brush}" />
+                                 </Button>
+                                
+                                <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                                           Text="{CompiledBinding Title}" />
+                            </StackPanel>
+                            
+                            <Decorator Child="{CompiledBinding Content}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TransitioningContentControl.ContentTemplate>
+            </TransitioningContentControl>
+    </SmoothScrollViewer>
+</UserControl>
