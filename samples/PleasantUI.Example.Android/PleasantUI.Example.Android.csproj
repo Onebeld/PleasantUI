@@ -27,12 +27,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Android" Version="11.0.9"/>
+        <PackageReference Include="Avalonia.Android" Version="11.0.10" />
         <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\PleasantUI\PleasantUI.csproj" />
       <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
       <ProjectReference Include="..\PleasantUI.Example\PleasantUI.Example.csproj" />
     </ItemGroup>

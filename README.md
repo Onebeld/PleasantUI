@@ -20,7 +20,7 @@ This library is fully compatible with AOT compilation, and does not need to be a
 Install this library using NuGet, or copy the code to paste into your project file:
 
 ```xml
-<PackageReference Include="PleasantUI" Version="4.0.0" />
+<PackageReference Include="PleasantUI" Version="4.0.1" />
 ```
 
 ### Setup
