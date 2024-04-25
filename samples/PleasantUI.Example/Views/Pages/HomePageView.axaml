@@ -30,6 +30,9 @@
             <Button x:Name="FlyoutPage" CornerRadius="8" Margin="5">
                 <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Flyout" />
             </Button>
+            <Button x:Name="ProgressRingPage" CornerRadius="8" Margin="5">
+                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ProgressRingPage" />
+            </Button>
         </WrapPanel>
     </Grid>
 </UserControl>

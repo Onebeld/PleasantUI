@@ -4,14 +4,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
-        <PackageVersion>4.0.1</PackageVersion>
+        <PackageVersion>4.1.0</PackageVersion>
         <Authors>Dmitry Zhutkov (Onebeld)</Authors>
         <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
         <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface</PackageTags>
         <PackageDescription>UI library for Avalonia</PackageDescription>
         <Company>Onebeld</Company>
-        <AssemblyVersion>4.0.1</AssemblyVersion>
-        <FileVersion>4.0.1</FileVersion>
+        <AssemblyVersion>4.1.0</AssemblyVersion>
+        <FileVersion>4.1.0</FileVersion>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
         <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -24,9 +24,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.10" />
-      <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.10" />
-      <PackageReference Include="System.Text.Json" Version="8.0.2" />
+      <PackageReference Include="Avalonia" Version="11.1.0-beta2" />
+      <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.1.0-beta2" />
+      <PackageReference Include="System.Text.Json" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>

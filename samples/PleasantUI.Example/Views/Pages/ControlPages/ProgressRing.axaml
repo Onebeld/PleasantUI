@@ -1,0 +1,15 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controlPages="clr-namespace:PleasantUI.Example.ViewModels.Pages.ControlPages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PleasantUI.Example.Views.Pages.ControlPages.ProgressRing"
+             x:DataType="controlPages:ProgressRingViewModel">
+    <StackPanel Spacing="5">
+        <TextBox Watermark="Value" Text="{CompiledBinding Value}" />
+        <ProgressRing Value="{CompiledBinding Value}"
+                      LargeChange="1"
+                      Maximum="60" />
+    </StackPanel>
+</UserControl>
