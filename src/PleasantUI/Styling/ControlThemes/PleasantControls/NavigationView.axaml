@@ -48,21 +48,14 @@
             <Animations>
                 <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
                     <KeyFrame Cue="0%">
-                        <Setter Property="TranslateTransform.Y" Value="{CompiledBinding $self.Bounds.Height}" />
-                    </KeyFrame>
-                    <KeyFrame Cue="100%">
-                        <Setter Property="TranslateTransform.Y" Value="0" />
-                    </KeyFrame>
-                </Animation>
-
-                <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
-                    <KeyFrame Cue="0%">
                         <Setter Property="Opacity" Value="0" />
+                        <Setter Property="TranslateTransform.Y" Value="100" />
                     </KeyFrame>
                     <KeyFrame Cue="60%">
                         <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.Y" Value="0" />
                         <Setter Property="Opacity" Value="1" />
                     </KeyFrame>
                 </Animation>
@@ -112,7 +105,8 @@
                             <ContentPresenter Name="PART_SelectedContentPresenter"
                                               Content="{TemplateBinding SelectedContent}"
                                               Opacity="1"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                              RenderTransformOrigin="0.5 0.5" />
                         </Border>
                     </SplitView>
                     

@@ -15,14 +15,7 @@ class Program
         appBuilder.UseSkia();
 
 #if Windows
-        appBuilder.UseWin32()
-                  .With(new AngleOptions
-                  {
-                      AllowedPlatformApis = new List<AngleOptions.PlatformApi>
-                      {
-                          AngleOptions.PlatformApi.DirectX11
-                      }
-                  });
+	    appBuilder.UseWin32();
 #elif Linux
         appBuilder.UseX11();
 #elif OSX
