@@ -14,5 +14,22 @@
         <Button Theme="{StaticResource AccentButtonTheme}" Content="AccentButton" />
         <Button Theme="{StaticResource DangerButtonTheme}" Content="DangerButton" />
         <Button IsEnabled="False" Content="Disabled button" />
+        
+        <TextBlock Text="List of buttons" />
+        
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
+        <Button Content="Button" />
     </StackPanel>
 </UserControl>

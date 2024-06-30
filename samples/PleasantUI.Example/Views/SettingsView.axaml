@@ -23,6 +23,8 @@
                         <ComboBoxItem Content="System" />
                         <ComboBoxItem Content="Light" />
                         <ComboBoxItem Content="Dark" />
+                        <ComboBoxItem Content="Mint" />
+                        <ComboBoxItem Content="Strawberry" />
                     </ComboBox>
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>

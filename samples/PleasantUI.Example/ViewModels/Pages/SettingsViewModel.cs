@@ -13,6 +13,8 @@ public class SettingsViewModel : ViewModelBase
             {
                 Theme.Light => 1,
                 Theme.Dark => 2,
+                Theme.Mint => 3,
+                Theme.Strawberry => 4,
                 
                 _ => 0
             };
@@ -23,6 +25,8 @@ public class SettingsViewModel : ViewModelBase
             {
                 1 => Theme.Light,
                 2 => Theme.Dark,
+                3 => Theme.Mint,
+                4 => Theme.Strawberry,
 
                 _ => Theme.System
             };
