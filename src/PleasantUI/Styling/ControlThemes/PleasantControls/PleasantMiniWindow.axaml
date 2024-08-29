@@ -3,12 +3,12 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
         <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
-        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
-        <Setter Property="TransparencyBackgroundFallback" Value="{StaticResource BackgroundColor1Brush}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="Padding" Value="0 32 0 0" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="EnableBlur"
@@ -23,8 +23,7 @@
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
                         <VisualLayerManager.ChromeOverlayLayer>
                             <Panel Height="32" VerticalAlignment="Top">
-                                <Panel Name="PART_DragWindow"
-                                       Background="Transparent" />
+                                <Panel Name="PART_DragWindow" Background="Transparent" />
 
                                 <ToggleButton HorizontalAlignment="Left"
                                               Margin="4"
@@ -37,7 +36,7 @@
                                     </Viewbox>
                                 </ToggleButton>
 
-                                <Border Background="{StaticResource TextFillColor3Brush}"
+                                <Border Background="{DynamicResource TextFillColor3}"
                                         IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}"
                                         IsHitTestVisible="False"
                                         HorizontalAlignment="Center"

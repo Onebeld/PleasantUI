@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
@@ -15,8 +17,36 @@ public class PleasantView : ContentControl, IPleasantWindow
     private Panel _modalWindowsPanel = null!;
     
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
+    public AvaloniaList<Control> Controls { get; } = [];
 
     public VisualLayerManager VisualLayerManager { get; private set; }
+
+    static PleasantView()
+    {
+        TemplateProperty.OverrideDefaultValue<PleasantView>(new FuncControlTemplate((_, ns) => new Panel
+        {
+            Children =
+            {
+                new ContentPresenter
+                {
+                    Name = "PART_ContentPresenter",
+                    [~BackgroundProperty] = new TemplateBinding(BackgroundProperty),
+                    [~BorderBrushProperty] = new TemplateBinding(BorderBrushProperty),
+                    [~BorderThicknessProperty] = new TemplateBinding(BorderThicknessProperty),
+                    [~CornerRadiusProperty] = new TemplateBinding(CornerRadiusProperty),
+                    [~ContentTemplateProperty] = new TemplateBinding(ContentTemplateProperty),
+                    [~ContentProperty] = new TemplateBinding(ContentProperty),
+                    [~PaddingProperty] = new TemplateBinding(PaddingProperty),
+                    [~VerticalContentAlignmentProperty] = new TemplateBinding(VerticalContentAlignmentProperty),
+                    [~HorizontalContentAlignmentProperty] = new TemplateBinding(HorizontalContentAlignmentProperty)
+                },
+                new Panel
+                {
+                    Name = "PART_ModalWindowsPanel"
+                }
+            }
+        }.RegisterInNameScope(ns)));
+    }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -45,5 +75,17 @@ public class PleasantView : ContentControl, IPleasantWindow
     {
         ModalWindows.Remove(modalWindow);
         _modalWindowsPanel.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
+    }
+
+    public void AddControl(Control control)
+    {
+        Controls.Add(control);
+        _modalWindowsPanel.Children.Add(control);
+    }
+
+    public void RemoveControl(Control control)
+    {
+        Controls.Remove(control);
+        _modalWindowsPanel.Children.Remove(control);
     }
 }

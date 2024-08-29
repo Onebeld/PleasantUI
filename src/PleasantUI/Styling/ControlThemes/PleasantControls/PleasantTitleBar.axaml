@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0 50">
@@ -19,7 +20,7 @@
                             Background="Transparent">
                         <Border.ContextFlyout>
                             <MenuFlyout>
-                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{markup:Localize Reestablish}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -28,7 +29,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
-                                          Header="{DynamicResource Collapse}">
+                                          Header="{markup:Localize Collapse}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -36,7 +37,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
-                                          Header="{DynamicResource Expand}">
+                                          Header="{markup:Localize Expand}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -44,12 +45,12 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
 
-                                <Separator Background="{StaticResource ControlBorderColorBrush}"
+                                <Separator Background="{DynamicResource ControlBorderColor}"
                                            Height="1"
                                            Margin="-4 1 -4 1" />
 
                                 <MenuItem Name="PART_CloseMenuItem"
-                                          Header="{DynamicResource Close}"
+                                          Header="{markup:Localize Close}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
@@ -72,12 +73,12 @@
                                 IsHitTestVisible="False">
                         <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColor1Brush}" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{DynamicResource TextFillColor1}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
                                    VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextFillColor3Brush}" />
+                                   Foreground="{DynamicResource TextFillColor3}" />
                     </StackPanel>
                     
                     <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="2" />
@@ -88,10 +89,10 @@
         </Setter>
         
         <Style Selector="^:isactive /template/ TextBlock#PART_Title">
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
         </Style>
         <Style Selector="^:isactive /template/ Path#PART_LogoPath">
-            <Setter Property="Fill" Value="{StaticResource TextFillColor3Brush}" />
+            <Setter Property="Fill" Value="{DynamicResource TextFillColor3}" />
         </Style>
     </ControlTheme>
     
@@ -108,53 +109,53 @@
                             Background="Transparent">
                         <Border.ContextFlyout>
                             <MenuFlyout>
-                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{DynamicResource Reestablish}">
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{markup:Localize Reestablish}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SquareMultipleRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stroke="{StaticResource TextFillColor1Brush}"
+                                                  Fill="{DynamicResource TextFillColor1}"
+                                                  Stroke="{DynamicResource TextFillColor1}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
-                                          Header="{DynamicResource Collapse}">
+                                          Header="{markup:Localize Collapse}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SubtractRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stroke="{StaticResource TextFillColor1Brush}"
+                                                  Fill="{DynamicResource TextFillColor1}"
+                                                  Stroke="{DynamicResource TextFillColor1}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
-                                          Header="{DynamicResource Expand}">
+                                          Header="{markup:Localize Expand}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource MaximizeRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
+                                                  Fill="{DynamicResource TextFillColor1}"
                                                   Stretch="Uniform" />
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <Separator Name="PART_SeparatorMenuItem"
-                                           Background="{StaticResource ControlBorderColorBrush}"
+                                           Background="{DynamicResource ControlBorderColor}"
                                            Height="1"
                                            Margin="-4 1 -4 1" />
 
                                 <MenuItem Name="PART_CloseMenuItem"
-                                          Header="{DynamicResource Close}"
+                                          Header="{markup:Localize Close}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource DismissRegular}"
-                                                  Fill="{StaticResource TextFillColor1Brush}"
-                                                  Stroke="{StaticResource TextFillColor1Brush}"
+                                                  Fill="{DynamicResource TextFillColor1}"
+                                                  Stroke="{DynamicResource TextFillColor1}"
                                                   StrokeThickness="2"
                                                   Stretch="Uniform" />
                                         </Viewbox>
@@ -179,12 +180,12 @@
                                 Orientation="Horizontal"
                                 Spacing="5">
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{StaticResource TextFillColor1Brush}" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{DynamicResource TextFillColor1}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
                                    VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextFillColor3Brush}" />
+                                   Foreground="{DynamicResource TextFillColor3}" />
                     </StackPanel>
                 </Grid>
             </ControlTemplate>

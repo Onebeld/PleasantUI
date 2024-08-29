@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Converters;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
 namespace PleasantUI.Converters;
@@ -24,5 +26,15 @@ public static class OtherConverters
         {
             Source = bitmap
         };
+    });
+
+    public static readonly FuncValueConverter<ISolidColorBrush?, ISolidColorBrush?> ForegroundFromColor = new(brush =>
+    {
+        if (brush is null) return null;
+
+        double lum = ColorHelper.GetRelativeLuminance(brush.Color);
+        Color foregroundColor = lum <= 0.2 ? Colors.White : Colors.Black;
+
+        return new SolidColorBrush(foregroundColor);
     });
 }

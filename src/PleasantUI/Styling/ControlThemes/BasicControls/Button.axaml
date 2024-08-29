@@ -22,9 +22,9 @@
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -43,11 +43,11 @@
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -61,52 +61,52 @@
     </ControlTheme>
     
     <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderDangerColorBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+        <Setter Property="Background" Value="{DynamicResource DangerColor}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderDangerColor}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
         <Setter Property="FontWeight" Value="SemiBold" />
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SelectedDangerColorBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource SystemAccentColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
     
     <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+            <Setter Property="Background" Value="{DynamicResource DangerColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource DangerColorBrush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColorDangerBrush}" />
+            <Setter Property="Background" Value="{DynamicResource DangerColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>

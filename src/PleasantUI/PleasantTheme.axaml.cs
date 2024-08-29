@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Collections.Specialized;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -9,38 +8,50 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Core;
-using PleasantUI.Core.Constants;
-using PleasantUI.Core.Enums;
 using PleasantUI.Core.Helpers;
+using PleasantUI.Core.Models;
+using PleasantUI.Core.Structures;
+using PleasantUI.Extensions;
 using PleasantUI.Extensions.Media;
+using Serilog;
 
 namespace PleasantUI;
 
 /// <summary>
 /// Includes the pleasant theme in an application
 /// </summary>
-public class PleasantTheme : Styles, IResourceNode
+public class PleasantTheme : Styles
 {
-    /// <summary>
-    /// Specifies how many accent colors PleasantTheme will create (for both light and dark at the same time)
-    /// </summary>
+    private const float AccentColorPercentStep = 0.15f;
     private const int AccentColorCount = 3;
     
-    /// <summary>
-    /// Percentage at which the brightness of the color is increased or decreased per step
-    /// </summary>
-    private const float AccentColorPercentStep = 0.15f;
+    private static ResourceDictionary _mainResourceDictionary = null!;
+    private static CustomTheme? _customTheme;
+    private static Action? _customThemeChanged;
     
-    private IPlatformSettings? _platformSettings;
-
     private ResourceDictionary? _accentColorsDictionary;
     private ResourceDictionary? _foregroundAccentColorsDictionary;
     
-    private readonly ResourceDictionary _mainResourceDictionary;
-
-    public AvaloniaList<ThemeVariant> CustomThemeVariants { get; } = new();
+    private IPlatformSettings? _platformSettings;
     
-    public ThemeVariant? SelectedCustomThemeVariant { get; set; }
+    private readonly bool _isInitialized;
+
+    public static CustomTheme? SelectedCustomTheme
+    {
+        get => _customTheme;
+        set
+        {
+            _customTheme = value;
+
+            PleasantSettings.Instance.CustomThemeId = value?.Id;
+            
+            _customThemeChanged?.Invoke();
+        }
+    }
+    
+    public static AvaloniaList<CustomTheme> CustomThemes { get; } = new();
+
+    public static Theme[] Themes { get; private set; } = null!;
     
     /// <summary>
     /// Initializes a new instance of the <see cref="PleasantTheme"/> class
@@ -52,29 +63,83 @@ public class PleasantTheme : Styles, IResourceNode
 
         _mainResourceDictionary = (Resources as ResourceDictionary)!;
         
+        CustomThemes.CollectionChanged += CustomThemesOnCollectionChanged;
+        
+        GetPleasantThemes();
+        
         LoadCustomThemes();
         
         Init();
+
+        _isInitialized = true;
     }
 
-    public string GetThemeTemplate()
+    private void CustomThemesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        ResourceDictionary lightTheme = (_mainResourceDictionary.ThemeDictionaries[ThemeVariant.Light] as ResourceDictionary)!;
-
-        JsonObject jsonObject = new();
-
-        foreach (KeyValuePair<object, object?> color in lightTheme)
-        {
-            if (color.Value is not Color)
-                continue;
-            
-            jsonObject.Add(color.Key.ToString(), JsonValue.Create(color.Value.ToString().ToUpper()));
-        }
+        if (!_isInitialized || _platformSettings is null) return;
         
-        return jsonObject.ToJsonString(new JsonSerializerOptions
+        UpdateCustomThemes();
+        
+        if (e.Action is NotifyCollectionChangedAction.Remove)
+            ResolveTheme(_platformSettings);
+    }
+
+    public static Dictionary<string, Color> GetThemeTemplateDictionary()
+    {
+        return GetColorsDictionary(Themes.First(theme => theme.Name == "Light"));
+    }
+
+    public static Dictionary<string, Color> GetColorsDictionary(Theme theme)
+    {
+        if (Application.Current is null)
+            throw new NullReferenceException("Application.Current is null");
+        
+        if (theme.ThemeVariant is null)
+            throw new NullReferenceException("Theme Variant is null");
+        
+        // Getting basic colors
+        ResourceDictionary lightThemeBasicColors = (_mainResourceDictionary.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
+
+        ResourceDictionary? lightThemeCustomColors = null;
+
+        try
         {
-            WriteIndented = true
-        });
+            lightThemeCustomColors = (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
+        }
+        catch { }
+
+        Dictionary<string, Color> newDictionary = lightThemeBasicColors.ToDictionary<string, Color>();
+
+        if (lightThemeCustomColors is not null)
+        {
+            foreach (KeyValuePair<object, object?> pair in lightThemeCustomColors) 
+                newDictionary.Add((string)pair.Key, (Color)pair.Value);
+        }
+
+        return newDictionary;
+    }
+
+    public void UpdateCustomThemes()
+    {
+        ClearCustomThemes();
+
+        foreach (CustomTheme customTheme in CustomThemes)
+            _mainResourceDictionary.ThemeDictionaries.Add(customTheme.ThemeVariant, customTheme.Colors.ToResourceDictionary());
+    }
+
+    public void EditCustomTheme(CustomTheme currentCustomTheme, CustomTheme newCustomTheme)
+    {
+        if (_platformSettings is null) return;
+        
+        currentCustomTheme.Name = newCustomTheme.Name;
+        currentCustomTheme.Colors = newCustomTheme.Colors;
+        
+        ClearCustomThemes();
+        
+        foreach (CustomTheme customTheme in CustomThemes) 
+            _mainResourceDictionary.ThemeDictionaries.Add(customTheme.ThemeVariant, customTheme.Colors.ToResourceDictionary());
+        
+        ResolveTheme(_platformSettings);
     }
     
     private void Init()
@@ -88,8 +153,12 @@ public class PleasantTheme : Styles, IResourceNode
         
         _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
         PleasantSettings.Instance.PropertyChanged += PleasantSettingsOnPropertyChanged;
+        _customThemeChanged += () => ResolveTheme(_platformSettings);
         
         AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
+
+        if (PleasantSettings.Instance.CustomThemeId is not null) 
+            SelectedCustomTheme = CustomThemes.FirstOrDefault(x => x.Id == PleasantSettings.Instance.CustomThemeId);
 
         ResolveTheme(_platformSettings);
         ResolveAccentColor(_platformSettings);
@@ -97,67 +166,59 @@ public class PleasantTheme : Styles, IResourceNode
 
     private void LoadCustomThemes()
     {
-        if (!Directory.Exists(PleasantDirectories.Themes))
-            Directory.CreateDirectory(PleasantDirectories.Themes);
-        
         ClearCustomThemes();
-        CustomThemeVariants.Clear();
+        CustomThemes.Clear();
         
-        foreach (string file in Directory.EnumerateFiles(PleasantDirectories.Themes))
+        try
         {
-            if (!file.EndsWith(".json"))
-                continue;
+            CustomTheme[] customThemes = PleasantThemesLoader.Load();
             
-            string fileName = Path.GetFileNameWithoutExtension(file);
-            
-            ResourceDictionary resourceDictionary = new();
-            
-            Dictionary<string, string> colors = ReadThemeFile(file);
-
-            foreach (KeyValuePair<string,string> color in colors) 
-                resourceDictionary.Add(color.Key, Color.Parse(color.Value));
-
-            ThemeVariant themeVariant = new(fileName, ThemeVariant.Light);
-            CustomThemeVariants.Add(themeVariant);
-            
-            _mainResourceDictionary.ThemeDictionaries.Add(themeVariant, resourceDictionary);
+            foreach (CustomTheme customTheme in customThemes)
+            {
+                CustomThemes.Add(customTheme);
+                _mainResourceDictionary.ThemeDictionaries.Add(customTheme.ThemeVariant, customTheme.Colors.ToResourceDictionary());
+            }
         }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error when loading themes");
+        }
+        
     }
 
-    private Dictionary<string, string> ReadThemeFile(string path)
+    private void GetPleasantThemes()
     {
-        Dictionary<string, string> dictionary = new();
-        
-        string json = File.ReadAllText(path);
+        int countThemes = _mainResourceDictionary.ThemeDictionaries.Count;
 
-        using JsonDocument jsonDocument = JsonDocument.Parse(json);
-        JsonElement rootElement = jsonDocument.RootElement;
+        Themes = new Theme[countThemes + 2];
 
-        foreach (JsonProperty jsonProperty in rootElement.EnumerateObject())
+        Themes[0] = new Theme("System", null);
+
+        for (int i = 0; i < countThemes; i++)
         {
-            string key = jsonProperty.Name;
-            string colorHex = jsonProperty.Value.ToString();
-                
-            dictionary.Add(key, colorHex);
+            KeyValuePair<ThemeVariant, IThemeVariantProvider> element = _mainResourceDictionary.ThemeDictionaries.ElementAt(i);
+            
+            Themes[i + 1] = new Theme(element.Key.Key.ToString(), element.Key);
         }
 
-        return dictionary;
+        Themes[countThemes + 1] = new Theme("Custom", null);
     }
 
     private void ClearCustomThemes()
     {
         foreach (KeyValuePair<ThemeVariant,IThemeVariantProvider> themeVariantProvider in _mainResourceDictionary.ThemeDictionaries)
         {
-            if ((string)themeVariantProvider.Key.Key == "Light" || (string)themeVariantProvider.Key.Key == "Dark")
+            if (Array.Exists(Themes, theme => theme.Name == (string)themeVariantProvider.Key.Key))
                 continue;
 
-            _mainResourceDictionary.Remove(themeVariantProvider);
+            _mainResourceDictionary.ThemeDictionaries.Remove(themeVariantProvider.Key);
         }
     }
 
     private void CurrentDomainOnProcessExit(object? sender, EventArgs e)
     {
         PleasantSettings.Save();
+        PleasantThemesLoader.Save();
     }
 
     private void PleasantSettingsOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -201,19 +262,14 @@ public class PleasantTheme : Styles, IResourceNode
 
     private void ResolveTheme(IPlatformSettings platformSettings)
     {
-        ThemeVariant? themeVariant = PleasantSettings.Instance.Theme switch
-        {
-            Theme.System => GetThemeFromIPlatformSettings(platformSettings),
-            Theme.Custom => SelectedCustomThemeVariant,
-            
-            Theme.Light => ThemeVariant.Light,
-            Theme.Dark => ThemeVariant.Dark,
-
-            Theme.Mint => PleasantThemes.Mint,
-            Theme.Strawberry => PleasantThemes.Strawberry,
-            
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        ThemeVariant? themeVariant;
+        
+        if (PleasantSettings.Instance.Theme == "Custom") 
+            themeVariant = SelectedCustomTheme?.ThemeVariant;
+        else if (PleasantSettings.Instance.Theme == "System")
+            themeVariant = GetThemeFromIPlatformSettings(platformSettings);
+        else
+            themeVariant = Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Instance.Theme)?.ThemeVariant;
 
         if (Application.Current is not null)
             Application.Current.RequestedThemeVariant = themeVariant;
@@ -230,7 +286,7 @@ public class PleasantTheme : Styles, IResourceNode
 
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
     {
-        if (PleasantSettings.Instance.Theme is Theme.System && Application.Current is not null)
+        if (PleasantSettings.Instance.Theme == "System" && Application.Current is not null)
         {
             ThemeVariant themeVariant = e.ThemeVariant is PlatformThemeVariant.Light ?
                 ThemeVariant.Light : ThemeVariant.Dark;
@@ -286,7 +342,7 @@ public class PleasantTheme : Styles, IResourceNode
 
         _foregroundAccentColorsDictionary = new ResourceDictionary
         {
-            { "ForegroundAccentColor", GetForegroundFromAccent(accentColor) },
+            { "ForegroundAccentColor", GetForegroundFromAccent(accentColor) }
         };
 
         foreach (Color lightAccentColor in lightAccentColors)

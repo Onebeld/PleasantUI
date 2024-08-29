@@ -14,7 +14,7 @@
     <CornerRadius x:Key="ScrollBarCornerRadius">6</CornerRadius>
 
     <ControlTheme x:Key="ScrollBarThumb" TargetType="Thumb">
-        <Setter Property="Background" Value="{StaticResource ControlColor1Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlDarkFillColor1}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -33,10 +33,10 @@
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlDarkFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlDarkFillColor3}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -74,13 +74,13 @@
         </Setter>
 
         <Style Selector="^ /template/ PathIcon">
-            <Setter Property="Foreground" Value="{StaticResource ControlColor1Brush}" />
+            <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor1}" />
         </Style>
         <Style Selector="^:pointerover /template/ PathIcon">
-            <Setter Property="Foreground" Value="{StaticResource ControlColor2Brush}" />
+            <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor2}" />
         </Style>
         <Style Selector="^:disabled /template/ PathIcon">
-            <Setter Property="Foreground" Value="{StaticResource ControlColor3Brush}" />
+            <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor3}" />
         </Style>
 
         <Style Selector="^:disabled /template/ PathIcon">
@@ -103,7 +103,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid RowDefinitions="Auto,*,Auto">
                                 <Rectangle Name="TrackRect"
-                                           Fill="{StaticResource ControlFillColor1Brush}"
+                                           Fill="{DynamicResource ControlFillColor1}"
                                            Opacity="0"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"

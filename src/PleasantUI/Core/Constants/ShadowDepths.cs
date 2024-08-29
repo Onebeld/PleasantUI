@@ -7,6 +7,9 @@ namespace PleasantUI.Core.Constants;
 /// </summary>
 public static class ShadowDepths
 {
+    /// <summary>
+    /// Shadow depth for small windows.
+    /// </summary>
     public static readonly BoxShadow SmallWindow = new()
     {
         Blur = 10,
@@ -15,6 +18,9 @@ public static class ShadowDepths
         Color = Color.FromArgb(60, 0, 0, 0)
     };
 
+    /// <summary>
+    /// Shadow depth for modal windows.
+    /// </summary>
     public static readonly BoxShadow ModalWindowDepth = new()
     {
         Blur = 60,
@@ -23,6 +29,9 @@ public static class ShadowDepths
         Color = Color.FromArgb(110, 0, 0, 0)
     };
 
+    /// <summary>
+    /// Shadow depth for the color previewer element.
+    /// </summary>
     public static readonly BoxShadow ColorPreviewer = new()
     {
         Blur = 10,

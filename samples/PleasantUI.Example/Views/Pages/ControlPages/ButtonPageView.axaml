@@ -8,12 +8,14 @@
     <StackPanel Spacing="5">
         <Button Content="Button" />
         <Button>
-            <PathIcon Data="{StaticResource CopyRegular}" Foreground="{StaticResource TextFillColor1Brush}" />
+            <PathIcon Data="{StaticResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
         </Button>
         <Button Theme="{StaticResource AppBarButtonTheme}" Content="AppBarButton" />
         <Button Theme="{StaticResource AccentButtonTheme}" Content="AccentButton" />
         <Button Theme="{StaticResource DangerButtonTheme}" Content="DangerButton" />
         <Button IsEnabled="False" Content="Disabled button" />
+        
+        <Button x:Name="SnackbarButton" Content="Show Long Snackbar" />
         
         <TextBlock Text="List of buttons" />
         

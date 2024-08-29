@@ -16,7 +16,7 @@
     </MenuFlyout>
     
     <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">
-        <Setter Property="SelectionBrush" Value="{StaticResource SystemAccentLightColor3Brush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentLightColor3}" />
         
         <Style Selector="^[IsEnabled=True]">
             <Setter Property="Cursor" Value="IBeam" />

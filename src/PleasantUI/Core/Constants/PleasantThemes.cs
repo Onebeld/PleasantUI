@@ -7,4 +7,6 @@ public class PleasantThemes
 	public static readonly ThemeVariant Mint = new("Mint", ThemeVariant.Light);
 
 	public static readonly ThemeVariant Strawberry = new("Strawberry", ThemeVariant.Light);
+	
+	public static readonly ThemeVariant Ice = new("Ice", ThemeVariant.Light);
 }

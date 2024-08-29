@@ -6,6 +6,8 @@ using Avalonia.Styling;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Structures;
+using PleasantUI.Extensions;
+using PleasantUI.Localization;
 
 namespace PleasantUI.Windows;
 
@@ -27,15 +29,8 @@ public partial class MessageBox : ContentDialog
     {
         MessageBox messageBox = new();
 
-        string titleValue, textValue;
-
-        if (Application.Current!.TryFindResource(title, out object? objectTitleValue))
-            titleValue = objectTitleValue as string ?? string.Empty;
-        else titleValue = title;
-        
-        if (Application.Current!.TryFindResource(text, out object? objectTextValue))
-            textValue = objectTextValue as string ?? string.Empty;
-        else textValue = text;
+        string? titleValue = Localizer.Instance[title];
+        string? textValue = Localizer.Instance[text];
 
         messageBox.Title.Text = titleValue;
         messageBox.Text.Text = textValue;
@@ -78,8 +73,7 @@ public partial class MessageBox : ContentDialog
             result = messageBoxButton.Result;
             button.Classes.Add("Accent");
 
-            if (Application.Current != null)
-                button.Theme = (ControlTheme)Application.Current.FindResource("AccentButtonTheme")!;
+            button.Theme = ResourceExtensions.GetResource<ControlTheme>("AccentButtonTheme");
         }
 
         if (buttons is null || buttons.Count == 0)
@@ -91,7 +85,7 @@ public partial class MessageBox : ContentDialog
             {
                 AddButton(new MessageBoxButton
                 {
-                    Text = (string)Application.Current?.FindResource("Ok") ?? "OK", Result = "OK", Default = true, IsKeyDown = true
+                    Text = Localizer.Instance["Ok"] ?? "OK", Result = "OK", Default = true, IsKeyDown = true
                 });
             }
             catch

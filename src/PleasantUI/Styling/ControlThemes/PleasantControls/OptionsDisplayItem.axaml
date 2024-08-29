@@ -29,8 +29,8 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type OptionsDisplayItem}" TargetType="OptionsDisplayItem">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 0 11 0" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
@@ -54,7 +54,7 @@
                                      Margin="8 4 14 4">
                                 <Path Stretch="Uniform"
                                       Data="{TemplateBinding Icon}"
-                                      Fill="{StaticResource TextFillColor1Brush}" />
+                                      Fill="{DynamicResource TextFillColor1}" />
                             </Viewbox>
 
                             <StackPanel Grid.Row="0" Grid.Column="1"
@@ -64,7 +64,7 @@
                                            Text="{TemplateBinding Header}" />
                                 <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
                                            Text="{TemplateBinding Description}"
-                                           Foreground="{StaticResource TextFillColor2Brush}"
+                                           Foreground="{DynamicResource TextFillColor2}"
                                            IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                             </StackPanel>
 
@@ -83,7 +83,7 @@
                                      Margin="11 0 8 0">
                                 <Path Name="Chevron"
                                       Margin="1"
-                                      Fill="{StaticResource TextFillColor2Brush}"
+                                      Fill="{DynamicResource TextFillColor2}"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Center"
                                       Stretch="Uniform" />
@@ -98,7 +98,7 @@
                                       HorizontalContentAlignment="Stretch"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch"
-                                      Background="{StaticResource BackgroundColor2Brush}"
+                                      Background="{DynamicResource BackgroundColor3}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="1 0 1 1"
                                       ZIndex="-1"
@@ -118,10 +118,10 @@
         </Style>
 
         <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed /template/ Border#LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:icon /template/ Viewbox#IconHost">

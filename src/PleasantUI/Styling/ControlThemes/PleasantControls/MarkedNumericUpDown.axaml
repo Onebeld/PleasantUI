@@ -22,7 +22,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type MarkedNumericUpDown}" TargetType="MarkedNumericUpDown">
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="ShowButtonSpinner" Value="False" />

@@ -5,7 +5,7 @@
         <Setter Property="Focusable" Value="True" />
         <Setter Property="MinWidth" Value="5" />
         <Setter Property="MinHeight" Value="5" />
-        <Setter Property="Background" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="PreviewContent">
             <Template>
                 <Rectangle Fill="{DynamicResource SystemAccentColor}" />

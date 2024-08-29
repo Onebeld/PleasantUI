@@ -1,7 +1,10 @@
+using System.Globalization;
+using System.Resources;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
+using PleasantUI.Localization;
 
 namespace PleasantUI.Example.Desktop;
 
@@ -11,16 +14,21 @@ public partial class App : PleasantUIExampleApp
 
     public override void OnFrameworkInitializationCompleted()
     {
-        PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
-        
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
             return;
-
+        
         if (Design.IsDesignMode)
         {
             desktop.MainWindow = new Window();
+            
+            base.OnFrameworkInitializationCompleted();
             return;
         }
+        
+        PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
+        
+        Localizer.Instance.AddResourceManager(new ResourceManager(typeof(Properties.Localization)));
+        Localizer.Instance.EditLanguage("en");
         
         Main = new MainWindow
         {

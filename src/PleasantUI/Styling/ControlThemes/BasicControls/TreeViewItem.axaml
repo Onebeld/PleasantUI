@@ -114,11 +114,11 @@
         </Setter>
         
         <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         
         <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         
         <Style Selector="^:disabled">

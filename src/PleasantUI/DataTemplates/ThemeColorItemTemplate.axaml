@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:PleasantUI.Core.Models"
+                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
+                    x:ClassModifier="internal">
+    <DataTemplate x:Key="ThemeColorItemTemplate" DataType="{x:Type models:ThemeColor}">
+        <DockPanel>
+            <Button DockPanel.Dock="Right"
+                    Theme="{StaticResource AppBarButtonTheme}"
+                    Width="30"
+                    Height="30"
+                    ToolTip.Tip="{markup:Localize Menu}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuItem Header="{markup:Localize Copy}"
+                                  Command="{CompiledBinding CopyColor}">
+                            <MenuItem.Icon>
+                                <PathIcon Width="16" Height="16" Data="{StaticResource CopyRegular}" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{markup:Localize Paste}"
+                                  Command="{CompiledBinding PasteColor}">
+                            <MenuItem.Icon>
+                                <PathIcon Width="16" Height="16" Data="{StaticResource PasteRegular}" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        
+                        <Separator />
+                        
+                        <MenuItem Header="{markup:Localize Change}"
+                                  Command="{CompiledBinding ChangeColor}">
+                            <MenuItem.Icon>
+                                <PathIcon Width="16" Height="16" Data="{StaticResource EditRegular}" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+                
+                <PathIcon Data="{StaticResource MoreRegular}" />
+            </Button>
+            <Border DockPanel.Dock="Right"
+                    Background="{StaticResource CheckeredBackgroundBrush}"
+                    Width="40"
+                    Height="25"
+                    CornerRadius="4"
+                    Margin="0 5 5 5"
+                    ToolTip.Tip="{CompiledBinding Color, Converter={x:Static ColorConverters.ColorToString}}">
+                <Border CornerRadius="4" Background="{CompiledBinding Brush}" />
+            </Border>
+            
+            
+            <TextBlock Text="{CompiledBinding Name}"
+                       TextTrimming="CharacterEllipsis"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="0 0 5 0"/>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

@@ -14,8 +14,8 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemAccentLightColor2}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="VerticalAlignment" Value="Center" />
 

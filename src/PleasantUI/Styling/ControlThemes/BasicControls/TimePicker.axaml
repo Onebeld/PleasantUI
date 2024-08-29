@@ -14,8 +14,8 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         
@@ -49,7 +49,7 @@
                                 
                                 <Rectangle x:Name="PART_FirstColumnDivider"
                                            Grid.Column="1"
-                                           Fill="{StaticResource ControlBorderColorBrush}"
+                                           Fill="{DynamicResource ControlBorderColor}"
                                            Width="1"
                                            HorizontalAlignment="Center" />
                                 
@@ -64,7 +64,7 @@
                                 
                                 <Rectangle x:Name="PART_SecondColumnDivider"
                                            Grid.Column="3"
-                                           Fill="{StaticResource ControlBorderColorBrush}"
+                                           Fill="{DynamicResource ControlBorderColor}"
                                            Width="1"
                                            HorizontalAlignment="Center" />
                                 
@@ -101,8 +101,8 @@
                                 </Style>
                             </Popup.Styles>
                             
-                            <Border Background="{StaticResource BackgroundColor1Brush}"
-                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
+                            <Border Background="{DynamicResource BackgroundColor1}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{StaticResource ControlBorderThickness}"
                                     Margin="6 4 6 6"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
@@ -121,7 +121,7 @@
         <Setter Property="Width" Value="242" />
         <Setter Property="MinWidth" Value="242" />
         <Setter Property="MaxHeight" Value="398" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         
         <Setter Property="Template">
             <ControlTemplate>
@@ -165,7 +165,20 @@
                                 <RepeatButton Name="PART_MinuteDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
                             </Panel>
                             
-                            <Panel Name="PART_PeriodHost" Grid.Column="4">
+                            <Panel Name="PART_SecondHost" Grid.Column="4">
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Hidden">
+                                    <DateTimePickerPanel Name="PART_SecondSelector"
+                                                         PanelType="Minute"
+                                                         ShouldLoop="True"
+                                                         ItemHeight="40" />
+                                </SmoothScrollViewer>
+                                
+                                <RepeatButton Name="PART_SecondUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                                <RepeatButton Name="PART_SecondDownButton" Theme="{StaticResource DateTimePickerDownButton}" />
+                            </Panel>
+                            
+                            <Panel Name="PART_PeriodHost" Grid.Column="6">
                                 <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_PeriodSelector"
@@ -179,7 +192,7 @@
                             </Panel>
                             
                             <Rectangle Name="HighlightRect"
-                                       Fill="{StaticResource SystemAccentLightColor2Brush}"
+                                       Fill="{DynamicResource SystemAccentLightColor2}"
                                        IsHitTestVisible="False"
                                        ZIndex="-1"
                                        Grid.Column="0"
@@ -197,6 +210,12 @@
                                        HorizontalAlignment="Center"
                                        Width="1"
                                        Grid.Column="3" />
+                            
+                            <Rectangle x:Name="PART_ThirdSpacer"
+                                       Fill="{TemplateBinding BorderBrush}"
+                                       HorizontalAlignment="Center"
+                                       Width="1"
+                                       Grid.Column="5" />
                         </Grid>
                         
                         <Rectangle x:Name="PART_Spacer"

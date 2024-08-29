@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:DataType="NavigationView"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
@@ -39,8 +40,8 @@
     <ControlTheme x:Key="{x:Type NavigationView}" TargetType="NavigationView">
         <Setter Property="CompactPaneLength" Value="50" />
         <Setter Property="OpenPaneLength" Value="250" />
-        <Setter Property="BorderBrush" Value="{StaticResource ContentBorderColorBrush}" />
-        <Setter Property="Background" Value="{StaticResource BackgroundColor2Brush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
         <Setter Property="SelectionMode" Value="AlwaysSelected" />
         
@@ -118,7 +119,7 @@
                         <Button Name="PART_BackButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 Background="#00000000"
-                                ToolTip.Tip="{DynamicResource Back}"
+                                ToolTip.Tip="{markup:Localize Back}"
                                 Command="{TemplateBinding BackButtonCommand}"
                                 Width="40"
                                 Height="37"
@@ -129,12 +130,12 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center"
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <PathIcon Data="{StaticResource ArrowLeftRegular}" Foreground="{StaticResource TextFillColor1Brush}" Width="16" Height="16" />
+                            <PathIcon Data="{StaticResource ArrowLeftRegular}" Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 Background="#00000000"
-                                ToolTip.Tip="{DynamicResource Menu}"
+                                ToolTip.Tip="{markup:Localize Menu}"
                                 Width="40"
                                 Height="37"
                                 Padding="0"
@@ -142,7 +143,7 @@
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <PathIcon Data="{TemplateBinding Icon}" Foreground="{StaticResource TextFillColor1Brush}" Width="16" Height="16" />
+                            <PathIcon Data="{TemplateBinding Icon}" Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                     </StackPanel>
                 </Grid>
@@ -158,16 +159,16 @@
         </Style>
 
         <Style Selector="^[DisplayMode=CompactOverlay][IsOpen=true] /template/ Border#PART_Border">
-            <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
             <Setter Property="CornerRadius" Value="0 8 8 0" />
             <Setter Property="BorderThickness" Value="0 0 1 0" />
-            <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay][IsOpen=true] /template/ Border#PART_Border">
-            <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
             <Setter Property="CornerRadius" Value="0 8 8 0" />
             <Setter Property="BorderThickness" Value="0 0 1 0" />
-            <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         </Style>
 
         <Style Selector="^ /template/ Border#PART_Container">

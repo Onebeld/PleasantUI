@@ -13,12 +13,12 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type MarkedTextBox}" TargetType="MarkedTextBox">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="CaretBrush" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
-        <Setter Property="SelectionBrush" Value="{StaticResource SystemAccentLightColor1Brush}" />
-        <Setter Property="SelectionForegroundBrush" Value="{StaticResource ForegroundAccentLightColor1Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentLightColor1}" />
+        <Setter Property="SelectionForegroundBrush" Value="{DynamicResource ForegroundAccentLightColor1}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="6 5 6 5" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
@@ -35,8 +35,8 @@
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
                             <Path Data="{StaticResource CutRegular}"
-                                  Fill="{StaticResource TextFillColor1Brush}"
-                                  Stroke="{StaticResource TextFillColor1Brush}"
+                                  Fill="{DynamicResource TextFillColor1}"
+                                  Stroke="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />
                         </Viewbox>
                     </MenuItem.Icon>
@@ -48,8 +48,8 @@
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
                             <Path Data="{StaticResource CopyRegular}"
-                                  Fill="{StaticResource TextFillColor1Brush}"
-                                  Stroke="{StaticResource TextFillColor1Brush}"
+                                  Fill="{DynamicResource TextFillColor1}"
+                                  Stroke="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />
                         </Viewbox>
                     </MenuItem.Icon>
@@ -61,8 +61,8 @@
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
                             <Path Data="{StaticResource PasteRegular}"
-                                  Fill="{StaticResource TextFillColor1Brush}"
-                                  Stroke="{StaticResource TextFillColor1Brush}"
+                                  Fill="{DynamicResource TextFillColor1}"
+                                  Stroke="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />
                         </Viewbox>
                     </MenuItem.Icon>
@@ -82,12 +82,12 @@
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Border x:Name="SymbolBox"
                                         Grid.Column="0"
-                                        Background="{StaticResource ControlFillColor3Brush}"
+                                        Background="{DynamicResource ControlFillColor3}"
                                         CornerRadius="18 0 0 18"
                                         Width="35">
                                     <ContentPresenter x:Name="SymbolTextBlock"
                                                       Content="{TemplateBinding Mark}"
-                                                      TextElement.Foreground="{StaticResource TextFillColor3Brush}"
+                                                      TextElement.Foreground="{DynamicResource TextFillColor3}"
                                                       TextElement.FontWeight="SemiBold"
                                                       VerticalContentAlignment="Center"
                                                       HorizontalContentAlignment="Center"
@@ -102,7 +102,7 @@
                                         <Panel>
                                             <TextBlock Name="PART_Watermark"
                                                        Text="{TemplateBinding Watermark}"
-                                                       Foreground="{StaticResource TextFillColor2Brush}"
+                                                       Foreground="{DynamicResource TextFillColor2}"
                                                        TextAlignment="{TemplateBinding TextAlignment}"
                                                        TextWrapping="{TemplateBinding TextWrapping}"
                                                        IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
@@ -135,12 +135,12 @@
         </Setter>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:focus">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor3}" />
             <Setter Property="Transitions" Value="{x:Null}" />
         </Style>
 

@@ -8,17 +8,17 @@
         <NavigationView>
             <NavigationViewItem x:Name="HomeView"
                                 Header="Home"
-                                Icon="{StaticResource HomeRegular}"/>
+                                Icon="{x:Static MaterialIcons.HomeOutline}"/>
         
             <NavigationViewItem x:Name="AboutView"
                                 Header="About"
-                                Icon="{StaticResource InfoRegular}"
+                                Icon="{x:Static MaterialIcons.InformationOutline}"
                                 DockPanel.Dock="Bottom" />
         
             <NavigationViewItem x:Name="SettingsView"
                                 Header="Settings"
                                 DockPanel.Dock="Bottom"
-                                Icon="{StaticResource SettingsRegular}"
+                                Icon="{x:Static MaterialIcons.CogOutline}"
                                 Margin="0 0 0 5" />
         </NavigationView>
         
@@ -39,7 +39,7 @@
                     <TextBlock Text="Example"
                                VerticalAlignment="Center"
                                FontSize="12"
-                               Foreground="{StaticResource TextFillColor3Brush}" />
+                               Foreground="{DynamicResource TextFillColor3}" />
                 </StackPanel>
             </OnFormFactor.Mobile>
         </OnFormFactor>

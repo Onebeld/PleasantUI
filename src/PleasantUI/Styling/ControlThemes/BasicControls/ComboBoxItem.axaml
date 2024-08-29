@@ -21,7 +21,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="11 5 11 7" />
@@ -29,10 +29,10 @@
         <Setter Property="FocusAdorner">
             <FocusAdornerTemplate>
                 <Border BorderThickness="2"
-                        BorderBrush="{StaticResource FocusStrokeColorOuterBrush}"
+                        BorderBrush="{DynamicResource FocusStrokeColorOuter}"
                         Margin="-3">
                     <Border BorderThickness="1"
-                            BorderBrush="{StaticResource FocusStrokeColorInnerBrush}" />
+                            BorderBrush="{DynamicResource FocusStrokeColorInner}" />
                 </Border>
             </FocusAdornerTemplate>
         </Setter>
@@ -86,26 +86,26 @@
         </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:selected /template/ Border#Pill">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^:selected:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected:pressed /template/ Border#LayoutRoot">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:disabled">

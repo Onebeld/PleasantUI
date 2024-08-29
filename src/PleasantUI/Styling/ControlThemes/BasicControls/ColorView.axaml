@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border>
@@ -14,9 +15,9 @@
             <ControlTemplate>
                 <Grid RowDefinitions="Auto,Auto">
                     <TabControl Grid.Row="0"
-                                Background="{StaticResource ControlFillColor1Brush}"
+                                Background="{DynamicResource ControlFillColor1}"
                                 BorderThickness="0 1 0 0"
-                                BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
                                 Height="338"
                                 Width="350">
                         <TabControl.Styles>
@@ -112,7 +113,7 @@
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource DeleteRegular}"
-                                                                      Fill="{StaticResource TextFillColor1Brush}"
+                                                                      Fill="{DynamicResource TextFillColor1}"
                                                                       Stretch="Uniform" />
                                                             </Viewbox>
                                                         </MenuItem.Icon>
@@ -160,17 +161,17 @@
                                 </ListBox>
 
                                 <TextBlock Grid.Row="0"
-                                           Text="{DynamicResource AddYourNewColor}"
+                                           Text="{markup:Localize AddYourNewColor}"
                                            IsVisible="{CompiledBinding !ColorPalettes.Count, Source={x:Static PleasantSettings.Instance}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
-                                           Foreground="{StaticResource TextFillColor3Brush}" />
+                                           Foreground="{DynamicResource TextFillColor3}" />
 
                                 <Button x:Name="AddColorButton"
                                         Grid.Row="1"
                                         Margin="50 0"
-                                        ToolTip.Tip="{DynamicResource AddColor}">
-                                    <PathIcon Data="{StaticResource AddRegular}" Foreground="{StaticResource TextFillColor1Brush}" Width="16" Height="16" />
+                                        ToolTip.Tip="{markup:Localize AddColor}">
+                                    <PathIcon Data="{StaticResource AddRegular}" Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                                 </Button>
                             </Grid>
                         </TabItem>
@@ -356,7 +357,7 @@
                     </TabControl>
                     <!-- Previewer -->
                     <ColorPreviewer Grid.Row="1"
-                                    Background="{StaticResource ControlFillColor1Brush}"
+                                    Background="{DynamicResource ControlFillColor1}"
                                     IsAccentColorsVisible="{TemplateBinding IsAccentColorsVisible}"
                                     Padding="5 0"
                                     HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"

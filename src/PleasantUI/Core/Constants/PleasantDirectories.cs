@@ -9,9 +9,4 @@ public static class PleasantDirectories
     /// The path of the settings directory.
     /// </summary>
     public static readonly string Settings = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings");
-    
-    /// <summary>
-    /// The path of the themes directory.
-    /// </summary>
-    public static readonly string Themes = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");
 }

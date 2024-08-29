@@ -1,0 +1,122 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
+                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <PleasantSnackbar Content="Test message" />
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type PleasantSnackbar}" TargetType="PleasantSnackbar">
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="40" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0 0 15 0" />
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="Margin" Value="20" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="ZIndex" Value="99" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="PART_Snackbar"
+                        Background="{DynamicResource BackgroundColor1}"
+                        BorderBrush="{DynamicResource ControlBorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="99"
+                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                    <Border CornerRadius="99"
+                            Margin="-1"
+                            ClipToBounds="True">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Border x:Name="PART_IconBorder"
+                                    Grid.Column="0"
+                                    Background="{DynamicResource SystemFillColorNeutral}"
+                                    Width="30"
+                                    Height="30"
+                                    CornerRadius="99"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="1"
+                                    Margin="5">
+                                <PathIcon Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
+                                          Data="{TemplateBinding Icon}" />
+                            </Border>
+                            
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              Grid.Column="1"
+                                              Grid.Row="0"
+                                              Opacity="0"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              TextAlignment="Start" />
+                        </Grid>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^">
+            <Setter Property="OpenAnimation">
+                <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
+                    <KeyFrame KeyTime="0:0:0">
+                        <Setter Property="ScaleTransform.ScaleX" Value="1.5" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="1.5" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.2">
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Setter>
+            <Setter Property="CloseAnimation">
+                <Animation Duration="0:0:0.05" FillMode="Both">
+                    <KeyFrame KeyTime="0:0:0">
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.05">
+                        <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^ /template/ Border#PART_IconBorder">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
+        </Style>
+        <Style Selector="^:information /template/ Border#PART_IconBorder">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
+        </Style>
+        <Style Selector="^:success /template/ Border#PART_IconBorder">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccess}" />
+        </Style>
+        <Style Selector="^:warning /template/ Border#PART_IconBorder">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorCaution}" />
+        </Style>
+        <Style Selector="^:error /template/ Border#PART_IconBorder">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorCritical}" />
+        </Style>
+        
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

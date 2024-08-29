@@ -1,9 +1,384 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="PleasantUI.Windows.ThemeEditorWindow"
-        Title="ThemeEditorWindow">
-    Welcome to Avalonia!
-</Window>
+﻿<ContentDialog xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:viewModels="clr-namespace:PleasantUI.Windows.ViewModels"
+               xmlns:structures="clr-namespace:PleasantUI.Core.Structures"
+               xmlns:userControls="clr-namespace:PleasantUI.UserControls"
+               xmlns:models="clr-namespace:PleasantUI.Core.Models"
+               xmlns:views="clr-namespace:PleasantUI.Windows"
+               mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+               x:Class="PleasantUI.Windows.ThemeEditorWindow"
+               Design.Height="600"
+               x:DataType="viewModels:ThemeEditorViewModel">
+    <Design.DesignStyle>
+        <Style Selector="ContentDialog">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+    </Design.DesignStyle>
+    
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="/DataTemplates/ThemeColorItemTemplate.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+    <ContentDialog.KeyBindings>
+        <KeyBinding Command="{CompiledBinding Undo}" Gesture="Ctrl+Z" />
+        <KeyBinding Command="{CompiledBinding Redo}" Gesture="Ctrl+R" />
+    </ContentDialog.KeyBindings>
+    
+    <DockPanel Margin="20">
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto,*">
+            <TextBlock Grid.Column="0" Text="{Localize ThemeEditor}" Theme="{StaticResource SubtitleTextBlockTheme}"  />
+            
+            <TextBlock Grid.Column="2"
+                       Margin="0 0 5 0"
+                       VerticalAlignment="Center">
+                <Run Text="{Localize ThemeName}" />:
+            </TextBlock>
+            <TextBox Grid.Column="3"
+                     Watermark="{Localize ThemeName}"
+                     MaxLength="255"
+                     Text="{CompiledBinding ThemeName, UpdateSourceTrigger=LostFocus}" />
+        </Grid>
+        <Grid Margin="0 10 0 0" ColumnDefinitions="1.3*,10,*">
+            <DockPanel Grid.Column="0">
+                <Panel DockPanel.Dock="Top" Margin="0 0 0 10">
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Button Command="{CompiledBinding Undo}"
+                                IsEnabled="{CompiledBinding CanUndo}"
+                                CornerRadius="99 0 0 99">
+                            <ToolTip.Tip>
+                                <TextBlock>
+                                    <Run Text="{Localize Undo}" />
+                                    <Run Text="{KeyGesture 'Ctrl+Z'}" Foreground="{DynamicResource TextFillColor3}" />
+                                </TextBlock>
+                            </ToolTip.Tip>
+                            
+                            <PathIcon Data="{StaticResource ArrowLeftRegular}" />
+                        </Button>
+                        <Button Command="{CompiledBinding Redo}"
+                                IsEnabled="{CompiledBinding CanRedo}"
+                                CornerRadius="0 99 99 0">
+                            <ToolTip.Tip>
+                                <TextBlock>
+                                    <Run Text="{Localize Redo}" />
+                                    <Run Text="{KeyGesture 'Ctrl+R'}" Foreground="{DynamicResource TextFillColor3}" />
+                                </TextBlock>
+                            </ToolTip.Tip>
+                            
+                            <PathIcon Data="{StaticResource ArrowRightRegular}" />
+                        </Button>
+                    </StackPanel>
+                    
+                    <InformationBlock Icon="{StaticResource PaletteRegular}"
+                                      Content="{CompiledBinding ThemeColors.Count}"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      ToolTip.Tip="{Localize NumberOfColorsInstalled}" />
+                </Panel>
+
+                <Border Background="{DynamicResource ControlFillColor1}"
+                        BorderBrush="{DynamicResource ControlBorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                    <ThemeVariantScope RequestedThemeVariant="{CompiledBinding CustomTheme.ThemeVariant}">
+                        <Border Background="{DynamicResource BackgroundColor1}" CornerRadius="7.5">
+                            <SmoothScrollViewer>
+                                <StackPanel Margin="10" Spacing="5">
+                                    <TextBlock Text="TextFillColor1"
+                                               Foreground="{DynamicResource TextFillColor1}"
+                                               FontWeight="Bold"
+                                               FontSize="30" />
+                                    <TextBlock Text="TextFillColor2"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               FontWeight="Bold"
+                                               FontSize="30" />
+                                    <TextBlock Text="TextFillColor3"
+                                               Foreground="{DynamicResource TextFillColor3}"
+                                               FontWeight="Bold"
+                                               FontSize="30" />
+
+                                    <TextBlock Text="BackgroundColor1" />
+                                    <Border Background="{DynamicResource BackgroundColor2}"
+                                            BorderBrush="{DynamicResource ControlBorderColor}"
+                                            BorderThickness="1"
+                                            CornerRadius="8"
+                                            Padding="10">
+                                        <StackPanel Spacing="5">
+                                            <TextBlock Text="BackgroundColor2" />
+
+                                            <Border Background="{DynamicResource BackgroundColor3}"
+                                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="8"
+                                                    Padding="10">
+                                                <StackPanel Spacing="5">
+                                                    <TextBlock Text="BackgroundColor3" />
+
+                                                    <Border Background="{DynamicResource BackgroundColor4}"
+                                                            BorderBrush="{DynamicResource ControlBorderColor}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="8"
+                                                            Padding="10">
+                                                        <StackPanel Spacing="5">
+                                                            <TextBlock Text="BackgroundColor4" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Button Content="Control Button" />
+                                    <Button Content="Danger Control Button" Theme="{DynamicResource DangerButtonTheme}" />
+
+                                    <RadioButton Content="RadioButton1" IsChecked="True" GroupName="Group" />
+                                    <RadioButton Content="RadioButton2" GroupName="Group" />
+                                    
+                                    <Border BorderThickness="2"
+                                            BorderBrush="{DynamicResource FocusStrokeColorOuter}"
+                                            Margin="0"
+                                            CornerRadius="4">
+                                        <Border BorderThickness="1"
+                                                BorderBrush="{DynamicResource FocusStrokeColorInner}"
+                                                CornerRadius="4" Padding="5">
+                                            <TextBlock Text="FocusStroke" />
+                                        </Border>
+                                    </Border>
+
+                                    <TextBlock Text="Critical" />
+                                    <Border Background="{DynamicResource SystemFillColorCritical}" Padding="5"
+                                            CornerRadius="8" />
+
+                                    <TextBlock Text="Success" />
+                                    <Border Background="{DynamicResource SystemFillColorSuccess}" Padding="5"
+                                            CornerRadius="8" />
+
+                                    <TextBlock Text="Caution" />
+                                    <Border Background="{DynamicResource SystemFillColorCaution}" Padding="5"
+                                            CornerRadius="8" />
+
+                                    <TextBlock Text="Neutral" />
+                                    <Border Background="{DynamicResource SystemFillColorNeutral}" Padding="5"
+                                            CornerRadius="8" />
+                                </StackPanel>
+                            </SmoothScrollViewer>
+                        </Border>
+                    </ThemeVariantScope>
+                </Border>
+            </DockPanel>
+            
+            <DockPanel Grid.Column="2">
+                <UniformGrid Columns="2" DockPanel.Dock="Top">
+                    <RadioButton x:Name="ButtonColors"
+                                 Theme="{StaticResource ButtonedRadioButton}"
+                                 CornerRadius="99 0 0 99"
+                                 IsChecked="True"
+                                 GroupName="ColorsData"
+                                 ToolTip.Tip="{Localize Colors}">
+                        <PathIcon Data="{StaticResource PaletteRegular}" />
+                    </RadioButton>
+                    <RadioButton x:Name="ButtonJson"
+                                 Theme="{StaticResource ButtonedRadioButton}"
+                                 CornerRadius="0 99 99 0"
+                                 GroupName="ColorsData"
+                                 ToolTip.Tip="JSON">
+                        <PathIcon Data="{StaticResource CodeBracesRegular}" />
+                    </RadioButton>
+                </UniformGrid>
+                
+                <Border Background="{DynamicResource BackgroundColor2}"
+                        BorderBrush="{DynamicResource ControlBorderColor}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Margin="0 10 0 0">
+                    <Carousel x:Name="Carousel">
+                        <Carousel.PageTransition>
+                            <PageSlide Duration="0.35" SlideInEasing="SineEaseInOut" SlideOutEasing="SineEaseInOut" Orientation="Horizontal" />
+                        </Carousel.PageTransition>
+                        
+                        <Grid RowDefinitions="Auto,*" Margin="10">
+                            <Button Name="ButtonThemesFlyout" Grid.Row="0" Content="{Localize GetColorsBasedOn}">
+                                <Button.Styles>
+                                    <Style Selector="FlyoutPresenter">
+                                        <Setter Property="Width" Value="{CompiledBinding $parent[Button].Bounds.Width}" />
+                                    </Style>
+                                </Button.Styles>
+                                
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel Margin="10" Spacing="5">
+                                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}" Text="{Localize Themes}" />
+                                            <Border CornerRadius="8"
+                                                    Background="{DynamicResource BackgroundColor3}"
+                                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                                    BorderThickness="1"
+                                                    Height="150">
+                                                <SmoothScrollViewer>
+                                                    <ItemsControl ItemsSource="{CompiledBinding Themes}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate DataType="{x:Type models:Theme}">
+                                                                <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                        Margin="5"
+                                                                        HorizontalContentAlignment="Left"
+                                                                        Command="{CompiledBinding $parent[views:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromTheme}"
+                                                                        CommandParameter="{CompiledBinding}">
+                                                                    <StackPanel Spacing="10" Orientation="Horizontal">
+                                                                        <ThemePreviewVariantScope
+                                                                            IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                                            RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                                                                            <userControls:ThemePreview />
+                                                                        </ThemePreviewVariantScope>
+
+                                                                        <TextBlock Text="{CompiledBinding Name}" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </SmoothScrollViewer>
+                                            </Border>
+                                            
+                                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}" Text="{Localize CustomThemes}" />
+                                            <Border CornerRadius="8"
+                                                    Background="{DynamicResource BackgroundColor3}"
+                                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                                    BorderThickness="1"
+                                                    Height="150">
+                                                <SmoothScrollViewer>
+                                                    <ItemsControl ItemsSource="{x:Static PleasantTheme.CustomThemes}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate DataType="{x:Type models:CustomTheme}">
+                                                                <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                        Margin="5"
+                                                                        HorizontalContentAlignment="Left"
+                                                                        Command="{CompiledBinding $parent[views:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromCustomTheme}"
+                                                                        CommandParameter="{CompiledBinding}">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <ThemePreviewVariantScope RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                                                                            <userControls:ThemePreview />
+                                                                        </ThemePreviewVariantScope>
+                                                    
+                                                                        <TextBlock Margin="10 0 0 0"
+                                                                                   Text="{CompiledBinding Name}"
+                                                                                   VerticalAlignment="Center"
+                                                                                   TextTrimming="CharacterEllipsis" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </SmoothScrollViewer>
+                                            </Border>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                            
+                            <Border Grid.Row="1"
+                                    CornerRadius="8"
+                                    Background="{DynamicResource BackgroundColor3}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="1"
+                                    Margin="0 5 0 0">
+                                <SmoothScrollViewer>
+                                    <ItemsControl ItemsSource="{CompiledBinding ThemeColors}"
+                                                  ItemTemplate="{StaticResource ThemeColorItemTemplate}"
+                                                  Padding="10 5" />
+                                </SmoothScrollViewer>
+                            </Border>
+                        </Grid>
+                        
+                        <Grid RowDefinitions="Auto,*,Auto" Margin="10">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button ToolTip.Tip="{Localize CopyTheme}"
+                                        CornerRadius="99 0 0 99"
+                                        Command="{CompiledBinding CopyTheme}">
+                                    <PathIcon Data="{StaticResource CopyRegular}" />
+                                </Button>
+                                <Button ToolTip.Tip="{Localize PasteTheme}"
+                                        CornerRadius="0 99 99 0"
+                                        Command="{CompiledBinding PasteTheme}">
+                                    <PathIcon Data="{StaticResource PasteRegular}" />
+                                </Button>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button ToolTip.Tip="{Localize ImportTheme}"
+                                        CornerRadius="99 0 0 99"
+                                        Command="{CompiledBinding ImportTheme}">
+                                    <PathIcon Data="{StaticResource FileImportRegular}" />
+                                </Button>
+                                <Button ToolTip.Tip="{Localize ExportTheme}"
+                                        CornerRadius="0 99 99 0"
+                                        Command="{CompiledBinding ExportTheme}">
+                                    <PathIcon Data="{StaticResource FileExportRegular}" />
+                                </Button>
+                            </StackPanel>
+                            
+                            <TextBox Grid.Row="1"
+                                     Margin="0 5 0 0"
+                                     IsReadOnly="True"
+                                     CornerRadius="8"
+                                     Text="{CompiledBinding ColorsJson}" />
+                            
+                            <Panel x:Name="DragAndDropPanel"
+                                   DragDrop.AllowDrop="True"
+                                   Grid.Row="2"
+                                   Height="100"
+                                   Margin="0 5 0 0">
+                                <Panel.Styles>
+                                    <Style Selector="Panel.DragDrop > Rectangle">
+                                        <Setter Property="Fill" Value="{DynamicResource ControlFillColor3}" />
+                                    </Style>
+                                    <Style Selector="Panel > Rectangle">
+                                        <Setter Property="Fill" Value="Transparent" />
+                                    </Style>
+                                </Panel.Styles>
+                                
+                                <Rectangle StrokeDashArray="5, 1"
+                                           Stroke="{DynamicResource ControlBorderColor}"
+                                           StrokeThickness="4"
+                                           RadiusX="8"
+                                           RadiusY="8" />
+                                
+                                <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <PathIcon Data="{StaticResource FileImportRegular}"
+                                              Foreground="{DynamicResource TextFillColor3}"
+                                              Height="32"
+                                              Width="32"
+                                              HorizontalAlignment="Center"/>
+                                    
+                                    <TextBlock Foreground="{DynamicResource TextFillColor3}"
+                                               Margin="10 0"
+                                               Text="{Localize DragAndDropThemeHere}"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Panel>
+                        </Grid>
+                    </Carousel>
+                </Border>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+    
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid Margin="15 0" Rows="0" Columns="2">
+            <Button x:Name="OkButton"
+                    Theme="{StaticResource AccentButtonTheme}"
+                    Content="{Localize Ok}"
+                    VerticalAlignment="Center"
+                    Margin="5" />
+
+            <Button x:Name="CancelButton"
+                    Content="{Localize Cancel}"
+                    VerticalAlignment="Center"
+                    Margin="5" />
+        </UniformGrid>
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

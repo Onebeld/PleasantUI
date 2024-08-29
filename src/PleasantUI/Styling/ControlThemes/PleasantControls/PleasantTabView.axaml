@@ -18,8 +18,8 @@
     <ControlTheme x:Key="{x:Type PleasantTabView}" TargetType="PleasantTabView">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="10 0 10 10" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
-        <Setter Property="Background" Value="{StaticResource BackgroundColor2Brush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Template">
@@ -97,7 +97,7 @@
                     <RepeatButton Name="PART_ScrollDecreaseButton"
                                   Grid.Column="0"
                                   Theme="{StaticResource AppBarRepeatButtonTheme}"
-                                  Foreground="{StaticResource TextFillColor2Brush}"
+                                  Foreground="{DynamicResource TextFillColor2}"
                                   IsVisible="{TemplateBinding VisibleMaximum}"
                                   IsEnabled="{TemplateBinding HorizontalScrollBarEnableDecrease}"
                                   HorizontalAlignment="Left"
@@ -125,7 +125,7 @@
                     <RepeatButton Name="PART_ScrollIncreaseButton"
                                   Grid.Column="2"
                                   Theme="{StaticResource AppBarRepeatButtonTheme}"
-                                  Foreground="{StaticResource TextFillColor2Brush}"
+                                  Foreground="{DynamicResource TextFillColor2}"
                                   IsVisible="{TemplateBinding VisibleMaximum}"
                                   IsEnabled="{TemplateBinding HorizontalScrollBarEnableIncrease}"
                                   HorizontalAlignment="Right"

@@ -7,6 +7,9 @@ using Avalonia.VisualTree;
 
 namespace PleasantUI.Transitions;
 
+/// <summary>
+/// A transition that slides pages in and out horizontally or vertically.
+/// </summary>
 public class PleasantPageSlide : AvaloniaObject, IPageTransition
 {
     /// <summary>
@@ -14,37 +17,69 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
     /// </summary>
     public enum SlideAxis
     {
+        /// <summary>
+        /// The slide should occur horizontally.
+        /// </summary>
         Horizontal,
+        
+        /// <summary>
+        /// The slide should occur vertically.
+        /// </summary>
         Vertical
     }
     
+    /// <summary>
+    /// Defines the <see cref="Forward"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> ForwardProperty =
         AvaloniaProperty.Register<PleasantPageSlide, bool>(nameof(Forward), true);
     
+    /// <summary>
+    /// Defines the <see cref="Orientation"/> property.
+    /// </summary>
     public static readonly StyledProperty<SlideAxis> OrientationProperty =
-        AvaloniaProperty.Register<PleasantPageSlide, SlideAxis>(nameof(Orientation), SlideAxis.Horizontal);
+        AvaloniaProperty.Register<PleasantPageSlide, SlideAxis>(nameof(Orientation));
     
+    /// <summary>
+    /// Defines the <see cref="Duration"/> property.
+    /// </summary>
     public static readonly StyledProperty<TimeSpan> DurationProperty =
         AvaloniaProperty.Register<PleasantPageSlide, TimeSpan>(nameof(Duration), TimeSpan.FromMilliseconds(300));
     
+    /// <summary>
+    /// Gets or sets the duration of the transition.
+    /// </summary>
     public TimeSpan Duration
     {
         get => GetValue(DurationProperty);
         set => SetValue(DurationProperty, value);
     }
     
+    /// <summary>
+    /// Gets or sets a value indicating whether the transition should slide forward or backward.
+    /// </summary>
     public bool Forward 
     {
         get => GetValue(ForwardProperty);
         set => SetValue(ForwardProperty, value);
     }
     
+    /// <summary>
+    /// Gets or sets the orientation of the slide.
+    /// </summary>
     public SlideAxis Orientation
     {
         get => GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
     }
 
+    /// <summary>
+    /// Starts the transition.
+    /// </summary>
+    /// <param name="from">The visual to transition from.</param>
+    /// <param name="to">The visual to transition to.</param>
+    /// <param name="forward">Whether the transition is going forward.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     public virtual async Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
@@ -64,7 +99,7 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
             Easing = new CubicEaseIn(),
             Children =
             {
-                new KeyFrame()
+                new KeyFrame
                 {
                     Setters =
                     {
@@ -97,7 +132,7 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
         from.IsVisible = false;
         to.IsVisible = true;
 
-        var animationTo = new Animation
+        Animation animationTo = new()
         {
             Easing = new CubicEaseOut(),
             Children =

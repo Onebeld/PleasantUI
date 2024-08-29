@@ -79,6 +79,7 @@
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantSnackbar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
@@ -90,27 +91,24 @@
         </ResourceDictionary>
     </Styles.Resources>
     
-    <StyleInclude Source="BasicControls/UserControl.axaml" />
-    <StyleInclude Source="PleasantControls/PleasantView.axaml" />
-    
-    <Style Selector=":is(Button) > PathIcon,
-                     :is(Button) > StackPanel > PathIcon
-                     :is(Button) > DockPanel > PathIcon">
-        <Setter Property="Transitions">
-            <Transitions>
-                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
-            </Transitions>
-        </Setter>
-        <Setter Property="RenderTransform" Value="none" />
-    </Style>
-    <Style Selector=":is(Button):pointerover > PathIcon,
-                     :is(Button):pointerover > StackPanel > PathIcon,
-                     :is(Button):pointerover > DockPanel > PathIcon">
-        <Setter Property="RenderTransform" Value="scale(1.1)" />
-    </Style>
-    <Style Selector=":is(Button):pressed > PathIcon,
-                     :is(Button):pressed > StackPanel > PathIcon,
-                     :is(Button):pressed > DockPanel > PathIcon">
-        <Setter Property="RenderTransform" Value="scale(0.9)" />
+    <Style Selector=":is(Button)">
+        <Style Selector="^ PathIcon">
+            <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
+            
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+        
+        <Style Selector="^:pointerover PathIcon">
+            <Setter Property="RenderTransform" Value="scale(1.1)" />
+        </Style>
+        
+        <Style Selector="^:pressed PathIcon">
+            <Setter Property="RenderTransform" Value="scale(0.9)" />
+        </Style>
     </Style>
 </Styles>

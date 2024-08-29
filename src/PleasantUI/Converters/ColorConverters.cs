@@ -24,6 +24,12 @@ public static class ColorConverters
         new FuncValueConverter<uint, IBrush>(value => new SolidColorBrush(value));
 
     /// <summary>
+    /// Converts a color value to a string representation.
+    /// </summary>
+    public static readonly IValueConverter ColorToString =
+        new FuncValueConverter<Color, string>(value => value.ToString().ToUpper());
+
+    /// <summary>
     /// A value converter that converts a UInt32 value to a SolidColorBrush for foreground color based on its relative luminance.
     /// </summary>
     /// <remarks>

@@ -30,15 +30,15 @@
         </Style>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         
         <Style Selector="^:selected">
             <Style Selector="^">
-                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
                 <Setter Property="FontWeight" Value="SemiBold" />
             </Style>
             
@@ -55,7 +55,7 @@
     <ControlTheme x:Key="DateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}">
         <Setter Property="Height" Value="22" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="IsVisible" Value="False" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Margin" Value="2" />
@@ -70,7 +70,7 @@
         
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{StaticResource BackgroundColor1Brush}">
+                <Border Background="{DynamicResource BackgroundColor1}">
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -90,7 +90,7 @@
     <ControlTheme x:Key="DateTimePickerDownButton" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}">
         <Setter Property="Height" Value="22" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="IsVisible" Value="False" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="Margin" Value="2" />
@@ -106,7 +106,7 @@
         
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{StaticResource BackgroundColor1Brush}">
+                <Border Background="{DynamicResource BackgroundColor1}">
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"

@@ -24,8 +24,8 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         
@@ -100,8 +100,8 @@
                                 </Style>
                             </Popup.Styles>
                             
-                            <Border Background="{StaticResource BackgroundColor1Brush}"
-                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
+                            <Border Background="{DynamicResource BackgroundColor1}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{StaticResource ControlBorderThickness}"
                                     Margin="6 4 6 6"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
@@ -120,7 +120,7 @@
         <Setter Property="Width" Value="296" />
         <Setter Property="MinWidth" Value="296" />
         <Setter Property="MaxHeight" Value="398" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -170,7 +170,7 @@
                         </Panel>
                         
                         <Rectangle Name="HighlightRect"
-                                   Fill="{StaticResource SystemAccentLightColor2Brush}"
+                                   Fill="{DynamicResource SystemAccentLightColor2}"
                                    IsHitTestVisible="False"
                                    ZIndex="-1"
                                    Grid.Column="0"

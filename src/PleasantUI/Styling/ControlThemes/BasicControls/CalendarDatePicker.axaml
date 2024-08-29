@@ -13,7 +13,7 @@
     <ControlTheme x:Key="CalendarDatePickerButton" TargetType="Button">
         <Setter Property="Width" Value="35" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Margin" Value="0 1 1 1" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
@@ -57,19 +57,19 @@
         </Setter>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
     </ControlTheme>
     
     <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="IsTodayHighlighted" Value="True" />
         
         <Setter Property="Template">
@@ -138,8 +138,8 @@
                                 </Popup.Styles>
                                 
                                 <Border x:Name="PopupBorder"
-                                        Background="{StaticResource BackgroundColor1Brush}"
-                                        BorderBrush="{StaticResource ControlBorderColorBrush}"
+                                        Background="{DynamicResource BackgroundColor1}"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
                                         BorderThickness="{StaticResource ControlBorderThickness}"
                                         Margin="6 4 6 6"
                                         Padding="0"

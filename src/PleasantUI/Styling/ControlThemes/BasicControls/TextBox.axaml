@@ -22,11 +22,11 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="CaretBrush" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
-        <Setter Property="SelectionBrush" Value="{StaticResource SystemAccentColorBrush}" />
-        <Setter Property="SelectionForegroundBrush" Value="{StaticResource ForegroundAccentColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColor}" />
+        <Setter Property="SelectionForegroundBrush" Value="{DynamicResource ForegroundAccentColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
@@ -44,7 +44,7 @@
                         <PathIcon Width="16"
                                   Height="16"
                                   Data="{StaticResource CutRegular}"
-                                  Foreground="{StaticResource TextFillColor1Brush}"/>
+                                  Foreground="{DynamicResource TextFillColor1}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Copy}"
@@ -55,7 +55,7 @@
                         <PathIcon Width="16"
                                   Height="16"
                                   Data="{StaticResource CopyRegular}"
-                                  Foreground="{StaticResource TextFillColor1Brush}"/>
+                                  Foreground="{DynamicResource TextFillColor1}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Paste}"
@@ -66,7 +66,7 @@
                         <PathIcon Width="16"
                                   Height="16"
                                   Data="{StaticResource PasteRegular}"
-                                  Foreground="{StaticResource TextFillColor1Brush}"/>
+                                  Foreground="{DynamicResource TextFillColor1}"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuFlyout>
@@ -86,10 +86,11 @@
                             <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
                             <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
                                 <TextBlock Name="PART_FloatingWatermark"
-                                           Foreground="{StaticResource TextFillColor2Brush}"
+                                           Foreground="{DynamicResource TextFillColor2}"
                                            FontSize="12"
                                            IsVisible="False"
                                            Text="{TemplateBinding Watermark}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            FontWeight="SemiBold"
                                            DockPanel.Dock="Top" />
                                 
@@ -98,7 +99,7 @@
                                     <Panel>
                                         <TextBlock Name="PART_Watermark"
                                                    Text="{TemplateBinding Watermark}"
-                                                   Foreground="{StaticResource TextFillColor3Brush}"
+                                                   Foreground="{DynamicResource TextFillColor3}"
                                                    TextAlignment="{TemplateBinding TextAlignment}"
                                                    TextWrapping="{TemplateBinding TextWrapping}"
                                                    IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
@@ -148,7 +149,7 @@
                             </Style>
                             <Style Selector="ToggleButton:checked > PathIcon">
                                 <Setter Property="Data" Value="{StaticResource PasswordBoxHideButtonIcon}" />
-                                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
                             </Style>
                         </ToggleButton.Styles>
 
@@ -182,11 +183,11 @@
         </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:focus">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
-            <Setter Property="BorderBrush" Value="{StaticResource SystemAccentLightColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor3}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

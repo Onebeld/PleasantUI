@@ -6,7 +6,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <MergeResourceInclude Source="/Styling/BaseColorsPalette.axaml" />
                 <MergeResourceInclude Source="/Styling/PleasantThemes.axaml" />
-                <MergeResourceInclude Source="/Styling/UnifiedStyles.axaml" />
+                <MergeResourceInclude Source="/Styling/UnifiedResources.axaml" />
                 
                 <MergeResourceInclude Source="/Assets/IconGeometries.axaml" />
             </ResourceDictionary.MergedDictionaries>

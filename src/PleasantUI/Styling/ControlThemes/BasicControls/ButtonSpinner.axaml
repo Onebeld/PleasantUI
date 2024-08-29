@@ -28,7 +28,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -45,18 +45,18 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed /template/ ContentPresenter">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
         </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
@@ -132,7 +132,7 @@
 
         <!--  Error state  -->
         <Style Selector="^:error /template/ Border#BorderElement">
-            <Setter Property="BorderBrush" Value="{StaticResource SystemFillColorCriticalBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCritical}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -40,10 +40,10 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ ContentPresenter#Text">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed /template/ ContentPresenter#Text">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         <Style Selector="^:disabled /template/ ContentPresenter">
             <Setter Property="Opacity" Value="0.5" />

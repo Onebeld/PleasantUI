@@ -3,30 +3,121 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:PleasantUI.Example.ViewModels.Pages"
+             xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
+             xmlns:structures="clr-namespace:PleasantUI.Core.Structures;assembly=PleasantUI"
+             xmlns:userControls="clr-namespace:PleasantUI.UserControls;assembly=PleasantUI"
+             xmlns:views="clr-namespace:PleasantUI.Example.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
              x:DataType="pages:SettingsViewModel">
     <UserControl.DataContext>
         <pages:SettingsViewModel />
     </UserControl.DataContext>
-    
+
     <SmoothScrollViewer>
         <StackPanel Margin="25" Spacing="5">
             <TextBlock Text="Settings"
                        Margin="0 0 0 10"
                        Theme="{StaticResource TitleTextBlockTheme}" />
-            
+
             <OptionsDisplayItem Header="Theme"
-                                Icon="{StaticResource PaintBrushRegular}">
+                                Icon="{StaticResource PaintBrushRegular}"
+                                Expands="True">
                 <OptionsDisplayItem.ActionButton>
-                    <ComboBox MinWidth="150" SelectedIndex="{CompiledBinding SelectedIndexTheme}">
-                        <ComboBoxItem Content="System" />
-                        <ComboBoxItem Content="Light" />
-                        <ComboBoxItem Content="Dark" />
-                        <ComboBoxItem Content="Mint" />
-                        <ComboBoxItem Content="Strawberry" />
+                    <ComboBox MinWidth="150"
+                              ItemsSource="{x:Static PleasantTheme.Themes}"
+                              SelectedItem="{CompiledBinding SelectedTheme}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:Theme}">
+                                <StackPanel Spacing="10" Orientation="Horizontal">
+                                    <ThemePreviewVariantScope
+                                        IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                                        <userControls:ThemePreview />
+                                    </ThemePreviewVariantScope>
+
+                                    <TextBlock Text="{CompiledBinding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
                 </OptionsDisplayItem.ActionButton>
+
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="5">
+                        <Panel>
+                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
+                                       Text="Custom themes"
+                                       VerticalAlignment="Center" />
+                            
+                            <Button HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Command="{CompiledBinding CreateTheme}"
+                                    Width="40"
+                                    Height="40">
+                                <PathIcon Data="{x:Static MaterialIcons.Plus}" />
+                            </Button>
+                        </Panel>
+
+                        <Border CornerRadius="8"
+                                BorderThickness="1"
+                                Background="{DynamicResource BackgroundColor2}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                Height="250">
+                            <Panel>
+                                <ListBox ItemsSource="{x:Static PleasantTheme.CustomThemes}"
+                                         SelectedItem="{CompiledBinding SelectedCustomTheme}"
+                                         Padding="5 5 5 5">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type models:CustomTheme}">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <ThemePreviewVariantScope Grid.Column="0"
+                                                                          RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                                                    <userControls:ThemePreview />
+                                                </ThemePreviewVariantScope>
+
+                                                <TextBlock Grid.Column="1"
+                                                           Margin="10 0 0 0"
+                                                           Text="{CompiledBinding Name}"
+                                                           VerticalAlignment="Center"
+                                                           TextTrimming="CharacterEllipsis" />
+
+                                                <StackPanel Grid.Column="2"
+                                                            IsVisible="{CompiledBinding $parent[ContentControl].IsPointerOver}"
+                                                            Orientation="Horizontal"
+                                                            Spacing="5">
+                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                            Width="30"
+                                                            Height="30"
+                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditTheme}"
+                                                            CommandParameter="{CompiledBinding}">
+                                                        <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
+                                                    </Button>
+
+                                                    <Button Theme="{StaticResource DangerButtonTheme}"
+                                                            Width="30"
+                                                            Height="30"
+                                                            CornerRadius="8"
+                                                            BorderThickness="0"
+                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
+                                                            CommandParameter="{CompiledBinding}">
+                                                        <PathIcon Data="{x:Static MaterialIcons.DeleteOutline}" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <TextBlock Text="No custom themes"
+                                           IsVisible="{CompiledBinding !Count, Source={x:Static PleasantTheme.CustomThemes}}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Foreground="{DynamicResource TextFillColor3}" />
+                            </Panel>
+                        </Border>
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
         </StackPanel>
     </SmoothScrollViewer>

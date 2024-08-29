@@ -71,14 +71,14 @@
                                             Margin="-2 8 0 8"
                                             HorizontalAlignment="Left"
                                             CornerRadius="4"
-                                            Background="{StaticResource SystemAccentLightColor2Brush}" />
+                                            Background="{DynamicResource SystemAccentLightColor2}" />
 
                                     <PathIcon Name="PART_PathIcon"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Width="16"
                                               Height="16"
-                                              Foreground="{StaticResource TextFillColor1Brush}"
+                                              Foreground="{DynamicResource TextFillColor1}"
                                               Data="{TemplateBinding Icon}" />
                                 </Grid>
                                 <Grid Grid.Column="1"
@@ -109,7 +109,7 @@
                                         <PathIcon Name="PART_PathChevronDown"
                                                   Width="10"
                                                   Height="10"
-                                                  Foreground="{StaticResource TextFillColor1Brush}"
+                                                  Foreground="{DynamicResource TextFillColor1}"
                                                   Data="{StaticResource ChevronDownRegular}" />
                                     </ToggleButton>
                                 </Grid>
@@ -202,7 +202,7 @@
     </Style>
 
     <Style Selector="^:selected /template/ Border#PART_NavDecorator">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
     </Style>
     <Style Selector="^:empty /template/ ToggleButton">
         <Setter Property="Opacity" Value="0" />
@@ -246,7 +246,7 @@
     </Style>
 
     <Style Selector="^ /template/ Border:pointerover#PART_NavDecorator">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
     </Style>
 
     <Style Selector="^.header /template/ Border:pointerover#PART_NavDecorator">
@@ -259,7 +259,7 @@
     
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemAccentLightColor2}" />
     </Style>
     
     <Style Selector="^ /template/ PathIcon#PART_PathIcon">
@@ -277,7 +277,7 @@
         <Setter Property="RenderTransform" Value="scale(0.9)" />
     </Style>
     <Style Selector="^:selected /template/ PathIcon#PART_PathIcon">
-        <Setter Property="Foreground" Value="{StaticResource SystemAccentLightColor2Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemAccentLightColor2}" />
     </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -40,8 +40,8 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border CornerRadius="{TemplateBinding CornerRadius}"
-                        Background="{StaticResource BackgroundColor1Brush}"
-                        BorderBrush="{StaticResource ControlBorderColorBrush}"
+                        Background="{DynamicResource BackgroundColor1}"
+                        BorderBrush="{DynamicResource ControlBorderColor}"
                         MinWidth="{TemplateBinding MinWidth}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -59,8 +59,8 @@
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 
                             <Border Grid.Row="1"
-                                    BorderBrush="{StaticResource ControlBorderColorBrush}"
-                                    Background="{StaticResource BackgroundColor3Brush}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    Background="{DynamicResource BackgroundColor3}"
                                     BorderThickness="0 1 0 0"
                                     CornerRadius="0 0 8 8"
                                     IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"

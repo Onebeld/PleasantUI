@@ -9,4 +9,9 @@ public static class PleasantFileNames
     /// The file name of the settings file.
     /// </summary>
     public const string Settings = "PleasantUI.json";
+    
+    /// <summary>
+    /// The file name of the themes file.
+    /// </summary>
+    public const string Themes = "Themes.bin";
 }

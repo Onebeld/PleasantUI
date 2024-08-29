@@ -5,11 +5,11 @@
         <Setter Property="DefaultFocusAdorner">
             <FocusAdornerTemplate>
                 <Border BorderThickness="2"
-                        BorderBrush="{StaticResource FocusStrokeColorOuterBrush}"
+                        BorderBrush="{DynamicResource FocusStrokeColorOuter}"
                         Margin="0"
                         CornerRadius="4">
                     <Border BorderThickness="1"
-                            BorderBrush="{StaticResource FocusStrokeColorInnerBrush}"
+                            BorderBrush="{DynamicResource FocusStrokeColorInner}"
                             CornerRadius="4" />
                 </Border>
             </FocusAdornerTemplate>

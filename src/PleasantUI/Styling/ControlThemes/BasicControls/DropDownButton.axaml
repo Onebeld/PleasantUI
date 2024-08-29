@@ -11,8 +11,8 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton">
-        <Setter Property="Background" Value="{StaticResource ControlFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="11 5 10 5" />
@@ -49,18 +49,18 @@
                                   Data="{StaticResource ChevronDownRegular}"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
-                                  Foreground="{StaticResource TextFillColor2Brush}" />
+                                  Foreground="{DynamicResource TextFillColor2}" />
                     </Grid>
                 </Border>
             </ControlTemplate>
         </Setter>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
-            <Setter Property="Foreground" Value="{StaticResource TextFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

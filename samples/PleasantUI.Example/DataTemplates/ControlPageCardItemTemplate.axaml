@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:PleasantUI.Example.Models">
+    <DataTemplate x:Key="ControlPageCardItemTemplate" DataType="{x:Type models:ControlPageCard}">
+        <Button Command="{CompiledBinding Action}"
+                HorizontalContentAlignment="Stretch"
+                Width="200"
+                CornerRadius="8"
+                Margin="5">
+            <Grid ColumnDefinitions="Auto,5,*">
+                <PathIcon Grid.Column="0" Data="{CompiledBinding Icon}" Width="32" Height="32" />
+                
+                <StackPanel Grid.Column="2" Spacing="5">
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="{CompiledBinding Title}" />
+                    
+                    <TextBlock Text="{CompiledBinding Description}" />
+                </StackPanel>
+            </Grid>
+        </Button>
+    </DataTemplate>
+</ResourceDictionary>

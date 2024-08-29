@@ -31,9 +31,9 @@
         <Setter Property="Opacity" Value="0" />
         <Setter Property="RenderTransformOrigin" Value="50%,75%" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="{StaticResource BackgroundColor1Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ControlBorderColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -95,19 +95,19 @@
         </Style>
 
         <Style Selector="^ /template/ Border#PART_HeaderBar">
-            <Setter Property="Background" Value="{StaticResource SystemFillColorNeutralBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
         <Style Selector="^:information /template/ Border#PART_HeaderBar">
-            <Setter Property="Background" Value="{StaticResource SystemFillColorNeutralBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
         <Style Selector="^:success /template/ Border#PART_HeaderBar">
-            <Setter Property="Background" Value="{StaticResource SystemFillColorSuccessBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccess}" />
         </Style>
         <Style Selector="^:warning /template/ Border#PART_HeaderBar">
-            <Setter Property="Background" Value="{StaticResource SystemFillColorCautionBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorCaution}" />
         </Style>
         <Style Selector="^:error /template/ Border#PART_HeaderBar">
-            <Setter Property="Background" Value="{StaticResource SystemFillColorCriticalBrush}" />
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorCritical}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

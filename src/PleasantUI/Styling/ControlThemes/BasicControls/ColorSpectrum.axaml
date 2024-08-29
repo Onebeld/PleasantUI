@@ -61,7 +61,7 @@
                                 </Panel>
                             </Canvas>
                             <Rectangle x:Name="BorderRectangle"
-                                       Stroke="{StaticResource ControlFillColor1Brush}"
+                                       Stroke="{DynamicResource ControlFillColor1}"
                                        StrokeThickness="1"
                                        IsHitTestVisible="False"
                                        HorizontalAlignment="Stretch"
@@ -70,7 +70,7 @@
                                        RadiusX="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                        RadiusY="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.BottomRight}}" />
                             <Ellipse x:Name="BorderEllipse"
-                                     Stroke="{StaticResource ControlFillColor1Brush}"
+                                     Stroke="{DynamicResource ControlFillColor1}"
                                      StrokeThickness="1"
                                      IsHitTestVisible="False"
                                      HorizontalAlignment="Stretch"

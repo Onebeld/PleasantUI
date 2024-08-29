@@ -2,36 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PleasantUI.Example.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PleasantUI.Example.Views.Pages.HomePageView">
+             x:Class="PleasantUI.Example.Views.Pages.HomePageView"
+             x:DataType="viewModels:AppViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="../../DataTemplates/ControlPageCardItemTemplate.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid RowDefinitions="Auto,*">
         <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="8">
             <Image Source="{StaticResource PleasantUI}" Margin="50" />
         </Border>
         
         <!--TODO: Controls-->
-        <WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="ButtonPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Button" />
-            </Button>
-            <Button x:Name="CarouselPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Carousel" />
-            </Button>
-            <Button x:Name="CheckBoxPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="CheckBox" />
-            </Button>
-            <Button x:Name="ColorViewPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ColorView" />
-            </Button>
-            <Button x:Name="ComboBoxPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ComboBox" />
-            </Button>
-            <Button x:Name="FlyoutPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Flyout" />
-            </Button>
-            <Button x:Name="ProgressRingPage" CornerRadius="8" Margin="5">
-                <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="ProgressRingPage" />
-            </Button>
-        </WrapPanel>
+        <ItemsControl Grid.Row="1"
+                      Margin="0 10 0 0"
+                      ItemsSource="{CompiledBinding ControlPageCards}"
+                      ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
     </Grid>
 </UserControl>

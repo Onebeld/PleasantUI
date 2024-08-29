@@ -1,35 +1,46 @@
 ﻿using PleasantUI.Core;
-using PleasantUI.Core.Enums;
+using PleasantUI.Core.Models;
+using PleasantUI.Core.Structures;
+using PleasantUI.Windows;
 
 namespace PleasantUI.Example.ViewModels.Pages;
 
 public class SettingsViewModel : ViewModelBase
 {
-    public int SelectedIndexTheme
+    public Theme? SelectedTheme
     {
-        get
-        {
-            return PleasantSettings.Instance.Theme switch
-            {
-                Theme.Light => 1,
-                Theme.Dark => 2,
-                Theme.Mint => 3,
-                Theme.Strawberry => 4,
-                
-                _ => 0
-            };
-        }
-        set
-        {
-            PleasantSettings.Instance.Theme = value switch
-            {
-                1 => Theme.Light,
-                2 => Theme.Dark,
-                3 => Theme.Mint,
-                4 => Theme.Strawberry,
+        get => PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Instance.Theme);
+        set => PleasantSettings.Instance.Theme = value?.Name ?? "System";
+    }
 
-                _ => Theme.System
-            };
-        }
+    public CustomTheme? SelectedCustomTheme
+    {
+        get => PleasantTheme.SelectedCustomTheme;
+        set => PleasantTheme.SelectedCustomTheme = value;
+    }
+
+    public async void CreateTheme()
+    {
+        CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUIExampleApp.Main, null);
+        
+        if (newCustomTheme is null)
+            return;
+        
+        PleasantTheme.CustomThemes.Add(newCustomTheme);
+    }
+
+    public async void EditTheme(CustomTheme customTheme)
+    {
+        CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUIExampleApp.Main, customTheme);
+        
+        if (newCustomTheme is null)
+            return;
+        
+        PleasantUIExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
+    }
+
+    public void DeleteTheme(CustomTheme customTheme)
+    {
+        PleasantTheme.CustomThemes.Remove(customTheme);
     }
 }

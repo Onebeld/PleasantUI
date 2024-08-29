@@ -1,0 +1,26 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PleasantUI.UserControls.ThemePreview"
+             Width="40"
+             Height="22">
+    <Border Background="{DynamicResource BackgroundColor1}"
+            BorderBrush="{DynamicResource ControlBorderColor}"
+            BorderThickness="1"
+            CornerRadius="4">
+        <StackPanel Spacing="2" Margin="3">
+            <Border Height="2" Width="20" HorizontalAlignment="Left" Background="{DynamicResource TextFillColor1}"></Border>
+            <Border Height="2" Width="30" HorizontalAlignment="Left" Background="{DynamicResource TextFillColor3}"></Border>
+            
+            <Border Background="{DynamicResource BackgroundColor2}"
+                    BorderBrush="{DynamicResource ControlBorderColor}"
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    Height="8"
+                    HorizontalAlignment="Right"
+                    Width="20" />
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -40,42 +40,42 @@
         </Setter>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         
         <Style Selector="^:selected">
             <Style Selector="^">
-                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor2Brush}" />
-                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentLightColor2Brush}" />
+                <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
             </Style>
             
             <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{StaticResource SystemAccentLightColor1Brush}" />
+                <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
             </Style>
             
             <Style Selector="^:pressed">
-                <Setter Property="Background" Value="{StaticResource SystemAccentColorBrush}" />
+                <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
             </Style>
         </Style>
         
         <Style Selector="^:inactive">
             <Style Selector="^">
-                <Setter Property="Foreground" Value="{StaticResource TextFillColor3Brush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
                 <Setter Property="FontWeight" Value="Normal" />
             </Style>
             
             <Style Selector="^:pointerover">
-                <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-                <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
             </Style>
             
             <Style Selector="^:pressed">
-                <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
-                <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
             </Style>
         </Style>
         

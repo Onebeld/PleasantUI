@@ -11,18 +11,6 @@
         <Company>Dmitry Zhutkov (Onebeld)</Company>
         <ApplicationIcon>PleasantUIIcon.ico</ApplicationIcon>
     </PropertyGroup>
-
-    <PropertyGroup>
-        <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows'))">true</IsWindows>
-        <IsAndroid Condition="$([MSBuild]::IsOSPlatform('Android'))">true</IsAndroid>
-        <IsLinux Condition="$([MSBuild]::IsOSPlatform('Linux'))">true</IsLinux>
-        <IsOSX Condition="$([MSBuild]::IsOSPlatform('OSX'))">true</IsOSX>
-
-        <DefineConstants Condition="'$(IsWindows)'=='true'">Windows</DefineConstants>
-        <DefineConstants Condition="'$(IsOSX)'=='true'">OSX</DefineConstants>
-        <DefineConstants Condition="'$(IsLinux)'=='true'">Linux</DefineConstants>
-        <DefineConstants Condition="'$(IsAndroid)'=='true'">Android</DefineConstants>
-    </PropertyGroup>
     
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugType>embedded</DebugType>
@@ -30,10 +18,10 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.1.0-rc1" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.1.0-rc1" />
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0-rc1" />
-        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="8.0.6" />
+        <PackageReference Include="Avalonia" Version="11.2.0-beta1" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta1" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0-beta1" />
+        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="8.0.8" />
     </ItemGroup>
     
     <ItemGroup>

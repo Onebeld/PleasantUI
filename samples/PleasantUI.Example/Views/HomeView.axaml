@@ -20,8 +20,8 @@
                             <StackPanel Orientation="Horizontal" Spacing="5" IsVisible="{CompiledBinding ShowTitle}">
                                  <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
                                          ToolTip.Tip="Back to home page">
-                                     <PathIcon Data="{StaticResource ArrowLeftRegular}"
-                                               Foreground="{StaticResource TextFillColor1Brush}" />
+                                     <PathIcon Data="{x:Static MaterialIcons.ArrowLeft}"
+                                               Foreground="{DynamicResource TextFillColor1}" />
                                  </Button>
                                 
                                 <TextBlock Theme="{StaticResource TitleTextBlockTheme}"

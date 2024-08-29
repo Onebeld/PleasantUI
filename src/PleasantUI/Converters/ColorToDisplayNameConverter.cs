@@ -11,6 +11,9 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ColorToDisplayNameConverter : IValueConverter
 {
+    /// <summary>
+    /// Gets an instance of the <see cref="ColorToDisplayNameConverter"/> class.
+    /// </summary>
     public static readonly ColorToDisplayNameConverter Instance = new();
     
     /// <inheritdoc/>

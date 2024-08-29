@@ -10,9 +10,15 @@ namespace PleasantUI.Behaviors;
 /// </summary>
 public class ShadowBehavior : AvaloniaObject
 {
+    /// <summary>
+    /// Defines the <see cref="GetBoxShadow" /> and <see cref="SetBoxShadow" /> methods.
+    /// </summary>
     public static readonly AttachedProperty<BoxShadow?> BoxShadowProperty =
         AvaloniaProperty.RegisterAttached<ShadowBehavior, BoxShadow?>("BoxShadow", typeof(BoxShadow));
 
+    /// <summary>
+    /// Defines the <see cref="GetEnableShadowing" /> and <see cref="SetEnableShadowing" /> methods.
+    /// </summary>
     public static readonly AttachedProperty<bool> EnableShadowingProperty =
         AvaloniaProperty.RegisterAttached<ShadowBehavior, bool>("EnableShadowing", typeof(bool));
 

@@ -142,6 +142,8 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// </value>
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
+    public AvaloniaList<Control> Controls { get; } = [];
+
     /// <summary>
     /// Gets the <see cref="VisualLayerManager"/> property.
     /// </summary>
@@ -175,5 +177,17 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     {
         ModalWindows.Remove(modalWindow);
         _modalWindows.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
+    }
+
+    public void AddControl(Control control)
+    {
+        Controls.Add(control);
+        _modalWindows.Children.Add(control);
+    }
+
+    public void RemoveControl(Control control)
+    {
+        Controls.Remove(control);
+        _modalWindows.Children.Remove(control);
     }
 }

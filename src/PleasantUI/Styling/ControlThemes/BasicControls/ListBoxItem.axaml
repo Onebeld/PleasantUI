@@ -42,7 +42,7 @@
         </ControlTheme.Animations>
 
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TextFillColor1Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="12 0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -71,7 +71,7 @@
                             Height="16"
                             Margin="1 0 0 0"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"
-                            Background="{StaticResource SystemAccentLightColor2Brush}" />
+                            Background="{DynamicResource SystemAccentLightColor2}" />
                 </Panel>
             </ControlTemplate>
         </Setter>
@@ -98,22 +98,22 @@
         </Style>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:selected:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:disabled">
@@ -156,7 +156,7 @@
                                       Margin="5 2 5 5" />
                     
                     <Border Name="SelectionIndicator"
-                            Background="{StaticResource SystemAccentLightColor2Brush}"
+                            Background="{DynamicResource SystemAccentLightColor2}"
                             Height="3"
                             MinWidth="16"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"
@@ -188,22 +188,22 @@
         </Style>
         
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         
         <Style Selector="^:selected:pointerover">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor3Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected:pressed">
-            <Setter Property="Background" Value="{StaticResource ControlFillColor2Brush}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:disabled">

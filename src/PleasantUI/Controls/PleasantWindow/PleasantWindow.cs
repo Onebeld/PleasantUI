@@ -192,6 +192,8 @@ public class PleasantWindow : Window, IPleasantWindow
 
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
+    public AvaloniaList<Control> Controls { get; } = [];
+
     public VisualLayerManager VisualLayerManager { get; private set; }
 
     public void AddModalWindow(PleasantModalWindow modalWindow)
@@ -212,5 +214,17 @@ public class PleasantWindow : Window, IPleasantWindow
     {
         ModalWindows.Remove(modalWindow);
         _modalWindowsPanel.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
+    }
+
+    public void AddControl(Control control)
+    {
+        Controls.Add(control);
+        _modalWindowsPanel.Children.Add(control);
+    }
+
+    public void RemoveControl(Control control)
+    {
+        Controls.Remove(control);
+        _modalWindowsPanel.Children.Remove(control);
     }
 }

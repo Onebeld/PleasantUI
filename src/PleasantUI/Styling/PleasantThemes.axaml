@@ -4,25 +4,24 @@
                     x:ClassModifier="internal">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="{x:Static constants:PleasantThemes.Mint}">
-            <Color x:Key="TextFillColor1">#04341A</Color>
+            <Color x:Key="TextFillColor1">#03461F</Color>
             <Color x:Key="TextFillColor2">#9E04341A</Color>
             <Color x:Key="TextFillColor3">#7204341A</Color>
 
             <Color x:Key="ControlFillColor1">#0F457b5e</Color>
             <Color x:Key="ControlFillColor2">#19457b5e</Color>
             <Color x:Key="ControlFillColor3">#23457b5e</Color>
+            
+            <Color x:Key="ControlDarkFillColor1">#BE046A38</Color>
+            <Color x:Key="ControlDarkFillColor2">#E1046A38</Color>
+            <Color x:Key="ControlDarkFillColor3">#046A38</Color>
 
             <Color x:Key="ControlBorderColor">#2804341A</Color>
-            <Color x:Key="ContentBorderColor">#2804341A</Color>
             
             <Color x:Key="BackgroundColor1">#D1E0D7</Color>
             <Color x:Key="BackgroundColor2">#c8e0d2</Color>
             <Color x:Key="BackgroundColor3">#bce0cb</Color>
             <Color x:Key="BackgroundColor4">#b1e0c5</Color>
-            
-            <Color x:Key="ControlColor1">#BE046A38</Color>
-            <Color x:Key="ControlColor2">#E1046A38</Color>
-            <Color x:Key="ControlColor3">#046A38</Color>
             
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -46,18 +45,51 @@
             <Color x:Key="ControlFillColor1">#0F7D2248</Color>
             <Color x:Key="ControlFillColor2">#197D2248</Color>
             <Color x:Key="ControlFillColor3">#237D2248</Color>
+            
+            <Color x:Key="ControlDarkFillColor1">#BE7D2248</Color>
+            <Color x:Key="ControlDarkFillColor2">#E17D2248</Color>
+            <Color x:Key="ControlDarkFillColor3">#7D2248</Color>
 
             <Color x:Key="ControlBorderColor">#1E461323</Color>
-            <Color x:Key="ContentBorderColor">#1E461323</Color>
             
             <Color x:Key="BackgroundColor1">#ecc7cd</Color>
             <Color x:Key="BackgroundColor2">#edbbc4</Color>
             <Color x:Key="BackgroundColor3">#edafbb</Color>
             <Color x:Key="BackgroundColor4">#eda4b2</Color>
             
-            <Color x:Key="ControlColor1">#BE7D2248</Color>
-            <Color x:Key="ControlColor2">#E17D2248</Color>
-            <Color x:Key="ControlColor3">#7D2248</Color>
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#BF8500</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#B93C22</Color>
+            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
+            
+            <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
+            <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
+        </ResourceDictionary>
+        
+        <ResourceDictionary x:Key="{x:Static constants:PleasantThemes.Ice}">
+            <Color x:Key="TextFillColor1">#FF0C4744</Color>
+            <Color x:Key="TextFillColor2">#C40C4744</Color>
+            <Color x:Key="TextFillColor3">#920C4744</Color>
+
+            <Color x:Key="ControlFillColor1">#23FFFFFF</Color>
+            <Color x:Key="ControlFillColor2">#32FFFFFF</Color>
+            <Color x:Key="ControlFillColor3">#0FFFFFFF</Color>
+            
+            <Color x:Key="ControlDarkFillColor1">#AA10605A</Color>
+            <Color x:Key="ControlDarkFillColor2">#C810605A</Color>
+            <Color x:Key="ControlDarkFillColor3">#FF10605A</Color>
+
+            <Color x:Key="ControlBorderColor">#3C0C4844</Color>
+            
+            <Color x:Key="BackgroundColor1">#FFB2D3D3</Color>
+            <Color x:Key="BackgroundColor2">#FFBCE0E0</Color>
+            <Color x:Key="BackgroundColor3">#FFC7EDED</Color>
+            <Color x:Key="BackgroundColor4">#FFD2FAFA</Color>
             
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>

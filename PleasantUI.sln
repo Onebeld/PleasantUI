@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "designer", "designer", "{EB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.Designer", "designer\PleasantUI.Designer\PleasantUI.Designer.csproj", "{88C264B9-51D4-41CF-AEC0-24F5075FA6B8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "generators", "generators", "{941F7A66-EFCB-4141-97CA-A0B779ED1BB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.MaterialIcons", "src\PleasantUI.MaterialIcons\PleasantUI.MaterialIcons.csproj", "{2ABE0576-837B-4D1B-970D-00B52BF0E078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.MaterialIcons.SourceGenerator", "generators\PleasantUI.MaterialIcons.SourceGenerator\PleasantUI.MaterialIcons.SourceGenerator.csproj", "{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,11 +52,20 @@ Global
 		{88C264B9-51D4-41CF-AEC0-24F5075FA6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88C264B9-51D4-41CF-AEC0-24F5075FA6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88C264B9-51D4-41CF-AEC0-24F5075FA6B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ABE0576-837B-4D1B-970D-00B52BF0E078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ABE0576-837B-4D1B-970D-00B52BF0E078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ABE0576-837B-4D1B-970D-00B52BF0E078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ABE0576-837B-4D1B-970D-00B52BF0E078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71BFCFA6-B53E-4F28-819F-51CB26516B5A} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
 		{91F6CDD0-6925-4289-90EC-8BDD245F7BD0} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
 		{59DC0F4B-421E-407D-9435-F6ED14765634} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
 		{88C264B9-51D4-41CF-AEC0-24F5075FA6B8} = {EBAC1577-CFD7-477C-848E-86BFFC345D90}
+		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD} = {941F7A66-EFCB-4141-97CA-A0B779ED1BB4}
 	EndGlobalSection
 EndGlobal

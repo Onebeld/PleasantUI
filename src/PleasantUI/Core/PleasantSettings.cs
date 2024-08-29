@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Avalonia.Collections;
 using PleasantUI.Core.Constants;
-using PleasantUI.Core.Enums;
 using PleasantUI.Core.Settings;
 
 namespace PleasantUI.Core;
@@ -11,7 +10,8 @@ public class PleasantSettings : ViewModelBase
 {
     private uint _numericalAccentColor;
     private bool _preferUserAccentColor;
-    private Theme _theme = Theme.System;
+    private string _theme = "System";
+    private Guid? _customThemeId;
     private WindowSettings _windowSettings = null!;
     private RenderSettings _renderSettings = null!;
     private AvaloniaList<uint> _colorPalettes = [];
@@ -71,10 +71,17 @@ public class PleasantSettings : ViewModelBase
     /// Gets or sets the theme setting
     /// </summary>
     [DataMember]
-    public Theme Theme
+    public string Theme
     {
         get => _theme;
         set => RaiseAndSet(ref _theme, value);
+    }
+
+    [DataMember]
+    public Guid? CustomThemeId
+    {
+        get => _customThemeId;
+        set => RaiseAndSet(ref _customThemeId, value);
     }
 
     /// <summary>
