@@ -183,7 +183,7 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
     /// <remarks>
     /// Any one of the parameters may be null, but not both.
     /// </remarks>
-    protected static Visual GetVisualParent(Visual? from, Visual? to)
+    private static Visual GetVisualParent(Visual? from, Visual? to)
     {
         Visual? p1 = (from ?? to)!.GetVisualParent();
         Visual? p2 = (to ?? from)!.GetVisualParent();

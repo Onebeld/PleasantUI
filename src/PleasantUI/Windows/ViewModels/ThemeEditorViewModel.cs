@@ -10,7 +10,6 @@ using Avalonia.Platform.Storage;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Models;
-using PleasantUI.Core.Structures;
 using PleasantUI.Extensions;
 using PleasantUI.Localization;
 using PleasantUI.Windows.Commands;
@@ -48,7 +47,14 @@ public class ThemeEditorViewModel : ViewModelBase
 	public string ThemeName
 	{
 		get => _themeName;
-		set => RaiseAndSet(ref _themeName, value);
+		set
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return;
+			
+			IEditorCommand command = new ThemeNameChangeCommand(this, _themeName, value);
+			ExecuteCommand(command);
+		}
 	}
 
 	/// <summary>
@@ -116,7 +122,7 @@ public class ThemeEditorViewModel : ViewModelBase
 			Themes.Add(theme);
 		}
 		
-		themeEditorWindow.Resources.ThemeDictionaries.Add(_customTheme.ThemeVariant, ResourceDictionary);
+		themeEditorWindow.ThemeVariantScope.Resources.ThemeDictionaries.Add(_customTheme.ThemeVariant, ResourceDictionary);
 		_themeEditorWindow = themeEditorWindow;
 
 		RaisePropertyChanged(nameof(ColorsJson));
@@ -217,6 +223,12 @@ public class ThemeEditorViewModel : ViewModelBase
 		PleasantSnackbar.Show(ThemeColor.Parent, themeExportedText, fileExportIcon, NotificationType.Success);
 	}
 
+	public void ChangeThemeName(string newName)
+	{
+		_themeName = newName;
+		RaisePropertyChanged(nameof(ThemeName));
+	}
+	
 	/// <summary>
 	/// Applies the colors from the specified default theme.
 	/// </summary>
@@ -227,7 +239,7 @@ public class ThemeEditorViewModel : ViewModelBase
 		
 		Dictionary<string, Color> colors = PleasantTheme.GetColorsDictionary(theme);
 
-		IEditorCommand command = new ThemeChangeCommand(ThemeColors, ResourceDictionary, GetDictionary(), colors);
+		IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, theme.Name);
 		ExecuteCommand(command);
 	}
 
@@ -241,7 +253,7 @@ public class ThemeEditorViewModel : ViewModelBase
 		
 		Dictionary<string, Color> colors = customTheme.Colors;
 		
-		IEditorCommand command = new ThemeChangeCommand(ThemeColors, ResourceDictionary, GetDictionary(), colors);
+		IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, customTheme.Name);
 		ExecuteCommand(command);
 	}
 
@@ -260,9 +272,9 @@ public class ThemeEditorViewModel : ViewModelBase
 		{
 			jsonDocument = JsonDocument.Parse(json);
 		}
-		catch (Exception e)
+		catch (Exception)
 		{
-			Log.Error(e, "Error parsing colors from json.");
+			Log.Error("Error parsing colors from json. An invalid JSON was received.");
 			
 			Geometry? closeCircleIcon = ResourceExtensions.GetResource<Geometry>("CloseCircleRegular");
 			string themeImportErrorText = Localizer.Instance["ThemeImportError"];
@@ -273,6 +285,11 @@ public class ThemeEditorViewModel : ViewModelBase
 		}
 
 		Dictionary<string, Color> colors = new();
+
+		string? themeName = null;
+
+		if (jsonDocument.RootElement.TryGetProperty("ThemeName", out JsonElement element))
+			themeName = element.GetString();
 
 		foreach (JsonProperty jsonProperty in jsonDocument.RootElement.EnumerateObject())
 		{
@@ -288,7 +305,7 @@ public class ThemeEditorViewModel : ViewModelBase
 			colors.Add(name, color);
 		}
 		
-		IEditorCommand command = new ThemeChangeCommand(ThemeColors, ResourceDictionary, GetDictionary(), colors);
+		IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, themeName);
 		ExecuteCommand(command);
 		
 		jsonDocument.Dispose();

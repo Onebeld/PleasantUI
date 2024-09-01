@@ -3,7 +3,6 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:viewModels="clr-namespace:PleasantUI.Windows.ViewModels"
-               xmlns:structures="clr-namespace:PleasantUI.Core.Structures"
                xmlns:userControls="clr-namespace:PleasantUI.UserControls"
                xmlns:models="clr-namespace:PleasantUI.Core.Models"
                xmlns:views="clr-namespace:PleasantUI.Windows"
@@ -31,17 +30,22 @@
     
     <DockPanel Margin="20">
         <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto,*">
-            <TextBlock Grid.Column="0" Text="{Localize ThemeEditor}" Theme="{StaticResource SubtitleTextBlockTheme}"  />
+            <StackPanel Grid.Column="0" Spacing="10" Orientation="Horizontal">
+                <PathIcon Data="{StaticResource BrushVariantRegular}" />
+                
+                <TextBlock Text="{Localize ThemeEditor}" Theme="{StaticResource SubtitleTextBlockTheme}"  />
+            </StackPanel>
             
             <TextBlock Grid.Column="2"
                        Margin="0 0 5 0"
                        VerticalAlignment="Center">
                 <Run Text="{Localize ThemeName}" />:
             </TextBlock>
-            <TextBox Grid.Column="3"
+            <TextBox x:Name="ThemeNameTextBox"
+                     Grid.Column="3"
                      Watermark="{Localize ThemeName}"
                      MaxLength="255"
-                     Text="{CompiledBinding ThemeName, UpdateSourceTrigger=LostFocus}" />
+                     Text="{CompiledBinding ThemeName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
         </Grid>
         <Grid Margin="0 10 0 0" ColumnDefinitions="1.3*,10,*">
             <DockPanel Grid.Column="0">
@@ -84,9 +88,9 @@
                         BorderBrush="{DynamicResource ControlBorderColor}"
                         BorderThickness="1"
                         CornerRadius="8">
-                    <ThemeVariantScope RequestedThemeVariant="{CompiledBinding CustomTheme.ThemeVariant}">
+                    <ThemeVariantScope x:Name="ThemeVariantScope" RequestedThemeVariant="{CompiledBinding CustomTheme.ThemeVariant}">
                         <Border Background="{DynamicResource BackgroundColor1}" CornerRadius="7.5">
-                            <SmoothScrollViewer>
+                            <SmoothScrollViewer Focusable="True" KeyboardNavigation.IsTabStop="True">
                                 <StackPanel Margin="10" Spacing="5">
                                     <TextBlock Text="TextFillColor1"
                                                Foreground="{DynamicResource TextFillColor1}"
@@ -132,11 +136,11 @@
                                         </StackPanel>
                                     </Border>
 
-                                    <Button Content="Control Button" />
-                                    <Button Content="Danger Control Button" Theme="{DynamicResource DangerButtonTheme}" />
+                                    <Button Content="Control Button" KeyboardNavigation.IsTabStop="False" />
+                                    <Button Content="Danger Control Button" Theme="{DynamicResource DangerButtonTheme}" KeyboardNavigation.IsTabStop="False" />
 
-                                    <RadioButton Content="RadioButton1" IsChecked="True" GroupName="Group" />
-                                    <RadioButton Content="RadioButton2" GroupName="Group" />
+                                    <RadioButton Content="RadioButton1" IsChecked="True" GroupName="Group" KeyboardNavigation.IsTabStop="False" />
+                                    <RadioButton Content="RadioButton2" GroupName="Group" KeyboardNavigation.IsTabStop="False" />
                                     
                                     <Border BorderThickness="2"
                                             BorderBrush="{DynamicResource FocusStrokeColorOuter}"

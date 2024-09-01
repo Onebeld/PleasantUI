@@ -1,6 +1,5 @@
 ﻿using PleasantUI.Core;
 using PleasantUI.Core.Models;
-using PleasantUI.Core.Structures;
 using PleasantUI.Windows;
 
 namespace PleasantUI.Example.ViewModels.Pages;

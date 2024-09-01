@@ -106,8 +106,8 @@
                             <ContentPresenter Name="PART_SelectedContentPresenter"
                                               Content="{TemplateBinding SelectedContent}"
                                               Opacity="1"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
-                                              RenderTransformOrigin="0.5 0.5" />
+                                              Focusable="True"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
                         </Border>
                     </SplitView>
                     

@@ -26,13 +26,15 @@
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColor}" />
-        <Setter Property="SelectionForegroundBrush" Value="{DynamicResource ForegroundAccentColor}" />
+        <Setter Property="SelectionForegroundBrush" Value="{CompiledBinding $self.SelectionBrush, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        
+        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
 
         <Setter Property="ContextFlyout">
             <MenuFlyout Placement="Bottom">

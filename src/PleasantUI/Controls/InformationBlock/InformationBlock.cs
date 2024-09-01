@@ -9,6 +9,9 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class InformationBlock : ContentControl
 {
+    /// <summary>
+    /// Defines the <see cref="Icon"/> property.
+    /// </summary>
     public static readonly StyledProperty<Geometry> IconProperty =
         AvaloniaProperty.Register<InformationBlock, Geometry>(nameof(Icon));
     

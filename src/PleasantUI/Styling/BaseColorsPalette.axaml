@@ -15,7 +15,7 @@
             <Color x:Key="ControlDarkFillColor2">#82000000</Color>
             <Color x:Key="ControlDarkFillColor3">#96000000</Color>
 
-            <Color x:Key="ControlBorderColor">#1E000000</Color>
+            <Color x:Key="ControlBorderColor">#14000000</Color>
             
             <Color x:Key="BackgroundColor1">#F0F0F0</Color>
             <Color x:Key="BackgroundColor2">#EBEBEB</Color>
@@ -30,7 +30,6 @@
             <Color x:Key="DangerColor">#FFD72F1E</Color>
             <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
             <Color x:Key="SelectedDangerColor">#B93C22</Color>
-            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
             
             <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
             <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
@@ -49,7 +48,7 @@
             <Color x:Key="ControlDarkFillColor2">#55FFFFFF</Color>
             <Color x:Key="ControlDarkFillColor3">#64FFFFFF</Color>
 
-            <Color x:Key="ControlBorderColor">#32FFFFFF</Color>
+            <Color x:Key="ControlBorderColor">#59595959</Color>
             
             <Color x:Key="BackgroundColor1">#202020</Color>
             <Color x:Key="BackgroundColor2">#1C1C1C</Color>
@@ -64,7 +63,6 @@
             <Color x:Key="DangerColor">#FFD72F1E</Color>
             <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
             <Color x:Key="SelectedDangerColor">#B93C22</Color>
-            <Color x:Key="TextFillColorDanger">#FFFFFF</Color>
             
             <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
             <Color x:Key="FocusStrokeColorInner">#B3000000</Color>

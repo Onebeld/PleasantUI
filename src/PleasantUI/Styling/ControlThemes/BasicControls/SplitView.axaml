@@ -67,12 +67,13 @@
                                                   CornerRadius="{TemplateBinding CornerRadius}" />
                             </Panel>
                         </Border>
-
-
+                        
                         <Panel Grid.Column="0" Name="ContentRoot">
-                            <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}"
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              Focusable="True"
+                                              Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" />
-                            <Rectangle Name="LightDismissLayer" />
+                            <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False" />
                         </Panel>
                     </Grid>
                 </ControlTemplate>
@@ -159,9 +160,6 @@
             <Setter Property="IsVisible" Value="False" />
             <Setter Property="Fill" Value="Transparent" />
         </Style>
-        <!--<Style Selector="^:lightdismiss /template/ Rectangle#LightDismissLayer">
-            <Setter Property="Fill" Value="{DynamicResource SplitViewLightDismissOverlayBackground}" />
-        </Style>-->
 
         <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
             <Setter Property="IsVisible" Value="True" />

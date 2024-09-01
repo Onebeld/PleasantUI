@@ -47,7 +47,33 @@ public class SerilogSink(LogEventLevel minimumLevel, IList<string>? areas = null
 
 	public void Log(LogEventLevel level, string area, object? source, string messageTemplate, params object?[] propertyValues)
 	{
-		throw new NotImplementedException();
+		if (IsEnabled(level, area))
+		{
+			switch (level)
+			{
+				case LogEventLevel.Verbose:
+					Serilog.Log.Verbose(Format(area, messageTemplate, source, propertyValues));
+					break;
+				case LogEventLevel.Debug:
+					Serilog.Log.Debug(Format(area, messageTemplate, source, propertyValues));
+					break;
+				case LogEventLevel.Information:
+					Serilog.Log.Information(Format(area, messageTemplate, source, propertyValues));
+					break;
+				case LogEventLevel.Warning:
+					Serilog.Log.Warning(Format(area, messageTemplate, source, propertyValues));
+					break;
+				case LogEventLevel.Error:
+					Serilog.Log.Error(Format(area, messageTemplate, source, propertyValues));
+					break;
+				case LogEventLevel.Fatal:
+					Serilog.Log.Fatal(Format(area, messageTemplate, source, propertyValues));
+					break;
+				
+				default:
+					throw new ArgumentOutOfRangeException(nameof(level), level, null);
+			}
+		}
 	}
 	
 	private static string Format(

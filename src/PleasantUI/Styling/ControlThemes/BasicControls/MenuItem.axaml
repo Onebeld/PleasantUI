@@ -60,54 +60,56 @@
             <ControlTemplate>
                 <Panel>
                     <Border Name="PART_LayoutRoot"
-                            Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="4 2">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIcon" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter Name="PART_IconPresenter"
-                                              Content="{TemplateBinding Icon}"
-                                              Width="16"
-                                              Height="16"
-                                              Margin="0 0 12 0"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
+                            Margin="4 2"
+                            ClipToBounds="True">
+                        <RippleEffect x:Name="PART_Ripple" Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIcon" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Name="PART_IconPresenter"
+                                                  Content="{TemplateBinding Icon}"
+                                                  Width="16"
+                                                  Height="16"
+                                                  Margin="0 0 12 0"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
 
-                            <ContentPresenter Name="PART_HeaderPresenter"
-                                              Content="{TemplateBinding Header}"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Stretch"
-                                              Grid.Column="1">
-                                <ContentPresenter.DataTemplates>
-                                    <DataTemplate DataType="system:String">
-                                        <AccessText Text="{CompiledBinding}" />
-                                    </DataTemplate>
-                                </ContentPresenter.DataTemplates>
-                            </ContentPresenter>
-                            <TextBlock x:Name="PART_InputGestureText"
-                                       Grid.Column="2"
-                                       Margin="24 0 0 0"
-                                       Text="{TemplateBinding InputGesture, Converter={x:Static MenuConverters.KeyGesture}}"
-                                       HorizontalAlignment="Right"
-                                       FontSize="12"
-                                       Foreground="{DynamicResource TextFillColor3}"
-                                       FontWeight="SemiBold"
-                                       VerticalAlignment="Center" />
-                            
-                            <PathIcon Name="PART_ChevronIcon" Grid.Column="3"
-                                      Margin="24 0 0 0"
-                                      Width="10"
-                                      Height="10"
-                                      Data="{StaticResource ChevronRightRegular}"/>
-                        </Grid>
+                                <ContentPresenter Name="PART_HeaderPresenter"
+                                                  Content="{TemplateBinding Header}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Stretch"
+                                                  Grid.Column="1">
+                                    <ContentPresenter.DataTemplates>
+                                        <DataTemplate DataType="system:String">
+                                            <AccessText Text="{CompiledBinding}" />
+                                        </DataTemplate>
+                                    </ContentPresenter.DataTemplates>
+                                </ContentPresenter>
+                                <TextBlock x:Name="PART_InputGestureText"
+                                           Grid.Column="2"
+                                           Margin="24 0 0 0"
+                                           Text="{TemplateBinding InputGesture, Converter={x:Static MenuConverters.KeyGesture}}"
+                                           HorizontalAlignment="Right"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center" />
+
+                                <PathIcon Name="PART_ChevronIcon" Grid.Column="3"
+                                          Margin="24 0 0 0"
+                                          Width="10"
+                                          Height="10"
+                                          Data="{StaticResource ChevronRightRegular}" />
+                            </Grid>
+                        </RippleEffect>
                     </Border>
                     <Popup Name="PART_Popup"
                            WindowManagerAddShadowHint="False"
@@ -167,6 +169,10 @@
         <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
@@ -174,7 +180,7 @@
 
         <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
         <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:disabled">

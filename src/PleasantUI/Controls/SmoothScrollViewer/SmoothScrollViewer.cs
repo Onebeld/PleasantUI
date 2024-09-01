@@ -722,11 +722,22 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             scrollDecreaseButton.Click += ScrollDecreaseButtonOnClick;
             scrollIncreaseButton.Click += ScrollIncreaseButtonOnClick;
         }
+        
+        KeyDown += OnKeyDown;
 
         _scrollBarExpandSubscription?.Dispose();
 
         _scrollBarExpandSubscription = SubscribeToScrollBars(e);
     }
+
+    private void OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Up)
+            Offset += new Vector(190, 0);
+        else if (e.Key == Key.Down)
+            Offset -= new Vector(190, 0);
+    }
+
     private void ScrollIncreaseButtonOnClick(object? sender, RoutedEventArgs e)
     {
         Offset += new Vector(190, 0);

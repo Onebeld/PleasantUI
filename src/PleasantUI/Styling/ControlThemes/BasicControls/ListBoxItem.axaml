@@ -49,21 +49,25 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="88" />
         <Setter Property="MinHeight" Value="40" />
-        <Setter Property="Opacity" Value="0" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <ContentPresenter Name="PART_ContentPresenter"
-                                      Background="{TemplateBinding Background}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Content="{TemplateBinding Content}"
-                                      Padding="{TemplateBinding Padding}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      CornerRadius="{TemplateBinding CornerRadius}"
-                                      Margin="2" />
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Margin="2"
+                            ClipToBounds="True">
+                        <RippleEffect x:Name="PART_Ripple">
+                            <ContentPresenter Name="PART_ContentPresenter"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Padding="{TemplateBinding Padding}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </RippleEffect>
+                    </Border>
+                    
                     <Border Name="SelectionIndicator"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -97,15 +101,23 @@
             <Setter Property="RenderTransform" Value="scaleY(0)" />
         </Style>
         
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:selected">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        
+        <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:selected:pointerover">
@@ -113,7 +125,7 @@
         </Style>
 
         <Style Selector="^:selected:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:disabled">
@@ -143,17 +155,21 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <ContentPresenter Name="PART_ContentPresenter"
-                                      Background="{TemplateBinding Background}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Content="{TemplateBinding Content}"
-                                      Padding="{TemplateBinding Padding}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      CornerRadius="{TemplateBinding CornerRadius}"
-                                      Margin="5 2 5 5" />
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="True"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Margin="5 2 5 5">
+                        <RippleEffect x:Name="PART_Ripple">
+                            <ContentPresenter Name="PART_ContentPresenter"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Padding="{TemplateBinding Padding}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </RippleEffect>
+                    </Border>
                     
                     <Border Name="SelectionIndicator"
                             Background="{DynamicResource SystemAccentLightColor2}"
@@ -187,11 +203,19 @@
             <Setter Property="RenderTransform" Value="scaleX(0)" />
         </Style>
         
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        
+        <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:selected">
@@ -203,7 +227,7 @@
         </Style>
 
         <Style Selector="^:selected:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:disabled">

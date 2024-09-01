@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:PleasantUI.Example.ViewModels.Pages"
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
-             xmlns:structures="clr-namespace:PleasantUI.Core.Structures;assembly=PleasantUI"
              xmlns:userControls="clr-namespace:PleasantUI.UserControls;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"

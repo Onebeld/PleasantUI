@@ -28,26 +28,30 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ContentPresenter Name="PART_ContentPresenter"
-                                  Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Content="{TemplateBinding Content}"
-                                  Padding="{TemplateBinding Padding}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  TextBlock.Foreground="{TemplateBinding Foreground}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <RippleEffect Name="PART_Ripple">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Padding="{TemplateBinding Padding}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </RippleEffect>
+                </Border>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
-        </Style>
-        <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
@@ -63,17 +67,19 @@
     <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderDangerColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
+        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         <Setter Property="FontWeight" Value="SemiBold" />
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="Black" />
+            <Setter Property="RippleOpacity" Value="0.2" />
+        </Style>
         
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
-            <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
 
@@ -81,16 +87,18 @@
         <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
         <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
+        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="Black" />
+            <Setter Property="RippleOpacity" Value="0.2" />
+        </Style>
         
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
-            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
-            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
-            <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>
     
@@ -100,14 +108,18 @@
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />
         
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="Black" />
+            <Setter Property="RippleOpacity" Value="0.2" />
+        </Style>
+        
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
+            <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDanger}" />
-            <Setter Property="Opacity" Value="0.6" />
+            <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

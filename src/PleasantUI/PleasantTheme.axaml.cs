@@ -10,7 +10,6 @@ using Avalonia.Styling;
 using PleasantUI.Core;
 using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Models;
-using PleasantUI.Core.Structures;
 using PleasantUI.Extensions;
 using PleasantUI.Extensions.Media;
 using Serilog;
@@ -30,7 +29,6 @@ public class PleasantTheme : Styles
     private static Action? _customThemeChanged;
     
     private ResourceDictionary? _accentColorsDictionary;
-    private ResourceDictionary? _foregroundAccentColorsDictionary;
     
     private IPlatformSettings? _platformSettings;
     
@@ -179,9 +177,9 @@ public class PleasantTheme : Styles
                 _mainResourceDictionary.ThemeDictionaries.Add(customTheme.ThemeVariant, customTheme.Colors.ToResourceDictionary());
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Log.Error(e, "Error when loading themes");
+            Log.Error("Error when loading themes");
         }
         
     }
@@ -256,8 +254,6 @@ public class PleasantTheme : Styles
         }
         
         UpdateAccentColors(accentColor, lightColors, darkColors);
-        
-        UpdateForegroundAccentColors(accentColor, lightColors, darkColors);
     }
 
     private void ResolveTheme(IPlatformSettings platformSettings)
@@ -310,12 +306,6 @@ public class PleasantTheme : Styles
                 ThemeVariant.Light : ThemeVariant.Dark;
     }
 
-    private Color GetForegroundFromAccent(Color accentColor)
-    {
-        double lum = ColorHelper.GetRelativeLuminance(accentColor);
-        return lum <= 0.2 ? Colors.White : Colors.Black;
-    }
-
     private void UpdateAccentColors(Color accentColor, List<Color> lightAccentColors, List<Color> darkAccentColors)
     {
         if (_accentColorsDictionary is not null)
@@ -333,24 +323,5 @@ public class PleasantTheme : Styles
             _accentColorsDictionary.Add($"SystemAccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}", darkAccentColor);
         
         Resources.MergedDictionaries.Add(_accentColorsDictionary);
-    }
-    
-    private void UpdateForegroundAccentColors(Color accentColor, List<Color> lightAccentColors, List<Color> darkAccentColors)
-    {
-        if (_foregroundAccentColorsDictionary is not null)
-            Resources.MergedDictionaries.Remove(_foregroundAccentColorsDictionary);
-
-        _foregroundAccentColorsDictionary = new ResourceDictionary
-        {
-            { "ForegroundAccentColor", GetForegroundFromAccent(accentColor) }
-        };
-
-        foreach (Color lightAccentColor in lightAccentColors)
-            _foregroundAccentColorsDictionary.Add($"ForegroundAccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}", GetForegroundFromAccent(lightAccentColor));
-        
-        foreach (Color darkAccentColor in darkAccentColors)
-            _foregroundAccentColorsDictionary.Add($"ForegroundAccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}", GetForegroundFromAccent(darkAccentColor));
-        
-        Resources.MergedDictionaries.Add(_foregroundAccentColorsDictionary);
     }
 }

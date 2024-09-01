@@ -99,10 +99,8 @@
                                      HorizontalAlignment="Stretch"
                                      VerticalAlignment="Stretch"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
-                                
-                            </TextBox>
-                            
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+
                             <Rectangle Fill="{TemplateBinding BorderBrush}"
                                        HorizontalAlignment="Center"
                                        Width="1"

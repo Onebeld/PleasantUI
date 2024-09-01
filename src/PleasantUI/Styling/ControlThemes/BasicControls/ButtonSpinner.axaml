@@ -7,14 +7,12 @@
                 <ButtonSpinner Content="Spinner" />
                 <ButtonSpinner ButtonSpinnerLocation="Right"
                                Content="Right disabled inline spinner"
-                               AllowSpin="False">
-                </ButtonSpinner>
+                               AllowSpin="False" />
                 <ButtonSpinner ButtonSpinnerLocation="Left"
                                Content="Left spinner" />
                 <ButtonSpinner ButtonSpinnerLocation="Left"
                                Content="Left disabled inline spinner"
-                               AllowSpin="False">
-                </ButtonSpinner>
+                               AllowSpin="False" />
                 <ButtonSpinner ShowButtonSpinner="False"
                                Content="Hide spinner" />
                 <NumericUpDown />

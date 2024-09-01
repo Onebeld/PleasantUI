@@ -11,9 +11,9 @@
             BorderThickness="1"
             CornerRadius="4">
         <StackPanel Spacing="2" Margin="3">
-            <Border Height="2" Width="20" HorizontalAlignment="Left" Background="{DynamicResource TextFillColor1}"></Border>
-            <Border Height="2" Width="30" HorizontalAlignment="Left" Background="{DynamicResource TextFillColor3}"></Border>
-            
+            <Border Height="2" Width="20" HorizontalAlignment="Left" Background="{DynamicResource TextFillColor1}" />
+            <Border Height="2" Width="30" HorizontalAlignment="Left" Background="{DynamicResource TextFillColor3}" />
+
             <Border Background="{DynamicResource BackgroundColor2}"
                     BorderBrush="{DynamicResource ControlBorderColor}"
                     BorderThickness="1"

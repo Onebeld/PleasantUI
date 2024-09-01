@@ -10,6 +10,13 @@ using Path = Avalonia.Controls.Shapes.Path;
 
 namespace PleasantUI.Controls.Chrome;
 
+/// <summary>
+/// Represents the title bar of a <see cref="PleasantWindow"/>.
+/// </summary>
+/// <remarks>
+/// This control provides the standard title bar functionality, including window dragging, caption buttons, and title/subtitle display.
+/// It uses a template to define its visual structure and interacts with <see cref="PleasantWindow"/> for window-related operations.
+/// </remarks>
 [TemplatePart("PART_PleasantCaptionButtons", typeof(PleasantCaptionButtons))]
 [TemplatePart("PART_CloseMenuItem", typeof(MenuItem))]
 [TemplatePart("PART_ExpandMenuItem", typeof(MenuItem))]
@@ -45,6 +52,7 @@ public class PleasantTitleBar : TemplatedControl
 
     private PleasantWindow? _host;
 
+    /// <inheritdoc/>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -89,7 +97,7 @@ public class PleasantTitleBar : TemplatedControl
     
     private void Attach(PleasantWindow host)
     {
-        new CompositeDisposable
+        CompositeDisposable compositeDisposable = new()
         {
             host.GetObservable(Window.WindowStateProperty).Subscribe(windowState =>
             {
@@ -179,19 +187,19 @@ public class PleasantTitleBar : TemplatedControl
         };
     }
     
-    internal void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
+    internal FlyoutBase? GetContextFlyout() => _dragWindowBorder?.ContextFlyout;
+
+    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
     {
         if (args.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             _host?.BeginMoveDrag(args);
     }
-    
-    internal void OnDragWindowBorderOnDoubleTapped(object? o, TappedEventArgs tappedEventArgs)
+
+    private void OnDragWindowBorderOnDoubleTapped(object? o, TappedEventArgs tappedEventArgs)
     {
         if (_host is null || !_host.CanResize) return;
         _host.WindowState = _host.WindowState == WindowState.Maximized
             ? WindowState.Normal
             : WindowState.Maximized;
     }
-    
-    internal FlyoutBase? GetContextFlyout() => _dragWindowBorder?.ContextFlyout;
 }

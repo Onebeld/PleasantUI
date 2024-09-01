@@ -16,44 +16,46 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <Panel>
-                        <ContentPresenter Name="PART_HeaderPresenter"
-                                          Content="{TemplateBinding Header}"
-                                          VerticalAlignment="Center"
-                                          HorizontalAlignment="Stretch"
-                                          Margin="{TemplateBinding Padding}">
-                            <ContentPresenter.DataTemplates>
-                                <DataTemplate DataType="system:String">
-                                    <AccessText Text="{CompiledBinding}" />
-                                </DataTemplate>
-                            </ContentPresenter.DataTemplates>
-                        </ContentPresenter>
-                        <Popup Name="PART_Popup"
-                               WindowManagerAddShadowHint="False"
-                               MinWidth="{CompiledBinding $parent[TextBox].Bounds.Width}"
-                               IsLightDismissEnabled="True"
-                               IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
-                               OverlayInputPassThroughElement="{CompiledBinding $parent[Menu]}">
-                            <Border Background="{DynamicResource BackgroundColor1}"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="{StaticResource ControlBorderThickness}"
-                                    Opacity="0"
-                                    MaxWidth="456"
-                                    MinHeight="32"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="6 4 6 6"
-                                    CornerRadius="8"
-                                    behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                    behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
-                                <SmoothScrollViewer>
-                                    <ItemsPresenter Name="PART_ItemsPresenter"
-                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    Margin="0 2 0 2"
-                                                    Grid.IsSharedSizeScope="True" />
-                                </SmoothScrollViewer>
-                            </Border>
-                        </Popup>
-                    </Panel>
+                    <RippleEffect x:Name="PART_Ripple">
+                        <Panel>
+                            <ContentPresenter Name="PART_HeaderPresenter"
+                                              Content="{TemplateBinding Header}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Stretch"
+                                              Margin="{TemplateBinding Padding}">
+                                <ContentPresenter.DataTemplates>
+                                    <DataTemplate DataType="system:String">
+                                        <AccessText Text="{CompiledBinding}" />
+                                    </DataTemplate>
+                                </ContentPresenter.DataTemplates>
+                            </ContentPresenter>
+                            <Popup Name="PART_Popup"
+                                   WindowManagerAddShadowHint="False"
+                                   MinWidth="{CompiledBinding $parent[TextBox].Bounds.Width}"
+                                   IsLightDismissEnabled="True"
+                                   IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                                   OverlayInputPassThroughElement="{CompiledBinding $parent[Menu]}">
+                                <Border Background="{DynamicResource BackgroundColor1}"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        BorderThickness="{StaticResource ControlBorderThickness}"
+                                        Opacity="0"
+                                        MaxWidth="456"
+                                        MinHeight="32"
+                                        HorizontalAlignment="Stretch"
+                                        Margin="6 4 6 6"
+                                        CornerRadius="8"
+                                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
+                                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                                    <SmoothScrollViewer>
+                                        <ItemsPresenter Name="PART_ItemsPresenter"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        Margin="0 2 0 2"
+                                                        Grid.IsSharedSizeScope="True" />
+                                    </SmoothScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Panel>
+                    </RippleEffect>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -73,6 +75,10 @@
                 </Animation>
             </Style.Animations>
         </Style>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
@@ -80,7 +86,7 @@
 
         <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
         <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:disabled">

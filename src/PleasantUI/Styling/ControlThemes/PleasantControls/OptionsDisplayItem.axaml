@@ -42,53 +42,55 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="12 5"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            MinHeight="69">
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                            <Viewbox Name="IconHost"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     Width="20"
-                                     Height="20"
-                                     Margin="8 4 14 4">
-                                <Path Stretch="Uniform"
-                                      Data="{TemplateBinding Icon}"
-                                      Fill="{DynamicResource TextFillColor1}" />
-                            </Viewbox>
+                            MinHeight="69"
+                            ClipToBounds="True">
+                        <RippleEffect x:Name="PART_Ripple" Padding="12 5">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                                <Viewbox Name="IconHost"
+                                         Grid.Column="0"
+                                         Grid.Row="0"
+                                         Width="20"
+                                         Height="20"
+                                         Margin="8 4 14 4">
+                                    <Path Stretch="Uniform"
+                                          Data="{TemplateBinding Icon}"
+                                          Fill="{DynamicResource TextFillColor1}" />
+                                </Viewbox>
 
-                            <StackPanel Grid.Row="0" Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Margin="6 0 0 0">
-                                <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
-                                           Text="{TemplateBinding Header}" />
-                                <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
-                                           Text="{TemplateBinding Description}"
-                                           Foreground="{DynamicResource TextFillColor2}"
-                                           IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                            </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Margin="6 0 0 0">
+                                    <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
+                                               Text="{TemplateBinding Header}" />
+                                    <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
+                                               Text="{TemplateBinding Description}"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                </StackPanel>
 
-                            <ContentPresenter Grid.Column="2"
-                                              Grid.Row="0"
-                                              Content="{TemplateBinding ActionButton}"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Right"
-                                              Margin="4 4" />
+                                <ContentPresenter Grid.Column="2"
+                                                  Grid.Row="0"
+                                                  Content="{TemplateBinding ActionButton}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Right"
+                                                  Margin="4 4" />
 
-                            <Viewbox Name="ChevronHost"
-                                     Grid.Column="3"
-                                     Grid.Row="0"
-                                     Width="14"
-                                     Height="14"
-                                     Margin="11 0 8 0">
-                                <Path Name="Chevron"
-                                      Margin="1"
-                                      Fill="{DynamicResource TextFillColor2}"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"
-                                      Stretch="Uniform" />
-                            </Viewbox>
-                        </Grid>
+                                <Viewbox Name="ChevronHost"
+                                         Grid.Column="3"
+                                         Grid.Row="0"
+                                         Width="14"
+                                         Height="14"
+                                         Margin="11 0 8 0">
+                                    <Path Name="Chevron"
+                                          Margin="1"
+                                          Fill="{DynamicResource TextFillColor2}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          Stretch="Uniform" />
+                                </Viewbox>
+                            </Grid>
+                        </RippleEffect>
                     </Border>
 
                     <ContentPresenter Name="ExpandedContentPresenter"
@@ -116,12 +118,13 @@
         <Style Selector="^ /template/ ContentPresenter#ExpandedContentPresenter">
             <Setter Property="IsVisible" Value="False" />
         </Style>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
-        </Style>
-        <Style Selector="^:pressed /template/ Border#LayoutRoot:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:icon /template/ Viewbox#IconHost">

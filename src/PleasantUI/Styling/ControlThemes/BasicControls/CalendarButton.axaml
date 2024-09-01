@@ -50,7 +50,7 @@
         <Style Selector="^:selected">
             <Style Selector="^">
                 <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
-                <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
+                <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
             </Style>
             
             <Style Selector="^:pointerover">

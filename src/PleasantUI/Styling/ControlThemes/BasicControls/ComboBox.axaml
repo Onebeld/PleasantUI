@@ -68,8 +68,10 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 MinWidth="64"
-                                RenderTransform="scaleY(-1)"
-                                CornerRadius="{TemplateBinding CornerRadius}" />
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                ClipToBounds="True">
+                            <RippleEffect x:Name="PART_Ripple" />
+                        </Border>
 
                         <Border x:Name="HighlightBackground"
                                 Grid.Row="1"
@@ -187,13 +189,17 @@
             <Setter Property="Margin" Value="-4 4 4 4" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:focus-visible /template/ Border#Pill">

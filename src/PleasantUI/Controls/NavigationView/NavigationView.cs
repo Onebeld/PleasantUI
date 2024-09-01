@@ -19,7 +19,7 @@ namespace PleasantUI.Controls;
 /// Represents a navigation view control that displays a tree of items.
 /// </summary>
 /// <remarks>
-/// The <c>NavigationView</c> control inherits from the <c>TreeView</c> control and adds additional
+/// The <c>NavigationView</c> control inherits from the <see cref="TreeView"/> control and adds additional
 /// properties for customizing the appearance and behavior of the navigation view.
 /// </remarks>
 [PseudoClasses(":normal", ":compact")]
@@ -42,60 +42,108 @@ public class NavigationView : TreeView
     private PleasantWindow? _host;
     private CompositeDisposable? _disposable;
 
+    /// <summary>
+    /// Defines the <see cref="Icon"/> property.
+    /// </summary>
     public static readonly StyledProperty<Geometry> IconProperty =
         AvaloniaProperty.Register<NavigationView, Geometry>(nameof(Icon));
 
+    /// <summary>
+    /// Defines the <see cref="SelectedContent"/> property.
+    /// </summary>
     public static readonly DirectProperty<NavigationView, object?> SelectedContentProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, object?>(nameof(SelectedContent), o => o.SelectedContent);
 
+    /// <summary>
+    /// Defines the <see cref="SelectedContentTemplate"/> property.
+    /// </summary>
     public static readonly StyledProperty<IDataTemplate> SelectedContentTemplateProperty =
         AvaloniaProperty.Register<NavigationView, IDataTemplate>(nameof(SelectedContentTemplate));
 
+    /// <summary>
+    /// Defines the <see cref="CompactPaneLength"/> property.
+    /// </summary>
     public static readonly StyledProperty<double> CompactPaneLengthProperty =
         AvaloniaProperty.Register<NavigationView, double>(nameof(CompactPaneLength));
 
+    /// <summary>
+    /// Defines the <see cref="OpenPaneLength"/> property.
+    /// </summary>
     public static readonly StyledProperty<double> OpenPaneLengthProperty =
         AvaloniaProperty.Register<NavigationView, double>(nameof(OpenPaneLength));
 
+    /// <summary>
+    /// Defines the <see cref="IsOpen"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> IsOpenProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsOpen));
 
+    /// <summary>
+    /// Defines the <see cref="DynamicDisplayMode"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> DynamicDisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(DynamicDisplayMode), true);
 
+    /// <summary>
+    /// Defines the <see cref="BindWindowSettings"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> BindWindowSettingsProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(BindWindowSettings), true);
 
+    /// <summary>
+    /// Defines the <see cref="TransitionAnimations"/> property.
+    /// </summary>
     public static readonly StyledProperty<Animations?> TransitionAnimationsProperty =
         AvaloniaProperty.Register<NavigationView, Animations?>(nameof(TransitionAnimations));
 
+    /// <summary>
+    /// Defines the <see cref="DisplayMode"/> property.
+    /// </summary>
     public static readonly StyledProperty<SplitViewDisplayMode> DisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, SplitViewDisplayMode>(nameof(DisplayMode),
             SplitViewDisplayMode.CompactInline);
 
+    /// <summary>
+    /// Defines the <see cref="AlwaysOpen"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> AlwaysOpenProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(AlwaysOpen));
     
+    /// <summary>
+    /// Defines the <see cref="DisplayTopIndent"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> DisplayTopIndentProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(DisplayTopIndent), true);
 
+    /// <summary>
+    /// Defines the <see cref="NotMakeOffsetForContentPanel"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> NotMakeOffsetForContentPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(NotMakeOffsetForContentPanel));
 
+    /// <summary>
+    /// Defines the <see cref="ItemsAsStrings"/> property.
+    /// </summary>
     public static readonly DirectProperty<NavigationView, IEnumerable<string>?> ItemsAsStringsProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, IEnumerable<string>?>(nameof(ItemsAsStrings),
             o => o.ItemsAsStrings);
 
+    /// <summary>
+    /// Defines the <see cref="IsFloatingHeader"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> IsFloatingHeaderProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsFloatingHeader));
 
     /// <summary>
-    /// Defines the <see cref="ICommand"/> property.
+    /// Defines the <see cref="BackButtonCommand"/> property.
     /// </summary>
     public static readonly DirectProperty<NavigationView, ICommand?> BackButtonCommandProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, ICommand?>(nameof(BackButtonCommand),
             navigationView => navigationView.BackButtonCommand, (navigationView, command) => navigationView.BackButtonCommand = command, enableDataValidation: true);
 
+    /// <summary>
+    /// Defines the <see cref="ShowBackButton"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> ShowBackButtonProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
     
@@ -325,7 +373,6 @@ public class NavigationView : TreeView
     {
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
-        FocusableProperty.OverrideDefaultValue<NavigationView>(true);
     }
 
     public NavigationView()
@@ -461,11 +508,6 @@ public class NavigationView : TreeView
         base.OnDetachedFromLogicalTree(e);
         
         Detach();
-    }
-
-    protected virtual void OnIsOpenChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-    {
-        
     }
 
     private void UpdatePseudoClasses(bool isCompact)

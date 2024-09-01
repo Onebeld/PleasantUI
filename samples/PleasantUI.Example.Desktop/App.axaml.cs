@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Resources;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;

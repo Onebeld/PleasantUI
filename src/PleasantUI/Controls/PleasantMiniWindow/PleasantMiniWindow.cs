@@ -20,12 +20,27 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     private Button? _closeButton;
     private Panel? _dragWindowPanel;
 
+    /// <summary>
+    /// Defines the <see cref="EnableBlur"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> EnableBlurProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableBlur));
+    
+    /// <summary>
+    /// Defines the <see cref="ShowPinButton"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> ShowPinButtonProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowPinButton), true);
+    
+    /// <summary>
+    /// Defines the <see cref="ShowHiddenButton"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> ShowHiddenButtonProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowHiddenButton));
+    
+    /// <summary>
+    /// Defines the <see cref="EnableCustomTitleBar"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> EnableCustomTitleBarProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableCustomTitleBar), true);
 
@@ -71,68 +86,6 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         get => GetValue(EnableCustomTitleBarProperty);
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
-    
-    /// <inheritdoc cref="StyleKeyOverride"/>
-    protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
-
-    /// <inheritdoc cref="OnApplyTemplate"/>
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        _modalWindows = e.NameScope.Get<Panel>("PART_ModalWindow");
-
-        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
-        _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
-        _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
-        
-        VisualLayerManager = e.NameScope.Get<VisualLayerManager>("PART_VisualLayerManager");
-
-        if (_closeButton is not null)
-            _closeButton.Click += (_, _) => Close();
-        if (_hiddenButton is not null)
-            _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
-
-        ExtendClientAreaToDecorationsHint = PleasantSettings.Instance.WindowSettings.EnableCustomTitleBar;
-
-        if (_dragWindowPanel is not null)
-            _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
-
-        this.GetObservable(EnableCustomTitleBarProperty)
-            .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
-        this.GetObservable(CanResizeProperty).Subscribe(canResize =>
-        {
-            ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
-        });
-    }
-
-    /// <inheritdoc cref="OnPropertyChanged"/>
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
-        
-        if (change.Property == EnableBlurProperty)
-        {
-            if (EnableBlur)
-            {
-                TransparencyLevelHint = new[]
-                {
-                    WindowTransparencyLevel.AcrylicBlur,
-                    WindowTransparencyLevel.Blur,
-                    WindowTransparencyLevel.None
-                };
-            }
-            else
-            {
-                TransparencyLevelHint = new[]
-                {
-                    WindowTransparencyLevel.None
-                };
-            }
-        }
-    }
-
-    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
 
     /// <summary>
     /// Gets the list of currently opened modal windows.
@@ -141,14 +94,15 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// The list of currently opened modal windows.
     /// </value>
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
-
-    public AvaloniaList<Control> Controls { get; } = [];
-
+    
     /// <summary>
     /// Gets the <see cref="VisualLayerManager"/> property.
     /// </summary>
     /// <value>The <see cref="VisualLayerManager"/>.</value>
     public VisualLayerManager VisualLayerManager { get; private set; }
+    
+    /// <inheritdoc/>
+    public AvaloniaList<Control> Controls { get; } = [];
 
     /// <summary>
     /// Adds a modal window to the application.
@@ -179,15 +133,79 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         _modalWindows.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 
+    /// <inheritdoc/>
     public void AddControl(Control control)
     {
         Controls.Add(control);
         _modalWindows.Children.Add(control);
     }
 
+    /// <inheritdoc/>
     public void RemoveControl(Control control)
     {
         Controls.Remove(control);
         _modalWindows.Children.Remove(control);
     }
+    
+    /// <inheritdoc cref="StyleKeyOverride"/>
+    protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
+
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        _modalWindows = e.NameScope.Get<Panel>("PART_ModalWindow");
+
+        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
+        _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
+        _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
+        
+        VisualLayerManager = e.NameScope.Get<VisualLayerManager>("PART_VisualLayerManager");
+
+        if (_closeButton is not null)
+            _closeButton.Click += (_, _) => Close();
+        if (_hiddenButton is not null)
+            _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
+
+        ExtendClientAreaToDecorationsHint = PleasantSettings.Instance.WindowSettings.EnableCustomTitleBar;
+
+        if (_dragWindowPanel is not null)
+            _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
+
+        this.GetObservable(EnableCustomTitleBarProperty)
+            .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
+        this.GetObservable(CanResizeProperty).Subscribe(canResize =>
+        {
+            ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
+        });
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        
+        if (change.Property == EnableBlurProperty)
+        {
+            if (EnableBlur)
+            {
+                TransparencyLevelHint =
+                [
+                    WindowTransparencyLevel.AcrylicBlur,
+                    WindowTransparencyLevel.Blur,
+                    WindowTransparencyLevel.None
+                ];
+            }
+            else
+            {
+                TransparencyLevelHint =
+                [
+                    WindowTransparencyLevel.None
+                ];
+            }
+        }
+    }
+    
+    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
 }

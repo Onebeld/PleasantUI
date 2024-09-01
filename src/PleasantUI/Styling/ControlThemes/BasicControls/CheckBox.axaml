@@ -35,13 +35,13 @@
                             <Path Name="CheckGlyph"
                                   Stretch="Uniform"
                                   Data="{StaticResource CheckmarkRegular}"
-                                  Fill="{DynamicResource ForegroundAccentLightColor3}"
+                                  Fill="{TemplateBinding Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Margin="0 10 0 10" />
 
                             <Rectangle Name="IndeterminateGlyph"
-                                       Fill="{DynamicResource ForegroundAccentLightColor3}"
+                                       Fill="{TemplateBinding Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
                                        Width="10"
                                        Height="2" />
                         </Grid>

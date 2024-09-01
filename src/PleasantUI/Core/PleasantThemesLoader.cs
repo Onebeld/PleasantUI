@@ -2,7 +2,6 @@
 using Avalonia.Media;
 using PleasantUI.Core.Constants;
 using PleasantUI.Core.Models;
-using PleasantUI.Core.Structures;
 
 namespace PleasantUI.Core;
 
@@ -86,11 +85,7 @@ public static class PleasantThemesLoader
 		{
 			int length = reader.ReadByte();
 			
-			string key = "";
-			for (int j = 0; j < length; j++)
-				key += (char)reader.ReadInt16();
-			
-			colorKeys[i] = key;
+			colorKeys[i] = Encoding.ASCII.GetString(reader.ReadBytes(length));
 		}
 
 		return colorKeys;
@@ -145,8 +140,7 @@ public static class PleasantThemesLoader
 			string key = pair.Key;
 			
 			writer.Write((byte)key.Length);
-			foreach (char c in key) 
-				writer.Write((short)c);
+			writer.Write(Encoding.ASCII.GetBytes(key));
 		}
 	}
 	
@@ -159,8 +153,7 @@ public static class PleasantThemesLoader
 			string themeName = customTheme.Name;
 			
 			writer.Write((byte)themeName.Length);
-			foreach (char c in themeName) 
-				writer.Write((short)c);
+			writer.Write(Encoding.Unicode.GetBytes(themeName));
 
 			foreach (KeyValuePair<string, Color> pair in customTheme.Colors)
 				writer.Write(pair.Value.ToUInt32());

@@ -108,6 +108,9 @@ public class PleasantModalWindow : ContentControl
         set => SetValue(CloseAnimationProperty, value);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PleasantModalWindow"/> class.
+    /// </summary>
     public PleasantModalWindow()
     {
         ModalBackground = new Border

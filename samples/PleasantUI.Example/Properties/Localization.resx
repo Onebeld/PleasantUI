@@ -120,4 +120,7 @@
     <data name="Dynamic" xml:space="preserve">
         <value>Yes {0} and {1}</value>
     </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.Runtime.ExceptionServices;
+﻿using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 using Avalonia;
 using Serilog;
 
@@ -41,7 +42,8 @@ class Program
 
     private static void CurrentDomainOnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
     {
-        Log.Error(e.Exception, "A handled exception occurred");
+        StackTrace stackTrace = new(1, true);
+        Log.Error($"An handled exception occurred\n{e.Exception.GetType()}: {e.Exception.Message}\n{stackTrace}");
     }
 
     private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)

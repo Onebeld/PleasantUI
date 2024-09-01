@@ -1,11 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Models;
-using PleasantUI.Core.Structures;
 using PleasantUI.Extensions;
 using PleasantUI.Windows.ViewModels;
 
@@ -19,10 +19,18 @@ public partial class ThemeEditorWindow : ContentDialog
 		
 		ButtonJson.Click += (_, _) => { Carousel.Next(); };
 		ButtonColors.Click += (_, _) => { Carousel.Previous(); };
+		
+		ThemeNameTextBox.LostFocus += ThemeNameTextBoxOnLostFocus;
 
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			SetupDragAndDrop();
 		else DragAndDropPanel.IsVisible = false;
+	}
+
+	private void ThemeNameTextBoxOnLostFocus(object sender, RoutedEventArgs e)
+	{
+		if (string.IsNullOrWhiteSpace(ThemeNameTextBox.Text))
+			ThemeNameTextBox.Text = ((ThemeEditorViewModel)DataContext!).ThemeName;
 	}
 
 	private void SetupDragAndDrop()
@@ -98,7 +106,6 @@ public partial class ThemeEditorWindow : ContentDialog
 				viewModel.CustomTheme.Name = viewModel.ThemeName;
 				viewModel.CustomTheme.Colors = viewModel.ResourceDictionary.ToDictionary<string, Color>();
 				
-
 				taskCompletionSource.TrySetResult(viewModel.CustomTheme);
 			}
 			
