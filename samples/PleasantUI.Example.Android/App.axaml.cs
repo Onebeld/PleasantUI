@@ -1,8 +1,4 @@
-﻿using System;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
-
-namespace PleasantUI.Example.Android;
+﻿namespace PleasantUI.Example.Android;
 
 public partial class App : PleasantUIExampleApp
 {

@@ -33,8 +33,6 @@
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        
-        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
 
         <Setter Property="ContextFlyout">
             <MenuFlyout Placement="Bottom">
@@ -151,7 +149,6 @@
                             </Style>
                             <Style Selector="ToggleButton:checked > PathIcon">
                                 <Setter Property="Data" Value="{StaticResource PasswordBoxHideButtonIcon}" />
-                                <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
                             </Style>
                         </ToggleButton.Styles>
 

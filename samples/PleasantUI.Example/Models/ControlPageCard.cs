@@ -1,5 +1,4 @@
 ﻿using Avalonia.Media;
-using PleasantUI.Example.Helpers;
 
 namespace PleasantUI.Example.Models;
 

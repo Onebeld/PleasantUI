@@ -1,8 +1,4 @@
-﻿using Android.App;
-using Android.Content.PM;
-using Avalonia;
-using Avalonia.Android;
-using PleasantUI.Core;
+﻿using PleasantUI.Core;
 
 namespace PleasantUI.Example.Android;
 

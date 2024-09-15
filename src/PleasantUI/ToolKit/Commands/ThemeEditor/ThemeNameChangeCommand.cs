@@ -1,6 +1,6 @@
-﻿using PleasantUI.Windows.ViewModels;
+﻿using PleasantUI.ToolKit.ViewModels;
 
-namespace PleasantUI.Windows.Commands.ThemeEditor;
+namespace PleasantUI.ToolKit.Commands.ThemeEditor;
 
 public class ThemeNameChangeCommand : IEditorCommand
 {

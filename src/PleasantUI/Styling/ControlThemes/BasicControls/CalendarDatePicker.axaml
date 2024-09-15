@@ -11,7 +11,7 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="CalendarDatePickerButton" TargetType="Button">
-        <Setter Property="Width" Value="35" />
+        <Setter Property="Width" Value="40" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Margin" Value="0 1 1 1" />
@@ -70,7 +70,9 @@
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTodayHighlighted" Value="True" />
+        <Setter Property="Padding" Value="10 0 0 0" />
         
         <Setter Property="Template">
             <ControlTemplate>

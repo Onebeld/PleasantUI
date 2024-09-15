@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Windows.Input;
+using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
@@ -19,6 +20,8 @@ public class PleasantSnackbar : ContentControl
 {
 	private Border? _snackbarBorder;
 	private ContentPresenter? _contentPresenter;
+	private Button? _button;
+	private Grid? _grid;
 
 	/// <summary>
 	/// Defines the <see cref="OpenAnimation"/> property.
@@ -43,6 +46,12 @@ public class PleasantSnackbar : ContentControl
 	/// </summary>
 	public static readonly StyledProperty<NotificationType> NotificationTypeProperty =
 		AvaloniaProperty.Register<NotificationCard, NotificationType>(nameof(NotificationType));
+	
+	/// <summary>
+	/// Defines the <see cref="Command"/> property.
+	/// </summary>
+	public static readonly StyledProperty<ICommand?> CommandProperty =
+		AvaloniaProperty.Register<Button, ICommand?>(nameof(Command), enableDataValidation: true);
 	
 	/// <summary>
 	/// Gets or sets the animation to use when the Snackbar opens.
@@ -79,6 +88,15 @@ public class PleasantSnackbar : ContentControl
 		get => GetValue(NotificationTypeProperty);
 		set => SetValue(NotificationTypeProperty, value);
 	}
+
+	/// <summary>
+	/// Gets or sets an <see cref="ICommand"/> to be invoked when the button is clicked.
+	/// </summary>
+	public ICommand? Command
+	{
+		get => GetValue(CommandProperty);
+		set => SetValue(CommandProperty, value);
+	}
 	
 	/// <summary>
 	/// Shows a Snackbar with the specified message, icon, and notification type.
@@ -88,22 +106,24 @@ public class PleasantSnackbar : ContentControl
 	/// <param name="icon">The icon to display in the Snackbar (optional).</param>
 	/// <param name="notificationType">The type of notification (optional, defaults to Information).</param>
 	/// <param name="timeSpan">The duration the Snackbar will be displayed (optional, defaults to 3 seconds).</param>
-	public static async void Show(IPleasantWindow parent, string message, Geometry? icon = null, NotificationType notificationType = NotificationType.Information, TimeSpan timeSpan = default)
+	public static void Show(
+		IPleasantWindow parent,
+		string message,
+		string? buttonText = null,
+		Action? buttonAction = null,
+		Geometry? icon = null,
+		NotificationType notificationType = NotificationType.Information,
+		TimeSpan timeSpan = default)
 	{
 		if (timeSpan == default)
 			timeSpan = TimeSpan.FromSeconds(3);
-
-		while (parent.Controls.Any(x => x is PleasantSnackbar))
-			await Task.Delay(100);
 
 		PleasantSnackbar pleasantSnackbar = new()
 		{
 			Content = message,
 			Icon = icon,
-			NotificationType = notificationType
+			NotificationType = notificationType,
 		};
-
-		parent.AddControl(pleasantSnackbar);
 
 		pleasantSnackbar.Loaded += async (_, _) =>
 		{
@@ -115,7 +135,7 @@ public class PleasantSnackbar : ContentControl
 				
 				await pleasantSnackbar.Close();
 
-				parent.RemoveControl(pleasantSnackbar);
+				parent.SnackbarQueueManager.Dequeue();
 			}
 			
 			IDisposable timer = DispatcherTimer.RunOnce(CloseSnackbar, timeSpan);
@@ -127,6 +147,11 @@ public class PleasantSnackbar : ContentControl
 				CloseSnackbar();
 			};
 		};
+		
+		parent.SnackbarQueueManager.Enqueue(pleasantSnackbar);
+		
+		if (parent.SnackbarQueueManager.Count <= 1)
+			parent.AddControl(pleasantSnackbar);
 	}
 	
 	/// <summary>
@@ -173,6 +198,18 @@ public class PleasantSnackbar : ContentControl
 		_contentPresenter.Opacity = 1;
 	}
 
+	public void DefineButton(string? content, Action? action)
+	{
+		if (_button is null)
+			return;
+		
+		if (string.IsNullOrWhiteSpace(content) || action is null)
+			_button.IsVisible = false;
+
+		_button.Content = content;
+		_button.Command = Core.Helpers.Command.Create(action);
+	}
+
 	/// <summary>
 	/// Closes the Snackbar with an animation.
 	/// </summary>
@@ -210,6 +247,8 @@ public class PleasantSnackbar : ContentControl
 		
 		_snackbarBorder = e.NameScope.Find<Border>("PART_Snackbar");
 		_contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
+		_button = e.NameScope.Find<Button>("PART_Button");
+		_grid = e.NameScope.Find<Grid>("PART_Grid");
 		
 		if (_snackbarBorder is null || _contentPresenter is null)
 			throw new NullReferenceException("Snackbar border or content presenter not found");

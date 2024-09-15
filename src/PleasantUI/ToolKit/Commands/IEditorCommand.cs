@@ -1,4 +1,4 @@
-﻿namespace PleasantUI.Windows.Commands;
+﻿namespace PleasantUI.ToolKit.Commands;
 
 public interface IEditorCommand
 {

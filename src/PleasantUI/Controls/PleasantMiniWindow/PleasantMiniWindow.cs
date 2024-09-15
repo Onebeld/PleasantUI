@@ -87,6 +87,8 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
 
+    public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
+
     /// <summary>
     /// Gets the list of currently opened modal windows.
     /// </summary>
@@ -103,6 +105,11 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     
     /// <inheritdoc/>
     public AvaloniaList<Control> Controls { get; } = [];
+
+    public PleasantMiniWindow()
+    {
+        SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
+    }
 
     /// <summary>
     /// Adds a modal window to the application.

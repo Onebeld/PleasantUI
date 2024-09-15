@@ -48,16 +48,22 @@
                                           Data="{TemplateBinding Icon}" />
                             </Border>
                             
-                            <ContentPresenter x:Name="PART_ContentPresenter"
-                                              Grid.Column="1"
-                                              Grid.Row="0"
-                                              Opacity="0"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              Margin="{TemplateBinding Padding}"
-                                              TextAlignment="Start" />
+                            <Grid x:Name="PART_Grid"
+                                  Grid.Column="1"
+                                  ColumnDefinitions="*,Auto"
+                                  Opacity="0">
+                                <ContentPresenter x:Name="PART_ContentPresenter"
+                                                  Grid.Column="0"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  TextAlignment="Start" />
+                                
+                                <Button x:Name="PART_Button"
+                                        Grid.Column="1" />
+                            </Grid>
                         </Grid>
                     </Border>
                 </Border>

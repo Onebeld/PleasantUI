@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
-using PleasantUI.Controls;
+﻿using PleasantUI.Controls;
 using PleasantUI.Core;
 
 namespace PleasantUI.Example.Android;

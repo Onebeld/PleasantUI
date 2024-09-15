@@ -8,7 +8,6 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Core;
-using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Models;
 using PleasantUI.Extensions;
 using PleasantUI.Extensions.Media;
@@ -181,7 +180,6 @@ public class PleasantTheme : Styles
         {
             Log.Error("Error when loading themes");
         }
-        
     }
 
     private void GetPleasantThemes()

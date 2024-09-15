@@ -9,14 +9,15 @@ using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
+using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
 using PleasantUI.Extensions;
-using PleasantUI.Localization;
-using PleasantUI.Windows.Commands;
-using PleasantUI.Windows.Commands.ThemeEditor;
+using PleasantUI.ToolKit.Commands;
+using PleasantUI.ToolKit.Commands.ThemeEditor;
+using PleasantUI.Windows;
 using Serilog;
 
-namespace PleasantUI.Windows.ViewModels;
+namespace PleasantUI.ToolKit.ViewModels;
 
 /// <summary>
 /// ViewModel for the <see cref="ThemeEditorWindow"/>.

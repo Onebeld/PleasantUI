@@ -7,7 +7,7 @@
                Width="350"
                Height="490"
                mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="590"
-               x:Class="PleasantUI.Windows.ColorPickerWindow">
+               x:Class="PleasantUI.ToolKit.ColorPickerWindow">
     <PleasantColorView x:Name="ColorView" />
 
     <ContentDialog.BottomPanelContent>

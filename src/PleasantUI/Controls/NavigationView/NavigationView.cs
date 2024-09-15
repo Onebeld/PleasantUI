@@ -91,10 +91,10 @@ public class NavigationView : TreeView
         AvaloniaProperty.Register<NavigationView, bool>(nameof(BindWindowSettings), true);
 
     /// <summary>
-    /// Defines the <see cref="TransitionAnimations"/> property.
+    /// Defines the <see cref="TransitionAnimation"/> property.
     /// </summary>
-    public static readonly StyledProperty<Animations?> TransitionAnimationsProperty =
-        AvaloniaProperty.Register<NavigationView, Animations?>(nameof(TransitionAnimations));
+    public static readonly StyledProperty<Animation?> TransitionAnimationProperty =
+        AvaloniaProperty.Register<NavigationView, Animation?>(nameof(TransitionAnimation));
 
     /// <summary>
     /// Defines the <see cref="DisplayMode"/> property.
@@ -291,10 +291,10 @@ public class NavigationView : TreeView
     /// <value>
     /// The transition animations for the property.
     /// </value>
-    public Animations? TransitionAnimations
+    public Animation? TransitionAnimation
     {
-        get => GetValue(TransitionAnimationsProperty);
-        set => SetValue(TransitionAnimationsProperty, value);
+        get => GetValue(TransitionAnimationProperty);
+        set => SetValue(TransitionAnimationProperty, value);
     }
 
     /// <summary>
@@ -421,13 +421,12 @@ public class NavigationView : TreeView
 
     internal void SelectSingleItemCore(object? item, bool runAnimation = true)
     {
-        if (SelectedItem != item && TransitionAnimations is not null && _contentPresenter is not null && runAnimation)
+        if (SelectedItem != item && TransitionAnimation is not null && _contentPresenter is not null && runAnimation)
         {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             
-            foreach (Animation animation in TransitionAnimations)
-                animation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
+            TransitionAnimation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
         }
 
         if (item is ISelectable selectableItem)

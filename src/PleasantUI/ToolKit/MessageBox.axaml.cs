@@ -5,11 +5,11 @@ using Avalonia.Layout;
 using Avalonia.Styling;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
+using PleasantUI.Core.Localization;
 using PleasantUI.Core.Structures;
 using PleasantUI.Extensions;
-using PleasantUI.Localization;
 
-namespace PleasantUI.Windows;
+namespace PleasantUI.ToolKit;
 
 public partial class MessageBox : ContentDialog
 {

@@ -10,6 +10,8 @@ namespace PleasantUI.Core.Interfaces;
 /// </summary>
 public interface IPleasantWindow
 {
+    SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
+    
     /// <summary>
     /// Gets the collection of modal windows associated with this window.
     /// </summary>

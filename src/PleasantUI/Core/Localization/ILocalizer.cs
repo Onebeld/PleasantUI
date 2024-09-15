@@ -1,6 +1,6 @@
 ﻿using System.Resources;
 
-namespace PleasantUI.Localization;
+namespace PleasantUI.Core.Localization;
 
 /// <summary>
 /// Interface describing functionality for localizer implementation.

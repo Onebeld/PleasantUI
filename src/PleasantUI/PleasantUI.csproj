@@ -4,14 +4,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
-        <PackageVersion>4.1.0-beta3</PackageVersion>
+        <PackageVersion>5.0.0-beta4</PackageVersion>
         <Authors>Dmitry Zhutkov (Onebeld)</Authors>
         <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
         <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface</PackageTags>
         <PackageDescription>UI library for Avalonia</PackageDescription>
         <Company>Onebeld</Company>
-        <AssemblyVersion>4.1.0</AssemblyVersion>
-        <FileVersion>4.1.0</FileVersion>
+        <AssemblyVersion>5.0.0</AssemblyVersion>
+        <FileVersion>5.0.0</FileVersion>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
         <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -33,6 +33,10 @@
     <ItemGroup>
         <AdditionalFiles Include="**\*.axaml" />
         <Compile Update="**\*.axaml.cs" />
+        <Compile Update="ToolKit\UserControls\ThemePreview.axaml.cs">
+          <DependentUpon>ThemePreview.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -44,9 +48,5 @@
         <Pack>True</Pack>
         <PackagePath>.\</PackagePath>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Assets\Localization\en.axaml" />
     </ItemGroup>
 </Project>

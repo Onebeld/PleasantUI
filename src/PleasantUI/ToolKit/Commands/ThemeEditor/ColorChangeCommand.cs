@@ -2,7 +2,7 @@
 using Avalonia.Media;
 using PleasantUI.Core.Models;
 
-namespace PleasantUI.Windows.Commands.ThemeEditor;
+namespace PleasantUI.ToolKit.Commands.ThemeEditor;
 
 public class ColorChangeCommand : IEditorCommand
 {

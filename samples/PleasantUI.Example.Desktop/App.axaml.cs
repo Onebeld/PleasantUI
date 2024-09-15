@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
-using PleasantUI.Localization;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Desktop;
 

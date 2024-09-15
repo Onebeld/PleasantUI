@@ -14,18 +14,16 @@
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
-            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor1}" />
+            <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
 
         <Style Selector="^:checked:pointerover">
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
-            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor1}" />
         </Style>
 
         <Style Selector="^:checked:pressed">
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
-            <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor1}" />
             <Setter Property="Opacity" Value="0.6" />
         </Style>
     </ControlTheme>

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Resources;
 
-namespace PleasantUI.Localization;
+namespace PleasantUI.Core.Localization;
 
 /// <summary>
 /// Provides localization functionality for the application.

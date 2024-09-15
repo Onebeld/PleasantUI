@@ -7,9 +7,9 @@ using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Models;
 using PleasantUI.Extensions;
-using PleasantUI.Windows.ViewModels;
+using PleasantUI.ToolKit.ViewModels;
 
-namespace PleasantUI.Windows;
+namespace PleasantUI.ToolKit;
 
 public partial class ThemeEditorWindow : ContentDialog
 {

@@ -19,25 +19,25 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="Cut" xml:space="preserve">
-        <value>Cut</value>
+        <value>_Cut</value>
     </data>
     <data name="Copy" xml:space="preserve">
-        <value>Copy</value>
+        <value>_Copy</value>
     </data>
     <data name="Paste" xml:space="preserve">
-        <value>Paste</value>
+        <value>_Paste</value>
     </data>
     <data name="Reestablish" xml:space="preserve">
-        <value>Reestablish</value>
+        <value>_Reestablish</value>
     </data>
     <data name="Collapse" xml:space="preserve">
-        <value>Collapse</value>
+        <value>_Collapse</value>
     </data>
     <data name="Expand" xml:space="preserve">
-        <value>Expand</value>
+        <value>_Expand</value>
     </data>
     <data name="Close" xml:space="preserve">
-        <value>Close</value>
+        <value>_Close</value>
     </data>
     <data name="Menu" xml:space="preserve">
         <value>Menu</value>
@@ -66,10 +66,10 @@
     <data name="CustomThemes" xml:space="preserve">
         <value>Custom themes</value>
     </data>
-    <data name="ThemeName" xml:space="preserve">
+    <data name="ThemeEditor/ThemeName" xml:space="preserve">
         <value>Theme name</value>
     </data>
-    <data name="NumberOfColorsInstalled" xml:space="preserve">
+    <data name="ThemeEditor/NumberOfColorsInstalled" xml:space="preserve">
         <value>Number of colors installed</value>
     </data>
     <data name="Undo" xml:space="preserve">
@@ -78,49 +78,55 @@
     <data name="Redo" xml:space="preserve">
         <value>Redo</value>
     </data>
-    <data name="GetColorsBasedOn" xml:space="preserve">
+    <data name="ThemeEditor/GetColorsBasedOn" xml:space="preserve">
         <value>Get colors based on...</value>
     </data>
-    <data name="CopyTheme" xml:space="preserve">
+    <data name="ThemeEditor/CopyTheme" xml:space="preserve">
         <value>Copy theme</value>
     </data>
-    <data name="PasteTheme" xml:space="preserve">
+    <data name="ThemeEditor/PasteTheme" xml:space="preserve">
         <value>Paste theme</value>
     </data>
-    <data name="ImportTheme" xml:space="preserve">
+    <data name="ThemeEditor/ImportTheme" xml:space="preserve">
         <value>Import theme</value>
     </data>
-    <data name="ExportTheme" xml:space="preserve">
+    <data name="ThemeEditor/ExportTheme" xml:space="preserve">
         <value>Export theme</value>
     </data>
-    <data name="ThemeCopiedToClipboard" xml:space="preserve">
+    <data name="ThemeEditor/ThemeCopiedToClipboard" xml:space="preserve">
         <value>Theme copied to clipboard</value>
     </data>
-    <data name="ColorCopiedToClipboard" xml:space="preserve">
+    <data name="ThemeEditor/ColorCopiedToClipboard" xml:space="preserve">
         <value>The color is copied to the clipboard</value>
     </data>
-    <data name="ThemeImported" xml:space="preserve">
+    <data name="ThemeEditor/ThemeImported" xml:space="preserve">
         <value>The theme has been successfully imported</value>
     </data>
-    <data name="ThemeExported" xml:space="preserve">
+    <data name="ThemeEditor/ThemeExported" xml:space="preserve">
         <value>The theme has been successfully exported</value>
     </data>
-    <data name="ThemeImportError" xml:space="preserve">
+    <data name="ThemeEditor/ThemeImportError" xml:space="preserve">
         <value>An error occurred while importing the theme</value>
     </data>
-    <data name="DragAndDropThemeHere" xml:space="preserve">
+    <data name="ThemeEditor/DragAndDropThemeHere" xml:space="preserve">
         <value>Drag and drop the theme file here</value>
     </data>
     <data name="ThemeEditor" xml:space="preserve">
         <value>Theme editor</value>
     </data>
     <data name="Change" xml:space="preserve">
-        <value>Change</value>
-    </data>
-    <data name="Dynamic" xml:space="preserve">
-        <value>Yes {0} and {1}</value>
+        <value>_Change</value>
     </data>
     <data name="Delete" xml:space="preserve">
-        <value>Delete</value>
+        <value>_Delete</value>
+    </data>
+    <data name="ColorWheel" xml:space="preserve">
+        <value>Color wheel</value>
+    </data>
+    <data name="SavedColors" xml:space="preserve">
+        <value>Saved colors</value>
+    </data>
+    <data name="NoCustomThemes" xml:space="preserve">
+        <value>No custom themes</value>
     </data>
 </root>

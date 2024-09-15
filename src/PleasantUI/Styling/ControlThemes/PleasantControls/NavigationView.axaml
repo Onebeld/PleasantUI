@@ -44,23 +44,21 @@
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
         <Setter Property="SelectionMode" Value="AlwaysSelected" />
-        
-        <Setter Property="TransitionAnimations">
-            <Animations>
-                <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
-                    <KeyFrame Cue="0%">
-                        <Setter Property="Opacity" Value="0" />
-                        <Setter Property="TranslateTransform.Y" Value="100" />
-                    </KeyFrame>
-                    <KeyFrame Cue="60%">
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                    <KeyFrame Cue="100%">
-                        <Setter Property="TranslateTransform.Y" Value="0" />
-                        <Setter Property="Opacity" Value="1" />
-                    </KeyFrame>
-                </Animation>
-            </Animations>
+
+        <Setter Property="TransitionAnimation">
+            <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="TranslateTransform.Y" Value="100" />
+                </KeyFrame>
+                <KeyFrame Cue="60%">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="TranslateTransform.Y" Value="0" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
         </Setter>
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>

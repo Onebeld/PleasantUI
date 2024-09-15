@@ -2,12 +2,14 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:viewModels="clr-namespace:PleasantUI.Windows.ViewModels"
                xmlns:userControls="clr-namespace:PleasantUI.UserControls"
                xmlns:models="clr-namespace:PleasantUI.Core.Models"
-               xmlns:views="clr-namespace:PleasantUI.Windows"
+               xmlns:views="clr-namespace:PleasantUI.ToolKit"
+               xmlns:viewModels="clr-namespace:PleasantUI.ToolKit.ViewModels"
+               xmlns:toolKit="clr-namespace:PleasantUI.ToolKit"
+               xmlns:userControls1="clr-namespace:PleasantUI.ToolKit.UserControls"
                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-               x:Class="PleasantUI.Windows.ThemeEditorWindow"
+               x:Class="PleasantUI.ToolKit.ThemeEditorWindow"
                Design.Height="600"
                x:DataType="viewModels:ThemeEditorViewModel">
     <Design.DesignStyle>
@@ -19,7 +21,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="/DataTemplates/ThemeColorItemTemplate.axaml" />
+                <MergeResourceInclude Source="/ToolKit/DataTemplates/ThemeColorItemTemplate.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentDialog.Resources>
@@ -39,11 +41,11 @@
             <TextBlock Grid.Column="2"
                        Margin="0 0 5 0"
                        VerticalAlignment="Center">
-                <Run Text="{Localize ThemeName}" />:
+                <Run Text="{Localize ThemeName, Context=ThemeEditor}" />:
             </TextBlock>
             <TextBox x:Name="ThemeNameTextBox"
                      Grid.Column="3"
-                     Watermark="{Localize ThemeName}"
+                     Watermark="{Localize ThemeName, Context=ThemeEditor}"
                      MaxLength="255"
                      Text="{CompiledBinding ThemeName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
         </Grid>
@@ -81,7 +83,7 @@
                                       Content="{CompiledBinding ThemeColors.Count}"
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
-                                      ToolTip.Tip="{Localize NumberOfColorsInstalled}" />
+                                      ToolTip.Tip="{Localize NumberOfColorsInstalled, Context=ThemeEditor}" />
                 </Panel>
 
                 <Border Background="{DynamicResource ControlFillColor1}"
@@ -205,7 +207,7 @@
                         </Carousel.PageTransition>
                         
                         <Grid RowDefinitions="Auto,*" Margin="10">
-                            <Button Name="ButtonThemesFlyout" Grid.Row="0" Content="{Localize GetColorsBasedOn}">
+                            <Button Name="ButtonThemesFlyout" Grid.Row="0" Content="{Localize GetColorsBasedOn, Context=ThemeEditor}">
                                 <Button.Styles>
                                     <Style Selector="FlyoutPresenter">
                                         <Setter Property="Width" Value="{CompiledBinding $parent[Button].Bounds.Width}" />
@@ -228,13 +230,13 @@
                                                                 <Button Theme="{StaticResource AppBarButtonTheme}"
                                                                         Margin="5"
                                                                         HorizontalContentAlignment="Left"
-                                                                        Command="{CompiledBinding $parent[views:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromTheme}"
+                                                                        Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromTheme}"
                                                                         CommandParameter="{CompiledBinding}">
                                                                     <StackPanel Spacing="10" Orientation="Horizontal">
                                                                         <ThemePreviewVariantScope
                                                                             IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                                             RequestedThemeVariant="{CompiledBinding ThemeVariant}">
-                                                                            <userControls:ThemePreview />
+                                                                            <userControls1:ThemePreview />
                                                                         </ThemePreviewVariantScope>
 
                                                                         <TextBlock Text="{CompiledBinding Name}" />
@@ -252,30 +254,38 @@
                                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                                     BorderThickness="1"
                                                     Height="150">
-                                                <SmoothScrollViewer>
-                                                    <ItemsControl ItemsSource="{x:Static PleasantTheme.CustomThemes}">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate DataType="{x:Type models:CustomTheme}">
-                                                                <Button Theme="{StaticResource AppBarButtonTheme}"
-                                                                        Margin="5"
-                                                                        HorizontalContentAlignment="Left"
-                                                                        Command="{CompiledBinding $parent[views:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromCustomTheme}"
-                                                                        CommandParameter="{CompiledBinding}">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <ThemePreviewVariantScope RequestedThemeVariant="{CompiledBinding ThemeVariant}">
-                                                                            <userControls:ThemePreview />
-                                                                        </ThemePreviewVariantScope>
-                                                    
-                                                                        <TextBlock Margin="10 0 0 0"
-                                                                                   Text="{CompiledBinding Name}"
-                                                                                   VerticalAlignment="Center"
-                                                                                   TextTrimming="CharacterEllipsis" />
-                                                                    </StackPanel>
-                                                                </Button>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </SmoothScrollViewer>
+                                                <Panel>
+                                                    <SmoothScrollViewer>
+                                                        <ItemsControl ItemsSource="{x:Static PleasantTheme.CustomThemes}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate DataType="{x:Type models:CustomTheme}">
+                                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                            Margin="5"
+                                                                            HorizontalContentAlignment="Left"
+                                                                            Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromCustomTheme}"
+                                                                            CommandParameter="{CompiledBinding}">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <ThemePreviewVariantScope RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                                                                                <userControls1:ThemePreview />
+                                                                            </ThemePreviewVariantScope>
+
+                                                                            <TextBlock Margin="10 0 0 0"
+                                                                                Text="{CompiledBinding Name}"
+                                                                                VerticalAlignment="Center"
+                                                                                TextTrimming="CharacterEllipsis" />
+                                                                        </StackPanel>
+                                                                    </Button>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </SmoothScrollViewer>
+
+                                                    <TextBlock Text="{Localize NoCustomThemes}"
+                                                               IsVisible="{CompiledBinding !Count, Source={x:Static PleasantTheme.CustomThemes}}"
+                                                               VerticalAlignment="Center"
+                                                               TextAlignment="Center"
+                                                               Foreground="{DynamicResource TextFillColor3}" />
+                                                </Panel>
                                             </Border>
                                         </StackPanel>
                                     </Flyout>
@@ -298,12 +308,12 @@
                         
                         <Grid RowDefinitions="Auto,*,Auto" Margin="10">
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Button ToolTip.Tip="{Localize CopyTheme}"
+                                <Button ToolTip.Tip="{Localize CopyTheme, Context=ThemeEditor}"
                                         CornerRadius="99 0 0 99"
                                         Command="{CompiledBinding CopyTheme}">
                                     <PathIcon Data="{StaticResource CopyRegular}" />
                                 </Button>
-                                <Button ToolTip.Tip="{Localize PasteTheme}"
+                                <Button ToolTip.Tip="{Localize PasteTheme, Context=ThemeEditor}"
                                         CornerRadius="0 99 99 0"
                                         Command="{CompiledBinding PasteTheme}">
                                     <PathIcon Data="{StaticResource PasteRegular}" />
@@ -311,12 +321,12 @@
                             </StackPanel>
                             
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button ToolTip.Tip="{Localize ImportTheme}"
+                                <Button ToolTip.Tip="{Localize ImportTheme, Context=ThemeEditor}"
                                         CornerRadius="99 0 0 99"
                                         Command="{CompiledBinding ImportTheme}">
                                     <PathIcon Data="{StaticResource FileImportRegular}" />
                                 </Button>
-                                <Button ToolTip.Tip="{Localize ExportTheme}"
+                                <Button ToolTip.Tip="{Localize ExportTheme, Context=ThemeEditor}"
                                         CornerRadius="0 99 99 0"
                                         Command="{CompiledBinding ExportTheme}">
                                     <PathIcon Data="{StaticResource FileExportRegular}" />
@@ -358,7 +368,7 @@
                                     
                                     <TextBlock Foreground="{DynamicResource TextFillColor3}"
                                                Margin="10 0"
-                                               Text="{Localize DragAndDropThemeHere}"
+                                               Text="{Localize DragAndDropThemeHere, Context=ThemeEditor}"
                                                TextWrapping="Wrap"
                                                TextAlignment="Center"
                                                VerticalAlignment="Center" />

@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
 using PleasantUI.Converters;
-using PleasantUI.Localization;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Extensions.Markup;
 

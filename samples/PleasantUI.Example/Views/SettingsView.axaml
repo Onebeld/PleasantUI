@@ -6,6 +6,7 @@
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
              xmlns:userControls="clr-namespace:PleasantUI.UserControls;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
+             xmlns:userControls1="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
              x:DataType="pages:SettingsViewModel">
@@ -32,7 +33,7 @@
                                     <ThemePreviewVariantScope
                                         IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         RequestedThemeVariant="{CompiledBinding ThemeVariant}">
-                                        <userControls:ThemePreview />
+                                        <userControls1:ThemePreview />
                                     </ThemePreviewVariantScope>
 
                                     <TextBlock Text="{CompiledBinding Name}" />
@@ -72,7 +73,7 @@
                                             <Grid ColumnDefinitions="Auto,*,Auto">
                                                 <ThemePreviewVariantScope Grid.Column="0"
                                                                           RequestedThemeVariant="{CompiledBinding ThemeVariant}">
-                                                    <userControls:ThemePreview />
+                                                    <userControls1:ThemePreview />
                                                 </ThemePreviewVariantScope>
 
                                                 <TextBlock Grid.Column="1"
@@ -108,7 +109,7 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
 
-                                <TextBlock Text="No custom themes"
+                                <TextBlock Text="{Localize NoCustomThemes}"
                                            IsVisible="{CompiledBinding !Count, Source={x:Static PleasantTheme.CustomThemes}}"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"

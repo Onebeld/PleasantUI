@@ -190,11 +190,17 @@ public class PleasantWindow : Window, IPleasantWindow
         }
     }
 
+    public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
 
     public AvaloniaList<Control> Controls { get; } = [];
 
     public VisualLayerManager VisualLayerManager { get; private set; }
+
+    public PleasantWindow()
+    {
+        SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
+    }
 
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {

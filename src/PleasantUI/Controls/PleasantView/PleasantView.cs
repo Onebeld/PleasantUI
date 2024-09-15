@@ -16,6 +16,7 @@ public class PleasantView : ContentControl, IPleasantWindow
 {
     private Panel _modalWindowsPanel = null!;
     
+    public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
     public AvaloniaList<Control> Controls { get; } = [];
 
@@ -47,6 +48,12 @@ public class PleasantView : ContentControl, IPleasantWindow
             }
         }.RegisterInNameScope(ns)));
     }
+
+    public PleasantView()
+    {
+        SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
+    }
+
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

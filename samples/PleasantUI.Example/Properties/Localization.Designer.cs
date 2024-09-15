@@ -96,7 +96,7 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change.
+        ///   Looks up a localized string similar to _Change.
         /// </summary>
         public static string Change {
             get {
@@ -105,7 +105,7 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close.
+        ///   Looks up a localized string similar to _Close.
         /// </summary>
         public static string Close {
             get {
@@ -114,20 +114,11 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collapse.
+        ///   Looks up a localized string similar to _Collapse.
         /// </summary>
         public static string Collapse {
             get {
                 return ResourceManager.GetString("Collapse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The color is copied to the clipboard.
-        /// </summary>
-        public static string ColorCopiedToClipboard {
-            get {
-                return ResourceManager.GetString("ColorCopiedToClipboard", resourceCulture);
             }
         }
         
@@ -141,20 +132,20 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy.
+        ///   Looks up a localized string similar to Color wheel.
         /// </summary>
-        public static string Copy {
+        public static string ColorWheel {
             get {
-                return ResourceManager.GetString("Copy", resourceCulture);
+                return ResourceManager.GetString("ColorWheel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy theme.
+        ///   Looks up a localized string similar to _Copy.
         /// </summary>
-        public static string CopyTheme {
+        public static string Copy {
             get {
-                return ResourceManager.GetString("CopyTheme", resourceCulture);
+                return ResourceManager.GetString("Copy", resourceCulture);
             }
         }
         
@@ -168,7 +159,7 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cut.
+        ///   Looks up a localized string similar to _Cut.
         /// </summary>
         public static string Cut {
             get {
@@ -177,7 +168,7 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to _Delete.
         /// </summary>
         public static string Delete {
             get {
@@ -186,56 +177,11 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drag and drop the theme file here.
-        /// </summary>
-        public static string DragAndDropThemeHere {
-            get {
-                return ResourceManager.GetString("DragAndDropThemeHere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Yes {0} and {1}.
-        /// </summary>
-        public static string Dynamic {
-            get {
-                return ResourceManager.GetString("Dynamic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expand.
+        ///   Looks up a localized string similar to _Expand.
         /// </summary>
         public static string Expand {
             get {
                 return ResourceManager.GetString("Expand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Export theme.
-        /// </summary>
-        public static string ExportTheme {
-            get {
-                return ResourceManager.GetString("ExportTheme", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Get colors based on....
-        /// </summary>
-        public static string GetColorsBasedOn {
-            get {
-                return ResourceManager.GetString("GetColorsBasedOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Import theme.
-        /// </summary>
-        public static string ImportTheme {
-            get {
-                return ResourceManager.GetString("ImportTheme", resourceCulture);
             }
         }
         
@@ -249,11 +195,11 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of colors installed.
+        ///   Looks up a localized string similar to No custom themes.
         /// </summary>
-        public static string NumberOfColorsInstalled {
+        public static string NoCustomThemes {
             get {
-                return ResourceManager.GetString("NumberOfColorsInstalled", resourceCulture);
+                return ResourceManager.GetString("NoCustomThemes", resourceCulture);
             }
         }
         
@@ -267,20 +213,11 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Paste.
+        ///   Looks up a localized string similar to _Paste.
         /// </summary>
         public static string Paste {
             get {
                 return ResourceManager.GetString("Paste", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Paste theme.
-        /// </summary>
-        public static string PasteTheme {
-            get {
-                return ResourceManager.GetString("PasteTheme", resourceCulture);
             }
         }
         
@@ -294,7 +231,7 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reestablish.
+        ///   Looks up a localized string similar to _Reestablish.
         /// </summary>
         public static string Reestablish {
             get {
@@ -303,11 +240,11 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Theme copied to clipboard.
+        ///   Looks up a localized string similar to Saved colors.
         /// </summary>
-        public static string ThemeCopiedToClipboard {
+        public static string SavedColors {
             get {
-                return ResourceManager.GetString("ThemeCopiedToClipboard", resourceCulture);
+                return ResourceManager.GetString("SavedColors", resourceCulture);
             }
         }
         
@@ -321,38 +258,119 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The color is copied to the clipboard.
+        /// </summary>
+        public static string ThemeEditor_ColorCopiedToClipboard {
+            get {
+                return ResourceManager.GetString("ThemeEditor/ColorCopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy theme.
+        /// </summary>
+        public static string ThemeEditor_CopyTheme {
+            get {
+                return ResourceManager.GetString("ThemeEditor/CopyTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag and drop the theme file here.
+        /// </summary>
+        public static string ThemeEditor_DragAndDropThemeHere {
+            get {
+                return ResourceManager.GetString("ThemeEditor/DragAndDropThemeHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export theme.
+        /// </summary>
+        public static string ThemeEditor_ExportTheme {
+            get {
+                return ResourceManager.GetString("ThemeEditor/ExportTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get colors based on....
+        /// </summary>
+        public static string ThemeEditor_GetColorsBasedOn {
+            get {
+                return ResourceManager.GetString("ThemeEditor/GetColorsBasedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import theme.
+        /// </summary>
+        public static string ThemeEditor_ImportTheme {
+            get {
+                return ResourceManager.GetString("ThemeEditor/ImportTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of colors installed.
+        /// </summary>
+        public static string ThemeEditor_NumberOfColorsInstalled {
+            get {
+                return ResourceManager.GetString("ThemeEditor/NumberOfColorsInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste theme.
+        /// </summary>
+        public static string ThemeEditor_PasteTheme {
+            get {
+                return ResourceManager.GetString("ThemeEditor/PasteTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme copied to clipboard.
+        /// </summary>
+        public static string ThemeEditor_ThemeCopiedToClipboard {
+            get {
+                return ResourceManager.GetString("ThemeEditor/ThemeCopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The theme has been successfully exported.
         /// </summary>
-        public static string ThemeExported {
+        public static string ThemeEditor_ThemeExported {
             get {
-                return ResourceManager.GetString("ThemeExported", resourceCulture);
+                return ResourceManager.GetString("ThemeEditor/ThemeExported", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The theme has been successfully imported.
         /// </summary>
-        public static string ThemeImported {
+        public static string ThemeEditor_ThemeImported {
             get {
-                return ResourceManager.GetString("ThemeImported", resourceCulture);
+                return ResourceManager.GetString("ThemeEditor/ThemeImported", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while importing the theme.
         /// </summary>
-        public static string ThemeImportError {
+        public static string ThemeEditor_ThemeImportError {
             get {
-                return ResourceManager.GetString("ThemeImportError", resourceCulture);
+                return ResourceManager.GetString("ThemeEditor/ThemeImportError", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Theme name.
         /// </summary>
-        public static string ThemeName {
+        public static string ThemeEditor_ThemeName {
             get {
-                return ResourceManager.GetString("ThemeName", resourceCulture);
+                return ResourceManager.GetString("ThemeEditor/ThemeName", resourceCulture);
             }
         }
         

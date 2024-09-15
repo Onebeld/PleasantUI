@@ -132,7 +132,7 @@
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
         </Style>
         <Style Selector="^:checked /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Fill" Value="{DynamicResource ForegroundAccentLightColor2}" />
+            <Setter Property="Fill" Value="{CompiledBinding $parent[Expander].Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
         <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
             <Setter Property="Opacity" Value="0.5" />

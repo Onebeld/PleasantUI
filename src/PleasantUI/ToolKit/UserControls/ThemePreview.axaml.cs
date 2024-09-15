@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace PleasantUI.UserControls;
+namespace PleasantUI.ToolKit.UserControls;
 
 public partial class ThemePreview : UserControl
 {

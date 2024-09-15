@@ -3,7 +3,7 @@ using Avalonia.Media;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
 
-namespace PleasantUI.Windows;
+namespace PleasantUI.ToolKit;
 
 public partial class ColorPickerWindow : ContentDialog
 {

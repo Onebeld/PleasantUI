@@ -8,7 +8,7 @@
                Margin="50"
                MinWidth="300"
                MinHeight="180"
-               x:Class="PleasantUI.Windows.MessageBox">
+               x:Class="PleasantUI.ToolKit.MessageBox">
     <SmoothScrollViewer>
         <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
             <TextBlock Grid.Row="0" x:Name="Title" Theme="{StaticResource SubtitleTextBlockTheme}" TextWrapping="Wrap" />
