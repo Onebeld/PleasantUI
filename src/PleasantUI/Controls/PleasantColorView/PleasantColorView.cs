@@ -2,6 +2,7 @@
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using PleasantUI.Core;
 
 namespace PleasantUI.Controls;
@@ -13,10 +14,10 @@ namespace PleasantUI.Controls;
 [TemplatePart("AddColorButton", typeof(Button))]
 public class PleasantColorView : ColorView
 {
-    /// <inheritdoc cref="StyleKeyOverride"/>
+    /// <inheritdoc cref="StyleKeyOverride" />
     protected override Type StyleKeyOverride => typeof(ColorView);
-    
-    /// <inheritdoc cref="OnApplyTemplate"/>
+
+    /// <inheritdoc cref="OnApplyTemplate" />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -30,15 +31,15 @@ public class PleasantColorView : ColorView
         if (button is not null)
             button.Click += AddColor;
     }
-    
+
     private void DeleteColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUInt32();
         PleasantSettings.Instance.ColorPalettes.Remove(color);
-        
-        Color = Avalonia.Media.Color.FromUInt32(color);
+
+        Color = Color.FromUInt32(color);
     }
-    
+
     private void AddColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUInt32();

@@ -7,10 +7,10 @@
             <PleasantTitleBar />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
         <Setter Property="Background" Value="Transparent" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto,Auto,*,Auto">
@@ -61,9 +61,9 @@
                             </MenuFlyout>
                         </Border.ContextFlyout>
                     </Border>
-                    
+
                     <ContentPresenter x:Name="PART_LeftTitleBarContent" Grid.Column="0" />
-                    
+
                     <StackPanel Grid.Column="1"
                                 x:Name="PART_TitlePanel"
                                 Orientation="Horizontal"
@@ -73,21 +73,22 @@
                                 IsHitTestVisible="False">
                         <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{DynamicResource TextFillColor1}" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center"
+                              Fill="{DynamicResource TextFillColor1}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource TextFillColor3}" />
                     </StackPanel>
-                    
+
                     <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="2" />
-                    
+
                     <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons" Grid.Column="3" />
                 </Grid>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:isactive /template/ TextBlock#PART_Title">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
         </Style>
@@ -95,11 +96,11 @@
             <Setter Property="Fill" Value="{DynamicResource TextFillColor3}" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="PleasantTitleBarMacOSStyle" TargetType="PleasantTitleBar">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="32" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto,*,Auto">
@@ -164,13 +165,13 @@
                             </MenuFlyout>
                         </Border.ContextFlyout>
                     </Border>
-                    
+
                     <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
                                             Grid.Column="0"
                                             Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
-                    
+
                     <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="1" />
-                    
+
                     <StackPanel Grid.Column="0"
                                 Grid.ColumnSpan="3"
                                 x:Name="PART_TitlePanel"
@@ -180,7 +181,8 @@
                                 Orientation="Horizontal"
                                 Spacing="5">
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center" Fill="{DynamicResource TextFillColor1}" />
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center"
+                              Fill="{DynamicResource TextFillColor1}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"

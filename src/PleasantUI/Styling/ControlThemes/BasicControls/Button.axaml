@@ -15,7 +15,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="11 5 11 5" />
@@ -45,7 +45,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
@@ -57,24 +57,25 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />
     </ControlTheme>
-    
+
     <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderDangerColor}" />
-        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+        <Setter Property="Foreground"
+                Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />
             <Setter Property="RippleOpacity" Value="0.2" />
         </Style>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
         </Style>
@@ -87,13 +88,14 @@
         <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
         <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
-        
+        <Setter Property="Foreground"
+                Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />
             <Setter Property="RippleOpacity" Value="0.2" />
         </Style>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
         </Style>
@@ -101,25 +103,27 @@
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />
             <Setter Property="RippleOpacity" Value="0.2" />
         </Style>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-            <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+            <Setter Property="Foreground"
+                    Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-            <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+            <Setter Property="Foreground"
+                    Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

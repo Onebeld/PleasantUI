@@ -67,7 +67,7 @@
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
                         </RippleEffect>
                     </Border>
-                    
+
                     <Border Name="SelectionIndicator"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -79,7 +79,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#SelectionIndicator">
             <Setter Property="Transitions">
                 <Transitions>
@@ -100,11 +100,11 @@
         <Style Selector="^:not(:selected) /template/ Border#SelectionIndicator">
             <Setter Property="RenderTransform" Value="scaleY(0)" />
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
@@ -115,7 +115,7 @@
         <Style Selector="^:selected">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        
+
         <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor2}" />
         </Style>
@@ -148,7 +148,7 @@
                 </KeyFrame>
             </Animation>
         </ControlTheme.Animations>
-        
+
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
@@ -170,7 +170,7 @@
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
                         </RippleEffect>
                     </Border>
-                    
+
                     <Border Name="SelectionIndicator"
                             Background="{DynamicResource SystemAccentLightColor2}"
                             Height="3"
@@ -181,7 +181,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#SelectionIndicator">
             <Setter Property="Transitions">
                 <Transitions>
@@ -202,18 +202,18 @@
         <Style Selector="^:not(:selected) /template/ Border#SelectionIndicator">
             <Setter Property="RenderTransform" Value="scaleX(0)" />
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        
+
         <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor2}" />
         </Style>
@@ -221,7 +221,7 @@
         <Style Selector="^:selected">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        
+
         <Style Selector="^:selected:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>

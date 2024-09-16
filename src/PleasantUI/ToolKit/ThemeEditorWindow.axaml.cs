@@ -11,108 +11,127 @@ using PleasantUI.ToolKit.ViewModels;
 
 namespace PleasantUI.ToolKit;
 
+/// <summary>
+/// Represents a dialog that allows the user to edit a theme.
+/// </summary>
+/// <seealso cref="ContentDialog" />
 public partial class ThemeEditorWindow : ContentDialog
 {
-	public ThemeEditorWindow()
-	{
-		InitializeComponent();
-		
-		ButtonJson.Click += (_, _) => { Carousel.Next(); };
-		ButtonColors.Click += (_, _) => { Carousel.Previous(); };
-		
-		ThemeNameTextBox.LostFocus += ThemeNameTextBoxOnLostFocus;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ThemeEditorWindow"/> class.
+    /// </summary>
+    /// <remarks>
+    /// This constructor is only intended to be used by Avalonia's XAML parser.
+    /// </remarks>
+    public ThemeEditorWindow()
+    {
+        InitializeComponent();
 
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			SetupDragAndDrop();
-		else DragAndDropPanel.IsVisible = false;
-	}
+        ButtonJson.Click += (_, _) => { Carousel.Next(); };
+        ButtonColors.Click += (_, _) => { Carousel.Previous(); };
 
-	private void ThemeNameTextBoxOnLostFocus(object sender, RoutedEventArgs e)
-	{
-		if (string.IsNullOrWhiteSpace(ThemeNameTextBox.Text))
-			ThemeNameTextBox.Text = ((ThemeEditorViewModel)DataContext!).ThemeName;
-	}
+        ThemeNameTextBox.LostFocus += ThemeNameTextBoxOnLostFocus;
 
-	private void SetupDragAndDrop()
-	{
-		void DragLeave(object? s, DragEventArgs e)
-		{
-			DragAndDropPanel.Classes.Set("DragDrop", false);
-		}
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            SetupDragAndDrop();
+        else DragAndDropPanel.IsVisible = false;
+    }
+    
+    /// <summary>
+    /// Opens a theme editor window for the user to edit a theme.
+    /// </summary>
+    /// <param name="parent">The parent window to attach the theme editor window to.</param>
+    /// <param name="customTheme">The optional custom theme to edit.</param>
+    /// <returns>
+    /// A <see cref="Task" /> that represents the asynchronous operation. The task result is
+    /// the edited theme if the user confirms the changes, or <c>null</c> if the user cancels.
+    /// </returns>
+    public static Task<CustomTheme?> EditTheme(IPleasantWindow parent, CustomTheme? customTheme)
+    {
+        bool cancel = true;
+        ThemeEditorWindow window = new();
+        ThemeEditorViewModel viewModel = new(parent, window, customTheme);
 
-		void DragEnter(object? s, DragEventArgs e)
-		{
-			e.DragEffects = DragDropEffects.None;
+        window.DataContext = viewModel;
 
-			if (!e.Data.Contains(DataFormats.Files))
-				return;
+        window.CancelButton.Click += (_, _) => { window.Close(); };
+        window.OkButton.Click += (_, _) =>
+        {
+            if (string.IsNullOrWhiteSpace(viewModel.ThemeName))
+                return;
 
-			IStorageItem? file = e.Data.GetFiles()?.First();
+            cancel = false;
+            window.Close();
+        };
 
-			if (file is null || !file.Name.EndsWith(".json"))
-				return;
-			
-			e.DragEffects = DragDropEffects.Link | DragDropEffects.Copy;
-			
-			DragAndDropPanel.Classes.Set("DragDrop", true);
-		}
+        TaskCompletionSource<CustomTheme?> taskCompletionSource = new();
 
-		void Drop(object? s, DragEventArgs e)
-		{
-			if (!e.Data.Contains(DataFormats.Files))
-				return;
-			
-			IStorageItem? file = e.Data.GetFiles()?.First();
-					
-			if (file is not null && file.Name.EndsWith(".json"))
-				((ThemeEditorViewModel)DataContext!).DropFile(file);
+        window.Closed += (_, _) =>
+        {
+            if (cancel)
+            {
+                taskCompletionSource.TrySetResult(null);
+            }
+            else
+            {
+                viewModel.CustomTheme.Name = viewModel.ThemeName;
+                viewModel.CustomTheme.Colors = viewModel.ResourceDictionary.ToDictionary<string, Color>();
 
-			DragAndDropPanel.Classes.Set("DragDrop", false);
-		}
-		
-		DragAndDropPanel.AddHandler(DragDrop.DragEnterEvent, DragEnter);
-		DragAndDropPanel.AddHandler(DragDrop.DragLeaveEvent, DragLeave);
-		DragAndDropPanel.AddHandler(DragDrop.DropEvent, Drop);
-	}
+                taskCompletionSource.TrySetResult(viewModel.CustomTheme);
+            }
 
-	public static Task<CustomTheme?> EditTheme(IPleasantWindow parent, CustomTheme? customTheme)
-	{
-		bool cancel = true;
-		ThemeEditorWindow window = new();
-		ThemeEditorViewModel viewModel = new(parent, window, customTheme);
+            taskCompletionSource.TrySetResult(null);
+        };
+        window.Show(parent);
 
-		window.DataContext = viewModel;
-		
-		window.CancelButton.Click += (_, _) => { window.Close(); };
-		window.OkButton.Click += (_, _) =>
-		{
-			if (string.IsNullOrWhiteSpace(viewModel.ThemeName))
-				return;
-			
-			cancel = false;
-			window.Close();
-		};
-		
-		TaskCompletionSource<CustomTheme?> taskCompletionSource = new();
+        return taskCompletionSource.Task;
+    }
 
-		window.Closed += (_, _) =>
-		{
-			if (cancel)
-			{
-				taskCompletionSource.TrySetResult(null);
-			}
-			else
-			{
-				viewModel.CustomTheme.Name = viewModel.ThemeName;
-				viewModel.CustomTheme.Colors = viewModel.ResourceDictionary.ToDictionary<string, Color>();
-				
-				taskCompletionSource.TrySetResult(viewModel.CustomTheme);
-			}
-			
-			taskCompletionSource.TrySetResult(null);
-		};
-		window.Show(parent);
+    private void ThemeNameTextBoxOnLostFocus(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(ThemeNameTextBox.Text))
+            ThemeNameTextBox.Text = ((ThemeEditorViewModel)DataContext!).ThemeName;
+    }
 
-		return taskCompletionSource.Task;
-	}
+    private void SetupDragAndDrop()
+    {
+        void DragLeave(object? s, DragEventArgs e)
+        {
+            DragAndDropPanel.Classes.Set("DragDrop", false);
+        }
+
+        void DragEnter(object? s, DragEventArgs e)
+        {
+            e.DragEffects = DragDropEffects.None;
+
+            if (!e.Data.Contains(DataFormats.Files))
+                return;
+
+            IStorageItem? file = e.Data.GetFiles()?.First();
+
+            if (file is null || !file.Name.EndsWith(".json"))
+                return;
+
+            e.DragEffects = DragDropEffects.Link | DragDropEffects.Copy;
+
+            DragAndDropPanel.Classes.Set("DragDrop", true);
+        }
+
+        void Drop(object? s, DragEventArgs e)
+        {
+            if (!e.Data.Contains(DataFormats.Files))
+                return;
+
+            IStorageItem? file = e.Data.GetFiles()?.First();
+
+            if (file is not null && file.Name.EndsWith(".json"))
+                ((ThemeEditorViewModel)DataContext!).DropFile(file);
+
+            DragAndDropPanel.Classes.Set("DragDrop", false);
+        }
+
+        DragAndDropPanel.AddHandler(DragDrop.DragEnterEvent, DragEnter);
+        DragAndDropPanel.AddHandler(DragDrop.DragLeaveEvent, DragLeave);
+        DragAndDropPanel.AddHandler(DragDrop.DropEvent, Drop);
+    }
 }

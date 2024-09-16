@@ -1,5 +1,8 @@
 ﻿namespace PleasantUI.Core.Settings;
 
+/// <summary>
+/// Represents settings related to the renderer.
+/// </summary>
 public class RenderSettings : ViewModelBase
 {
     private bool _enableShadowing = true;

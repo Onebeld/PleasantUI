@@ -7,11 +7,11 @@
                 <MergeResourceInclude Source="/Styling/BaseColorsPalette.axaml" />
                 <MergeResourceInclude Source="/Styling/PleasantThemes.axaml" />
                 <MergeResourceInclude Source="/Styling/UnifiedResources.axaml" />
-                
+
                 <MergeResourceInclude Source="/Assets/IconGeometries.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
-    
+
     <StyleInclude Source="/Styling/ControlThemes/Controls.axaml" />
 </Styles>

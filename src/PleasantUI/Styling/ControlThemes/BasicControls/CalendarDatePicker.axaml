@@ -9,7 +9,7 @@
             <CalendarDatePicker Width="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="CalendarDatePickerButton" TargetType="Button">
         <Setter Property="Width" Value="40" />
         <Setter Property="BorderThickness" Value="0" />
@@ -55,7 +55,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
@@ -64,7 +64,7 @@
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
@@ -73,7 +73,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTodayHighlighted" Value="True" />
         <Setter Property="Padding" Value="10 0 0 0" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <DataValidationErrors>
@@ -85,7 +85,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Background="{TemplateBinding Background}" />
-                        
+
                         <Grid ColumnDefinitions="*,1,Auto">
                             <TextBox Grid.Column="0"
                                      Name="PART_TextBox"
@@ -107,13 +107,13 @@
                                        HorizontalAlignment="Center"
                                        Width="1"
                                        Grid.Column="1" />
-                            
+
                             <Button Name="PART_Button"
                                     Theme="{StaticResource CalendarDatePickerButton}"
                                     CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                     Grid.Column="2"
                                     Focusable="False" />
-                            
+
                             <Popup Grid.Column="0"
                                    Name="PART_Popup"
                                    PlacementTarget="{TemplateBinding}"
@@ -136,7 +136,7 @@
                                         </Style.Animations>
                                     </Style>
                                 </Popup.Styles>
-                                
+
                                 <Border x:Name="PopupBorder"
                                         Background="{DynamicResource BackgroundColor1}"
                                         BorderBrush="{DynamicResource ControlBorderColor}"

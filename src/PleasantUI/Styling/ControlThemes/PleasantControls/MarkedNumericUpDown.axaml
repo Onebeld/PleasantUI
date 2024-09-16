@@ -5,18 +5,18 @@
         <Border Padding="20">
             <StackPanel Spacing="20">
                 <MarkedNumericUpDown Minimum="0"
-                                         Mark="A"
-                                         Maximum="10"
-                                         Increment="0.5"
-                                         Width="120"
-                                         Watermark="Enter text" />
+                                     Mark="A"
+                                     Maximum="10"
+                                     Increment="0.5"
+                                     Width="120"
+                                     Watermark="Enter text" />
                 <MarkedNumericUpDown Minimum="0"
-                                         Mark="B"
-                                         Maximum="10"
-                                         Increment="0.5"
-                                         Width="150"
-                                         ButtonSpinnerLocation="Left"
-                                         Watermark="Enter text" />
+                                     Mark="B"
+                                     Maximum="10"
+                                     Increment="0.5"
+                                     Width="150"
+                                     ButtonSpinnerLocation="Left"
+                                     Watermark="Enter text" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -45,15 +45,15 @@
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <MarkedTextBox Name="PART_TextBox"
-                                       Mark="{TemplateBinding Mark}"
-                                       Padding="{TemplateBinding Padding}"
-                                       Watermark="{TemplateBinding Watermark}"
-                                       IsReadOnly="{TemplateBinding IsReadOnly}"
-                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       Text="{TemplateBinding Text}"
-                                       AcceptsReturn="False"
-                                       TextWrapping="NoWrap" />
+                                   Mark="{TemplateBinding Mark}"
+                                   Padding="{TemplateBinding Padding}"
+                                   Watermark="{TemplateBinding Watermark}"
+                                   IsReadOnly="{TemplateBinding IsReadOnly}"
+                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   Text="{TemplateBinding Text}"
+                                   AcceptsReturn="False"
+                                   TextWrapping="NoWrap" />
                 </ButtonSpinner>
             </ControlTemplate>
         </Setter>

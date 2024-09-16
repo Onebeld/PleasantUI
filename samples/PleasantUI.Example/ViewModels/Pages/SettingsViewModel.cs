@@ -1,7 +1,6 @@
 ﻿using PleasantUI.Core;
 using PleasantUI.Core.Models;
 using PleasantUI.ToolKit;
-using PleasantUI.Windows;
 
 namespace PleasantUI.Example.ViewModels.Pages;
 
@@ -21,7 +20,7 @@ public class SettingsViewModel : ViewModelBase
 
     public async void CreateTheme()
     {
-        CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUIExampleApp.Main, null);
+        CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, null);
         
         if (newCustomTheme is null)
             return;
@@ -31,12 +30,12 @@ public class SettingsViewModel : ViewModelBase
 
     public async void EditTheme(CustomTheme customTheme)
     {
-        CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUIExampleApp.Main, customTheme);
+        CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, customTheme);
         
         if (newCustomTheme is null)
             return;
         
-        PleasantUIExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
+        PleasantUiExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
     }
 
     public void DeleteTheme(CustomTheme customTheme)

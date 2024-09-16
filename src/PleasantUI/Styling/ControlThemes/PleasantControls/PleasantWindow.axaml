@@ -2,27 +2,29 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantWindow}" TargetType="PleasantWindow">
-        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
-        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}"/>
+        <Setter Property="EnableCustomTitleBar"
+                Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
-        <Setter Property="EnableBlur" Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
-        
+        <Setter Property="EnableBlur"
+                Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                    
+
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
                         <Grid RowDefinitions="Auto,*">
                             <PleasantTitleBar x:Name="PART_PleasantTitleBar"
                                               Grid.Row="0"
                                               VerticalAlignment="Top"
-                                              ZIndex="5"/>
+                                              ZIndex="5" />
 
                             <ContentPresenter x:Name="PART_ContentWindow"
                                               Grid.Row="1"
@@ -31,23 +33,24 @@
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            
+
                             <Panel x:Name="PART_ModalWindowsPanel" Grid.Row="0" Grid.RowSpan="2" />
                         </Grid>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
-        <Style Selector="^[TitleBarStyle=MacOS] /template/ PleasantTitleBar#PART_PleasantTitleBar">
+
+        <Style Selector="^[TitleBarStyle=MacOs] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Theme" Value="{StaticResource PleasantTitleBarMacOSStyle}" />
         </Style>
-        <Style Selector="^[TitleBarStyle=MacOS]">
+        <Style Selector="^[TitleBarStyle=MacOs]">
             <Setter Property="EnableTitleBarMargin" Value="True" />
         </Style>
-        
+
         <Style Selector="^ /template/ Panel#PART_Background">
-            <Setter Property="Opacity" Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
+            <Setter Property="Opacity"
+                    Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
@@ -60,22 +63,23 @@
         <Style Selector="^[IsActive=False] /template/ Panel#PART_Background">
             <Setter Property="Opacity" Value="1" />
         </Style>
-        
+
         <Style Selector="^[EnableTitleBarMargin=True] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Grid.Row" Value="0" />
         </Style>
         <Style Selector="^[EnableTitleBarMargin=False] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Grid.Row" Value="1" />
         </Style>
-        
+
         <Style Selector="^[TitleBarType=Classic] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Height" Value="32" />
         </Style>
         <Style Selector="^[TitleBarType=ClassicExtended] /template/ PleasantTitleBar#PART_PleasantTitleBar">
             <Setter Property="Height" Value="44" />
         </Style>
-        
-        <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ VisualLayerManager#PART_VisualLayerManager">
+
+        <Style
+            Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ VisualLayerManager#PART_VisualLayerManager">
             <Setter Property="Margin" Value="8" />
         </Style>
     </ControlTheme>

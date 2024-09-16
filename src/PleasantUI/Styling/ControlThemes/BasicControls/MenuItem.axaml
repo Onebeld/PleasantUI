@@ -134,7 +134,7 @@
                                 </Style.Animations>
                             </Style>
                         </Popup.Styles>
-                        
+
                         <Border Background="{DynamicResource BackgroundColor1}"
                                 BorderBrush="{DynamicResource ControlBorderColor}"
                                 Opacity="0"
@@ -169,7 +169,7 @@
         <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>

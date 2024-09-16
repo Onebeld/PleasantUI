@@ -14,361 +14,385 @@ using PleasantUI.Core.Models;
 using PleasantUI.Extensions;
 using PleasantUI.ToolKit.Commands;
 using PleasantUI.ToolKit.Commands.ThemeEditor;
-using PleasantUI.Windows;
 using Serilog;
 
 namespace PleasantUI.ToolKit.ViewModels;
 
 /// <summary>
-/// ViewModel for the <see cref="ThemeEditorWindow"/>.
+/// ViewModel for the <see cref="ThemeEditorWindow" />.
 /// </summary>
 public class ThemeEditorViewModel : ViewModelBase
 {
-	private readonly Stack<IEditorCommand> _undoStack = new();
-	private readonly Stack<IEditorCommand> _redoStack = new();
-	
-	private readonly ThemeEditorWindow _themeEditorWindow;
-	
-	private AvaloniaList<Theme> _themes = new();
-	private CustomTheme _customTheme;
-	private string _themeName;
+    private readonly Stack<IEditorCommand> _redoStack = new();
 
-	/// <summary>
-	/// Gets or sets the custom theme being edited.
-	/// </summary>
-	public CustomTheme CustomTheme
-	{
-		get => _customTheme;
-		set => RaiseAndSet(ref _customTheme, value);
-	}
+    private readonly ThemeEditorWindow _themeEditorWindow;
+    private readonly Stack<IEditorCommand> _undoStack = new();
 
-	/// <summary>
-	/// Gets or sets the name of the theme.
-	/// </summary>
-	public string ThemeName
-	{
-		get => _themeName;
-		set
-		{
-			if (string.IsNullOrWhiteSpace(value))
-				return;
-			
-			IEditorCommand command = new ThemeNameChangeCommand(this, _themeName, value);
-			ExecuteCommand(command);
-		}
-	}
+    /// <summary>
+    /// Gets the resource dictionary containing the theme colors.
+    /// </summary>
+    public readonly ResourceDictionary ResourceDictionary;
 
-	/// <summary>
-	/// Gets or sets the list of available default themes.
-	/// </summary>
-	public AvaloniaList<Theme> Themes
-	{
-		get => _themes;
-		set => RaiseAndSet(ref _themes, value);
-	}
-	
-	/// <summary>
-	/// Gets the resource dictionary containing the theme colors.
-	/// </summary>
-	public readonly ResourceDictionary ResourceDictionary;
-	
-	/// <summary>
-	/// Gets the list of theme colors.
-	/// </summary>
-	public AvaloniaList<ThemeColor> ThemeColors { get; } = new();
+    private CustomTheme _customTheme;
+    private string _themeName;
 
-	/// <summary>
-	/// Gets the colors of the custom theme in JSON format.
-	/// </summary>
-	public string ColorsJson => GetJson();
-	
-	/// <summary>
-	/// Gets a value indicating whether an undo operation is possible.
-	/// </summary>
-	public bool CanUndo => _undoStack.Count > 0;
-	
-	/// <summary>
-	/// Gets a value indicating whether a redo operation is possible.
-	/// </summary>
-	public bool CanRedo => _redoStack.Count > 0;
-	
-	/// <summary>
-	/// Initializes a new instance of the <see cref="ThemeEditorViewModel"/> class.
-	/// </summary>
-	/// <param name="parent">The parent window.</param>
-	/// <param name="themeEditorWindow">The theme editor window.</param>
-	/// <param name="customTheme">The custom theme to edit (optional).</param>
-	public ThemeEditorViewModel(IPleasantWindow parent, ThemeEditorWindow themeEditorWindow, CustomTheme? customTheme)
-	{
-		_customTheme = customTheme ?? new CustomTheme(null, "NewTheme", PleasantTheme.GetThemeTemplateDictionary());
-		_themeName = _customTheme.Name;
-		
-		ResourceDictionary = new ResourceDictionary();
-		
-		ThemeColor.Parent = parent;
+    private AvaloniaList<Theme> _themes = new();
 
-		foreach (KeyValuePair<string, Color> pair in _customTheme.Colors)
-		{
-			ResourceDictionary.Add(pair.Key, pair.Value);
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ThemeEditorViewModel" /> class.
+    /// </summary>
+    /// <param name="windowParent">The parent window.</param>
+    /// <param name="themeEditorWindow">The theme editor window.</param>
+    /// <param name="customTheme">The custom theme to edit (optional).</param>
+    public ThemeEditorViewModel(IPleasantWindow windowParent, ThemeEditorWindow themeEditorWindow,
+        CustomTheme? customTheme)
+    {
+        _customTheme = customTheme ?? new CustomTheme(null, "NewTheme", PleasantTheme.GetThemeTemplateDictionary());
+        _themeName = _customTheme.Name;
 
-			ThemeColor themeColor = CreateThemeColor(pair.Key, pair.Value);
-			ThemeColors.Add(themeColor);
-		}
-		
-		foreach (Theme theme in PleasantTheme.Themes)
-		{
-			if (theme.Name is "System" or "Custom")
-				continue;
-			
-			Themes.Add(theme);
-		}
-		
-		themeEditorWindow.ThemeVariantScope.Resources.ThemeDictionaries.Add(_customTheme.ThemeVariant, ResourceDictionary);
-		_themeEditorWindow = themeEditorWindow;
+        ResourceDictionary = new ResourceDictionary();
 
-		RaisePropertyChanged(nameof(ColorsJson));
-	}
+        ThemeColor.WindowParent = windowParent;
 
-	/// <summary>
-	/// Undoes the last change.
-	/// </summary>
-	public void Undo()
-	{
-		if (!CanUndo) return;
+        foreach (KeyValuePair<string, Color> pair in _customTheme.Colors)
+        {
+            ResourceDictionary.Add(pair.Key, pair.Value);
 
-		IEditorCommand command = _undoStack.Pop();
-		command.Undo();
-		_redoStack.Push(command);
-		
-		UpdateProperties();
-	}
+            ThemeColor themeColor = CreateThemeColor(pair.Key, pair.Value);
+            ThemeColors.Add(themeColor);
+        }
 
-	/// <summary>
-	/// Redoes the last undone change.
-	/// </summary>
-	public void Redo()
-	{
-		if (!CanRedo) return;
+        foreach (Theme theme in PleasantTheme.Themes)
+        {
+            if (theme.Name is "System" or "Custom")
+                continue;
 
-		IEditorCommand command = _redoStack.Pop();
-		command.Redo();
-		_undoStack.Push(command);
-		
-		UpdateProperties();
-	}
+            Themes.Add(theme);
+        }
 
-	/// <summary>
-	/// Copies the theme colors in JSON format to the clipboard.
-	/// </summary>
-	public async void CopyTheme()
-	{
-		await TopLevel.GetTopLevel(ThemeColor.Parent as Visual)?.Clipboard?.SetTextAsync(ColorsJson)!;
+        themeEditorWindow.ThemeVariantScope.Resources.ThemeDictionaries.Add(_customTheme.ThemeVariant,
+            ResourceDictionary);
+        _themeEditorWindow = themeEditorWindow;
 
-		Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
-		string text = Localizer.Instance["ThemeCopiedToClipboard"];
-		
-		PleasantSnackbar.Show(ThemeColor.Parent, text, icon);
-	}
+        RaisePropertyChanged(nameof(ColorsJson));
+    }
 
-	public async void PasteTheme()
-	{
-		string? data = await TopLevel.GetTopLevel(ThemeColor.Parent as Visual)?.Clipboard?.GetTextAsync()!;
-		
-		ParseColorsFromJson(data);
-	}
+    /// <summary>
+    /// Gets or sets the custom theme being edited.
+    /// </summary>
+    public CustomTheme CustomTheme
+    {
+        get => _customTheme;
+        set => RaiseAndSet(ref _customTheme, value);
+    }
 
-	public async void ImportTheme()
-	{
-		TopLevel? topLevel = TopLevel.GetTopLevel(ThemeColor.Parent as Visual);
-		
-		if (topLevel is null)
-			return;
-		
-		IReadOnlyList<IStorageFile> pickerFileTypes = await topLevel.StorageProvider.OpenFilePickerAsync(
-			new FilePickerOpenOptions
-			{
-				FileTypeFilter = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }],
-				AllowMultiple = false
-			})!;
-		
-		if (pickerFileTypes.Count == 0)
-			return;
+    /// <summary>
+    /// Gets or sets the name of the theme.
+    /// </summary>
+    public string ThemeName
+    {
+        get => _themeName;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return;
 
-		string json = File.ReadAllText(pickerFileTypes[0].Path.LocalPath);
-		
-		ParseColorsFromJson(json);
-	}
+            IEditorCommand command = new ThemeNameChangeCommand(this, _themeName, value);
+            ExecuteCommand(command);
+        }
+    }
 
-	public async void ExportTheme()
-	{
-		TopLevel? topLevel = TopLevel.GetTopLevel(ThemeColor.Parent as Visual);
-		
-		if (topLevel is null)
-			return;
+    /// <summary>
+    /// Gets or sets the list of available default themes.
+    /// </summary>
+    public AvaloniaList<Theme> Themes
+    {
+        get => _themes;
+        set => RaiseAndSet(ref _themes, value);
+    }
 
-		IStorageFile? result = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
-		{
-			FileTypeChoices = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }],
-			DefaultExtension = "json",
-			SuggestedFileName = ThemeName
-		});
-		
-		if (result is null)
-			return;
-		
-		File.WriteAllText(result.Path.LocalPath, ColorsJson);
-		
-		Geometry? fileExportIcon = ResourceExtensions.GetResource<Geometry>("FileExportRegular");
-		string themeExportedText = Localizer.Instance["ThemeExported"];
-		
-		PleasantSnackbar.Show(ThemeColor.Parent, themeExportedText, fileExportIcon, NotificationType.Success);
-	}
+    /// <summary>
+    /// Gets the list of theme colors.
+    /// </summary>
+    public AvaloniaList<ThemeColor> ThemeColors { get; } = new();
 
-	public void ChangeThemeName(string newName)
-	{
-		_themeName = newName;
-		RaisePropertyChanged(nameof(ThemeName));
-	}
-	
-	/// <summary>
-	/// Applies the colors from the specified default theme.
-	/// </summary>
-	/// <param name="theme">The default theme to apply.</param>
-	public void GetColorsFromTheme(Theme theme)
-	{
-		_themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
-		
-		Dictionary<string, Color> colors = PleasantTheme.GetColorsDictionary(theme);
+    /// <summary>
+    /// Gets the colors of the custom theme in JSON format.
+    /// </summary>
+    public string ColorsJson => GetJson();
 
-		IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, theme.Name);
-		ExecuteCommand(command);
-	}
+    /// <summary>
+    /// Gets a value indicating whether an undo operation is possible.
+    /// </summary>
+    public bool CanUndo => _undoStack.Count > 0;
 
-	/// <summary>
-	/// Applies the colors from the specified custom theme.
-	/// </summary>
-	/// <param name="customTheme">The custom theme to apply.</param>
-	public void GetColorsFromCustomTheme(CustomTheme customTheme)
-	{
-		_themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
-		
-		Dictionary<string, Color> colors = customTheme.Colors;
-		
-		IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, customTheme.Name);
-		ExecuteCommand(command);
-	}
+    /// <summary>
+    /// Gets a value indicating whether a redo operation is possible.
+    /// </summary>
+    public bool CanRedo => _redoStack.Count > 0;
 
-	public void DropFile(IStorageItem file)
-	{
-		string json = File.ReadAllText(file.Path.AbsolutePath);
-		
-		ParseColorsFromJson(json);
-	}
+    /// <summary>
+    /// Undoes the last change.
+    /// </summary>
+    public void Undo()
+    {
+        if (!CanUndo) return;
 
-	private void ParseColorsFromJson(string json)
-	{
-		JsonDocument jsonDocument;
-		
-		try
-		{
-			jsonDocument = JsonDocument.Parse(json);
-		}
-		catch (Exception)
-		{
-			Log.Error("Error parsing colors from json. An invalid JSON was received.");
-			
-			Geometry? closeCircleIcon = ResourceExtensions.GetResource<Geometry>("CloseCircleRegular");
-			string themeImportErrorText = Localizer.Instance["ThemeImportError"];
-		
-			PleasantSnackbar.Show(ThemeColor.Parent, themeImportErrorText, closeCircleIcon, NotificationType.Error);
-			
-			return;
-		}
+        IEditorCommand command = _undoStack.Pop();
+        command.Undo();
+        _redoStack.Push(command);
 
-		Dictionary<string, Color> colors = new();
+        UpdateProperties();
+    }
 
-		string? themeName = null;
+    /// <summary>
+    /// Redoes the last undone change.
+    /// </summary>
+    public void Redo()
+    {
+        if (!CanRedo) return;
 
-		if (jsonDocument.RootElement.TryGetProperty("ThemeName", out JsonElement element))
-			themeName = element.GetString();
+        IEditorCommand command = _redoStack.Pop();
+        command.Redo();
+        _undoStack.Push(command);
 
-		foreach (JsonProperty jsonProperty in jsonDocument.RootElement.EnumerateObject())
-		{
-			string name = jsonProperty.Name;
-			string? hexColor = jsonProperty.Value.GetString();
-			
-			if (hexColor is null)
-				continue;
-			
-			if (!Color.TryParse(hexColor, out Color color))
-				continue;
-			
-			colors.Add(name, color);
-		}
-		
-		IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, themeName);
-		ExecuteCommand(command);
-		
-		jsonDocument.Dispose();
-		
-		Geometry? fileImportIcon = ResourceExtensions.GetResource<Geometry>("FileImportRegular");
-		string themeImportedText = Localizer.Instance["ThemeImported"];
-		
-		PleasantSnackbar.Show(ThemeColor.Parent, themeImportedText, fileImportIcon, NotificationType.Success);
-	}
-	
-	private void ExecuteCommand(IEditorCommand command)
-	{
-		command.Redo();
-		
-		_undoStack.Push(command);
-		_redoStack.Clear();
-		
-		UpdateProperties();
-	}
+        UpdateProperties();
+    }
 
-	private void UpdateProperties()
-	{
-		RaisePropertyChanged(nameof(CanUndo));
-		RaisePropertyChanged(nameof(CanRedo));
-		
-		RaisePropertyChanged(nameof(ColorsJson));
-	}
+    /// <summary>
+    /// Copies the theme colors in JSON format to the clipboard.
+    /// </summary>
+    public async void CopyTheme()
+    {
+        await TopLevel.GetTopLevel(ThemeColor.WindowParent as Visual)?.Clipboard?.SetTextAsync(ColorsJson)!;
 
-	private Dictionary<string, Color> GetDictionary()
-	{
-		Dictionary<string, Color> colors = new();
+        Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
+        string text = Localizer.Instance["ThemeCopiedToClipboard"];
 
-		foreach (ThemeColor themeColor in ThemeColors) 
-			colors.Add(themeColor.Name, themeColor.Color);
+        PleasantSnackbar.Show(ThemeColor.WindowParent, text, icon: icon);
+    }
 
-		return colors;
-	}
+    /// <summary>
+    /// Parses a JSON string from the clipboard and applies its colors to the current theme.
+    /// </summary>
+    public async void PasteTheme()
+    {
+        string? data = await TopLevel.GetTopLevel(ThemeColor.WindowParent as Visual)?.Clipboard?.GetTextAsync()!;
 
-	private string GetJson()
-	{
-		JsonObject jsonObject = new() { { "ThemeName", JsonValue.Create(ThemeName) } };
+        ParseColorsFromJson(data);
+    }
 
-		foreach (ThemeColor themeColor in ThemeColors) 
-			jsonObject.Add(themeColor.Name, JsonValue.Create("#" + themeColor.Color.ToUInt32().ToString("x8", CultureInfo.InvariantCulture).ToUpper()));
-        
-		return jsonObject.ToJsonString(new JsonSerializerOptions
-		{
-			WriteIndented = true
-		});
-	}
+    /// <summary>
+    /// Opens a file picker for the user to select a JSON file containing a theme, and applies the theme's colors to the current theme.
+    /// </summary>
+    public async void ImportTheme()
+    {
+        TopLevel? topLevel = TopLevel.GetTopLevel(ThemeColor.WindowParent as Visual);
 
-	private void OnColorChange(ThemeColor themeColor, Color newColor, Color previousColor)
-	{
-		IEditorCommand command = new ColorChangeCommand(themeColor, ResourceDictionary, previousColor, newColor);
-		ExecuteCommand(command);
-	}
+        if (topLevel is null)
+            return;
 
-	private ThemeColor CreateThemeColor(string key, Color color)
-	{
-		ThemeColor themeColor = new(key, color);
-		themeColor.ColorChanged += OnColorChange;
+        IReadOnlyList<IStorageFile> pickerFileTypes = await topLevel.StorageProvider.OpenFilePickerAsync(
+            new FilePickerOpenOptions
+            {
+                FileTypeFilter = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }],
+                AllowMultiple = false
+            })!;
 
-		return themeColor;
-	}
+        if (pickerFileTypes.Count == 0)
+            return;
+
+        string json = File.ReadAllText(pickerFileTypes[0].Path.LocalPath);
+
+        ParseColorsFromJson(json);
+    }
+
+    /// <summary>
+    /// Opens a save file picker for the user to select a location to export the current theme as a JSON file.
+    /// </summary>
+    public async void ExportTheme()
+    {
+        TopLevel? topLevel = TopLevel.GetTopLevel(ThemeColor.WindowParent as Visual);
+
+        if (topLevel is null)
+            return;
+
+        IStorageFile? result = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            FileTypeChoices = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }],
+            DefaultExtension = "json",
+            SuggestedFileName = ThemeName
+        });
+
+        if (result is null)
+            return;
+
+        File.WriteAllText(result.Path.LocalPath, ColorsJson);
+
+        Geometry? fileExportIcon = ResourceExtensions.GetResource<Geometry>("FileExportRegular");
+        string themeExportedText = Localizer.Instance["ThemeExported"];
+
+        PleasantSnackbar.Show(ThemeColor.WindowParent, themeExportedText, icon: fileExportIcon,
+            notificationType: NotificationType.Success);
+    }
+
+    /// <summary>
+    /// Changes the name of the theme.
+    /// </summary>
+    /// <param name="newName">The new name of the theme.</param>
+    public void ChangeThemeName(string newName)
+    {
+        _themeName = newName;
+        RaisePropertyChanged(nameof(ThemeName));
+    }
+
+    /// <summary>
+    /// Applies the colors from the specified default theme.
+    /// </summary>
+    /// <param name="theme">The default theme to apply.</param>
+    public void GetColorsFromTheme(Theme theme)
+    {
+        _themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
+
+        Dictionary<string, Color> colors = PleasantTheme.GetColorsDictionary(theme);
+
+        IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, theme.Name);
+        ExecuteCommand(command);
+    }
+
+    /// <summary>
+    /// Applies the colors from the specified custom theme.
+    /// </summary>
+    /// <param name="customTheme">The custom theme to apply.</param>
+    public void GetColorsFromCustomTheme(CustomTheme customTheme)
+    {
+        _themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
+
+        Dictionary<string, Color> colors = customTheme.Colors;
+
+        IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, customTheme.Name);
+        ExecuteCommand(command);
+    }
+
+    /// <summary>
+    /// Applies the theme colors from the specified JSON file.
+    /// </summary>
+    /// <param name="file">The JSON file to apply the theme colors from.</param>
+    public void DropFile(IStorageItem file)
+    {
+        string json = File.ReadAllText(file.Path.AbsolutePath);
+
+        ParseColorsFromJson(json);
+    }
+
+    private void ParseColorsFromJson(string json)
+    {
+        JsonDocument jsonDocument;
+
+        try
+        {
+            jsonDocument = JsonDocument.Parse(json);
+        }
+        catch (Exception)
+        {
+            Log.Error("Error parsing colors from json. An invalid JSON was received.");
+
+            Geometry? closeCircleIcon = ResourceExtensions.GetResource<Geometry>("CloseCircleRegular");
+            string themeImportErrorText = Localizer.Instance["ThemeImportError"];
+
+            PleasantSnackbar.Show(ThemeColor.WindowParent, themeImportErrorText, icon: closeCircleIcon,
+                notificationType: NotificationType.Error);
+
+            return;
+        }
+
+        Dictionary<string, Color> colors = new();
+
+        string? themeName = null;
+
+        if (jsonDocument.RootElement.TryGetProperty("ThemeName", out JsonElement element))
+            themeName = element.GetString();
+
+        foreach (JsonProperty jsonProperty in jsonDocument.RootElement.EnumerateObject())
+        {
+            string name = jsonProperty.Name;
+            string? hexColor = jsonProperty.Value.GetString();
+
+            if (hexColor is null)
+                continue;
+
+            if (!Color.TryParse(hexColor, out Color color))
+                continue;
+
+            colors.Add(name, color);
+        }
+
+        IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, themeName);
+        ExecuteCommand(command);
+
+        jsonDocument.Dispose();
+
+        Geometry? fileImportIcon = ResourceExtensions.GetResource<Geometry>("FileImportRegular");
+        string themeImportedText = Localizer.Instance["ThemeImported"];
+
+        PleasantSnackbar.Show(ThemeColor.WindowParent, themeImportedText, icon: fileImportIcon,
+            notificationType: NotificationType.Success);
+    }
+
+    private void ExecuteCommand(IEditorCommand command)
+    {
+        command.Redo();
+
+        _undoStack.Push(command);
+        _redoStack.Clear();
+
+        UpdateProperties();
+    }
+
+    private void UpdateProperties()
+    {
+        RaisePropertyChanged(nameof(CanUndo));
+        RaisePropertyChanged(nameof(CanRedo));
+
+        RaisePropertyChanged(nameof(ColorsJson));
+    }
+
+    private Dictionary<string, Color> GetDictionary()
+    {
+        Dictionary<string, Color> colors = new();
+
+        foreach (ThemeColor themeColor in ThemeColors)
+            colors.Add(themeColor.Name, themeColor.Color);
+
+        return colors;
+    }
+
+    private string GetJson()
+    {
+        JsonObject jsonObject = new() { { "ThemeName", JsonValue.Create(ThemeName) } };
+
+        foreach (ThemeColor themeColor in ThemeColors)
+            jsonObject.Add(themeColor.Name,
+                JsonValue.Create("#" + themeColor.Color.ToUInt32().ToString("x8", CultureInfo.InvariantCulture)
+                    .ToUpper()));
+
+        return jsonObject.ToJsonString(new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+    }
+
+    private void OnColorChange(ThemeColor themeColor, Color newColor, Color previousColor)
+    {
+        IEditorCommand command = new ColorChangeCommand(themeColor, ResourceDictionary, previousColor, newColor);
+        ExecuteCommand(command);
+    }
+
+    private ThemeColor CreateThemeColor(string key, Color color)
+    {
+        ThemeColor themeColor = new(key, color);
+        themeColor.ColorChanged += OnColorChange;
+
+        return themeColor;
+    }
 }

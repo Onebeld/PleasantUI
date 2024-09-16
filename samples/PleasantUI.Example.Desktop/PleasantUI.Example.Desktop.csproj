@@ -10,6 +10,7 @@
         <PublishAot>true</PublishAot>
         <Company>Dmitry Zhutkov (Onebeld)</Company>
         <ApplicationIcon>PleasantUIIcon.ico</ApplicationIcon>
+        <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
     </PropertyGroup>
     
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -18,10 +19,10 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.0-beta1" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta1" />
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0-beta1" />
-        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="8.0.8" />
+        <PackageReference Include="Avalonia" Version="11.2.0-beta2" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta2" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0-beta2" />
+        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="9.0.0-rc.1.24431.7" />
     </ItemGroup>
     
     <ItemGroup>

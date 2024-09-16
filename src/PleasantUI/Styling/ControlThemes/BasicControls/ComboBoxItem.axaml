@@ -65,7 +65,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Border#Pill">
             <Setter Property="Transitions">
                 <Transitions>
@@ -86,7 +86,7 @@
         <Style Selector="^:not(:selected) /template/ Border#Pill">
             <Setter Property="RenderTransform" Value="scaleY(0)" />
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
@@ -98,7 +98,7 @@
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        
+
         <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor2}" />
         </Style>

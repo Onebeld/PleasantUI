@@ -12,7 +12,7 @@ public partial class MainWindow : PleasantWindow
     {
         base.OnApplyTemplate(e);
         
-        PleasantUIExampleApp.ViewModel.NotificationManager = new WindowNotificationManager(this)
+        PleasantUiExampleApp.ViewModel.NotificationManager = new WindowNotificationManager(this)
         {
             Position = NotificationPosition.TopRight,
             MaxItems = 3,

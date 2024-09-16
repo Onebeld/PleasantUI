@@ -13,63 +13,50 @@ using PleasantUI.Controls.Utils;
 namespace PleasantUI.Controls;
 
 /// <summary>
-/// Positions child elements in sequential position from left to right, 
-/// breaking content to the next line at the edge of the containing box. 
-/// Subsequent ordering happens sequentially from top to bottom or from right to left, 
-/// depending on the value of the <see cref="Orientation"/> property.
+/// Positions child elements in sequential position from left to right,
+/// breaking content to the next line at the edge of the containing box.
+/// Subsequent ordering happens sequentially from top to bottom or from right to left,
+/// depending on the value of the <see cref="Orientation" /> property.
 /// </summary>
 public class VirtualizingWrapPanel : VirtualizingPanel
 {
+    private static readonly Rect InvalidViewport = new(double.PositiveInfinity, double.PositiveInfinity, 0, 0);
+    private readonly Action<Control, int> _recycleElement;
+    private readonly Action<Control> _recycleElementOnItemRemoved;
+    private readonly Action<Control, int, int> _updateElementIndex;
+    private bool _isInLayout;
+    private bool _isWaitingForViewportUpdate;
+    private UvSize _lastEstimatedElementSizeUv = new(Orientation.Horizontal, 25, 25);
+    private RealizedWrappedElements? _measureElements;
+    private RealizedWrappedElements? _realizedElements;
+    private Stack<Control>? _recyclePool;
+    private Control? _scrollToElement;
+    private int _scrollToIndex = -1;
+    private ScrollViewer? _scrollViewer;
+    private Control? _unrealizedFocusedElement;
+    private int _unrealizedFocusedIndex = -1;
+    private Rect _viewport = InvalidViewport;
+    
     /// <summary>
-    /// Defines the <see cref="Orientation"/> property.
+    /// Defines the <see cref="Orientation" /> property.
     /// </summary>
     public static readonly StyledProperty<Orientation> OrientationProperty =
         StackPanel.OrientationProperty.AddOwner<VirtualizingWrapPanel>();
 
     /// <summary>
-    /// Defines the <see cref="ItemWidth"/> property.
+    /// Defines the <see cref="ItemWidth" /> property.
     /// </summary>
     public static readonly StyledProperty<double> ItemWidthProperty =
         AvaloniaProperty.Register<VirtualizingWrapPanel, double>(nameof(ItemWidth), double.NaN);
 
     /// <summary>
-    /// Defines the <see cref="ItemHeight"/> property.
+    /// Defines the <see cref="ItemHeight" /> property.
     /// </summary>
     public static readonly StyledProperty<double> ItemHeightProperty =
         AvaloniaProperty.Register<VirtualizingWrapPanel, double>(nameof(ItemHeight), double.NaN);
 
     private static readonly AttachedProperty<bool> ItemIsOwnContainerProperty =
         AvaloniaProperty.RegisterAttached<VirtualizingWrapPanel, Control, bool>("ItemIsOwnContainer");
-
-    private static readonly Rect InvalidViewport = new(double.PositiveInfinity, double.PositiveInfinity, 0, 0);
-    private readonly Action<Control, int> _recycleElement;
-    private readonly Action<Control> _recycleElementOnItemRemoved;
-    private readonly Action<Control, int, int> _updateElementIndex;
-    private int _scrollToIndex = -1;
-    private Control? _scrollToElement;
-    private bool _isInLayout;
-    private bool _isWaitingForViewportUpdate;
-    private UVSize _lastEstimatedElementSizeUv = new(Orientation.Horizontal, 25, 25);
-    private RealizedWrappedElements? _measureElements;
-    private RealizedWrappedElements? _realizedElements;
-    private ScrollViewer? _scrollViewer;
-    private Rect _viewport = InvalidViewport;
-    private Stack<Control>? _recyclePool;
-    private Control? _unrealizedFocusedElement;
-    private int _unrealizedFocusedIndex = -1;
-
-    static VirtualizingWrapPanel()
-    {
-        OrientationProperty.OverrideDefaultValue(typeof(VirtualizingWrapPanel), Orientation.Horizontal);
-    }
-
-    public VirtualizingWrapPanel()
-    {
-        _recycleElement = RecycleElement;
-        _recycleElementOnItemRemoved = RecycleElementOnItemRemoved;
-        _updateElementIndex = UpdateElementIndex;
-        EffectiveViewportChanged += OnEffectiveViewportChanged;
-    }
 
     /// <summary>
     /// Gets or sets the axis along which items are laid out.
@@ -111,7 +98,24 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     /// Gets the index of the last realized element, or -1 if no elements are realized.
     /// </summary>
     public int LastRealizedIndex => _realizedElements?.LastIndex ?? -1;
+    
+    static VirtualizingWrapPanel()
+    {
+        OrientationProperty.OverrideDefaultValue(typeof(VirtualizingWrapPanel), Orientation.Horizontal);
+    }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VirtualizingWrapPanel" /> class.
+    /// </summary>
+    public VirtualizingWrapPanel()
+    {
+        _recycleElement = RecycleElement;
+        _recycleElementOnItemRemoved = RecycleElementOnItemRemoved;
+        _updateElementIndex = UpdateElementIndex;
+        EffectiveViewportChanged += OnEffectiveViewportChanged;
+    }
+
+    /// <inheritdoc />
     protected override Size MeasureOverride(Size availableSize)
     {
         IReadOnlyList<object?> items = Items;
@@ -158,6 +162,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         }
     }
 
+    /// <inheritdoc />
     protected override Size ArrangeOverride(Size finalSize)
     {
         if (_realizedElements is null)
@@ -173,8 +178,8 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
                 if (e is not null)
                 {
-                    UVSize sizeUv = _realizedElements.SizeUV;
-                    UVSize positionUv = _realizedElements.PositionsUV[i];
+                    UvSize sizeUv = _realizedElements.SizeUv;
+                    UvSize positionUv = _realizedElements.PositionsUv[i];
                     Rect rect = new(positionUv.Width, positionUv.Height, sizeUv.Width, sizeUv.Height);
                     e.Arrange(rect);
                     _scrollViewer?.RegisterAnchorCandidate(e);
@@ -189,18 +194,21 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         }
     }
 
+    /// <inheritdoc />
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
         _scrollViewer = this.FindAncestorOfType<ScrollViewer>();
     }
 
+    /// <inheritdoc />
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
         _scrollViewer = null;
     }
 
+    /// <inheritdoc />
     protected override void OnItemsChanged(IReadOnlyList<object?> items, NotifyCollectionChangedEventArgs e)
     {
         InvalidateMeasure();
@@ -214,11 +222,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
                 _realizedElements.ItemsInserted(e.NewStartingIndex, e.NewItems!.Count, _updateElementIndex);
                 break;
             case NotifyCollectionChangedAction.Remove:
-                _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex, _recycleElementOnItemRemoved);
+                _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex,
+                    _recycleElementOnItemRemoved);
                 break;
             case NotifyCollectionChangedAction.Replace:
             case NotifyCollectionChangedAction.Move:
-                _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex, _recycleElementOnItemRemoved);
+                _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex,
+                    _recycleElementOnItemRemoved);
                 _realizedElements.ItemsInserted(e.NewStartingIndex, e.NewItems!.Count, _updateElementIndex);
                 break;
             case NotifyCollectionChangedAction.Reset:
@@ -227,6 +237,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         }
     }
 
+    /// <inheritdoc />
     protected override IInputElement? GetControl(NavigationDirection direction, IInputElement? from, bool wrap)
     {
         int count = Items.Count;
@@ -286,11 +297,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         return ScrollIntoView(toIndex);
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<Control> GetRealizedContainers()
     {
         return _realizedElements?.Elements.Where(x => x is not null)!;
     }
 
+    /// <inheritdoc />
     protected override Control? ContainerFromIndex(int index)
     {
         if (index < 0 || index >= Items.Count)
@@ -302,11 +315,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         return null;
     }
 
+    /// <inheritdoc />
     protected override int IndexFromContainer(Control container)
     {
         return _realizedElements?.GetIndex(container) ?? -1;
     }
 
+    /// <inheritdoc />
     protected override Control? ScrollIntoView(int index)
     {
         IReadOnlyList<object?> items = Items;
@@ -335,10 +350,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             _scrollToIndex = index;
 
             Rect viewport = _viewport != InvalidViewport ? _viewport : EstimateViewport();
-            UVSize viewportEnd = Orientation == Orientation.Horizontal ? new UVSize(Orientation, viewport.Right, viewport.Bottom) : new UVSize(Orientation, viewport.Bottom, viewport.Right);
+            UvSize viewportEnd = Orientation == Orientation.Horizontal
+                ? new UvSize(Orientation, viewport.Right, viewport.Bottom)
+                : new UvSize(Orientation, viewport.Bottom, viewport.Right);
 
             // Get the expected position of the element and put it in place.
-            UVSize anchorUv = _realizedElements.GetOrEstimateElementUV(index, ref _lastEstimatedElementSizeUv, viewportEnd);
+            UvSize anchorUv =
+                _realizedElements.GetOrEstimateElementUv(index, ref _lastEstimatedElementSizeUv, viewportEnd);
             size = new Size(isItemWidthSet ? itemWidth : _scrollToElement.DesiredSize.Width,
                 isItemHeightSet ? itemHeight : _scrollToElement.DesiredSize.Height);
             Rect rect = new(anchorUv.Width, anchorUv.Height, size.Width, size.Height);
@@ -384,21 +402,21 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         return null;
     }
 
-    private UVSize EstimateElementSizeUv()
+    private UvSize EstimateElementSizeUv()
     {
         double itemWidth = ItemWidth;
         double itemHeight = ItemHeight;
         bool isItemWidthSet = !double.IsNaN(itemWidth);
         bool isItemHeightSet = !double.IsNaN(itemHeight);
 
-        UVSize estimatedSize = new(Orientation,
+        UvSize estimatedSize = new(Orientation,
             isItemWidthSet ? itemWidth : _lastEstimatedElementSizeUv.Width,
             isItemHeightSet ? itemHeight : _lastEstimatedElementSizeUv.Height);
 
         if ((isItemWidthSet && isItemHeightSet) || _realizedElements is null)
             return estimatedSize;
 
-        UVSize? result = _realizedElements.EstimateElementSize(Orientation);
+        UvSize? result = _realizedElements.EstimateElementSize(Orientation);
         if (result != null)
         {
             estimatedSize = result.Value;
@@ -407,11 +425,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         }
 
         return estimatedSize;
-    }
-
-    internal IReadOnlyList<Control?> GetRealizedElements()
-    {
-        return _realizedElements?.Elements ?? Array.Empty<Control>();
     }
 
     private MeasureViewport CalculateMeasureViewport(IReadOnlyList<object?> items)
@@ -423,13 +436,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         Rect viewport = _viewport != InvalidViewport ? _viewport : EstimateViewport();
 
         // Get the viewport in the orientation direction.
-        UVSize viewportStart = new(Orientation, viewport.X, viewport.Y);
-        UVSize viewportEnd = new(Orientation, viewport.Right, viewport.Bottom);
+        UvSize viewportStart = new(Orientation, viewport.X, viewport.Y);
+        UvSize viewportEnd = new(Orientation, viewport.Right, viewport.Bottom);
 
         // Get or estimate the anchor element from which to start realization.
         int itemCount = items.Count;
         _lastEstimatedElementSizeUv.Orientation = Orientation;
-        (int anchorIndex, UVSize anchorU) = _realizedElements.GetOrEstimateAnchorElementForViewport(
+        (int anchorIndex, UvSize anchorU) = _realizedElements.GetOrEstimateAnchorElementForViewport(
             viewportStart,
             viewportEnd,
             itemCount,
@@ -451,15 +464,15 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private Size CalculateDesiredSize(Orientation orientation, int itemCount, in MeasureViewport viewport)
     {
-        UVSize sizeUv = new(orientation);
-        UVSize estimatedSize = EstimateElementSizeUv();
+        UvSize sizeUv = new(orientation);
+        UvSize estimatedSize = EstimateElementSizeUv();
 
         if (!double.IsNaN(ItemWidth) && !double.IsNaN(ItemHeight))
         {
             // Since ItemWidth and ItemHeight are set, we simply compute the actual size
             double uLength = viewport.ViewportUvEnd.U;
-            int estimatedItemsPerU = (int) (uLength / estimatedSize.U);
-            double estimatedULanes = Math.Ceiling((double) itemCount / estimatedItemsPerU);
+            int estimatedItemsPerU = (int)(uLength / estimatedSize.U);
+            double estimatedULanes = Math.Ceiling((double)itemCount / estimatedItemsPerU);
             sizeUv.U = estimatedItemsPerU * estimatedSize.U;
             sizeUv.V = estimatedULanes * estimatedSize.V;
         }
@@ -524,10 +537,10 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         Debug.Assert(items.Count > 0);
 
         int index = viewport.AnchorIndex;
-        UVSize uv = viewport.AnchorUv;
+        UvSize uv = viewport.AnchorUv;
         double v = uv.V;
         double maxSizeV = 0;
-        UVSize size = new(Orientation);
+        UvSize size = new(Orientation);
         bool firstChildMeasured = false;
 
         double itemWidth = ItemWidth;
@@ -557,7 +570,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
             if (!firstChildMeasured)
             {
-                size = new UVSize(Orientation,
+                size = new UvSize(Orientation,
                     isItemWidthSet ? itemWidth : e.DesiredSize.Width,
                     isItemHeightSet ? itemHeight : e.DesiredSize.Height);
 
@@ -567,7 +580,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             maxSizeV = Math.Max(maxSizeV, size.V);
 
             // Check if the item will exceed the viewport's bounds, and move to next row if it does
-            UVSize uEnd = new(Orientation)
+            UvSize uEnd = new(Orientation)
             {
                 U = uv.U + size.U,
                 V = Math.Max(v, uv.V)
@@ -584,7 +597,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
             _measureElements!.Add(index, e, uv, size);
 
-            uv = new UVSize(Orientation)
+            uv = new UvSize(Orientation)
             {
                 U = uv.U + size.U,
                 V = Math.Max(v, uv.V)
@@ -618,7 +631,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
             if (!firstChildMeasured)
             {
-                size = new UVSize(Orientation,
+                size = new UvSize(Orientation,
                     isItemWidthSet ? itemWidth : e.DesiredSize.Width,
                     isItemHeightSet ? itemHeight : e.DesiredSize.Height);
 
@@ -631,7 +644,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             if (uv.U < viewport.ViewportUvStart.U)
             {
                 double uLength = viewport.ViewportUvEnd.U - viewport.ViewportUvStart.U;
-                double uConstraint = (int) (uLength / size.U) * size.U;
+                double uConstraint = (int)(uLength / size.U) * size.U;
                 uv.U = uConstraint - size.U;
                 uv.V -= size.V;
             }
@@ -665,13 +678,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         object? item = items[index];
 
         if (item is Control controlItem)
-        {
             if (controlItem.IsSet(ItemIsOwnContainerProperty))
             {
                 controlItem.IsVisible = true;
                 return controlItem;
             }
-            /*else if (generator.IsItemItsOwnContainer(controlItem))
+
+        /*else if (generator.IsItemItsOwnContainer(controlItem))
             {
                 generator.PrepareItemContainer(controlItem, controlItem, index);
                 AddInternalChild(controlItem);
@@ -679,15 +692,11 @@ public class VirtualizingWrapPanel : VirtualizingPanel
                 generator.ItemContainerPrepared(controlItem, item, index);
                 return controlItem;
             }*/
-        }
-
         return null;
     }
 
     private Control? GetRecycledElement(IReadOnlyList<object?> items, int index)
     {
-        Debug.Assert(ItemContainerGenerator is not null);
-
         ItemContainerGenerator generator = ItemContainerGenerator!;
         object? item = items[index];
 
@@ -714,8 +723,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private Control CreateElement(IReadOnlyList<object?> items, int index)
     {
-        Debug.Assert(ItemContainerGenerator is not null);
-
         ItemContainerGenerator generator = ItemContainerGenerator!;
         object? item = items[index];
         generator.NeedsContainer(item, index, out object? key);
@@ -730,8 +737,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private void RecycleElement(Control element, int index)
     {
-        Debug.Assert(ItemContainerGenerator is not null);
-
         _scrollViewer?.UnregisterAnchorCandidate(element);
 
         if (element.IsSet(ItemIsOwnContainerProperty))
@@ -755,8 +760,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private void RecycleElementOnItemRemoved(Control element)
     {
-        Debug.Assert(ItemContainerGenerator is not null);
-
         if (element.IsSet(ItemIsOwnContainerProperty))
         {
             RemoveInternalChild(element);
@@ -772,8 +775,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private void UpdateElementIndex(Control element, int oldIndex, int newIndex)
     {
-        Debug.Assert(ItemContainerGenerator is not null);
-
         ItemContainerGenerator.ItemContainerIndexChanged(element, oldIndex, newIndex);
     }
 
@@ -814,10 +815,10 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     private struct MeasureViewport
     {
         public int AnchorIndex;
-        public UVSize AnchorUv;
-        public UVSize ViewportUvStart;
-        public UVSize ViewportUvEnd;
-        public UVSize RealizedEndUv;
+        public UvSize AnchorUv;
+        public UvSize ViewportUvStart;
+        public UvSize ViewportUvEnd;
+        public UvSize RealizedEndUv;
         public int LastIndex;
         public bool ViewportIsDisjunct;
     }

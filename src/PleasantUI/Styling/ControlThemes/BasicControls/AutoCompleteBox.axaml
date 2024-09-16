@@ -22,7 +22,7 @@
             </AutoCompleteBox>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
@@ -30,7 +30,7 @@
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="10 5 10 5" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Name="PART_LayoutRoot">
@@ -68,7 +68,7 @@
                                 </Style.Animations>
                             </Style>
                         </Popup.Styles>
-                        
+
                         <Border Name="PART_SuggestionsContainer"
                                 Padding="0"
                                 Background="{DynamicResource BackgroundColor1}"

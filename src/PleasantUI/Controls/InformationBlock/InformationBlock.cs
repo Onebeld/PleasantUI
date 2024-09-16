@@ -10,11 +10,11 @@ namespace PleasantUI.Controls;
 public class InformationBlock : ContentControl
 {
     /// <summary>
-    /// Defines the <see cref="Icon"/> property.
+    /// Defines the <see cref="Icon" /> property.
     /// </summary>
     public static readonly StyledProperty<Geometry> IconProperty =
         AvaloniaProperty.Register<InformationBlock, Geometry>(nameof(Icon));
-    
+
     /// <summary>
     /// Represents the icon associated with the count of items, indicating the number of items associated with that icon.
     /// </summary>

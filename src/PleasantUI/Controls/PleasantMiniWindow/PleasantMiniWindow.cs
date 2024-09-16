@@ -14,30 +14,30 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class PleasantMiniWindow : Window, IPleasantWindow
 {
-    private Panel _modalWindows = null!;
-
-    private Button? _hiddenButton;
     private Button? _closeButton;
     private Panel? _dragWindowPanel;
 
+    private Button? _hiddenButton;
+    private Panel _modalWindows = null!;
+    
     /// <summary>
     /// Defines the <see cref="EnableBlur"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> EnableBlurProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(EnableBlur));
-    
+
     /// <summary>
     /// Defines the <see cref="ShowPinButton"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> ShowPinButtonProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowPinButton), true);
-    
+
     /// <summary>
     /// Defines the <see cref="ShowHiddenButton"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> ShowHiddenButtonProperty =
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowHiddenButton));
-    
+
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
@@ -59,7 +59,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         get => GetValue(EnableBlurProperty);
         set => SetValue(EnableBlurProperty, value);
     }
-    
+
     /// <summary>
     /// Shows a spear that allows you to dock a window on top of all other windows on the desktop.
     /// </summary>
@@ -68,7 +68,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         get => GetValue(ShowPinButtonProperty);
         set => SetValue(ShowPinButtonProperty, value);
     }
-    
+
     /// <summary>
     /// Shows a spear that allows you to hide the window.
     /// </summary>
@@ -77,7 +77,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         get => GetValue(ShowHiddenButtonProperty);
         set => SetValue(ShowHiddenButtonProperty, value);
     }
-    
+
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
     /// </summary>
@@ -87,6 +87,15 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         set => SetValue(EnableCustomTitleBarProperty, value);
     }
 
+    /// <inheritdoc cref="StyleKeyOverride" />
+    protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
+    
+    /// <summary>
+    /// Gets the SnackbarQueueManager associated with this PleasantMiniWindow.
+    /// </summary>
+    /// <value>
+    /// The SnackbarQueueManager associated with this PleasantMiniWindow.
+    /// </value>
     public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
 
     /// <summary>
@@ -96,16 +105,22 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// The list of currently opened modal windows.
     /// </value>
     public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
+
+    /// <summary>
+    /// Gets the <see cref="VisualLayerManager" /> property.
+    /// </summary>
+    /// <value>The <see cref="VisualLayerManager" />.</value>
+    public VisualLayerManager VisualLayerManager { get; private set; } = null!;
+
+    /// <inheritdoc />
+    public AvaloniaList<Control> Controls { get; } = [];
     
     /// <summary>
-    /// Gets the <see cref="VisualLayerManager"/> property.
+    /// Initializes a new instance of the <see cref="PleasantMiniWindow" /> class.
     /// </summary>
-    /// <value>The <see cref="VisualLayerManager"/>.</value>
-    public VisualLayerManager VisualLayerManager { get; private set; }
-    
-    /// <inheritdoc/>
-    public AvaloniaList<Control> Controls { get; } = [];
-
+    /// <remarks>
+    /// This constructor sets up the <see cref="SnackbarQueueManager" /> property.
+    /// </remarks>
     public PleasantMiniWindow()
     {
         SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
@@ -114,7 +129,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
     /// <summary>
     /// Adds a modal window to the application.
     /// </summary>
-    /// <param name="modalWindow">The <see cref="PleasantModalWindow"/> instance to be added.</param>
+    /// <param name="modalWindow">The <see cref="PleasantModalWindow" /> instance to be added.</param>
     public void AddModalWindow(PleasantModalWindow modalWindow)
     {
         Panel windowPanel = new()
@@ -123,7 +138,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         };
         windowPanel.Children.Add(modalWindow.ModalBackground);
         windowPanel.Children.Add(modalWindow);
-        
+
         ModalWindows.Add(modalWindow);
 
         _modalWindows.Children.Add(windowPanel);
@@ -140,24 +155,21 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         _modalWindows.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void AddControl(Control control)
     {
         Controls.Add(control);
         _modalWindows.Children.Add(control);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RemoveControl(Control control)
     {
         Controls.Remove(control);
         _modalWindows.Children.Remove(control);
     }
-    
-    /// <inheritdoc cref="StyleKeyOverride"/>
-    protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -167,7 +179,7 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
         _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
         _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
-        
+
         VisualLayerManager = e.NameScope.Get<VisualLayerManager>("PART_VisualLayerManager");
 
         if (_closeButton is not null)
@@ -188,31 +200,30 @@ public class PleasantMiniWindow : Window, IPleasantWindow
         });
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
-        
+
         if (change.Property == EnableBlurProperty)
         {
             if (EnableBlur)
-            {
                 TransparencyLevelHint =
                 [
                     WindowTransparencyLevel.AcrylicBlur,
                     WindowTransparencyLevel.Blur,
                     WindowTransparencyLevel.None
                 ];
-            }
             else
-            {
                 TransparencyLevelHint =
                 [
                     WindowTransparencyLevel.None
                 ];
-            }
         }
     }
-    
-    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args) => BeginMoveDrag(args);
+
+    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
+    {
+        BeginMoveDrag(args);
+    }
 }

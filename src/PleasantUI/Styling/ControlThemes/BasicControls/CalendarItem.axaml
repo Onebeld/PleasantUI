@@ -8,7 +8,7 @@
                 <Calendar.BlackoutDates>
                     <CalendarDateRange>
                         <x:Arguments>
-                            <system:DateTime>2000-01-01</system:DateTime> 
+                            <system:DateTime>2000-01-01</system:DateTime>
                             <system:DateTime>2000-01-05</system:DateTime>
                         </x:Arguments>
                     </CalendarDateRange>
@@ -16,14 +16,14 @@
             </Calendar>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="PleasantCalendarButton" TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <!-- HCA was changed here to ensure nav arrows display correctly -->
@@ -47,12 +47,12 @@
         </Style>
         <Style Selector="^:disabled /template/ ContentPresenter">
             <Setter Property="Opacity" Value="0.5" />
-        </Style> 
+        </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        
+
         <Setter Property="DayTitleTemplate">
             <Template x:DataType="x:String">
                 <TextBlock Text="{CompiledBinding}"
@@ -60,14 +60,15 @@
                            VerticalAlignment="Center" />
             </Template>
         </Setter>
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowDefinitions="40,*" MinWidth="294">
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowDefinitions="40,*"
+                          MinWidth="294">
                         <Grid Grid.Row="0" ColumnDefinitions="5*,*,*">
                             <Button Name="PART_HeaderButton"
                                     Grid.Column="0"
@@ -98,10 +99,12 @@
                                           Height="10" />
                             </Button>
                         </Grid>
-                        
-                        <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="0,38,0,0" IsVisible="{CompiledBinding #PART_MonthView.IsVisible}" Grid.Row="1" />
-                        
-                        <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290" TextElement.FontSize="12" TextElement.FontWeight="Bold">
+
+                        <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="0,38,0,0"
+                                IsVisible="{CompiledBinding #PART_MonthView.IsVisible}" Grid.Row="1" />
+
+                        <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290"
+                              TextElement.FontSize="12" TextElement.FontWeight="Bold">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="38" />
                                 <RowDefinition Height="Auto" />

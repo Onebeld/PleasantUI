@@ -91,14 +91,15 @@
                                                       TextElement.FontWeight="SemiBold"
                                                       VerticalContentAlignment="Center"
                                                       HorizontalContentAlignment="Center"
-                                                      Margin="14 0 0 0"/>
+                                                      Margin="14 0 0 0" />
                                 </Border>
-                                
+
                                 <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
-                                
+
                                 <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}" Cursor="Ibeam">
-                                    <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                                                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                    <SmoothScrollViewer
+                                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                         <Panel>
                                             <TextBlock Name="PART_Watermark"
                                                        Text="{TemplateBinding Watermark}"

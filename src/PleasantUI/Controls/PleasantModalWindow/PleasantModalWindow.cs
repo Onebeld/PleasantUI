@@ -11,20 +11,19 @@ namespace PleasantUI.Controls;
 
 public class PleasantModalWindow : ContentControl
 {
-    private IPleasantWindow _host = null!;
-    
+    internal readonly Control ModalBackground;
+
     private object? _dialogResult;
+    private IPleasantWindow _host = null!;
     private bool _isClosed;
     private bool _isClosing;
-
-    public event EventHandler? Closed;
     
     public static readonly RoutedEvent WindowClosedEvent =
         RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
 
     public static readonly RoutedEvent WindowOpenedEvent =
         RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
-    
+
     public static readonly DirectProperty<PleasantModalWindow, bool> IsClosedProperty =
         AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosed), o => o.IsClosed,
             (o, v) => o.IsClosed = v);
@@ -34,19 +33,15 @@ public class PleasantModalWindow : ContentControl
 
     public static readonly StyledProperty<Animation?> OpenAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(OpenAnimation));
-    
+
     public static readonly StyledProperty<Animation?> ShowBackgroundAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(ShowBackgroundAnimation));
-    
+
     public static readonly StyledProperty<Animation?> CloseAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(CloseAnimation));
-    
+
     public static readonly StyledProperty<Animation?> HideBackgroundAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(HideBackgroundAnimation));
-
-    static PleasantModalWindow() { }
-    
-    internal readonly Control ModalBackground;
 
     /// <summary>
     /// Gets or sets a value indicating that the window has been closed.
@@ -80,7 +75,7 @@ public class PleasantModalWindow : ContentControl
         get => GetValue(OpenAnimationProperty);
         set => SetValue(OpenAnimationProperty, value);
     }
-    
+
     /// <summary>
     /// Set the animation of the modal background when opening a modal window.
     /// </summary>
@@ -89,7 +84,7 @@ public class PleasantModalWindow : ContentControl
         get => GetValue(ShowBackgroundAnimationProperty);
         set => SetValue(ShowBackgroundAnimationProperty, value);
     }
-    
+
     /// <summary>
     /// Sets the animation of the modal background when the modal window is closed.
     /// </summary>
@@ -109,7 +104,12 @@ public class PleasantModalWindow : ContentControl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PleasantModalWindow"/> class.
+    /// Raised when the modal window is closed.
+    /// </summary>
+    public event EventHandler? Closed;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PleasantModalWindow" /> class.
     /// </summary>
     public PleasantModalWindow()
     {
@@ -120,17 +120,20 @@ public class PleasantModalWindow : ContentControl
     }
 
     /// <summary>
-    /// Shows a <see cref="PleasantWindow"/> asynchronously.
+    /// Shows a <see cref="PleasantWindow" /> asynchronously.
     /// </summary>
-    /// <param name="host">The <see cref="IPleasantWindow"/> to show.</param>
+    /// <param name="host">The <see cref="IPleasantWindow" /> to show.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
-    public Task Show(IPleasantWindow host) => Show<object>(host);
+    public Task Show(IPleasantWindow host)
+    {
+        return Show<object>(host);
+    }
 
     /// <summary>
     /// Shows a modal window and returns a task that completes with the dialog result.
     /// </summary>
     /// <typeparam name="T">The type of the dialog result.</typeparam>
-    /// <param name="host">The <see cref="IPleasantWindow"/> implementation representing the hosting window.</param>
+    /// <param name="host">The <see cref="IPleasantWindow" /> implementation representing the hosting window.</param>
     /// <returns>A task that completes with the dialog result.</returns>
     public Task<T?> Show<T>(IPleasantWindow host)
     {
@@ -171,12 +174,12 @@ public class PleasantModalWindow : ContentControl
         _dialogResult = dialogResult;
         Close(false);
     }
-    
+
     protected virtual void OnClosed()
     {
         Closed?.Invoke(this, null!);
     }
-    
+
     internal async void Close(bool ignoreCancel)
     {
         bool close = true;

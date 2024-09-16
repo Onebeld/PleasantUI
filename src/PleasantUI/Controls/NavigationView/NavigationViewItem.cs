@@ -8,23 +8,24 @@ using Avalonia.Media;
 using Avalonia.VisualTree;
 using PleasantUI.Extensions;
 using PleasantUI.Reactive;
+using LogicalExtensions = PleasantUI.Extensions.LogicalExtensions;
 
 namespace PleasantUI.Controls;
 
 /// <summary>
-/// Represents an item within a <see cref="NavigationView"/>.
+/// Represents an item within a <see cref="NavigationView" />.
 /// </summary>
 public class NavigationViewItem : TreeViewItem
 {
+    private object? _content;
+    private double _externalLength;
+    private Geometry? _icon;
+
+    private int _navigationViewDistance;
     private object _title = "Title";
     
-    private int _navigationViewDistance;
-    private double _externalLength;
-    private object? _content;
-    private Geometry? _icon;
-    
     /// <summary>
-    /// Defines the <see cref="Content"/> property.
+    /// Defines the <see cref="Content" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationViewItem, object?> ContentProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItem, object?>(
@@ -33,7 +34,7 @@ public class NavigationViewItem : TreeViewItem
             (o, v) => o.Content = v);
 
     /// <summary>
-    /// Defines the <see cref="Icon"/> property.
+    /// Defines the <see cref="Icon" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationViewItem, Geometry?> IconProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItem, Geometry?>(
@@ -42,69 +43,69 @@ public class NavigationViewItem : TreeViewItem
             (o, v) => o.Icon = v);
 
     /// <summary>
-    /// Defines the <see cref="Title"/> property.
+    /// Defines the <see cref="Title" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationViewItem, object> TitleProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItem, object>(
             nameof(Title),
             o => o.Title,
             (o, v) => o.Title = v);
-    
+
     /// <summary>
-    /// Defines the <see cref="IsOpen"/> property.
+    /// Defines the <see cref="IsOpen" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> IsOpenProperty =
         AvaloniaProperty.Register<NavigationViewItem, bool>(nameof(IsOpen));
 
     /// <summary>
-    /// Defines the <see cref="SelectOnClose"/> property.
+    /// Defines the <see cref="SelectOnClose" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> SelectOnCloseProperty =
         AvaloniaProperty.Register<NavigationViewItem, bool>(nameof(SelectOnClose));
 
     /// <summary>
-    /// Defines the <see cref="ClickMode"/> property.
+    /// Defines the <see cref="ClickMode" /> property.
     /// </summary>
     public static readonly StyledProperty<ClickMode> ClickModeProperty =
         Button.ClickModeProperty.AddOwner<NavigationViewItem>();
 
     /// <summary>
-    /// Defines the <see cref="NavigationViewDistance"/> property.
+    /// Defines the <see cref="NavigationViewDistance" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationViewItem, int> NavigationViewDistanceProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItem, int>(nameof(NavigationViewDistance), o => o.Level);
 
     /// <summary>
-    /// Defines the <see cref="CompactPaneLength"/> property.
+    /// Defines the <see cref="CompactPaneLength" /> property.
     /// </summary>
     public static readonly StyledProperty<double> CompactPaneLengthProperty =
         AvaloniaProperty.Register<NavigationViewItem, double>(nameof(CompactPaneLength));
 
     /// <summary>
-    /// Defines the <see cref="OpenPaneLength"/> property.
+    /// Defines the <see cref="OpenPaneLength" /> property.
     /// </summary>
     public static readonly StyledProperty<double> OpenPaneLengthProperty =
         AvaloniaProperty.Register<NavigationViewItem, double>(nameof(OpenPaneLength));
 
     /// <summary>
-    /// Defines the <see cref="ExternalLength"/> property.
+    /// Defines the <see cref="ExternalLength" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationViewItem, double> ExternalLengthProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItem, double>(nameof(ExternalLength),
             o => o.ExternalLength);
-    
+
     /// <summary>
-    /// Defines the routed event for when the <see cref="NavigationViewItem"/> is opened.
+    /// Defines the routed event for when the <see cref="NavigationViewItem" /> is opened.
     /// </summary>
     public static readonly RoutedEvent<RoutedEventArgs> OpenedEvent =
         RoutedEvent.Register<NavigationViewItem, RoutedEventArgs>(nameof(Opened), RoutingStrategies.Tunnel);
 
     /// <summary>
-    /// Defines the routed event for when the <see cref="NavigationViewItem"/> is closed.
+    /// Defines the routed event for when the <see cref="NavigationViewItem" /> is closed.
     /// </summary>
     public static readonly RoutedEvent<RoutedEventArgs> ClosedEvent =
         RoutedEvent.Register<NavigationViewItem, RoutedEventArgs>(nameof(Closed), RoutingStrategies.Tunnel);
-    
+
     /// <summary>
     /// Gets or sets the content of the property.
     /// </summary>
@@ -234,6 +235,11 @@ public class NavigationViewItem : TreeViewItem
     }
 
     /// <summary>
+    /// Needed if AOT does not support creating a class instance by type
+    /// </summary>
+    public Func<Control>? FuncControl { get; set; }
+
+    /// <summary>
     /// Occurs when the Opened event is raised.
     /// </summary>
     public event EventHandler<RoutedEventArgs> Opened
@@ -246,7 +252,8 @@ public class NavigationViewItem : TreeViewItem
     /// Represents the event that is raised when a control is closed.
     /// </summary>
     /// <remarks>
-    /// This event is raised when a control is closed. Subscribers can handle this event to perform certain actions when the control is closed.
+    /// This event is raised when a control is closed. Subscribers can handle this event to perform certain actions when
+    /// the control is closed.
     /// </remarks>
     public event EventHandler<RoutedEventArgs> Closed
     {
@@ -254,11 +261,6 @@ public class NavigationViewItem : TreeViewItem
         remove => RemoveHandler(ClosedEvent, value);
     }
     
-    /// <summary>
-    /// Needed if AOT does not support creating a class instance by type
-    /// </summary>
-    public Func<Control>? FuncControl { get; set; }
-
     static NavigationViewItem()
     {
         IsExpandedProperty.Changed.AddClassHandler<NavigationViewItem>(
@@ -288,13 +290,13 @@ public class NavigationViewItem : TreeViewItem
         IsOpenProperty.Changed.Subscribe(OnIsOpenChanged);
         OpenPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
         CompactPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
-        
+
         FocusableProperty.OverrideDefaultValue<NavigationViewItem>(true);
         ClickModeProperty.OverrideDefaultValue<NavigationViewItem>(ClickMode.Release);
     }
-    
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="NavigationViewItem"/> class.
+    /// Initializes a new instance of the <see cref="NavigationViewItem" /> class.
     /// </summary>
     public NavigationViewItem()
     {
@@ -317,7 +319,10 @@ public class NavigationViewItem : TreeViewItem
     /// <param name="e">The event arguments.</param>
     protected virtual void OnSelected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
-        if (Parent is NavigationView { DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay } navigationView)
+        if (Parent is NavigationView
+            {
+                DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay
+            } navigationView)
             navigationView.IsOpen = false;
     }
 
@@ -340,33 +345,33 @@ public class NavigationViewItem : TreeViewItem
     {
         IsExpanded = false;
         UpdatePseudoClasses();
-        
+
         if (SelectOnClose)
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
     }
     
-    /// <inheritdoc cref="StyleKeyOverride"/>
+    /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(NavigationViewItem);
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
         UpdatePseudoClasses();
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
-        NavigationViewDistance = Extensions.LogicalExtensions.CalculateDistanceFromLogicalParent<NavigationView>(this) - 1;
+        NavigationViewDistance = LogicalExtensions.CalculateDistanceFromLogicalParent<NavigationView>(this) - 1;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);
-        
+
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
             e.Handled = true;
@@ -376,33 +381,39 @@ public class NavigationViewItem : TreeViewItem
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         base.OnPointerReleased(e);
 
         if (e.InitialPressMouseButton != MouseButton.Left) return;
-        
+
         e.Handled = true;
 
         if (ClickMode == ClickMode.Release &&
-            this.GetVisualsAt(e.GetPosition(this)).Any(c => this == c || this.IsVisualAncestorOf(c))) 
+            this.GetVisualsAt(e.GetPosition(this)).Any(c => this == c || this.IsVisualAncestorOf(c)))
             Select();
     }
-    
+
     private static void OnPaneSizesChanged(AvaloniaPropertyChangedEventArgs<double> e)
     {
-        if (e.Sender is NavigationViewItem navigationViewItem) navigationViewItem.ExternalLength = navigationViewItem.OpenPaneLength - navigationViewItem.CompactPaneLength;
+        if (e.Sender is NavigationViewItem navigationViewItem)
+            navigationViewItem.ExternalLength =
+                navigationViewItem.OpenPaneLength - navigationViewItem.CompactPaneLength;
     }
 
     private static void OnIsOpenChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is not NavigationViewItem sender) return;
-        
-        if (sender is { IsSelected: true, Parent: NavigationViewItem { Parent: NavigationView navigationView, SelectOnClose: true } navigationViewItem })
-        {
-            navigationView.SelectSingleItem(navigationViewItem);
-        }
+
+        if (sender is
+            {
+                IsSelected: true,
+                Parent: NavigationViewItem
+                {
+                    Parent: NavigationView navigationView, SelectOnClose: true
+                } navigationViewItem
+            }) navigationView.SelectSingleItem(navigationViewItem);
 
         switch (sender.IsOpen)
         {

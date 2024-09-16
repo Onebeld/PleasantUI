@@ -9,7 +9,7 @@ namespace PleasantUI.Controls;
 public class MarkedTextBox : TextBox
 {
     /// <summary>
-    /// Defines the <see cref="Mark"/> property.
+    /// Defines the <see cref="Mark" /> property.
     /// </summary>
     public static readonly StyledProperty<object?> MarkProperty =
         AvaloniaProperty.Register<MarkedTextBox, object?>(nameof(Mark));

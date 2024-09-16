@@ -18,35 +18,33 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
 {
     private const double EdgeDetectionTolerance = 0.1;
     private const int LogicalScrollItemSize = 50;
-
-    private bool _canHorizontallyScroll;
-    private bool _canVerticallyScroll;
-    private bool _arranging;
-    private Size _extent;
-    private Vector _offset;
-    //private Easing _smoothScrollEasing = new BounceEaseInOut();
-    //private TimeSpan _smoothScrollDuration = TimeSpan.FromMilliseconds(0);
-    //private bool _usesSmoothScrolling = true;
+    
     private readonly DispatcherTimer _smoothScrollTimer; //Timer(1);
-    private bool _smoothScrollTimerStarted;
-    private double _animStartOffsetX;
-    private double _animStartOffsetY;
-    private double _offsetX;
-    private double _offsetY;
-    private double _animDuration;
-    private double _animTimeRemaining;
-
-    private Easing? _currentEasing;
-    private IDisposable? _logicalScrollSubscription;
-    private Size _viewport;
     private Dictionary<int, Vector>? _activeLogicalGestureScrolls;
     private List<Control>? _anchorCandidates;
     private Control? _anchorElement;
     private Rect _anchorElementBounds;
+    private double _animDuration;
+    private double _animStartOffsetX;
+    private double _animStartOffsetY;
+    private double _animTimeRemaining;
+    private bool _arranging;
+
+    private bool _canHorizontallyScroll;
+    private bool _canVerticallyScroll;
+
+    private Easing? _currentEasing;
+    private Size _extent;
     private bool _isAnchorElementDirty;
+    private IDisposable? _logicalScrollSubscription;
+    private Vector _offset;
+    private double _offsetX;
+    private double _offsetY;
+    private bool _smoothScrollTimerStarted;
+    private Size _viewport;
 
     /// <summary>
-    /// Defines the <see cref="CanHorizontallyScroll"/> property.
+    /// Defines the <see cref="CanHorizontallyScroll" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollContentPresenter, bool> CanHorizontallyScrollProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollContentPresenter, bool>(
@@ -55,7 +53,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             (o, v) => o.CanHorizontallyScroll = v);
 
     /// <summary>
-    /// Defines the <see cref="CanVerticallyScroll"/> property.
+    /// Defines the <see cref="CanVerticallyScroll" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollContentPresenter, bool> CanVerticallyScrollProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollContentPresenter, bool>(
@@ -64,7 +62,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             (o, v) => o.CanVerticallyScroll = v);
 
     /// <summary>
-    /// Defines the <see cref="Extent"/> property.
+    /// Defines the <see cref="Extent" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollContentPresenter, Size> ExtentProperty =
         SmoothScrollViewer.ExtentProperty.AddOwner<SmoothScrollContentPresenter>(
@@ -72,7 +70,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             (o, v) => o.Extent = v);
 
     /// <summary>
-    /// Defines the <see cref="Offset"/> property.
+    /// Defines the <see cref="Offset" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollContentPresenter, Vector> OffsetProperty =
         SmoothScrollViewer.OffsetProperty.AddOwner<SmoothScrollContentPresenter>(
@@ -80,20 +78,19 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             (o, v) => o.Offset = v);
 
     /// <summary>
-    /// Defines the <see cref="AnimationOffset"/> property.
+    /// Defines the <see cref="AnimationOffset" /> property.
     /// </summary>
     public static readonly StyledProperty<Vector> AnimationOffsetProperty =
         AvaloniaProperty.Register<SmoothScrollContentPresenter, Vector>(nameof(AnimationOffset));
 
     /// <summary>
-    /// Defines the <see cref="Viewport"/> property.
+    /// Defines the <see cref="Viewport" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollContentPresenter, Size> ViewportProperty =
         SmoothScrollViewer.ViewportProperty.AddOwner<SmoothScrollContentPresenter>(
             o => o.Viewport,
             (o, v) => o.Viewport = v);
-
-
+    
     /// <summary>
     /// Gets or sets a value indicating whether the content can be scrolled horizontally.
     /// </summary>
@@ -111,6 +108,19 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         get => _canVerticallyScroll;
         set => SetAndRaise(CanVerticallyScrollProperty, ref _canVerticallyScroll, value);
     }
+
+    /// <summary>
+    /// Gets or sets the current visible scroll offset.
+    /// </summary>
+    public Vector AnimationOffset
+    {
+        get => GetValue(AnimationOffsetProperty);
+        set => SetValue(AnimationOffsetProperty, value);
+    }
+
+    private bool UsesSmoothScrolling => ShouldUseSmoothScrolling(out Easing _, out TimeSpan __);
+
+    private Vector CurrentFromOffset => UsesSmoothScrolling ? AnimationOffset : Offset;
 
     /// <summary>
     /// Gets the extent of the scrollable content.
@@ -131,15 +141,6 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
     }
 
     /// <summary>
-    /// Gets or sets the current visible scroll offset.
-    /// </summary>
-    public Vector AnimationOffset
-    {
-        get => GetValue(AnimationOffsetProperty);
-        set => SetValue(AnimationOffsetProperty, value);
-    }
-
-    /// <summary>
     /// Gets the size of the viewport on the scrollable content.
     /// </summary>
     public Size Viewport
@@ -148,12 +149,18 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         private set => SetAndRaise(ViewportProperty, ref _viewport, value);
     }
 
-    private bool UsesSmoothScrolling => ShouldUseSmoothScrolling(out Easing _, out TimeSpan __);
-
-    private Vector CurrentFromOffset => UsesSmoothScrolling ? AnimationOffset : Offset;
+    /// <inheritdoc />
+    Control? IScrollAnchorProvider.CurrentAnchor
+    {
+        get
+        {
+            EnsureAnchorElementSelection();
+            return _anchorElement;
+        }
+    }
     
     /// <summary>
-    /// Initializes static members of the <see cref="SmoothScrollContentPresenter"/> class.
+    /// Initializes static members of the <see cref="SmoothScrollContentPresenter" /> class.
     /// </summary>
     static SmoothScrollContentPresenter()
     {
@@ -165,7 +172,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmoothScrollContentPresenter"/> class.
+    /// Initializes a new instance of the <see cref="SmoothScrollContentPresenter" /> class.
     /// </summary>
     public SmoothScrollContentPresenter()
     {
@@ -178,6 +185,27 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             SmoothScrollTimer_Elapsed);
     }
 
+    /// <inheritdoc />
+    void IScrollAnchorProvider.RegisterAnchorCandidate(Control element)
+    {
+        if (!this.IsVisualAncestorOf(element))
+            throw new InvalidOperationException(
+                "An anchor control must be a visual descendent of the SmoothScrollContentPresenter.");
+
+        _anchorCandidates ??= [];
+        _anchorCandidates.Add(element);
+        _isAnchorElementDirty = true;
+    }
+
+    /// <inheritdoc />
+    void IScrollAnchorProvider.UnregisterAnchorCandidate(Control element)
+    {
+        _anchorCandidates?.Remove(element);
+        _isAnchorElementDirty = true;
+
+        if (_anchorElement == element) _anchorElement = null;
+    }
+
     private bool ShouldUseSmoothScrolling(out Easing? easing, out TimeSpan duration)
     {
         if (TemplatedParent is SmoothScrollViewer scrollV)
@@ -186,22 +214,10 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             duration = scrollV.SmoothScrollDuration;
             return easing != null && duration is { TotalMilliseconds: > 0 };
         }
-        else
-        {
-            easing = null;
-            duration = TimeSpan.Zero;
-            return false;
-        }
-    }
 
-    /// <inheritdoc/>
-    Control? IScrollAnchorProvider.CurrentAnchor
-    {
-        get
-        {
-            EnsureAnchorElementSelection();
-            return _anchorElement;
-        }
+        easing = null;
+        duration = TimeSpan.Zero;
+        return false;
     }
 
     /// <summary>
@@ -212,24 +228,16 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
     /// <returns>True if the scroll offset was changed; otherwise false.</returns>
     public bool BringDescendantIntoView(Visual? target, Rect targetRect)
     {
-        if (Child?.IsEffectivelyVisible != true)
-        {
-            return false;
-        }
+        if (Child?.IsEffectivelyVisible != true) return false;
 
         ILogicalScrollable? scrollable = Child as ILogicalScrollable;
 
         if (scrollable?.IsLogicalScrollEnabled == true && target is Control control)
-        {
             return scrollable.BringIntoView(control, targetRect);
-        }
 
         Matrix? transform = target?.TransformToVisual(Child);
 
-        if (transform == null)
-        {
-            return false;
-        }
+        if (transform == null) return false;
 
         Rect rect = targetRect.TransformToAABB(transform.Value);
         Vector offset = CurrentFromOffset;
@@ -259,47 +267,15 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             result = true;
         }
 
-        if (result)
-        {
-            Offset = offset;
-        }
+        if (result) Offset = offset;
 
         return result;
     }
 
-    /// <inheritdoc/>
-    void IScrollAnchorProvider.RegisterAnchorCandidate(Control element)
-    {
-        if (!this.IsVisualAncestorOf(element))
-        {
-            throw new InvalidOperationException(
-                "An anchor control must be a visual descendent of the SmoothScrollContentPresenter.");
-        }
-
-        _anchorCandidates ??= [];
-        _anchorCandidates.Add(element);
-        _isAnchorElementDirty = true;
-    }
-
-    /// <inheritdoc/>
-    void IScrollAnchorProvider.UnregisterAnchorCandidate(Control element)
-    {
-        _anchorCandidates?.Remove(element);
-        _isAnchorElementDirty = true;
-
-        if (_anchorElement == element)
-        {
-            _anchorElement = null;
-        }
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override Size MeasureOverride(Size availableSize)
     {
-        if (_logicalScrollSubscription != null || Child == null)
-        {
-            return base.MeasureOverride(availableSize);
-        }
+        if (_logicalScrollSubscription != null || Child == null) return base.MeasureOverride(availableSize);
 
         Size constraint = new(
             CanHorizontallyScroll ? double.PositiveInfinity : availableSize.Width,
@@ -309,13 +285,10 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         return Child.DesiredSize.Constrain(availableSize);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override Size ArrangeOverride(Size finalSize)
     {
-        if (_logicalScrollSubscription != null || Child == null)
-        {
-            return base.ArrangeOverride(finalSize);
-        }
+        if (_logicalScrollSubscription != null || Child == null) return base.ArrangeOverride(finalSize);
 
         return ArrangeWithAnchoring(finalSize);
     }
@@ -363,15 +336,9 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                 Size newExtent = Extent;
                 Vector maxOffset = new(Extent.Width - Viewport.Width, Extent.Height - Viewport.Height);
 
-                if (newOffset.X > maxOffset.X)
-                {
-                    newExtent = newExtent.WithWidth(newOffset.X + Viewport.Width);
-                }
+                if (newOffset.X > maxOffset.X) newExtent = newExtent.WithWidth(newOffset.X + Viewport.Width);
 
-                if (newOffset.Y > maxOffset.Y)
-                {
-                    newExtent = newExtent.WithHeight(newOffset.Y + Viewport.Height);
-                }
+                if (newOffset.Y > maxOffset.Y) newExtent = newExtent.WithHeight(newOffset.Y + Viewport.Height);
 
                 Extent = newExtent;
 
@@ -400,7 +367,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         return finalSize;
     }
 
-    internal Size ArrangeOverrideImpl(Size finalSize, Vector offset)
+    private Size ArrangeOverrideImpl(Size finalSize, Vector offset)
     {
         if (Child == null) return finalSize;
 
@@ -415,14 +382,10 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         double originY = offset.Y;
 
         if (horizontalContentAlignment != HorizontalAlignment.Stretch)
-        {
             sizeForChild = sizeForChild.WithWidth(Math.Min(sizeForChild.Width, DesiredSize.Width));
-        }
 
         if (verticalContentAlignment != VerticalAlignment.Stretch)
-        {
             sizeForChild = sizeForChild.WithHeight(Math.Min(sizeForChild.Height, DesiredSize.Height));
-        }
 
         if (useLayoutRounding)
         {
@@ -490,7 +453,9 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                     dy = logicalUnits * scrollable!.ScrollSize.Height;
                 }
                 else
+                {
                     dy = delta.Y;
+                }
 
 
                 y += dy;
@@ -508,7 +473,9 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                     dx = logicalUnits * scrollable!.ScrollSize.Width;
                 }
                 else
+                {
                     dx = delta.X;
+                }
 
                 x += dx;
                 x = Math.Max(x, 0);
@@ -527,10 +494,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         }
     }
 
-    /*private void OnScrollGestureEnded(object sender, ScrollGestureEndedEventArgs e)
-        => _activeLogicalGestureScrolls?.Remove(e.Id);*/
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
     {
         if (Extent.Height > Viewport.Height || Extent.Width > Viewport.Width)
@@ -563,12 +527,10 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         }
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        if (change.Property == OffsetProperty && !_arranging)
-        {
-            InvalidateArrange();
-        }
+        if (change.Property == OffsetProperty && !_arranging) InvalidateArrange();
 
         base.OnPropertyChanged(change);
     }
@@ -582,10 +544,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
     {
         UpdateScrollableSubscription((Control?)e.NewValue);
 
-        if (e.OldValue != null)
-        {
-            Offset = default;
-        }
+        if (e.OldValue != null) Offset = default;
     }
 
     private void OffsetChanged(AvaloniaPropertyChangedEventArgs e)
@@ -593,14 +552,11 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         Vector? oldOffset = (Vector?)e.OldValue;
         Vector? newOffset = (Vector?)e.NewValue;
         if (ShouldUseSmoothScrolling(out Easing? ease, out TimeSpan dur))
-        {
             StartAnimatingOffset(oldOffset, newOffset, ease!, dur);
-        }
         else
-        {
             AnimationOffset = newOffset.GetValueOrDefault();
-        }
     }
+
     private void StartAnimatingOffset(Vector? oldOffset, Vector? newOffset, Easing? scrollEasing,
         TimeSpan scrollDuration)
     {
@@ -657,16 +613,6 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             _smoothScrollTimer.Stop();
         }
     }
-
-    //private const string AnimPseudoclass = ":animating";
-
-    /*void SetAnimPseudoclass(bool add)
-    {
-        if (add)
-            PseudoClasses.Add(AnimPseudoclass);
-        else
-            PseudoClasses.Remove(AnimPseudoclass);
-    }*/
 
     private void UpdateScrollableSubscription(Control? child)
     {
@@ -732,7 +678,6 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         // Find the anchor candidate that is scrolled closest to the top-left of this
         // SmoothScrollContentPresenter.
         foreach (Control element in _anchorCandidates)
-        {
             if (element.IsVisible && GetViewportBounds(element, out Rect bounds))
             {
                 Vector distance = bounds.Position;
@@ -744,7 +689,6 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                     bestCandidateDistance = candidateDistance;
                 }
             }
-        }
 
         if (bestCandidate != null)
         {
@@ -776,10 +720,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
 
     private Rect TranslateBounds(Control control, Control to)
     {
-        if (TranslateBounds(control, to, out Rect bounds))
-        {
-            return bounds;
-        }
+        if (TranslateBounds(control, to, out Rect bounds)) return bounds;
 
         throw new InvalidOperationException("The control's bounds could not be translated to the requested control.");
     }

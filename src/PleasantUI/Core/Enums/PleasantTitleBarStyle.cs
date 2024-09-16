@@ -5,6 +5,13 @@
 /// </summary>
 public enum PleasantTitleBarStyle
 {
+    /// <summary>
+    /// Changes the TitleBar to a style, similar to Windows
+    /// </summary>
     Windows = 0,
-    MacOS = 1
+
+    /// <summary>
+    /// Changes the TitleBar to a style, similar to macOS
+    /// </summary>
+    MacOs = 1
 }

@@ -20,27 +20,27 @@ namespace PleasantUI.Controls;
 [TemplatePart("PART_VerticalScrollBar", typeof(ScrollBar))]
 public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProvider
 {
-    internal const double DefaultSmallChange = 16;
-
+    private const double DefaultSmallChange = 16;
+    
     private IDisposable? _childSubscription;
-    private ILogicalScrollable? _logicalScrollable;
     private Size _extent;
+    private bool _isExpanded;
+    private Size _largeChange;
+    private ILogicalScrollable? _logicalScrollable;
     private Vector _offset;
-    private Size _viewport;
     private Size _oldExtent;
     private Vector _oldOffset;
     private Size _oldViewport;
-    private Size _largeChange;
-    private Size _smallChange = new(DefaultSmallChange, DefaultSmallChange);
-    private bool _isExpanded;
     private IDisposable? _scrollBarExpandSubscription;
+    private Size _smallChange = new(DefaultSmallChange, DefaultSmallChange);
+    private Size _viewport;
 
     /// <summary>
-    /// Defines the <see cref="CanHorizontallyScroll"/> property.
+    /// Defines the <see cref="CanHorizontallyScroll" /> property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, bool> CanHorizontallyScrollProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
@@ -48,11 +48,11 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             o => o.CanHorizontallyScroll);
 
     /// <summary>
-    /// Defines the <see cref="CanVerticallyScroll"/> property.
+    /// Defines the <see cref="CanVerticallyScroll" /> property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, bool> CanVerticallyScrollProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
@@ -60,7 +60,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             o => o.CanVerticallyScroll);
 
     /// <summary>
-    /// Defines the <see cref="Extent"/> property.
+    /// Defines the <see cref="Extent" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, Size> ExtentProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, Size>(nameof(Extent),
@@ -68,7 +68,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             (o, v) => o.Extent = v);
 
     /// <summary>
-    /// Defines the <see cref="Offset"/> property.
+    /// Defines the <see cref="Offset" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, Vector> OffsetProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, Vector>(
@@ -77,19 +77,19 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             (o, v) => o.Offset = v);
 
     /// <summary>
-    /// Defines the <see cref="SmoothScrollEasing"/> property.
+    /// Defines the <see cref="SmoothScrollEasing" /> property.
     /// </summary>
     public static readonly StyledProperty<Easing?> SmoothScrollEasingProperty =
         AvaloniaProperty.Register<SmoothScrollViewer, Easing?>(nameof(SmoothScrollEasing));
 
     /// <summary>
-    /// Defines the <see cref="SmoothScrollDuration"/> property.
+    /// Defines the <see cref="SmoothScrollDuration" /> property.
     /// </summary>
     public static readonly StyledProperty<TimeSpan> SmoothScrollDurationProperty =
         AvaloniaProperty.Register<SmoothScrollViewer, TimeSpan>(nameof(SmoothScrollDuration));
 
     /// <summary>
-    /// Defines the <see cref="Viewport"/> property.
+    /// Defines the <see cref="Viewport" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, Size> ViewportProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, Size>(nameof(Viewport),
@@ -97,7 +97,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             (o, v) => o.Viewport = v);
 
     /// <summary>
-    /// Defines the <see cref="LargeChange"/> property.
+    /// Defines the <see cref="LargeChange" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, Size> LargeChangeProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, Size>(
@@ -105,7 +105,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             o => o.LargeChange);
 
     /// <summary>
-    /// Defines the <see cref="SmallChange"/> property.
+    /// Defines the <see cref="SmallChange" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, Size> SmallChangeProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, Size>(
@@ -116,8 +116,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// Defines the HorizontalScrollBarMaximum property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, double> HorizontalScrollBarMaximumProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, double>(
@@ -128,8 +128,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// Defines the HorizontalScrollBarValue property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, double> HorizontalScrollBarValueProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, double>(
@@ -141,8 +141,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// Defines the HorizontalScrollBarViewportSize property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, double> HorizontalScrollBarViewportSizeProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, double>(
@@ -150,7 +150,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             o => o.HorizontalScrollBarViewportSize);
 
     /// <summary>
-    /// Defines the <see cref="HorizontalScrollBarVisibility"/> property.
+    /// Defines the <see cref="HorizontalScrollBarVisibility" /> property.
     /// </summary>
     public static readonly AttachedProperty<ScrollBarVisibility> HorizontalScrollBarVisibilityProperty =
         AvaloniaProperty.RegisterAttached<SmoothScrollViewer, Control, ScrollBarVisibility>(
@@ -160,8 +160,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// Defines the VerticalScrollBarMaximum property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, double> VerticalScrollBarMaximumProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, double>(
@@ -172,8 +172,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// Defines the VerticalScrollBarValue property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, double> VerticalScrollBarValueProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, double>(
@@ -185,8 +185,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// Defines the VerticalScrollBarViewportSize property.
     /// </summary>
     /// <remarks>
-    /// There is no public C# accessor for this property as it is intended to be bound to by a 
-    /// <see cref="ScrollContentPresenter"/> in the control's template.
+    /// There is no public C# accessor for this property as it is intended to be bound to by a
+    /// <see cref="ScrollContentPresenter" /> in the control's template.
     /// </remarks>
     public static readonly DirectProperty<SmoothScrollViewer, double> VerticalScrollBarViewportSizeProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, double>(
@@ -194,7 +194,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             o => o.VerticalScrollBarViewportSize);
 
     /// <summary>
-    /// Defines the <see cref="VerticalScrollBarVisibility"/> property.
+    /// Defines the <see cref="VerticalScrollBarVisibility" /> property.
     /// </summary>
     public static readonly AttachedProperty<ScrollBarVisibility> VerticalScrollBarVisibilityProperty =
         AvaloniaProperty.RegisterAttached<SmoothScrollViewer, Control, ScrollBarVisibility>(
@@ -202,48 +202,48 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             ScrollBarVisibility.Auto);
 
     /// <summary>
-    /// Defines the <see cref="IsExpandedProperty"/> property.
+    ///  Defines the <see cref="IsExpandedProperty" /> property.
     /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, bool> IsExpandedProperty =
         ScrollBar.IsExpandedProperty.AddOwner<SmoothScrollViewer>(o => o.IsExpanded);
 
     /// <summary>
-    /// Defines the <see cref="AllowAutoHide"/> property.
+    /// Defines the <see cref="AllowAutoHide" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> AllowAutoHideProperty =
         ScrollBar.AllowAutoHideProperty.AddOwner<SmoothScrollViewer>();
 
+    /// <summary>
+    /// Gets the value of the <see cref="VisibleMaximumProperty" /> property.
+    /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, bool> VisibleMaximumProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
             nameof(VisibleMaximum),
             o => o.VisibleMaximum);
 
+    /// <summary>
+    /// Gets the value of the <see cref="HorizontalScrollBarEnableDecreaseProperty" /> property.
+    /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, bool> HorizontalScrollBarEnableDecreaseProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
             nameof(HorizontalScrollBarEnableDecrease),
             o => o.HorizontalScrollBarEnableDecrease);
 
+    /// <summary>
+    /// Gets the value of the <see cref="HorizontalScrollBarEnableIncreaseProperty" /> property.
+    /// </summary>
     public static readonly DirectProperty<SmoothScrollViewer, bool> HorizontalScrollBarEnableIncreaseProperty =
         AvaloniaProperty.RegisterDirect<SmoothScrollViewer, bool>(
             nameof(HorizontalScrollBarEnableIncrease),
             o => o.HorizontalScrollBarEnableIncrease);
 
     /// <summary>
-    /// Defines the <see cref="ScrollChanged"/> event.
+    /// Defines the <see cref="ScrollChanged" /> event.
     /// </summary>
     public static readonly RoutedEvent<ScrollChangedEventArgs> ScrollChangedEvent =
         RoutedEvent.Register<SmoothScrollViewer, ScrollChangedEventArgs>(
             nameof(ScrollChanged),
             RoutingStrategies.Bubble);
-
-    /// <summary>
-    /// Occurs when changes are detected to the scroll position, extent, or viewport size.
-    /// </summary>
-    public event EventHandler<ScrollChangedEventArgs> ScrollChanged
-    {
-        add => AddHandler(ScrollChangedEvent, value);
-        remove => RemoveHandler(ScrollChangedEvent, value);
-    }
 
     /// <summary>
     /// Gets or sets the current scroll easing function.
@@ -324,7 +324,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             {
                 double old = Offset.X;
                 Offset = Offset.WithX(value);
-                OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<double>(this, HorizontalScrollBarValueProperty, old, value, BindingPriority.Style));
+                OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<double>(this, HorizontalScrollBarValueProperty,
+                    old, value, BindingPriority.Style));
             }
         }
     }
@@ -351,7 +352,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             {
                 double old = Offset.Y;
                 Offset = Offset.WithY(value);
-                OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<double>(this, VerticalScrollBarValueProperty, old, value, BindingPriority.Style));
+                OnPropertyChanged(new AvaloniaPropertyChangedEventArgs<double>(this, VerticalScrollBarValueProperty,
+                    old, value, BindingPriority.Style));
             }
         }
     }
@@ -387,10 +389,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         get => _extent;
         private set
         {
-            if (SetAndRaise(ExtentProperty, ref _extent, value))
-            {
-                CalculatedPropertiesChanged();
-            }
+            if (SetAndRaise(ExtentProperty, ref _extent, value)) CalculatedPropertiesChanged();
         }
     }
 
@@ -403,9 +402,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         set
         {
             if (SetAndRaise(OffsetProperty, ref _offset, CoerceOffset(Extent, Viewport, value)))
-            {
                 CalculatedPropertiesChanged();
-            }
         }
     }
 
@@ -417,14 +414,12 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         get => _viewport;
         private set
         {
-            if (SetAndRaise(ViewportProperty, ref _viewport, value))
-            {
-                CalculatedPropertiesChanged();
-            }
+            if (SetAndRaise(ViewportProperty, ref _viewport, value)) CalculatedPropertiesChanged();
         }
     }
+    
     /// <summary>
-    /// Initializes static members of the <see cref="SmoothScrollViewer"/> class.
+    /// Initializes static members of the <see cref="SmoothScrollViewer" /> class.
     /// </summary>
     static SmoothScrollViewer()
     {
@@ -439,11 +434,35 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmoothScrollViewer"/> class.
+    /// Initializes a new instance of the <see cref="SmoothScrollViewer" /> class.
     /// </summary>
     public SmoothScrollViewer()
     {
         LayoutUpdated += OnLayoutUpdated;
+    }
+
+    /// <inheritdoc />
+    public void RegisterAnchorCandidate(Control element)
+    {
+        (Presenter as IScrollAnchorProvider)?.RegisterAnchorCandidate(element);
+    }
+
+    /// <inheritdoc />
+    public void UnregisterAnchorCandidate(Control element)
+    {
+        (Presenter as IScrollAnchorProvider)?.UnregisterAnchorCandidate(element);
+    }
+
+    /// <inheritdoc />
+    public Control? CurrentAnchor => (Presenter as IScrollAnchorProvider)?.CurrentAnchor;
+
+    /// <summary>
+    /// Occurs when changes are detected to the scroll position, extent, or viewport size.
+    /// </summary>
+    public event EventHandler<ScrollChangedEventArgs> ScrollChanged
+    {
+        add => AddHandler(ScrollChangedEvent, value);
+        remove => RemoveHandler(ScrollChangedEvent, value);
     }
 
     /// <summary>
@@ -566,21 +585,6 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         control.SetValue(VerticalScrollBarVisibilityProperty, value);
     }
 
-    /// <inheritdoc/>
-    public void RegisterAnchorCandidate(Control element)
-    {
-        (Presenter as IScrollAnchorProvider)?.RegisterAnchorCandidate(element);
-    }
-
-    /// <inheritdoc/>
-    public void UnregisterAnchorCandidate(Control element)
-    {
-        (Presenter as IScrollAnchorProvider)?.UnregisterAnchorCandidate(element);
-    }
-
-    /// <inheritdoc/>
-    public Control? CurrentAnchor => (Presenter as IScrollAnchorProvider)?.CurrentAnchor;
-
     protected override bool RegisterContentPresenter(ContentPresenter presenter)
     {
         _childSubscription?.Dispose();
@@ -646,13 +650,9 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         if (wasEnabled != isEnabled)
         {
             if (e.Property == HorizontalScrollBarVisibilityProperty)
-            {
                 SetAndRaise(CanHorizontallyScrollProperty, ref wasEnabled, isEnabled);
-            }
             else if (e.Property == VerticalScrollBarVisibilityProperty)
-            {
                 SetAndRaise(CanVerticallyScrollProperty, ref wasEnabled, isEnabled);
-            }
         }
     }
 
@@ -669,7 +669,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         RaisePropertyChanged(VisibleMaximumProperty, false, VisibleMaximum);
         RaisePropertyChanged(HorizontalScrollBarEnableIncreaseProperty, false, HorizontalScrollBarEnableIncrease);
         RaisePropertyChanged(HorizontalScrollBarEnableDecreaseProperty, false, HorizontalScrollBarEnableDecrease);
-        
+
         if (_logicalScrollable?.IsLogicalScrollEnabled == true)
         {
             SetAndRaise(SmallChangeProperty, ref _smallChange, _logicalScrollable.ScrollSize);
@@ -722,7 +722,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             scrollDecreaseButton.Click += ScrollDecreaseButtonOnClick;
             scrollIncreaseButton.Click += ScrollIncreaseButtonOnClick;
         }
-        
+
         KeyDown += OnKeyDown;
 
         _scrollBarExpandSubscription?.Dispose();
@@ -742,6 +742,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     {
         Offset += new Vector(190, 0);
     }
+
     private void ScrollDecreaseButtonOnClick(object? sender, RoutedEventArgs e)
     {
         Offset -= new Vector(190, 0);
@@ -769,13 +770,8 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         else
         {
             if (horizontalExpanded != null)
-            {
                 actualExpanded = horizontalExpanded;
-            }
-            else if (verticalExpanded != null)
-            {
-                actualExpanded = verticalExpanded;
-            }
+            else if (verticalExpanded != null) actualExpanded = verticalExpanded;
         }
 
         return actualExpanded?.Subscribe(OnScrollBarExpandedChanged);
@@ -786,7 +782,10 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         IsExpanded = isExpanded;
     }
 
-    private void OnLayoutUpdated(object? sender, EventArgs e) => RaiseScrollChanged();
+    private void OnLayoutUpdated(object? sender, EventArgs e)
+    {
+        RaiseScrollChanged();
+    }
 
     private void RaiseScrollChanged()
     {

@@ -7,7 +7,7 @@ public partial class HomePageView : UserControl
 {
     public HomePageView()
     {
-        DataContext = PleasantUIExampleApp.ViewModel;
+        DataContext = PleasantUiExampleApp.ViewModel;
         
         InitializeComponent();
     }

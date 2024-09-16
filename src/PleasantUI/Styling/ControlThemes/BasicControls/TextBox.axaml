@@ -26,7 +26,8 @@
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColor}" />
-        <Setter Property="SelectionForegroundBrush" Value="{CompiledBinding $self.SelectionBrush, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+        <Setter Property="SelectionForegroundBrush"
+                Value="{CompiledBinding $self.SelectionBrush, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
@@ -44,7 +45,7 @@
                         <PathIcon Width="16"
                                   Height="16"
                                   Data="{StaticResource CutRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}"/>
+                                  Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Copy}"
@@ -55,7 +56,7 @@
                         <PathIcon Width="16"
                                   Height="16"
                                   Data="{StaticResource CopyRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}"/>
+                                  Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Paste}"
@@ -66,7 +67,7 @@
                         <PathIcon Width="16"
                                   Height="16"
                                   Data="{StaticResource PasteRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}"/>
+                                  Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuFlyout>
@@ -93,9 +94,10 @@
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            FontWeight="SemiBold"
                                            DockPanel.Dock="Top" />
-                                
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                                                    VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+
+                                <SmoothScrollViewer
+                                    HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                    VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                     <Panel>
                                         <TextBlock Name="PART_Watermark"
                                                    Text="{TemplateBinding Watermark}"
@@ -173,7 +175,7 @@
                 </Template>
             </Setter>
         </Style>
-        
+
         <Style Selector="^.TextField">
             <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -191,7 +193,7 @@
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
-        
+
         <Style Selector="^[UseFloatingWatermark=true]:not(:empty) /template/ TextBlock#PART_FloatingWatermark">
             <Setter Property="IsVisible" Value="True" />
         </Style>

@@ -9,7 +9,7 @@ public enum PleasantTitleBarType
     /// Regular title bar
     /// </summary>
     Classic = 0,
-    
+
     /// <summary>
     /// The title bar is slightly larger than usual
     /// </summary>

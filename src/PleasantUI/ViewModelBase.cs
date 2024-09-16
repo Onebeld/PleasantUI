@@ -3,6 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace PleasantUI;
 
+/// <summary>
+/// A base class that implements <see cref="INotifyPropertyChanged"/>.
+/// </summary>
 public class ViewModelBase : INotifyPropertyChanged
 {
     /// <inheritdoc />
@@ -29,7 +32,10 @@ public class ViewModelBase : INotifyPropertyChanged
     /// <summary>
     /// Raises the property changed event.
     /// </summary>
-    /// <param name="propertyName">The name of the property that has changed. If not provided, the name of the calling member will be used.</param>
+    /// <param name="propertyName">
+    /// The name of the property that has changed. If not provided, the name of the calling member
+    /// will be used.
+    /// </param>
     protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

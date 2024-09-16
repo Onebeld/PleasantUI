@@ -3,23 +3,20 @@
 internal class AnonymousObserver<T> : IObserver<T>
 {
     private static readonly Action<Exception> ThrowsOnError = ex => throw ex;
-    private static readonly Action NoOpCompleted = () => { };  
-    private readonly Action<T> _onNext;
-    private readonly Action<Exception> _onError;
+    private static readonly Action NoOpCompleted = () => { };
     private readonly Action _onCompleted;
+    private readonly Action<Exception> _onError;
+    private readonly Action<T> _onNext;
 
     public AnonymousObserver(TaskCompletionSource<T> tcs)
     {
-        if (tcs is null)
-        {
-            throw new ArgumentNullException(nameof(tcs));
-        }
+        if (tcs is null) throw new ArgumentNullException(nameof(tcs));
 
         _onNext = tcs.SetResult;
         _onError = tcs.SetException;
         _onCompleted = NoOpCompleted;
     }
-    
+
     public AnonymousObserver(Action<T> onNext, Action<Exception> onError, Action onCompleted)
     {
         _onNext = onNext ?? throw new ArgumentNullException(nameof(onNext));

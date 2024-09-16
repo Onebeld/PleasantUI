@@ -18,7 +18,7 @@
             </SmoothScrollViewer>
         </Grid>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type SmoothScrollViewer}" TargetType="SmoothScrollViewer">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="SmoothScrollDuration" Value="0:0:0.015" />
@@ -40,12 +40,13 @@
                                                   Offset="{TemplateBinding Offset, Mode=TwoWay}"
                                                   Viewport="{TemplateBinding Viewport, Mode=TwoWay}">
                         <SmoothScrollContentPresenter.GestureRecognizers>
-                            <ScrollGestureRecognizer CanHorizontallyScroll="{CompiledBinding $parent[SmoothScrollContentPresenter].CanHorizontallyScroll}"
-                                                     CanVerticallyScroll="{CompiledBinding $parent[SmoothScrollContentPresenter].CanVerticallyScroll}"
-                                                     IsScrollInertiaEnabled="True" />
+                            <ScrollGestureRecognizer
+                                CanHorizontallyScroll="{CompiledBinding $parent[SmoothScrollContentPresenter].CanHorizontallyScroll}"
+                                CanVerticallyScroll="{CompiledBinding $parent[SmoothScrollContentPresenter].CanVerticallyScroll}"
+                                IsScrollInertiaEnabled="True" />
                         </SmoothScrollContentPresenter.GestureRecognizers>
                     </SmoothScrollContentPresenter>
-                    
+
                     <ScrollBar Grid.Column="0"
                                Name="PART_HorizontalScrollBar"
                                Cursor="Arrow"
@@ -59,7 +60,7 @@
                                Visibility="{TemplateBinding HorizontalScrollBarVisibility}"
                                Grid.Row="1"
                                Focusable="False" />
-                    
+
                     <ScrollBar Grid.Row="0"
                                Cursor="Arrow"
                                Name="PART_VerticalScrollBar"
@@ -73,7 +74,7 @@
                                Visibility="{TemplateBinding VerticalScrollBarVisibility}"
                                Grid.Column="1"
                                Focusable="False" />
-                    
+
                     <Panel x:Name="PART_ScrollBarsSeparator" Grid.Row="1" Grid.Column="1" />
                 </Grid>
             </ControlTemplate>

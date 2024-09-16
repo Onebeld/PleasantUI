@@ -1,5 +1,6 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
+using PleasantUI.Core.Helpers;
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages;

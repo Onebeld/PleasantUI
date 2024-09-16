@@ -6,9 +6,9 @@ using PleasantUI.Reactive;
 namespace PleasantUI.Behaviors;
 
 /// <summary>
-/// Defines <see cref="Avalonia.Media.BoxShadow"/> behavior for the control
+/// Defines <see cref="Avalonia.Media.BoxShadow" /> behavior for the control
 /// </summary>
-public class ShadowBehavior : AvaloniaObject
+public abstract class ShadowBehavior : AvaloniaObject
 {
     /// <summary>
     /// Defines the <see cref="GetBoxShadow" /> and <see cref="SetBoxShadow" /> methods.
@@ -29,10 +29,10 @@ public class ShadowBehavior : AvaloniaObject
     }
 
     /// <summary>
-    /// Sets the box shadow of the specified <see cref="AvaloniaObject"/>.
+    /// Sets the box shadow of the specified <see cref="AvaloniaObject" />.
     /// </summary>
     /// <param name="element">The AvaloniaObject.</param>
-    /// <param name="boxShadow">The <see cref="BoxShadow"/> to set. Use <see langword="null"/> to remove the box shadow.</param>
+    /// <param name="boxShadow">The <see cref="BoxShadow" /> to set. Use <see langword="null" /> to remove the box shadow.</param>
     public static void SetBoxShadow(AvaloniaObject element, BoxShadow? boxShadow)
     {
         element.SetValue(BoxShadowProperty, boxShadow);
@@ -51,7 +51,7 @@ public class ShadowBehavior : AvaloniaObject
     }
 
     /// <summary>
-    /// Sets the value of the EnableShadowing attached property for the specified <see cref="AvaloniaObject"/>.
+    /// Sets the value of the EnableShadowing attached property for the specified <see cref="AvaloniaObject" />.
     /// </summary>
     /// <param name="element">The AvaloniaObject to set the value for.</param>
     /// <param name="value">The value to set.</param>
@@ -61,7 +61,7 @@ public class ShadowBehavior : AvaloniaObject
     }
 
     /// <summary>
-    /// Gets the value of the EnableShadowing property for the specified <see cref="AvaloniaObject"/>.
+    /// Gets the value of the EnableShadowing property for the specified <see cref="AvaloniaObject" />.
     /// </summary>
     /// <param name="element">The AvaloniaObject to get the value from.</param>
     /// <returns>The value of the EnableShadowing property for the specified AvaloniaObject.</returns>

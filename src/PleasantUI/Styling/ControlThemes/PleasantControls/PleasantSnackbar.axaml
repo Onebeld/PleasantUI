@@ -8,7 +8,7 @@
             <PleasantSnackbar Content="Test message" />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type PleasantSnackbar}" TargetType="PleasantSnackbar">
         <Setter Property="Height" Value="40" />
         <Setter Property="MinWidth" Value="40" />
@@ -21,7 +21,7 @@
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="ZIndex" Value="99" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border x:Name="PART_Snackbar"
@@ -44,10 +44,11 @@
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="1"
                                     Margin="5">
-                                <PathIcon Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
-                                          Data="{TemplateBinding Icon}" />
+                                <PathIcon
+                                    Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
+                                    Data="{TemplateBinding Icon}" />
                             </Border>
-                            
+
                             <Grid x:Name="PART_Grid"
                                   Grid.Column="1"
                                   ColumnDefinitions="*,Auto"
@@ -60,7 +61,7 @@
                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   Margin="{TemplateBinding Padding}"
                                                   TextAlignment="Start" />
-                                
+
                                 <Button x:Name="PART_Button"
                                         Grid.Column="1" />
                             </Grid>
@@ -69,7 +70,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^">
             <Setter Property="OpenAnimation">
                 <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
@@ -100,7 +101,7 @@
                 </Animation>
             </Setter>
         </Style>
-        
+
         <Style Selector="^ /template/ Border#PART_IconBorder">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
@@ -116,7 +117,7 @@
         <Style Selector="^:error /template/ Border#PART_IconBorder">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorCritical}" />
         </Style>
-        
+
         <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Transitions">
                 <Transitions>

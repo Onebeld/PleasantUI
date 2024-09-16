@@ -2,6 +2,9 @@
 
 namespace PleasantUI.Extensions;
 
+/// <summary>
+/// Provides extension methods to convert strings to numbers.
+/// </summary>
 public static class StringToNumberExtensions
 {
     /// <summary>
@@ -19,9 +22,7 @@ public static class StringToNumberExtensions
             !double.TryParse(value, NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out result) &&
             // Then in neutral language
             !double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
-        {
             result = 1;
-        }
 
         return result;
     }

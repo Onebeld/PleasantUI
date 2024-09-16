@@ -28,7 +28,7 @@
                                     </Transitions>
                                 </Setter>
                                 <Setter Property="RenderTransform" Value="none" />
-                                
+
                                 <Setter Property="Foreground" Value="{CompiledBinding $parent[TabItem].Foreground}" />
                                 <Setter Property="Width" Value="92" />
                                 <Setter Property="Height" Value="18" />
@@ -48,47 +48,47 @@
                             <Grid ColumnDefinitions="Auto,*,Auto"
                                   RowDefinitions="Auto,*" Margin="10">
                                 <ColorSlider x:Name="ColorSpectrumThirdComponentSlider"
-                                                        AutomationProperties.Name="Third Component"
-                                                        Grid.Column="0"
-                                                        Grid.Row="1"
-                                                        IsAlphaVisible="False"
-                                                        IsPerceptive="True"
-                                                        Orientation="Vertical"
-                                                        ColorModel="Hsva"
-                                                        ColorComponent="{CompiledBinding ThirdComponent, ElementName=ColorSpectrum}"
-                                                        HsvColor="{CompiledBinding HsvColor, ElementName=ColorSpectrum}"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Stretch"
-                                                        Margin="0,0,12,0"
-                                                        IsVisible="{TemplateBinding IsColorSpectrumSliderVisible}" />
+                                             AutomationProperties.Name="Third Component"
+                                             Grid.Column="0"
+                                             Grid.Row="1"
+                                             IsAlphaVisible="False"
+                                             IsPerceptive="True"
+                                             Orientation="Vertical"
+                                             ColorModel="Hsva"
+                                             ColorComponent="{CompiledBinding ThirdComponent, ElementName=ColorSpectrum}"
+                                             HsvColor="{CompiledBinding HsvColor, ElementName=ColorSpectrum}"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Stretch"
+                                             Margin="0,0,12,0"
+                                             IsVisible="{TemplateBinding IsColorSpectrumSliderVisible}" />
                                 <ColorSpectrum x:Name="ColorSpectrum"
-                                                          Grid.Column="1"
-                                                          Grid.Row="0"
-                                                          Grid.RowSpan="2"
-                                                          Components="{TemplateBinding ColorSpectrumComponents}"
-                                                          HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
-                                                          MinHue="{TemplateBinding MinHue}"
-                                                          MaxHue="{TemplateBinding MaxHue}"
-                                                          MinSaturation="{TemplateBinding MinSaturation}"
-                                                          MaxSaturation="{TemplateBinding MaxSaturation}"
-                                                          MinValue="{TemplateBinding MinValue}"
-                                                          MaxValue="{TemplateBinding MaxValue}"
-                                                          Shape="{TemplateBinding ColorSpectrumShape}"
-                                                          HorizontalAlignment="Stretch"
-                                                          VerticalAlignment="Stretch" />
+                                               Grid.Column="1"
+                                               Grid.Row="0"
+                                               Grid.RowSpan="2"
+                                               Components="{TemplateBinding ColorSpectrumComponents}"
+                                               HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
+                                               MinHue="{TemplateBinding MinHue}"
+                                               MaxHue="{TemplateBinding MaxHue}"
+                                               MinSaturation="{TemplateBinding MinSaturation}"
+                                               MaxSaturation="{TemplateBinding MaxSaturation}"
+                                               MinValue="{TemplateBinding MinValue}"
+                                               MaxValue="{TemplateBinding MaxValue}"
+                                               Shape="{TemplateBinding ColorSpectrumShape}"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch" />
                                 <ColorSlider x:Name="ColorSpectrumAlphaSlider"
-                                                        AutomationProperties.Name="Alpha Component"
-                                                        Grid.Column="2"
-                                                        Grid.Row="1"
-                                                        Grid.RowSpan="2"
-                                                        Orientation="Vertical"
-                                                        ColorModel="Hsva"
-                                                        ColorComponent="Alpha"
-                                                        HsvColor="{CompiledBinding HsvColor, ElementName=ColorSpectrum}"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Stretch"
-                                                        Margin="12,0,0,0"
-                                                        IsEnabled="{TemplateBinding IsAlphaEnabled}" />
+                                             AutomationProperties.Name="Alpha Component"
+                                             Grid.Column="2"
+                                             Grid.Row="1"
+                                             Grid.RowSpan="2"
+                                             Orientation="Vertical"
+                                             ColorModel="Hsva"
+                                             ColorComponent="Alpha"
+                                             HsvColor="{CompiledBinding HsvColor, ElementName=ColorSpectrum}"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Stretch"
+                                             Margin="12,0,0,0"
+                                             IsEnabled="{TemplateBinding IsAlphaEnabled}" />
                             </Grid>
                         </TabItem>
                         <!-- Palette Tab -->
@@ -150,7 +150,7 @@
                                                     Width="35"
                                                     Height="55"
                                                     VerticalAlignment="Stretch"
-                                                    Background="{CompiledBinding Converter={x:Static ColorConverters.UIntToBrush}}"/>
+                                                    Background="{CompiledBinding Converter={x:Static ColorConverters.UIntToBrush}}" />
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                     <ListBox.ItemsPanel>
@@ -171,7 +171,8 @@
                                         Grid.Row="1"
                                         Margin="50 0"
                                         ToolTip.Tip="{markup:Localize AddColor}">
-                                    <PathIcon Data="{StaticResource AddRegular}" Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
+                                    <PathIcon Data="{StaticResource AddRegular}"
+                                              Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                                 </Button>
                             </Grid>
                         </TabItem>
@@ -214,25 +215,25 @@
                                                  CornerRadius="0 999 999 0" />
 
                                     <MarkedTextBox x:Name="PART_HexTextBox"
-                                                       Grid.Column="3"
-                                                       AutomationProperties.Name="Hexadecimal Color"
-                                                       VerticalAlignment="Center"
-                                                       MaxLength="8"
-                                                       Mark="#" />
+                                                   Grid.Column="3"
+                                                   AutomationProperties.Name="Hexadecimal Color"
+                                                   VerticalAlignment="Center"
+                                                   MaxLength="8"
+                                                   Mark="#" />
                                 </Grid>
                                 <!-- Color component editing controls -->
                                 <!-- Component 1 RGB:Red HSV:Hue -->
                                 <MarkedNumericUpDown Grid.Column="0"
-                                                         Grid.ColumnSpan="2"
-                                                         Grid.Row="2"
-                                                         AllowSpin="True"
-                                                         VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"
-                                                         Width="110"
-                                                         NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{CompiledBinding #Component1Slider.Minimum}"
-                                                         Maximum="{CompiledBinding #Component1Slider.Maximum}"
-                                                         Value="{CompiledBinding #Component1Slider.Value}">
+                                                     Grid.ColumnSpan="2"
+                                                     Grid.Row="2"
+                                                     AllowSpin="True"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     Width="110"
+                                                     NumberFormat="{x:Static Globalization.NumberFormatInfo}"
+                                                     Minimum="{CompiledBinding #Component1Slider.Minimum}"
+                                                     Maximum="{CompiledBinding #Component1Slider.Maximum}"
+                                                     Value="{CompiledBinding #Component1Slider.Value}">
                                     <MarkedNumericUpDown.Mark>
                                         <Panel>
                                             <TextBlock Text="R"
@@ -243,29 +244,29 @@
                                     </MarkedNumericUpDown.Mark>
                                 </MarkedNumericUpDown>
                                 <ColorSlider x:Name="Component1Slider"
-                                                        Grid.Column="2"
-                                                        Grid.Row="2"
-                                                        Margin="12,0,0,0"
-                                                        IsRoundingEnabled="True"
-                                                        IsSnapToTickEnabled="True"
-                                                        TickFrequency="1"
-                                                        ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
-                                                        ColorComponent="Component1"
-                                                        HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center" />
+                                             Grid.Column="2"
+                                             Grid.Row="2"
+                                             Margin="12,0,0,0"
+                                             IsRoundingEnabled="True"
+                                             IsSnapToTickEnabled="True"
+                                             TickFrequency="1"
+                                             ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
+                                             ColorComponent="Component1"
+                                             HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center" />
                                 <!-- Component 2 RGB:Green HSV:Saturation -->
                                 <MarkedNumericUpDown Grid.Column="0"
-                                                         Grid.ColumnSpan="2"
-                                                         Grid.Row="3"
-                                                         AllowSpin="True"
-                                                         VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"
-                                                         Width="110"
-                                                         NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{CompiledBinding #Component2Slider.Minimum}"
-                                                         Maximum="{CompiledBinding #Component2Slider.Maximum}"
-                                                         Value="{CompiledBinding #Component2Slider.Value}">
+                                                     Grid.ColumnSpan="2"
+                                                     Grid.Row="3"
+                                                     AllowSpin="True"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     Width="110"
+                                                     NumberFormat="{x:Static Globalization.NumberFormatInfo}"
+                                                     Minimum="{CompiledBinding #Component2Slider.Minimum}"
+                                                     Maximum="{CompiledBinding #Component2Slider.Maximum}"
+                                                     Value="{CompiledBinding #Component2Slider.Value}">
                                     <MarkedNumericUpDown.Mark>
                                         <Panel>
                                             <TextBlock Text="G"
@@ -276,29 +277,29 @@
                                     </MarkedNumericUpDown.Mark>
                                 </MarkedNumericUpDown>
                                 <ColorSlider x:Name="Component2Slider"
-                                                        Grid.Column="2"
-                                                        Grid.Row="3"
-                                                        Margin="12,0,0,0"
-                                                        IsRoundingEnabled="True"
-                                                        IsSnapToTickEnabled="True"
-                                                        TickFrequency="1"
-                                                        ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
-                                                        ColorComponent="Component2"
-                                                        HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center" />
+                                             Grid.Column="2"
+                                             Grid.Row="3"
+                                             Margin="12,0,0,0"
+                                             IsRoundingEnabled="True"
+                                             IsSnapToTickEnabled="True"
+                                             TickFrequency="1"
+                                             ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
+                                             ColorComponent="Component2"
+                                             HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center" />
                                 <!-- Component 3 RGB:Blue HSV:Value -->
                                 <MarkedNumericUpDown Grid.Column="0"
-                                                         Grid.ColumnSpan="2"
-                                                         Grid.Row="4"
-                                                         AllowSpin="True"
-                                                         VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"
-                                                         Width="110"
-                                                         NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{CompiledBinding #Component3Slider.Minimum}"
-                                                         Maximum="{CompiledBinding #Component3Slider.Maximum}"
-                                                         Value="{CompiledBinding #Component3Slider.Value}">
+                                                     Grid.ColumnSpan="2"
+                                                     Grid.Row="4"
+                                                     AllowSpin="True"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     Width="110"
+                                                     NumberFormat="{x:Static Globalization.NumberFormatInfo}"
+                                                     Minimum="{CompiledBinding #Component3Slider.Minimum}"
+                                                     Maximum="{CompiledBinding #Component3Slider.Maximum}"
+                                                     Value="{CompiledBinding #Component3Slider.Value}">
                                     <MarkedNumericUpDown.Mark>
                                         <Panel>
                                             <TextBlock Text="B"
@@ -309,42 +310,42 @@
                                     </MarkedNumericUpDown.Mark>
                                 </MarkedNumericUpDown>
                                 <ColorSlider x:Name="Component3Slider"
-                                                        Grid.Column="2"
-                                                        Grid.Row="4"
-                                                        Margin="12,0,0,0"
-                                                        IsRoundingEnabled="True"
-                                                        IsSnapToTickEnabled="True"
-                                                        TickFrequency="1"
-                                                        ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
-                                                        ColorComponent="Component3"
-                                                        HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center" />
+                                             Grid.Column="2"
+                                             Grid.Row="4"
+                                             Margin="12,0,0,0"
+                                             IsRoundingEnabled="True"
+                                             IsSnapToTickEnabled="True"
+                                             TickFrequency="1"
+                                             ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
+                                             ColorComponent="Component3"
+                                             HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center" />
                                 <!-- Alpha Component -->
                                 <MarkedNumericUpDown Grid.Column="0"
-                                                         Grid.ColumnSpan="2"
-                                                         Grid.Row="5"
-                                                         Mark="A"
-                                                         AllowSpin="True"
-                                                         VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"
-                                                         Width="110"
-                                                         NumberFormat="{x:Static Globalization.NumberFormatInfo}"
-                                                         Minimum="{CompiledBinding #AlphaComponentSlider.Minimum}"
-                                                         Maximum="{CompiledBinding #AlphaComponentSlider.Maximum}"
-                                                         Value="{CompiledBinding #AlphaComponentSlider.Value}" />
+                                                     Grid.ColumnSpan="2"
+                                                     Grid.Row="5"
+                                                     Mark="A"
+                                                     AllowSpin="True"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     Width="110"
+                                                     NumberFormat="{x:Static Globalization.NumberFormatInfo}"
+                                                     Minimum="{CompiledBinding #AlphaComponentSlider.Minimum}"
+                                                     Maximum="{CompiledBinding #AlphaComponentSlider.Maximum}"
+                                                     Value="{CompiledBinding #AlphaComponentSlider.Value}" />
                                 <ColorSlider x:Name="AlphaComponentSlider"
-                                                        Grid.Column="2"
-                                                        Grid.Row="5"
-                                                        Margin="12,0,0,0"
-                                                        IsRoundingEnabled="True"
-                                                        IsSnapToTickEnabled="True"
-                                                        TickFrequency="1"
-                                                        ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
-                                                        ColorComponent="Alpha"
-                                                        HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center">
+                                             Grid.Column="2"
+                                             Grid.Row="5"
+                                             Margin="12,0,0,0"
+                                             IsRoundingEnabled="True"
+                                             IsSnapToTickEnabled="True"
+                                             TickFrequency="1"
+                                             ColorModel="{TemplateBinding ColorModel, Mode=OneWay}"
+                                             ColorComponent="Alpha"
+                                             HsvColor="{CompiledBinding $parent[ColorView].HsvColor}"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
                                     <ColorSlider.IsVisible>
                                         <MultiBinding Converter="{x:Static BoolConverters.And}">
                                             <CompiledBinding Path="$parent[ColorView].IsAlphaVisible" />

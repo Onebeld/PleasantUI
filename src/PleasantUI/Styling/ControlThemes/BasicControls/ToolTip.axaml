@@ -39,7 +39,7 @@
             </Border>
         </Grid>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
@@ -51,7 +51,7 @@
         <Setter Property="TextBlock.FontSize" Value="12" />
         <Setter Property="TextBlock.FontWeight" Value="Normal" />
         <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_LayoutRoot"
@@ -78,7 +78,7 @@
                             </Style.Animations>
                         </Style>
                     </Border.Styles>
-                
+
                     <ContentPresenter Name="PART_ContentPresenter"
                                       MaxWidth="{TemplateBinding MaxWidth}"
                                       Content="{TemplateBinding Content}"

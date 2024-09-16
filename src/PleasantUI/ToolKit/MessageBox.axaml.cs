@@ -11,9 +11,18 @@ using PleasantUI.Extensions;
 
 namespace PleasantUI.ToolKit;
 
+/// <summary>
+/// A control that displays a message box.
+/// </summary>
 public partial class MessageBox : ContentDialog
 {
-    public MessageBox() => InitializeComponent();
+    /// <summary>
+    /// A control that displays a message box.
+    /// </summary>
+    public MessageBox()
+    {
+        InitializeComponent();
+    }
 
     /// <summary>
     /// Displays a message box with the given title and text, and optional buttons and additional text.
@@ -25,7 +34,7 @@ public partial class MessageBox : ContentDialog
     /// <param name="additionalText">The optional additional text to display in the message box.</param>
     /// <returns>A Task representing the completion of the message box.</returns>
     public static Task<string> Show(IPleasantWindow parent, string title, string text,
-                                    IReadOnlyList<MessageBoxButton>? buttons = null, string? additionalText = null)
+        IReadOnlyList<MessageBoxButton>? buttons = null, string? additionalText = null)
     {
         MessageBox messageBox = new();
 
@@ -58,7 +67,6 @@ public partial class MessageBox : ContentDialog
             messageBox.Buttons.Children.Add(button);
 
             if (messageBoxButton.IsKeyDown)
-            {
                 messageBox.KeyDown += (_, e) =>
                 {
                     if (e.Key != Key.Enter) return;
@@ -66,10 +74,9 @@ public partial class MessageBox : ContentDialog
                     result = messageBoxButton.Result;
                     messageBox.Close();
                 };
-            }
 
             if (!messageBoxButton.Default) return;
-            
+
             result = messageBoxButton.Result;
             button.Classes.Add("Accent");
 
@@ -85,7 +92,7 @@ public partial class MessageBox : ContentDialog
             {
                 AddButton(new MessageBoxButton
                 {
-                    Text = Localizer.Instance["Ok"] ?? "OK", Result = "OK", Default = true, IsKeyDown = true
+                    Text = Localizer.Instance["Ok"], Result = "OK", Default = true, IsKeyDown = true
                 });
             }
             catch
@@ -95,7 +102,6 @@ public partial class MessageBox : ContentDialog
                     Text = "OK", Result = "OK", Default = true, IsKeyDown = true
                 });
             }
-            
         }
         else if (buttons.Count == 1)
         {
@@ -117,7 +123,7 @@ public partial class MessageBox : ContentDialog
         else messageBox.AdditionalText.IsVisible = false;
 
         TaskCompletionSource<string> taskCompletionSource = new();
-        
+
         messageBox.Closed += (_, _) => taskCompletionSource.TrySetResult(result);
         messageBox.Show(parent);
 

@@ -10,7 +10,8 @@
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                 </ListBox>
-                <ListBox Classes="Horizontal" ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
+                <ListBox Classes="Horizontal" ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250"
+                         Height="150">
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
@@ -40,7 +41,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^.Horizontal">
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>

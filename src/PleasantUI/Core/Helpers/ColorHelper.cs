@@ -2,6 +2,9 @@
 
 namespace PleasantUI.Core.Helpers;
 
+/// <summary>
+/// Provides helper methods for working with colors.
+/// </summary>
 public static class ColorHelper
 {
     /// <summary>

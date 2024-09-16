@@ -13,5 +13,6 @@
 
     <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton" BasedOn="{StaticResource {x:Type Button}}" />
 
-    <ControlTheme x:Key="AppBarRepeatButtonTheme" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}" />
+    <ControlTheme x:Key="AppBarRepeatButtonTheme" TargetType="RepeatButton"
+                  BasedOn="{StaticResource AppBarButtonTheme}" />
 </ResourceDictionary>

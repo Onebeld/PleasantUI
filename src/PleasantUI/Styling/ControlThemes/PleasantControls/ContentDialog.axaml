@@ -18,7 +18,8 @@
                 </SmoothScrollViewer>
                 <ContentDialog.BottomPanelContent>
                     <UniformGrid Margin="15 0" Rows="0" Columns="2">
-                        <Button Theme="{StaticResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center" Margin="5" />
+                        <Button Theme="{StaticResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
+                                Margin="5" />
 
                         <Button Content="Cancel" VerticalAlignment="Center" Margin="5" />
                     </UniformGrid>
@@ -72,7 +73,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^">
             <Setter Property="OpenAnimation">
                 <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
@@ -102,7 +103,7 @@
                     </KeyFrame>
                 </Animation>
             </Setter>
-            
+
             <Setter Property="ShowBackgroundAnimation">
                 <Animation Duration="0:0:0.2" FillMode="Both">
                     <KeyFrame KeyTime="0:0:0">

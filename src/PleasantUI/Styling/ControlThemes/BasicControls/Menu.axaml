@@ -75,7 +75,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>

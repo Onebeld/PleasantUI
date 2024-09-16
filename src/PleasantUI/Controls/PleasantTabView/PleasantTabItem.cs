@@ -8,35 +8,47 @@ using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// An item in a <see cref="PleasantTabView" />.
+/// </summary>
 [TemplatePart("PART_CloseButton", typeof(Button))]
-public partial class PleasantTabItem : TabItem
+public class PleasantTabItem : TabItem
 {
-    private bool _isClosing;
     private Button? _closeButton;
-
+    private bool _isClosing;
+    
+    /// <summary>
+    /// Defines the <see cref="ClosingEvent" /> property.
+    /// </summary>
     public static readonly RoutedEvent<RoutedEventArgs> ClosingEvent =
         RoutedEvent.Register<PleasantTabItem, RoutedEventArgs>(nameof(Closing), RoutingStrategies.Bubble);
 
+    /// <summary>
+    /// Defines the <see cref="CloseButtonClickEvent" /> property.
+    /// </summary>
     public static readonly RoutedEvent<RoutedEventArgs> CloseButtonClickEvent =
         RoutedEvent.Register<PleasantTabItem, RoutedEventArgs>(nameof(CloseButtonClick), RoutingStrategies.Bubble);
 
     /// <summary>
-    ///     Defines the <see cref="IsClosable" /> property.
+    /// Defines the <see cref="IsClosable" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> IsClosableProperty =
         AvaloniaProperty.Register<PleasantTabItem, bool>(nameof(IsClosable), true);
 
     /// <summary>
-    ///     Defines the <see cref="IsClosing" /> property.
+    /// Defines the <see cref="IsClosing" /> property.
     /// </summary>
     public static readonly DirectProperty<PleasantTabItem, bool> IsClosingProperty =
         AvaloniaProperty.RegisterDirect<PleasantTabItem, bool>(nameof(IsClosing), o => o.IsClosing);
 
+    /// <summary>
+    /// Defines the <see cref="IsEditedIndicator" /> property.
+    /// </summary>
     public static readonly StyledProperty<bool> IsEditedIndicatorProperty =
         AvaloniaProperty.Register<PleasantTabItem, bool>(nameof(IsEditedIndicator));
 
     /// <summary>
-    ///     This property sets if the PleasantTabItem can be closed
+    /// This property sets if the PleasantTabItem can be closed
     /// </summary>
     public bool IsClosable
     {
@@ -45,7 +57,7 @@ public partial class PleasantTabItem : TabItem
     }
 
     /// <summary>
-    ///     Returns if the tab is closing.
+    /// Returns if the tab is closing.
     /// </summary>
     public bool IsClosing
     {
@@ -53,18 +65,27 @@ public partial class PleasantTabItem : TabItem
         set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
     }
 
+    /// <summary>
+    /// Gets or sets whether the tab has been edited and has an indicator.
+    /// </summary>
     public bool IsEditedIndicator
     {
         get => GetValue(IsEditedIndicatorProperty);
         set => SetValue(IsEditedIndicatorProperty, value);
     }
 
+    /// <summary>
+    /// Occurs when the <see cref="Close"/> method is called.
+    /// </summary>
     public event EventHandler<RoutedEventArgs> Closing
     {
         add => AddHandler(ClosingEvent, value);
         remove => RemoveHandler(ClosingEvent, value);
     }
 
+    /// <summary>
+    /// Occurs when the tab is clicked.
+    /// </summary>
     public event EventHandler<RoutedEventArgs> CloseButtonClick
     {
         add => AddHandler(CloseButtonClickEvent, value);
@@ -81,7 +102,7 @@ public partial class PleasantTabItem : TabItem
     }
 
     /// <summary>
-    ///     Is called before <see cref="PleasantTabItem.Closing" /> occurs
+    /// Is called before <see cref="PleasantTabItem.Closing" /> occurs
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -90,11 +111,12 @@ public partial class PleasantTabItem : TabItem
         IsClosing = true;
     }
 
-    private static void UpdatePseudoClass(PleasantTabItem item)
-    {
-        if (!item.IsSelected) item.PseudoClasses.Remove(":dragging");
-    }
-
+    /// <summary>
+    /// Attempts to close the tab item by calling <see cref="PleasantTabView.CloseTab(object)"/> with
+    /// the <see cref="DataContext"/>. If that fails, it calls <see cref="PleasantTabView.CloseTab(PleasantTabItem)"/>
+    /// with this tab item as the argument.
+    /// </summary>
+    /// <returns><see langword="true"/> if the tab item was successfully closed, <see langword="false"/> otherwise.</returns>
     public bool CloseCore()
     {
         PleasantTabView x = (Parent as PleasantTabView)!;
@@ -116,7 +138,7 @@ public partial class PleasantTabItem : TabItem
     }
 
     /// <summary>
-    ///     Close the Tab
+    /// Close the Tab
     /// </summary>
     public bool Close()
     {
@@ -137,6 +159,11 @@ public partial class PleasantTabItem : TabItem
             _closeButton.Click += CloseButton_Click;
         else
             _closeButton.IsVisible = false;
+    }
+    
+    private static void UpdatePseudoClass(PleasantTabItem item)
+    {
+        if (!item.IsSelected) item.PseudoClasses.Remove(":dragging");
     }
 
     private void CloseButton_Click(object? sender, RoutedEventArgs e)

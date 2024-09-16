@@ -112,7 +112,7 @@
                                 Width="30"
                                 IsVisible="False"
                                 HorizontalAlignment="Right" />
-                        
+
                         <PathIcon Grid.Row="1"
                                   Grid.Column="1"
                                   IsHitTestVisible="False"
@@ -150,7 +150,7 @@
                                     </Style.Animations>
                                 </Style>
                             </Popup.Styles>
-                            
+
                             <Border x:Name="PopupBorder"
                                     Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
@@ -162,8 +162,9 @@
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
                                     behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                <SmoothScrollViewer
+                                    HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                     <ItemsPresenter Name="PART_ItemsPresenter"
                                                     Margin="0 4"
                                                     ItemsPanel="{TemplateBinding ItemsPanel}" />
@@ -189,7 +190,7 @@
             <Setter Property="Margin" Value="-4 4 4 4" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>

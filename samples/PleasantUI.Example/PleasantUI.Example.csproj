@@ -4,6 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DebugType>Full</DebugType>
+        <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -21,16 +22,18 @@
     </ItemGroup>
 
     <ItemGroup>
+        <EmbeddedResource Update="Properties\Localization.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        
+        <AdditionalFiles Include="Properties\*.resx"/>
+    </ItemGroup>
+
+    <ItemGroup>
       <Compile Update="Properties\Localization.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>Localization.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Update="Properties\Localization.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-      </EmbeddedResource>
     </ItemGroup>
 </Project>

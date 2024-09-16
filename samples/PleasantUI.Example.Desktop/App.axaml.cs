@@ -7,7 +7,7 @@ using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Desktop;
 
-public partial class App : PleasantUIExampleApp
+public partial class App : PleasantUiExampleApp
 {
     public override void Initialize() => AvaloniaXamlLoader.Load(this);
 

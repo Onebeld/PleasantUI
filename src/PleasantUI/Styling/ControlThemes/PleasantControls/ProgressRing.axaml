@@ -9,7 +9,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type ProgressRing}" TargetType="ProgressRing">
         <Setter Property="Foreground" Value="{DynamicResource SystemAccentLightColor3}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
@@ -31,7 +31,7 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:indeterminate">
             <Setter Property="Background" Value="Transparent" />
         </Style>

@@ -2,50 +2,29 @@
 using System.Text.Json;
 using Avalonia.Collections;
 using PleasantUI.Core.Constants;
+using PleasantUI.Core.GenerationContexts;
 using PleasantUI.Core.Settings;
 
 namespace PleasantUI.Core;
 
+/// <summary>
+/// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows,
+/// rendering, and accent colors.
+/// </summary>
 public class PleasantSettings : ViewModelBase
 {
+    private AvaloniaList<uint> _colorPalettes = [];
+    private Guid? _customThemeId;
     private uint _numericalAccentColor;
     private bool _preferUserAccentColor;
-    private string _theme = "System";
-    private Guid? _customThemeId;
-    private WindowSettings _windowSettings = null!;
     private RenderSettings _renderSettings = null!;
-    private AvaloniaList<uint> _colorPalettes = [];
-    
+    private string _theme = "System";
+    private WindowSettings _windowSettings = null!;
+
+    /// <summary>
+    /// Gets the singleton instance of the PleasantSettings class.
+    /// </summary>
     public static PleasantSettings Instance { get; }
-
-    static PleasantSettings()
-    {
-        if (!Directory.Exists(PleasantDirectories.Settings))
-            Directory.CreateDirectory(PleasantDirectories.Settings);
-
-        if (File.Exists(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings)))
-        {
-            try
-            {
-                using FileStream fileStream = File.OpenRead(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-                Instance = JsonSerializer.Deserialize(fileStream, GenerationContexts.PleasantSettingsGenerationContext.Default.PleasantSettings)!;
-                
-                return;
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        Instance = new PleasantSettings
-        {
-            _windowSettings = new WindowSettings(),
-            _renderSettings = new RenderSettings()
-        };
-        
-        Setup();
-    }
 
     /// <summary>
     /// Gets or sets the color in numerical form
@@ -77,6 +56,9 @@ public class PleasantSettings : ViewModelBase
         set => RaiseAndSet(ref _theme, value);
     }
 
+    /// <summary>
+    /// Gets or sets the ID of the custom theme.
+    /// </summary>
     [DataMember]
     public Guid? CustomThemeId
     {
@@ -95,7 +77,7 @@ public class PleasantSettings : ViewModelBase
         {
             if (value is null)
                 throw new NullReferenceException("WindowSettings is null");
-            
+
             RaiseAndSet(ref _windowSettings, value);
         }
     }
@@ -111,16 +93,48 @@ public class PleasantSettings : ViewModelBase
         {
             if (value is null)
                 throw new NullReferenceException("RenderSettings is null");
-            
+
             RaiseAndSet(ref _renderSettings, value);
         }
     }
-    
+
+    /// <summary>
+    /// Gets or sets the list of color palettes.
+    /// </summary>
     [DataMember]
     public AvaloniaList<uint> ColorPalettes
     {
         get => _colorPalettes;
         set => RaiseAndSet(ref _colorPalettes, value);
+    }
+    
+    static PleasantSettings()
+    {
+        if (!Directory.Exists(PleasantDirectories.Settings))
+            Directory.CreateDirectory(PleasantDirectories.Settings);
+
+        if (File.Exists(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings)))
+            try
+            {
+                using FileStream fileStream =
+                    File.OpenRead(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+                Instance = JsonSerializer.Deserialize(fileStream,
+                    PleasantSettingsGenerationContext.Default.PleasantSettings)!;
+
+                return;
+            }
+            catch
+            {
+                // ignored
+            }
+
+        Instance = new PleasantSettings
+        {
+            _windowSettings = new WindowSettings(),
+            _renderSettings = new RenderSettings()
+        };
+
+        Setup();
     }
 
     /// <summary>
@@ -128,8 +142,10 @@ public class PleasantSettings : ViewModelBase
     /// </summary>
     public static void Save()
     {
-        using FileStream fileStream = File.Create(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-        JsonSerializer.Serialize(fileStream, Instance, GenerationContexts.PleasantSettingsGenerationContext.Default.PleasantSettings);
+        using FileStream fileStream =
+            File.Create(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+        JsonSerializer.Serialize(fileStream, Instance,
+            PleasantSettingsGenerationContext.Default.PleasantSettings);
     }
 
     /// <summary>
@@ -150,7 +166,7 @@ public class PleasantSettings : ViewModelBase
         if (operatingSystem.Platform is PlatformID.Win32NT)
         {
             Version currentVersion = operatingSystem.Version;
-            
+
             if (currentVersion >= new Version(10, 0, 10586))
             {
                 Instance.WindowSettings.EnableBlur = true;

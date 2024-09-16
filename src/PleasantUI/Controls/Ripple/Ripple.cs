@@ -11,10 +11,10 @@ public static class Ripple
 	/// Gets or sets the easing function used for ripple animations.
 	/// </summary>
 	/// <remarks>
-	/// Defaults to <see cref="CircularEaseOut"/>.
+	/// Defaults to <see cref="CircularEaseOut" />.
 	/// </remarks>
 	public static Easing Easing { get; set; } = new CircularEaseOut();
-	
+
 	/// <summary>
 	/// Gets or sets the duration of ripple animations.
 	/// </summary>

@@ -43,7 +43,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="FluentExpanderToggleButtonTheme" TargetType="ToggleButton">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
@@ -53,7 +53,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border x:Name="ToggleButtonBackground"
@@ -85,7 +85,7 @@
                                 <Viewbox.RenderTransform>
                                     <RotateTransform />
                                 </Viewbox.RenderTransform>
-                                
+
                                 <Path x:Name="ExpandCollapseChevron"
                                       Stretch="Uniform"
                                       Fill="{DynamicResource TextFillColor2}" />
@@ -95,7 +95,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^[Tag=expanded] /template/ Viewbox#ExpandCollapseViewbox">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
@@ -108,7 +108,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        
+
         <Style Selector="^[Tag=collapsed] /template/ Viewbox#ExpandCollapseViewbox">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
@@ -121,7 +121,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        
+
         <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
@@ -132,41 +132,46 @@
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
         </Style>
         <Style Selector="^:checked /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Fill" Value="{CompiledBinding $parent[Expander].Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+            <Setter Property="Fill"
+                    Value="{CompiledBinding $parent[Expander].Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
         </Style>
         <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
-    <ControlTheme x:Key="FluentExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+
+    <ControlTheme x:Key="FluentExpanderToggleButtonUpTheme" TargetType="ToggleButton"
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{StaticResource ChevronUpRegular}" />
         </Style>
     </ControlTheme>
-    <ControlTheme x:Key="FluentExpanderToggleButtonDownTheme" TargetType="ToggleButton" BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+    <ControlTheme x:Key="FluentExpanderToggleButtonDownTheme" TargetType="ToggleButton"
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{StaticResource ChevronDownRegular}" />
         </Style>
     </ControlTheme>
-    <ControlTheme x:Key="FluentExpanderToggleButtonLeftTheme" TargetType="ToggleButton" BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+    <ControlTheme x:Key="FluentExpanderToggleButtonLeftTheme" TargetType="ToggleButton"
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{StaticResource ChevronLeftRegular}" />
         </Style>
     </ControlTheme>
-    <ControlTheme x:Key="FluentExpanderToggleButtonRightTheme" TargetType="ToggleButton" BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+    <ControlTheme x:Key="FluentExpanderToggleButtonRightTheme" TargetType="ToggleButton"
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel MinWidth="{TemplateBinding MinWidth}"
@@ -180,7 +185,7 @@
                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
                                   IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                                   ZIndex="1" />
-                    
+
                     <Border x:Name="ExpanderContent"
                             IsVisible="{TemplateBinding IsExpanded, Mode=TwoWay}"
                             Background="{TemplateBinding Background}"
@@ -200,29 +205,30 @@
                 </DockPanel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ ToggleButton#ExpanderHeader:pressed">
             <Setter Property="RenderTransform" Value="{x:Null}" />
         </Style>
-        
+
         <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">
             <Setter Property="VerticalAlignment" Value="Stretch" />
         </Style>
         <Style Selector="^:right /template/ ToggleButton#ExpanderHeader">
             <Setter Property="VerticalAlignment" Value="Stretch" />
         </Style>
-        
+
         <Style Selector="^:expanded /template/ ToggleButton#ExpanderHeader">
             <Setter Property="Tag" Value="expanded" />
         </Style>
-        
+
         <Style Selector="^:not(:expanded) /template/ ToggleButton#ExpanderHeader">
             <Setter Property="CornerRadius" Value="{CompiledBinding $parent[Expander].CornerRadius}" />
             <Setter Property="Tag" Value="collapsed" />
         </Style>
-        
+
         <Style Selector="^:expanded:up /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
         </Style>
         <Style Selector="^:expanded:up /template/ Border#ExpanderContent">
             <Style.Animations>
@@ -237,10 +243,12 @@
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
         </Style>
         <Style Selector="^:expanded:down /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
         </Style>
         <Style Selector="^:expanded:down /template/ Border#ExpanderContent">
             <Style.Animations>
@@ -255,10 +263,12 @@
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
         </Style>
         <Style Selector="^:expanded:left /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}" />
         </Style>
         <Style Selector="^:expanded:left /template/ Border#ExpanderContent">
             <Style.Animations>
@@ -273,10 +283,12 @@
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}" />
         </Style>
         <Style Selector="^:expanded:right /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}" />
         </Style>
         <Style Selector="^:expanded:right /template/ Border#ExpanderContent">
             <Style.Animations>
@@ -291,9 +303,10 @@
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
-            <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}" />
+            <Setter Property="CornerRadius"
+                    Value="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}" />
         </Style>
-        
+
         <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">
             <Setter Property="DockPanel.Dock" Value="Right" />
         </Style>
@@ -306,7 +319,7 @@
         <Style Selector="^:down /template/ ToggleButton#ExpanderHeader">
             <Setter Property="DockPanel.Dock" Value="Top" />
         </Style>
-        
+
         <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">
             <Setter Property="Theme" Value="{StaticResource FluentExpanderToggleButtonLeftTheme}" />
         </Style>
@@ -319,7 +332,7 @@
         <Style Selector="^:down /template/ ToggleButton#ExpanderHeader">
             <Setter Property="Theme" Value="{StaticResource FluentExpanderToggleButtonDownTheme}" />
         </Style>
-        
+
         <Style Selector="^:left /template/ Border#ExpanderContent">
             <Setter Property="BorderThickness" Value="1 1 0 1" />
         </Style>

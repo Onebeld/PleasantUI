@@ -10,7 +10,6 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Threading;
-using PleasantUI.Core;
 using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
@@ -19,7 +18,7 @@ namespace PleasantUI.Controls;
 /// Represents a navigation view control that displays a tree of items.
 /// </summary>
 /// <remarks>
-/// The <c>NavigationView</c> control inherits from the <see cref="TreeView"/> control and adds additional
+/// The <c>NavigationView</c> control inherits from the <see cref="TreeView" /> control and adds additional
 /// properties for customizing the appearance and behavior of the navigation view.
 /// </remarks>
 [PseudoClasses(":normal", ":compact")]
@@ -30,124 +29,126 @@ public class NavigationView : TreeView
 {
     private const double LittleWidth = 1005;
     private const double VeryLittleWidth = 650;
-    
-    private Button? _headerItem;
+
     private Button? _backButton;
-    private ContentPresenter? _contentPresenter;
-    
-    private object? _selectedContent;
-    private IEnumerable<string>? _itemsAsStrings;
     private ICommand? _backButtonCommand;
 
-    private PleasantWindow? _host;
+    private CancellationTokenSource? _cancellationTokenSource;
+    private ContentPresenter? _contentPresenter;
     private CompositeDisposable? _disposable;
 
+    private Button? _headerItem;
+
+    private PleasantWindow? _host;
+    private IEnumerable<string>? _itemsAsStrings;
+
+    private object? _selectedContent;
+
     /// <summary>
-    /// Defines the <see cref="Icon"/> property.
+    /// Defines the <see cref="Icon" /> property.
     /// </summary>
     public static readonly StyledProperty<Geometry> IconProperty =
         AvaloniaProperty.Register<NavigationView, Geometry>(nameof(Icon));
 
     /// <summary>
-    /// Defines the <see cref="SelectedContent"/> property.
+    /// Defines the <see cref="SelectedContent" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationView, object?> SelectedContentProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, object?>(nameof(SelectedContent), o => o.SelectedContent);
 
     /// <summary>
-    /// Defines the <see cref="SelectedContentTemplate"/> property.
+    /// Defines the <see cref="SelectedContentTemplate" /> property.
     /// </summary>
     public static readonly StyledProperty<IDataTemplate> SelectedContentTemplateProperty =
         AvaloniaProperty.Register<NavigationView, IDataTemplate>(nameof(SelectedContentTemplate));
 
     /// <summary>
-    /// Defines the <see cref="CompactPaneLength"/> property.
+    /// Defines the <see cref="CompactPaneLength" /> property.
     /// </summary>
     public static readonly StyledProperty<double> CompactPaneLengthProperty =
         AvaloniaProperty.Register<NavigationView, double>(nameof(CompactPaneLength));
 
     /// <summary>
-    /// Defines the <see cref="OpenPaneLength"/> property.
+    /// Defines the <see cref="OpenPaneLength" /> property.
     /// </summary>
     public static readonly StyledProperty<double> OpenPaneLengthProperty =
         AvaloniaProperty.Register<NavigationView, double>(nameof(OpenPaneLength));
 
     /// <summary>
-    /// Defines the <see cref="IsOpen"/> property.
+    /// Defines the <see cref="IsOpen" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> IsOpenProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsOpen));
 
     /// <summary>
-    /// Defines the <see cref="DynamicDisplayMode"/> property.
+    /// Defines the <see cref="DynamicDisplayMode" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> DynamicDisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(DynamicDisplayMode), true);
 
     /// <summary>
-    /// Defines the <see cref="BindWindowSettings"/> property.
+    /// Defines the <see cref="BindWindowSettings" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> BindWindowSettingsProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(BindWindowSettings), true);
 
     /// <summary>
-    /// Defines the <see cref="TransitionAnimation"/> property.
+    /// Defines the <see cref="TransitionAnimation" /> property.
     /// </summary>
     public static readonly StyledProperty<Animation?> TransitionAnimationProperty =
         AvaloniaProperty.Register<NavigationView, Animation?>(nameof(TransitionAnimation));
 
     /// <summary>
-    /// Defines the <see cref="DisplayMode"/> property.
+    /// Defines the <see cref="DisplayMode" /> property.
     /// </summary>
     public static readonly StyledProperty<SplitViewDisplayMode> DisplayModeProperty =
         AvaloniaProperty.Register<NavigationView, SplitViewDisplayMode>(nameof(DisplayMode),
             SplitViewDisplayMode.CompactInline);
 
     /// <summary>
-    /// Defines the <see cref="AlwaysOpen"/> property.
+    /// Defines the <see cref="AlwaysOpen" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> AlwaysOpenProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(AlwaysOpen));
-    
+
     /// <summary>
-    /// Defines the <see cref="DisplayTopIndent"/> property.
+    /// Defines the <see cref="DisplayTopIndent" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> DisplayTopIndentProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(DisplayTopIndent), true);
 
     /// <summary>
-    /// Defines the <see cref="NotMakeOffsetForContentPanel"/> property.
+    /// Defines the <see cref="NotMakeOffsetForContentPanel" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> NotMakeOffsetForContentPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(NotMakeOffsetForContentPanel));
 
     /// <summary>
-    /// Defines the <see cref="ItemsAsStrings"/> property.
+    /// Defines the <see cref="ItemsAsStrings" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationView, IEnumerable<string>?> ItemsAsStringsProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, IEnumerable<string>?>(nameof(ItemsAsStrings),
             o => o.ItemsAsStrings);
 
     /// <summary>
-    /// Defines the <see cref="IsFloatingHeader"/> property.
+    /// Defines the <see cref="IsFloatingHeader" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> IsFloatingHeaderProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsFloatingHeader));
 
     /// <summary>
-    /// Defines the <see cref="BackButtonCommand"/> property.
+    /// Defines the <see cref="BackButtonCommand" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationView, ICommand?> BackButtonCommandProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, ICommand?>(nameof(BackButtonCommand),
-            navigationView => navigationView.BackButtonCommand, (navigationView, command) => navigationView.BackButtonCommand = command, enableDataValidation: true);
+            navigationView => navigationView.BackButtonCommand,
+            (navigationView, command) => navigationView.BackButtonCommand = command, enableDataValidation: true);
 
     /// <summary>
-    /// Defines the <see cref="ShowBackButton"/> property.
+    /// Defines the <see cref="ShowBackButton" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> ShowBackButtonProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
-    
-    private CancellationTokenSource? _cancellationTokenSource;
 
     /// <summary>
     /// Gets or sets the geometry of the icon.
@@ -307,14 +308,11 @@ public class NavigationView : TreeView
     /// <value>
     /// The collection of items as strings.
     /// </value>
-    /// <seealso cref="ViewModelBase.RaiseAndSet{T}"/>
+    /// <seealso cref="ViewModelBase.RaiseAndSet{T}" />
     public IEnumerable<string>? ItemsAsStrings
     {
         get => _itemsAsStrings;
-        private set
-        {
-            SetAndRaise(ItemsAsStringsProperty, ref _itemsAsStrings, value);
-        }
+        private set => SetAndRaise(ItemsAsStringsProperty, ref _itemsAsStrings, value);
     }
 
     /// <summary>
@@ -324,7 +322,8 @@ public class NavigationView : TreeView
     /// <c>true</c> if the dynamic display mode is enabled; otherwise, <c>false</c>.
     /// </value>
     /// <remarks>
-    /// When the dynamic display mode is enabled, the display behavior will dynamically adjust based on certain conditions or events.
+    /// When the dynamic display mode is enabled, the display behavior will dynamically adjust based on certain conditions
+    /// or events.
     /// </remarks>
     public bool DynamicDisplayMode
     {
@@ -348,11 +347,12 @@ public class NavigationView : TreeView
     /// Gets or sets the value indicating whether the window settings should be bound.
     /// </summary>
     /// <remarks>
-    /// The BindWindowSettings property determines if the window settings should be bound. When set to true, the window settings will be updated when the property changes. When set to false
-    /// , the window settings will remain unchanged.
+    /// The BindWindowSettings property determines if the window settings should be bound. When set to true, the window
+    /// settings will be updated when the property changes. When set to false,
+    /// the window settings will remain unchanged.
     /// </remarks>
     /// <value>
-    /// true if the window settings should be bound; otherwise, false.
+    /// <c>true</c> if the window settings should be bound; otherwise, <c>false</c>.
     /// </value>
     public bool BindWindowSettings
     {
@@ -361,14 +361,14 @@ public class NavigationView : TreeView
     }
 
     /// <summary>
-    /// Gets or sets an <see cref="ICommand"/> to be invoked when the button is clicked.
+    /// Gets or sets an <see cref="ICommand" /> to be invoked when the button is clicked.
     /// </summary>
     public ICommand? BackButtonCommand
     {
         get => _backButtonCommand;
         set => SetAndRaise(BackButtonCommandProperty, ref _backButtonCommand, value);
     }
-
+    
     static NavigationView()
     {
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
@@ -384,71 +384,7 @@ public class NavigationView : TreeView
         });
     }
 
-    private void OnBoundsChanged(Rect rect)
-    {
-        if (DynamicDisplayMode)
-        {
-            bool isLittle = rect.Width <= LittleWidth;
-            bool isVeryLittle = rect.Width <= VeryLittleWidth;
-
-            if (!isLittle && !isVeryLittle)
-            {
-                UpdatePseudoClasses(false);
-                DisplayMode = SplitViewDisplayMode.CompactInline;
-            }
-            else if (isLittle && !isVeryLittle)
-            {
-                UpdatePseudoClasses(false);
-                DisplayMode = SplitViewDisplayMode.CompactOverlay;
-                IsOpen = false;
-                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
-                {
-                    navigationViewItem.IsExpanded = false;
-                }
-            }
-            else if (isLittle && isVeryLittle)
-            {
-                UpdatePseudoClasses(true);
-                DisplayMode = SplitViewDisplayMode.Overlay;
-                IsOpen = false;
-                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
-                {
-                    navigationViewItem.IsExpanded = false;
-                }
-            }
-        }
-    }
-
-    internal void SelectSingleItemCore(object? item, bool runAnimation = true)
-    {
-        if (SelectedItem != item && TransitionAnimation is not null && _contentPresenter is not null && runAnimation)
-        {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource = new CancellationTokenSource();
-            
-            TransitionAnimation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
-        }
-
-        if (item is ISelectable selectableItem)
-            selectableItem.IsSelected = true;
-
-        SelectedItem = item;
-    }
-
-    internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
-    {
-        if (item.IsSelected)
-            return;
-        
-        SelectSingleItemCore(item, runAnimation);
-    }
-
-    private void OnSelectedItemChanged()
-    {
-        UpdateTitleAndSelectedContent();
-    }
-
-    /// <inheritdoc cref="OnApplyTemplate"/>
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -481,6 +417,7 @@ public class NavigationView : TreeView
         UpdateTitleAndSelectedContent();
     }
 
+    /// <inheritdoc />
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -490,23 +427,75 @@ public class NavigationView : TreeView
             SelectSingleItem(Items[0] as ISelectable, false);
     }
 
-    /// <inheritdoc cref="OnAttachedToLogicalTree"/>
+    /// <inheritdoc />
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
 
-        if (Items.Count > 0)
-        {
-            SelectSingleItem(Items[0] as ISelectable);
-        }
+        if (Items.Count > 0) SelectSingleItem(Items[0] as ISelectable);
     }
 
-    /// <inheritdoc cref="OnDetachedFromLogicalTree"/>
+    /// <inheritdoc />
     protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromLogicalTree(e);
-        
+
         Detach();
+    }
+    
+    internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
+    {
+        if (item.IsSelected)
+            return;
+
+        SelectSingleItemCore(item, runAnimation);
+    }
+    
+    private void OnBoundsChanged(Rect rect)
+    {
+        if (DynamicDisplayMode)
+        {
+            bool isLittle = rect.Width <= LittleWidth;
+            bool isVeryLittle = rect.Width <= VeryLittleWidth;
+
+            if (!isLittle && !isVeryLittle)
+            {
+                UpdatePseudoClasses(false);
+                DisplayMode = SplitViewDisplayMode.CompactInline;
+            }
+            else if (isLittle && !isVeryLittle)
+            {
+                UpdatePseudoClasses(false);
+                DisplayMode = SplitViewDisplayMode.CompactOverlay;
+                IsOpen = false;
+                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants()
+                             .OfType<NavigationViewItem>()) navigationViewItem.IsExpanded = false;
+            }
+            else if (isLittle && isVeryLittle)
+            {
+                UpdatePseudoClasses(true);
+                DisplayMode = SplitViewDisplayMode.Overlay;
+                IsOpen = false;
+                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants()
+                             .OfType<NavigationViewItem>()) navigationViewItem.IsExpanded = false;
+            }
+        }
+    }
+
+    private void SelectSingleItemCore(object? item, bool runAnimation = true)
+    {
+        if (SelectedItem != item && TransitionAnimation is not null && _contentPresenter is not null && runAnimation)
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            TransitionAnimation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
+        }
+
+        if (item is ISelectable selectableItem)
+            selectableItem.IsSelected = true;
+
+        SelectedItem = item;
     }
 
     private void UpdatePseudoClasses(bool isCompact)
@@ -539,39 +528,38 @@ public class NavigationView : TreeView
     private void AttachToPleasantWindow()
     {
         if (_host is null) return;
-        
+
         _disposable = new CompositeDisposable
         {
             this.GetObservable(DisplayModeProperty).Subscribe(displayMode =>
             {
-                if (displayMode is SplitViewDisplayMode.Overlay 
-                    && !_host.EnableTitleBarMargin 
+                if (displayMode is SplitViewDisplayMode.Overlay
+                    && !_host.EnableTitleBarMargin
                     && ShowBackButton)
-                {
                     _host.LeftTitleContent = new Panel
                     {
                         Width = 62
                     };
-                }
                 else if (!_host.EnableTitleBarMargin)
-                {
                     _host.LeftTitleContent = new Panel
                     {
                         Width = 45
                     };
-                }
                 else
-                {
                     _host.LeftTitleContent = null;
-                }
             })
         };
     }
     
+    private void OnSelectedItemChanged()
+    {
+        UpdateTitleAndSelectedContent();
+    }
+
     private void Detach()
     {
         if (_disposable is null) return;
-        
+
         _disposable.Dispose();
         _disposable = null;
         _host = null;

@@ -3,10 +3,13 @@ using Avalonia.Media.Imaging;
 
 namespace PleasantUI.Extensions;
 
+/// <summary>
+/// Provides extension methods for <see cref="WindowIcon"/>.
+/// </summary>
 public static class WindowIconExtensions
 {
     /// <summary>
-    /// Converts a <see cref="WindowIcon"/> into a <see cref="Bitmap"/>
+    /// Converts a <see cref="WindowIcon" /> into a <see cref="Bitmap" />
     /// </summary>
     /// <param name="icon">Window icon</param>
     /// <returns>Bitmap of the window icon</returns>

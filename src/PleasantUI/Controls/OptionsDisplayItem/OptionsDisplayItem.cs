@@ -9,41 +9,75 @@ using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a control that displays an item with a header, content, icon, and optional navigation functionality.
+/// </summary>
 [TemplatePart("LayoutRoot", typeof(Border))]
 public class OptionsDisplayItem : TemplatedControl
 {
     private bool _isPressed;
     private Border? _layoutRoot;
-
+    
+    /// <summary>
+    /// Defines the <see cref="Header" /> property.
+    /// </summary>
     public static readonly StyledProperty<string> HeaderProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, string>(nameof(Header));
 
+    /// <summary>
+    /// Defines the <see cref="Description" /> property.
+    /// </summary>
     public static readonly StyledProperty<string> DescriptionProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, string>(nameof(Description));
 
+    /// <summary>
+    /// Defines the <see cref="Icon" /> property.
+    /// </summary>
     public static readonly StyledProperty<Geometry> IconProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, Geometry>(nameof(Icon));
 
+    /// <summary>
+    /// Defines the <see cref="Navigates" /> property.
+    /// </summary>
     public static readonly StyledProperty<bool> NavigatesProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, bool>(nameof(Navigates));
 
+    /// <summary>
+    /// Defines the <see cref="ActionButton" /> property.
+    /// </summary>
     public static readonly StyledProperty<Control> ActionButtonProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, Control>(nameof(ActionButton));
 
+    /// <summary>
+    /// Defines the <see cref="Expands" /> property.
+    /// </summary>
     public static readonly StyledProperty<bool> ExpandsProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, bool>(nameof(Expands));
 
+    /// <summary>
+    /// Defines the <see cref="Content" /> property.
+    /// </summary>
     public static readonly StyledProperty<object?> ContentProperty =
         ContentControl.ContentProperty.AddOwner<OptionsDisplayItem>();
 
+    /// <summary>
+    /// Defines the <see cref="NavigationCommand" /> property.
+    /// </summary>
     public static readonly StyledProperty<ICommand?> NavigationCommandProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, ICommand?>(nameof(NavigationCommand));
 
+    /// <summary>
+    /// Defines the <see cref="IsExpanded" /> property.
+    /// </summary>
     public static readonly StyledProperty<bool> IsExpandedProperty =
         Expander.IsExpandedProperty.AddOwner<OptionsDisplayItem>();
 
+    /// <summary>
+    /// Defines the <see cref="NavigationRequestedEvent" /> property.
+    /// </summary>
     public static readonly RoutedEvent<RoutedEventArgs> NavigationRequestedEvent =
-        RoutedEvent.Register<OptionsDisplayItem, RoutedEventArgs>(nameof(NavigationRequested), RoutingStrategies.Bubble);
+        RoutedEvent.Register<OptionsDisplayItem, RoutedEventArgs>(nameof(NavigationRequested),
+            RoutingStrategies.Bubble);
 
     /// <summary>
     /// Gets or sets the header property.
@@ -101,7 +135,7 @@ public class OptionsDisplayItem : TemplatedControl
         get => GetValue(ActionButtonProperty);
         set => SetValue(ActionButtonProperty, value);
     }
-    
+
     /// <summary>
     /// Specifies that <see cref="OptionsDisplayItem"/> will reveal hidden content
     /// </summary>
@@ -155,7 +189,7 @@ public class OptionsDisplayItem : TemplatedControl
         add => AddHandler(NavigationRequestedEvent, value);
         remove => RemoveHandler(NavigationRequestedEvent, value);
     }
-    
+
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {

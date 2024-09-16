@@ -3,7 +3,7 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type HeaderedContentControl}" TargetType="HeaderedContentControl">
         <Setter Property="Padding" Value="3" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border BorderBrush="{TemplateBinding BorderBrush}"

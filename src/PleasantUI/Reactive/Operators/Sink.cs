@@ -2,8 +2,8 @@
 
 internal abstract class Sink<TTarget> : IDisposable
 {
-    private IDisposable? _upstream;
     private volatile IObserver<TTarget> _observer;
+    private IDisposable? _upstream;
 
     protected Sink(IObserver<TTarget> observer)
     {
@@ -19,7 +19,7 @@ internal abstract class Sink<TTarget> : IDisposable
     /// Override this method to dispose additional resources.
     /// The method is guaranteed to be called at most once.
     /// </summary>
-    /// <param name="disposing">If true, the method was called from <see cref="Dispose()"/>.</param>
+    /// <param name="disposing">If true, the method was called from <see cref="Dispose()" />.</param>
     protected virtual void Dispose(bool disposing)
     {
         //Calling base.Dispose(true) is not a proper disposal, so we can omit the assignment here.
@@ -63,18 +63,27 @@ internal abstract class Sink<TSource, TTarget> : Sink<TTarget>, IObserver<TSourc
     {
     }
 
+    public abstract void OnNext(TSource value);
+
+    public virtual void OnError(Exception error)
+    {
+        ForwardOnError(error);
+    }
+
+    public virtual void OnCompleted()
+    {
+        ForwardOnCompleted();
+    }
+
     public virtual void Run(IObservable<TSource> source)
     {
         SetUpstream(source.Subscribe(this));
     }
 
-    public abstract void OnNext(TSource value);
-
-    public virtual void OnError(Exception error) => ForwardOnError(error);
-
-    public virtual void OnCompleted() => ForwardOnCompleted();
-
-    public IObserver<TTarget> GetForwarder() => new _(this);
+    public IObserver<TTarget> GetForwarder()
+    {
+        return new _(this);
+    }
 
     private sealed class _ : IObserver<TTarget>
     {
@@ -85,11 +94,20 @@ internal abstract class Sink<TSource, TTarget> : Sink<TTarget>, IObserver<TSourc
             _forward = forward;
         }
 
-        public void OnNext(TTarget value) => _forward.ForwardOnNext(value);
+        public void OnNext(TTarget value)
+        {
+            _forward.ForwardOnNext(value);
+        }
 
-        public void OnError(Exception error) => _forward.ForwardOnError(error);
+        public void OnError(Exception error)
+        {
+            _forward.ForwardOnError(error);
+        }
 
-        public void OnCompleted() => _forward.ForwardOnCompleted();
+        public void OnCompleted()
+        {
+            _forward.ForwardOnCompleted();
+        }
     }
 }
 

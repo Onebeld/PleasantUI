@@ -12,64 +12,48 @@ namespace PleasantUI.Converters;
 public class ColorToDisplayNameConverter : IValueConverter
 {
     /// <summary>
-    /// Gets an instance of the <see cref="ColorToDisplayNameConverter"/> class.
+    /// Gets an instance of the <see cref="ColorToDisplayNameConverter" /> class.
     /// </summary>
     public static readonly ColorToDisplayNameConverter Instance = new();
-    
-    /// <inheritdoc/>
-    public object? Convert(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+
+    /// <inheritdoc />
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         Color color;
 
-        if (value is Color valueColor)
+        switch (value)
         {
-            color = valueColor;
-        }
-        else if (value is HslColor valueHslColor)
-        {
-            color = valueHslColor.ToRgb();
-        }
-        else if (value is HsvColor valueHsvColor)
-        {
-            color = valueHsvColor.ToRgb();
-        }
-        else if (value is SolidColorBrush valueBrush)
-        {
-            color = valueBrush.Color;
-        }
-        else if (value is uint valueUInt)
-        {
-            color = Color.FromUInt32(valueUInt);
-        }
-        else
-        {
-            // Invalid color value provided
-            return AvaloniaProperty.UnsetValue;
+            case Color valueColor:
+                color = valueColor;
+                break;
+            case HslColor valueHslColor:
+                color = valueHslColor.ToRgb();
+                break;
+            case HsvColor valueHsvColor:
+                color = valueHsvColor.ToRgb();
+                break;
+            case SolidColorBrush valueBrush:
+                color = valueBrush.Color;
+                break;
+            case uint valueUInt:
+                color = Color.FromUInt32(valueUInt);
+                break;
+            default:
+                // Invalid color value provided
+                return AvaloniaProperty.UnsetValue;
         }
 
         // ColorHelper.ToDisplayName ignores the alpha component
         // This means fully transparent colors will be named as a real color
         // That undesirable behavior is specially overridden here
         if (color.A == 0x00)
-        {
             return AvaloniaProperty.UnsetValue;
-        }
-        else
-        {
-            return ColorHelper.ToDisplayName(color);
-        }
+
+        return ColorHelper.ToDisplayName(color);
     }
 
-    /// <inheritdoc/>
-    public object? ConvertBack(
-        object? value,
-        Type targetType,
-        object? parameter,
-        CultureInfo culture)
+    /// <inheritdoc />
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return AvaloniaProperty.UnsetValue;
     }

@@ -9,112 +9,112 @@ namespace PleasantUI.Core.Localization;
 /// </summary>
 public class Localizer : ILocalizer, INotifyPropertyChanged
 {
-	private const string DefaultLanguage = "en";
+    private const string DefaultLanguage = "en";
 
-	private const string IndexerName = "Item";
-	private const string IndexerArrayName = "Item[]";
+    private const string IndexerName = "Item";
+    private const string IndexerArrayName = "Item[]";
 
-	private static readonly List<ResourceManager>? ResourceManagers = new();
-	
-	private List<ResourceManager>? _resources;
-	
-	/// <summary>
-	/// Gets the singleton instance of the <see cref="Localizer"/> class.
-	/// </summary>
-	public static Localizer Instance { get; } = new();
-	
-	/// <summary>
-	/// Occurs when a property value changes.
-	/// </summary>
-	public event PropertyChangedEventHandler? PropertyChanged;
+    private static readonly List<ResourceManager>? ResourceManagers = new();
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Localizer"/> class.
-	/// </summary>
-	public Localizer()
-	{
-		LoadLanguage();
-	}
+    private List<ResourceManager>? _resources;
 
-	/// <summary>
-	/// Loads the current language resources.
-	/// </summary>
-	public void LoadLanguage()
-	{
-		if (ResourceManagers != null)
-			_resources = new List<ResourceManager>(ResourceManagers);
-		
-		InvalidateEvents();
-	}
+    /// <summary>
+    /// Gets the singleton instance of the <see cref="Localizer" /> class.
+    /// </summary>
+    public static Localizer Instance { get; } = new();
+    
+    /// <summary>
+    /// Occurs when a property value changes.
+    /// </summary>
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-	/// <inheritdoc/>
-	public void EditLanguage(string language)
-	{
-		Instance.ChangeLanguage(language);
-	}
+    /// <summary>
+    /// Gets the localized string for the specified key.
+    /// </summary>
+    /// <param name="key">The key to look up.</param>
+    /// <returns>The localized string, or an error message if the key is not found or the resources are empty.</returns>
+    public string this[string key]
+    {
+        get
+        {
+            if (_resources == null || !_resources.Any())
+                return "<ERROR! LANGUAGE Resources is empty>";
 
-	/// <inheritdoc/>
-	public void AddResourceManager(ResourceManager resourceManager)
-	{
-		ResourceManagers?.Add(resourceManager);
-	}
+            string? row = GetExpression(key);
 
-	/// <inheritdoc/>
-	public void ChangeLanguage(string language)
-	{
-		if (string.IsNullOrEmpty(language))
-			language = DefaultLanguage;
+            if (string.IsNullOrEmpty(row))
+                return $"<ERROR! Not found key \"{key}\">";
 
-		CultureInfo.CurrentUICulture = new CultureInfo(language);
-		Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
-		LoadLanguage();
-	}
+            string? ret = row?.Replace(@"\\n", "\n");
 
-	/// <summary>
-	/// Gets the localized string for the specified key.
-	/// </summary>
-	/// <param name="key">The key to look up.</param>
-	/// <returns>The localized string, or an error message if the key is not found or the resources are empty.</returns>
-	public string this[string key]
-	{
-		get
-		{
-			if (_resources == null || !_resources.Any())
-				return "<ERROR! LANGUAGE Resources is empty>";
+            if (string.IsNullOrEmpty(ret))
+                ret = $"Localize:{key}";
 
-			string? row = GetExpression(key);
+            return ret;
+        }
+    }
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Localizer" /> class.
+    /// </summary>
+    public Localizer()
+    {
+        LoadLanguage();
+    }
 
-			if (string.IsNullOrEmpty(row))
-				return $"<ERROR! Not found key \"{key}\">";
+    /// <inheritdoc />
+    public void EditLanguage(string language)
+    {
+        Instance.ChangeLanguage(language);
+    }
 
-			string? ret = row?.Replace(@"\\n", "\n");
-			
-			if (string.IsNullOrEmpty(ret))
-				ret = $"Localize:{key}";
+    /// <inheritdoc />
+    public void AddResourceManager(ResourceManager resourceManager)
+    {
+        ResourceManagers?.Add(resourceManager);
+    }
 
-			return ret;
-		}
-	}
+    /// <inheritdoc />
+    public void ChangeLanguage(string language)
+    {
+        if (string.IsNullOrEmpty(language))
+            language = DefaultLanguage;
 
-	/// <inheritdoc/>
-	public string? GetExpression(string key)
-	{
-		if (_resources == null) return string.Empty;
-		foreach (ResourceManager? resource in _resources)
-		{
-			string? row = resource?.GetString(key);
-			
-			if (!string.IsNullOrEmpty(row))
-				return row;
-		}
+        CultureInfo.CurrentUICulture = new CultureInfo(language);
+        Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
+        LoadLanguage();
+    }
 
-		return string.Empty;
-	}
+    /// <inheritdoc />
+    public string? GetExpression(string key)
+    {
+        if (_resources == null) return string.Empty;
+        foreach (ResourceManager? resource in _resources)
+        {
+            string? row = resource?.GetString(key);
 
-	private void InvalidateEvents()
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(IndexerName));
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(IndexerArrayName));
-	}
+            if (!string.IsNullOrEmpty(row))
+                return row;
+        }
+
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// Loads the current language resources.
+    /// </summary>
+    public void LoadLanguage()
+    {
+        if (ResourceManagers != null)
+            _resources = new List<ResourceManager>(ResourceManagers);
+
+        InvalidateEvents();
+    }
+
+    private void InvalidateEvents()
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(IndexerName));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(IndexerArrayName));
+    }
 }

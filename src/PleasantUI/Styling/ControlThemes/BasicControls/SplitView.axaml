@@ -47,7 +47,8 @@
                     <Grid Name="Container" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <!-- why is this throwing a binding error? -->
-                            <ColumnDefinition Width="{CompiledBinding $parent[SplitView].TemplateSettings.PaneColumnGridLength}" />
+                            <ColumnDefinition
+                                Width="{CompiledBinding $parent[SplitView].TemplateSettings.PaneColumnGridLength}" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -67,7 +68,7 @@
                                                   CornerRadius="{TemplateBinding CornerRadius}" />
                             </Panel>
                         </Border>
-                        
+
                         <Panel Grid.Column="0" Name="ContentRoot">
                             <ContentPresenter x:Name="PART_ContentPresenter"
                                               Focusable="True"

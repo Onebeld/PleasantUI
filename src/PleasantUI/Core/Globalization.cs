@@ -2,6 +2,9 @@
 
 namespace PleasantUI.Core;
 
+/// <summary>
+/// Presents settings related to globalization.
+/// </summary>
 public static class Globalization
 {
     /// <summary>

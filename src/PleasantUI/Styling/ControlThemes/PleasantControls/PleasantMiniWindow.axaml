@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
-        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
+        <Setter Property="EnableCustomTitleBar"
+                Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="UseLayoutRounding" Value="True" />

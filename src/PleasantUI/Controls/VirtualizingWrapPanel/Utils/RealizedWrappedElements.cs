@@ -7,14 +7,15 @@ namespace PleasantUI.Controls.Utils;
 
 /// <summary>
 /// Stores the realized element state for a virtualizing panel that arranges its children
-/// in a stack layout, continuing on the next line when layout reaches the end, such as <see cref="VirtualizingWrapPanel"/>.
+/// in a stack layout, continuing on the next line when layout reaches the end, such as
+/// <see cref="VirtualizingWrapPanel" />.
 /// </summary>
 internal class RealizedWrappedElements
 {
-    private int _firstIndex;
     private List<Control?>? _elements;
-    private UVSize _size;
-    private List<UVSize>? _positions;
+    private int _firstIndex;
+    private List<UvSize>? _positions;
+    private UvSize _size;
     private bool _startUUnstable;
 
     /// <summary>
@@ -35,22 +36,22 @@ internal class RealizedWrappedElements
     /// <summary>
     /// Gets the elements.
     /// </summary>
-    public IReadOnlyList<Control?> Elements => _elements ??= new List<Control?>();
+    public IReadOnlyList<Control?> Elements => _elements ??= [];
 
     /// <summary>
     /// Gets the positions of the elements.
     /// </summary>
-    public IReadOnlyList<UVSize> PositionsUV => _positions ??= new List<UVSize>();
+    public IReadOnlyList<UvSize> PositionsUv => _positions ??= [];
 
     /// <summary>
     /// Gets the position of the first element.
     /// </summary>
-    public UVSize StartUV { get; private set; }
+    public UvSize StartUv { get; private set; }
 
     /// <summary>
     /// The size of the first realized element.
     /// </summary>
-    public UVSize SizeUV => _size;
+    public UvSize SizeUv => _size;
 
 
     /// <summary>
@@ -59,22 +60,22 @@ internal class RealizedWrappedElements
     /// <param name="index">The index of the element.</param>
     /// <param name="element">The element.</param>
     /// <param name="uv">The position of the element.</param>
-    /// <param name="sizeUV">The size of the element.</param>
-    public void Add(int index, Control element, UVSize uv, UVSize sizeUV)
+    /// <param name="sizeUv">The size of the element.</param>
+    public void Add(int index, Control element, UvSize uv, UvSize sizeUv)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
         _elements ??= new List<Control?>();
-        _positions ??= new List<UVSize>();
-        UVSize size = sizeUV;
+        _positions ??= new List<UvSize>();
+        UvSize size = sizeUv;
 
         if (Count == 0)
         {
             _elements.Add(element);
             _size = size;
             _positions.Add(uv);
-            StartUV = uv;
+            StartUv = uv;
             _firstIndex = index;
         }
         else if (index == LastIndex + 1)
@@ -89,7 +90,7 @@ internal class RealizedWrappedElements
             _elements.Insert(0, element);
             _size = size;
             _positions.Insert(0, uv);
-            StartUV = uv;
+            StartUv = uv;
         }
         else
         {
@@ -128,25 +129,25 @@ internal class RealizedWrappedElements
     /// element realization can start. Failing that it estimates the first element in the
     /// viewport.
     /// </remarks>
-    public (int index, UVSize position) GetOrEstimateAnchorElementForViewport(
-        UVSize viewportStart,
-        UVSize viewportEnd,
+    public (int index, UvSize position) GetOrEstimateAnchorElementForViewport(
+        UvSize viewportStart,
+        UvSize viewportEnd,
         int itemCount,
-        ref UVSize estimatedElementSize)
+        ref UvSize estimatedElementSize)
     {
         // We have no elements, nothing to do here.
         if (itemCount <= 0)
-            return (-1, new UVSize(viewportStart.Orientation));
+            return (-1, new UvSize(viewportStart.Orientation));
 
         // If we're at 0 then display the first item.
         if (MathUtilities.IsZero(viewportStart.U) && MathUtilities.IsZero(viewportStart.V))
-            return (0, new UVSize(viewportStart.Orientation));
+            return (0, new UvSize(viewportStart.Orientation));
 
         if (_positions is not null && !_startUUnstable)
             for (int i = 0; i < _positions.Count; ++i)
             {
-                UVSize position = _positions[i];
-                UVSize size = _size;
+                UvSize position = _positions[i];
+                UvSize size = _size;
 
                 if (position.IsNaN)
                     break;
@@ -161,10 +162,10 @@ internal class RealizedWrappedElements
         // StartU being valid. Estimate the index using only the estimated size. First,
         // estimate the element size, using defaultElementSizeU if we don't have any realized
         // elements.
-        UVSize estimatedSize = EstimateElementSize(viewportStart.Orientation) switch
+        UvSize estimatedSize = EstimateElementSize(viewportStart.Orientation) switch
         {
             null => estimatedElementSize,
-            UVSize v => v
+            UvSize v => v
         };
 
         if (estimatedSize.U == 0 || estimatedSize.V == 0)
@@ -177,18 +178,20 @@ internal class RealizedWrappedElements
         estimatedElementSize = estimatedSize;
 
         // Estimate the element at the start of the viewport.
-        int index = Math.Min((int) (viewportStart.V / estimatedSize.V) * (int) (viewportEnd.U / estimatedSize.U) + (int) (viewportStart.U / estimatedSize.U), itemCount - 1);
+        int index = Math.Min(
+            (int)(viewportStart.V / estimatedSize.V) * (int)(viewportEnd.U / estimatedSize.U) +
+            (int)(viewportStart.U / estimatedSize.U), itemCount - 1);
         return (index, GetPosition(index, estimatedSize, viewportEnd));
     }
 
-    private UVSize GetPosition(int index, UVSize estimate, UVSize viewportEnd)
+    private UvSize GetPosition(int index, UvSize estimate, UvSize viewportEnd)
     {
-        double maxULength = (int) (viewportEnd.U / estimate.U) * estimate.U;
+        double maxULength = (int)(viewportEnd.U / estimate.U) * estimate.U;
 
-        return new UVSize(viewportEnd.Orientation)
+        return new UvSize(viewportEnd.Orientation)
         {
             U = index * estimate.U % maxULength,
-            V = (int) (index * estimate.U) / maxULength * estimate.V
+            V = (int)(index * estimate.U) / maxULength * estimate.V
         };
     }
 
@@ -198,7 +201,7 @@ internal class RealizedWrappedElements
     /// <returns>
     /// The position of the element, or null if the element is not realized.
     /// </returns>
-    public UVSize? GetElementUV(int index)
+    public UvSize? GetElementUv(int index)
     {
         if (index < FirstIndex || _positions is null)
             return null;
@@ -211,24 +214,24 @@ internal class RealizedWrappedElements
         return _positions[index];
     }
 
-    public UVSize GetOrEstimateElementUV(int index, ref UVSize estimatedElementSizeUV, UVSize viewportEnd)
+    public UvSize GetOrEstimateElementUv(int index, ref UvSize estimatedElementSizeUv, UvSize viewportEnd)
     {
         // Return the position of the existing element if realized.
-        UVSize? uv = GetElementUV(index);
+        UvSize? uv = GetElementUv(index);
 
         if (uv != null)
             return uv.Value;
 
         // Estimate the element size, using estimatedElementSizeUV if we don't have any realized
         // elements.
-        UVSize estimatedSize = EstimateElementSize(estimatedElementSizeUV.Orientation) switch
+        UvSize estimatedSize = EstimateElementSize(estimatedElementSizeUv.Orientation) switch
         {
-            null => estimatedElementSizeUV,
-            UVSize uvSize => uvSize
+            null => estimatedElementSizeUv,
+            UvSize uvSize => uvSize
         };
 
         // Store the estimated size for the next layout pass.
-        estimatedElementSizeUV = estimatedSize;
+        estimatedElementSizeUv = estimatedSize;
 
         return GetPosition(index, estimatedSize, viewportEnd);
     }
@@ -241,7 +244,7 @@ internal class RealizedWrappedElements
     /// The estimated UV size of an element, or null if not enough information is present to make
     /// an estimate.
     /// </returns>
-    public UVSize? EstimateElementSize(Orientation orientation)
+    public UvSize? EstimateElementSize(Orientation orientation)
     {
         return _size.IsNaN ? null : _size;
     }
@@ -298,8 +301,9 @@ internal class RealizedWrappedElements
                 // The insertion point was within the realized elements, insert an empty space
                 // in _elements and _sizes.
                 _elements!.InsertMany(realizedIndex, null, count);
-                _size = new UVSize(Orientation.Horizontal, double.NaN, double.NaN);
-                _positions!.InsertMany(realizedIndex, new UVSize(Orientation.Horizontal, double.NaN, double.NaN), count);
+                _size = new UvSize(Orientation.Horizontal, double.NaN, double.NaN);
+                _positions!.InsertMany(realizedIndex, new UvSize(Orientation.Horizontal, double.NaN, double.NaN),
+                    count);
             }
         }
     }
@@ -398,9 +402,9 @@ internal class RealizedWrappedElements
             }
 
         _firstIndex = 0;
-        StartUV = new UVSize(orientation);
+        StartUv = new UvSize(orientation);
         _elements?.Clear();
-        _size = new UVSize(orientation);
+        _size = new UvSize(orientation);
         _positions?.Clear();
     }
 
@@ -485,9 +489,9 @@ internal class RealizedWrappedElements
             }
 
         _firstIndex = 0;
-        StartUV = new UVSize(orientation);
+        StartUv = new UvSize(orientation);
         _elements?.Clear();
-        _size = new UVSize(orientation);
+        _size = new UvSize(orientation);
         _positions?.Clear();
     }
 
@@ -498,10 +502,10 @@ internal class RealizedWrappedElements
     public void ResetForReuse(Orientation orientation)
     {
         _firstIndex = 0;
-        StartUV = new UVSize(orientation);
+        StartUv = new UvSize(orientation);
         _startUUnstable = false;
         _elements?.Clear();
-        _size = new UVSize(orientation);
+        _size = new UvSize(orientation);
         _positions?.Clear();
     }
 }

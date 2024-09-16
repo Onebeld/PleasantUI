@@ -18,8 +18,9 @@
                     <NavigationViewItem Header="SubItem 3" Title="SubItem 3 Title" Content="SubItem 3 Content" />
                 </NavigationViewItem>
             </NavigationViewItem>
-            
-            <NavigationViewItem Header="Header" DockPanel.Dock="Top" Title="Item Title" Icon="{StaticResource DeleteRegular}"
+
+            <NavigationViewItem Header="Header" DockPanel.Dock="Top" Title="Item Title"
+                                Icon="{StaticResource DeleteRegular}"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" Title="SubItem Title" Content="SubItem Content">
                     <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
@@ -70,7 +71,8 @@
             <ControlTemplate>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{CompiledBinding $parent[NavigationView].CompactPaneLength, Converter={x:Static IntToColumnDefinitionWidthConverter.Instance}}" />
+                        <ColumnDefinition
+                            Width="{CompiledBinding $parent[NavigationView].CompactPaneLength, Converter={x:Static IntToColumnDefinitionWidthConverter.Instance}}" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <SplitView Grid.Column="0"
@@ -86,7 +88,7 @@
                                     <Border x:Name="PART_MarginPanel" Grid.Row="1"
                                             Width="{TemplateBinding CompactPaneLength}"
                                             Height="90" />
-                                    
+
                                     <DockPanel Grid.Row="2">
                                         <SmoothScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
@@ -97,7 +99,7 @@
                                 </Grid>
                             </Border>
                         </SplitView.Pane>
-                        
+
                         <Border Name="PART_Container"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
@@ -108,7 +110,7 @@
                                               ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
                         </Border>
                     </SplitView>
-                    
+
                     <StackPanel Name="PART_StackPanelButtons"
                                 Grid.Column="0"
                                 Margin="5"
@@ -128,7 +130,8 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center"
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <PathIcon Data="{StaticResource ArrowLeftRegular}" Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
+                            <PathIcon Data="{StaticResource ArrowLeftRegular}"
+                                      Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
                                 Theme="{StaticResource AppBarButtonTheme}"
@@ -141,7 +144,8 @@
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <PathIcon Data="{TemplateBinding Icon}" Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
+                            <PathIcon Data="{TemplateBinding Icon}" Foreground="{DynamicResource TextFillColor1}"
+                                      Width="16" Height="16" />
                         </Button>
                     </StackPanel>
                 </Grid>

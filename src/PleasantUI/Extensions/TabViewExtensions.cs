@@ -3,10 +3,13 @@ using Avalonia.Controls;
 
 namespace PleasantUI.Extensions;
 
+/// <summary>
+/// Contains extension methods for <see cref="TabControl"/>.
+/// </summary>
 public static class TabViewExtensions
 {
     /// <summary>
-    ///     Removes the TabItem.
+    /// Removes the TabItem.
     /// </summary>
     /// <param name="tabControl">The TabControl Parent</param>
     /// <param name="tabItem">The TabItem to Remove</param>

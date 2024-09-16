@@ -4,39 +4,44 @@ namespace PleasantUI.Reactive;
 
 internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
 {
-    private readonly object _gate = new();
-    private bool _disposed;
-    private List<IDisposable?> _disposables;
-    private int _count;
     private const int ShrinkThreshold = 64;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDisposable"/> class with the specified number of disposables.
+    /// An empty enumerator for the <see cref="GetEnumerator" />
+    /// method to avoid allocation on disposed or empty composites.
+    /// </summary>
+    private static readonly CompositeEnumerator EmptyEnumerator = new(Array.Empty<IDisposable?>());
+
+    private readonly object _gate = new();
+    private int _count;
+    private List<IDisposable?> _disposables;
+    private bool _disposed;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CompositeDisposable" /> class with the specified number of
+    /// disposables.
     /// </summary>
     /// <param name="capacity">The number of disposables that the new CompositeDisposable can initially store.</param>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than zero.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is less than zero.</exception>
     public CompositeDisposable(int capacity)
     {
-        if (capacity < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(capacity));
-        }
+        if (capacity < 0) throw new ArgumentOutOfRangeException(nameof(capacity));
 
         _disposables = new List<IDisposable?>(capacity);
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDisposable"/> class from a group of disposables.
+    /// Initializes a new instance of the <see cref="CompositeDisposable" /> class from a group of disposables.
     /// </summary>
     /// <param name="disposables">Disposables that will be disposed together.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="disposables"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">Any of the disposables in the <paramref name="disposables"/> collection is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="disposables" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">
+    /// Any of the disposables in the <paramref name="disposables" /> collection is
+    /// <c>null</c>.
+    /// </exception>
     public CompositeDisposable(params IDisposable[] disposables)
     {
-        if (disposables == null)
-        {
-            throw new ArgumentNullException(nameof(disposables));
-        }
+        if (disposables == null) throw new ArgumentNullException(nameof(disposables));
 
         _disposables = ToList(disposables);
 
@@ -46,17 +51,17 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDisposable"/> class from a group of disposables.
+    /// Initializes a new instance of the <see cref="CompositeDisposable" /> class from a group of disposables.
     /// </summary>
     /// <param name="disposables">Disposables that will be disposed together.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="disposables"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">Any of the disposables in the <paramref name="disposables"/> collection is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="disposables" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">
+    /// Any of the disposables in the <paramref name="disposables" /> collection is
+    /// <c>null</c>.
+    /// </exception>
     public CompositeDisposable(IList<IDisposable> disposables)
     {
-        if (disposables == null)
-        {
-            throw new ArgumentNullException(nameof(disposables));
-        }
+        if (disposables == null) throw new ArgumentNullException(nameof(disposables));
 
         _disposables = ToList(disposables);
 
@@ -65,48 +70,25 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
         Volatile.Write(ref _count, _disposables.Count);
     }
 
-    private static List<IDisposable?> ToList(IEnumerable<IDisposable> disposables)
-    {
-        int capacity = disposables switch
-        {
-            IDisposable[] a => a.Length,
-            ICollection<IDisposable> c => c.Count,
-            _ => 12
-        };
-
-        List<IDisposable>? list = new(capacity);
-
-        // do the copy and null-check in one step to avoid a
-        // second loop for just checking for null items
-        foreach (IDisposable? d in disposables)
-        {
-            if (d == null)
-            {
-                throw new ArgumentException("Disposables can't contain null", nameof(disposables));
-            }
-
-            list.Add(d);
-        }
-
-        return list;
-    }
+    /// <summary>
+    /// Gets a value that indicates whether the object is disposed.
+    /// </summary>
+    public bool IsDisposed => Volatile.Read(ref _disposed);
 
     /// <summary>
-    /// Gets the number of disposables contained in the <see cref="CompositeDisposable"/>.
+    /// Gets the number of disposables contained in the <see cref="CompositeDisposable" />.
     /// </summary>
     public int Count => Volatile.Read(ref _count);
 
     /// <summary>
-    /// Adds a disposable to the <see cref="CompositeDisposable"/> or disposes the disposable if the <see cref="CompositeDisposable"/> is disposed.
+    /// Adds a disposable to the <see cref="CompositeDisposable" /> or disposes the disposable if the
+    /// <see cref="CompositeDisposable" /> is disposed.
     /// </summary>
     /// <param name="item">Disposable to add.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="item"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="item" /> is <c>null</c>.</exception>
     public void Add(IDisposable item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        if (item == null) throw new ArgumentNullException(nameof(item));
 
         lock (_gate)
         {
@@ -126,26 +108,20 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
     }
 
     /// <summary>
-    /// Removes and disposes the first occurrence of a disposable from the <see cref="CompositeDisposable"/>.
+    /// Removes and disposes the first occurrence of a disposable from the <see cref="CompositeDisposable" />.
     /// </summary>
     /// <param name="item">Disposable to remove.</param>
     /// <returns>true if found; false otherwise.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="item"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="item" /> is <c>null</c>.</exception>
     public bool Remove(IDisposable item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        if (item == null) throw new ArgumentNullException(nameof(item));
 
         lock (_gate)
         {
             // this composite was already disposed and if the item was in there
             // it has been already removed/disposed
-            if (_disposed)
-            {
-                return false;
-            }
+            if (_disposed) return false;
 
             //
             // List<T> doesn't shrink the size of the underlying array but does collapse the array
@@ -160,10 +136,8 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
 
             int i = current.IndexOf(item);
             if (i < 0)
-            {
                 // not found, just return
                 return false;
-            }
 
             current[i] = null;
 
@@ -172,12 +146,8 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
                 List<IDisposable>? fresh = new(current.Capacity / 2);
 
                 foreach (IDisposable? d in current)
-                {
                     if (d != null)
-                    {
                         fresh.Add(d);
-                    }
-                }
 
                 _disposables = fresh;
             }
@@ -192,6 +162,113 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
         item.Dispose();
 
         return true;
+    }
+
+    /// <summary>
+    /// Removes and disposes all disposables from the <see cref="CompositeDisposable" />, but does not dispose the
+    /// <see cref="CompositeDisposable" />.
+    /// </summary>
+    public void Clear()
+    {
+        IDisposable?[] previousDisposables;
+
+        lock (_gate)
+        {
+            // disposed composites are always clear
+            if (_disposed) return;
+
+            List<IDisposable>? current = _disposables;
+
+            previousDisposables = current.ToArray();
+            current.Clear();
+
+            Volatile.Write(ref _count, 0);
+        }
+
+        foreach (IDisposable? d in previousDisposables) d?.Dispose();
+    }
+
+    /// <summary>
+    /// Determines whether the <see cref="CompositeDisposable" /> contains a specific disposable.
+    /// </summary>
+    /// <param name="item">Disposable to search for.</param>
+    /// <returns>true if the disposable was found; otherwise, false.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="item" /> is <c>null</c>.</exception>
+    public bool Contains(IDisposable item)
+    {
+        if (item == null) throw new ArgumentNullException(nameof(item));
+
+        lock (_gate)
+        {
+            if (_disposed) return false;
+
+            return _disposables.Contains(item);
+        }
+    }
+
+    /// <summary>
+    /// Copies the disposables contained in the <see cref="CompositeDisposable" /> to an array, starting at a particular
+    /// array index.
+    /// </summary>
+    /// <param name="array">Array to copy the contained disposables to.</param>
+    /// <param name="arrayIndex">Target index at which to copy the first disposable of the group.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="array" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="arrayIndex" /> is less than zero. -or -
+    /// <paramref name="arrayIndex" /> is larger than or equal to the array length.
+    /// </exception>
+    public void CopyTo(IDisposable[] array, int arrayIndex)
+    {
+        if (array == null) throw new ArgumentNullException(nameof(array));
+
+        if (arrayIndex < 0 || arrayIndex >= array.Length) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+
+        lock (_gate)
+        {
+            // disposed composites are always empty
+            if (_disposed) return;
+
+            if (arrayIndex + _count > array.Length)
+                // there is not enough space beyond arrayIndex 
+                // to accommodate all _count disposables in this composite
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+
+            int i = arrayIndex;
+
+            foreach (IDisposable? d in _disposables)
+                if (d != null)
+                    array[i++] = d;
+        }
+    }
+
+    /// <summary>
+    /// Always returns false.
+    /// </summary>
+    public bool IsReadOnly => false;
+
+    /// <summary>
+    /// Returns an enumerator that iterates through the <see cref="CompositeDisposable" />.
+    /// </summary>
+    /// <returns>An enumerator to iterate over the disposables.</returns>
+    public IEnumerator<IDisposable> GetEnumerator()
+    {
+        lock (_gate)
+        {
+            if (_disposed || _count == 0) return EmptyEnumerator;
+
+            // the copy is unavoidable but the creation
+            // of an outer IEnumerable is avoidable
+            return new CompositeEnumerator(_disposables.ToArray());
+        }
+    }
+
+    /// <summary>
+    /// Returns an enumerator that iterates through the <see cref="CompositeDisposable" />.
+    /// </summary>
+    /// <returns>An enumerator to iterate over the disposables.</returns>
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     /// <summary>
@@ -218,153 +295,32 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
         }
 
         if (currentDisposables != null)
-        {
             foreach (IDisposable? d in currentDisposables)
-            {
                 d?.Dispose();
-            }
-        }
     }
 
-    /// <summary>
-    /// Removes and disposes all disposables from the <see cref="CompositeDisposable"/>, but does not dispose the <see cref="CompositeDisposable"/>.
-    /// </summary>
-    public void Clear()
+    private static List<IDisposable?> ToList(IEnumerable<IDisposable> disposables)
     {
-        IDisposable?[] previousDisposables;
-
-        lock (_gate)
+        int capacity = disposables switch
         {
-            // disposed composites are always clear
-            if (_disposed)
-            {
-                return;
-            }
+            IDisposable[] a => a.Length,
+            ICollection<IDisposable> c => c.Count,
+            _ => 12
+        };
 
-            List<IDisposable>? current = _disposables;
+        List<IDisposable>? list = new(capacity);
 
-            previousDisposables = current.ToArray();
-            current.Clear();
+        // do the copy and null-check in one step to avoid a
+        // second loop for just checking for null items
+        foreach (IDisposable? d in disposables)
+        {
+            if (d == null) throw new ArgumentException("Disposables can't contain null", nameof(disposables));
 
-            Volatile.Write(ref _count, 0);
+            list.Add(d);
         }
 
-        foreach (IDisposable? d in previousDisposables)
-        {
-            d?.Dispose();
-        }
+        return list;
     }
-
-    /// <summary>
-    /// Determines whether the <see cref="CompositeDisposable"/> contains a specific disposable.
-    /// </summary>
-    /// <param name="item">Disposable to search for.</param>
-    /// <returns>true if the disposable was found; otherwise, false.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="item"/> is <c>null</c>.</exception>
-    public bool Contains(IDisposable item)
-    {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-
-        lock (_gate)
-        {
-            if (_disposed)
-            {
-                return false;
-            }
-
-            return _disposables.Contains(item);
-        }
-    }
-
-    /// <summary>
-    /// Copies the disposables contained in the <see cref="CompositeDisposable"/> to an array, starting at a particular array index.
-    /// </summary>
-    /// <param name="array">Array to copy the contained disposables to.</param>
-    /// <param name="arrayIndex">Target index at which to copy the first disposable of the group.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="array"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than zero. -or - <paramref name="arrayIndex"/> is larger than or equal to the array length.</exception>
-    public void CopyTo(IDisposable[] array, int arrayIndex)
-    {
-        if (array == null)
-        {
-            throw new ArgumentNullException(nameof(array));
-        }
-
-        if (arrayIndex < 0 || arrayIndex >= array.Length)
-        {
-            throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-        }
-
-        lock (_gate)
-        {
-            // disposed composites are always empty
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (arrayIndex + _count > array.Length)
-            {
-                // there is not enough space beyond arrayIndex 
-                // to accommodate all _count disposables in this composite
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-            }
-
-            int i = arrayIndex;
-
-            foreach (IDisposable? d in _disposables)
-            {
-                if (d != null)
-                {
-                    array[i++] = d;
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Always returns false.
-    /// </summary>
-    public bool IsReadOnly => false;
-
-    /// <summary>
-    /// Returns an enumerator that iterates through the <see cref="CompositeDisposable"/>.
-    /// </summary>
-    /// <returns>An enumerator to iterate over the disposables.</returns>
-    public IEnumerator<IDisposable> GetEnumerator()
-    {
-        lock (_gate)
-        {
-            if (_disposed || _count == 0)
-            {
-                return EmptyEnumerator;
-            }
-
-            // the copy is unavoidable but the creation
-            // of an outer IEnumerable is avoidable
-            return new CompositeEnumerator(_disposables.ToArray());
-        }
-    }
-
-    /// <summary>
-    /// Returns an enumerator that iterates through the <see cref="CompositeDisposable"/>.
-    /// </summary>
-    /// <returns>An enumerator to iterate over the disposables.</returns>
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    /// <summary>
-    /// Gets a value that indicates whether the object is disposed.
-    /// </summary>
-    public bool IsDisposed => Volatile.Read(ref _disposed);
-
-    /// <summary>
-    /// An empty enumerator for the <see cref="GetEnumerator"/>
-    /// method to avoid allocation on disposed or empty composites.
-    /// </summary>
-    private static readonly CompositeEnumerator EmptyEnumerator = new(Array.Empty<IDisposable?>());
 
     /// <summary>
     /// An enumerator for an array of disposables.
@@ -402,16 +358,10 @@ internal sealed class CompositeDisposable : ICollection<IDisposable>, IDisposabl
             {
                 int idx = ++_index;
 
-                if (idx >= disposables.Length)
-                {
-                    return false;
-                }
+                if (idx >= disposables.Length) return false;
 
                 // inlined that filter for null elements
-                if (disposables[idx] != null)
-                {
-                    return true;
-                }
+                if (disposables[idx] != null) return true;
             }
         }
 

@@ -21,31 +21,31 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
         /// The slide should occur horizontally.
         /// </summary>
         Horizontal,
-        
+
         /// <summary>
         /// The slide should occur vertically.
         /// </summary>
         Vertical
     }
-    
+
     /// <summary>
-    /// Defines the <see cref="Forward"/> property.
+    /// Defines the <see cref="Forward" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> ForwardProperty =
         AvaloniaProperty.Register<PleasantPageSlide, bool>(nameof(Forward), true);
-    
+
     /// <summary>
-    /// Defines the <see cref="Orientation"/> property.
+    /// Defines the <see cref="Orientation" /> property.
     /// </summary>
     public static readonly StyledProperty<SlideAxis> OrientationProperty =
         AvaloniaProperty.Register<PleasantPageSlide, SlideAxis>(nameof(Orientation));
-    
+
     /// <summary>
-    /// Defines the <see cref="Duration"/> property.
+    /// Defines the <see cref="Duration" /> property.
     /// </summary>
     public static readonly StyledProperty<TimeSpan> DurationProperty =
         AvaloniaProperty.Register<PleasantPageSlide, TimeSpan>(nameof(Duration), TimeSpan.FromMilliseconds(300));
-    
+
     /// <summary>
     /// Gets or sets the duration of the transition.
     /// </summary>
@@ -54,16 +54,16 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
         get => GetValue(DurationProperty);
         set => SetValue(DurationProperty, value);
     }
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the transition should slide forward or backward.
     /// </summary>
-    public bool Forward 
+    public bool Forward
     {
         get => GetValue(ForwardProperty);
         set => SetValue(ForwardProperty, value);
     }
-    
+
     /// <summary>
     /// Gets or sets the orientation of the slide.
     /// </summary>
@@ -84,14 +84,16 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
     {
         if (cancellationToken.IsCancellationRequested)
             return;
-        
+
         Visual parent = GetVisualParent(from, to);
         double distance = Orientation == SlideAxis.Horizontal ? parent.Bounds.Width : parent.Bounds.Height;
-        StyledProperty<double> translateProperty = Orientation == SlideAxis.Horizontal ? TranslateTransform.XProperty : TranslateTransform.YProperty;
-        
+        StyledProperty<double> translateProperty = Orientation == SlideAxis.Horizontal
+            ? TranslateTransform.XProperty
+            : TranslateTransform.YProperty;
+
         if (from is null || to is null)
             return;
-        
+
         to.IsVisible = false;
 
         Animation animationFrom = new()
@@ -170,7 +172,7 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
         if (!cancellationToken.IsCancellationRequested)
             from.IsVisible = false;
     }
-    
+
     /// <summary>
     /// Gets the common visual parent of the two control.
     /// </summary>
@@ -189,9 +191,7 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
         Visual? p2 = (to ?? from)!.GetVisualParent();
 
         if (p1 != null && p2 != null && p1 != p2)
-        {
             throw new ArgumentException("Controls for PageSlide must have same parent.");
-        }
 
         return p1 ?? throw new InvalidOperationException("Cannot determine visual parent.");
     }

@@ -24,9 +24,9 @@
                                 <PathIcon Width="16" Height="16" Data="{StaticResource PasteRegular}" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        
+
                         <Separator />
-                        
+
                         <MenuItem Header="{markup:Localize Change}"
                                   Command="{CompiledBinding ChangeColor}">
                             <MenuItem.Icon>
@@ -35,7 +35,7 @@
                         </MenuItem>
                     </MenuFlyout>
                 </Button.Flyout>
-                
+
                 <PathIcon Data="{StaticResource MoreRegular}" />
             </Button>
             <Border DockPanel.Dock="Right"
@@ -47,13 +47,13 @@
                     ToolTip.Tip="{CompiledBinding Color, Converter={x:Static ColorConverters.ColorToString}}">
                 <Border CornerRadius="4" Background="{CompiledBinding Brush}" />
             </Border>
-            
-            
+
+
             <TextBlock Text="{CompiledBinding Name}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
-                       Margin="0 0 5 0"/>
+                       Margin="0 0 5 0" />
         </DockPanel>
     </DataTemplate>
 </ResourceDictionary>

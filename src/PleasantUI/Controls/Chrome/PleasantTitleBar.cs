@@ -11,11 +11,13 @@ using Path = Avalonia.Controls.Shapes.Path;
 namespace PleasantUI.Controls.Chrome;
 
 /// <summary>
-/// Represents the title bar of a <see cref="PleasantWindow"/>.
+/// Represents the title bar of a <see cref="PleasantWindow" />.
 /// </summary>
 /// <remarks>
-/// This control provides the standard title bar functionality, including window dragging, caption buttons, and title/subtitle display.
-/// It uses a template to define its visual structure and interacts with <see cref="PleasantWindow"/> for window-related operations.
+/// This control provides the standard title bar functionality, including window dragging, caption buttons, and
+/// title/subtitle display.
+/// It uses a template to define its visual structure and interacts with <see cref="PleasantWindow" /> for
+/// window-related operations.
 /// </remarks>
 [TemplatePart("PART_PleasantCaptionButtons", typeof(PleasantCaptionButtons))]
 [TemplatePart("PART_CloseMenuItem", typeof(MenuItem))]
@@ -36,23 +38,23 @@ public class PleasantTitleBar : TemplatedControl
 
     private MenuItem? _closeMenuItem;
     private MenuItem? _collapseMenuItem;
-    private MenuItem? _expandMenuItem;
-    private MenuItem? _reestablishMenuItem;
 
     private Border? _dragWindowBorder;
-    private Image? _image;
-    private Path? _logoPath;
-
-    private TextBlock? _title;
-    private StackPanel? _titlePanel;
-    private TextBlock? _subtitle;
-
-    private ContentPresenter? _leftTitleBarContent;
-    private ContentPresenter? _titleBarContent;
+    private MenuItem? _expandMenuItem;
 
     private PleasantWindow? _host;
+    private Image? _image;
 
-    /// <inheritdoc/>
+    private ContentPresenter? _leftTitleBarContent;
+    private Path? _logoPath;
+    private MenuItem? _reestablishMenuItem;
+    private TextBlock? _subtitle;
+
+    private TextBlock? _title;
+    private ContentPresenter? _titleBarContent;
+    private StackPanel? _titlePanel;
+
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -90,14 +92,12 @@ public class PleasantTitleBar : TemplatedControl
             _dragWindowBorder.DoubleTapped += OnDragWindowBorderOnDoubleTapped;
 
             Attach(window);
-
-            window.TitleBar = this;
         }
     }
-    
+
     private void Attach(PleasantWindow host)
     {
-        CompositeDisposable compositeDisposable = new()
+        CompositeDisposable unused = new()
         {
             host.GetObservable(Window.WindowStateProperty).Subscribe(windowState =>
             {
@@ -116,10 +116,7 @@ public class PleasantTitleBar : TemplatedControl
                     if (_expandMenuItem is not null) _expandMenuItem.IsEnabled = true;
                 }
             }),
-            host.GetObservable(WindowBase.IsActiveProperty).Subscribe(b =>
-            {
-                PseudoClasses.Set(":isactive", !b);
-            }),
+            host.GetObservable(WindowBase.IsActiveProperty).Subscribe(b => { PseudoClasses.Set(":isactive", !b); }),
             host.GetObservable(Window.TitleProperty).Subscribe(s =>
             {
                 if (_title is not null) _title.Text = s;
@@ -153,10 +150,8 @@ public class PleasantTitleBar : TemplatedControl
             host.GetObservable(Window.IconProperty).Subscribe(_ =>
             {
                 if (host.IconImage is null)
-                {
                     if (_image is not null && host.Icon is not null)
                         _image.Source = host.Icon.ToBitmap();
-                }
             }),
             host.GetObservable(PleasantWindow.LeftTitleContentProperty).Subscribe(content =>
             {
@@ -170,24 +165,22 @@ public class PleasantTitleBar : TemplatedControl
             }),
             host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(enable =>
             {
-                if (_dragWindowBorder is null || 
-                    _host is null || 
-                    _titlePanel is null || 
-                    _leftTitleBarContent is null || 
+                if (_dragWindowBorder is null ||
+                    _host is null ||
+                    _titlePanel is null ||
+                    _leftTitleBarContent is null ||
                     _captionButtons is null) return;
-                
+
                 _dragWindowBorder.IsVisible = enable;
                 _titlePanel.IsVisible = enable;
                 _leftTitleBarContent.IsVisible = enable;
                 _captionButtons.IsVisible = enable;
-                
+
                 if (!_host.ShowTitleBarContentAnyway)
                     IsVisible = enable;
             })
         };
     }
-    
-    internal FlyoutBase? GetContextFlyout() => _dragWindowBorder?.ContextFlyout;
 
     private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
     {

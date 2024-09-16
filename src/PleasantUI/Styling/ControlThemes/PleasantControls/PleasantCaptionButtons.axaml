@@ -7,10 +7,10 @@
             <PleasantCaptionButtons />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type PleasantCaptionButtons}" TargetType="PleasantCaptionButtons">
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <StackPanel Orientation="Horizontal">
@@ -22,12 +22,12 @@
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
                         </Style>
-                        
+
                         <Style Selector="Button > PathIcon">
                             <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
                         </Style>
                     </StackPanel.Styles>
-                    
+
                     <Button Name="PART_MinimizeButton"
                             ToolTip.Tip="{markup:Localize Collapse}">
                         <PathIcon Data="{StaticResource SubtractRegular}" Width="10" Height="10" />
@@ -43,25 +43,25 @@
                 </StackPanel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
             <Setter Property="ToolTip.Tip" Value="{markup:Localize Expand}" />
         </Style>
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Setter Property="ToolTip.Tip" Value="{markup:Localize Reestablish}" />
         </Style>
-        
+
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
             <Setter Property="Opacity" Value="0.5" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         </Style>
-        
+
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PathIcon">
                 <Setter Property="Data" Value="{StaticResource MaximizeRegular}" />
             </Style>
         </Style>
-        
+
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PathIcon">
                 <Setter Property="Data" Value="{StaticResource SquareMultipleRegular}" />
@@ -69,10 +69,10 @@
             </Style>
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="PleasantCaptionButtonsMacOSStyle" TargetType="PleasantCaptionButtons">
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -83,7 +83,7 @@
                             <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="99" />
                         </Style>
-                        
+
                         <Style Selector="Button#PART_CloseButton">
                             <Setter Property="Background" Value="#FFFE4C40" />
                         </Style>
@@ -93,7 +93,7 @@
                         <Style Selector="Button#PART_MaximizeButton">
                             <Setter Property="Background" Value="#FF00D124" />
                         </Style>
-                        
+
                         <Style Selector="Button#PART_CloseButton:pointerover">
                             <Setter Property="Background" Value="#FFCC362C" />
                         </Style>
@@ -104,7 +104,7 @@
                             <Setter Property="Background" Value="#FF00B61F" />
                         </Style>
                     </StackPanel.Styles>
-                    
+
                     <Button Name="PART_CloseButton"
                             ToolTip.Tip="{DynamicResource Close}"
                             Margin="10 0 0 0" />
@@ -115,14 +115,14 @@
                 </StackPanel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
             <Setter Property="ToolTip.Tip" Value="{markup:Localize Expand}" />
         </Style>
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Setter Property="ToolTip.Tip" Value="{markup:Localize Reestablish}" />
         </Style>
-        
+
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
             <Setter Property="Background" Value="{DynamicResource TextFillColor3}" />
         </Style>

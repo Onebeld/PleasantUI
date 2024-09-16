@@ -5,7 +5,7 @@
         <Setter Property="BorderThickness" Value="3" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="10" />
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -23,7 +23,7 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="Height" Value="20" />
-            
+
             <Setter Property="Template">
                 <ControlTemplate TargetType="{x:Type ColorSlider}">
                     <Border BorderThickness="{TemplateBinding BorderThickness}"
@@ -174,7 +174,7 @@
         <Style Selector="^:pointerover:light-selector /template/ Thumb#ColorSliderThumb">
             <Setter Property="Opacity" Value="0.8" />
         </Style>
-        
+
         <Style Selector="^ /template/ Thumb#ColorSliderThumb">
             <Setter Property="BorderBrush" Value="White" />
         </Style>

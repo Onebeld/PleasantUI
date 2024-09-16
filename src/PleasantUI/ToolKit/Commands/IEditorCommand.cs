@@ -1,7 +1,17 @@
 ﻿namespace PleasantUI.ToolKit.Commands;
 
+/// <summary>
+/// Represents a command that can be executed and undone/redone in an editor context.
+/// </summary>
 public interface IEditorCommand
 {
-	void Undo();
-	void Redo();
+    /// <summary>
+    /// Undoes the command.
+    /// </summary>
+    void Undo();
+
+    /// <summary>
+    /// Redoes the command.
+    /// </summary>
+    void Redo();
 }

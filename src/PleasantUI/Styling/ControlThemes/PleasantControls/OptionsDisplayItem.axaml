@@ -118,7 +118,7 @@
         <Style Selector="^ /template/ ContentPresenter#ExpandedContentPresenter">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        
+
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>

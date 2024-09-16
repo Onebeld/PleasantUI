@@ -13,27 +13,21 @@ namespace PleasantUI.Controls;
 [TemplatePart("PART_InternalGrid", typeof(Grid))]
 public class PleasantTabView : TabControl
 {
-    private double _heightRemainingSpace;
-    private double _widthRemainingSpace;
-    private Grid? _grid;
-
-    public Button? AdderButton;
-
     /// <summary>
-    ///     Defines the <see cref="ClickOnAddingButton" /> event.
+    /// Defines the <see cref="ClickOnAddingButton" /> event.
     /// </summary>
     public static readonly RoutedEvent<RoutedEventArgs> ClickOnAddingButtonEvent =
         RoutedEvent.Register<PleasantTabView, RoutedEventArgs>(nameof(ClickOnAddingButton),
             RoutingStrategies.Bubble);
 
     /// <summary>
-    ///     Defines the <see cref="AdderButtonIsVisible" /> property.
+    /// Defines the <see cref="AdderButtonIsVisible" /> property.
     /// </summary>
     public static readonly StyledProperty<bool> AdderButtonIsVisibleProperty =
         AvaloniaProperty.Register<PleasantTabView, bool>(nameof(AdderButtonIsVisible), true);
 
     /// <summary>
-    ///     Defines the <see cref="MaxWidthOfItemsPresenter" /> property.
+    /// Defines the <see cref="MaxWidthOfItemsPresenter" /> property.
     /// </summary>
     public static readonly StyledProperty<double> MaxWidthOfItemsPresenterProperty =
         AvaloniaProperty.Register<PleasantTabView, double>(nameof(MaxWidthOfItemsPresenter),
@@ -48,7 +42,7 @@ public class PleasantTabView : TabControl
         AvaloniaProperty.Register<PleasantTabView, Thickness>(nameof(ItemsMargin));
 
     /// <summary>
-    ///     Defines the <see cref="HeightRemainingSpace" /> property.
+    /// Defines the <see cref="HeightRemainingSpace" /> property.
     /// </summary>
     public static readonly DirectProperty<PleasantTabView, double> HeightRemainingSpaceProperty =
         AvaloniaProperty.RegisterDirect<PleasantTabView, double>(
@@ -56,7 +50,7 @@ public class PleasantTabView : TabControl
             o => o.HeightRemainingSpace);
 
     /// <summary>
-    ///     Defines the <see cref="WidthRemainingSpace" /> property.
+    /// Defines the <see cref="WidthRemainingSpace" /> property.
     /// </summary>
     public static readonly DirectProperty<PleasantTabView, double> WidthRemainingSpaceProperty =
         AvaloniaProperty.RegisterDirect<PleasantTabView, double>(
@@ -64,10 +58,21 @@ public class PleasantTabView : TabControl
             o => o.WidthRemainingSpace);
 
     public static readonly StyledProperty<TabViewMarginType> MarginTypeProperty =
-        AvaloniaProperty.Register<PleasantTabView, TabViewMarginType>(nameof(MarginType), TabViewMarginType.None);
+        AvaloniaProperty.Register<PleasantTabView, TabViewMarginType>(nameof(MarginType));
+
+    private Grid? _grid;
+    private double _heightRemainingSpace;
+    private double _widthRemainingSpace;
+
+    public Button? AdderButton;
+
+    static PleasantTabView()
+    {
+        SelectionModeProperty.OverrideDefaultValue<PleasantTabView>(SelectionMode.Single);
+    }
 
     /// <summary>
-    ///     This property defines if the AdderButton can be visible, the default value is true.
+    /// This property defines if the AdderButton can be visible, the default value is true.
     /// </summary>
     public bool AdderButtonIsVisible
     {
@@ -76,7 +81,7 @@ public class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     This property defines what is the maximum width of the ItemsPresenter.
+    /// This property defines what is the maximum width of the ItemsPresenter.
     /// </summary>
     public double MaxWidthOfItemsPresenter
     {
@@ -85,7 +90,7 @@ public class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     Gets or Sets the SecondaryBackground.
+    /// Gets or Sets the SecondaryBackground.
     /// </summary>
     public IBrush SecondaryBackground
     {
@@ -94,7 +99,7 @@ public class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     Sets the margin of the items presenter
+    /// Sets the margin of the items presenter
     /// </summary>
     public Thickness ItemsMargin
     {
@@ -103,7 +108,7 @@ public class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     Gets the space that remains in the top
+    /// Gets the space that remains in the top
     /// </summary>
     public double HeightRemainingSpace
     {
@@ -112,7 +117,7 @@ public class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     Gets the space that remains in the top.
+    /// Gets the space that remains in the top.
     /// </summary>
     public double WidthRemainingSpace
     {
@@ -127,20 +132,15 @@ public class PleasantTabView : TabControl
     }
 
     /// <summary>
-    ///     It's raised when the adder button is clicked
+    /// It's raised when the adder button is clicked
     /// </summary>
     public event EventHandler<RoutedEventArgs> ClickOnAddingButton
     {
         add => AddHandler(ClickOnAddingButtonEvent, value);
         remove => RemoveHandler(ClickOnAddingButtonEvent, value);
     }
-    
-    static PleasantTabView()
-    {
-        SelectionModeProperty.OverrideDefaultValue<PleasantTabView>(SelectionMode.Single);
-    }
 
-    
+
     protected void AdderButtonClicked(object? sender, RoutedEventArgs e)
     {
         RoutedEventArgs routedEventArgs = new(ClickOnAddingButtonEvent);
@@ -159,9 +159,7 @@ public class PleasantTabView : TabControl
 
             double d = ItemCount * 0.5;
             if ((d > 0) & (ItemCount != 0))
-            {
                 SelectedItem = Items.OfType<object>().FirstOrDefault();
-            }
             else if ((d <= 0) & (ItemCount != 0))
                 SelectedItem = Items.OfType<object>().LastOrDefault();
         }

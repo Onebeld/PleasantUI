@@ -160,22 +160,22 @@
                                   TemplatedControl.IsTemplateFocusTarget="True" />
 
                             <ContentPresenter Grid.Row="0"
-                                x:Name="PART_OffContentPresenter"
-                                Grid.RowSpan="3"
-                                Grid.Column="0"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding OffContent}"
-                                ContentTemplate="{TemplateBinding OffContentTemplate}" />
+                                              x:Name="PART_OffContentPresenter"
+                                              Grid.RowSpan="3"
+                                              Grid.Column="0"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding OffContent}"
+                                              ContentTemplate="{TemplateBinding OffContentTemplate}" />
 
                             <ContentPresenter Grid.Row="0"
-                                x:Name="PART_OnContentPresenter"
-                                Grid.RowSpan="3"
-                                Grid.Column="0"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding OnContent}"
-                                ContentTemplate="{TemplateBinding OnContentTemplate}" />
+                                              x:Name="PART_OnContentPresenter"
+                                              Grid.RowSpan="3"
+                                              Grid.Column="0"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding OnContent}"
+                                              ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
                             <Border Grid.Column="2"
                                     x:Name="OuterBorder"

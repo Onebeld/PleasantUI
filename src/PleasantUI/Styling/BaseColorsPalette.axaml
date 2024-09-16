@@ -10,18 +10,18 @@
             <Color x:Key="ControlFillColor1">#05000000</Color>
             <Color x:Key="ControlFillColor2">#0A000000</Color>
             <Color x:Key="ControlFillColor3">#0F000000</Color>
-            
+
             <Color x:Key="ControlDarkFillColor1">#78000000</Color>
             <Color x:Key="ControlDarkFillColor2">#82000000</Color>
             <Color x:Key="ControlDarkFillColor3">#96000000</Color>
 
             <Color x:Key="ControlBorderColor">#14000000</Color>
-            
+
             <Color x:Key="BackgroundColor1">#F0F0F0</Color>
             <Color x:Key="BackgroundColor2">#EBEBEB</Color>
             <Color x:Key="BackgroundColor3">#E6E6E6</Color>
             <Color x:Key="BackgroundColor4">#E1E1E1</Color>
-            
+
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
             <Color x:Key="SystemFillColorCaution">#BF8500</Color>
@@ -30,7 +30,7 @@
             <Color x:Key="DangerColor">#FFD72F1E</Color>
             <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
             <Color x:Key="SelectedDangerColor">#B93C22</Color>
-            
+
             <Color x:Key="FocusStrokeColorOuter">#E4000000</Color>
             <Color x:Key="FocusStrokeColorInner">#B3FFFFFF</Color>
         </ResourceDictionary>
@@ -43,18 +43,18 @@
             <Color x:Key="ControlFillColor1">#0FFFFFFF</Color>
             <Color x:Key="ControlFillColor2">#19FFFFFF</Color>
             <Color x:Key="ControlFillColor3">#23FFFFFF</Color>
-            
+
             <Color x:Key="ControlDarkFillColor1">#4BFFFFFF</Color>
             <Color x:Key="ControlDarkFillColor2">#55FFFFFF</Color>
             <Color x:Key="ControlDarkFillColor3">#64FFFFFF</Color>
 
             <Color x:Key="ControlBorderColor">#59595959</Color>
-            
+
             <Color x:Key="BackgroundColor1">#202020</Color>
             <Color x:Key="BackgroundColor2">#1C1C1C</Color>
             <Color x:Key="BackgroundColor3">#282828</Color>
             <Color x:Key="BackgroundColor4">#2C2C2C</Color>
-            
+
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
             <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
@@ -63,12 +63,12 @@
             <Color x:Key="DangerColor">#FFD72F1E</Color>
             <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
             <Color x:Key="SelectedDangerColor">#B93C22</Color>
-            
+
             <Color x:Key="FocusStrokeColorOuter">#FFFFFF</Color>
             <Color x:Key="FocusStrokeColorInner">#B3000000</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-    
+
     <VisualBrush x:Key="CheckeredBackgroundBrush"
                  TileMode="Tile"
                  Stretch="Uniform"

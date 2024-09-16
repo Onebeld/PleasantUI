@@ -6,7 +6,7 @@
             <InformationBlock Content="500" Icon="{StaticResource PinRegular}" />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type InformationBlock}" TargetType="InformationBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
@@ -14,7 +14,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}"
@@ -27,7 +27,7 @@
                                   Fill="{TemplateBinding Foreground}"
                                   Stretch="Uniform" />
                         </Viewbox>
-                        
+
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           FontSize="{TemplateBinding FontSize}"

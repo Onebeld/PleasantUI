@@ -8,7 +8,7 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
         <Setter Property="ClickMode" Value="Release" />
         <Setter Property="MinWidth" Value="40" />
@@ -23,14 +23,14 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="14" />
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
                     <Border Name="Border"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             BorderThickness="1" />
-                    
+
                     <Border Name="Root"
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
@@ -47,11 +47,11 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        
+
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
@@ -59,7 +59,7 @@
         <Style Selector="^:selected">
             <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor2}" />
         </Style>
-        
+
         <Style Selector="^:today">
             <Style Selector="^">
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundAccentLightColor2}" />
@@ -67,14 +67,14 @@
             <Style Selector="^ /template/ Border#Border">
                 <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
             </Style>
-            
+
             <Style Selector="^:pointerover">
                 <Setter Property="Background" Value="Transparent" />
             </Style>
             <Style Selector="^:pointerover /template/ Border#Border">
                 <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
             </Style>
-            
+
             <Style Selector="^:pressed">
                 <Setter Property="Background" Value="Transparent" />
             </Style>
@@ -82,7 +82,7 @@
                 <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
                 <Setter Property="Opacity" Value="0.6" />
             </Style>
-            
+
             <Style Selector="^:selected">
                 <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
                 <Setter Property="BorderThickness" Value="1" />
@@ -91,32 +91,32 @@
                 <Setter Property="Margin" Value="2" />
             </Style>
         </Style>
-        
+
         <Style Selector="^:inactive">
             <Style Selector="^">
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
                 <Setter Property="FontWeight" Value="Normal" />
             </Style>
-            
+
             <Style Selector="^:pointerover">
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
             </Style>
         </Style>
-        
+
         <Style Selector="^:blackout">
             <Style Selector="^">
                 <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
             </Style>
-            
+
             <Style Selector="^:pointerover">
                 <Setter Property="Background" Value="Transparent" />
             </Style>
-            
+
             <Style Selector="^:pressed">
                 <Setter Property="Background" Value="Transparent" />
             </Style>
         </Style>
-        
+
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>

@@ -24,7 +24,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <WrapPanel />

@@ -3,8 +3,8 @@
 internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TResult>
 {
     private readonly IObservable<TFirst> _first;
-    private readonly IObservable<TSecond> _second;
     private readonly Func<TFirst, TSecond, TResult> _resultSelector;
+    private readonly IObservable<TSecond> _second;
 
     public CombineLatest(IObservable<TFirst> first, IObservable<TSecond> second,
         Func<TFirst, TSecond, TResult> resultSelector)
@@ -23,8 +23,11 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
 
     internal sealed class _ : IdentitySink<TResult>
     {
-        private readonly Func<TFirst, TSecond, TResult> _resultSelector;
         private readonly object _gate = new();
+        private readonly Func<TFirst, TSecond, TResult> _resultSelector;
+
+        private IDisposable _firstDisposable;
+        private IDisposable _secondDisposable;
 
         public _(Func<TFirst, TSecond, TResult> resultSelector, IObserver<TResult> observer)
             : base(observer)
@@ -33,9 +36,6 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
             _firstDisposable = null!;
             _secondDisposable = null!;
         }
-
-        private IDisposable _firstDisposable;
-        private IDisposable _secondDisposable;
 
         public void Run(IObservable<TFirst> first, IObservable<TSecond> second)
         {
@@ -70,8 +70,6 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
                 _parent = parent;
                 _other = default!; // NB: Will be set by SetOther.
             }
-
-            public void SetOther(SecondObserver other) { _other = other; }
 
             public bool HasValue { get; private set; }
             public TFirst? Value { get; private set; }
@@ -121,14 +119,15 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
                     Done = true;
 
                     if (_other.Done)
-                    {
                         _parent.ForwardOnCompleted();
-                    }
                     else
-                    {
                         _parent._firstDisposable.Dispose();
-                    }
                 }
+            }
+
+            public void SetOther(SecondObserver other)
+            {
+                _other = other;
             }
         }
 
@@ -142,8 +141,6 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
                 _parent = parent;
                 _other = default!; // NB: Will be set by SetOther.
             }
-
-            public void SetOther(FirstObserver other) { _other = other; }
 
             public bool HasValue { get; private set; }
             public TSecond? Value { get; private set; }
@@ -193,14 +190,15 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
                     Done = true;
 
                     if (_other.Done)
-                    {
                         _parent.ForwardOnCompleted();
-                    }
                     else
-                    {
                         _parent._secondDisposable.Dispose();
-                    }
                 }
+            }
+
+            public void SetOther(FirstObserver other)
+            {
+                _other = other;
             }
         }
     }
@@ -208,8 +206,8 @@ internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TRes
 
 internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
 {
-    private readonly IEnumerable<IObservable<TSource>> _sources;
     private readonly Func<TSource[], TResult> _resultSelector;
+    private readonly IEnumerable<IObservable<TSource>> _sources;
 
     public CombineLatest(IEnumerable<IObservable<TSource>> sources, Func<TSource[], TResult> resultSelector)
     {
@@ -229,6 +227,12 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
         private readonly object _gate = new();
         private readonly Func<TSource[], TResult> _resultSelector;
 
+        private bool[] _hasValue;
+        private bool _hasValueAll;
+        private bool[] _isDone;
+        private IDisposable[] _subscriptions;
+        private TSource[] _values;
+
         public _(Func<TSource[], TResult> resultSelector, IObserver<TResult> observer)
             : base(observer)
         {
@@ -241,28 +245,22 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
             _subscriptions = null!;
         }
 
-        private bool[] _hasValue;
-        private bool _hasValueAll;
-        private TSource[] _values;
-        private bool[] _isDone;
-        private IDisposable[] _subscriptions;
-
         public void Run(IEnumerable<IObservable<TSource>> sources)
         {
             IObservable<TSource>[]? srcs = sources.ToArray();
 
-            int N = srcs.Length;
+            int n = srcs.Length;
 
-            _hasValue = new bool[N];
+            _hasValue = new bool[n];
             _hasValueAll = false;
 
-            _values = new TSource[N];
+            _values = new TSource[n];
 
-            _isDone = new bool[N];
+            _isDone = new bool[n];
 
-            _subscriptions = new IDisposable[N];
+            _subscriptions = new IDisposable[n];
 
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < n; i++)
             {
                 int j = i;
 
@@ -320,20 +318,16 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
                 _isDone[index] = true;
 
                 if (_isDone.All(d => d))
-                {
                     ForwardOnCompleted();
-                }
                 else
-                {
                     _subscriptions[index].Dispose();
-                }
             }
         }
 
         private sealed class SourceObserver : IObserver<TSource>, IDisposable
         {
-            private readonly _ _parent;
             private readonly int _index;
+            private readonly _ _parent;
 
             public SourceObserver(_ parent, int index)
             {
@@ -342,6 +336,11 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
             }
 
             public IDisposable? Disposable { get; set; }
+
+            public void Dispose()
+            {
+                Disposable?.Dispose();
+            }
 
             public void OnNext(TSource value)
             {
@@ -356,11 +355,6 @@ internal sealed class CombineLatest<TSource, TResult> : IObservable<TResult>
             public void OnCompleted()
             {
                 _parent.OnCompleted(_index);
-            }
-
-            public void Dispose()
-            {
-                Disposable?.Dispose();
             }
         }
     }

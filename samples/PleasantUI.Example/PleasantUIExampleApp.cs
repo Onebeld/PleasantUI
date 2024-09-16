@@ -5,7 +5,7 @@ using PleasantUI.Example.ViewModels;
 
 namespace PleasantUI.Example;
 
-public class PleasantUIExampleApp : Application
+public class PleasantUiExampleApp : Application
 {
     public static PleasantTheme PleasantTheme { get; protected set; } = null!;
 
@@ -15,12 +15,12 @@ public class PleasantUIExampleApp : Application
     
     public static TopLevel? TopLevel { get; protected set; }
 
-    static PleasantUIExampleApp()
+    static PleasantUiExampleApp()
     {
         ViewModel = new AppViewModel();
     }
 
-    public PleasantUIExampleApp()
+    public PleasantUiExampleApp()
     {
         DataContext = ViewModel;
     }
