@@ -25,8 +25,13 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter> 
 
-        <Setter Property="Template">
+        <Setter Property="Template">  
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -59,7 +64,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />
     </ControlTheme>
@@ -88,8 +93,7 @@
         <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
         <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground"
-                Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+        <Setter Property="Foreground" Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
 
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />
@@ -103,9 +107,9 @@
             <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
         </Style>
     </ControlTheme>
-
+    
     <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent DangerColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />

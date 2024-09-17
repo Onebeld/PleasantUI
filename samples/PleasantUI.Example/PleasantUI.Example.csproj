@@ -35,9 +35,9 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Localization.resx</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Views\Pages\PleasantControlPages\" />
+      <Compile Update="Views\Pages\PleasantControlPages\ProgressRingPageView.axaml.cs">
+        <DependentUpon>ProgressRingPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

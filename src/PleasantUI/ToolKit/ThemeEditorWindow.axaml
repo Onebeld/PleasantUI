@@ -226,8 +226,17 @@
                                 <Button.Flyout>
                                     <Flyout>
                                         <StackPanel Margin="10" Spacing="5">
-                                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
-                                                       Text="{Localize Themes, Default='Themes'}" />
+                                            <Panel>
+                                                <TextBlock VerticalAlignment="Center"
+                                                           Theme="{StaticResource BaseTextBlockTheme}"
+                                                           Text="{Localize Themes, Default='Themes'}" />
+                                                
+                                                <InformationBlock HorizontalAlignment="Right"
+                                                                  Icon="{StaticResource BrushVariantRegular}" 
+                                                                  Content="{CompiledBinding Themes.Count}"
+                                                                  ToolTip.Tip="{Localize NumberOfThemes, Context=ThemeEditor, Default='Number of themes'}"/>
+                                            </Panel>
+                                            
                                             <Border CornerRadius="8"
                                                     Background="{DynamicResource BackgroundColor3}"
                                                     BorderBrush="{DynamicResource ControlBorderColor}"
@@ -257,9 +266,19 @@
                                                     </ItemsControl>
                                                 </SmoothScrollViewer>
                                             </Border>
+                                            
+                                            <Panel>
+                                                <TextBlock VerticalAlignment="Center"
+                                                           Theme="{StaticResource BaseTextBlockTheme}"
+                                                           Text="{Localize CustomThemes, Default='Custom themes'}" /> 
+                                                
+                                                <InformationBlock HorizontalAlignment="Right"
+                                                                  Icon="{StaticResource BrushVariantRegular}"
+                                                                  Content="{CompiledBinding Count, Source={x:Static PleasantTheme.CustomThemes}}"
+                                                                  ToolTip.Tip="{Localize NumberOfCustomThemes, Context=ThemeEditor, Default='Number of custom themes'}"/>
+                                            </Panel>
 
-                                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
-                                                       Text="{Localize CustomThemes, Default='Custom themes'}" />
+                                            
                                             <Border CornerRadius="8"
                                                     Background="{DynamicResource BackgroundColor3}"
                                                     BorderBrush="{DynamicResource ControlBorderColor}"

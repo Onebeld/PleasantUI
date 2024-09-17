@@ -4,7 +4,7 @@
     <DataTemplate x:Key="ControlPageCardItemTemplate" DataType="{x:Type models:ControlPageCard}">
         <Button Command="{CompiledBinding Action}"
                 HorizontalContentAlignment="Stretch"
-                Width="200"
+                Width="300"
                 CornerRadius="8"
                 Margin="5">
             <Grid ColumnDefinitions="Auto,5,*">

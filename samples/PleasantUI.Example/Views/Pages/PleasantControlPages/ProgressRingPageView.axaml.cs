@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using PleasantUI.Example.ViewModels.Pages.ControlPages;
 
-namespace PleasantUI.Example.Views.Pages.ControlPages;
+namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
-public partial class ProgressRing : UserControl
+public partial class ProgressRingPageView : UserControl
 {
-	public ProgressRing()
+	public ProgressRingPageView()
 	{
 		InitializeComponent();
 		DataContext = new ProgressRingViewModel();

@@ -16,20 +16,20 @@
                 </TransitioningContentControl.PageTransition>
                 <TransitioningContentControl.ContentTemplate>
                     <DataTemplate DataType="interfaces:IPage">
-                        <StackPanel Margin="15">
-                            <StackPanel Orientation="Horizontal" Spacing="5" IsVisible="{CompiledBinding ShowTitle}">
-                                 <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
-                                         ToolTip.Tip="Back to home page">
-                                     <PathIcon Data="{x:Static MaterialIcons.ArrowLeft}"
-                                               Foreground="{DynamicResource TextFillColor1}" />
-                                 </Button>
+                        <Grid RowDefinitions="Auto,*" Margin="15">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5" IsVisible="{CompiledBinding ShowTitle}">
+                                <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
+                                        ToolTip.Tip="Back to home page">
+                                    <PathIcon Data="{x:Static MaterialIcons.ArrowLeft}"
+                                              Foreground="{DynamicResource TextFillColor1}" />
+                                </Button>
                                 
                                 <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
                                            Text="{CompiledBinding Title}" />
                             </StackPanel>
                             
-                            <Decorator Child="{CompiledBinding Content}" />
-                        </StackPanel>
+                            <Decorator Grid.Row="1" Child="{CompiledBinding Content}" />
+                        </Grid>
                     </DataTemplate>
                 </TransitioningContentControl.ContentTemplate>
             </TransitioningContentControl>

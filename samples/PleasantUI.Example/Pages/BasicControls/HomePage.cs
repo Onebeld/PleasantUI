@@ -2,7 +2,7 @@
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Views.Pages;
 
-namespace PleasantUI.Example.Pages;
+namespace PleasantUI.Example.Pages.BasicControls;
 
 public class HomePage : IPage
 {

@@ -13,7 +13,7 @@ class Program
         InitializeLogger();
         
         Log.Information("Starting application");
-        
+
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
         

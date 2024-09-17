@@ -10,7 +10,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type CalendarButton}" TargetType="CalendarButton">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -19,6 +19,11 @@
         <Setter Property="Margin" Value="1" />
         <Setter Property="Width" Value="70" />
         <Setter Property="Height" Value="70" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>

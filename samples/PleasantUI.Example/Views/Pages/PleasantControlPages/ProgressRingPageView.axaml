@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controlPages="clr-namespace:PleasantUI.Example.ViewModels.Pages.ControlPages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PleasantUI.Example.Views.Pages.ControlPages.ProgressRing"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.ProgressRingPageView"
              x:DataType="controlPages:ProgressRingViewModel">
-    <StackPanel Spacing="5">
+    <StackPanel Spacing="5" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="500">
         <TextBox Watermark="Value" Text="{CompiledBinding Value}" />
         <ProgressRing Value="{CompiledBinding Value}"
                       LargeChange="1"

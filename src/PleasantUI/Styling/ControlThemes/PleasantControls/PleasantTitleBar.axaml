@@ -72,7 +72,7 @@
                                 IsHitTestVisible="False">
                         <Image x:Name="PART_Icon" Width="16" Height="16" Margin="0 0 8 0" />
                         <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center"
+                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Height="8" VerticalAlignment="Center"
                               Fill="{DynamicResource TextFillColor1}" />
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"

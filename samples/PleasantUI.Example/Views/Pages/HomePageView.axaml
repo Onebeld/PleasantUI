@@ -19,16 +19,33 @@
             <Image Source="{StaticResource PleasantUI}" Margin="50" />
         </Border>
         
-        <!--TODO: Controls-->
-        <ItemsControl Grid.Row="1"
-                      Margin="0 10 0 0"
-                      ItemsSource="{CompiledBinding ControlPageCards}"
-                      ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <StackPanel Grid.Row="1" Spacing="10" Margin="0 10 0 0">
+            <TextBlock Theme="{StaticResource TitleTextBlockTheme}" Text="Welcome to PleasantUI!" TextAlignment="Center" />
+
+            <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Text="Basic controls" />
+            
+            <!--TODO: Controls-->
+            <ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
+                          ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
+            <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Text="Pleasant controls" />
+            
+            <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
+                          ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </UserControl>

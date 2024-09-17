@@ -51,6 +51,7 @@
                 <StackPanel Orientation="Vertical" />
             </ItemsPanelTemplate>
         </Setter>
+        
 
         <Setter Property="Template">
             <ControlTemplate>

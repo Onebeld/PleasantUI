@@ -122,21 +122,15 @@ public class PleasantTheme : Styles
             (_mainResourceDictionary.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
 
         ResourceDictionary? lightThemeCustomColors = null;
-
-        try
-        {
-            lightThemeCustomColors =
-                (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
-        }
-        catch
-        {
-        }
+        
+        if (Application.Current.Resources.ThemeDictionaries.ContainsKey(theme.ThemeVariant))
+            lightThemeCustomColors = (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
 
         Dictionary<string, Color> newDictionary = lightThemeBasicColors.ToDictionary<string, Color>();
 
         if (lightThemeCustomColors is not null)
             foreach (KeyValuePair<object, object?> pair in lightThemeCustomColors)
-                newDictionary.Add((string)pair.Key, (Color)pair.Value);
+                newDictionary.Add((string)pair.Key, (Color)pair.Value!);
 
         return newDictionary;
     }

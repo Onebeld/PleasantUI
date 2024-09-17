@@ -89,7 +89,9 @@ public class ThemeColor : ViewModelBase
         await TopLevel.GetTopLevel(WindowParent as Visual)?.Clipboard?.SetTextAsync(Color.ToString().ToUpper())!;
 
         Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
-        string text = Localizer.Instance["ColorCopiedToClipboard"];
+
+        if (!Localizer.Instance.TryGetString("ColorCopiedToClipboard", out string text))
+            text = "The color is copied to the clipboard";
 
         PleasantSnackbar.Show(WindowParent, text, icon: icon);
     }

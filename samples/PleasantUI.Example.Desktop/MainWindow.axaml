@@ -12,6 +12,7 @@
                 WindowStartupLocation="CenterScreen"
                 Icon="PleasantUIIcon.ico"
                 IconImage="{StaticResource PleasantUILogo}"
+                TitleGeometry="{StaticResource PleasantUINoLogo}"
                 MinWidth="600"
                 MinHeight="500"
                 Width="1200"

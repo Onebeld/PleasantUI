@@ -11,13 +11,4 @@ public partial class HomePageView : UserControl
         
         InitializeComponent();
     }
-
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        /*ButtonPage.Click += (_, _) => PleasantUIExampleApp.ViewModel.ChangePage(new ButtonPage());
-        CheckBoxPage.Click += (_, _) => PleasantUIExampleApp.ViewModel.ChangePage(new CheckBoxPage());
-        ProgressRingPage.Click += (_, _) => PleasantUIExampleApp.ViewModel.ChangePage(new ProgressRingPage());*/
-    }
 }

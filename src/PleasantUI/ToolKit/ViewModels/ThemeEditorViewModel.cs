@@ -167,7 +167,9 @@ public class ThemeEditorViewModel : ViewModelBase
         await TopLevel.GetTopLevel(ThemeColor.WindowParent as Visual)?.Clipboard?.SetTextAsync(ColorsJson)!;
 
         Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
-        string text = Localizer.Instance["ThemeCopiedToClipboard"];
+
+        if (!Localizer.Instance.TryGetString("ThemeCopiedToClipboard", out string text))
+            text = "Theme copied to clipboard";
 
         PleasantSnackbar.Show(ThemeColor.WindowParent, text, icon: icon);
     }
@@ -230,7 +232,9 @@ public class ThemeEditorViewModel : ViewModelBase
         File.WriteAllText(result.Path.LocalPath, ColorsJson);
 
         Geometry? fileExportIcon = ResourceExtensions.GetResource<Geometry>("FileExportRegular");
-        string themeExportedText = Localizer.Instance["ThemeExported"];
+
+        if (!Localizer.Instance.TryGetString("ThemeExported", out string themeExportedText))
+            themeExportedText = "Theme exported";
 
         PleasantSnackbar.Show(ThemeColor.WindowParent, themeExportedText, icon: fileExportIcon,
             notificationType: NotificationType.Success);
@@ -298,7 +302,9 @@ public class ThemeEditorViewModel : ViewModelBase
             Log.Error("Error parsing colors from json. An invalid JSON was received.");
 
             Geometry? closeCircleIcon = ResourceExtensions.GetResource<Geometry>("CloseCircleRegular");
-            string themeImportErrorText = Localizer.Instance["ThemeImportError"];
+
+            if (!Localizer.Instance.TryGetString("ThemeImportError", out string themeImportErrorText))
+                themeImportErrorText = "An error occurred while importing the theme";
 
             PleasantSnackbar.Show(ThemeColor.WindowParent, themeImportErrorText, icon: closeCircleIcon,
                 notificationType: NotificationType.Error);
@@ -333,7 +339,9 @@ public class ThemeEditorViewModel : ViewModelBase
         jsonDocument.Dispose();
 
         Geometry? fileImportIcon = ResourceExtensions.GetResource<Geometry>("FileImportRegular");
-        string themeImportedText = Localizer.Instance["ThemeImported"];
+
+        if (!Localizer.Instance.TryGetString("ThemeImported", out string themeImportedText))
+            themeImportedText = "The theme has been successfully imported";
 
         PleasantSnackbar.Show(ThemeColor.WindowParent, themeImportedText, icon: fileImportIcon,
             notificationType: NotificationType.Success);

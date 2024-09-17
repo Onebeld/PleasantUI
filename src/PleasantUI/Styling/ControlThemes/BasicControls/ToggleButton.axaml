@@ -29,9 +29,8 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton"
-                  BasedOn="{StaticResource {x:Type ToggleButton}}">
-        <Setter Property="Background" Value="Transparent" />
+    <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
     </ControlTheme>
