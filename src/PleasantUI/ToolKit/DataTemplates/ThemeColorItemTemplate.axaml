@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:models="clr-namespace:PleasantUI.Core.Models"
-                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:ClassModifier="internal">
     <DataTemplate x:Key="ThemeColorItemTemplate" DataType="{x:Type models:ThemeColor}">
         <DockPanel>
@@ -9,16 +8,16 @@
                     Theme="{StaticResource AppBarButtonTheme}"
                     Width="30"
                     Height="30"
-                    ToolTip.Tip="{markup:Localize Menu}">
+                    ToolTip.Tip="{Localize Menu, Default='Menu'}">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuItem Header="{markup:Localize Copy}"
+                        <MenuItem Header="{Localize Copy, Default='Copy'}"
                                   Command="{CompiledBinding CopyColor}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource CopyRegular}" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{markup:Localize Paste}"
+                        <MenuItem Header="{Localize Paste, Default='Pase'}"
                                   Command="{CompiledBinding PasteColor}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource PasteRegular}" />
@@ -27,7 +26,7 @@
 
                         <Separator />
 
-                        <MenuItem Header="{markup:Localize Change}"
+                        <MenuItem Header="{Localize Change, Default='Change'}"
                                   Command="{CompiledBinding ChangeColor}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource EditRegular}" />

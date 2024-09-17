@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -29,7 +28,7 @@
                     </StackPanel.Styles>
 
                     <Button Name="PART_MinimizeButton"
-                            ToolTip.Tip="{markup:Localize Collapse}">
+                            ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
                         <PathIcon Data="{StaticResource SubtractRegular}" Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_MaximizeButton">
@@ -37,7 +36,7 @@
                     </Button>
                     <Button Name="PART_CloseButton"
                             Theme="{StaticResource CloseButtonTheme}"
-                            ToolTip.Tip="{markup:Localize Close}">
+                            ToolTip.Tip="{Localize Close, Default='Close'}">
                         <PathIcon Data="{StaticResource DismissRegular}" Width="10" Height="10" />
                     </Button>
                 </StackPanel>
@@ -45,10 +44,10 @@
         </Setter>
 
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{markup:Localize Expand}" />
+            <Setter Property="ToolTip.Tip" Value="{Localize Expand, Default='Expand'}" />
         </Style>
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{markup:Localize Reestablish}" />
+            <Setter Property="ToolTip.Tip" Value="{Localize Reestablish, Default='Reestablish'}" />
         </Style>
 
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
@@ -117,10 +116,10 @@
         </Setter>
 
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{markup:Localize Expand}" />
+            <Setter Property="ToolTip.Tip" Value="{Localize Expand, Default='Expand'}" />
         </Style>
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{markup:Localize Reestablish}" />
+            <Setter Property="ToolTip.Tip" Value="{Localize Reestablish, Default='Reestablish'}" />
         </Style>
 
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">

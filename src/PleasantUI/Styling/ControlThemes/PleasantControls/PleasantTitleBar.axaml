@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0 50">
@@ -20,7 +19,7 @@
                             Background="Transparent">
                         <Border.ContextFlyout>
                             <MenuFlyout>
-                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{markup:Localize Reestablish}">
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{Localize Reestablish, Default='Reestablish'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -29,7 +28,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
-                                          Header="{markup:Localize Collapse}">
+                                          Header="{Localize Collapse, Default='Collapse'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -37,7 +36,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
-                                          Header="{markup:Localize Expand}">
+                                          Header="{Localize Expand, Default='Expand'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -50,7 +49,7 @@
                                            Margin="-4 1 -4 1" />
 
                                 <MenuItem Name="PART_CloseMenuItem"
-                                          Header="{markup:Localize Close}"
+                                          Header="{Localize Close, Default='Close'}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
@@ -110,7 +109,7 @@
                             Background="Transparent">
                         <Border.ContextFlyout>
                             <MenuFlyout>
-                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{markup:Localize Reestablish}">
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{Localize Reestablish, Default='Reestablish'}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SquareMultipleRegular}"
@@ -122,7 +121,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
-                                          Header="{markup:Localize Collapse}">
+                                          Header="{Localize Collapse, Default='Collapse'}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SubtractRegular}"
@@ -134,7 +133,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
-                                          Header="{markup:Localize Expand}">
+                                          Header="{Localize Expand, Default='Expand'}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource MaximizeRegular}"
@@ -150,7 +149,7 @@
                                            Margin="-4 1 -4 1" />
 
                                 <MenuItem Name="PART_CloseMenuItem"
-                                          Header="{markup:Localize Close}"
+                                          Header="{Localize Close, Default='Close'}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">

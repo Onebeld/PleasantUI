@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:PleasantUI.Example.ViewModels.Pages"
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
-             xmlns:userControls="clr-namespace:PleasantUI.UserControls;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
              xmlns:userControls1="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -109,7 +108,7 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
 
-                                <TextBlock Text="{Localize NoCustomThemes}"
+                                <TextBlock Text="{Localize NoCustomThemes, Default='No custom themes'}"
                                            IsVisible="{CompiledBinding !Count, Source={x:Static PleasantTheme.CustomThemes}}"
                                            VerticalAlignment="Center"
                                            TextAlignment="Center"

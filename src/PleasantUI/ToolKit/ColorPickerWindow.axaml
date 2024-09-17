@@ -2,7 +2,6 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                MinWidth="350"
                Width="350"
                Height="490"
@@ -14,12 +13,12 @@
         <UniformGrid Margin="15 0" Rows="0" Columns="2">
             <Button x:Name="OkButton"
                     Theme="{StaticResource AccentButtonTheme}"
-                    Content="{markup:Localize Ok}"
+                    Content="{Localize Ok, Default='OK'}"
                     VerticalAlignment="Center"
                     Margin="5" />
 
             <Button x:Name="CancelButton"
-                    Content="{markup:Localize Cancel}"
+                    Content="{Localize Cancel, Default='Cancel'}"
                     VerticalAlignment="Center"
                     Margin="5" />
         </UniformGrid>

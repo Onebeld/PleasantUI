@@ -14,6 +14,21 @@ namespace PleasantUI.Extensions.Markup;
 public class LocalizeExtension : MarkupExtension
 {
     private readonly BindingBase[]? _bindings;
+    
+    /// <summary>
+    /// Gets or sets the key of the localized string.
+    /// </summary>
+    public string Key { get; set; }
+
+    /// <summary>
+    /// Gets or sets the context of the localized string.
+    /// </summary>
+    public string? Context { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the default value to return if the localized string is not found.
+    /// </summary>
+    public string? Default { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LocalizeExtension" /> class with the specified key.
@@ -87,16 +102,6 @@ public class LocalizeExtension : MarkupExtension
     }
 
     /// <summary>
-    /// Gets or sets the key of the localized string.
-    /// </summary>
-    public string Key { get; set; }
-
-    /// <summary>
-    /// Gets or sets the context of the localized string.
-    /// </summary>
-    public string? Context { get; set; }
-
-    /// <summary>
     /// Provides the localized string.
     /// </summary>
     /// <param name="serviceProvider">The service provider.</param>
@@ -109,7 +114,16 @@ public class LocalizeExtension : MarkupExtension
 
         ClrPropertyInfo keyInfo = new(
             nameof(Key),
-            _ => Localizer.Instance[keyToUse],
+            _ =>
+            {
+                if (Localizer.Instance.TryGetString(keyToUse, out string expression))
+                    return expression;
+
+                if (!string.IsNullOrWhiteSpace(Default))
+                    return Default;
+                
+                return expression;
+            },
             null,
             typeof(string));
 

@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=System.Runtime"
-                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border>
@@ -109,7 +108,7 @@
                                             <Setter Property="MinHeight" Value="0" />
                                             <Setter Property="ContextFlyout">
                                                 <MenuFlyout>
-                                                    <MenuItem x:Name="DeleteColor" Header="{Localize Delete}">
+                                                    <MenuItem x:Name="DeleteColor" Header="{Localize Delete, Default='Delete'}">
                                                         <MenuItem.Icon>
                                                             <Viewbox Width="16" Height="16">
                                                                 <Path Data="{StaticResource DeleteRegular}"
@@ -161,7 +160,7 @@
                                 </ListBox>
 
                                 <TextBlock Grid.Row="0"
-                                           Text="{markup:Localize AddYourNewColor}"
+                                           Text="{Localize AddYourNewColor, Default='Add your new color!'}"
                                            IsVisible="{CompiledBinding !ColorPalettes.Count, Source={x:Static PleasantSettings.Instance}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
@@ -170,7 +169,7 @@
                                 <Button x:Name="AddColorButton"
                                         Grid.Row="1"
                                         Margin="50 0"
-                                        ToolTip.Tip="{markup:Localize AddColor}">
+                                        ToolTip.Tip="{Localize AddColor, Default='Add color'}">
                                     <PathIcon Data="{StaticResource AddRegular}"
                                               Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                                 </Button>

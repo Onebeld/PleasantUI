@@ -62,6 +62,37 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         LoadLanguage();
     }
 
+    /// <summary>
+    /// Attempts to get the localized string for the specified key.
+    /// </summary>
+    /// <param name="key">The key to look up.</param>
+    /// <param name="expression">The localized string, or null if the key is not found or the resources are empty.</param>
+    /// <returns>True if the key is found, false otherwise.</returns>
+    public bool TryGetString(string key, out string expression)
+    {
+        if (_resources == null || !_resources.Any())
+        {
+            expression = "<ERROR! LANGUAGE Resources is empty>";
+            return false;
+        }
+        
+        string? row = GetExpression(key);
+
+        if (string.IsNullOrEmpty(row))
+        {
+            expression = $"<ERROR! Not found key \"{key}\">";
+            return false;
+        }
+
+        string? ret = row?.Replace(@"\\n", "\n");
+
+        if (string.IsNullOrEmpty(ret))
+            ret = $"Localize:{key}";
+
+        expression = ret;
+        return true;
+    }
+
     /// <inheritdoc />
     public void EditLanguage(string language)
     {

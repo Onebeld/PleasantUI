@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:markup="clr-namespace:PleasantUI.Extensions.Markup"
                     x:DataType="NavigationView"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
@@ -119,7 +118,7 @@
                         <Button Name="PART_BackButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 Background="#00000000"
-                                ToolTip.Tip="{markup:Localize Back}"
+                                ToolTip.Tip="{Localize Back, Default='Back'}"
                                 Command="{TemplateBinding BackButtonCommand}"
                                 Width="40"
                                 Height="37"
@@ -136,7 +135,7 @@
                         <Button Name="PART_HeaderItem"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 Background="#00000000"
-                                ToolTip.Tip="{markup:Localize Menu}"
+                                ToolTip.Tip="{Localize Menu, Default='Menu'}"
                                 Width="40"
                                 Height="37"
                                 Padding="0"
