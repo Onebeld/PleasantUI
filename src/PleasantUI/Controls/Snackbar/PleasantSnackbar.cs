@@ -18,6 +18,8 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class PleasantSnackbar : ContentControl
 {
+    private IPleasantWindow _parent;
+    
     private Button? _button;
     private ContentPresenter? _contentPresenter;
     private Grid? _grid;
@@ -97,6 +99,18 @@ public class PleasantSnackbar : ContentControl
         get => GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
+    
+    public IDisposable ClosingTimer { get; set; }
+
+    public PleasantSnackbar()
+    {
+        
+    }
+
+    public PleasantSnackbar(IPleasantWindow parent)
+    {
+        _parent = parent;
+    }
 
     /// <summary>
     /// Shows a Snackbar with the specified message, icon, and notification type.
@@ -118,11 +132,16 @@ public class PleasantSnackbar : ContentControl
         if (timeSpan == default)
             timeSpan = TimeSpan.FromSeconds(3);
 
-        PleasantSnackbar pleasantSnackbar = new()
+        PleasantSnackbar pleasantSnackbar = new(parent)
         {
             Content = message,
             Icon = icon,
             NotificationType = notificationType
+        };
+
+        pleasantSnackbar.TemplateApplied += (_, _) =>
+        {
+            pleasantSnackbar.DefineButton(buttonText, buttonAction);
         };
 
         pleasantSnackbar.Loaded += async (_, _) =>
@@ -138,11 +157,11 @@ public class PleasantSnackbar : ContentControl
                 parent.SnackbarQueueManager.Dequeue();
             }
 
-            IDisposable timer = DispatcherTimer.RunOnce(CloseSnackbar, timeSpan);
+            pleasantSnackbar.ClosingTimer = DispatcherTimer.RunOnce(CloseSnackbar, timeSpan);
 
             pleasantSnackbar.PointerPressed += (_, _) =>
             {
-                timer.Dispose();
+                pleasantSnackbar.ClosingTimer.Dispose();
 
                 CloseSnackbar();
             };
@@ -195,7 +214,7 @@ public class PleasantSnackbar : ContentControl
 
         _snackbarBorder.Width = double.NaN;
         _contentPresenter.TextWrapping = TextWrapping.WrapWithOverflow;
-        _contentPresenter.Opacity = 1;
+        _grid.Opacity = 1;
     }
 
     /// <summary>
@@ -213,7 +232,17 @@ public class PleasantSnackbar : ContentControl
             _button.IsVisible = false;
 
         _button.Content = content;
-        _button.Command = Core.Helpers.Command.Create(action);
+        _button.Command = Core.Helpers.Command.Create(async () =>
+        {
+            ClosingTimer.Dispose();
+            
+            IsHitTestVisible = false;
+
+            await Close();
+            action?.Invoke();
+
+            _parent.SnackbarQueueManager.Dequeue();
+        });
     }
 
     /// <summary>

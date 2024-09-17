@@ -15,6 +15,10 @@ public partial class ButtonPageView : UserControl
 
     private void SnackbarButtonOnClick(object? sender, RoutedEventArgs e)
     {
-        PleasantSnackbar.Show(PleasantUiExampleApp.Main, "This is so long message from PleasantSnackbar, this is cool and beautiful! Oh yes, omg, yes, yes, yes!!!");
+        PleasantSnackbar.Show(PleasantUiExampleApp.Main, "This is so long message from PleasantSnackbar, this is cool and beautiful! Oh yes, omg, yes, yes, yes!!!",
+            "Open", () =>
+            {
+                PleasantSnackbar.Show(PleasantUiExampleApp.Main, "Hello world!");
+            });
     }
 }

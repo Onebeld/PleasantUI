@@ -36,4 +36,8 @@
         <DependentUpon>Localization.resx</DependentUpon>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Pages\PleasantControlPages\" />
+    </ItemGroup>
 </Project>
