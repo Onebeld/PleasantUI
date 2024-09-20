@@ -9,15 +9,15 @@
                     Width="30"
                     Height="30"
                     ToolTip.Tip="{Localize Menu, Default='Menu'}">
-                <Button.Flyout>
+                <Button.Flyout> 
                     <MenuFlyout>
-                        <MenuItem Header="{Localize Copy, Default='Copy'}"
+                        <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                                   Command="{CompiledBinding CopyColor}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource CopyRegular}" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{Localize Paste, Default='Pase'}"
+                        <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                                   Command="{CompiledBinding PasteColor}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource PasteRegular}" />
@@ -26,7 +26,7 @@
 
                         <Separator />
 
-                        <MenuItem Header="{Localize Change, Default='Change'}"
+                        <MenuItem Header="{Localize ChangeMenu, Default='Chan_ge'}"
                                   Command="{CompiledBinding ChangeColor}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource EditRegular}" />

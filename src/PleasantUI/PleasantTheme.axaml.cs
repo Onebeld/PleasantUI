@@ -358,15 +358,15 @@ public class PleasantTheme : Styles
 
         _accentColorsDictionary = new ResourceDictionary
         {
-            { "SystemAccentColor", accentColor }
+            { "AccentColor", accentColor }
         };
 
         foreach (Color lightAccentColor in lightAccentColors)
-            _accentColorsDictionary.Add($"SystemAccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}",
+            _accentColorsDictionary.Add($"AccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}",
                 lightAccentColor);
 
         foreach (Color darkAccentColor in darkAccentColors)
-            _accentColorsDictionary.Add($"SystemAccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}",
+            _accentColorsDictionary.Add($"AccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}",
                 darkAccentColor);
 
         Resources.MergedDictionaries.Add(_accentColorsDictionary);

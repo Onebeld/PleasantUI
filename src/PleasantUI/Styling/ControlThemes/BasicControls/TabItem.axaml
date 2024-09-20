@@ -46,7 +46,7 @@
                                           TextBlock.FontWeight="{TemplateBinding FontWeight}" />
                         <Border Name="PART_SelectedPipe"
                                 CornerRadius="8"
-                                Background="{DynamicResource SystemAccentLightColor2}" />
+                                Background="{DynamicResource AccentLightColor2}" />
                     </Panel>
                 </Border>
             </ControlTemplate>

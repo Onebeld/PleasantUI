@@ -109,7 +109,7 @@
         <Style Selector="^:selected">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
             <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor3}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
         <Style Selector="^:selected /template/ Border#PART_SelectedPipe">

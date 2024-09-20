@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
-        <Border Background="{DynamicResource SystemAccentColor}"
+        <Border Background="{DynamicResource AccentColor}"
                 Margin="16"
                 Padding="48"
                 Width="400"

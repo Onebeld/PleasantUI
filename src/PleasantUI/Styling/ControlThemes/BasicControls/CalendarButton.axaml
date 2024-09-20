@@ -54,17 +54,16 @@
 
         <Style Selector="^:selected">
             <Style Selector="^">
-                <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
-                <Setter Property="Foreground"
-                        Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+                <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+                <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
             </Style>
 
             <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
+                <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
             </Style>
 
             <Style Selector="^:pressed">
-                <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
+                <Setter Property="Background" Value="{DynamicResource AccentColor}" />
             </Style>
         </Style>
 

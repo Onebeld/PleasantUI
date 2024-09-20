@@ -20,6 +20,12 @@
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter> 
+
 
         <Setter Property="Template">
             <ControlTemplate TargetType="RadioButton">
@@ -33,11 +39,11 @@
                                  StrokeThickness="1"
                                  UseLayoutRounding="False" />
 
-                        <Ellipse Name="CheckGlyph"
+                        <Ellipse Name="CheckGlyph" 
                                  IsVisible="False"
                                  Width="8"
                                  Height="8"
-                                 Fill="{TemplateBinding Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
+                                 Fill="{ForegroundBasedAccent AccentLightColor3}"
                                  UseLayoutRounding="False" />
                     </Grid>
 
@@ -53,6 +59,13 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
+        <Style Selector="^ /template/ Ellipse#CheckGlyph">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BoolTransition Property="IsVisible" Duration="0:0:0.1" /> 
+                </Transitions> 
+            </Setter>
+        </Style>
 
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
@@ -65,19 +78,19 @@
         </Style>
 
         <Style Selector="^:checked">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor3}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor1}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
         </Style>
         <Style Selector="^:checked /template/ Ellipse#CheckGlyph">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^:checked:pointerover">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
         </Style>
 
         <Style Selector="^:checked:pressed">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Grid#Glyph">
@@ -88,10 +101,9 @@
     <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type Button}}">
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor1}" />
-            <Setter Property="Foreground"
-                    Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
+            <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
         </Style>
 
         <Style Selector="^:checked /template/ RippleEffect#PART_Ripple">
@@ -100,7 +112,7 @@
         </Style>
 
         <Style Selector="^:checked:pointerover">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

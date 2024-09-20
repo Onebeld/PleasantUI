@@ -123,6 +123,13 @@
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
+        <Style Selector="^ /template/ Border#LayoutRoot">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1" /> 
+                </Transitions> 
+            </Setter>
+        </Style>
         <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>

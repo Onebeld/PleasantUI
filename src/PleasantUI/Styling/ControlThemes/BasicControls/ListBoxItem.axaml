@@ -41,7 +41,7 @@
             </Animation>
         </ControlTheme.Animations>
 
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="12 0" />
@@ -49,6 +49,12 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="88" />
         <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter>
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -75,7 +81,7 @@
                             Height="16"
                             Margin="1 0 0 0"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"
-                            Background="{DynamicResource SystemAccentLightColor2}" />
+                            Background="{DynamicResource AccentLightColor2}" />
                 </Panel>
             </ControlTemplate>
         </Setter>
@@ -172,7 +178,7 @@
                     </Border>
 
                     <Border Name="SelectionIndicator"
-                            Background="{DynamicResource SystemAccentLightColor2}"
+                            Background="{DynamicResource AccentLightColor2}"
                             Height="3"
                             MinWidth="16"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"

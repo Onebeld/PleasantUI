@@ -19,13 +19,13 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="CutMenu" xml:space="preserve">
-        <value>C_ut</value>
+        <value>Cut</value>
     </data>
     <data name="CopyMenu" xml:space="preserve">
-        <value>_Copy</value>
+        <value>Копировать</value>
     </data>
     <data name="PasteMenu" xml:space="preserve">
-        <value>_Paste</value>
+        <value>Вставить</value>
     </data>
     <data name="Reestablish" xml:space="preserve">
         <value>Reestablish</value>
@@ -43,7 +43,7 @@
         <value>Menu</value>
     </data>
     <data name="Back" xml:space="preserve">
-        <value>Back</value>
+        <value>Назад</value>
     </data>
     <data name="AddYourNewColor" xml:space="preserve">
         <value>Add your new color!</value>
@@ -58,16 +58,16 @@
         <value>OK</value>
     </data>
     <data name="Cancel" xml:space="preserve">
-        <value>Cancel</value>
+        <value>Отмена</value>
     </data>
     <data name="Themes" xml:space="preserve">
-        <value>Themes</value>
+        <value>Темы</value>
     </data>
     <data name="CustomThemes" xml:space="preserve">
         <value>Custom themes</value>
     </data>
     <data name="ThemeEditor/ThemeName" xml:space="preserve">
-        <value>Theme name</value>
+        <value>Имя темы</value>
     </data>
     <data name="ThemeEditor/NumberOfColorsInstalled" xml:space="preserve">
         <value>Number of colors installed</value>
@@ -85,7 +85,7 @@
         <value>Copy theme</value>
     </data>
     <data name="ThemeEditor/PasteTheme" xml:space="preserve">
-        <value>Paste theme</value>
+        <value>Вставить тему</value>
     </data>
     <data name="ThemeEditor/ImportTheme" xml:space="preserve">
         <value>Import theme</value>
@@ -112,33 +112,21 @@
         <value>Drag and drop the theme file here</value>
     </data>
     <data name="ThemeEditor" xml:space="preserve">
-        <value>Theme editor</value>
+        <value>Редактор тем</value>
     </data>
     <data name="ChangeMenu" xml:space="preserve">
-        <value>Chan_ge</value>
+        <value>Change</value>
     </data>
     <data name="DeleteMenu" xml:space="preserve">
-        <value>_Delete</value>
+        <value>Delete</value>
     </data>
     <data name="ColorWheel" xml:space="preserve">
         <value>Color wheel</value>
     </data>
     <data name="SavedColors" xml:space="preserve">
-        <value>Saved colors</value>
+        <value>Сохраненные цвета</value>
     </data>
     <data name="NoCustomThemes" xml:space="preserve">
         <value>No custom themes</value>
-    </data>
-    <data name="ReestablishMenu" xml:space="preserve">
-        <value>_Reestablish</value>
-    </data>
-    <data name="ExpandMenu" xml:space="preserve">
-        <value>_Expand</value>
-    </data>
-    <data name="CloseMenu" xml:space="preserve">
-        <value>_Close</value>
-    </data>
-    <data name="CollapseMenu" xml:space="preserve">
-        <value>C_ollapse</value>
     </data>
 </root>

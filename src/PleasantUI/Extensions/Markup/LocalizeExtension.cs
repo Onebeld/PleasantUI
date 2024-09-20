@@ -29,6 +29,15 @@ public class LocalizeExtension : MarkupExtension
     /// Gets or sets the default value to return if the localized string is not found.
     /// </summary>
     public string? Default { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether this instance is a menu item.
+    /// </summary>
+    /// <remarks>
+    /// When this property is set to <see langword=“true” />, the localized string will have an underscore character,
+    /// allowing you to navigate the menu using the keyboard.
+    /// </remarks>
+    public bool MenuBar { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LocalizeExtension" /> class with the specified key.
@@ -117,10 +126,10 @@ public class LocalizeExtension : MarkupExtension
             _ =>
             {
                 if (Localizer.Instance.TryGetString(keyToUse, out string expression))
-                    return expression;
+                    return MenuBar ? "_" + expression : expression;
 
                 if (!string.IsNullOrWhiteSpace(Default))
-                    return Default;
+                    return MenuBar ? "_" + Default : Default;
                 
                 return expression;
             },

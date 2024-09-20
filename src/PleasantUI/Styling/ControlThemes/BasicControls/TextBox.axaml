@@ -25,19 +25,23 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColor}" />
-        <Setter Property="SelectionForegroundBrush"
-                Value="{CompiledBinding $self.SelectionBrush, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentColor}" />
+        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBasedAccent AccentColor}" />
         <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter> 
 
         <Setter Property="ContextFlyout">
             <MenuFlyout Placement="Bottom">
-                <MenuItem Header="{Localize Cut, Default='Cut'}"
+                <MenuItem Header="{Localize CutMenu, Default='C_ut'}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
                           InputGesture="{x:Static TextBox.CutGesture}">
@@ -48,7 +52,7 @@
                                   Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{Localize Copy, Default='Copy'}"
+                <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
                           InputGesture="{x:Static TextBox.CopyGesture}">
@@ -59,7 +63,7 @@
                                   Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{Localize Paste, Default='Paste'}"
+                <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
                           InputGesture="{x:Static TextBox.PasteGesture}">
@@ -188,7 +192,7 @@
         </Style>
         <Style Selector="^:focus">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentLightColor3}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
         </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />

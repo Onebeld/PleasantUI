@@ -96,16 +96,16 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Change.
+        ///   Looks up a localized string similar to Chan_ge.
         /// </summary>
-        public static string Change {
+        public static string ChangeMenu {
             get {
-                return ResourceManager.GetString("Change", resourceCulture);
+                return ResourceManager.GetString("ChangeMenu", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Close.
+        ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
             get {
@@ -114,11 +114,29 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Collapse.
+        ///   Looks up a localized string similar to _Close.
+        /// </summary>
+        public static string CloseMenu {
+            get {
+                return ResourceManager.GetString("CloseMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse.
         /// </summary>
         public static string Collapse {
             get {
                 return ResourceManager.GetString("Collapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C_ollapse.
+        /// </summary>
+        public static string CollapseMenu {
+            get {
+                return ResourceManager.GetString("CollapseMenu", resourceCulture);
             }
         }
         
@@ -143,9 +161,9 @@ namespace PleasantUI.Example.Properties {
         /// <summary>
         ///   Looks up a localized string similar to _Copy.
         /// </summary>
-        public static string Copy {
+        public static string CopyMenu {
             get {
-                return ResourceManager.GetString("Copy", resourceCulture);
+                return ResourceManager.GetString("CopyMenu", resourceCulture);
             }
         }
         
@@ -159,29 +177,38 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Cut.
+        ///   Looks up a localized string similar to C_ut.
         /// </summary>
-        public static string Cut {
+        public static string CutMenu {
             get {
-                return ResourceManager.GetString("Cut", resourceCulture);
+                return ResourceManager.GetString("CutMenu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to _Delete.
         /// </summary>
-        public static string Delete {
+        public static string DeleteMenu {
             get {
-                return ResourceManager.GetString("Delete", resourceCulture);
+                return ResourceManager.GetString("DeleteMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand.
+        /// </summary>
+        public static string Expand {
+            get {
+                return ResourceManager.GetString("Expand", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to _Expand.
         /// </summary>
-        public static string Expand {
+        public static string ExpandMenu {
             get {
-                return ResourceManager.GetString("Expand", resourceCulture);
+                return ResourceManager.GetString("ExpandMenu", resourceCulture);
             }
         }
         
@@ -215,9 +242,9 @@ namespace PleasantUI.Example.Properties {
         /// <summary>
         ///   Looks up a localized string similar to _Paste.
         /// </summary>
-        public static string Paste {
+        public static string PasteMenu {
             get {
-                return ResourceManager.GetString("Paste", resourceCulture);
+                return ResourceManager.GetString("PasteMenu", resourceCulture);
             }
         }
         
@@ -231,11 +258,20 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Reestablish.
+        ///   Looks up a localized string similar to Reestablish.
         /// </summary>
         public static string Reestablish {
             get {
                 return ResourceManager.GetString("Reestablish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Reestablish.
+        /// </summary>
+        public static string ReestablishMenu {
+            get {
+                return ResourceManager.GetString("ReestablishMenu", resourceCulture);
             }
         }
         

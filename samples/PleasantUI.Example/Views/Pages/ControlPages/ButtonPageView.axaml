@@ -14,5 +14,17 @@
         <Button Theme="{StaticResource AccentButtonTheme}" Content="AccentButton" />
         <Button Theme="{StaticResource DangerButtonTheme}" Content="DangerButton" />
         <Button IsEnabled="False" Content="Disabled button" />
+        
+        <ButtonSpinner Content="ButtonSpinner" />
+        
+        <ToggleButton Content="ToggleButton" />
+        
+        <RepeatButton Content="RepeatButton" />
+        
+        <RadioButton Content="RadioButton 1" GroupName="Group1" />
+        <RadioButton Content="RadioButton 2" GroupName="Group1" />
+
+        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="RadioButton 1" GroupName="Group2" />
+        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="RadioButton 2" GroupName="Group2" />
     </StackPanel>
 </UserControl>

@@ -51,23 +51,22 @@ public class AppViewModel : ViewModelBase
     public AppViewModel()
     {
         BasicControlPageCards = [
-            new ControlPageCard("Button", MaterialIcons.ButtonCursor, "", Command.Create(() => ChangePage(new ButtonPage()))),
-            new ControlPageCard("Checkbox", MaterialIcons.CheckboxMarkedOutline, "", Command.Create(() => ChangePage(new CheckBoxPage()))),
-            new ControlPageCard("ProgressRing", MaterialIcons.ProgressHelper, "", Command.Create(() => ChangePage(new ProgressRingPage()))),
-            new ControlPageCard("Calendar", MaterialIcons.CalendarOutline, "", Command.Create(() => ChangePage(new CalendarPage()))),
-            new ControlPageCard("Carousel", MaterialIcons.ViewCarouselOutline, "", Command.Create(() => ChangePage(new CarouselPage()))),
-            new ControlPageCard("ComboBox", null, "", Command.Create(() => ChangePage(new ComboBoxPage()))),
-            new ControlPageCard("ProgressBar", null,  "", Command.Create(() => ChangePage(new ProgressBarPage()))),
-            new ControlPageCard("TextBox", null, "", Command.Create(() => ChangePage(new TextBoxPage())))
+            new ControlPageCard("Button", MaterialIcons.ButtonCursor, "A clickable element that triggers an action when pressed.", Command.Create(() => ChangePage(new ButtonPage()))),
+            new ControlPageCard("Checkbox", MaterialIcons.CheckboxMarkedOutline, "A small interactive box that allows users to select one or more options from a set.", Command.Create(() => ChangePage(new CheckBoxPage()))),
+            new ControlPageCard("Progress", MaterialIcons.ProgressHelper, "A circular animation that indicates an ongoing operation or loading process.", Command.Create(() => ChangePage(new ProgressRingPage()))),
+            new ControlPageCard("Calendar", MaterialIcons.CalendarOutline, "A control that displays dates in a structured format, allowing users to select a specific date or date range.", Command.Create(() => ChangePage(new CalendarPage()))),
+            new ControlPageCard("Carousel", MaterialIcons.ViewCarouselOutline, "A container that displays a set of items (images, text, etc.) one at a time, allowing users to navigate through them sequentially.", Command.Create(() => ChangePage(new CarouselPage()))),
+            new ControlPageCard("ComboBox", MaterialIcons.ExpandAllOutline, "A dropdown list that allows users to select a single option from a predefined list. It combines a text box with a dropdown menu.", Command.Create(() => ChangePage(new ComboBoxPage()))),
+            new ControlPageCard("TextBox", MaterialIcons.FormTextbox, "A rectangular area where users can enter and edit text.", Command.Create(() => ChangePage(new TextBoxPage())))
             
         ];
 
         PleasantControlPageCards =
         [
-            new ControlPageCard("PleasantSnackbar", null, "", Command.Create(() => ChangePage(new PleasantSnackbarPage()))),
-            new ControlPageCard("InformationBlock", null, "", Command.Create(() => ChangePage(new InformationBlockPage()))),
-            new ControlPageCard("OptionsDisplayItem", null, "", Command.Create(() => ChangePage(new OptionsDisplayItemPage()))),
-            new ControlPageCard("PleasantTabView", MaterialIcons.Tab, "", Command.Create(() => ChangePage(new PleasantTabViewPage())))
+            new ControlPageCard("PleasantSnackbar", MaterialIcons.InformationOutline, "Custom control for displaying temporary, non-intrusive messages to the user.", Command.Create(() => ChangePage(new PleasantSnackbarPage()))),
+            new ControlPageCard("InformationBlock", MaterialIcons.InformationBoxOutline, "Custom control for displaying a structured block of information, potentially including a title, icon, and descriptive text.", Command.Create(() => ChangePage(new InformationBlockPage()))),
+            new ControlPageCard("OptionsDisplayItem", MaterialIcons.ViewListOutline, "Custom control representing a single item in a list of options.", Command.Create(() => ChangePage(new OptionsDisplayItemPage()))),
+            new ControlPageCard("PleasantTabView", MaterialIcons.Tab, "Custom control implementing a tabbed interface.", Command.Create(() => ChangePage(new PleasantTabViewPage())))
         ];
         
         Page = new HomePage();

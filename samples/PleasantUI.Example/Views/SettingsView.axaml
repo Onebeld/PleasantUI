@@ -20,7 +20,7 @@
                        Theme="{StaticResource TitleTextBlockTheme}" />
 
             <OptionsDisplayItem Header="Theme"
-                                Icon="{StaticResource PaintBrushRegular}"
+                                Icon="{StaticResource BrushVariantRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"

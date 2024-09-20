@@ -91,8 +91,8 @@
                                 Width="40"
                                 Height="20"
                                 IsVisible="False"
-                                Background="{DynamicResource SystemAccentLightColor2}"
-                                BorderBrush="{DynamicResource SystemAccentColor}"
+                                Background="{DynamicResource AccentLightColor2}"
+                                BorderBrush="{DynamicResource AccentColor}"
                                 BorderThickness="1"
                                 CornerRadius="10" />
 
@@ -193,8 +193,8 @@
                                     Width="40"
                                     Height="20"
                                     IsVisible="False"
-                                    Background="{DynamicResource SystemAccentLightColor2}"
-                                    BorderBrush="{DynamicResource SystemAccentColor}"
+                                    Background="{DynamicResource AccentLightColor2}"
+                                    BorderBrush="{DynamicResource AccentColor}"
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
@@ -258,11 +258,11 @@
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor1}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
         </Style>
 
         <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
+            <Setter Property="Background" Value="{DynamicResource AccentColor}" />
             <Setter Property="Opacity" Value="0.8" />
         </Style>
 

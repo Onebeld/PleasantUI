@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
-        <PackageVersion>5.0.0-beta4</PackageVersion>
+        <PackageVersion>5.0.0-alpha1</PackageVersion>
         <Authors>Dmitry Zhutkov (Onebeld)</Authors>
         <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
         <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface</PackageTags>
@@ -21,12 +21,18 @@
         <RepositoryType>Public</RepositoryType>
         <PackageIcon>PleasantUIIcon.png</PackageIcon>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageProjectUrl>https://github.com/Onebeld/PleasantUI</PackageProjectUrl>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile />
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.2.0-beta2"/>
         <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.0-beta2"/>
+        <PackageReference Include="Avalonia.Skia" Version="11.2.0-beta2" />
         <PackageReference Include="Serilog" Version="4.0.1"/>
+        <PackageReference Include="SkiaSharp" Version="2.88.8" />
         <PackageReference Include="System.Text.Json" Version="8.0.4"/>
     </ItemGroup>
 

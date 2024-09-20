@@ -36,7 +36,7 @@
 
                         <Border Name="PART_SelectedPipe"
                                 CornerRadius="8"
-                                Background="{DynamicResource SystemAccentLightColor2}"
+                                Background="{DynamicResource AccentLightColor2}"
                                 Width="48"
                                 Height="3"
                                 Margin="0 0 0 2"

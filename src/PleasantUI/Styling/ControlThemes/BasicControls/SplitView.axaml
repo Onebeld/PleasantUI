@@ -35,7 +35,6 @@
     <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
         <Setter Property="OpenPaneLength" Value="320" />
         <Setter Property="CompactPaneLength" Value="50" />
-        <!-- TODO: SplitView hasn't been updated yet, so I'm using this temporarily -->
         <Setter Property="PaneBackground" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="CornerRadius" Value="0" />
@@ -46,7 +45,6 @@
                 <ControlTemplate>
                     <Grid Name="Container" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
-                            <!-- why is this throwing a binding error? -->
                             <ColumnDefinition
                                 Width="{CompiledBinding $parent[SplitView].TemplateSettings.PaneColumnGridLength}" />
                             <ColumnDefinition Width="*" />
@@ -54,7 +52,7 @@
 
                         <Border Grid.Column="0"
                                 Name="PaneLayoutRoot"
-                                Background="{TemplateBinding PaneBackground}"
+                                Background="{TemplateBinding PaneBackground}" 
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 ClipToBounds="True"

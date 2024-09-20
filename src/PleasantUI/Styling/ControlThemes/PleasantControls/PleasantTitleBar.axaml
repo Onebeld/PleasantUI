@@ -19,7 +19,7 @@
                             Background="Transparent">
                         <Border.ContextFlyout>
                             <MenuFlyout>
-                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{Localize Reestablish, Default='Reestablish'}">
+                                <MenuItem x:Name="PART_ReestablishMenuItem" Header="{Localize Reestablish, Default='_Reestablish'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -28,7 +28,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
-                                          Header="{Localize Collapse, Default='Collapse'}">
+                                          Header="{Localize CollapseMenu, Default='C_ollapse'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -36,7 +36,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
-                                          Header="{Localize Expand, Default='Expand'}">
+                                          Header="{Localize ExpandMenu, Default='_Expand'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
                                                   Height="12"
@@ -49,7 +49,7 @@
                                            Margin="-4 1 -4 1" />
 
                                 <MenuItem Name="PART_CloseMenuItem"
-                                          Header="{Localize Close, Default='Close'}"
+                                          Header="{Localize CloseMenu, Default='_Close'}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
@@ -121,7 +121,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_CollapseMenuItem"
-                                          Header="{Localize Collapse, Default='Collapse'}">
+                                          Header="{Localize CollapseMenu, Default='C_ollapse'}"> 
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource SubtractRegular}"
@@ -133,7 +133,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PART_ExpandMenuItem"
-                                          Header="{Localize Expand, Default='Expand'}">
+                                          Header="{Localize ExpandMenu, Default='_Expand'}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
                                             <Path Data="{StaticResource MaximizeRegular}"
@@ -149,7 +149,7 @@
                                            Margin="-4 1 -4 1" />
 
                                 <MenuItem Name="PART_CloseMenuItem"
-                                          Header="{Localize Close, Default='Close'}"
+                                          Header="{Localize CloseMenu, Default='_Close'}"
                                           InputGesture="Ctrl+Q">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">

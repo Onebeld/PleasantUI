@@ -52,10 +52,16 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="11 4 11 5" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter>
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -174,12 +180,7 @@
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
-        <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
-        </Style>
-
-        <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
-        <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+        <Style Selector="^:selected">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 

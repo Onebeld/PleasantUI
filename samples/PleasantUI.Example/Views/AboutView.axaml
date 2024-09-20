@@ -4,5 +4,84 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.AboutView">
-    Welcome to Avalonia!
+    <SmoothScrollViewer>
+        <StackPanel Margin="25" Spacing="5">
+            <TextBlock Text="About"
+                       Margin="0 0 0 10"
+                       Theme="{StaticResource TitleTextBlockTheme}" />
+            
+            <Panel>
+                <Grid HorizontalAlignment="Left" ColumnDefinitions="Auto,Auto">
+                    <Image Grid.Column="0" Source="{StaticResource PleasantUILogo}" Width="70" />
+                    
+                    <StackPanel Grid.Column="1" Width="150" Margin="20 0 0 0" VerticalAlignment="Center">
+                        <PathIcon Data="{StaticResource PleasantUINoLogo}"
+                                  Height="NaN"
+                                  Width="NaN" />
+                        
+                        <TextBlock Foreground="{DynamicResource TextFillColor3}"
+                                   FontSize="12"
+                                   Text="License: MIT" />
+                        
+                        <TextBlock x:Name="VersionTextBlock" Margin="0 -2 0 0"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor3}" />
+                    </StackPanel>
+                </Grid>
+                
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Width="200">
+                    <PathIcon Data="{StaticResource Onebeld}"
+                              Width="NaN"
+                              Height="NaN" />
+                    
+                    <TextBlock Text="Dmitry Zhutkov"
+                               FontSize="12"
+                               TextAlignment="Right"
+                               Foreground="{DynamicResource TextFillColor3}"/>
+                </StackPanel>
+            </Panel>
+            
+            <OptionsDisplayItem Header="Links"
+                                Icon="{x:Static MaterialIcons.Link}"
+                                Expands="True"
+                                IsExpanded="True">
+                <OptionsDisplayItem.Content>
+                    <StackPanel Spacing="10" Margin="45 0 0 0">
+                        <Button x:Name="PatreonButton"
+                                Theme="{StaticResource AppBarButtonTheme}"
+                                Content="Patreon"
+                                Foreground="{StaticResource AccentLightColor1}"
+                                HorizontalAlignment="Left"
+                                Padding="5 0" />
+                        <Button x:Name="GitHubButton"
+                                Theme="{StaticResource AppBarButtonTheme}"
+                                Content="GitHub"
+                                Foreground="{StaticResource AccentLightColor1}"
+                                HorizontalAlignment="Left"
+                                Padding="5 0" />
+                        <Button x:Name="BoostyButton"
+                                Theme="{StaticResource AppBarButtonTheme}"
+                                Content="Boosty"
+                                Foreground="{StaticResource AccentLightColor1}"
+                                HorizontalAlignment="Left"
+                                Padding="5 0" />
+                    </StackPanel>
+                </OptionsDisplayItem.Content>
+            </OptionsDisplayItem>
+            
+            <Border Background="{DynamicResource ControlFillColor1}" 
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource ControlBorderColor}"
+                    Padding="12"
+                    CornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="Description" FontWeight="Bold" Margin="0 0 0 10" />
+                    
+                    <TextBlock Text="Graphical user interface library for Avalonia with its own controls" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </SmoothScrollViewer>
 </UserControl>

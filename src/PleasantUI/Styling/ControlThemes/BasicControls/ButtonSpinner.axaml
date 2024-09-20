@@ -24,13 +24,33 @@
         <Setter Property="MinWidth" Value="26" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ContentPresenter Background="{TemplateBinding Background}"
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <RippleEffect Name="PART_Ripple">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Padding="{TemplateBinding Padding}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </RippleEffect>
+                </Border>
+                <!--<ContentPresenter Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   TextBlock.Foreground="{TemplateBinding Foreground}"
@@ -38,14 +58,17 @@
                                   CornerRadius="{TemplateBinding CornerRadius}"
                                   Content="{TemplateBinding Content}"
                                   HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />
+                                  VerticalContentAlignment="Center" />-->
             </ControlTemplate>
         </Setter>
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
-        <Style Selector="^:pointerover /template/ ContentPresenter">
+        <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        <Style Selector="^:pressed /template/ ContentPresenter">
+        <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
         </Style>

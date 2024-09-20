@@ -65,7 +65,7 @@
                                 <Button x:Name="PART_Button"
                                         Grid.Column="1"
                                         Theme="{StaticResource AppBarButtonTheme}"
-                                        Foreground="{DynamicResource SystemAccentLightColor3}"
+                                        Foreground="{DynamicResource AccentLightColor3}"
                                         CornerRadius="99"
                                         Margin="5 5 0 5"/>
                             </Grid>

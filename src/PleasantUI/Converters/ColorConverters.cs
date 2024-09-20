@@ -33,9 +33,6 @@ public static class ColorConverters
     public static readonly IValueConverter ColorToString =
         new FuncValueConverter<Color, string>(value => value.ToString().ToUpper());
     
-    public static readonly IValueConverter ToTransparent =
-        new FuncValueConverter<Color, IBrush>(value => new SolidColorBrush(new Color(0, value.R, value.G, value.B)));
-
     /// <summary>
     /// A value converter that converts a UInt32 value to a SolidColorBrush for foreground color based on its relative
     /// luminance.

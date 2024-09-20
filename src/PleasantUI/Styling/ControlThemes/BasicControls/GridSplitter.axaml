@@ -8,7 +8,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="PreviewContent">
             <Template>
-                <Rectangle Fill="{DynamicResource SystemAccentColor}" />
+                <Rectangle Fill="{DynamicResource AccentColor}" />
             </Template>
         </Setter>
         <Setter Property="Template">

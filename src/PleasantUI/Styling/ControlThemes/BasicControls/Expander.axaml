@@ -134,7 +134,7 @@
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         <Style Selector="^:checked /template/ Border#ExpandCollapseChevronBorder">
-            <Setter Property="Background" Value="{DynamicResource SystemAccentLightColor2}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
         </Style>
         <Style Selector="^:checked /template/ Path#ExpandCollapseChevron">
             <Setter Property="Fill"

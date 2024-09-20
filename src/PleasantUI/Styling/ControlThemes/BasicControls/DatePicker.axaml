@@ -170,7 +170,7 @@
                         </Panel>
 
                         <Rectangle Name="HighlightRect"
-                                   Fill="{DynamicResource SystemAccentLightColor2}"
+                                   Fill="{DynamicResource AccentLightColor2}"
                                    IsHitTestVisible="False"
                                    ZIndex="-1"
                                    Grid.Column="0"
