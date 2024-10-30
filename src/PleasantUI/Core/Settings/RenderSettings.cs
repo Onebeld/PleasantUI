@@ -1,9 +1,11 @@
-﻿namespace PleasantUI.Core.Settings;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace PleasantUI.Core.Settings;
 
 /// <summary>
 /// Represents settings related to the renderer.
 /// </summary>
-public class RenderSettings : ViewModelBase
+public class RenderSettings : ObservableObject
 {
     private bool _enableShadowing = true;
 
@@ -13,6 +15,6 @@ public class RenderSettings : ViewModelBase
     public bool EnableShadowing
     {
         get => _enableShadowing;
-        set => RaiseAndSet(ref _enableShadowing, value);
+        set => SetProperty(ref _enableShadowing, value);
     }
 }

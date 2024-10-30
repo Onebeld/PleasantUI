@@ -10,15 +10,15 @@
                     Height="30"
                     ToolTip.Tip="{Localize Menu, Default='Menu'}">
                 <Button.Flyout> 
-                    <MenuFlyout>
+                    <PleasantMenuFlyout>
                         <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
-                                  Command="{CompiledBinding CopyColor}">
+                                  Command="{CompiledBinding CopyColorAsync}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource CopyRegular}" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
-                                  Command="{CompiledBinding PasteColor}">
+                                  Command="{CompiledBinding PasteColorAsync}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource PasteRegular}" />
                             </MenuItem.Icon>
@@ -27,12 +27,12 @@
                         <Separator />
 
                         <MenuItem Header="{Localize ChangeMenu, Default='Chan_ge'}"
-                                  Command="{CompiledBinding ChangeColor}">
+                                  Command="{CompiledBinding ChangeColorAsync}">
                             <MenuItem.Icon>
                                 <PathIcon Width="16" Height="16" Data="{StaticResource EditRegular}" />
                             </MenuItem.Icon>
                         </MenuItem>
-                    </MenuFlyout>
+                    </PleasantMenuFlyout>
                 </Button.Flyout>
 
                 <PathIcon Data="{StaticResource MoreRegular}" />
@@ -41,12 +41,11 @@
                     Background="{StaticResource CheckeredBackgroundBrush}"
                     Width="40"
                     Height="25"
-                    CornerRadius="4"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
                     Margin="0 5 5 5"
                     ToolTip.Tip="{CompiledBinding Color, Converter={x:Static ColorConverters.ColorToString}}">
-                <Border CornerRadius="4" Background="{CompiledBinding Brush}" />
+                <Border CornerRadius="{StaticResource ControlCornerRadius}" Background="{CompiledBinding Brush}" />
             </Border>
-
 
             <TextBlock Text="{CompiledBinding Name}"
                        TextTrimming="CharacterEllipsis"

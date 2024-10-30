@@ -5,7 +5,7 @@
         <Button Command="{CompiledBinding Action}"
                 HorizontalContentAlignment="Stretch"
                 Width="300"
-                CornerRadius="8"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 Margin="5">
             <Grid ColumnDefinitions="Auto,10,*">
                 <PathIcon Grid.Column="0" Data="{CompiledBinding Icon}" Width="32" Height="32" />

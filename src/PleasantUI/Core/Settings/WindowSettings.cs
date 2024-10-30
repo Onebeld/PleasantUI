@@ -1,9 +1,11 @@
-﻿namespace PleasantUI.Core.Settings;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace PleasantUI.Core.Settings;
 
 /// <summary>
 /// Represents settings related to the appearance and behavior of windows.
 /// </summary>
-public class WindowSettings : ViewModelBase
+public class WindowSettings : ObservableObject
 {
     private bool _enableBlur;
     private bool _enableCustomTitleBar = true;
@@ -15,7 +17,7 @@ public class WindowSettings : ViewModelBase
     public bool EnableBlur
     {
         get => _enableBlur;
-        set => RaiseAndSet(ref _enableBlur, value);
+        set => SetProperty(ref _enableBlur, value);
     }
 
     /// <summary>
@@ -24,7 +26,7 @@ public class WindowSettings : ViewModelBase
     public bool EnableCustomTitleBar
     {
         get => _enableCustomTitleBar;
-        set => RaiseAndSet(ref _enableCustomTitleBar, value);
+        set => SetProperty(ref _enableCustomTitleBar, value);
     }
 
     /// <summary>
@@ -33,6 +35,6 @@ public class WindowSettings : ViewModelBase
     public double OpacityLevel
     {
         get => _opacityLevel;
-        set => RaiseAndSet(ref _opacityLevel, value);
+        set => SetProperty(ref _opacityLevel, value);
     }
 }

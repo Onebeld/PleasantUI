@@ -270,6 +270,14 @@
         <Style Selector="^[IsExpanded=False] /template/ :is(Control)#PART_BottomBorder">
             <Setter Property="Height" Value="0" />
         </Style>
+        
+        <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Foreground" Duration="0:0:.075" />
+                </Transitions>
+            </Setter>
+        </Style>
 
         <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="FontWeight" Value="Bold" />
@@ -280,6 +288,7 @@
             <Setter Property="Transitions">
                 <Transitions>
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                    <BrushTransition Property="Foreground" Duration="0:0:.075" />
                 </Transitions>
             </Setter>
             <Setter Property="RenderTransform" Value="none" />

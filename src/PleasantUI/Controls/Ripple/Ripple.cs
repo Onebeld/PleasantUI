@@ -5,6 +5,9 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// Provides static properties for configuring ripple effects.
 /// </summary>
+/// <remarks>
+/// Reference: https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/Ripple.cs
+/// </remarks>
 public static class Ripple
 {
 	/// <summary>

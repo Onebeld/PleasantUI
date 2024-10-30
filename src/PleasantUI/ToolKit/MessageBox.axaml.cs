@@ -4,10 +4,10 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Styling;
 using PleasantUI.Controls;
+using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Structures;
-using PleasantUI.Extensions;
 
 namespace PleasantUI.ToolKit;
 
@@ -62,7 +62,7 @@ public partial class MessageBox : ContentDialog
             button.Click += (_, _) =>
             {
                 result = messageBoxButton.Result;
-                messageBox.Close();
+                messageBox.CloseAsync();
             };
             messageBox.Buttons.Children.Add(button);
 
@@ -72,7 +72,7 @@ public partial class MessageBox : ContentDialog
                     if (e.Key != Key.Enter) return;
 
                     result = messageBoxButton.Result;
-                    messageBox.Close();
+                    messageBox.CloseAsync();
                 };
 
             if (!messageBoxButton.Default) return;
@@ -125,7 +125,7 @@ public partial class MessageBox : ContentDialog
         TaskCompletionSource<string> taskCompletionSource = new();
 
         messageBox.Closed += (_, _) => taskCompletionSource.TrySetResult(result);
-        messageBox.Show(parent);
+        messageBox.ShowAsync(parent);
 
         return taskCompletionSource.Task;
     }

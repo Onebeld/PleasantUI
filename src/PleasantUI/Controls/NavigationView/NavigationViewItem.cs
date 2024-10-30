@@ -6,9 +6,9 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.VisualTree;
-using PleasantUI.Extensions;
+using PleasantUI.Core.Extensions;
 using PleasantUI.Reactive;
-using LogicalExtensions = PleasantUI.Extensions.LogicalExtensions;
+using LogicalExtensions = PleasantUI.Core.Extensions.LogicalExtensions;
 
 namespace PleasantUI.Controls;
 

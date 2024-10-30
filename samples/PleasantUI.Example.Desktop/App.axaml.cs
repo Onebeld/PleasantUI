@@ -18,7 +18,7 @@ public partial class App : PleasantUiExampleApp
         
         if (Design.IsDesignMode)
         {
-            desktop.MainWindow = new Window();
+            desktop.MainWindow = new PleasantWindow();
             
             base.OnFrameworkInitializationCompleted();
             return;

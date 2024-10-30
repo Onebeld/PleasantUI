@@ -51,14 +51,14 @@
                             
                             <Button HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
-                                    Command="{CompiledBinding CreateTheme}"
+                                    Command="{CompiledBinding CreateThemeAsync}"
                                     Width="40"
                                     Height="40">
                                 <PathIcon Data="{x:Static MaterialIcons.Plus}" />
                             </Button>
                         </Panel>
 
-                        <Border CornerRadius="8"
+                        <Border CornerRadius="{StaticResource ControlCornerRadius}"
                                 BorderThickness="1"
                                 Background="{DynamicResource BackgroundColor2}"
                                 BorderBrush="{DynamicResource ControlBorderColor}"
@@ -88,7 +88,7 @@
                                                     <Button Theme="{StaticResource AppBarButtonTheme}"
                                                             Width="30"
                                                             Height="30"
-                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditTheme}"
+                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
                                                             CommandParameter="{CompiledBinding}">
                                                         <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
                                                     </Button>
@@ -96,7 +96,7 @@
                                                     <Button Theme="{StaticResource DangerButtonTheme}"
                                                             Width="30"
                                                             Height="30"
-                                                            CornerRadius="8"
+                                                            CornerRadius="{StaticResource ControlCornerRadius}"
                                                             BorderThickness="0"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
                                                             CommandParameter="{CompiledBinding}">

@@ -9,6 +9,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Input;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
@@ -232,7 +233,7 @@ public class PleasantSnackbar : ContentControl
             _button.IsVisible = false;
 
         _button.Content = content;
-        _button.Command = Core.Helpers.Command.Create(async () =>
+        _button.Command = new AsyncRelayCommand(async () =>
         {
             ClosingTimer.Dispose();
             

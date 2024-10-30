@@ -18,7 +18,7 @@
                             Grid.ColumnSpan="3"
                             Background="Transparent">
                         <Border.ContextFlyout>
-                            <MenuFlyout>
+                            <PleasantMenuFlyout>
                                 <MenuItem x:Name="PART_ReestablishMenuItem" Header="{Localize Reestablish, Default='_Reestablish'}">
                                     <MenuItem.Icon>
                                         <PathIcon Width="12"
@@ -57,7 +57,7 @@
                                                   Data="{StaticResource DismissRegular}" />
                                     </MenuItem.Icon>
                                 </MenuItem>
-                            </MenuFlyout>
+                            </PleasantMenuFlyout>
                         </Border.ContextFlyout>
                     </Border>
 
@@ -108,7 +108,7 @@
                             Grid.ColumnSpan="3"
                             Background="Transparent">
                         <Border.ContextFlyout>
-                            <MenuFlyout>
+                            <PleasantMenuFlyout>
                                 <MenuItem x:Name="PART_ReestablishMenuItem" Header="{Localize Reestablish, Default='Reestablish'}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="12" Height="12">
@@ -161,7 +161,7 @@
                                         </Viewbox>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                            </MenuFlyout>
+                            </PleasantMenuFlyout>
                         </Border.ContextFlyout>
                     </Border>
 

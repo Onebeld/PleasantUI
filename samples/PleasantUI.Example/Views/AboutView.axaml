@@ -75,7 +75,7 @@
                     BorderThickness="1"
                     BorderBrush="{DynamicResource ControlBorderColor}"
                     Padding="12"
-                    CornerRadius="8">
+                    CornerRadius="{StaticResource ControlCornerRadius}">
                 <StackPanel>
                     <TextBlock Text="Description" FontWeight="Bold" Margin="0 0 0 10" />
                     

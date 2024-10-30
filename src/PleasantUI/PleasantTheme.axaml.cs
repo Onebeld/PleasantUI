@@ -8,9 +8,9 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Core;
+using PleasantUI.Core.Extensions;
+using PleasantUI.Core.Extensions.Media;
 using PleasantUI.Core.Models;
-using PleasantUI.Extensions;
-using PleasantUI.Extensions.Media;
 using Serilog;
 
 namespace PleasantUI;
@@ -101,6 +101,23 @@ public class PleasantTheme : Styles
     }
 
     /// <summary>
+    /// Gets the count of keys in the default theme.
+    /// </summary>
+    /// <returns>The count of keys in the default theme.</returns>
+    public static int CountOfKeysTheme()
+    {
+        Theme theme = Themes.First(theme => theme.Name == "Light");
+        
+        if (theme.ThemeVariant is null)
+            throw new NullReferenceException("Theme Variant is null");
+        
+        ResourceDictionary lightThemeBasicColors =
+            (_mainResourceDictionary.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
+
+        return lightThemeBasicColors.Keys.Count;
+    }
+
+    /// <summary>
     /// Returns a dictionary of colors for the theme.
     /// </summary>
     /// <param name="theme">The theme to get the colors for.</param>
@@ -128,9 +145,12 @@ public class PleasantTheme : Styles
 
         Dictionary<string, Color> newDictionary = lightThemeBasicColors.ToDictionary<string, Color>();
 
-        if (lightThemeCustomColors is not null)
-            foreach (KeyValuePair<object, object?> pair in lightThemeCustomColors)
-                newDictionary.Add((string)pair.Key, (Color)pair.Value!);
+        if (lightThemeCustomColors is null)
+            return newDictionary;
+
+        // Adding custom colors
+        foreach (KeyValuePair<object, object?> pair in lightThemeCustomColors)
+            newDictionary.Add((string)pair.Key, (Color)pair.Value!);
 
         return newDictionary;
     }

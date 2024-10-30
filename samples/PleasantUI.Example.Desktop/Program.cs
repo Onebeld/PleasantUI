@@ -1,57 +1,43 @@
-﻿using System.Diagnostics;
-using System.Runtime.ExceptionServices;
+﻿using System.Text;
 using Avalonia;
+using PleasantUI.Core.Logging;
 using Serilog;
 
 namespace PleasantUI.Example.Desktop;
 
 class Program
 {
+    private static readonly string PathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+    private static readonly string FileName = Path.Combine(PathToLog,
+        $"{AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:dd.MM.yyyy}.log");
+    
     [STAThread]
     public static void Main(string[] args)
     {
-        InitializeLogger();
+        if (!Directory.Exists(PathToLog))
+            Directory.CreateDirectory(PathToLog);
         
-        Log.Information("Starting application");
+        bool createLogFile = !File.Exists(FileName);
+        
+        using PleasantLogger logger = new(
+            new LoggerConfiguration().WriteTo.File(FileName, outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level}] | {Message:lj}{NewLine}{Exception}")
+        );
+        
+        if (createLogFile)
+            WriteDeviceInformation();
 
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
-        
-        Log.Information("The program has completed its work");
-        
-        Log.CloseAndFlush();
     }
 
-    private static void InitializeLogger()
+    private static void WriteDeviceInformation()
     {
-        string pathToLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        StringBuilder stringBuilder = new();
+
+        stringBuilder.AppendLine($"OS: {Environment.OSVersion}");
+        stringBuilder.AppendLine($"CPU: {Environment.ProcessorCount} cores");
         
-        if (!Directory.Exists(pathToLog))
-            Directory.CreateDirectory(pathToLog);
-
-        string fileName = Path.Combine(pathToLog,
-            $"{AppDomain.CurrentDomain.FriendlyName}_{DateTime.Now:dd.MM.yyyy}.log");
-
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.File(fileName, outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level}] | {Message:lj}{NewLine}{Exception}")
-            .CreateLogger();
-        
-        AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
-        AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-    }
-
-    private static void CurrentDomainOnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
-    {
-        StackTrace stackTrace = new(1, true);
-        Log.Error($"An handled exception occurred\n{e.Exception.GetType()}: {e.Exception.Message}\n{stackTrace}");
-    }
-
-    private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
-    {
-        if (e.ExceptionObject is Exception ex) 
-            Log.Fatal(ex, "An unhandled exception occurred");
-        
-        Log.CloseAndFlush();
+        Log.Information("Device information:\n" + stringBuilder);
     }
 
     public static AppBuilder BuildAvaloniaApp()
@@ -62,7 +48,7 @@ class Program
         appBuilder
             .With(new Win32PlatformOptions
             {
-                OverlayPopups = true
+                OverlayPopups = false
             })
             .With(new MacOSPlatformOptions
             {

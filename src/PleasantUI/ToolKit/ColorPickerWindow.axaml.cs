@@ -39,24 +39,24 @@ public partial class ColorPickerWindow : ContentDialog
             }
         };
 
-        window.CancelButton.Click += (_, _) => { window.Close(); };
+        window.CancelButton.Click += (_, _) => { window.CloseAsync(); };
         window.OkButton.Click += (_, _) =>
         {
             cancel = false;
-            window.Close();
+            window.CloseAsync();
         };
         window.KeyDown += (_, e) =>
         {
             if (e.Key != Key.Enter) return;
 
             cancel = false;
-            window.Close();
+            window.CloseAsync();
         };
 
         TaskCompletionSource<Color?> taskCompletionSource = new();
 
         window.Closed += (_, _) => { taskCompletionSource.TrySetResult(!cancel ? window.ColorView.Color : null); };
-        window.Show(parent);
+        window.ShowAsync(parent);
 
         return taskCompletionSource.Task;
     }

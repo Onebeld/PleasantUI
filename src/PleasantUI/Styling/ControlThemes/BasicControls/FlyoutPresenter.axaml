@@ -41,24 +41,6 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <Border.Styles>
-                        <Style Selector="Border#LayoutRoot">
-                            <Style.Animations>
-                                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
-                                    <KeyFrame Cue="0%">
-                                        <Setter Property="TranslateTransform.Y"
-                                                Value="-100" />
-                                        <Setter Property="Opacity" Value="0" />
-                                    </KeyFrame>
-                                    <KeyFrame Cue="100%">
-                                        <Setter Property="TranslateTransform.Y" Value="0" />
-                                        <Setter Property="Opacity" Value="1" />
-                                    </KeyFrame>
-                                </Animation>
-                            </Style.Animations>
-                        </Style>
-                    </Border.Styles>
-
                     <ContentPresenter Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Margin="{TemplateBinding Padding}"
@@ -93,24 +75,6 @@
                         MaxWidth="{TemplateBinding MaxWidth}"
                         MinHeight="{TemplateBinding MinHeight}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <Border.Styles>
-                        <Style Selector="Border#LayoutRoot">
-                            <Style.Animations>
-                                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
-                                    <KeyFrame Cue="0%">
-                                        <Setter Property="TranslateTransform.Y"
-                                                Value="-100" />
-                                        <Setter Property="Opacity" Value="0" />
-                                    </KeyFrame>
-                                    <KeyFrame Cue="100%">
-                                        <Setter Property="TranslateTransform.Y" Value="0" />
-                                        <Setter Property="Opacity" Value="1" />
-                                    </KeyFrame>
-                                </Animation>
-                            </Style.Animations>
-                        </Style>
-                    </Border.Styles>
-
                     <SmoothScrollViewer
                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">

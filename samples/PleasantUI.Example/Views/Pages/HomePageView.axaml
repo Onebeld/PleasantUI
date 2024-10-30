@@ -15,7 +15,7 @@
     </UserControl.Resources>
     
     <Grid RowDefinitions="Auto,*">
-        <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="8">
+        <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="{StaticResource ControlCornerRadius}">
             <Image Source="{StaticResource PleasantUI}" Margin="50" />
         </Border>
         
@@ -46,6 +46,18 @@
                        Text="Pleasant controls" />
             
             <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
+                          ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
+            <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Text="ToolKit" />
+            
+            <ItemsControl ItemsSource="{CompiledBinding ToolKitPageCards}"
                           ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

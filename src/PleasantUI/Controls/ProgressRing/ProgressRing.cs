@@ -8,6 +8,9 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A control used to indicate the progress of an operation.
 /// </summary>
+/// <remarks>
+/// Reference: https://github.com/ymg2006/FluentAvalonia.ProgressRing
+/// </remarks>
 [PseudoClasses(":preserveaspect", ":indeterminate")]
 public class ProgressRing : RangeBase
 {
@@ -126,7 +129,7 @@ public class ProgressRing : RangeBase
         base.OnPropertyChanged(change);
 
         if (change.Property == IsIndeterminateProperty)
-            UpdatePseudoClasses(change.NewValue as bool? ?? default, null);
+            PseudoClasses.Set(":indeterminate", change.NewValue as bool? ?? default);
         else if (change.Property == PreserveAspectProperty)
             UpdatePseudoClasses(null, change.NewValue as bool? ?? default);
     }

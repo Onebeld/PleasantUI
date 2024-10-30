@@ -85,10 +85,7 @@
                                       ToolTip.Tip="{Localize NumberOfColorsInstalled, Context=ThemeEditor, Default='Number of colors installed'}" />
                 </Panel>
 
-                <Border Background="{DynamicResource ControlFillColor1}"
-                        BorderBrush="{DynamicResource ControlBorderColor}"
-                        BorderThickness="1"
-                        CornerRadius="8">
+                <PleasantBorder>
                     <ThemeVariantScope x:Name="ThemeVariantScope"
                                        RequestedThemeVariant="{CompiledBinding CustomTheme.ThemeVariant}">
                         <Border Background="{DynamicResource BackgroundColor1}" CornerRadius="7.5">
@@ -108,35 +105,24 @@
                                                FontSize="30" />
 
                                     <TextBlock Text="BackgroundColor1" />
-                                    <Border Background="{DynamicResource BackgroundColor2}"
-                                            BorderBrush="{DynamicResource ControlBorderColor}"
-                                            BorderThickness="1"
-                                            CornerRadius="8"
+                                    <PleasantBorder BackgroundLevel="Level2"
                                             Padding="10">
                                         <StackPanel Spacing="5">
                                             <TextBlock Text="BackgroundColor2" />
 
-                                            <Border Background="{DynamicResource BackgroundColor3}"
-                                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                                    BorderThickness="1"
-                                                    CornerRadius="8"
-                                                    Padding="10">
+                                            <PleasantBorder BackgroundLevel="Level3" Padding="10">
                                                 <StackPanel Spacing="5">
                                                     <TextBlock Text="BackgroundColor3" />
 
-                                                    <Border Background="{DynamicResource BackgroundColor4}"
-                                                            BorderBrush="{DynamicResource ControlBorderColor}"
-                                                            BorderThickness="1"
-                                                            CornerRadius="8"
-                                                            Padding="10">
+                                                    <PleasantBorder BackgroundLevel="Level4" Padding="10">
                                                         <StackPanel Spacing="5">
                                                             <TextBlock Text="BackgroundColor4" />
                                                         </StackPanel>
-                                                    </Border>
+                                                    </PleasantBorder>
                                                 </StackPanel>
-                                            </Border>
+                                            </PleasantBorder>
                                         </StackPanel>
-                                    </Border>
+                                    </PleasantBorder>
 
                                     <Button Content="Control Button" KeyboardNavigation.IsTabStop="False" />
                                     <Button Content="Danger Control Button"
@@ -164,24 +150,24 @@
 
                                     <TextBlock Text="Critical" />
                                     <Border Background="{DynamicResource SystemFillColorCritical}" Padding="5"
-                                            CornerRadius="8" />
+                                            CornerRadius="{StaticResource ControlCornerRadius}" />
 
                                     <TextBlock Text="Success" />
                                     <Border Background="{DynamicResource SystemFillColorSuccess}" Padding="5"
-                                            CornerRadius="8" />
+                                            CornerRadius="{StaticResource ControlCornerRadius}" />
 
                                     <TextBlock Text="Caution" />
                                     <Border Background="{DynamicResource SystemFillColorCaution}" Padding="5"
-                                            CornerRadius="8" />
+                                            CornerRadius="{StaticResource ControlCornerRadius}" />
 
                                     <TextBlock Text="Neutral" />
                                     <Border Background="{DynamicResource SystemFillColorNeutral}" Padding="5"
-                                            CornerRadius="8" />
+                                            CornerRadius="{StaticResource ControlCornerRadius}" />
                                 </StackPanel>
                             </SmoothScrollViewer>
                         </Border>
                     </ThemeVariantScope>
-                </Border>
+                </PleasantBorder>
             </DockPanel>
 
             <DockPanel Grid.Column="2">
@@ -203,11 +189,7 @@
                     </RadioButton>
                 </UniformGrid>
 
-                <Border Background="{DynamicResource BackgroundColor2}"
-                        BorderBrush="{DynamicResource ControlBorderColor}"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Margin="0 10 0 0">
+                <PleasantBorder BackgroundLevel="Level2" Margin="0 10 0 0">
                     <Carousel x:Name="Carousel">
                         <Carousel.PageTransition>
                             <PageSlide Duration="0.35" SlideInEasing="SineEaseInOut" SlideOutEasing="SineEaseInOut"
@@ -218,13 +200,13 @@
                             <Button Name="ButtonThemesFlyout" Grid.Row="0"
                                     Content="{Localize GetColorsBasedOn, Context=ThemeEditor, Default='Get colors based on...'}">
                                 <Button.Styles>
-                                    <Style Selector="FlyoutPresenter">
+                                    <Style Selector="PleasantFlyoutPresenter">
                                         <Setter Property="Width" Value="{CompiledBinding $parent[Button].Bounds.Width}" />
                                     </Style>
                                 </Button.Styles>
 
                                 <Button.Flyout>
-                                    <Flyout>
+                                    <PleasantFlyout>
                                         <StackPanel Margin="10" Spacing="5">
                                             <Panel>
                                                 <TextBlock VerticalAlignment="Center"
@@ -237,11 +219,7 @@
                                                                   ToolTip.Tip="{Localize NumberOfThemes, Context=ThemeEditor, Default='Number of themes'}"/>
                                             </Panel>
                                             
-                                            <Border CornerRadius="8"
-                                                    Background="{DynamicResource BackgroundColor3}"
-                                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                                    BorderThickness="1"
-                                                    Height="150">
+                                            <PleasantBorder BackgroundLevel="Level3" Height="150">
                                                 <SmoothScrollViewer>
                                                     <ItemsControl ItemsSource="{CompiledBinding Themes}">
                                                         <ItemsControl.ItemTemplate>
@@ -265,7 +243,7 @@
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
                                                 </SmoothScrollViewer>
-                                            </Border>
+                                            </PleasantBorder>
                                             
                                             <Panel>
                                                 <TextBlock VerticalAlignment="Center"
@@ -279,11 +257,7 @@
                                             </Panel>
 
                                             
-                                            <Border CornerRadius="8"
-                                                    Background="{DynamicResource BackgroundColor3}"
-                                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                                    BorderThickness="1"
-                                                    Height="150">
+                                            <PleasantBorder BackgroundLevel="Level3" Height="150">
                                                 <Panel>
                                                     <SmoothScrollViewer>
                                                         <ItemsControl
@@ -317,36 +291,31 @@
                                                                TextAlignment="Center"
                                                                Foreground="{DynamicResource TextFillColor3}" />
                                                 </Panel>
-                                            </Border>
+                                            </PleasantBorder>
                                         </StackPanel>
-                                    </Flyout>
+                                    </PleasantFlyout>
                                 </Button.Flyout>
                             </Button>
 
-                            <Border Grid.Row="1"
-                                    CornerRadius="8"
-                                    Background="{DynamicResource BackgroundColor3}"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="1"
-                                    Margin="0 5 0 0">
+                            <PleasantBorder Grid.Row="1" BackgroundLevel="Level3" Margin="0 5 0 0">
                                 <SmoothScrollViewer>
                                     <ItemsControl ItemsSource="{CompiledBinding ThemeColors}"
                                                   ItemTemplate="{StaticResource ThemeColorItemTemplate}"
                                                   Padding="10 5" />
                                 </SmoothScrollViewer>
-                            </Border>
+                            </PleasantBorder>
                         </Grid>
 
                         <Grid RowDefinitions="Auto,*,Auto" Margin="10">
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                                 <Button ToolTip.Tip="{Localize CopyTheme, Context=ThemeEditor, Default='Copy theme'}"
                                         CornerRadius="99 0 0 99"
-                                        Command="{CompiledBinding CopyTheme}">
+                                        Command="{CompiledBinding CopyThemeAsync}">
                                     <PathIcon Data="{StaticResource CopyRegular}" />
                                 </Button>
                                 <Button ToolTip.Tip="{Localize PasteTheme, Context=ThemeEditor, Default='Paste theme'}"
                                         CornerRadius="0 99 99 0"
-                                        Command="{CompiledBinding PasteTheme}">
+                                        Command="{CompiledBinding PasteThemeAsync}">
                                     <PathIcon Data="{StaticResource PasteRegular}" />
                                 </Button>
                             </StackPanel>
@@ -354,12 +323,12 @@
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button ToolTip.Tip="{Localize ImportTheme, Context=ThemeEditor, Default='Import theme'}"
                                         CornerRadius="99 0 0 99"
-                                        Command="{CompiledBinding ImportTheme}">
+                                        Command="{CompiledBinding ImportThemeAsync}">
                                     <PathIcon Data="{StaticResource FileImportRegular}" />
                                 </Button>
                                 <Button ToolTip.Tip="{Localize ExportTheme, Context=ThemeEditor, Default='Export theme'}"
                                         CornerRadius="0 99 99 0"
-                                        Command="{CompiledBinding ExportTheme}">
+                                        Command="{CompiledBinding ExportThemeAsync}">
                                     <PathIcon Data="{StaticResource FileExportRegular}" />
                                 </Button>
                             </StackPanel>
@@ -367,7 +336,7 @@
                             <TextBox Grid.Row="1"
                                      Margin="0 5 0 0"
                                      IsReadOnly="True"
-                                     CornerRadius="8"
+                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                      Text="{CompiledBinding ColorsJson}" />
 
                             <Panel x:Name="DragAndDropPanel"
@@ -407,7 +376,7 @@
                             </Panel>
                         </Grid>
                     </Carousel>
-                </Border>
+                </PleasantBorder>
             </DockPanel>
         </Grid>
     </DockPanel>

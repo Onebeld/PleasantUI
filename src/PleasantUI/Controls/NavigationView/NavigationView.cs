@@ -308,7 +308,6 @@ public class NavigationView : TreeView
     /// <value>
     /// The collection of items as strings.
     /// </value>
-    /// <seealso cref="ViewModelBase.RaiseAndSet{T}" />
     public IEnumerable<string>? ItemsAsStrings
     {
         get => _itemsAsStrings;

@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:presenters="clr-namespace:PleasantUI.Controls.Flyout.Presenters">
+    <ControlTheme x:Key="{x:Type presenters:PleasantFlyoutPresenter}" TargetType="presenters:PleasantFlyoutPresenter" BasedOn="{StaticResource {x:Type FlyoutPresenter}}">
+        <Style Selector="^[IsOpenPresenter=True] /template/ Border#LayoutRoot">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.Y"
+                                Value="-100" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.Y" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="{x:Type presenters:PleasantMenuFlyoutPresenter}" TargetType="presenters:PleasantMenuFlyoutPresenter" BasedOn="{StaticResource {x:Type MenuFlyoutPresenter}}">
+        <Style Selector="^[IsOpenPresenter=True] /template/ Border#LayoutRoot">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.Y"
+                                Value="-100" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.Y" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

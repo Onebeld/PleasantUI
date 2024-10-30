@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
-using PleasantUI.Extensions;
+using PleasantUI.Core.Extensions;
 
 namespace PleasantUI.Converters;
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -19,9 +19,9 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.0-beta2" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta2" />
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0-beta2" />
+        <PackageReference Include="Avalonia" Version="11.2.0-rc2" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.0-rc2" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0-rc1" />
         <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="9.0.0-rc.1.24431.7" />
     </ItemGroup>
     
@@ -30,6 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\PleasantUI.DataGrid\PleasantUI.DataGrid.csproj" />
       <ProjectReference Include="..\PleasantUI.Example\PleasantUI.Example.csproj" />
     </ItemGroup>
 </Project>

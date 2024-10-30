@@ -4,6 +4,7 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- Basic Controls -->
                 <MergeResourceInclude Source="BasicControls/AdornerLayer.axaml" />
                 <MergeResourceInclude Source="BasicControls/AutoCompleteBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/Button.axaml" />
@@ -72,13 +73,16 @@
                 <MergeResourceInclude Source="BasicControls/Window.axaml" />
                 <MergeResourceInclude Source="BasicControls/WindowNotificationManager.axaml" />
 
+                <!-- Pleasant Controls -->
                 <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationViewItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantBorder.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantFlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSnackbar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />

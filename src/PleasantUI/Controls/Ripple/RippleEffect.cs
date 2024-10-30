@@ -11,6 +11,9 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A control that provides a ripple effect on pointer interaction.
 /// </summary>
+/// <remarks>
+/// Reference: https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/RippleEffect.cs
+/// </remarks>
 public class RippleEffect : ContentControl
 {
     private CompositionContainerVisual? _container;

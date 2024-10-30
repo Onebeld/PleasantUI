@@ -4,7 +4,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using PleasantUI.Extensions;
+using PleasantUI.Core.Extensions;
 using PleasantUI.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
 

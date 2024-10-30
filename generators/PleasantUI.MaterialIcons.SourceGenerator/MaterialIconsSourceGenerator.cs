@@ -8,33 +8,25 @@ using System.Threading.Tasks;
 
 namespace PleasantUI.MaterialIcons.SourceGenerator;
 
-[Generator]
-public class MaterialIconsSourceGenerator : ISourceGenerator
+[Generator(LanguageNames.CSharp)]
+public class MaterialIconsSourceGenerator : IIncrementalGenerator
 {
-	
 	const string MaterialIconsFetchApi = "https://dev.materialdesignicons.com/api/package/38EF63D0-4744-11E4-B3CF-842B2B6CFE1B";
 
 	private JsonNode? _json;
-	
-	public void Initialize(GeneratorInitializationContext context)
+
+	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		HttpClient httpClient = new();
-		
-		Console.WriteLine("Fetching Material Icons...");
 
 		Task<Stream> task = Task.Run(() => httpClient.GetStreamAsync(MaterialIconsFetchApi));
 		task.Wait();
 		
 		Stream? dataStream = task.Result;
 		JsonNode? json = JsonNode.Parse(dataStream);
-		
-		Console.WriteLine("Fetching is done!\n");
 
 		_json = json ?? throw new Exception("Unable to load JSON");
-	}
-
-	public void Execute(GeneratorExecutionContext context)
-	{
+		
 		if (_json is null)
 			throw new NullReferenceException("JSON is null");
 		
@@ -58,12 +50,10 @@ public class MaterialIconsSourceGenerator : ISourceGenerator
 			string data = icon["data"]!.GetValue<string>();
 			
 			stringBuilder.Append($"\tpublic static Geometry {name} = Geometry.Parse(\"{data}\");\n");
-			
-			Console.WriteLine("Added: " + name);
 		}
 		
 		stringBuilder.Append("}\n");
 		
-		context.AddSource("MaterialIcons.g.cs", stringBuilder.ToString());
+		context.RegisterPostInitializationOutput(ctx => ctx.AddSource("MaterialIcons.g.cs", stringBuilder.ToString()));
 	}
 }

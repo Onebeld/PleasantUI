@@ -64,21 +64,6 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
                         behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
-                    <Border.Styles>
-                        <Style Selector="Border#PART_LayoutRoot">
-                            <Style.Animations>
-                                <Animation Duration="0:0:0.2" FillMode="Forward">
-                                    <KeyFrame Cue="0%">
-                                        <Setter Property="Opacity" Value="0" />
-                                    </KeyFrame>
-                                    <KeyFrame Cue="100%">
-                                        <Setter Property="Opacity" Value="1" />
-                                    </KeyFrame>
-                                </Animation>
-                            </Style.Animations>
-                        </Style>
-                    </Border.Styles>
-
                     <ContentPresenter Name="PART_ContentPresenter"
                                       MaxWidth="{TemplateBinding MaxWidth}"
                                       Content="{TemplateBinding Content}"
@@ -86,5 +71,18 @@
                 </Border>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^:open /template/ Border#PART_LayoutRoot">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

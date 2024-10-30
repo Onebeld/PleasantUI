@@ -38,7 +38,7 @@
                                   Fill="{ForegroundBasedAccent AccentLightColor2}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
-                                  Margin="0 10 0 10" />
+                                  Margin="0 11 0 11" />
 
                             <Rectangle Name="IndeterminateGlyph"
                                        Fill="{ForegroundBasedAccent AccentLightColor2}"
@@ -62,16 +62,39 @@
             <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
             <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
             <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
+                </Transitions> 
+            </Setter> 
         </Style>
         <Style Selector="^ /template/ Path#CheckGlyph">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="RenderTransform" Value="scale(0.7)" />
+            <Setter Property="Opacity" Value="0" />
+            
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BoolTransition Property="IsVisible" Duration="0:0:0.1" />
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
         </Style>
         <Style Selector="^ /template/ Rectangle#IndeterminateGlyph">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="RenderTransform" Value="scale(0.7)" />
+            <Setter Property="Opacity" Value="0" />
+            
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#NormalRectangle">
-            <Setter Property="Background" Value="#00000000" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#NormalRectangle">
@@ -83,7 +106,8 @@
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         </Style>
         <Style Selector="^:checked /template/ Path#CheckGlyph">
-            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="RenderTransform" Value="scale(1)" />
+            <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#NormalRectangle">
@@ -103,7 +127,8 @@
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         </Style>
         <Style Selector="^:indeterminate /template/ Rectangle#IndeterminateGlyph">
-            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="RenderTransform" Value="scale(1)" />
+            <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:indeterminate:pointerover /template/ Border#NormalRectangle">

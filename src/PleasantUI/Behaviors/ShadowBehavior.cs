@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Media;
 using PleasantUI.Reactive;
 
@@ -74,9 +73,15 @@ public abstract class ShadowBehavior : AvaloniaObject
     {
         BoxShadow? boxShadow = element.GetValue(BoxShadowProperty);
         bool enabledShadowing = element.GetValue(EnableShadowingProperty);
-
+        
         if (enabledShadowing && boxShadow is not null)
-            element.SetValue(Border.BoxShadowProperty, new BoxShadows(boxShadow.Value));
-        else element.SetValue(Border.BoxShadowProperty, default);
+            element.SetValue(Visual.EffectProperty, new DropShadowEffect
+            {
+                BlurRadius = boxShadow.Value.Blur,
+                Color = boxShadow.Value.Color,
+                OffsetX = boxShadow.Value.OffsetX,
+                OffsetY = boxShadow.Value.OffsetY
+            });
+        else element.SetValue(Visual.EffectProperty, default);
     }
 }

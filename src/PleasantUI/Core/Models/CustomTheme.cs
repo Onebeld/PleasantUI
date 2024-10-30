@@ -1,12 +1,13 @@
 ﻿using Avalonia.Media;
 using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PleasantUI.Core.Models;
 
 /// <summary>
 /// Represents a custom theme with customizable colors.
 /// </summary>
-public class CustomTheme : ViewModelBase
+public class CustomTheme : ObservableObject
 {
     private string _name = null!;
 
@@ -35,11 +36,11 @@ public class CustomTheme : ViewModelBase
         get => _name;
         set
         {
-            RaiseAndSet(ref _name, value);
+            SetProperty(ref _name, value);
 
             ThemeVariant = new ThemeVariant(NameId, ThemeVariant.Light);
 
-            RaisePropertyChanged(nameof(ThemeVariant));
+            OnPropertyChanged(nameof(ThemeVariant));
         }
     }
     

@@ -3,10 +3,11 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.Messaging;
 using PleasantUI.Controls;
+using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Models;
-using PleasantUI.Extensions;
 using PleasantUI.ToolKit.ViewModels;
 
 namespace PleasantUI.ToolKit;
@@ -54,20 +55,22 @@ public partial class ThemeEditorWindow : ContentDialog
 
         window.DataContext = viewModel;
 
-        window.CancelButton.Click += (_, _) => { window.Close(); };
+        window.CancelButton.Click += (_, _) => { _ = window.CloseAsync(); };
         window.OkButton.Click += (_, _) =>
         {
             if (string.IsNullOrWhiteSpace(viewModel.ThemeName))
                 return;
 
             cancel = false;
-            window.Close();
+            _ = window.CloseAsync();
         };
 
         TaskCompletionSource<CustomTheme?> taskCompletionSource = new();
 
         window.Closed += (_, _) =>
         {
+            WeakReferenceMessenger.Default.UnregisterAll(viewModel);
+            
             if (cancel)
             {
                 taskCompletionSource.TrySetResult(null);
@@ -82,7 +85,7 @@ public partial class ThemeEditorWindow : ContentDialog
 
             taskCompletionSource.TrySetResult(null);
         };
-        window.Show(parent);
+        window.ShowAsync(parent);
 
         return taskCompletionSource.Task;
     }

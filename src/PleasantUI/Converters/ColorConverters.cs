@@ -3,7 +3,6 @@ using Avalonia.Controls.Primitives.Converters;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using PleasantUI.Core.Helpers;
-using PleasantUI.Extensions.Media;
 
 namespace PleasantUI.Converters;
 

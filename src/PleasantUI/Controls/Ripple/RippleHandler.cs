@@ -5,6 +5,9 @@ using Avalonia.Rendering.Composition;
 
 namespace PleasantUI.Controls;
 
+/// <remarks>
+/// Reference: https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/RippleHandler.cs
+/// </remarks>
 internal class RippleHandler : CompositionCustomVisualHandler
 {
     public static readonly object FirstStepMessage = new(), SecondStepMessage = new();

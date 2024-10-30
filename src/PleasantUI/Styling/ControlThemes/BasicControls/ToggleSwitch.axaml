@@ -17,8 +17,15 @@
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="OnContent" Value="{DynamicResource On}" />
-        <Setter Property="OffContent" Value="{DynamicResource Off}" />
+        <Setter Property="OnContent" Value="{Localize On, Default='On'}" />
+        <Setter Property="OffContent" Value="{Localize Off, Default='Off'}" />
+        <Setter Property="KnobTransitions">
+            <Transitions>
+                <DoubleTransition Easing="CubicEaseOut"
+                                  Property="Canvas.Left"
+                                  Duration="0:0:0.2" />
+            </Transitions>
+        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -85,24 +92,12 @@
                                 BorderThickness="1"
                                 CornerRadius="10" />
 
-                        <Border Grid.Column="0"
-                                x:Name="SwitchKnobBounds"
-                                Grid.Row="1"
-                                Width="40"
-                                Height="20"
-                                IsVisible="False"
-                                Background="{DynamicResource AccentLightColor2}"
-                                BorderBrush="{DynamicResource AccentColor}"
-                                BorderThickness="1"
-                                CornerRadius="10" />
-
                         <Canvas Grid.Column="0"
                                 x:Name="PART_SwitchKnob"
                                 Grid.Row="1"
                                 Width="20"
                                 Height="20"
                                 HorizontalAlignment="Left">
-
                             <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                 <Ellipse
                                     x:Name="SwitchKnobOn"
@@ -187,24 +182,12 @@
                                     BorderThickness="1"
                                     CornerRadius="10" />
 
-                            <Border Grid.Column="2"
-                                    x:Name="SwitchKnobBounds"
-                                    Grid.Row="1"
-                                    Width="40"
-                                    Height="20"
-                                    IsVisible="False"
-                                    Background="{DynamicResource AccentLightColor2}"
-                                    BorderBrush="{DynamicResource AccentColor}"
-                                    BorderThickness="1"
-                                    CornerRadius="10" />
-
                             <Canvas Grid.Column="2"
                                     x:Name="PART_SwitchKnob"
                                     Grid.Row="1"
                                     Width="20"
                                     Height="20"
                                     HorizontalAlignment="Left">
-
                                 <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                     <Ellipse
                                         x:Name="SwitchKnobOn"
@@ -235,16 +218,22 @@
             <Setter Property="Fill" Value="{DynamicResource ControlBorderColor}" />
             <Setter Property="Width" Value="12" />
             <Setter Property="Height" Value="12" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Fill" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
         </Style>
 
         <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
-            <Setter Property="Fill" Value="{DynamicResource ForegroundAccentLightColor1}" />
+            <Setter Property="Fill" Value="{ForegroundBasedAccent AccentLightColor1}" />
         </Style>
 
-        <Style Selector="^:not(:dragging) /template/ Grid#PART_MovingKnobs">
+        <Style Selector="^ /template/ Border#OuterBorder">
             <Setter Property="Transitions">
                 <Transitions>
-                    <DoubleTransition Property="Canvas.Left" Duration="0:0:0.2" Easing="CubicEaseOut" />
+                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
                 </Transitions>
             </Setter>
         </Style>
@@ -256,21 +245,19 @@
         <Style Selector="^:pressed /template/ Border#OuterBorder">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
+        
+        <Style Selector="^:checked /template/ Border#OuterBorder">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+        </Style>
 
-        <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds">
+        <Style Selector="^:checked:pointerover /template/ Border#OuterBorder">
             <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
         </Style>
 
-        <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds">
+        <Style Selector="^:checked:pressed /template/ Border#OuterBorder">
             <Setter Property="Background" Value="{DynamicResource AccentColor}" />
             <Setter Property="Opacity" Value="0.8" />
-        </Style>
-
-        <Style Selector="^:checked /template/ Border#OuterBorder">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
-            <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">

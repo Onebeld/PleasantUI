@@ -17,11 +17,13 @@ public class PleasantUiExampleApp : Application
 
     static PleasantUiExampleApp()
     {
-        ViewModel = new AppViewModel();
+        if (!Design.IsDesignMode)
+            ViewModel = new AppViewModel();
     }
 
     public PleasantUiExampleApp()
     {
-        DataContext = ViewModel;
+        if (!Design.IsDesignMode)
+            DataContext = ViewModel;
     }
 }

@@ -6,7 +6,7 @@
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.ButtonPageView"
              Margin="0 10 0 0">
     <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
-        <Button Content="Button" />
+        <Button Content="Button" x:Name="MessageBoxButton" />
         <Button>
             <PathIcon Data="{StaticResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
         </Button>

@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json;
 using Avalonia.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
 using PleasantUI.Core.Constants;
 using PleasantUI.Core.GenerationContexts;
 using PleasantUI.Core.Settings;
@@ -11,7 +12,7 @@ namespace PleasantUI.Core;
 /// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows,
 /// rendering, and accent colors.
 /// </summary>
-public class PleasantSettings : ViewModelBase
+public class PleasantSettings : ObservableObject
 {
     private AvaloniaList<uint> _colorPalettes = [];
     private Guid? _customThemeId;
@@ -33,7 +34,7 @@ public class PleasantSettings : ViewModelBase
     public uint NumericalAccentColor
     {
         get => _numericalAccentColor;
-        set => RaiseAndSet(ref _numericalAccentColor, value);
+        set => SetProperty(ref _numericalAccentColor, value);
     }
 
     /// <summary>
@@ -43,7 +44,7 @@ public class PleasantSettings : ViewModelBase
     public bool PreferUserAccentColor
     {
         get => _preferUserAccentColor;
-        set => RaiseAndSet(ref _preferUserAccentColor, value);
+        set => SetProperty(ref _preferUserAccentColor, value);
     }
 
     /// <summary>
@@ -53,7 +54,7 @@ public class PleasantSettings : ViewModelBase
     public string Theme
     {
         get => _theme;
-        set => RaiseAndSet(ref _theme, value);
+        set => SetProperty(ref _theme, value);
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class PleasantSettings : ViewModelBase
     public Guid? CustomThemeId
     {
         get => _customThemeId;
-        set => RaiseAndSet(ref _customThemeId, value);
+        set => SetProperty(ref _customThemeId, value);
     }
 
     /// <summary>
@@ -78,7 +79,7 @@ public class PleasantSettings : ViewModelBase
             if (value is null)
                 throw new NullReferenceException("WindowSettings is null");
 
-            RaiseAndSet(ref _windowSettings, value);
+            SetProperty(ref _windowSettings, value);
         }
     }
 
@@ -94,7 +95,7 @@ public class PleasantSettings : ViewModelBase
             if (value is null)
                 throw new NullReferenceException("RenderSettings is null");
 
-            RaiseAndSet(ref _renderSettings, value);
+            SetProperty(ref _renderSettings, value);
         }
     }
 
@@ -105,7 +106,7 @@ public class PleasantSettings : ViewModelBase
     public AvaloniaList<uint> ColorPalettes
     {
         get => _colorPalettes;
-        set => RaiseAndSet(ref _colorPalettes, value);
+        set => SetProperty(ref _colorPalettes, value);
     }
     
     static PleasantSettings()

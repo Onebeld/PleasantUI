@@ -1,5 +1,5 @@
-﻿using Avalonia.Media;
-using PleasantUI.Core.Helpers;
+﻿using System.Windows.Input;
+using Avalonia.Media;
 
 namespace PleasantUI.Example.Models;
 
@@ -8,7 +8,7 @@ public class ControlPageCard
 	private string _title;
 	private Geometry _icon;
 	private string _description;
-	private Command _action;
+	private ICommand _action;
 	
 	public string Title
 	{
@@ -28,13 +28,13 @@ public class ControlPageCard
 		set => _description = value;
 	}
 	
-	public Command Action
+	public ICommand Action
 	{
 		get => _action;
 		set => _action = value;
 	}
 	
-	public ControlPageCard(string title, Geometry icon, string description, Command action)
+	public ControlPageCard(string title, Geometry icon, string description, ICommand action)
 	{
 		_title = title;
 		_icon = icon;

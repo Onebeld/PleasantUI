@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Utilities;
-using PleasantUI.Extensions;
+using PleasantUI.Core.Extensions;
 
 namespace PleasantUI.Controls.Utils;
 

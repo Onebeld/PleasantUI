@@ -27,7 +27,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
 
         <Setter Property="ContextFlyout">
-            <MenuFlyout Placement="Bottom">
+            <PleasantMenuFlyout Placement="Bottom">
                 <MenuItem Header="{Localize CutMenu, Default='C_ut'}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
@@ -67,7 +67,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-            </MenuFlyout>
+            </PleasantMenuFlyout>
         </Setter>
 
         <Setter Property="Template">

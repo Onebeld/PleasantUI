@@ -8,6 +8,12 @@ using PleasantUI.Core.Enums;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// A <see cref="TabControl"/> with a smooth scroll viewer and an additional button to add items.
+/// </summary>
+/// <remarks>
+/// Reference: https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabView/AuraTabView.cs
+/// </remarks>
 [TemplatePart("PART_ScrollViewer", typeof(SmoothScrollViewer))]
 [TemplatePart("PART_AdderButton", typeof(Button))]
 [TemplatePart("PART_InternalGrid", typeof(Grid))]

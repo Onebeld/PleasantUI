@@ -9,37 +9,64 @@ using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// Represents a modal window that can be used to display content to the user.
+/// </summary>
 public class PleasantModalWindow : ContentControl
 {
-    internal readonly Control ModalBackground;
-
     private object? _dialogResult;
     private IPleasantWindow _host = null!;
     private bool _isClosed;
     private bool _isClosing;
     
+    internal readonly Control ModalBackground;
+    
+    /// <summary>
+    /// Defines the WindowClosed event.
+    /// </summary>
     public static readonly RoutedEvent WindowClosedEvent =
         RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
 
+    /// <summary>
+    /// Defines the WindowOpened event.
+    /// </summary>
     public static readonly RoutedEvent WindowOpenedEvent =
         RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
 
+    /// <summary>
+    /// Defines the <see cref="IsClosed"/> property.
+    /// </summary>
     public static readonly DirectProperty<PleasantModalWindow, bool> IsClosedProperty =
         AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosed), o => o.IsClosed,
             (o, v) => o.IsClosed = v);
 
+    /// <summary>
+    /// Defines the <see cref="IsClosing"/> property.
+    /// </summary>
     public static readonly DirectProperty<PleasantModalWindow, bool> IsClosingProperty =
         AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosing), o => o.IsClosing);
 
+    /// <summary>
+    /// Defines the <see cref="OpenAnimation"/> property.
+    /// </summary>
     public static readonly StyledProperty<Animation?> OpenAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(OpenAnimation));
 
+    /// <summary>
+    /// Defines the <see cref="ShowBackgroundAnimation"/> property.
+    /// </summary>
     public static readonly StyledProperty<Animation?> ShowBackgroundAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(ShowBackgroundAnimation));
 
+    /// <summary>
+    /// Defines the <see cref="CloseAnimation"/> property.
+    /// </summary>
     public static readonly StyledProperty<Animation?> CloseAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(CloseAnimation));
 
+    /// <summary>
+    /// Defines the <see cref="HideBackgroundAnimation"/> property.
+    /// </summary>
     public static readonly StyledProperty<Animation?> HideBackgroundAnimationProperty =
         AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(HideBackgroundAnimation));
 
@@ -124,9 +151,9 @@ public class PleasantModalWindow : ContentControl
     /// </summary>
     /// <param name="host">The <see cref="IPleasantWindow" /> to show.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
-    public Task Show(IPleasantWindow host)
+    public Task ShowAsync(IPleasantWindow host)
     {
-        return Show<object>(host);
+        return ShowAsync<object>(host);
     }
 
     /// <summary>
@@ -135,7 +162,7 @@ public class PleasantModalWindow : ContentControl
     /// <typeparam name="T">The type of the dialog result.</typeparam>
     /// <param name="host">The <see cref="IPleasantWindow" /> implementation representing the hosting window.</param>
     /// <returns>A task that completes with the dialog result.</returns>
-    public Task<T?> Show<T>(IPleasantWindow host)
+    public Task<T?> ShowAsync<T>(IPleasantWindow host)
     {
         _host = host ?? throw new ArgumentNullException(nameof(host));
 
@@ -160,27 +187,30 @@ public class PleasantModalWindow : ContentControl
     /// <summary>
     /// Closes the window.
     /// </summary>
-    public void Close()
+    public async Task CloseAsync()
     {
-        Close(false);
+        await CloseAsync(false);
     }
 
     /// <summary>
     /// Closes the current dialog with an optional dialog result.
     /// </summary>
     /// <param name="dialogResult">The dialog result to be set.</param>
-    public void Close(object? dialogResult)
+    public async Task CloseAsync(object? dialogResult)
     {
         _dialogResult = dialogResult;
-        Close(false);
+        await CloseAsync(false);
     }
 
+    /// <summary>
+    /// Raises the <see cref="Closed"/> event.
+    /// </summary>
     protected virtual void OnClosed()
     {
-        Closed?.Invoke(this, null!);
+        Closed?.Invoke(this, EventArgs.Empty);
     }
 
-    internal async void Close(bool ignoreCancel)
+    private async Task CloseAsync(bool ignoreCancel)
     {
         bool close = true;
 

@@ -11,6 +11,7 @@
             
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://PleasantUI.Example/Assets/Images.axaml" />
+                <ResourceInclude Source="avares://PleasantUI.DataGrid/DataGrid.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -28,16 +28,16 @@ public static class PleasantThemesLoader
 
         WriteVersion(writer);
 
-        Dictionary<string, Color> themeTemplateDictionary = PleasantTheme.GetThemeTemplateDictionary();
-
         int themesCount = PleasantTheme.CustomThemes.Count;
-        int keysCount = themeTemplateDictionary.Keys.Count;
+        int keysCount = PleasantTheme.CountOfKeysTheme();
 
         writer.Write(themesCount);
         writer.Write(keysCount);
 
         if (themesCount == 0)
             return;
+        
+        Dictionary<string, Color> themeTemplateDictionary = PleasantTheme.GetThemeTemplateDictionary();
 
         WriteColorKeys(writer, themeTemplateDictionary);
 

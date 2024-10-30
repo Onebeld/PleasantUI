@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using PleasantUI.Extensions;
+using PleasantUI.Core.Extensions;
 using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
@@ -11,6 +11,9 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// An item in a <see cref="PleasantTabView" />.
 /// </summary>
+/// <remarks>
+/// Reference: https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabItem/AuraTabItem.cs
+/// </remarks>
 [TemplatePart("PART_CloseButton", typeof(Button))]
 public class PleasantTabItem : TabItem
 {
