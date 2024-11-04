@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:models="clr-namespace:PleasantUI.Example.Models">
     <DataTemplate x:Key="ControlPageCardItemTemplate" DataType="{x:Type models:ControlPageCard}">
-        <Button Command="{CompiledBinding Action}"
+        <Button Command="{CompiledBinding Command}"
+                CommandParameter="{CompiledBinding Page}"
                 HorizontalContentAlignment="Stretch"
                 Width="300"
                 CornerRadius="{StaticResource ControlCornerRadius}"

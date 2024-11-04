@@ -2,7 +2,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controlPages="clr-namespace:PleasantUI.Example.ViewModels.Pages.ControlPages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PleasantUI.Example.Views.Pages.ControlPages.DataGridPageView">
-    Welcome to Avalonia!
+             x:Class="PleasantUI.Example.Views.Pages.ControlPages.DataGridPageView"
+             x:DataType="controlPages:DataGridViewModel">
+    <UserControl.DataContext>
+        <controlPages:DataGridViewModel />
+    </UserControl.DataContext>
+    
+    <StackPanel Spacing="5"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+        <DataGrid ItemsSource="{CompiledBinding DataModels}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{CompiledBinding Name}" />
+                <DataGridTextColumn Header="Age" Binding="{CompiledBinding Age}" />
+                <DataGridCheckBoxColumn Header="Is new?" Binding="{CompiledBinding IsNew}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
 </UserControl>

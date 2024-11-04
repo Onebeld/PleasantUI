@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PleasantUI.Core;
 using PleasantUI.Core.Models;
 using PleasantUI.ToolKit;
 
 namespace PleasantUI.Example.ViewModels.Pages;
 
-public class SettingsViewModel : ObservableObject
+public partial class SettingsViewModel : ObservableObject
 {
     public Theme? SelectedTheme
     {
@@ -19,7 +20,8 @@ public class SettingsViewModel : ObservableObject
         set => PleasantTheme.SelectedCustomTheme = value;
     }
 
-    public async Task CreateThemeAsync()
+    [RelayCommand]
+    private async Task CreateThemeAsync()
     {
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, null);
         
@@ -29,7 +31,8 @@ public class SettingsViewModel : ObservableObject
         PleasantTheme.CustomThemes.Add(newCustomTheme);
     }
 
-    public async Task EditThemeAsync(CustomTheme customTheme)
+    [RelayCommand]
+    private async Task EditThemeAsync(CustomTheme customTheme)
     {
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, customTheme);
         
@@ -39,7 +42,8 @@ public class SettingsViewModel : ObservableObject
         PleasantUiExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
     }
 
-    public void DeleteTheme(CustomTheme customTheme)
+    [RelayCommand]
+    private void DeleteTheme(CustomTheme customTheme)
     {
         PleasantTheme.CustomThemes.Remove(customTheme);
     }

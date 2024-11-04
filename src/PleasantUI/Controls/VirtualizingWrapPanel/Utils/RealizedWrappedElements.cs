@@ -10,6 +10,9 @@ namespace PleasantUI.Controls.Utils;
 /// in a stack layout, continuing on the next line when layout reaches the end, such as
 /// <see cref="VirtualizingWrapPanel" />.
 /// </summary>
+/// <remarks>
+/// Reference: https://github.com/afunc233/BilibiliClient/blob/599d7451e9187e7a967cbbb0cdbbd6a428493672/src/BilibiliClient/Controls/RealizedWrappedElements.cs
+/// </remarks>
 internal class RealizedWrappedElements
 {
     private List<Control?>? _elements;

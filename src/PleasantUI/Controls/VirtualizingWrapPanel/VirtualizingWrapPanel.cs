@@ -18,6 +18,9 @@ namespace PleasantUI.Controls;
 /// Subsequent ordering happens sequentially from top to bottom or from right to left,
 /// depending on the value of the <see cref="Orientation" /> property.
 /// </summary>
+/// <remarks>
+/// Reference: https://github.com/afunc233/BilibiliClient/blob/599d7451e9187e7a967cbbb0cdbbd6a428493672/src/BilibiliClient/Controls/VirtualizingWarpPanel.cs
+/// </remarks>
 public class VirtualizingWrapPanel : VirtualizingPanel
 {
     private static readonly Rect InvalidViewport = new(double.PositiveInfinity, double.PositiveInfinity, 0, 0);
