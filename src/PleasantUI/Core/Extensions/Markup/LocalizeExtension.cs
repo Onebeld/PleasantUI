@@ -18,7 +18,7 @@ public class LocalizeExtension : MarkupExtension
     /// <summary>
     /// Gets or sets the key of the localized string.
     /// </summary>
-    public string Key { get; set; }
+    public object Key { get; set; }
 
     /// <summary>
     /// Gets or sets the context of the localized string.
@@ -43,7 +43,7 @@ public class LocalizeExtension : MarkupExtension
     /// Initializes a new instance of the <see cref="LocalizeExtension" /> class with the specified key.
     /// </summary>
     /// <param name="key">The key of the localized string.</param>
-    public LocalizeExtension(string key)
+    public LocalizeExtension(object key)
     {
         Key = key;
     }
@@ -53,7 +53,7 @@ public class LocalizeExtension : MarkupExtension
     /// </summary>
     /// <param name="key">The key of the localized string.</param>
     /// <param name="binding">The binding to use for string formatting.</param>
-    public LocalizeExtension(string key, BindingBase binding) : this(key)
+    public LocalizeExtension(object key, BindingBase binding) : this(key)
     {
         _bindings = [binding];
     }
@@ -64,7 +64,7 @@ public class LocalizeExtension : MarkupExtension
     /// <param name="key">The key of the localized string.</param>
     /// <param name="binding1">The first binding to use for string formatting.</param>
     /// <param name="binding2">The second binding to use for string formatting.</param>
-    public LocalizeExtension(string key, BindingBase binding1, BindingBase binding2) : this(key)
+    public LocalizeExtension(object key, BindingBase binding1, BindingBase binding2) : this(key)
     {
         _bindings = [binding1, binding2];
     }
@@ -76,7 +76,7 @@ public class LocalizeExtension : MarkupExtension
     /// <param name="binding1">The first binding to use for string formatting.</param>
     /// <param name="binding2">The second binding to use for string formatting.</param>
     /// <param name="binding3">The third binding to use for string formatting.</param>
-    public LocalizeExtension(string key, BindingBase binding1, BindingBase binding2, BindingBase binding3) : this(key)
+    public LocalizeExtension(object key, BindingBase binding1, BindingBase binding2, BindingBase binding3) : this(key)
     {
         _bindings = [binding1, binding2, binding3];
     }
@@ -89,7 +89,7 @@ public class LocalizeExtension : MarkupExtension
     /// <param name="binding2">The second binding to use for string formatting.</param>
     /// <param name="binding3">The third binding to use for string formatting.</param>
     /// <param name="binding4">The fourth binding to use for string formatting.</param>
-    public LocalizeExtension(string key, BindingBase binding1, BindingBase binding2, BindingBase binding3,
+    public LocalizeExtension(object key, BindingBase binding1, BindingBase binding2, BindingBase binding3,
         BindingBase binding4) : this(key)
     {
         _bindings = [binding1, binding2, binding3, binding4];
@@ -104,7 +104,7 @@ public class LocalizeExtension : MarkupExtension
     /// <param name="binding3">The third binding to use for string formatting.</param>
     /// <param name="binding4">The fourth binding to use for string formatting.</param>
     /// <param name="binding5">The fifth binding to use for string formatting.</param>
-    public LocalizeExtension(string key, BindingBase binding1, BindingBase binding2, BindingBase binding3,
+    public LocalizeExtension(object key, BindingBase binding1, BindingBase binding2, BindingBase binding3,
         BindingBase binding4, BindingBase binding5) : this(key)
     {
         _bindings = [binding1, binding2, binding3, binding4, binding5];
@@ -117,38 +117,72 @@ public class LocalizeExtension : MarkupExtension
     /// <returns>The localized string.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        string keyToUse = Key;
-        if (!string.IsNullOrWhiteSpace(Context))
-            keyToUse = $"{Context}/{Key}";
-
-        ClrPropertyInfo keyInfo = new(
-            nameof(Key),
-            _ =>
-            {
-                if (Localizer.Instance.TryGetString(keyToUse, out string expression))
-                    return MenuBar ? "_" + expression : expression;
-
-                if (!string.IsNullOrWhiteSpace(Default))
-                    return MenuBar ? "_" + Default : Default;
-                
-                return expression;
-            },
-            null,
-            typeof(string));
-
-        CompiledBindingPath path = new CompiledBindingPathBuilder()
-            .Property(keyInfo, PropertyInfoAccessorFactory.CreateInpcPropertyAccessor)
-            .Build();
-
-        CompiledBindingExtension binding = new(path)
+        if (Key is string key)
         {
-            Mode = BindingMode.OneWay,
-            Source = Localizer.Instance
-        };
+            if (!string.IsNullOrWhiteSpace(Context))
+                key = $"{Context}/{Key}";
 
+            ClrPropertyInfo keyInfo = new(
+                nameof(Key),
+                _ =>
+                {
+                    if (Localizer.Instance.TryGetString(key, out string expression))
+                        return MenuBar ? "_" + expression : expression;
+
+                    if (!string.IsNullOrWhiteSpace(Default))
+                        return MenuBar ? "_" + Default : Default;
+                
+                    return expression;
+                },
+                null,
+                typeof(string));
+
+            CompiledBindingPath path = new CompiledBindingPathBuilder()
+                .Property(keyInfo, PropertyInfoAccessorFactory.CreateInpcPropertyAccessor)
+                .Build();
+
+            CompiledBindingExtension binding = new(path)
+            {
+                Mode = BindingMode.OneWay,
+                Source = Localizer.Instance
+            };
+
+            if (_bindings is null || _bindings.Length <= 0)
+                return binding;
+
+            BindingBase[] bindingBases = GetBindings(binding);
+
+            MultiBinding multiBinding = new()
+            {
+                // ReSharper disable once CoVariantArrayConversion
+                Bindings = bindingBases,
+                Converter = new TranslateConverter()
+            };
+
+            return multiBinding;
+        }
+        else if (Key is BindingBase binding)
+        {
+            BindingBase[] bindingBases = GetBindings(binding);
+            
+            MultiBinding multiBinding = new()
+            {
+                // ReSharper disable once CoVariantArrayConversion
+                Bindings = bindingBases,
+                Converter = new BindingTranslateConverter(Context)
+            };
+
+            return multiBinding;
+        }
+
+        throw new NotSupportedException("Key must be a string or BindingBase");
+    }
+
+    private BindingBase[] GetBindings(BindingBase binding)
+    {
         if (_bindings is null || _bindings.Length <= 0)
-            return binding;
-
+            return [binding];
+        
         BindingBase[] bindingBases = new BindingBase[_bindings.Length + 1];
 
         bindingBases[0] = binding;
@@ -156,13 +190,6 @@ public class LocalizeExtension : MarkupExtension
         for (int i = 0; i < _bindings.Length; i++)
             bindingBases[i + 1] = _bindings[i];
 
-        MultiBinding multiBinding = new()
-        {
-            // ReSharper disable once CoVariantArrayConversion
-            Bindings = bindingBases,
-            Converter = new TranslateConverter()
-        };
-
-        return multiBinding;
+        return bindingBases;
     }
 }

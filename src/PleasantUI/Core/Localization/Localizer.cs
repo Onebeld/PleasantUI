@@ -27,6 +27,11 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// Occurs when a property value changes.
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
+    
+    /// <summary>
+    /// Occurs when the localization changes.
+    /// </summary>
+    public event Action<string>? LocalizationChanged;
 
     /// <summary>
     /// Gets the localized string for the specified key.
@@ -60,6 +65,26 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     public Localizer()
     {
         LoadLanguage();
+    }
+    
+    /// <summary>
+    /// Translates the specified key.
+    /// </summary>
+    /// <param name="key">The key to look up.</param>
+    /// <param name="context">The context of the translation.</param>
+    /// <param name="args">The arguments to pass to the translation.</param>
+    /// <returns>The translated string.</returns>
+    public static string Tr(string? key, string? context = null, params object[] args)
+    {
+        if (key is null)
+            return string.Empty;
+        
+        if (context is not null)
+            key = $"{context}/{key}";
+        
+        string expression = Instance[key];
+        
+        return string.Format(expression, args);
     }
 
     /// <summary>
@@ -114,6 +139,8 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         CultureInfo.CurrentUICulture = new CultureInfo(language);
         Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
         LoadLanguage();
+        
+        LocalizationChanged?.Invoke(language);
     }
 
     /// <inheritdoc />
@@ -140,6 +167,16 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             _resources = new List<ResourceManager>(ResourceManagers);
 
         InvalidateEvents();
+    }
+
+    /// <summary>
+    /// Returns an observable for the specified localization key.
+    /// </summary>
+    /// <param name="key">The key for which to get the observable.</param>
+    /// <returns>An observable that emits localization changes for the specified key.</returns>
+    public static IObservable<string> GetObservable(string key)
+    {
+        return new LocalizeObservable(key);
     }
 
     private void InvalidateEvents()
