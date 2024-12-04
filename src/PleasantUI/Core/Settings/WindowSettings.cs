@@ -1,11 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace PleasantUI.Core.Settings;
+﻿namespace PleasantUI.Core.Settings;
 
 /// <summary>
 /// Represents settings related to the appearance and behavior of windows.
 /// </summary>
-public class WindowSettings : ObservableObject
+public class WindowSettings : ViewModelBase
 {
     private bool _enableBlur;
     private bool _enableCustomTitleBar = true;

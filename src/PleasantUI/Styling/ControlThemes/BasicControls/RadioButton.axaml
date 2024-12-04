@@ -25,8 +25,7 @@
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
                 <BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
             </Transitions> 
-        </Setter> 
-
+        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate TargetType="RadioButton">
@@ -40,7 +39,7 @@
                                  StrokeThickness="1"
                                  UseLayoutRounding="False" />
 
-                        <Ellipse Name="CheckGlyph" 
+                        <Ellipse Name="CheckGlyph"
                                  IsVisible="False"
                                  Width="8"
                                  Height="8"

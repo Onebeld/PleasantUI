@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Views;
 

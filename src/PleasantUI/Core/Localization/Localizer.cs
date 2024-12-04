@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using System.Resources;
+using Avalonia.Logging;
 
 namespace PleasantUI.Core.Localization;
 

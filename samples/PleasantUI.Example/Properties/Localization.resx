@@ -27,8 +27,8 @@
     <data name="PasteMenu" xml:space="preserve">
         <value>_Paste</value>
     </data>
-    <data name="Reestablish" xml:space="preserve">
-        <value>Reestablish</value>
+    <data name="Restore" xml:space="preserve">
+        <value>Restore</value>
     </data>
     <data name="Collapse" xml:space="preserve">
         <value>Collapse</value>
@@ -130,7 +130,7 @@
         <value>No custom themes</value>
     </data>
     <data name="ReestablishMenu" xml:space="preserve">
-        <value>_Reestablish</value>
+        <value>_Restore</value>
     </data>
     <data name="ExpandMenu" xml:space="preserve">
         <value>_Expand</value>

@@ -1,44 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DebugType>Full</DebugType>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
     </PropertyGroup>
-
+    
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugType>embedded</DebugType>
         <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\PleasantUI.DataGrid\PleasantUI.DataGrid.csproj" />
-      <ProjectReference Include="..\..\src\PleasantUI.MaterialIcons\PleasantUI.MaterialIcons.csproj" />
-      <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj" />
+        <ProjectReference Include="..\..\src\PleasantUI.DataGrid\PleasantUI.DataGrid.csproj"/>
+        <ProjectReference Include="..\..\src\PleasantUI.MaterialIcons\PleasantUI.MaterialIcons.csproj"/>
+        <ProjectReference Include="..\..\src\PleasantUI.ToolKit\PleasantUI.ToolKit.csproj"/>
+        <ProjectReference Include="..\..\src\PleasantUI\PleasantUI.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
+        <PackageReference Include="Serilog" Version="4.1.0"/>
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Update="Properties\Localization.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
         </EmbeddedResource>
-        
+
         <AdditionalFiles Include="Properties\*.resx"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Properties\Localization.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Localization.resx</DependentUpon>
-      </Compile>
-      <Compile Update="Views\Pages\PleasantControlPages\ProgressRingPageView.axaml.cs">
-        <DependentUpon>ProgressRingPageView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Properties\Localization.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Localization.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\Pages\PleasantControlPages\ProgressRingPageView.axaml.cs">
+            <DependentUpon>ProgressRingPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>

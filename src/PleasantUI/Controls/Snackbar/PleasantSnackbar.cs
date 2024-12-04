@@ -9,7 +9,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.Input;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
@@ -170,8 +169,8 @@ public class PleasantSnackbar : ContentControl
 
         parent.SnackbarQueueManager.Enqueue(pleasantSnackbar);
 
-        if (parent.SnackbarQueueManager.Count <= 1)
-            parent.AddControl(pleasantSnackbar);
+        /*if (parent.SnackbarQueueManager.Count <= 1)
+            parent.AddControl(pleasantSnackbar);*/
     }
 
     /// <summary>
@@ -233,17 +232,17 @@ public class PleasantSnackbar : ContentControl
             _button.IsVisible = false;
 
         _button.Content = content;
-        _button.Command = new AsyncRelayCommand(async () =>
+        _button.Click += async (_, _) =>
         {
             ClosingTimer.Dispose();
-            
+
             IsHitTestVisible = false;
 
             await Close();
             action?.Invoke();
 
             _parent.SnackbarQueueManager.Dequeue();
-        });
+        };
     }
 
     /// <summary>

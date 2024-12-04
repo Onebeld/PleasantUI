@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Platform;
@@ -11,7 +12,6 @@ using PleasantUI.Core;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Extensions.Media;
 using PleasantUI.Core.Models;
-using Serilog;
 
 namespace PleasantUI;
 
@@ -242,7 +242,7 @@ public class PleasantTheme : Styles
         }
         catch (Exception)
         {
-            Log.Error("Error when loading themes");
+            Logger.Sink?.Log(LogEventLevel.Error, "Theme", this, "Error when loading themes");
         }
     }
 

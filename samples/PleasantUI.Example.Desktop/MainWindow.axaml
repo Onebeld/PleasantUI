@@ -6,17 +6,20 @@
                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                 x:Class="PleasantUI.Example.Desktop.MainWindow"
                 Title="PleasantUI"
-                ShowTitleBarContentAnyway="True"
-                EnableTitleBarMargin="False"
                 TitleBarType="ClassicExtended"
                 WindowStartupLocation="CenterScreen"
+                ExtendsContentIntoTitleBar="True"
                 Icon="PleasantUIIcon.ico"
-                IconImage="{StaticResource PleasantUILogo}"
-                TitleGeometry="{StaticResource PleasantUINoLogo}"
+                DisplayIcon="{StaticResource PleasantUILogo}"
+                DisplayTitle="{StaticResource PleasantUINoLogo}"
                 MinWidth="600"
                 MinHeight="500"
                 Width="1200"
                 Height="700"
                 Subtitle="Example">
+    <PleasantWindow.LeftTitleBarContent>
+        <Panel Width="45"/>
+    </PleasantWindow.LeftTitleBarContent>
+    
     <example:MainView />
 </PleasantWindow>

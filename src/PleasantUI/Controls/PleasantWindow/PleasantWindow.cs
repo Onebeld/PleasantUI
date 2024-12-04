@@ -1,11 +1,7 @@
 ﻿using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
 using PleasantUI.Controls.Chrome;
-using PleasantUI.Core.Enums;
-using PleasantUI.Core.Interfaces;
 using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
@@ -13,10 +9,8 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// Represents a custom window with enhanced features and styling capabilities.
 /// </summary>
-public class PleasantWindow : Window, IPleasantWindow
+public class PleasantWindow : PleasantWindowBase
 {
-    private Panel _modalWindowsPanel = null!;
-    
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
@@ -26,56 +20,41 @@ public class PleasantWindow : Window, IPleasantWindow
     /// <summary>
     /// Defines the <see cref="TitleContent"/> property.
     /// </summary>
-    public static readonly StyledProperty<Control?> TitleContentProperty =
-        AvaloniaProperty.Register<PleasantWindow, Control?>(nameof(TitleContent));
+    public static readonly StyledProperty<object?> TitleContentProperty =
+        AvaloniaProperty.Register<PleasantWindow, object?>(nameof(TitleContent));
 
     /// <summary>
-    /// Defines the <see cref="LeftTitleContent"/> property.
+    /// Defines the <see cref="LeftTitleBarContent"/> property.
     /// </summary>
-    public static readonly StyledProperty<Control?> LeftTitleContentProperty =
-        AvaloniaProperty.Register<PleasantWindow, Control?>(nameof(LeftTitleContent));
-
-    /// <summary>
-    /// Defines the <see cref="EnableTitleBarMargin"/> property.
-    /// </summary>
-    public static readonly StyledProperty<bool> EnableTitleBarMarginProperty =
-        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableTitleBarMargin), true);
-
-    /// <summary>
-    /// Defines the <see cref="TitleBarStyle"/> property.
-    /// </summary>
-    public static readonly StyledProperty<PleasantTitleBarStyle> TitleBarStyleProperty =
-        AvaloniaProperty.Register<PleasantWindow, PleasantTitleBarStyle>(nameof(TitleBarStyle));
+    public static readonly StyledProperty<object?> LeftTitleBarContentProperty =
+        AvaloniaProperty.Register<PleasantWindow, object?>(nameof(LeftTitleBarContent));
 
     /// <summary>
     /// Defines the <see cref="CaptionButtons"/> property.
     /// </summary>
-    public static readonly StyledProperty<PleasantCaptionButtonsType> CaptionButtonsProperty =
-        AvaloniaProperty.Register<PleasantWindow, PleasantCaptionButtonsType>(nameof(CaptionButtons));
+    public static readonly StyledProperty<PleasantCaptionButtons.Type> CaptionButtonsProperty =
+        AvaloniaProperty.Register<PleasantWindow, PleasantCaptionButtons.Type>(nameof(CaptionButtons));
 
     /// <summary>
     /// Defines the <see cref="Subtitle"/> property.
     /// </summary>
     public static readonly StyledProperty<string> SubtitleProperty =
         AvaloniaProperty.Register<PleasantWindow, string>(nameof(Subtitle));
+    
+    public static readonly StyledProperty<object?> DisplayIconProperty =
+        AvaloniaProperty.Register<PleasantWindow, object?>(nameof(DisplayIcon));
 
     /// <summary>
-    /// Defines the <see cref="IconImage"/> property.
+    /// Defines the <see cref="DisplayTitle"/> property.
     /// </summary>
-    public static readonly StyledProperty<IImage?> IconImageProperty =
-        AvaloniaProperty.Register<PleasantWindow, IImage?>(nameof(IconImage));
-
-    /// <summary>
-    /// Defines the <see cref="TitleGeometry"/> property.
-    /// </summary>
-    public static readonly StyledProperty<Geometry?> TitleGeometryProperty =
-        AvaloniaProperty.Register<PleasantWindow, Geometry?>(nameof(TitleGeometry));
+    public static readonly StyledProperty<object?> DisplayTitleProperty =
+        AvaloniaProperty.Register<PleasantWindow, object?>(nameof(DisplayTitle));
 
     /// <summary>
     /// Defines the <see cref="TitleBarType"/> property.
     /// </summary>
-    public static readonly StyledProperty<PleasantTitleBarType> TitleBarTypeProperty =
-        AvaloniaProperty.Register<PleasantWindow, PleasantTitleBarType>(nameof(TitleBarType));
+    public static readonly StyledProperty<PleasantTitleBar.Type> TitleBarTypeProperty =
+        AvaloniaProperty.Register<PleasantWindow, PleasantTitleBar.Type>(nameof(TitleBarType));
 
     /// <summary>
     /// Defines the <see cref="EnableBlur"/> property.
@@ -83,11 +62,11 @@ public class PleasantWindow : Window, IPleasantWindow
     public static readonly StyledProperty<bool> EnableBlurProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableBlur));
 
-    /// <summary>
-    /// Defines the <see cref="ShowTitleBarContentAnyway"/> property.
-    /// </summary>
-    public static readonly StyledProperty<bool> ShowTitleBarContentAnywayProperty =
-        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ShowTitleBarContentAnyway));
+    public static readonly StyledProperty<double> TitleBarHeightProperty =
+        AvaloniaProperty.Register<PleasantWindow, double>(nameof(TitleBarHeight), 32);
+
+    public static readonly StyledProperty<bool> ExtendsContentIntoTitleBarProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ExtendsContentIntoTitleBar));
 
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
@@ -101,7 +80,7 @@ public class PleasantWindow : Window, IPleasantWindow
     /// <summary>
     /// Gets or sets the content to display in the center of the title bar.
     /// </summary>
-    public Control? TitleContent
+    public object? TitleContent
     {
         get => GetValue(TitleContentProperty);
         set => SetValue(TitleContentProperty, value);
@@ -113,34 +92,16 @@ public class PleasantWindow : Window, IPleasantWindow
     /// <remarks>
     /// Will not display when <see cref="TitleBarStyle" /> equal MacOS.
     /// </remarks>
-    public Control? LeftTitleContent
+    public object? LeftTitleBarContent
     {
-        get => GetValue(LeftTitleContentProperty);
-        set => SetValue(LeftTitleContentProperty, value);
-    }
-
-    /// <summary>
-    /// Specifies whether TitleBar can indent the main window content. If False, TitleBar overlaps the window content.
-    /// </summary>
-    public bool EnableTitleBarMargin
-    {
-        get => GetValue(EnableTitleBarMarginProperty);
-        set => SetValue(EnableTitleBarMarginProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the style of the title bar.
-    /// </summary>
-    public PleasantTitleBarStyle TitleBarStyle
-    {
-        get => GetValue(TitleBarStyleProperty);
-        set => SetValue(TitleBarStyleProperty, value);
+        get => GetValue(LeftTitleBarContentProperty);
+        set => SetValue(LeftTitleBarContentProperty, value);
     }
 
     /// <summary>
     /// Specifies which buttons will be displayed in the window.
     /// </summary>
-    public PleasantCaptionButtonsType CaptionButtons
+    public PleasantCaptionButtons.Type CaptionButtons
     {
         get => GetValue(CaptionButtonsProperty);
         set => SetValue(CaptionButtonsProperty, value);
@@ -155,28 +116,25 @@ public class PleasantWindow : Window, IPleasantWindow
         set => SetValue(SubtitleProperty, value);
     }
 
-    /// <summary>
-    /// Gets or sets the icon image for the window.
-    /// </summary>
-    public IImage? IconImage
+    public object? DisplayIcon
     {
-        get => GetValue(IconImageProperty);
-        set => SetValue(IconImageProperty, value);
+        get => GetValue(DisplayIconProperty);
+        set => SetValue(DisplayIconProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the geometry used to render the title bar background.
     /// </summary>
-    public Geometry? TitleGeometry
+    public object? DisplayTitle
     {
-        get => GetValue(TitleGeometryProperty);
-        set => SetValue(TitleGeometryProperty, value);
+        get => GetValue(DisplayTitleProperty);
+        set => SetValue(DisplayTitleProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the type of the title bar.
     /// </summary>
-    public PleasantTitleBarType TitleBarType
+    public PleasantTitleBar.Type TitleBarType
     {
         get => GetValue(TitleBarTypeProperty);
         set => SetValue(TitleBarTypeProperty, value);
@@ -190,27 +148,18 @@ public class PleasantWindow : Window, IPleasantWindow
         get => GetValue(EnableBlurProperty);
         set => SetValue(EnableBlurProperty, value);
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether title bar content should be shown even when the window is maximized.
-    /// </summary>
-    public bool ShowTitleBarContentAnyway
+    
+    public double TitleBarHeight
     {
-        get => GetValue(ShowTitleBarContentAnywayProperty);
-        set => SetValue(ShowTitleBarContentAnywayProperty, value);
+        get => GetValue(TitleBarHeightProperty);
+        private set => SetValue(TitleBarHeightProperty, value);
     }
 
-    /// <inheritdoc />
-    public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
-    
-    /// <inheritdoc />
-    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
-    
-    /// <inheritdoc />
-    public AvaloniaList<Control> Controls { get; } = [];
-
-    /// <inheritdoc />
-    public VisualLayerManager VisualLayerManager { get; private set; } = null!;
+    public bool ExtendsContentIntoTitleBar
+    {
+        get => GetValue(ExtendsContentIntoTitleBarProperty);
+        set => SetValue(ExtendsContentIntoTitleBarProperty, value);
+    }
     
     /// <summary>
     /// Initializes a new instance of the <see cref="PleasantWindow"/> class.
@@ -218,42 +167,6 @@ public class PleasantWindow : Window, IPleasantWindow
     public PleasantWindow()
     {
         SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
-    }
-
-    /// <inheritdoc />
-    public void AddModalWindow(PleasantModalWindow modalWindow)
-    {
-        Panel windowPanel = new()
-        {
-            IsHitTestVisible = modalWindow.IsHitTestVisible
-        };
-        windowPanel.Children.Add(modalWindow.ModalBackground);
-        windowPanel.Children.Add(modalWindow);
-
-        ModalWindows.Add(modalWindow);
-
-        _modalWindowsPanel.Children.Add(windowPanel);
-    }
-
-    /// <inheritdoc />
-    public void RemoveModalWindow(PleasantModalWindow modalWindow)
-    {
-        ModalWindows.Remove(modalWindow);
-        _modalWindowsPanel.Children.Remove(modalWindow.Parent as Panel ?? throw new NullReferenceException());
-    }
-
-    /// <inheritdoc />
-    public void AddControl(Control control)
-    {
-        Controls.Add(control);
-        _modalWindowsPanel.Children.Add(control);
-    }
-
-    /// <inheritdoc />
-    public void RemoveControl(Control control)
-    {
-        Controls.Remove(control);
-        _modalWindowsPanel.Children.Remove(control);
     }
     
     /// <inheritdoc />
@@ -264,11 +177,6 @@ public class PleasantWindow : Window, IPleasantWindow
     {
         base.OnApplyTemplate(e);
 
-        _modalWindowsPanel = e.NameScope.Get<Panel>("PART_ModalWindowsPanel");
-
-        e.NameScope.Get<PleasantTitleBar>("PART_PleasantTitleBar");
-        VisualLayerManager = e.NameScope.Get<VisualLayerManager>("PART_VisualLayerManager");
-
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
     }
@@ -278,26 +186,26 @@ public class PleasantWindow : Window, IPleasantWindow
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == EnableCustomTitleBarProperty) ExtendClientAreaToDecorationsHint = EnableCustomTitleBar;
-
-        if (change.Property == EnableTitleBarMarginProperty)
-            if (TitleBarStyle == PleasantTitleBarStyle.MacOs)
-                EnableTitleBarMargin = true;
+        if (change.Property == EnableCustomTitleBarProperty)
+            ExtendClientAreaToDecorationsHint = EnableCustomTitleBar;
 
         if (change.Property == EnableBlurProperty)
-        {
-            if (EnableBlur)
-                TransparencyLevelHint =
-                [
-                    WindowTransparencyLevel.AcrylicBlur,
-                    WindowTransparencyLevel.Blur,
-                    WindowTransparencyLevel.None
-                ];
-            else
-                TransparencyLevelHint =
-                [
-                    WindowTransparencyLevel.None
-                ];
-        }
+            SetTransparencyLevelHint();
+    }
+
+    private void SetTransparencyLevelHint()
+    {
+        if (EnableBlur)
+            TransparencyLevelHint =
+            [
+                WindowTransparencyLevel.AcrylicBlur,
+                WindowTransparencyLevel.Blur,
+                WindowTransparencyLevel.None
+            ];
+        else
+            TransparencyLevelHint =
+            [
+                WindowTransparencyLevel.None
+            ];
     }
 }

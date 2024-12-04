@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Title>PleasantUI.ToolKit</Title>
+    </PropertyGroup>
+    
+    <Import Project="..\..\build\Package.props" />
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.2.2" />
+        <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.2" />
+        <PackageReference Include="Avalonia.Skia" Version="11.2.2" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+        <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PleasantUI\PleasantUI.csproj" />
+    </ItemGroup>
+</Project>

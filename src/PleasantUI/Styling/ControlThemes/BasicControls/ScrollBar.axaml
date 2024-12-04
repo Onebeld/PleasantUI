@@ -61,7 +61,8 @@
                 <PathIcon Width="8"
                           Height="8"
                           Margin="3"
-                          Data="{StaticResource FillArrowRegular}" />
+                          Data="{StaticResource FillArrowRegular}"
+                          Foreground="{DynamicResource ControlDarkFillColor1}"/>
             </ControlTemplate>
         </Setter>
         <Setter Property="RenderTransform" Value="scale(1)" />
@@ -73,16 +74,13 @@
             </Transitions>
         </Setter>
 
-        <Style Selector="^ /template/ PathIcon">
-            <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor1}" />
-        </Style>
         <Style Selector="^:pointerover /template/ PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor2}" />
         </Style>
-        <Style Selector="^:disabled /template/ PathIcon">
+        <Style Selector="^:pressed /template/ PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor3}" />
         </Style>
-
+        
         <Style Selector="^:disabled /template/ PathIcon">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
@@ -103,7 +101,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid RowDefinitions="Auto,*,Auto">
                                 <Rectangle Name="TrackRect"
-                                           Fill="{DynamicResource ControlFillColor1}"
+                                           Fill="{DynamicResource ControlFillColor2}"
                                            Opacity="0"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
@@ -176,7 +174,7 @@
             </Setter>
 
             <Style Selector="^ /template/ Thumb">
-                <Setter Property="RenderTransform" Value="scaleX(0.35)" />
+                <Setter Property="RenderTransform" Value="scaleX(0.35) translateX(1px)" />
             </Style>
         </Style>
 
@@ -188,7 +186,6 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid ColumnDefinitions="Auto,*,Auto">
-
                                 <Rectangle Grid.Column="0"
                                            Name="TrackRect"
                                            Opacity="0"
@@ -260,7 +257,7 @@
             </Setter>
 
             <Style Selector="^ /template/ Thumb">
-                <Setter Property="RenderTransform" Value="scaleY(0.35) translateY(-2px)" />
+                <Setter Property="RenderTransform" Value="scaleY(0.35) translateY(1px)" />
             </Style>
         </Style>
 

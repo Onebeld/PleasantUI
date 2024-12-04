@@ -1,11 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace PleasantUI.Core.Settings;
+﻿namespace PleasantUI.Core.Settings;
 
 /// <summary>
 /// Represents settings related to the renderer.
 /// </summary>
-public class RenderSettings : ObservableObject
+public class RenderSettings : ViewModelBase
 {
     private bool _enableShadowing = true;
 

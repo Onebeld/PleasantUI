@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PleasantUI.MaterialIcons.SourceGenerator;
 
-[Generator(LanguageNames.CSharp)]
+[Generator]
 public class MaterialIconsSourceGenerator : IIncrementalGenerator
 {
 	const string MaterialIconsFetchApi = "https://dev.materialdesignicons.com/api/package/38EF63D0-4744-11E4-B3CF-842B2B6CFE1B";

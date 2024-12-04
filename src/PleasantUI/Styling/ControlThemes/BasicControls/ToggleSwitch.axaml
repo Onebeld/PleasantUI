@@ -100,11 +100,6 @@
                                 HorizontalAlignment="Left">
                             <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                 <Ellipse
-                                    x:Name="SwitchKnobOn"
-                                    Fill="{DynamicResource ControlDarkFillColor1}"
-                                    Width="10"
-                                    Height="10" />
-                                <Ellipse
                                     x:Name="SwitchKnobOff"
                                     Fill="{DynamicResource ControlDarkFillColor1}"
                                     Width="10"
@@ -190,11 +185,6 @@
                                     HorizontalAlignment="Left">
                                 <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                                     <Ellipse
-                                        x:Name="SwitchKnobOn"
-                                        Fill="{DynamicResource ControlDarkFillColor1}"
-                                        Width="10"
-                                        Height="10" />
-                                    <Ellipse
                                         x:Name="SwitchKnobOff"
                                         Fill="{DynamicResource ControlDarkFillColor1}"
                                         Width="10"
@@ -226,7 +216,7 @@
         </Style>
 
         <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
-            <Setter Property="Fill" Value="{ForegroundBasedAccent AccentLightColor1}" />
+            <Setter Property="Fill" Value="{ForegroundBasedAccent AccentLightColor2}" />
         </Style>
 
         <Style Selector="^ /template/ Border#OuterBorder">

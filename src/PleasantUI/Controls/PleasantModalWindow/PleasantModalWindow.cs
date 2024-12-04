@@ -2,8 +2,10 @@
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Metadata;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Reactive;
 
@@ -168,8 +170,6 @@ public class PleasantModalWindow : ContentControl
 
         RaiseEvent(new RoutedEventArgs(WindowOpenedEvent));
 
-        _host.AddModalWindow(this);
-
         ShowBackgroundAnimation?.RunAsync(ModalBackground);
         OpenAnimation?.RunAsync(this);
 
@@ -232,8 +232,6 @@ public class PleasantModalWindow : ContentControl
                 HideBackgroundAnimation?.RunAsync(ModalBackground);
                 if (CloseAnimation is not null)
                     await CloseAnimation.RunAsync(this);
-
-                _host.RemoveModalWindow(this);
             }
         }
     }

@@ -47,7 +47,7 @@
             <Setter Property="ToolTip.Tip" Value="{Localize Expand, Default='Expand'}" />
         </Style>
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{Localize Reestablish, Default='Reestablish'}" />
+            <Setter Property="ToolTip.Tip" Value="{Localize Restore, Default='Restore'}" />
         </Style>
 
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
@@ -119,7 +119,7 @@
             <Setter Property="ToolTip.Tip" Value="{Localize Expand, Default='Expand'}" />
         </Style>
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{Localize Reestablish, Default='Reestablish'}" />
+            <Setter Property="ToolTip.Tip" Value="{Localize Restore, Default='Restore'}" />
         </Style>
 
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">

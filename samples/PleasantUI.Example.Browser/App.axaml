@@ -1,0 +1,22 @@
+﻿<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="PleasantUI.Example.Browser.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="CustomColor">#E4000000</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://PleasantUI.Example/Assets/Images.axaml" />
+                <ResourceInclude Source="avares://PleasantUI.DataGrid/DataGrid.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+             
+    <Application.Styles>
+        <PleasantTheme />
+    </Application.Styles>
+</Application>

@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using PleasantUI.Core.Helpers;
 
 namespace PleasantUI.Converters;
 

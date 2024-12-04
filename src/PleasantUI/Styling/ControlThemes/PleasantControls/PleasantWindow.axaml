@@ -2,8 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantWindow}" TargetType="PleasantWindow">
-        <Setter Property="EnableCustomTitleBar"
-                Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
+        <Setter Property="EnableCustomTitleBar" Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
@@ -11,46 +10,47 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
-        <Setter Property="EnableBlur"
-                Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
+        <Setter Property="EnableBlur" Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Panel>
+                <Panel x:Name="PART_PanelBase" Background="{x:Null}">
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
-                        <Grid RowDefinitions="Auto,*">
-                            <PleasantTitleBar x:Name="PART_PleasantTitleBar"
-                                              Grid.Row="0"
-                                              VerticalAlignment="Top"
-                                              ZIndex="5" />
+                        <VisualLayerManager.ChromeOverlayLayer>
+                            <OnPlatform>
+                                <OnPlatform.Default>
+                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
+                                                      VerticalAlignment="Top"
+                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
+                                </OnPlatform.Default>
+                                <OnPlatform.macOS>
+                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
+                                                      VerticalAlignment="Top"
+                                                      Theme="{StaticResource PleasantTitleBarMacOSStyle}"
+                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
+                                </OnPlatform.macOS>
+                            </OnPlatform>
+                        </VisualLayerManager.ChromeOverlayLayer>
 
-                            <ContentPresenter x:Name="PART_ContentWindow"
-                                              Grid.Row="1"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Content="{TemplateBinding Content}"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-
-                            <Panel x:Name="PART_ModalWindowsPanel" Grid.Row="0" Grid.RowSpan="2" />
-                        </Grid>
+                        <ContentPresenter x:Name="PART_ContentWindow"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^[TitleBarStyle=MacOs] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="Theme" Value="{StaticResource PleasantTitleBarMacOSStyle}" />
-        </Style>
-        <Style Selector="^[TitleBarStyle=MacOs]">
-            <Setter Property="EnableTitleBarMargin" Value="True" />
+        <Style Selector="^[ExtendsContentIntoTitleBar=False][EnableCustomTitleBar=True]">
+            <Setter Property="Padding" Value="{CompiledBinding $self.TitleBarHeight, Converter={x:Static ThicknessConverters.Top}}" />
         </Style>
 
         <Style Selector="^ /template/ Panel#PART_Background">
-            <Setter Property="Opacity"
-                    Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
+            <Setter Property="Opacity" Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
@@ -64,22 +64,21 @@
             <Setter Property="Opacity" Value="1" />
         </Style>
 
-        <Style Selector="^[EnableTitleBarMargin=True] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="Grid.Row" Value="0" />
+        <Style Selector="^[TitleBarType=Classic]">
+            <OnPlatform>
+                <OnPlatform.Default>
+                    <Setter Property="TitleBarHeight" Value="32" />
+                </OnPlatform.Default>
+                <OnPlatform.macOS>
+                    <Setter Property="TitleBarHeight" Value="24" />
+                </OnPlatform.macOS>
+            </OnPlatform>
         </Style>
-        <Style Selector="^[EnableTitleBarMargin=False] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="Grid.Row" Value="1" />
+        <Style Selector="^[TitleBarType=ClassicExtended]">
+            <Setter Property="TitleBarHeight" Value="44" />
         </Style>
 
-        <Style Selector="^[TitleBarType=Classic] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="Height" Value="32" />
-        </Style>
-        <Style Selector="^[TitleBarType=ClassicExtended] /template/ PleasantTitleBar#PART_PleasantTitleBar">
-            <Setter Property="Height" Value="44" />
-        </Style>
-
-        <Style
-            Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ VisualLayerManager#PART_VisualLayerManager">
+        <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ Panel#PART_PanelBase">
             <Setter Property="Margin" Value="8" />
         </Style>
     </ControlTheme>

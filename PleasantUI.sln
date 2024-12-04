@@ -22,6 +22,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.MaterialIcons", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.MaterialIcons.SourceGenerator", "generators\PleasantUI.MaterialIcons.SourceGenerator\PleasantUI.MaterialIcons.SourceGenerator.csproj", "{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.ToolKit", "src\PleasantUI.ToolKit\PleasantUI.ToolKit.csproj", "{722B39BB-1CBF-4762-A5C5-439F4EB3A781}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{D6E493DE-5180-4BA0-B122-D155A5934D08}"
+	ProjectSection(SolutionItems) = preProject
+		build\Package.props = build\Package.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.Example.Browser", "samples\PleasantUI.Example.Browser\PleasantUI.Example.Browser.csproj", "{F745D592-9AD7-4E57-B12F-41B94BDF362A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +69,14 @@ Global
 		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722B39BB-1CBF-4762-A5C5-439F4EB3A781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722B39BB-1CBF-4762-A5C5-439F4EB3A781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722B39BB-1CBF-4762-A5C5-439F4EB3A781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722B39BB-1CBF-4762-A5C5-439F4EB3A781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F745D592-9AD7-4E57-B12F-41B94BDF362A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F745D592-9AD7-4E57-B12F-41B94BDF362A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F745D592-9AD7-4E57-B12F-41B94BDF362A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F745D592-9AD7-4E57-B12F-41B94BDF362A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71BFCFA6-B53E-4F28-819F-51CB26516B5A} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
@@ -67,5 +84,6 @@ Global
 		{59DC0F4B-421E-407D-9435-F6ED14765634} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
 		{88C264B9-51D4-41CF-AEC0-24F5075FA6B8} = {EBAC1577-CFD7-477C-848E-86BFFC345D90}
 		{9FDFD065-7664-4E0C-B928-D7FC8B074EDD} = {941F7A66-EFCB-4141-97CA-A0B779ED1BB4}
+		{F745D592-9AD7-4E57-B12F-41B94BDF362A} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
 	EndGlobalSection
 EndGlobal

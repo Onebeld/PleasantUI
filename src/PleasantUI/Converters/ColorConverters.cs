@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls.Converters;
-using Avalonia.Controls.Primitives.Converters;
-using Avalonia.Data.Converters;
+﻿using Avalonia.Data.Converters;
 using Avalonia.Media;
 using PleasantUI.Core.Helpers;
 
@@ -11,15 +9,6 @@ namespace PleasantUI.Converters;
 /// </summary>
 public static class ColorConverters
 {
-    /// <inheritdoc cref="ToBrushConverter" />
-    public static readonly ToBrushConverter ToBrush = new();
-
-    /// <inheritdoc cref="ToColorConverter" />
-    public static readonly ToColorConverter ToColor = new();
-
-    /// <inheritdoc cref="AccentColorConverter" />
-    public static readonly AccentColorConverter AccentColor = new();
-
     /// <summary>
     /// Converts an unsigned integer value to a brush object.
     /// </summary>

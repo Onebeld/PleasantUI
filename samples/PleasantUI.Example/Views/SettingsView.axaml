@@ -5,7 +5,7 @@
              xmlns:pages="clr-namespace:PleasantUI.Example.ViewModels.Pages"
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
-             xmlns:userControls1="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI"
+             xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
              x:DataType="pages:SettingsViewModel">
@@ -32,7 +32,7 @@
                                     <ThemePreviewVariantScope
                                         IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         RequestedThemeVariant="{CompiledBinding ThemeVariant}">
-                                        <userControls1:ThemePreview />
+                                        <userControls:ThemePreview />
                                     </ThemePreviewVariantScope>
 
                                     <TextBlock Text="{CompiledBinding Name}" />
@@ -72,7 +72,7 @@
                                             <Grid ColumnDefinitions="Auto,*,Auto">
                                                 <ThemePreviewVariantScope Grid.Column="0"
                                                                           RequestedThemeVariant="{CompiledBinding ThemeVariant}">
-                                                    <userControls1:ThemePreview />
+                                                    <userControls:ThemePreview />
                                                 </ThemePreviewVariantScope>
 
                                                 <TextBlock Grid.Column="1"

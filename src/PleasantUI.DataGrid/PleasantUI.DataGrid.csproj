@@ -1,43 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <LangVersion>default</LangVersion>
-        <PackageVersion>5.0.0-alpha3</PackageVersion>
-        <Authors>Dmitry Zhutkov (Onebeld)</Authors>
-        <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
-        <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface, datagrid</PackageTags>
-        <PackageDescription>UI library for Avalonia</PackageDescription>
-        <Company>Onebeld</Company>
-        <AssemblyVersion>5.0.0</AssemblyVersion>
-        <FileVersion>5.0.0</FileVersion>
-        <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>PleasantUI.DataGrid</Title>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryType>Public</RepositoryType>
-        <PackageIcon>PleasantUIIcon.png</PackageIcon>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageProjectUrl>https://github.com/Onebeld/PleasantUI</PackageProjectUrl>
     </PropertyGroup>
+
+    <Import Project="..\..\build\Package.props" />
 
     <ItemGroup>
         <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.2.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\..\PleasantUIIcon.png">
-            <Pack>True</Pack>
-            <PackagePath>.\</PackagePath>
-            <Link>PleasantUIIcon.png</Link>
-        </None>
-
-        <None Include="..\..\README.md" Pack="true" PackagePath=".\"/>
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.2.2" />
     </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json;
 using Avalonia.Collections;
-using CommunityToolkit.Mvvm.ComponentModel;
 using PleasantUI.Core.Constants;
 using PleasantUI.Core.GenerationContexts;
 using PleasantUI.Core.Settings;
@@ -12,7 +11,7 @@ namespace PleasantUI.Core;
 /// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows,
 /// rendering, and accent colors.
 /// </summary>
-public class PleasantSettings : ObservableObject
+public class PleasantSettings : ViewModelBase
 {
     private AvaloniaList<uint> _colorPalettes = [];
     private Guid? _customThemeId;
@@ -111,6 +110,7 @@ public class PleasantSettings : ObservableObject
     
     static PleasantSettings()
     {
+        
         if (!Directory.Exists(PleasantDirectories.Settings))
             Directory.CreateDirectory(PleasantDirectories.Settings);
 

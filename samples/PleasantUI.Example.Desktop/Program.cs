@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Avalonia;
-using PleasantUI.Core.Logging;
+using PleasantUI.Example.Logging.Logging;
 using Serilog;
 
 namespace PleasantUI.Example.Desktop;

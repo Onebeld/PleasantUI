@@ -4,7 +4,6 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using PleasantUI.Core.Enums;
 
 namespace PleasantUI.Controls;
 
@@ -19,6 +18,27 @@ namespace PleasantUI.Controls;
 [TemplatePart("PART_InternalGrid", typeof(Grid))]
 public class PleasantTabView : TabControl
 {
+    /// <summary>
+    /// Represents the type of margin for a tab view.
+    /// </summary>
+    public enum ViewMarginType
+    {
+        /// <summary>
+        /// An extended margin is applied to the tab view.
+        /// </summary>
+        Extended = 2,
+
+        /// <summary>
+        /// A small margin is applied to the tab view.
+        /// </summary>
+        Little = 1,
+
+        /// <summary>
+        /// No margin is applied to the tab view.
+        /// </summary>
+        None = 0
+    }
+    
     /// <summary>
     /// Defines the <see cref="ClickOnAddingButton" /> event.
     /// </summary>
@@ -63,8 +83,8 @@ public class PleasantTabView : TabControl
             nameof(WidthRemainingSpace),
             o => o.WidthRemainingSpace);
 
-    public static readonly StyledProperty<TabViewMarginType> MarginTypeProperty =
-        AvaloniaProperty.Register<PleasantTabView, TabViewMarginType>(nameof(MarginType));
+    public static readonly StyledProperty<ViewMarginType> MarginTypeProperty =
+        AvaloniaProperty.Register<PleasantTabView, ViewMarginType>(nameof(MarginType));
 
     private Grid? _grid;
     private double _heightRemainingSpace;
@@ -131,7 +151,7 @@ public class PleasantTabView : TabControl
         private set => SetAndRaise(WidthRemainingSpaceProperty, ref _widthRemainingSpace, value);
     }
 
-    public TabViewMarginType MarginType
+    public ViewMarginType MarginType
     {
         get => GetValue(MarginTypeProperty);
         set => SetValue(MarginTypeProperty, value);

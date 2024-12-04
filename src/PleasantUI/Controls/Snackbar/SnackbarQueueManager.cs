@@ -29,9 +29,9 @@ public class SnackbarQueueManager<T> : EventQueue<T> where T : PleasantSnackbar
     {
         base.OnItemDequeued(item);
 
-        _parent.RemoveControl(item);
+        /*_parent.RemoveControl(item);
 
         if (Count > 0)
-            _parent.AddControl(Peek());
+            _parent.AddControl(Peek());*/
     }
 }

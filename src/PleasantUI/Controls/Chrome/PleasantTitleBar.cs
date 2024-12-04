@@ -1,9 +1,12 @@
-﻿using Avalonia;
+﻿using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Documents;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Media;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
@@ -34,6 +37,23 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_TitlePanel", typeof(StackPanel))]
 public class PleasantTitleBar : TemplatedControl
 {
+    /// <summary>
+    /// Defines the title bar type for the window
+    /// </summary>
+    public enum Type
+    {
+        /// <summary>
+        /// Regular title bar
+        /// </summary>
+        Classic = 0,
+
+        /// <summary>
+        /// The title bar is slightly larger than usual
+        /// </summary>
+        ClassicExtended = 1
+    }
+    
+    private PleasantWindow? _host;
     private PleasantCaptionButtons? _captionButtons;
 
     private MenuItem? _closeMenuItem;
@@ -42,15 +62,13 @@ public class PleasantTitleBar : TemplatedControl
     private Border? _dragWindowBorder;
     private MenuItem? _expandMenuItem;
 
-    private PleasantWindow? _host;
-    private Image? _image;
+    private Panel? _displayIcon;
+    private Panel? _displayTitle;
 
     private ContentPresenter? _leftTitleBarContent;
-    private Path? _logoPath;
     private MenuItem? _reestablishMenuItem;
     private TextBlock? _subtitle;
 
-    private TextBlock? _title;
     private ContentPresenter? _titleBarContent;
     private StackPanel? _titlePanel;
 
@@ -68,10 +86,9 @@ public class PleasantTitleBar : TemplatedControl
         _collapseMenuItem = e.NameScope.Get<MenuItem>("PART_CollapseMenuItem");
         _reestablishMenuItem = e.NameScope.Get<MenuItem>("PART_ReestablishMenuItem");
 
-        _image = e.NameScope.Find<Image>("PART_Icon");
-        _title = e.NameScope.Get<TextBlock>("PART_Title");
+        _displayIcon = e.NameScope.Find<Panel>("PART_DisplayIcon");
+        _displayTitle = e.NameScope.Get<Panel>("PART_DisplayTitle");
         _subtitle = e.NameScope.Get<TextBlock>("PART_Subtitle");
-        _logoPath = e.NameScope.Get<Path>("PART_LogoPath");
         _dragWindowBorder = e.NameScope.Get<Border>("PART_DragWindow");
         _titlePanel = e.NameScope.Get<StackPanel>("PART_TitlePanel");
 
@@ -117,43 +134,15 @@ public class PleasantTitleBar : TemplatedControl
                 }
             }),
             host.GetObservable(WindowBase.IsActiveProperty).Subscribe(b => { PseudoClasses.Set(":isactive", !b); }),
-            host.GetObservable(Window.TitleProperty).Subscribe(s =>
-            {
-                if (_title is not null) _title.Text = s;
-            }),
             host.GetObservable(PleasantWindow.SubtitleProperty).Subscribe(s =>
             {
                 if (_subtitle is not null) _subtitle.Text = s;
             }),
-            host.GetObservable(PleasantWindow.TitleGeometryProperty).Subscribe(geometry =>
-            {
-                if (_logoPath is not null)
-                {
-                    _logoPath.Data = geometry!;
-                    _logoPath.IsVisible = geometry is null == false;
-                }
-
-                if (_title != null) _title.IsVisible = geometry is null;
-            }),
-            host.GetObservable(PleasantWindow.IconImageProperty).Subscribe(image =>
-            {
-                if (image is not null)
-                {
-                    if (_image is not null) _image.Source = image;
-                }
-                else
-                {
-                    if (host.Icon is not null && _image is not null)
-                        _image.Source = host.Icon.ToBitmap();
-                }
-            }),
-            host.GetObservable(Window.IconProperty).Subscribe(_ =>
-            {
-                if (host.IconImage is null)
-                    if (_image is not null && host.Icon is not null)
-                        _image.Source = host.Icon.ToBitmap();
-            }),
-            host.GetObservable(PleasantWindow.LeftTitleContentProperty).Subscribe(content =>
+            host.GetObservable(Window.TitleProperty).Subscribe(SetDisplayTitle),
+            host.GetObservable(PleasantWindow.DisplayTitleProperty).Subscribe(SetDisplayTitle),
+            host.GetObservable(PleasantWindow.DisplayIconProperty).Subscribe(SetDisplayIcon),
+            host.GetObservable(Window.IconProperty).Subscribe(SetDisplayIcon),
+            host.GetObservable(PleasantWindow.LeftTitleBarContentProperty).Subscribe(content =>
             {
                 if (_leftTitleBarContent is not null)
                     _leftTitleBarContent.Content = content;
@@ -162,6 +151,18 @@ public class PleasantTitleBar : TemplatedControl
             {
                 if (_titleBarContent is not null)
                     _titleBarContent.Content = content;
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && _titlePanel is not null)
+                    _titlePanel.IsVisible = !host.ExtendsContentIntoTitleBar && content is null;
+            }),
+            host.GetObservable(PleasantWindow.TitleBarTypeProperty).Subscribe(type =>
+            {
+                PseudoClasses.Set(":titlebar", type == Type.Classic);
+            }),
+            host.GetObservable(PleasantWindow.ExtendsContentIntoTitleBarProperty).Subscribe(b =>
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && _titlePanel is not null)
+                    _titlePanel.IsVisible = !b;
             }),
             host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(enable =>
             {
@@ -176,8 +177,9 @@ public class PleasantTitleBar : TemplatedControl
                 _leftTitleBarContent.IsVisible = enable;
                 _captionButtons.IsVisible = enable;
 
+                /*
                 if (!_host.ShowTitleBarContentAnyway)
-                    IsVisible = enable;
+                    IsVisible = enable;*/
             })
         };
     }
@@ -194,5 +196,54 @@ public class PleasantTitleBar : TemplatedControl
         _host.WindowState = _host.WindowState == WindowState.Maximized
             ? WindowState.Normal
             : WindowState.Maximized;
+    }
+
+    private void SetDisplayIcon(object? obj)
+    {
+        if (_displayIcon is null || obj is WindowIcon)
+            return;
+        
+        _displayIcon.Children.Clear();
+
+        switch (obj)
+        {
+            case Geometry geometry:
+                _displayIcon.Children.Add(new PathIcon { Data = geometry, Width = 16, Height = 16, [!ForegroundProperty] = _displayIcon[!TextElement.ForegroundProperty]});
+                break;
+            case IImage icon:
+                _displayIcon.Children.Add(new Image { Source = icon, Width = 16, Height = 16 });
+                break;
+            case Control control:
+                _displayIcon.Children.Add(control);
+                break;
+                    
+            case null when _host?.Icon is not null:
+                _displayIcon.Children.Add(new Image { Source = _host?.Icon.ToBitmap(), Width = 16, Height = 16 });
+                break;
+        }
+    }
+
+    private void SetDisplayTitle(object? obj)
+    {
+        if (_displayTitle is null)
+            return;
+                
+        _displayTitle.Children.Clear();
+                
+        switch (obj)
+        {
+            case Geometry geometry:
+                _displayTitle.Children.Add(new PathIcon { Data = geometry, Height = 8, Width = double.NaN, [!ForegroundProperty] = _displayTitle[!TextElement.ForegroundProperty]});
+                break;
+            case IImage icon:
+                _displayTitle.Children.Add(new Image { Source = icon, Height = 8, Width = double.NaN });
+                break;
+            case Control control:
+                _displayTitle.Children.Add(control);
+                break;
+            case null when _host?.Title is not null:
+                _displayTitle.Children.Add(new TextBlock { Text = _host.Title });
+                break;
+        }
     }
 }

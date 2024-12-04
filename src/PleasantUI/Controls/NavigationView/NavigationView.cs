@@ -35,11 +35,9 @@ public class NavigationView : TreeView
 
     private CancellationTokenSource? _cancellationTokenSource;
     private ContentPresenter? _contentPresenter;
-    private CompositeDisposable? _disposable;
 
     private Button? _headerItem;
 
-    private PleasantWindow? _host;
     private IEnumerable<string>? _itemsAsStrings;
 
     private object? _selectedContent;
@@ -401,12 +399,6 @@ public class NavigationView : TreeView
                     IsOpen = true;
             };
 
-        if (VisualRoot is PleasantWindow pleasantWindow)
-        {
-            _host = pleasantWindow;
-            AttachToPleasantWindow();
-        }
-
         BackButtonCommandProperty.Changed.Subscribe(x =>
         {
             if (_backButton is not null)
@@ -432,14 +424,6 @@ public class NavigationView : TreeView
         base.OnAttachedToLogicalTree(e);
 
         if (Items.Count > 0) SelectSingleItem(Items[0] as ISelectable);
-    }
-
-    /// <inheritdoc />
-    protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
-    {
-        base.OnDetachedFromLogicalTree(e);
-
-        Detach();
     }
     
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
@@ -523,44 +507,9 @@ public class NavigationView : TreeView
         if (item.FuncControl?.GetInvocationList().Length > 0)
             SelectedContent = item.FuncControl.Invoke();
     }
-
-    private void AttachToPleasantWindow()
-    {
-        if (_host is null) return;
-
-        _disposable = new CompositeDisposable
-        {
-            this.GetObservable(DisplayModeProperty).Subscribe(displayMode =>
-            {
-                if (displayMode is SplitViewDisplayMode.Overlay
-                    && !_host.EnableTitleBarMargin
-                    && ShowBackButton)
-                    _host.LeftTitleContent = new Panel
-                    {
-                        Width = 62
-                    };
-                else if (!_host.EnableTitleBarMargin)
-                    _host.LeftTitleContent = new Panel
-                    {
-                        Width = 45
-                    };
-                else
-                    _host.LeftTitleContent = null;
-            })
-        };
-    }
     
     private void OnSelectedItemChanged()
     {
         UpdateTitleAndSelectedContent();
-    }
-
-    private void Detach()
-    {
-        if (_disposable is null) return;
-
-        _disposable.Dispose();
-        _disposable = null;
-        _host = null;
     }
 }

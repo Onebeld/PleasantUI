@@ -258,20 +258,20 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reestablish.
-        /// </summary>
-        public static string Reestablish {
-            get {
-                return ResourceManager.GetString("Reestablish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to _Reestablish.
+        ///   Looks up a localized string similar to _Restore.
         /// </summary>
         public static string ReestablishMenu {
             get {
                 return ResourceManager.GetString("ReestablishMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore.
+        /// </summary>
+        public static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
             }
         }
         

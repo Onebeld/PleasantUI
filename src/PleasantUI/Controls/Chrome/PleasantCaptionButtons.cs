@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using PleasantUI.Core.Enums;
 using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls.Chrome;
@@ -16,6 +15,37 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_MinimizeButton", typeof(Button))]
 public class PleasantCaptionButtons : TemplatedControl
 {
+    /// <summary>
+    /// Represents the types of pleasant caption buttons.
+    /// </summary>
+    public enum Type
+    {
+        /// <summary>
+        /// All buttons are visible (Close, Collapse, Expand).
+        /// </summary>
+        All = 0,
+
+        /// <summary>
+        /// Close and Collapse buttons are visible.
+        /// </summary>
+        CloseAndCollapse = 1,
+
+        /// <summary>
+        /// Close and Expand buttons are visible.
+        /// </summary>
+        CloseAndExpand = 2,
+
+        /// <summary>
+        /// Only the Close button is visible.
+        /// </summary>
+        Close = 3,
+
+        /// <summary>
+        /// No buttons are visible.
+        /// </summary>
+        None = 4
+    }
+    
     private Button? _closeButton;
     private CompositeDisposable? _disposable;
 
@@ -65,7 +95,7 @@ public class PleasantCaptionButtons : TemplatedControl
                 Host.GetObservable(WindowBase.IsActiveProperty).Subscribe(x => { PseudoClasses.Set(":isactive", !x); }),
                 Host.GetObservable(PleasantWindow.CaptionButtonsProperty).Subscribe(x =>
                 {
-                    if (x == PleasantCaptionButtonsType.None)
+                    if (x == Type.None)
                     {
                         _minimizeButton.IsVisible = false;
                         _maximizeButton.IsVisible = false;
@@ -74,7 +104,7 @@ public class PleasantCaptionButtons : TemplatedControl
                         return;
                     }
 
-                    if (x == PleasantCaptionButtonsType.All)
+                    if (x == Type.All)
                     {
                         _minimizeButton.IsVisible = true;
                         _maximizeButton.IsVisible = true;
@@ -83,7 +113,7 @@ public class PleasantCaptionButtons : TemplatedControl
                         return;
                     }
 
-                    if (x == PleasantCaptionButtonsType.Close)
+                    if (x == Type.Close)
                     {
                         _minimizeButton.IsVisible = false;
                         _maximizeButton.IsVisible = false;
@@ -92,7 +122,7 @@ public class PleasantCaptionButtons : TemplatedControl
                         return;
                     }
 
-                    if (x == PleasantCaptionButtonsType.CloseAndCollapse)
+                    if (x == Type.CloseAndCollapse)
                     {
                         _minimizeButton.IsVisible = true;
                         _maximizeButton.IsVisible = false;
@@ -101,7 +131,7 @@ public class PleasantCaptionButtons : TemplatedControl
                         return;
                     }
 
-                    if (x == PleasantCaptionButtonsType.CloseAndExpand)
+                    if (x == Type.CloseAndExpand)
                     {
                         _minimizeButton.IsVisible = false;
                         _maximizeButton.IsVisible = true;
