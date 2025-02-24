@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel;
 using Avalonia;
 using Avalonia.Animation;
+using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Presenters;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
@@ -20,19 +19,17 @@ namespace PleasantUI.Controls;
 /// This dialog provides a modal experience, meaning that it blocks interaction with the rest of the application until
 /// it is closed.
 /// </remarks>
-public class ContentDialog : ContentControl, ICustomKeyboardNavigation
+public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 {
-    private ModalWindowHost? _host;
-    
     private object? _dialogResult;
-    private Control? _originalHost;
-    private int _originalHostIndex;
     private IInputElement? _lastFocus;
     private Border? _modalBackground;
     private Panel? _panel;
         
     private bool _isClosed;
     private bool _isClosing;
+    
+    private AvaloniaList<PleasantPopupElement>? _modalWindows;
     
     /// <summary>
     /// Defines the <see cref="BottomPanelContent" /> property.
@@ -44,50 +41,50 @@ public class ContentDialog : ContentControl, ICustomKeyboardNavigation
     /// Defines the WindowClosed event.
     /// </summary>
     public static readonly RoutedEvent WindowClosedEvent =
-        RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
+        RoutedEvent.Register<ContentDialog, RoutedEventArgs>("WindowClosed", RoutingStrategies.Direct);
 
     /// <summary>
     /// Defines the WindowOpened event.
     /// </summary>
     public static readonly RoutedEvent WindowOpenedEvent =
-        RoutedEvent.Register<PleasantModalWindow, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
+        RoutedEvent.Register<ContentDialog, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
     
     /// <summary>
     /// Defines the <see cref="IsClosed"/> property.
     /// </summary>
-    public static readonly DirectProperty<PleasantModalWindow, bool> IsClosedProperty =
-        AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosed), o => o.IsClosed,
+    public static readonly DirectProperty<ContentDialog, bool> IsClosedProperty =
+        AvaloniaProperty.RegisterDirect<ContentDialog, bool>(nameof(IsClosed), o => o.IsClosed,
             (o, v) => o.IsClosed = v);
 
     /// <summary>
     /// Defines the <see cref="IsClosing"/> property.
     /// </summary>
-    public static readonly DirectProperty<PleasantModalWindow, bool> IsClosingProperty =
-        AvaloniaProperty.RegisterDirect<PleasantModalWindow, bool>(nameof(IsClosing), o => o.IsClosing);
+    public static readonly DirectProperty<ContentDialog, bool> IsClosingProperty =
+        AvaloniaProperty.RegisterDirect<ContentDialog, bool>(nameof(IsClosing), o => o.IsClosing);
     
     /// <summary>
     /// Defines the <see cref="OpenAnimation"/> property.
     /// </summary>
     public static readonly StyledProperty<Animation?> OpenAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(OpenAnimation));
+        AvaloniaProperty.Register<ContentDialog, Animation?>(nameof(OpenAnimation));
 
     /// <summary>
     /// Defines the <see cref="ShowBackgroundAnimation"/> property.
     /// </summary>
     public static readonly StyledProperty<Animation?> ShowBackgroundAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(ShowBackgroundAnimation));
+        AvaloniaProperty.Register<ContentDialog, Animation?>(nameof(ShowBackgroundAnimation));
 
     /// <summary>
     /// Defines the <see cref="CloseAnimation"/> property.
     /// </summary>
     public static readonly StyledProperty<Animation?> CloseAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(CloseAnimation));
+        AvaloniaProperty.Register<ContentDialog, Animation?>(nameof(CloseAnimation));
 
     /// <summary>
     /// Defines the <see cref="HideBackgroundAnimation"/> property.
     /// </summary>
     public static readonly StyledProperty<Animation?> HideBackgroundAnimationProperty =
-        AvaloniaProperty.Register<PleasantModalWindow, Animation?>(nameof(HideBackgroundAnimation));
+        AvaloniaProperty.Register<ContentDialog, Animation?>(nameof(HideBackgroundAnimation));
 
     /// <summary>
     /// Allows you to embed content on the modal window (e.g. buttons)
@@ -162,21 +159,59 @@ public class ContentDialog : ContentControl, ICustomKeyboardNavigation
     /// Raised when the modal window is closed.
     /// </summary>
     public event EventHandler? Closed;
-
+    
+    /// <summary>
+    /// Shows the dialog asynchronously.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task ShowAsync() => ShowAsyncCoreForTopLevel<object>(null);
 
+    /// <summary>
+    /// Shows the dialog asynchronously on the specified window.
+    /// </summary>
+    /// <param name="window">The window to show the dialog on.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task ShowAsync(Window window) => ShowAsyncCoreForTopLevel<object>(window);
 
+    /// <summary>
+    /// Shows the dialog asynchronously on the specified window.
+    /// </summary>
+    /// <param name="pleasantWindow">The window to show the dialog on.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task ShowAsync(IPleasantWindow pleasantWindow) => ShowAsyncCoreForTopLevel<object>(pleasantWindow as TopLevel);
     
+    /// <summary>
+    /// Shows the dialog asynchronously on the specified window.
+    /// </summary>
+    /// <param name="topLevel">The window to show the dialog on.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task ShowAsync(TopLevel topLevel) => ShowAsyncCoreForTopLevel<object>(topLevel);
     
+    /// <summary>
+    /// Shows the dialog asynchronously.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task<T?> ShowAsync<T>() => ShowAsyncCoreForTopLevel<T>(null);
 
+    /// <summary>
+    /// Shows the dialog asynchronously on the specified window.
+    /// </summary>
+    /// <param name="window">The window to show the dialog on.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task<T?> ShowAsync<T>(Window window) => ShowAsyncCoreForTopLevel<T>(window);
 
+    /// <summary>
+    /// Shows the dialog asynchronously on the specified window.
+    /// </summary>
+    /// <param name="pleasantWindow">The window to show the dialog on.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task<T?> ShowAsync<T>(IPleasantWindow pleasantWindow) => ShowAsyncCoreForTopLevel<T>(pleasantWindow as TopLevel);
 
+    /// <summary>
+    /// Shows the dialog asynchronously on the specified window.
+    /// </summary>
+    /// <param name="topLevel">The window to show the dialog on.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task<T?> ShowAsync<T>(TopLevel topLevel) => ShowAsyncCoreForTopLevel<T>(topLevel);
     
     /// <summary>
@@ -211,15 +246,21 @@ public class ContentDialog : ContentControl, ICustomKeyboardNavigation
             {
                 RaiseEvent(new RoutedEventArgs(WindowClosedEvent));
                 OnClosed();
+
+                _modalWindows?.Remove(this);
+                
                 PseudoClasses.Set(":close", true);
 
                 IsHitTestVisible = false;
-                _modalBackground.IsHitTestVisible = false;
+                
+                if (_modalBackground != null)
+                {
+                    _modalBackground.IsHitTestVisible = false;
 
-                Focus();
+                    HideBackgroundAnimation?.RunAsync(_modalBackground);
+                }
 
-                HideBackgroundAnimation?.RunAsync(_modalBackground);
-                await CloseAnimation?.RunAsync(this);
+                await CloseAnimation?.RunAsync(this)!;
 
                 if (_lastFocus is not null)
                 {
@@ -227,63 +268,16 @@ public class ContentDialog : ContentControl, ICustomKeyboardNavigation
                     _lastFocus = null;
                 }
                 
-                OverlayLayer overlayLayer = OverlayLayer.GetOverlayLayer(_host);
-
-                if (overlayLayer is not null)
-                {
-                    overlayLayer.Children.Remove(_host);
-
-                    _host.Content = null;
-
-                    if (_originalHost is not null)
-                    {
-                        if (_originalHost is Panel panel)
-                        {
-                            panel.Children.Insert(_originalHostIndex, this);
-                        }
-                        else if (_originalHost is Decorator decorator)
-                        {
-                            decorator.Child = this;
-                        }
-                        else if (_originalHost is ContentControl contentControl)
-                        {
-                            contentControl.Content = this;
-                        }
-                        else if (_originalHost is ContentPresenter contentPresenter)
-                        {
-                            contentPresenter.Content = this;
-                        }
-                    }
-                }
+                base.DeleteCoreForTopLevel();
             }
         }
     }
 
     private async Task<T?> ShowAsyncCoreForTopLevel<T>(TopLevel? topLevel)
     {
+        _modalWindows = ApplicationHelper.GetModalWindows(topLevel);
+        
         TaskCompletionSource<T?> taskCompletionSource = new();
-
-        if (Parent is not null)
-        {
-            _originalHost = (Control)Parent;
-
-            switch (_originalHost)
-            {
-                case Panel panel:
-                    _originalHostIndex = panel.Children.IndexOf(this);
-                    panel.Children.Remove(this);
-                    break;
-                case Decorator decorator:
-                    decorator.Child = null;
-                    break;
-                case ContentControl contentControl:
-                    contentControl.Content = null;
-                    break;
-                case ContentPresenter contentPresenter:
-                    contentPresenter.Content = null;
-                    break;
-            }
-        }
 
         _panel = new Panel();
         
@@ -295,53 +289,13 @@ public class ContentDialog : ContentControl, ICustomKeyboardNavigation
         _panel.Children.Add(_modalBackground);
         _panel.Children.Add(this);
 
-        _host ??= new ModalWindowHost();
-        _host.Content = _panel;
+        Host ??= new ModalWindowHost();
+        Host.Content = _panel;
 
-        OverlayLayer? overlayLayer;
+        base.ShowCoreForTopLevel(topLevel);
 
-        if (topLevel is not null)
-        {
-            overlayLayer = OverlayLayer.GetOverlayLayer(topLevel);
-        }
-        else
-        {
-            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
-            {
-                var windows = desktopLifetime.Windows;
-
-                for (int i = 0; i < windows.Count; i++)
-                {
-                    if (!windows[i].IsActive) continue;
-                    
-                    topLevel = windows[i];
-                    break;
-                }
-
-                if (topLevel is null)
-                    topLevel = desktopLifetime.MainWindow ?? throw new NotSupportedException("No TopLevel root found to parent ContentDialog");
-                
-                overlayLayer = OverlayLayer.GetOverlayLayer(topLevel);
-            }
-            else if (Application.Current.ApplicationLifetime is ISingleViewApplicationLifetime singleViewLifetime)
-            {
-                topLevel = TopLevel.GetTopLevel(singleViewLifetime.MainView);
-                overlayLayer = OverlayLayer.GetOverlayLayer(topLevel);
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    "No TopLevel found for ContentDialog and no ApplicationLifetime is set. " +
-                    "Please either supply a valid ApplicationLifetime or TopLevel to ShowAsync()");
-            }
-        }
-
-        if (overlayLayer is null)
-            throw new InvalidOperationException("Unable to find OverlayLayer from given TopLevel");
-
-        _lastFocus = topLevel.FocusManager?.GetFocusedElement();
-        
-        overlayLayer.Children.Add(_host);
+        _modalWindows?.Add(this);
+        _lastFocus = topLevel?.FocusManager?.GetFocusedElement();
         
         ShowBackgroundAnimation?.RunAsync(_modalBackground);
         OpenAnimation?.RunAsync(this);

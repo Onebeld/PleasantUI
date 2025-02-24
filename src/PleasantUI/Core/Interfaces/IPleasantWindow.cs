@@ -1,6 +1,4 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using PleasantUI.Controls;
 
 namespace PleasantUI.Core.Interfaces;
@@ -18,5 +16,5 @@ public interface IPleasantWindow
     /// <summary>
     /// Gets the collection of modal windows associated with this window.
     /// </summary>
-    AvaloniaList<PleasantModalWindow> ModalWindows { get; }
+    AvaloniaList<PleasantPopupElement> ModalWindows { get; }
 }

@@ -16,7 +16,7 @@ public class PleasantMiniWindow : PleasantWindowBase
     private Panel? _dragWindowPanel;
 
     private Button? _hiddenButton;
-    
+
     /// <summary>
     /// Defines the <see cref="EnableBlur"/> property.
     /// </summary>
@@ -86,17 +86,6 @@ public class PleasantMiniWindow : PleasantWindowBase
 
     /// <inheritdoc cref="StyleKeyOverride" />
     protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
-    
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PleasantMiniWindow" /> class.
-    /// </summary>
-    /// <remarks>
-    /// This constructor sets up the <see cref="SnackbarQueueManager" /> property.
-    /// </remarks>
-    public PleasantMiniWindow()
-    {
-        SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
-    }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -112,7 +101,7 @@ public class PleasantMiniWindow : PleasantWindowBase
         if (_hiddenButton is not null)
             _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
 
-        ExtendClientAreaToDecorationsHint = PleasantSettings.Instance.WindowSettings.EnableCustomTitleBar;
+        ExtendClientAreaToDecorationsHint = PleasantSettings.Current.WindowSettings.EnableCustomTitleBar;
 
         if (_dragWindowPanel is not null)
             _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
@@ -132,7 +121,7 @@ public class PleasantMiniWindow : PleasantWindowBase
 
         if (change.Property != EnableBlurProperty)
             return;
-        
+
         if (EnableBlur)
             TransparencyLevelHint =
             [

@@ -35,7 +35,7 @@ public class PleasantColorView : ColorView
     {
         uint color = HsvColor.ToRgb().ToUInt32();
         
-        PleasantSettings.Instance.ColorPalettes.Remove(color);
+        PleasantSettings.Current.ColorPalettes.Remove(color);
 
         Color = Avalonia.Media.Color.FromUInt32(color);
     }
@@ -43,8 +43,8 @@ public class PleasantColorView : ColorView
     private void AddColor(object? sender, RoutedEventArgs e)
     {
         uint color = HsvColor.ToRgb().ToUInt32();
-        if (PleasantSettings.Instance.ColorPalettes.Contains(color)) return;
+        if (PleasantSettings.Current.ColorPalettes.Contains(color)) return;
 
-        PleasantSettings.Instance.ColorPalettes.Add(color);
+        PleasantSettings.Current.ColorPalettes.Add(color);
     }
 }

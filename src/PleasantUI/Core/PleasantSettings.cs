@@ -1,8 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using System.Text.Json;
 using Avalonia.Collections;
-using PleasantUI.Core.Constants;
-using PleasantUI.Core.GenerationContexts;
 using PleasantUI.Core.Settings;
 
 namespace PleasantUI.Core;
@@ -11,20 +8,23 @@ namespace PleasantUI.Core;
 /// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows,
 /// rendering, and accent colors.
 /// </summary>
-public class PleasantSettings : ViewModelBase
+public class PleasantSettings : SettingsBase<PleasantSettings>
 {
     private AvaloniaList<uint> _colorPalettes = [];
-    private Guid? _customThemeId;
+    
     private uint _numericalAccentColor;
     private bool _preferUserAccentColor;
-    private RenderSettings _renderSettings = null!;
+    
     private string _theme = "System";
-    private WindowSettings _windowSettings = null!;
+    private Guid? _customThemeId;
+    
+    private RenderSettings _renderSettings;
+    private WindowSettings _windowSettings;
 
     /// <summary>
     /// Gets the singleton instance of the PleasantSettings class.
     /// </summary>
-    public static PleasantSettings Instance { get; }
+    public static PleasantSettings? Current { get; set; }
 
     /// <summary>
     /// Gets or sets the color in numerical form
@@ -107,60 +107,14 @@ public class PleasantSettings : ViewModelBase
         get => _colorPalettes;
         set => SetProperty(ref _colorPalettes, value);
     }
-    
-    static PleasantSettings()
+
+    public PleasantSettings()
     {
-        
-        if (!Directory.Exists(PleasantDirectories.Settings))
-            Directory.CreateDirectory(PleasantDirectories.Settings);
-
-        if (File.Exists(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings)))
-            try
-            {
-                using FileStream fileStream =
-                    File.OpenRead(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-                Instance = JsonSerializer.Deserialize(fileStream,
-                    PleasantSettingsGenerationContext.Default.PleasantSettings)!;
-
-                return;
-            }
-            catch
-            {
-                // ignored
-            }
-
-        Instance = new PleasantSettings
-        {
-            _windowSettings = new WindowSettings(),
-            _renderSettings = new RenderSettings()
-        };
-
-        Setup();
+        _windowSettings = new WindowSettings();
+        _renderSettings = new RenderSettings();
     }
 
-    /// <summary>
-    /// Saves all library settings to its own folder
-    /// </summary>
-    public static void Save()
-    {
-        using FileStream fileStream =
-            File.Create(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-        JsonSerializer.Serialize(fileStream, Instance,
-            PleasantSettingsGenerationContext.Default.PleasantSettings);
-    }
-
-    /// <summary>
-    /// Resets all settings to defaults
-    /// </summary>
-    public static void Reset()
-    {
-        Setup();
-
-        Instance.WindowSettings = new WindowSettings();
-        Instance.RenderSettings = new RenderSettings();
-    }
-
-    private static void Setup()
+    /*private static void Setup()
     {
         OperatingSystem operatingSystem = Environment.OSVersion;
 
@@ -170,24 +124,24 @@ public class PleasantSettings : ViewModelBase
 
             if (currentVersion >= new Version(10, 0, 10586))
             {
-                Instance.WindowSettings.EnableBlur = true;
-                Instance.WindowSettings.EnableCustomTitleBar = true;
+                Current.WindowSettings.EnableBlur = true;
+                Current.WindowSettings.EnableCustomTitleBar = true;
             }
             else
             {
-                Instance.WindowSettings.EnableBlur = false;
-                Instance.WindowSettings.EnableCustomTitleBar = false;
+                Current.WindowSettings.EnableBlur = false;
+                Current.WindowSettings.EnableCustomTitleBar = false;
             }
         }
         else if (operatingSystem.Platform is PlatformID.MacOSX)
         {
-            Instance.WindowSettings.EnableBlur = true;
-            Instance.WindowSettings.EnableCustomTitleBar = true;
+            Current.WindowSettings.EnableBlur = true;
+            Current.WindowSettings.EnableCustomTitleBar = true;
         }
         else
         {
-            Instance.WindowSettings.EnableBlur = false;
-            Instance.WindowSettings.EnableCustomTitleBar = false;
+            Current.WindowSettings.EnableBlur = false;
+            Current.WindowSettings.EnableCustomTitleBar = false;
         }
-    }
+    }*/
 }

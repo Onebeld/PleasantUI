@@ -1,9 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Browser;
-using PleasantUI.Example;
 using PleasantUI.Example.Browser;
 
 internal sealed partial class Program

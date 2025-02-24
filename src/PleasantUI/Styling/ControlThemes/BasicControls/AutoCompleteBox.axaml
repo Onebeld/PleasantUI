@@ -78,7 +78,7 @@
                                 Margin="6 4 6 6"
                                 Opacity="1"
                                 behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                                behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
                             <ListBox Name="PART_SelectingItemsControl"
                                      BorderThickness="0"
                                      Background="Transparent"

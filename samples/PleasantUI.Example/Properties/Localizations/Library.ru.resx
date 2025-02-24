@@ -1,0 +1,137 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AddColor" xml:space="preserve">
+        <value>Добавить цвет</value>
+    </data>
+    <data name="AddYourNewColor" xml:space="preserve">
+        <value>Добавьте свой цвет!</value>
+    </data>
+    <data name="Back" xml:space="preserve">
+        <value>Назад</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Отмена</value>
+    </data>
+    <data name="ChangeMenu" xml:space="preserve">
+        <value>_Изменить</value>
+    </data>
+    <data name="Close" xml:space="preserve">
+        <value>Закрыть</value>
+    </data>
+    <data name="CloseMenu" xml:space="preserve">
+        <value>_Закрыть</value>
+    </data>
+    <data name="Collapse" xml:space="preserve">
+        <value>Свернуть</value>
+    </data>
+    <data name="CollapseMenu" xml:space="preserve">
+        <value>Свернуть</value>
+    </data>
+    <data name="Colors" xml:space="preserve">
+        <value>Цвета</value>
+    </data>
+    <data name="ColorWheel" xml:space="preserve">
+        <value>Цветовой круг</value>
+    </data>
+    <data name="CopyMenu" xml:space="preserve">
+        <value>_Копировать</value>
+    </data>
+    <data name="CustomThemes" xml:space="preserve">
+        <value>Пользовательские темы</value>
+    </data>
+    <data name="CutMenu" xml:space="preserve">
+        <value>Вырезать</value>
+    </data>
+    <data name="DeleteMenu" xml:space="preserve">
+        <value>_Удалить</value>
+    </data>
+    <data name="Expand" xml:space="preserve">
+        <value>Развернуть</value>
+    </data>
+    <data name="ExpandMenu" xml:space="preserve">
+        <value>_Развернуть</value>
+    </data>
+    <data name="Menu" xml:space="preserve">
+        <value>Меню</value>
+    </data>
+    <data name="NoCustomThemes" xml:space="preserve">
+        <value>Нет пользовательских тем</value>
+    </data>
+    <data name="Ok" xml:space="preserve">
+        <value>ОК</value>
+    </data>
+    <data name="PasteMenu" xml:space="preserve">
+        <value>_Вставить</value>
+    </data>
+    <data name="Redo" xml:space="preserve">
+        <value>Вернуть</value>
+    </data>
+    <data name="Restore" xml:space="preserve">
+        <value>Восстановить</value>
+    </data>
+    <data name="SavedColors" xml:space="preserve">
+        <value>Сохраненные цвета</value>
+    </data>
+    <data name="RestoreMenu" xml:space="preserve">
+        <value>_Восстановить</value>
+    </data>
+    <data name="ThemeEditor" xml:space="preserve">
+        <value>Редактор тем</value>
+    </data>
+    <data name="ThemeEditor/ColorCopiedToClipboard" xml:space="preserve">
+        <value>Цвет скопирован в буфер обмена</value>
+    </data>
+    <data name="ThemeEditor/DragAndDropThemeHere" xml:space="preserve">
+        <value>Перетащите файл темы сюда</value>
+    </data>
+    <data name="ThemeEditor/CopyTheme" xml:space="preserve">
+        <value>Копировать тему</value>
+    </data>
+    <data name="ThemeEditor/ExportTheme" xml:space="preserve">
+        <value>Экспортровать тему</value>
+    </data>
+    <data name="ThemeEditor/GetColorsBasedOn" xml:space="preserve">
+        <value>Получить цвета на основе...</value>
+    </data>
+    <data name="ThemeEditor/ImportTheme" xml:space="preserve">
+        <value>Импортировать тему</value>
+    </data>
+    <data name="ThemeEditor/NumberOfColorsInstalled" xml:space="preserve">
+        <value>Количество установленных цветов</value>
+    </data>
+    <data name="ThemeEditor/ThemeCopiedToClipboard" xml:space="preserve">
+        <value>Тема скопирована в буфер обмена</value>
+    </data>
+    <data name="ThemeEditor/PasteTheme" xml:space="preserve">
+        <value>Вставить тему</value>
+    </data>
+    <data name="ThemeEditor/ThemeExported" xml:space="preserve">
+        <value>Тема была успешно экспортирована</value>
+    </data>
+    <data name="ThemeEditor/ThemeImported" xml:space="preserve">
+        <value>Тема была успешно импортирована</value>
+    </data>
+    <data name="ThemeEditor/ThemeImportError" xml:space="preserve">
+        <value>При импорте темы произошла ошибка</value>
+    </data>
+    <data name="ThemeEditor/ThemeName" xml:space="preserve">
+        <value>Название темы</value>
+    </data>
+    <data name="Themes" xml:space="preserve">
+        <value>Темы</value>
+    </data>
+    <data name="Undo" xml:space="preserve">
+        <value>Отмена</value>
+    </data>
+</root>

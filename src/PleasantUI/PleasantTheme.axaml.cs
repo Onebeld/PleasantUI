@@ -9,9 +9,12 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using PleasantUI.Core;
+using PleasantUI.Core.Constants;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Extensions.Media;
+using PleasantUI.Core.GenerationContexts;
 using PleasantUI.Core.Models;
+using PleasantUI.Core.Settings;
 
 namespace PleasantUI;
 
@@ -40,6 +43,9 @@ public class PleasantTheme : Styles
     public PleasantTheme(IServiceProvider? serviceProvider = null)
     {
         AvaloniaXamlLoader.Load(serviceProvider, this);
+        
+        PleasantSettings.Initialize(new AppSettingsProvider<PleasantSettings>(), PleasantSettingsGenerationContext.Default);
+        PleasantSettings.Current = PleasantSettings.Load(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
 
         _mainResourceDictionary = (Resources as ResourceDictionary)!;
 
@@ -65,7 +71,7 @@ public class PleasantTheme : Styles
         {
             _customTheme = value;
 
-            PleasantSettings.Instance.CustomThemeId = value?.Id;
+            PleasantSettings.Current.CustomThemeId = value?.Id;
 
             _customThemeChanged?.Invoke();
         }
@@ -212,13 +218,13 @@ public class PleasantTheme : Styles
         if (_platformSettings is null) return;
 
         _platformSettings.ColorValuesChanged += PlatformSettingsOnColorValuesChanged;
-        PleasantSettings.Instance.PropertyChanged += PleasantSettingsOnPropertyChanged;
+        PleasantSettings.Current.PropertyChanged += PleasantSettingsOnPropertyChanged;
         _customThemeChanged += () => ResolveTheme(_platformSettings);
 
         AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
 
-        if (PleasantSettings.Instance.CustomThemeId is not null)
-            SelectedCustomTheme = CustomThemes.FirstOrDefault(x => x.Id == PleasantSettings.Instance.CustomThemeId);
+        if (PleasantSettings.Current.CustomThemeId is not null)
+            SelectedCustomTheme = CustomThemes.FirstOrDefault(x => x.Id == PleasantSettings.Current.CustomThemeId);
 
         ResolveTheme(_platformSettings);
         ResolveAccentColor(_platformSettings);
@@ -279,7 +285,7 @@ public class PleasantTheme : Styles
 
     private void CurrentDomainOnProcessExit(object? sender, EventArgs e)
     {
-        PleasantSettings.Save();
+        PleasantSettings.Save(PleasantSettings.Current, Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
         PleasantThemesLoader.Save();
     }
 
@@ -289,11 +295,11 @@ public class PleasantTheme : Styles
 
         switch (e.PropertyName)
         {
-            case nameof(PleasantSettings.Instance.Theme):
+            case nameof(PleasantSettings.Current.Theme):
                 ResolveTheme(_platformSettings);
                 break;
-            case nameof(PleasantSettings.Instance.NumericalAccentColor):
-                UpdateAccentColors(Color.FromUInt32(PleasantSettings.Instance.NumericalAccentColor));
+            case nameof(PleasantSettings.Current.NumericalAccentColor):
+                UpdateAccentColors(Color.FromUInt32(PleasantSettings.Current.NumericalAccentColor));
                 break;
         }
     }
@@ -324,12 +330,12 @@ public class PleasantTheme : Styles
     {
         ThemeVariant? themeVariant;
 
-        if (PleasantSettings.Instance.Theme == "Custom")
+        if (PleasantSettings.Current.Theme == "Custom")
             themeVariant = SelectedCustomTheme?.ThemeVariant;
-        else if (PleasantSettings.Instance.Theme == "System")
+        else if (PleasantSettings.Current.Theme == "System")
             themeVariant = GetThemeFromIPlatformSettings(platformSettings);
         else
-            themeVariant = Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Instance.Theme)?.ThemeVariant;
+            themeVariant = Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme)?.ThemeVariant;
 
         if (Application.Current is not null)
             Application.Current.RequestedThemeVariant = themeVariant;
@@ -337,16 +343,16 @@ public class PleasantTheme : Styles
 
     private void ResolveAccentColor(IPlatformSettings platformSettings)
     {
-        if (!PleasantSettings.Instance.PreferUserAccentColor)
-            PleasantSettings.Instance.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUInt32();
+        if (!PleasantSettings.Current.PreferUserAccentColor)
+            PleasantSettings.Current.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUInt32();
 
-        Color accentColor = Color.FromUInt32(PleasantSettings.Instance.NumericalAccentColor);
+        Color accentColor = Color.FromUInt32(PleasantSettings.Current.NumericalAccentColor);
         UpdateAccentColors(accentColor);
     }
 
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
     {
-        if (PleasantSettings.Instance.Theme == "System" && Application.Current is not null)
+        if (PleasantSettings.Current.Theme == "System" && Application.Current is not null)
         {
             ThemeVariant themeVariant =
                 e.ThemeVariant is PlatformThemeVariant.Light ? ThemeVariant.Light : ThemeVariant.Dark;
@@ -354,11 +360,11 @@ public class PleasantTheme : Styles
             Application.Current.RequestedThemeVariant = themeVariant;
         }
 
-        if (!PleasantSettings.Instance.PreferUserAccentColor)
+        if (!PleasantSettings.Current.PreferUserAccentColor)
         {
             Color accentColor = e.AccentColor1;
 
-            PleasantSettings.Instance.NumericalAccentColor = accentColor.ToUInt32();
+            PleasantSettings.Current.NumericalAccentColor = accentColor.ToUInt32();
 
             UpdateAccentColors(accentColor);
         }

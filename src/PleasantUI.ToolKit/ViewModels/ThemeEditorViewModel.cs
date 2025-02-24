@@ -29,10 +29,10 @@ public class ThemeEditorViewModel : ObservableObject
 {
     private readonly ThemeEditorWindow _themeEditorWindow;
     private readonly IPleasantWindow _pleasantWindowParent;
-    
+
     private readonly Stack<IEditorCommand> _redoStack = new();
     private readonly Stack<IEditorCommand> _undoStack = new();
-    
+
     private AvaloniaList<Theme> _themes = new();
     private CustomTheme _customTheme;
     private string _themeName;
@@ -41,7 +41,7 @@ public class ThemeEditorViewModel : ObservableObject
     /// Gets the resource dictionary containing the theme colors.
     /// </summary>
     public readonly ResourceDictionary ResourceDictionary;
-    
+
     /// <summary>
     /// Gets or sets the custom theme being edited.
     /// </summary>
@@ -95,7 +95,7 @@ public class ThemeEditorViewModel : ObservableObject
     /// Gets a value indicating whether a redo operation is possible.
     /// </summary>
     public bool CanRedo => _redoStack.Count > 0;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ThemeEditorViewModel" /> class.
     /// </summary>
@@ -176,7 +176,7 @@ public class ThemeEditorViewModel : ObservableObject
         if (!Localizer.Instance.TryGetString("ThemeCopiedToClipboard", out string text))
             text = "Theme copied to clipboard";
 
-        PleasantSnackbar.Show(_pleasantWindowParent, text, icon: icon);
+        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(text) { Icon = icon });
     }
 
     /// <summary>
@@ -241,8 +241,11 @@ public class ThemeEditorViewModel : ObservableObject
         if (!Localizer.Instance.TryGetString("ThemeExported", out string themeExportedText))
             themeExportedText = "Theme exported";
 
-        PleasantSnackbar.Show(_pleasantWindowParent, themeExportedText, icon: fileExportIcon,
-            notificationType: NotificationType.Success);
+        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(themeExportedText)
+        {
+            Icon = fileExportIcon,
+            NotificationType = NotificationType.Success
+        });
     }
 
     /// <summary>
@@ -302,7 +305,7 @@ public class ThemeEditorViewModel : ObservableObject
         {
             if (json is null)
                 throw new ArgumentNullException(nameof(json));
-            
+
             jsonDocument = JsonDocument.Parse(json);
         }
         catch (Exception)
@@ -314,8 +317,11 @@ public class ThemeEditorViewModel : ObservableObject
             if (!Localizer.Instance.TryGetString("ThemeImportError", out string themeImportErrorText))
                 themeImportErrorText = "An error occurred while importing the theme";
 
-            PleasantSnackbar.Show(_pleasantWindowParent, themeImportErrorText, icon: closeCircleIcon,
-                notificationType: NotificationType.Error);
+            PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(themeImportErrorText)
+            {
+                Icon = closeCircleIcon,
+                NotificationType = NotificationType.Error
+            });
 
             return;
         }
@@ -351,8 +357,11 @@ public class ThemeEditorViewModel : ObservableObject
         if (!Localizer.Instance.TryGetString("ThemeImported", out string themeImportedText))
             themeImportedText = "The theme has been successfully imported";
 
-        PleasantSnackbar.Show(_pleasantWindowParent, themeImportedText, icon: fileImportIcon,
-            notificationType: NotificationType.Success);
+        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(themeImportedText)
+        {
+            Icon = fileImportIcon,
+            NotificationType = NotificationType.Success
+        });
     }
 
     private void ExecuteCommand(IEditorCommand command)
@@ -402,56 +411,66 @@ public class ThemeEditorViewModel : ObservableObject
 
     private void RegisterMessengers()
     {
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncRequestColorMessage>(this, static (recipient, message) =>
-        {
-            async Task<Color?> ReceiveAsync(ThemeEditorViewModel recipient, AsyncRequestColorMessage requestColorMessage)
+        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncRequestColorMessage>(this,
+            static (recipient, message) =>
             {
-                Color? newColor = await ColorPickerWindow.SelectColor(recipient._pleasantWindowParent, requestColorMessage.PreviousColor.ToUInt32());
-                return newColor;
-            }
-            
-            message.Reply(ReceiveAsync(recipient, message));
-        });
-        
+                async Task<Color?> ReceiveAsync(ThemeEditorViewModel recipient,
+                    AsyncRequestColorMessage requestColorMessage)
+                {
+                    Color? newColor = await ColorPickerWindow.SelectColor(recipient._pleasantWindowParent,
+                        requestColorMessage.PreviousColor.ToUInt32());
+                    return newColor;
+                }
+
+                message.Reply(ReceiveAsync(recipient, message));
+            });
+
         WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, ColorChangedMessage>(this, (recipient, message) =>
         {
-            IEditorCommand command = new ColorChangeCommand(message.ThemeColor, ResourceDictionary, message.PreviousValue, message.Value);
+            IEditorCommand command = new ColorChangeCommand(message.ThemeColor, ResourceDictionary,
+                message.PreviousValue, message.Value);
             recipient.ExecuteCommand(command);
         });
-        
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncClipboardSetColorMessage>(this, static (recipient, message) =>
-        {
-            async Task<bool> ReceiveAsync(ThemeEditorViewModel recipient, AsyncClipboardSetColorMessage setColorMessage)
+
+        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncClipboardSetColorMessage>(this,
+            static (recipient, message) =>
             {
-                await TopLevel.GetTopLevel(recipient._pleasantWindowParent as Visual)?.Clipboard
-                    ?.SetTextAsync(setColorMessage.Color.ToString().ToUpper())!;
-                return true;
-            }
+                async Task<bool> ReceiveAsync(ThemeEditorViewModel recipient,
+                    AsyncClipboardSetColorMessage setColorMessage)
+                {
+                    await TopLevel.GetTopLevel(recipient._pleasantWindowParent as Visual)?.Clipboard
+                        ?.SetTextAsync(setColorMessage.Color.ToString().ToUpper())!;
+                    return true;
+                }
 
-            message.Reply(ReceiveAsync(recipient, message));
-            
-            Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
+                message.Reply(ReceiveAsync(recipient, message));
 
-            if (!Localizer.Instance.TryGetString("ColorCopiedToClipboard", out string text))
-                text = "The color is copied to the clipboard";
+                Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
 
-            PleasantSnackbar.Show(recipient._pleasantWindowParent, text, icon: icon);
-        });
-        
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncRequestClipboardColorMessage>(this, (recipient, message) =>
-        {
-            async Task<Color?> ReceiveAsync(ThemeEditorViewModel viewModel)
+                if (!Localizer.Instance.TryGetString("ColorCopiedToClipboard", out string text))
+                    text = "The color is copied to the clipboard";
+
+                PleasantSnackbar.Show(recipient._pleasantWindowParent, new PleasantSnackbarOptions(text)
+                {
+                    Icon = icon
+                });
+            });
+
+        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncRequestClipboardColorMessage>(this,
+            (recipient, message) =>
             {
-                string? data = await TopLevel.GetTopLevel(viewModel._pleasantWindowParent as Visual)?.Clipboard
-                    ?.GetTextAsync()!;
+                async Task<Color?> ReceiveAsync(ThemeEditorViewModel viewModel)
+                {
+                    string? data = await TopLevel.GetTopLevel(viewModel._pleasantWindowParent as Visual)?.Clipboard
+                        ?.GetTextAsync()!;
 
-                if (!Color.TryParse(data, out Color newColor))
-                    return null;
+                    if (!Color.TryParse(data, out Color newColor))
+                        return null;
 
-                return newColor;
-            }
+                    return newColor;
+                }
 
-            message.Reply(ReceiveAsync(recipient));
-        });
+                message.Reply(ReceiveAsync(recipient));
+            });
     }
 }

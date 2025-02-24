@@ -1,9 +1,7 @@
-using System.Resources;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
-using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Desktop;
 
@@ -25,9 +23,6 @@ public partial class App : PleasantUiExampleApp
         }
         
         PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
-        
-        Localizer.Instance.AddResourceManager(new ResourceManager(typeof(Properties.Localization)));
-        Localizer.Instance.EditLanguage("en");
         
         Main = new MainWindow
         {

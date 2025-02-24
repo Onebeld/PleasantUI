@@ -99,7 +99,7 @@
                             <Grid RowDefinitions="*,30">
                                 <ListBox Grid.Row="0"
                                          Margin="0 0 0 5"
-                                         ItemsSource="{CompiledBinding ColorPalettes, Source={x:Static PleasantSettings.Instance}}"
+                                         ItemsSource="{CompiledBinding ColorPalettes, Source={x:Static PleasantSettings.Current}}"
                                          SelectedItem="{CompiledBinding $parent[ColorView].Color, Converter={x:Static ColorToUIntConverter.Instance}}">
                                     <ListBox.Styles>
                                         <Style Selector="ListBoxItem">
@@ -162,7 +162,7 @@
 
                                 <TextBlock Grid.Row="0"
                                            Text="{Localize AddYourNewColor, Default='Add your new color!'}"
-                                           IsVisible="{CompiledBinding !ColorPalettes.Count, Source={x:Static PleasantSettings.Instance}}"
+                                           IsVisible="{CompiledBinding !ColorPalettes.Count, Source={x:Static PleasantSettings.Current}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
                                            Foreground="{DynamicResource TextFillColor3}" />

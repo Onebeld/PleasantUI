@@ -54,7 +54,7 @@
                         ClipToBounds="False"
                         BorderThickness="{StaticResource ControlBorderThickness}"
                         behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ModalWindowDepth}"
-                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
                     <Border ClipToBounds="True"
                             CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid RowDefinitions="*,Auto">

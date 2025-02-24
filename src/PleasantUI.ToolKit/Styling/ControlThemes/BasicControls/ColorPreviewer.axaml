@@ -61,7 +61,7 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             Margin="10"
                             behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ColorPreviewer}"
-                            behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                            behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
                         <Panel>
                             <Border Background="{StaticResource CheckeredBackgroundBrush}"
                                     CornerRadius="{TemplateBinding CornerRadius}" />

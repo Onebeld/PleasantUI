@@ -40,7 +40,10 @@ public class PleasantWindow : PleasantWindowBase
     /// </summary>
     public static readonly StyledProperty<string> SubtitleProperty =
         AvaloniaProperty.Register<PleasantWindow, string>(nameof(Subtitle));
-    
+
+    /// <summary>
+    /// Defines the <see cref="DisplayIcon"/> property.
+    /// </summary>
     public static readonly StyledProperty<object?> DisplayIconProperty =
         AvaloniaProperty.Register<PleasantWindow, object?>(nameof(DisplayIcon));
 
@@ -62,9 +65,15 @@ public class PleasantWindow : PleasantWindowBase
     public static readonly StyledProperty<bool> EnableBlurProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableBlur));
 
+    /// <summary>
+    /// Defines the <see cref="TitleBarHeight"/> property.
+    /// </summary>
     public static readonly StyledProperty<double> TitleBarHeightProperty =
         AvaloniaProperty.Register<PleasantWindow, double>(nameof(TitleBarHeight), 32);
 
+    /// <summary>
+    /// Defines the <see cref="ExtendsContentIntoTitleBar"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> ExtendsContentIntoTitleBarProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ExtendsContentIntoTitleBar));
 
@@ -89,9 +98,6 @@ public class PleasantWindow : PleasantWindowBase
     /// <summary>
     /// Indicates content to the left of the window title.
     /// </summary>
-    /// <remarks>
-    /// Will not display when <see cref="TitleBarStyle" /> equal MacOS.
-    /// </remarks>
     public object? LeftTitleBarContent
     {
         get => GetValue(LeftTitleBarContentProperty);
@@ -116,6 +122,9 @@ public class PleasantWindow : PleasantWindowBase
         set => SetValue(SubtitleProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the icon used to render the title bar icon.
+    /// </summary>
     public object? DisplayIcon
     {
         get => GetValue(DisplayIconProperty);
@@ -148,27 +157,31 @@ public class PleasantWindow : PleasantWindowBase
         get => GetValue(EnableBlurProperty);
         set => SetValue(EnableBlurProperty, value);
     }
-    
+
+    /// <summary>
+    /// Gets or sets the height of the title bar.
+    /// </summary>
+    /// <remarks>
+    /// This property is read-only and is automatically set by the control.
+    /// </remarks>
     public double TitleBarHeight
     {
         get => GetValue(TitleBarHeightProperty);
         private set => SetValue(TitleBarHeightProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the window's content extends into the title bar.
+    /// </summary>
+    /// <remarks>
+    /// This property is only relevant when <see cref="EnableCustomTitleBar"/> is true.
+    /// </remarks>
     public bool ExtendsContentIntoTitleBar
     {
         get => GetValue(ExtendsContentIntoTitleBarProperty);
         set => SetValue(ExtendsContentIntoTitleBarProperty, value);
     }
-    
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PleasantWindow"/> class.
-    /// </summary>
-    public PleasantWindow()
-    {
-        SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
-    }
-    
+
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
 

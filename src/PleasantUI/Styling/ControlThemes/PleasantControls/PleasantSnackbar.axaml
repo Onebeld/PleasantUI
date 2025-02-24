@@ -29,7 +29,7 @@
                         BorderThickness="1"
                         CornerRadius="99"
                         behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Instance}}">
+                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
                     <Border CornerRadius="99"
                             Margin="-1"
                             ClipToBounds="True">

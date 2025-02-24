@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Converters;
-using Avalonia.Controls.Primitives;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;

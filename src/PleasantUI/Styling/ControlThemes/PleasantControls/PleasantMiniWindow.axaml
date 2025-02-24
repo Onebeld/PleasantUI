@@ -3,7 +3,7 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
         <Setter Property="EnableCustomTitleBar"
-                Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Instance}}" />
+                Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Current}}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="UseLayoutRounding" Value="True" />
@@ -13,7 +13,7 @@
         <Setter Property="Padding" Value="0 32 0 0" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="EnableBlur"
-                Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Instance}}" />
+                Value="{CompiledBinding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Current}}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -85,7 +85,7 @@
 
         <Style Selector="^ /template/ Panel#PART_Background">
             <Setter Property="Opacity"
-                    Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Instance}}" />
+                    Value="{CompiledBinding WindowSettings.OpacityLevel, Source={x:Static PleasantSettings.Current}}" />
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.2" />

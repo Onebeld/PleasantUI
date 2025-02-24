@@ -1,17 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PleasantUI.Core;
+using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
+using PleasantUI.Example.Structures;
 using PleasantUI.ToolKit;
 
 namespace PleasantUI.Example.ViewModels.Pages;
 
 public partial class SettingsViewModel : ObservableObject
 {
+    public Language SelectedLanguage
+    {
+        get => PleasantUiExampleApp.Languages.First(language => language.Key == PleasantUiExampleApp.LanguageKey);
+        set
+        {
+            PleasantUiExampleApp.LanguageKey = value.Key;
+            Localizer.ChangeLang(value.Key);
+        }
+    }
+    
     public Theme? SelectedTheme
     {
-        get => PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Instance.Theme);
-        set => PleasantSettings.Instance.Theme = value?.Name ?? "System";
+        get => PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme);
+        set => PleasantSettings.Current.Theme = value?.Name ?? "System";
     }
 
     public CustomTheme? SelectedCustomTheme

@@ -14,10 +14,10 @@ namespace PleasantUI.Controls;
 public class PleasantView : ContentControl, IPleasantWindow
 {
     /// <inheritdoc />
-    public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; }
+    public SnackbarQueueManager<PleasantSnackbar> SnackbarQueueManager { get; } = new();
 
     /// <inheritdoc />
-    public AvaloniaList<PleasantModalWindow> ModalWindows { get; } = [];
+    public AvaloniaList<PleasantPopupElement> ModalWindows { get; } = [];
     
     static PleasantView()
     {
@@ -34,10 +34,5 @@ public class PleasantView : ContentControl, IPleasantWindow
             [~VerticalContentAlignmentProperty] = new TemplateBinding(VerticalContentAlignmentProperty),
             [~HorizontalContentAlignmentProperty] = new TemplateBinding(HorizontalContentAlignmentProperty)
         }.RegisterInNameScope(ns)));
-    }
-    
-    public PleasantView()
-    {
-        SnackbarQueueManager = new SnackbarQueueManager<PleasantSnackbar>(this);
     }
 }

@@ -1,6 +1,9 @@
-﻿using Avalonia;
+﻿using System.Resources;
+using Avalonia;
 using Avalonia.Controls;
 using PleasantUI.Core.Interfaces;
+using PleasantUI.Core.Localization;
+using PleasantUI.Example.Structures;
 using PleasantUI.Example.ViewModels;
 
 namespace PleasantUI.Example;
@@ -25,5 +28,18 @@ public class PleasantUiExampleApp : Application
     {
         if (!Design.IsDesignMode)
             DataContext = ViewModel;
+        
+        Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
+        Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.Library)));
+        
+        Localizer.ChangeLang("en");
     }
+
+    public static string LanguageKey { get; set; } = "en";
+
+    public static readonly Language[] Languages =
+    [
+        new("English (English)", "en"),
+        new("Русский (Russian)", "ru")
+    ];
 }

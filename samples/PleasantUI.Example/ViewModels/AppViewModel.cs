@@ -1,6 +1,8 @@
 ﻿using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using PleasantUI.Example.Fabrics;
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Models;
@@ -30,13 +32,18 @@ public partial class AppViewModel : ObservableObject
 
     public AppViewModel()
     {
-        ControlPageCardsFactory factory = new(this);
+        ControlPageCardsFactory factory = new();
         
         BasicControlPageCards = factory.CreateBasicControlPageCards();
         PleasantControlPageCards = factory.CreatePleasantControlPageCards();
         ToolKitPageCards = factory.CreateToolkitControlPageCards();
         
         Page = new HomePage();
+        
+        WeakReferenceMessenger.Default.Register<AppViewModel, ValueChangedMessage<IPage>>(this, (recipient, message) =>
+        {
+            recipient.ChangePageCommand.Execute(message.Value);
+        });
     }
 
     /// <summary>

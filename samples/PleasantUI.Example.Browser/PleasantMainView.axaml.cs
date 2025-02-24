@@ -1,7 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using PleasantUI.Controls;
+﻿using PleasantUI.Controls;
 
 namespace PleasantUI.Example.Browser;
 

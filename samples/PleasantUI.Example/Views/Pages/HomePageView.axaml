@@ -21,11 +21,11 @@
         
         <StackPanel Grid.Row="1" Spacing="10" Margin="0 10 0 0">
             <TextBlock Theme="{StaticResource TitleTextBlockTheme}" TextAlignment="Center">
-                Welcome to 
+                <Run Text="{Localize WelcomeToPleasantUI}" />
                 <InlineUIContainer BaselineAlignment="Baseline">
                     <PathIcon Height="25" Width="NaN" Data="{StaticResource PleasantUINoLogo}" />
                 </InlineUIContainer>
-                !
+                <Run Text="!" />
             </TextBlock>
             
 

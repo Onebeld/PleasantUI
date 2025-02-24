@@ -9,6 +9,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
@@ -16,14 +17,16 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A modern and customizable Snackbar control for displaying notifications.
 /// </summary>
-public class PleasantSnackbar : ContentControl
+public class PleasantSnackbar : PleasantPopupElement
 {
-    private IPleasantWindow _parent;
-    
     private Button? _button;
     private ContentPresenter? _contentPresenter;
     private Grid? _grid;
     private Border? _snackbarBorder;
+    
+    private IDisposable? _closingTimer;
+
+    private readonly SnackbarQueueManager<PleasantSnackbar>? _queueManager;
     
 	/// <summary>
 	/// Defines the <see cref="OpenAnimation" /> property.
@@ -99,90 +102,141 @@ public class PleasantSnackbar : ContentControl
         get => GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
-    
-    public IDisposable ClosingTimer { get; set; }
 
-    public PleasantSnackbar()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PleasantSnackbar"/> class.
+    /// Retrieves the Snackbar queue manager from the application helper.
+    /// </summary>
+    public PleasantSnackbar(TopLevel? topLevel)
     {
-        
-    }
-
-    public PleasantSnackbar(IPleasantWindow parent)
-    {
-        _parent = parent;
+        _queueManager = ApplicationHelper.GetSnackbarQueueManager(topLevel);
     }
 
     /// <summary>
-    /// Shows a Snackbar with the specified message, icon, and notification type.
+    /// Shows the Snackbar with the given options.
     /// </summary>
-    /// <param name="parent">The parent window to which the Snackbar will be added.</param>
-    /// <param name="message">The message to display in the Snackbar.</param>
-    /// <param name="icon">The icon to display in the Snackbar (optional).</param>
-    /// <param name="notificationType">The type of notification (optional, defaults to Information).</param>
-    /// <param name="timeSpan">The duration the Snackbar will be displayed (optional, defaults to 3 seconds).</param>
-    public static void Show(
-        IPleasantWindow parent,
-        string message,
-        string? buttonText = null,
-        Action? buttonAction = null,
-        Geometry? icon = null,
-        NotificationType notificationType = NotificationType.Information,
-        TimeSpan timeSpan = default)
+    /// <param name="options">The options to use when showing the Snackbar.</param>
+    public static void Show(PleasantSnackbarOptions options) => ShowCoreForTopLevel(null, options);
+
+    /// <summary>
+    /// Shows the Snackbar with the given options on the specified window.
+    /// </summary>
+    /// <param name="window">The window to show the Snackbar on.</param>
+    /// <param name="options">The options to use when showing the Snackbar.</param>
+    public static void Show(Window window, PleasantSnackbarOptions options) => ShowCoreForTopLevel(window, options);
+    
+    /// <summary>
+    /// Shows the Snackbar with the given options on the specified window.
+    /// </summary>
+    /// <param name="pleasantWindow">The window to show the Snackbar on.</param>
+    /// <param name="options">The options to use when showing the Snackbar.</param>
+    public static void Show(IPleasantWindow pleasantWindow, PleasantSnackbarOptions options) => ShowCoreForTopLevel(pleasantWindow as TopLevel, options);
+
+    /// <summary>
+    /// Shows the Snackbar with the given options on the specified window.
+    /// </summary>
+    /// <param name="topLevel">The window to show the Snackbar on.</param>
+    /// <param name="options">The options to use when showing the Snackbar.</param>
+    public static void Show(TopLevel topLevel, PleasantSnackbarOptions options) => ShowCoreForTopLevel(topLevel, options);
+    
+    internal void CreateHost()
     {
-        if (timeSpan == default)
-            timeSpan = TimeSpan.FromSeconds(3);
+        Host ??= new ModalWindowHost();
+        Host.Content = this;
+        
+        ShowCoreForTopLevel(Parent);
+    }
+
+    internal void DeleteHost()
+    {
+        base.DeleteCoreForTopLevel();
+    }
+    
+    /// <inheritdoc />
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        _snackbarBorder = e.NameScope.Find<Border>("PART_Snackbar");
+        _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
+        _button = e.NameScope.Find<Button>("PART_Button");
+        _grid = e.NameScope.Find<Grid>("PART_Grid");
+
+        if (_snackbarBorder is null || _contentPresenter is null)
+            throw new NullReferenceException("Snackbar border or content presenter not found");
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == NotificationTypeProperty)
+            UpdateNotificationType();
+    }
+
+    private static void ShowCoreForTopLevel(TopLevel? parent, PleasantSnackbarOptions options)
+    {
+        if (options.TimeSpan == TimeSpan.Zero)
+            options.TimeSpan = TimeSpan.FromSeconds(3);
 
         PleasantSnackbar pleasantSnackbar = new(parent)
         {
-            Content = message,
-            Icon = icon,
-            NotificationType = notificationType
+            Content = options.Message,
+            Icon = options.Icon,
+            NotificationType = options.NotificationType,
+            
+            Parent = parent
         };
 
         pleasantSnackbar.TemplateApplied += (_, _) =>
         {
-            pleasantSnackbar.DefineButton(buttonText, buttonAction);
+            pleasantSnackbar.DefineButton(options.ButtonText, options.ButtonAction);
         };
 
         pleasantSnackbar.Loaded += async (_, _) =>
         {
             await pleasantSnackbar.Open();
 
-            async void CloseSnackbar()
-            {
-                pleasantSnackbar.IsHitTestVisible = false;
-
-                await pleasantSnackbar.Close();
-
-                parent.SnackbarQueueManager.Dequeue();
-            }
-
-            pleasantSnackbar.ClosingTimer = DispatcherTimer.RunOnce(CloseSnackbar, timeSpan);
+            pleasantSnackbar._closingTimer = DispatcherTimer.RunOnce(() => _ = pleasantSnackbar.Close(), options.TimeSpan);
 
             pleasantSnackbar.PointerPressed += (_, _) =>
             {
-                pleasantSnackbar.ClosingTimer.Dispose();
+                pleasantSnackbar._closingTimer.Dispose();
 
-                CloseSnackbar();
+                _ = pleasantSnackbar.Close();
             };
         };
+        
+        pleasantSnackbar._queueManager?.Enqueue(pleasantSnackbar);
 
-        parent.SnackbarQueueManager.Enqueue(pleasantSnackbar);
+        if (pleasantSnackbar._queueManager is null)
+        {
+            pleasantSnackbar.CreateHost();
+            return;
+        }
 
-        /*if (parent.SnackbarQueueManager.Count <= 1)
-            parent.AddControl(pleasantSnackbar);*/
+        if (pleasantSnackbar._queueManager.Count <= 1)
+            pleasantSnackbar.CreateHost();
     }
 
-    /// <summary>
-    /// Opens the Snackbar with an animation.
-    /// </summary>
-    public async Task Open()
+    private async Task Close(Action? action = null)
+    {
+        IsHitTestVisible = false;
+        
+        await RunCloseAnimation();
+        action?.Invoke();
+
+        _queueManager?.Dequeue();
+    }
+
+    private async Task Open()
     {
         double maxSnackbarWidth = _snackbarBorder!.Bounds.Width;
 
         _snackbarBorder.Width = MinWidth;
 
-        await OpenAnimation?.RunAsync(this);
+        await OpenAnimation?.RunAsync(this)!;
 
         Animation animation = new()
         {
@@ -213,17 +267,15 @@ public class PleasantSnackbar : ContentControl
         await animation.RunAsync(_snackbarBorder);
 
         _snackbarBorder.Width = double.NaN;
-        _contentPresenter.TextWrapping = TextWrapping.WrapWithOverflow;
-        _grid.Opacity = 1;
+        
+        if (_contentPresenter != null)
+            _contentPresenter.TextWrapping = TextWrapping.WrapWithOverflow;
+        
+        if (_grid != null)
+            _grid.Opacity = 1;
     }
 
-    /// <summary>
-    /// Sets the text and action for the button. If <paramref name="content" /> is <see langword="null" /> or empty, or
-    /// if <paramref name="action" /> is <see langword="null" />, the button will be hidden.
-    /// </summary>
-    /// <param name="content">The text to display on the button.</param>
-    /// <param name="action">The action to perform when the button is clicked.</param>
-    public void DefineButton(string? content, Action? action)
+    private void DefineButton(string? content, Action? action)
     {
         if (_button is null)
             return;
@@ -234,47 +286,13 @@ public class PleasantSnackbar : ContentControl
         _button.Content = content;
         _button.Click += async (_, _) =>
         {
-            ClosingTimer.Dispose();
+            _closingTimer?.Dispose();
 
-            IsHitTestVisible = false;
-
-            await Close();
-            action?.Invoke();
-
-            _parent.SnackbarQueueManager.Dequeue();
+            await Close(action);
         };
     }
-
-    /// <summary>
-    /// Closes the Snackbar with an animation.
-    /// </summary>
-    public async Task Close()
-    {
-        await CloseAnimation?.RunAsync(this);
-    }
-
-    /// <inheritdoc />
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        _snackbarBorder = e.NameScope.Find<Border>("PART_Snackbar");
-        _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
-        _button = e.NameScope.Find<Button>("PART_Button");
-        _grid = e.NameScope.Find<Grid>("PART_Grid");
-
-        if (_snackbarBorder is null || _contentPresenter is null)
-            throw new NullReferenceException("Snackbar border or content presenter not found");
-    }
-
-    /// <inheritdoc />
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        base.OnPropertyChanged(e);
-
-        if (e.Property == NotificationTypeProperty)
-            UpdateNotificationType();
-    }
+    
+    private async Task RunCloseAnimation() => await CloseAnimation?.RunAsync(this)!;
     
     private void UpdateNotificationType()
     {

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using System.Resources;
-using Avalonia.Logging;
 
 namespace PleasantUI.Core.Localization;
 
@@ -87,6 +86,10 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         
         return string.Format(expression, args);
     }
+    
+    public static void AddRes(ResourceManager resourceManager) => Instance.AddResourceManager(resourceManager);
+    
+    public static void ChangeLang(string language) => Instance.ChangeLanguage(language);
 
     /// <summary>
     /// Attempts to get the localized string for the specified key.
@@ -132,7 +135,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     }
 
     /// <inheritdoc />
-    public void ChangeLanguage(string language)
+    public void ChangeLanguage(string language = "en")
     {
         if (string.IsNullOrEmpty(language))
             language = DefaultLanguage;
@@ -150,24 +153,22 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         if (_resources == null) return string.Empty;
         foreach (ResourceManager? resource in _resources)
         {
-            string? row = resource?.GetString(key);
+            string? row;
+
+            try
+            {
+                row = resource?.GetString(key);
+            }
+            catch (MissingManifestResourceException)
+            {
+                continue;
+            }
 
             if (!string.IsNullOrEmpty(row))
                 return row;
         }
 
         return string.Empty;
-    }
-
-    /// <summary>
-    /// Loads the current language resources.
-    /// </summary>
-    public void LoadLanguage()
-    {
-        if (ResourceManagers != null)
-            _resources = new List<ResourceManager>(ResourceManagers);
-
-        InvalidateEvents();
     }
 
     /// <summary>
@@ -178,6 +179,14 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     public static IObservable<string> GetObservable(string key)
     {
         return new LocalizeObservable(key);
+    }
+    
+    private void LoadLanguage()
+    {
+        if (ResourceManagers != null)
+            _resources = new List<ResourceManager>(ResourceManagers);
+
+        InvalidateEvents();
     }
 
     private void InvalidateEvents()

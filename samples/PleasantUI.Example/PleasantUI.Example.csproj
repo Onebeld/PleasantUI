@@ -5,8 +5,9 @@
         <Nullable>enable</Nullable>
         <DebugType>Full</DebugType>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
+        <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugType>embedded</DebugType>
         <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
@@ -21,26 +22,37 @@
 
     <ItemGroup>
         <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
-        <PackageReference Include="Serilog" Version="4.1.0"/>
+        <PackageReference Include="Serilog" Version="4.2.0"/>
     </ItemGroup>
-
+    
     <ItemGroup>
-        <EmbeddedResource Update="Properties\Localization.resx">
+        <AdditionalFiles Include="Properties\Localizations\*.resx"/>
+
+        <AdditionalFiles Include="Properties\Localizations\Library.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>
-        </EmbeddedResource>
+            <LastGenOutput>Library.Designer.cs</LastGenOutput>
+        </AdditionalFiles>
 
-        <AdditionalFiles Include="Properties\*.resx"/>
+        <AdditionalFiles Include="Properties\Localizations\App.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>App.Designer.cs</LastGenOutput>
+        </AdditionalFiles>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Properties\Localization.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Localization.resx</DependentUpon>
-        </Compile>
         <Compile Update="Views\Pages\PleasantControlPages\ProgressRingPageView.axaml.cs">
             <DependentUpon>ProgressRingPageView.axaml</DependentUpon>
             <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Properties\Localizations\App.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>App.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Properties\Localizations\Library.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Library.resx</DependentUpon>
         </Compile>
     </ItemGroup>
 </Project>

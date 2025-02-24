@@ -6,10 +6,10 @@
     <Import Project="..\..\build\Package.props" />
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.2" />
-        <PackageReference Include="Avalonia.Skia" Version="11.2.2" />
+        <PackageReference Include="Avalonia" Version="11.2.3" />
+        <PackageReference Include="Avalonia.Skia" Version="11.2.3" />
         <PackageReference Include="SkiaSharp" Version="2.88.9" />
-        <PackageReference Include="System.Text.Json" Version="9.0.0" />
+        <PackageReference Include="System.Text.Json" Version="9.0.1" />
     </ItemGroup>
 
     <ItemGroup>

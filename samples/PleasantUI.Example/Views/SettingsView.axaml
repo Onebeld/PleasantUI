@@ -6,6 +6,8 @@
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
              xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
+             xmlns:example="clr-namespace:PleasantUI.Example"
+             xmlns:structures="clr-namespace:PleasantUI.Example.Structures"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
              x:DataType="pages:SettingsViewModel">
@@ -15,11 +17,25 @@
 
     <SmoothScrollViewer>
         <StackPanel Margin="25" Spacing="5">
-            <TextBlock Text="Settings"
+            <TextBlock Text="{Localize Settings}"
                        Margin="0 0 0 10"
                        Theme="{StaticResource TitleTextBlockTheme}" />
+            
+            <OptionsDisplayItem Header="{Localize Language}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox MinWidth="150"
+                              ItemsSource="{x:Static example:PleasantUiExampleApp.Languages}"
+                              SelectedItem="{CompiledBinding SelectedLanguage}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="structures:Language">
+                                <TextBlock Text="{CompiledBinding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
 
-            <OptionsDisplayItem Header="Theme"
+            <OptionsDisplayItem Header="{Localize Theme}"
                                 Icon="{StaticResource BrushVariantRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
@@ -35,7 +51,7 @@
                                         <userControls:ThemePreview />
                                     </ThemePreviewVariantScope>
 
-                                    <TextBlock Text="{CompiledBinding Name}" />
+                                    <TextBlock Text="{Localize {CompiledBinding Name}, Context=Theme}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>

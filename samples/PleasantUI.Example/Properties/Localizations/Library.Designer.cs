@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PleasantUI.Example.Properties {
+namespace PleasantUI.Example.Properties.Localizations {
     using System;
     
     
@@ -21,14 +21,14 @@ namespace PleasantUI.Example.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Localization {
+    public class Library {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Localization() {
+        internal Library() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace PleasantUI.Example.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PleasantUI.Example.Properties.Localization", typeof(Localization).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PleasantUI.Example.Properties.Localizations.Library", typeof(Library).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -258,20 +258,20 @@ namespace PleasantUI.Example.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Restore.
-        /// </summary>
-        public static string ReestablishMenu {
-            get {
-                return ResourceManager.GetString("ReestablishMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Restore.
         /// </summary>
         public static string Restore {
             get {
                 return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Restore.
+        /// </summary>
+        public static string RestoreMenu {
+            get {
+                return ResourceManager.GetString("RestoreMenu", resourceCulture);
             }
         }
         

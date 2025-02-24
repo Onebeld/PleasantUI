@@ -1,5 +1,4 @@
 ﻿using PleasantUI.Core.Collections;
-using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
 
@@ -9,17 +8,6 @@ namespace PleasantUI.Controls;
 /// <typeparam name="T">The type of PleasantSnackbar to be managed. Must be a subclass of PleasantSnackbar.</typeparam>
 public class SnackbarQueueManager<T> : EventQueue<T> where T : PleasantSnackbar
 {
-    private readonly IPleasantWindow _parent;
-
-    /// <summary>
-    /// Initializes a new instance of the SnackbarQueueManager class.
-    /// </summary>
-    /// <param name="parent">The PleasantWindow that will host the snackbars.</param>
-    public SnackbarQueueManager(IPleasantWindow parent)
-    {
-        _parent = parent;
-    }
-
     /// <summary>
     /// Called when an item is dequeued from the queue.
     /// Removes the dequeued snackbar from the parent window and adds the next snackbar in the queue (if any).
@@ -29,9 +17,9 @@ public class SnackbarQueueManager<T> : EventQueue<T> where T : PleasantSnackbar
     {
         base.OnItemDequeued(item);
 
-        /*_parent.RemoveControl(item);
+        item.DeleteHost();
 
         if (Count > 0)
-            _parent.AddControl(Peek());*/
+            Peek().CreateHost();
     }
 }
