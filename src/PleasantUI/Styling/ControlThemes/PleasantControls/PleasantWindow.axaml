@@ -25,12 +25,6 @@
                                                       VerticalAlignment="Top"
                                                       Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
                                 </OnPlatform.Default>
-                                <OnPlatform.macOS>
-                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
-                                                      VerticalAlignment="Top"
-                                                      Theme="{StaticResource PleasantTitleBarMacOSStyle}"
-                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
-                                </OnPlatform.macOS>
                             </OnPlatform>
                         </VisualLayerManager.ChromeOverlayLayer>
 
