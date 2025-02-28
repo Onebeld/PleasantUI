@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using PleasantUI.Controls.Chrome;
@@ -191,7 +192,14 @@ public class PleasantWindow : PleasantWindowBase
         base.OnApplyTemplate(e);
 
         this.GetObservable(EnableCustomTitleBarProperty)
-            .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
+        .Subscribe(val =>
+        {
+            ExtendClientAreaToDecorationsHint = val;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && EnableCustomTitleBar == true)
+            {
+                ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+            }
+        });
     }
 
     /// <inheritdoc />
