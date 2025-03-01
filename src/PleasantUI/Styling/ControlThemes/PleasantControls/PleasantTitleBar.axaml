@@ -85,7 +85,6 @@
                         </OnPlatform.Default>
                         <OnPlatform.macOS>
                             <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
-                                                    Margin="10 0 0 0"
                                                     Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
                         </OnPlatform.macOS>
                     </OnPlatform>

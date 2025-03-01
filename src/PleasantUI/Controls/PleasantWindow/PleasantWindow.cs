@@ -19,6 +19,12 @@ public class PleasantWindow : PleasantWindowBase
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(EnableCustomTitleBar), true);
 
     /// <summary>
+    /// Defines the <see cref="OverrideMacOSCaption"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> OverrideMacOSCaptionProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(OverrideMacOSCaptionProperty), true);
+
+    /// <summary>
     /// Defines the <see cref="TitleContent"/> property.
     /// </summary>
     public static readonly StyledProperty<object?> TitleContentProperty =
@@ -85,6 +91,15 @@ public class PleasantWindow : PleasantWindowBase
     {
         get => GetValue(EnableCustomTitleBarProperty);
         set => SetValue(EnableCustomTitleBarProperty, value);
+    }
+
+    /// <summary>
+    /// Overrides Native MacOS caption buttons
+    /// </summary>
+    public bool OverrideMacOSCaption
+    {
+        get => GetValue(OverrideMacOSCaptionProperty);
+        set => SetValue(OverrideMacOSCaptionProperty, value);
     }
 
     /// <summary>
@@ -197,7 +212,23 @@ public class PleasantWindow : PleasantWindowBase
             ExtendClientAreaToDecorationsHint = val;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && EnableCustomTitleBar == true)
             {
-                ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+                if (OverrideMacOSCaption == true)
+                {
+                    ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+                }
+                else
+                {
+                    ExtendClientAreaTitleBarHeightHint = -1;
+                    if (TitleBarType == PleasantTitleBar.Type.Classic)
+                    {
+                        ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome;
+                    }
+                    else
+                    {
+                        ExtendClientAreaChromeHints |= Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome | Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+                    }
+                    SystemDecorations = SystemDecorations.Full;
+                }
             }
         });
     }

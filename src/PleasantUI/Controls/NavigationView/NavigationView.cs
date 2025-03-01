@@ -462,15 +462,45 @@ public class NavigationView : TreeView
 
     private void UpdateMacNavigationLayout(PleasantWindow window)
     {
-        if (window.EnableCustomTitleBar == true && RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        if (window.EnableCustomTitleBar && RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            if (_mainGrid != null && _marginPanel != null && _dockPanel != null && _stackPanelButtons != null && _headerItem != null)
+            // Subscribe to window state changes
+            window.GetObservable(Window.WindowStateProperty).Subscribe(state =>
             {
-                _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
-                _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 6, 5, 5);
-                Grid.SetRow(_marginPanel, 2);
-                Grid.SetRow(_dockPanel, 3);
-            }
+                if (state == WindowState.FullScreen)
+                {
+                    if (_mainGrid != null && _mainGrid.RowDefinitions.Count > 0)
+                    {
+                        _mainGrid.RowDefinitions.RemoveAt(0);
+                    }
+                    if (_stackPanelButtons != null)
+                    {
+                        _stackPanelButtons.Margin = new Thickness(5);
+                    }
+                    if (_marginPanel != null)
+                    {
+                        Grid.SetRow(_marginPanel, 1);
+                    }
+                    if (_dockPanel != null)
+                    {
+                        Grid.SetRow(_dockPanel, 2);
+                    }
+                }
+                else
+                {
+                    if (_mainGrid != null && _marginPanel != null && _dockPanel != null && _stackPanelButtons != null && _headerItem != null)
+                    {
+                        if (_mainGrid.RowDefinitions.Count == 0 ||
+                            _mainGrid.RowDefinitions[0].Height.Value != _headerItem.Height)
+                        {
+                            _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
+                        }
+                        _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 6, 5, 5);
+                        Grid.SetRow(_marginPanel, 2);
+                        Grid.SetRow(_dockPanel, 3);
+                    }
+                }
+            });
         }
     }
 
