@@ -101,7 +101,7 @@ public class PleasantMiniWindow : PleasantWindowBase
         if (_hiddenButton is not null)
             _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
 
-        ExtendClientAreaToDecorationsHint = PleasantSettings.Current.WindowSettings.EnableCustomTitleBar;
+        ExtendClientAreaToDecorationsHint = PleasantSettings.Current?.WindowSettings.EnableCustomTitleBar ?? false;
 
         if (_dragWindowPanel is not null)
             _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;

@@ -11,7 +11,7 @@ namespace PleasantUI.ToolKit.Models;
 public class ThemeColor : ObservableObject
 {
     private Color _color;
-    private string _name;
+    private string _name = null!;
 
     /// <summary>
     /// Gets or sets the name of the color.
@@ -40,7 +40,7 @@ public class ThemeColor : ObservableObject
     /// Gets a <see cref="Avalonia.Media.SolidColorBrush" /> representation of the color.
     /// </summary>
     public SolidColorBrush Brush => new(Color);
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ThemeColor" /> class.
     /// </summary>
@@ -81,12 +81,12 @@ public class ThemeColor : ObservableObject
     public async Task PasteColorAsync()
     {
         Color? newColor = await WeakReferenceMessenger.Default.Send(new AsyncRequestClipboardColorMessage());
-        
+
         if (newColor is null)
             return;
 
         Color previousColor = Color;
-        
+
         WeakReferenceMessenger.Default.Send(new ColorChangedMessage(newColor.Value, this, previousColor));
     }
 }

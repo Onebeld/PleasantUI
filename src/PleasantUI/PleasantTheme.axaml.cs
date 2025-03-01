@@ -43,7 +43,7 @@ public class PleasantTheme : Styles
     public PleasantTheme(IServiceProvider? serviceProvider = null)
     {
         AvaloniaXamlLoader.Load(serviceProvider, this);
-        
+
         PleasantSettings.Initialize(new AppSettingsProvider<PleasantSettings>(), PleasantSettingsGenerationContext.Default);
         PleasantSettings.Current = PleasantSettings.Load(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
 
@@ -70,6 +70,9 @@ public class PleasantTheme : Styles
         set
         {
             _customTheme = value;
+
+            if (PleasantSettings.Current is null)
+                throw new NullReferenceException("PleasantSettings.Current is null.");
 
             PleasantSettings.Current.CustomThemeId = value?.Id;
 
@@ -113,10 +116,10 @@ public class PleasantTheme : Styles
     public static int CountOfKeysTheme()
     {
         Theme theme = Themes.First(theme => theme.Name == "Light");
-        
+
         if (theme.ThemeVariant is null)
             throw new NullReferenceException("Theme Variant is null");
-        
+
         ResourceDictionary lightThemeBasicColors =
             (_mainResourceDictionary.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
 
@@ -145,7 +148,7 @@ public class PleasantTheme : Styles
             (_mainResourceDictionary.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
 
         ResourceDictionary? lightThemeCustomColors = null;
-        
+
         if (Application.Current.Resources.ThemeDictionaries.ContainsKey(theme.ThemeVariant))
             lightThemeCustomColors = (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
 
@@ -214,6 +217,9 @@ public class PleasantTheme : Styles
                 "Current application is not initialized. You need to load the xaml in the Initialize method");
 
         _platformSettings = Application.Current.PlatformSettings;
+
+        if (PleasantSettings.Current is null)
+            throw new NullReferenceException("PleasantSettings.Current is null.");
 
         if (_platformSettings is null) return;
 
@@ -293,6 +299,9 @@ public class PleasantTheme : Styles
     {
         if (_platformSettings is null) return;
 
+        if (PleasantSettings.Current is null)
+            throw new NullReferenceException("PleasantSettings.Current is null.");
+
         switch (e.PropertyName)
         {
             case nameof(PleasantSettings.Current.Theme):
@@ -328,6 +337,9 @@ public class PleasantTheme : Styles
 
     private void ResolveTheme(IPlatformSettings platformSettings)
     {
+        if (PleasantSettings.Current is null)
+            throw new NullReferenceException("PleasantSettings.Current is null.");
+
         ThemeVariant? themeVariant;
 
         if (PleasantSettings.Current.Theme == "Custom")
@@ -341,8 +353,12 @@ public class PleasantTheme : Styles
             Application.Current.RequestedThemeVariant = themeVariant;
     }
 
+
     private void ResolveAccentColor(IPlatformSettings platformSettings)
     {
+        if (PleasantSettings.Current is null)
+            throw new NullReferenceException("PleasantSettings.Current is null.");
+
         if (!PleasantSettings.Current.PreferUserAccentColor)
             PleasantSettings.Current.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUInt32();
 
@@ -352,6 +368,9 @@ public class PleasantTheme : Styles
 
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
     {
+        if (PleasantSettings.Current is null)
+            throw new NullReferenceException("PleasantSettings.Current is null.");
+
         if (PleasantSettings.Current.Theme == "System" && Application.Current is not null)
         {
             ThemeVariant themeVariant =

@@ -272,10 +272,14 @@ public class PleasantTitleBar : TemplatedControl
 
         if (isMacOS)
         {
-            var firstColWidth = !_host.OverrideMacOSCaption
+            if (_host != null)
+            {
+                var firstColWidth = !_host.OverrideMacOSCaption
                 ? new GridLength(75, GridUnitType.Pixel)
                 : GridLength.Auto;
-            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = firstColWidth });
+
+                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = firstColWidth });
+            }
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });

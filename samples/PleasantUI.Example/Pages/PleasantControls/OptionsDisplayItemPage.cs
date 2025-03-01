@@ -7,5 +7,5 @@ public class OptionsDisplayItemPage : IPage
 {
     public string Title { get; } = "OptionsDisplayItem";
     public bool ShowTitle { get; } = true;
-    public Control Content { get; }
+    public Control Content { get; } = null!;
 }

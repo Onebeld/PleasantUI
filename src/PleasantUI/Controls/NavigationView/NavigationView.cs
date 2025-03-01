@@ -51,8 +51,6 @@ public class NavigationView : TreeView
 
     private object? _selectedContent;
 
-    private CompositeDisposable _subscriptions = new CompositeDisposable();
-
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
     /// </summary>
@@ -383,6 +381,9 @@ public class NavigationView : TreeView
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NavigationView"/> class.
+    /// </summary>
     public NavigationView()
     {
         PseudoClasses.Add(":normal");
@@ -420,15 +421,10 @@ public class NavigationView : TreeView
 
         if (VisualRoot is PleasantWindow window)
         {
-            _subscriptions.Add(
-            window.GetObservable(PleasantWindow.TitleBarHeightProperty)
-                  .Subscribe(height => titleBarHeight = height));
+            titleBarHeight = window.TitleBarHeight;
 
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
-
-            // Dispose since TitleBar height most likely wont change again
-            _subscriptions.Dispose();
         }
 
         UpdateTitleAndSelectedContent();
@@ -440,7 +436,12 @@ public class NavigationView : TreeView
 
         // Hack. For some reason it does not highlight the first item in the list after running the program
         if (Items.Count > 0)
-            SelectSingleItem(Items[0] as ISelectable, false);
+        {
+            if (Items[0] is ISelectable selectableItem)
+            {
+                SelectSingleItem(selectableItem, false);
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -448,7 +449,10 @@ public class NavigationView : TreeView
     {
         base.OnAttachedToLogicalTree(e);
 
-        if (Items.Count > 0) SelectSingleItem(Items[0] as ISelectable);
+        if (Items.Count > 0 && Items[0] is ISelectable selectableItem)
+        {
+            SelectSingleItem(selectableItem);
+        }
     }
 
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)

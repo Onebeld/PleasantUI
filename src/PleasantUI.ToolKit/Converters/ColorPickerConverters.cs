@@ -6,6 +6,9 @@ using Avalonia.Media;
 
 namespace PleasantUI.ToolKit.Converters;
 
+/// <summary>
+/// Provides converters for color-related transformations.
+/// </summary>
 public static class ColorPickerConverters
 {
     /// <inheritdoc cref="ToBrushConverter" />
@@ -16,7 +19,10 @@ public static class ColorPickerConverters
 
     /// <inheritdoc cref="AccentColorConverter" />
     public static readonly AccentColorConverter AccentColor = new();
-    
+
+    /// <summary>
+    /// Converts a <see cref="Color"/> to its display name or hexadecimal representation.
+    /// </summary>
     public static readonly FuncValueConverter<Color, string> ColorToName = new(color =>
     {
         string name = ColorHelper.ToDisplayName(color);

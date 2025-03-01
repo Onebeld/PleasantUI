@@ -38,7 +38,7 @@ public class PleasantTabView : TabControl
         /// </summary>
         None = 0
     }
-    
+
     /// <summary>
     /// Defines the <see cref="ClickOnAddingButton" /> event.
     /// </summary>
@@ -59,6 +59,9 @@ public class PleasantTabView : TabControl
         AvaloniaProperty.Register<PleasantTabView, double>(nameof(MaxWidthOfItemsPresenter),
             double.PositiveInfinity);
 
+    /// <summary>
+    /// Defines the <see cref="SecondaryBackgroundProperty" /> property.
+    /// </summary>
     public static readonly StyledProperty<IBrush> SecondaryBackgroundProperty =
         AvaloniaProperty.Register<PleasantTabView, IBrush>(nameof(SecondaryBackground));
 
@@ -83,6 +86,9 @@ public class PleasantTabView : TabControl
             nameof(WidthRemainingSpace),
             o => o.WidthRemainingSpace);
 
+    /// <summary>
+    /// Defines the <see cref="MarginType" /> property.
+    /// </summary>
     public static readonly StyledProperty<ViewMarginType> MarginTypeProperty =
         AvaloniaProperty.Register<PleasantTabView, ViewMarginType>(nameof(MarginType));
 
@@ -90,6 +96,9 @@ public class PleasantTabView : TabControl
     private double _heightRemainingSpace;
     private double _widthRemainingSpace;
 
+    /// <summary>
+    /// Gets or sets the reference to the adder button.
+    /// </summary>
     public Button? AdderButton;
 
     static PleasantTabView()
@@ -151,6 +160,9 @@ public class PleasantTabView : TabControl
         private set => SetAndRaise(WidthRemainingSpaceProperty, ref _widthRemainingSpace, value);
     }
 
+    /// <summary>
+    /// Gets or sets the type of margin applied to the tab view.
+    /// </summary>
     public ViewMarginType MarginType
     {
         get => GetValue(MarginTypeProperty);
@@ -166,7 +178,11 @@ public class PleasantTabView : TabControl
         remove => RemoveHandler(ClickOnAddingButtonEvent, value);
     }
 
-
+    /// <summary>
+    /// Handles the click event of the adder button and raises the <see cref="ClickOnAddingButton"/> event.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
     protected void AdderButtonClicked(object? sender, RoutedEventArgs e)
     {
         RoutedEventArgs routedEventArgs = new(ClickOnAddingButtonEvent);

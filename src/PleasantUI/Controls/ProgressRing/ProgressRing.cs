@@ -109,7 +109,7 @@ public class ProgressRing : RangeBase
         get => GetValue(ThicknessProperty);
         set => SetValue(ThicknessProperty, value);
     }
-    
+
     static ProgressRing()
     {
         ValueProperty.Changed.AddClassHandler<ProgressRing>(OnValuePropertyChanged);
@@ -136,7 +136,7 @@ public class ProgressRing : RangeBase
 
     private static void OnValuePropertyChanged(ProgressRing sender, AvaloniaPropertyChangedEventArgs e)
     {
-        sender.ValueAngle = ((double)e.NewValue - sender.Minimum) * (sender.EndAngle - sender.StartAngle) /
+        sender.ValueAngle = ((double?)e.NewValue ?? 0.0 - sender.Minimum) * (sender.EndAngle - sender.StartAngle) /
                             (sender.Maximum - sender.Minimum);
     }
 

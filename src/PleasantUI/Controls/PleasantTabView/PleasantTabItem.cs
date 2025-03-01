@@ -19,7 +19,7 @@ public class PleasantTabItem : TabItem
 {
     private Button? _closeButton;
     private bool _isClosing;
-    
+
     /// <summary>
     /// Defines the <see cref="ClosingEvent" /> property.
     /// </summary>
@@ -94,7 +94,7 @@ public class PleasantTabItem : TabItem
         add => AddHandler(CloseButtonClickEvent, value);
         remove => RemoveHandler(CloseButtonClickEvent, value);
     }
-    
+
     static PleasantTabItem()
     {
         IsSelectedProperty.Changed.AddClassHandler<PleasantTabItem>((x, _) => UpdatePseudoClass(x));
@@ -115,11 +115,10 @@ public class PleasantTabItem : TabItem
     }
 
     /// <summary>
-    /// Attempts to close the tab item by calling <see cref="PleasantTabView.CloseTab(object)"/> with
-    /// the <see cref="DataContext"/>. If that fails, it calls <see cref="PleasantTabView.CloseTab(PleasantTabItem)"/>
-    /// with this tab item as the argument.
+    /// Closes the tab by attempting to remove it using its DataContext.
+    /// If that fails, it removes the tab directly.
     /// </summary>
-    /// <returns><see langword="true"/> if the tab item was successfully closed, <see langword="false"/> otherwise.</returns>
+    /// <returns><see langword="true"/> if the tab was closed successfully; otherwise, <see langword="false"/>.</returns>
     public bool CloseCore()
     {
         PleasantTabView x = (Parent as PleasantTabView)!;
@@ -163,7 +162,7 @@ public class PleasantTabItem : TabItem
         else
             _closeButton.IsVisible = false;
     }
-    
+
     private static void UpdatePseudoClass(PleasantTabItem item)
     {
         if (!item.IsSelected) item.PseudoClasses.Remove(":dragging");

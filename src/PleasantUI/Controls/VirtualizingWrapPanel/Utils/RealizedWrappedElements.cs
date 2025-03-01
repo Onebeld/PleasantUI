@@ -414,8 +414,9 @@ internal class RealizedWrappedElements
     /// <summary>
     /// Recycles elements before a specific index.
     /// </summary>
-    /// <param name="index">The index in the source collection of new first element.</param>
+    /// <param name="index">The index in the source collection of the new first element.</param>
     /// <param name="recycleElement">A method used to recycle elements.</param>
+    /// <param name="orientation">The orientation of the scrolling direction.</param>
     public void RecycleElementsBefore(int index, Action<Control, int> recycleElement, Orientation orientation)
     {
         if (index <= FirstIndex || _elements is null || _elements.Count == 0)

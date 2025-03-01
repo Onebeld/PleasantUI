@@ -39,7 +39,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     private Control? _unrealizedFocusedElement;
     private int _unrealizedFocusedIndex = -1;
     private Rect _viewport = InvalidViewport;
-    
+
     /// <summary>
     /// Defines the <see cref="Orientation" /> property.
     /// </summary>
@@ -101,7 +101,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     /// Gets the index of the last realized element, or -1 if no elements are realized.
     /// </summary>
     public int LastRealizedIndex => _realizedElements?.LastIndex ?? -1;
-    
+
     static VirtualizingWrapPanel()
     {
         OrientationProperty.OverrideDefaultValue(typeof(VirtualizingWrapPanel), Orientation.Horizontal);
@@ -432,7 +432,11 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private MeasureViewport CalculateMeasureViewport(IReadOnlyList<object?> items)
     {
+
         Debug.Assert(_realizedElements is not null);
+
+        if (_realizedElements is null)
+            throw new InvalidOperationException("_realizedElements must not be null.");
 
         // If the control has not yet been laid out then the effective viewport won't have been set.
         // Try to work it out from an ancestor control.
@@ -531,119 +535,90 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     }
 
     private void RealizeElements(
-        IReadOnlyList<object?> items,
-        Size availableSize,
-        ref MeasureViewport viewport)
+    IReadOnlyList<object?> items,
+    Size availableSize,
+    ref MeasureViewport viewport)
     {
-        Debug.Assert(_measureElements is not null);
-        Debug.Assert(_realizedElements is not null);
-        Debug.Assert(items.Count > 0);
+        if (_measureElements is null)
+            throw new InvalidOperationException("_measureElements is null.");
+        if (_realizedElements is null)
+            throw new InvalidOperationException("_realizedElements is null.");
+        if (items.Count == 0)
+            throw new ArgumentException("Items collection cannot be empty.", nameof(items));
 
         int index = viewport.AnchorIndex;
         UvSize uv = viewport.AnchorUv;
-        double v = uv.V;
-        double maxSizeV = 0;
+        double v = uv.V, maxSizeV = 0;
         UvSize size = new(Orientation);
         bool firstChildMeasured = false;
+        double itemWidth = ItemWidth, itemHeight = ItemHeight;
+        bool isItemWidthSet = !double.IsNaN(itemWidth), isItemHeightSet = !double.IsNaN(itemHeight);
+        Size childConstraint = new(isItemWidthSet ? itemWidth : availableSize.Width,
+                                   isItemHeightSet ? itemHeight : availableSize.Height);
 
-        double itemWidth = ItemWidth;
-        double itemHeight = ItemHeight;
-        bool isItemWidthSet = !double.IsNaN(itemWidth);
-        bool isItemHeightSet = !double.IsNaN(itemHeight);
-
-        Size childConstraint = new(
-            isItemWidthSet ? itemWidth : availableSize.Width,
-            isItemHeightSet ? itemHeight : availableSize.Height);
-        // If the anchor element is at the beginning of, or before, the start of the viewport
-        // then we can recycle all elements before it.
+        // Recycle elements before the anchor if necessary.
         if (uv.V <= viewport.AnchorUv.V)
             _realizedElements.RecycleElementsBefore(viewport.AnchorIndex, _recycleElement, Orientation);
 
-        // Start at the anchor element and move forwards, realizing elements.
-        do
+        // Realize elements forward from the anchor.
+        while (uv.V < viewport.ViewportUvEnd.V && index < items.Count)
         {
-            // Predict if we will place this item in the next row, and if it's not visible, stop realizing it
-            if (uv.U + size.U > viewport.ViewportUvEnd.U && uv.V + maxSizeV > viewport.ViewportUvEnd.V) break;
+            if (uv.U + size.U > viewport.ViewportUvEnd.U && uv.V + maxSizeV > viewport.ViewportUvEnd.V)
+                break;
 
             if (firstChildMeasured)
                 childConstraint = new Size(size.Width, size.Height);
 
             Control e = GetOrCreateElement(items, index);
             e.Measure(childConstraint);
-
             if (!firstChildMeasured)
             {
                 size = new UvSize(Orientation,
                     isItemWidthSet ? itemWidth : e.DesiredSize.Width,
                     isItemHeightSet ? itemHeight : e.DesiredSize.Height);
-
                 firstChildMeasured = true;
             }
-
             maxSizeV = Math.Max(maxSizeV, size.V);
 
-            // Check if the item will exceed the viewport's bounds, and move to next row if it does
-            UvSize uEnd = new(Orientation)
-            {
-                U = uv.U + size.U,
-                V = Math.Max(v, uv.V)
-            };
-
+            UvSize uEnd = new(Orientation) { U = uv.U + size.U, V = Math.Max(v, uv.V) };
             if (uEnd.U > viewport.ViewportUvEnd.U)
             {
                 uv.U = viewport.ViewportUvStart.U;
                 v += maxSizeV;
                 maxSizeV = 0;
-
                 uv.V = v;
             }
 
-            _measureElements!.Add(index, e, uv, size);
+            _measureElements.Add(index, e, uv, size);
+            uv = new UvSize(Orientation) { U = uv.U + size.U, V = Math.Max(v, uv.V) };
+            index++;
+        }
 
-            uv = new UvSize(Orientation)
-            {
-                U = uv.U + size.U,
-                V = Math.Max(v, uv.V)
-            };
-
-            ++index;
-        } while (uv.V < viewport.ViewportUvEnd.V && index < items.Count);
-
-        // Store the last index and end U position for the desired size calculation.
         viewport.LastIndex = index - 1;
         viewport.RealizedEndUv = uv;
-
-        // We can now recycle elements after the last element.
         _realizedElements.RecycleElementsAfter(viewport.LastIndex, _recycleElement, Orientation);
 
-        // Next move backwards from the anchor element, realizing elements.
+        // Realize elements backwards from the anchor.
         index = viewport.AnchorIndex - 1;
         uv = viewport.AnchorUv;
-
         while (index >= 0)
         {
-            // Predict if this item will be visible, and if not, stop realizing it
-            if (uv.U - size.U < viewport.ViewportUvStart.U && uv.V <= viewport.ViewportUvStart.V) break;
+            if (uv.U - size.U < viewport.ViewportUvStart.U && uv.V <= viewport.ViewportUvStart.V)
+                break;
 
             if (firstChildMeasured)
                 childConstraint = new Size(size.Width, size.Height);
 
             Control e = GetOrCreateElement(items, index);
             e.Measure(childConstraint);
-
-
             if (!firstChildMeasured)
             {
                 size = new UvSize(Orientation,
                     isItemWidthSet ? itemWidth : e.DesiredSize.Width,
                     isItemHeightSet ? itemHeight : e.DesiredSize.Height);
-
                 firstChildMeasured = true;
             }
-
             uv.U -= size.U;
-
-            // Test if the item will be moved to the previous row
             if (uv.U < viewport.ViewportUvStart.U)
             {
                 double uLength = viewport.ViewportUvEnd.U - viewport.ViewportUvStart.U;
@@ -651,12 +626,9 @@ public class VirtualizingWrapPanel : VirtualizingPanel
                 uv.U = uConstraint - size.U;
                 uv.V -= size.V;
             }
-
-            _measureElements!.Add(index, e, uv, size);
-            --index;
+            _measureElements.Add(index, e, uv, size);
+            index--;
         }
-
-        // We can now recycle elements before the first element.
         _realizedElements.RecycleElementsBefore(index + 1, _recycleElement, Orientation);
     }
 
@@ -778,6 +750,9 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private void UpdateElementIndex(Control element, int oldIndex, int newIndex)
     {
+        if (ItemContainerGenerator is null)
+            throw new InvalidOperationException("ItemContainerGenerator is null.");
+
         ItemContainerGenerator.ItemContainerIndexChanged(element, oldIndex, newIndex);
     }
 

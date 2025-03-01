@@ -23,39 +23,39 @@ public class PleasantSnackbar : PleasantPopupElement
     private ContentPresenter? _contentPresenter;
     private Grid? _grid;
     private Border? _snackbarBorder;
-    
+
     private IDisposable? _closingTimer;
 
     private readonly SnackbarQueueManager<PleasantSnackbar>? _queueManager;
-    
-	/// <summary>
-	/// Defines the <see cref="OpenAnimation" /> property.
-	/// </summary>
-	public static readonly StyledProperty<Animation?> OpenAnimationProperty =
+
+    /// <summary>
+    /// Defines the <see cref="OpenAnimation" /> property.
+    /// </summary>
+    public static readonly StyledProperty<Animation?> OpenAnimationProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Animation?>(nameof(OpenAnimation));
 
-	/// <summary>
-	/// Defines the <see cref="CloseAnimation" /> property.
-	/// </summary>
-	public static readonly StyledProperty<Animation?> CloseAnimationProperty =
+    /// <summary>
+    /// Defines the <see cref="CloseAnimation" /> property.
+    /// </summary>
+    public static readonly StyledProperty<Animation?> CloseAnimationProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Animation?>(nameof(CloseAnimation));
 
-	/// <summary>
-	/// Defines the <see cref="Icon" /> property.
-	/// </summary>
-	public static readonly StyledProperty<Geometry?> IconProperty =
+    /// <summary>
+    /// Defines the <see cref="Icon" /> property.
+    /// </summary>
+    public static readonly StyledProperty<Geometry?> IconProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Geometry?>(nameof(Icon));
 
-	/// <summary>
-	/// Defines the <see cref="NotificationType" /> property.
-	/// </summary>
-	public static readonly StyledProperty<NotificationType> NotificationTypeProperty =
+    /// <summary>
+    /// Defines the <see cref="NotificationType" /> property.
+    /// </summary>
+    public static readonly StyledProperty<NotificationType> NotificationTypeProperty =
         AvaloniaProperty.Register<NotificationCard, NotificationType>(nameof(NotificationType));
 
-	/// <summary>
-	/// Defines the <see cref="Command" /> property.
-	/// </summary>
-	public static readonly StyledProperty<ICommand?> CommandProperty =
+    /// <summary>
+    /// Defines the <see cref="Command" /> property.
+    /// </summary>
+    public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<Button, ICommand?>(nameof(Command), enableDataValidation: true);
 
     /// <summary>
@@ -124,7 +124,7 @@ public class PleasantSnackbar : PleasantPopupElement
     /// <param name="window">The window to show the Snackbar on.</param>
     /// <param name="options">The options to use when showing the Snackbar.</param>
     public static void Show(Window window, PleasantSnackbarOptions options) => ShowCoreForTopLevel(window, options);
-    
+
     /// <summary>
     /// Shows the Snackbar with the given options on the specified window.
     /// </summary>
@@ -138,20 +138,20 @@ public class PleasantSnackbar : PleasantPopupElement
     /// <param name="topLevel">The window to show the Snackbar on.</param>
     /// <param name="options">The options to use when showing the Snackbar.</param>
     public static void Show(TopLevel topLevel, PleasantSnackbarOptions options) => ShowCoreForTopLevel(topLevel, options);
-    
+
     internal void CreateHost()
     {
         Host ??= new ModalWindowHost();
         Host.Content = this;
-        
-        ShowCoreForTopLevel(Parent);
+
+        ShowCoreForTopLevel(TopLevel);
     }
 
     internal void DeleteHost()
     {
         base.DeleteCoreForTopLevel();
     }
-    
+
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -185,8 +185,8 @@ public class PleasantSnackbar : PleasantPopupElement
             Content = options.Message,
             Icon = options.Icon,
             NotificationType = options.NotificationType,
-            
-            Parent = parent
+
+            TopLevel = parent
         };
 
         pleasantSnackbar.TemplateApplied += (_, _) =>
@@ -207,7 +207,7 @@ public class PleasantSnackbar : PleasantPopupElement
                 _ = pleasantSnackbar.Close();
             };
         };
-        
+
         pleasantSnackbar._queueManager?.Enqueue(pleasantSnackbar);
 
         if (pleasantSnackbar._queueManager is null)
@@ -223,7 +223,7 @@ public class PleasantSnackbar : PleasantPopupElement
     private async Task Close(Action? action = null)
     {
         IsHitTestVisible = false;
-        
+
         await RunCloseAnimation();
         action?.Invoke();
 
@@ -267,10 +267,10 @@ public class PleasantSnackbar : PleasantPopupElement
         await animation.RunAsync(_snackbarBorder);
 
         _snackbarBorder.Width = double.NaN;
-        
+
         if (_contentPresenter != null)
             _contentPresenter.TextWrapping = TextWrapping.WrapWithOverflow;
-        
+
         if (_grid != null)
             _grid.Opacity = 1;
     }
@@ -291,9 +291,9 @@ public class PleasantSnackbar : PleasantPopupElement
             await Close(action);
         };
     }
-    
+
     private async Task RunCloseAnimation() => await CloseAnimation?.RunAsync(this)!;
-    
+
     private void UpdateNotificationType()
     {
         switch (NotificationType)
