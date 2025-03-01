@@ -25,12 +25,6 @@
                                                       VerticalAlignment="Top"
                                                       Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
                                 </OnPlatform.Default>
-                                <OnPlatform.macOS>
-                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
-                                                      VerticalAlignment="Top"
-                                                      Theme="{StaticResource PleasantTitleBarMacOSStyle}"
-                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
-                                </OnPlatform.macOS>
                             </OnPlatform>
                         </VisualLayerManager.ChromeOverlayLayer>
 
@@ -75,7 +69,21 @@
             </OnPlatform>
         </Style>
         <Style Selector="^[TitleBarType=ClassicExtended]">
-            <Setter Property="TitleBarHeight" Value="44" />
+            <OnPlatform>
+                <OnPlatform.Default>
+                    <Setter Property="TitleBarHeight" Value="44" />
+                </OnPlatform.Default>
+                <OnPlatform.macOS>
+                    <Setter Property="TitleBarHeight" Value="36" />
+                </OnPlatform.macOS>
+            </OnPlatform>
+        </Style>
+        <Style Selector="^[TitleBarType=ClassicExtended][OverrideMacOSCaption=True]">
+            <OnPlatform>
+                <OnPlatform.macOS>
+                    <Setter Property="TitleBarHeight" Value="44" />
+                </OnPlatform.macOS>
+            </OnPlatform>
         </Style>
 
         <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ Panel#PART_PanelBase">

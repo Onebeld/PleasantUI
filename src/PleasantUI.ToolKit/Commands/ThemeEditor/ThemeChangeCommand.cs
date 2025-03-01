@@ -43,13 +43,13 @@ public class ThemeChangeCommand : IEditorCommand
         AvaloniaList<ThemeColor> themeColors = _viewModel.ThemeColors;
 
         foreach (KeyValuePair<string, Color> pair in _previousColors)
-        foreach (ThemeColor themeColor in themeColors)
-        {
-            if (themeColor.Name != pair.Key) continue;
+            foreach (ThemeColor themeColor in themeColors)
+            {
+                if (themeColor.Name != pair.Key) continue;
 
-            themeColor.Color = pair.Value;
-            break;
-        }
+                themeColor.Color = pair.Value;
+                break;
+            }
 
         if (!string.IsNullOrWhiteSpace(_newName))
             _viewModel.ChangeThemeName(_previousName);
@@ -63,16 +63,17 @@ public class ThemeChangeCommand : IEditorCommand
         AvaloniaList<ThemeColor> themeColors = _viewModel.ThemeColors;
 
         foreach (KeyValuePair<string, Color> pair in _newColors)
-        foreach (ThemeColor themeColor in themeColors)
-        {
-            if (themeColor.Name != pair.Key) continue;
+            foreach (ThemeColor themeColor in themeColors)
+            {
+                if (themeColor.Name != pair.Key) continue;
 
-            themeColor.Color = pair.Value;
-            break;
-        }
+                themeColor.Color = pair.Value;
+                break;
+            }
 
         if (!string.IsNullOrWhiteSpace(_newName))
-            _viewModel.ChangeThemeName(_newName);
+            _viewModel.ChangeThemeName(_newName ?? string.Empty);
+
 
         ChangeColorsInResourceDictionary(themeColors);
     }

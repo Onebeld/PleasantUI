@@ -21,7 +21,7 @@ namespace PleasantUI.Controls;
 public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProvider
 {
     private const double DefaultSmallChange = 16;
-    
+
     private IDisposable? _childSubscription;
     private Size _extent;
     private bool _isExpanded;
@@ -296,10 +296,19 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// </summary>
     public double HorizontalScrollBarMaximum => Max(_extent.Width - _viewport.Width, 0);
 
+    /// <summary>
+    /// Gets a value indicating whether the horizontal scrollbar maximum is greater than 1.
+    /// </summary>
     public bool VisibleMaximum => Math.Round(HorizontalScrollBarMaximum) > 1;
 
+    /// <summary>
+    /// Gets a value indicating whether the horizontal scrollbar decrease button should be enabled.
+    /// </summary>
     public bool HorizontalScrollBarEnableDecrease => Offset.X != 0;
 
+    /// <summary>
+    /// Gets a value indicating whether the horizontal scrollbar increase button should be enabled.
+    /// </summary>
     public bool HorizontalScrollBarEnableIncrease => Offset.X != HorizontalScrollBarMaximum;
 
     /// <summary>
@@ -417,7 +426,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             if (SetAndRaise(ViewportProperty, ref _viewport, value)) CalculatedPropertiesChanged();
         }
     }
-    
+
     /// <summary>
     /// Initializes static members of the <see cref="SmoothScrollViewer" /> class.
     /// </summary>
@@ -585,6 +594,11 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         control.SetValue(VerticalScrollBarVisibilityProperty, value);
     }
 
+    /// <summary>
+    /// Registers the specified <see cref="ContentPresenter"/> and subscribes to its child property changes.
+    /// </summary>
+    /// <param name="presenter">The content presenter to register.</param>
+    /// <returns><see langword="true"/> if the registration is successful; otherwise, <see langword="false"/>.</returns>
     protected override bool RegisterContentPresenter(ContentPresenter presenter)
     {
         _childSubscription?.Dispose();
@@ -682,6 +696,10 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         }
     }
 
+    /// <summary>
+    /// Handles key press events for page navigation.
+    /// </summary>
+    /// <param name="e">The key event arguments containing information about the pressed key.</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if (e.Key == Key.PageUp)
@@ -710,6 +728,9 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
         RaiseEvent(e);
     }
 
+    /// <summary>
+    /// Applies the control's template and initializes necessary elements.
+    /// </summary>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);

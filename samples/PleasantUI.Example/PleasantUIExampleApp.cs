@@ -13,9 +13,9 @@ public class PleasantUiExampleApp : Application
     public static PleasantTheme PleasantTheme { get; protected set; } = null!;
 
     public static IPleasantWindow Main { get; protected set; } = null!;
-    
-    public static AppViewModel ViewModel { get; }
-    
+
+    public static AppViewModel ViewModel { get; } = null!;
+
     public static TopLevel? TopLevel { get; protected set; }
 
     static PleasantUiExampleApp()
@@ -28,10 +28,10 @@ public class PleasantUiExampleApp : Application
     {
         if (!Design.IsDesignMode)
             DataContext = ViewModel;
-        
+
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.Library)));
-        
+
         Localizer.ChangeLang("en");
     }
 

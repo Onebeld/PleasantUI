@@ -7,5 +7,5 @@ public class TextBoxPage : IPage
 {
     public string Title { get; } = "TextBox";
     public bool ShowTitle { get; } = true;
-    public Control Content { get; }
+    public Control Content { get; } = null!;
 }

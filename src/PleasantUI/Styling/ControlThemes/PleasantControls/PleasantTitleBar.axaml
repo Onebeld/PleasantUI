@@ -53,17 +53,14 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                    <Grid x:Name="PART_TitleBarGrid">
                     <Border x:Name="PART_DragWindow"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="3"
                             Background="Transparent"
                             ContextFlyout="{StaticResource WindowMenuFlyout}" />
 
-                    <ContentPresenter x:Name="PART_LeftTitleBarContent" Grid.Column="0" />
+                    <ContentPresenter x:Name="PART_LeftTitleBarContent" />
 
-                    <StackPanel Grid.Column="1"
-                                x:Name="PART_TitlePanel"
+                    <StackPanel x:Name="PART_TitlePanel"
                                 Orientation="Horizontal"
                                 Margin="5 0 0 0"
                                 Spacing="5"
@@ -80,9 +77,17 @@
                                    Foreground="{DynamicResource TextFillColor3}" />
                     </StackPanel>
 
-                    <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="2" />
+                    <ContentPresenter x:Name="PART_TitleBarContent" />
 
-                    <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons" Grid.Column="3" />
+                    <OnPlatform>
+                        <OnPlatform.Default>
+                            <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons" />
+                        </OnPlatform.Default>
+                        <OnPlatform.macOS>
+                            <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
+                                                    Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
+                        </OnPlatform.macOS>
+                    </OnPlatform>
                 </Grid>
             </ControlTemplate>
         </Setter>
@@ -93,60 +98,5 @@
         <Style Selector="^:isactive /template/ Panel#PART_DisplayIcon">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor3}" />
         </Style>
-    </ControlTheme>
-
-    <ControlTheme x:Key="PleasantTitleBarMacOSStyle" TargetType="PleasantTitleBar">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <Border x:Name="PART_DragWindow"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3"
-                            Background="Transparent"
-                            ContextFlyout="{StaticResource WindowMenuFlyout}" />
-
-                    <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
-                                            Grid.Column="0"
-                                            Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
-
-                    <ContentPresenter x:Name="PART_TitleBarContent" Grid.Column="1" />
-                    
-                    <StackPanel Grid.Column="0"
-                                Grid.ColumnSpan="3"
-                                x:Name="PART_TitlePanel"
-                                Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Spacing="5"
-                                IsHitTestVisible="False">
-                        <Panel x:Name="PART_DisplayTitle" />
-                        
-                        <TextBlock x:Name="PART_Subtitle"
-                                   FontSize="12"
-                                   Margin="3 0 0 0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{DynamicResource TextFillColor3}" />
-                    </StackPanel>
-
-                    <!--<StackPanel Grid.Column="0"
-                                Grid.ColumnSpan="3"
-                                x:Name="PART_TitlePanel"
-                                IsHitTestVisible="False"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Orientation="Horizontal"
-                                Spacing="5">
-                        <TextBlock x:Name="PART_Title" VerticalAlignment="Center" />
-                        <Path x:Name="PART_LogoPath" Stretch="Uniform" Width="50" VerticalAlignment="Center"
-                              Fill="{DynamicResource TextFillColor1}" />
-                        <TextBlock x:Name="PART_Subtitle"
-                                   FontSize="12"
-                                   Margin="3 0 0 0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{DynamicResource TextFillColor3}" />
-                    </StackPanel>-->
-                </Grid>
-            </ControlTemplate>
-        </Setter>
     </ControlTheme>
 </ResourceDictionary>

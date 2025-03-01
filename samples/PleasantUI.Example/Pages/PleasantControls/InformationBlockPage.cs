@@ -7,5 +7,5 @@ public class InformationBlockPage : IPage
 {
     public string Title { get; } = "InformationBlock";
     public bool ShowTitle { get; } = true;
-    public Control Content { get; }
+    public Control Content { get; } = null!;
 }

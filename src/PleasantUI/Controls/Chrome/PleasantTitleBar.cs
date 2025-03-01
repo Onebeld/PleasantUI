@@ -52,9 +52,12 @@ public class PleasantTitleBar : TemplatedControl
         /// </summary>
         ClassicExtended = 1
     }
-    
+
+    private bool isMacOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     private PleasantWindow? _host;
     private PleasantCaptionButtons? _captionButtons;
+
+    private Grid? _titleBarGrid;
 
     private MenuItem? _closeMenuItem;
     private MenuItem? _collapseMenuItem;
@@ -89,6 +92,7 @@ public class PleasantTitleBar : TemplatedControl
         _displayIcon = e.NameScope.Find<Panel>("PART_DisplayIcon");
         _displayTitle = e.NameScope.Get<Panel>("PART_DisplayTitle");
         _subtitle = e.NameScope.Get<TextBlock>("PART_Subtitle");
+        _titleBarGrid = e.NameScope.Find<Grid>("PART_TitleBarGrid");
         _dragWindowBorder = e.NameScope.Get<Border>("PART_DragWindow");
         _titlePanel = e.NameScope.Get<StackPanel>("PART_TitlePanel");
 
@@ -99,6 +103,9 @@ public class PleasantTitleBar : TemplatedControl
         {
             _host = window;
             _captionButtons.Host = window;
+
+            if (window.EnableCustomTitleBar)
+                PopulateTitleBar();
 
             _closeMenuItem.Click += (_, _) => window.Close();
             _reestablishMenuItem.Click += (_, _) => window.WindowState = WindowState.Normal;
@@ -152,7 +159,7 @@ public class PleasantTitleBar : TemplatedControl
                 if (_titleBarContent is not null)
                     _titleBarContent.Content = content;
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && _titlePanel is not null)
+                if (isMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !host.ExtendsContentIntoTitleBar && content is null;
             }),
             host.GetObservable(PleasantWindow.TitleBarTypeProperty).Subscribe(type =>
@@ -161,21 +168,30 @@ public class PleasantTitleBar : TemplatedControl
             }),
             host.GetObservable(PleasantWindow.ExtendsContentIntoTitleBarProperty).Subscribe(b =>
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) && _titlePanel is not null)
+                if (isMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !b;
             }),
             host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(enable =>
             {
-                if (_dragWindowBorder is null ||
-                    _host is null ||
-                    _titlePanel is null ||
-                    _leftTitleBarContent is null ||
-                    _captionButtons is null) return;
+                if (_dragWindowBorder == null || _host == null || _titlePanel == null ||
+                _leftTitleBarContent == null || _captionButtons == null)
+                return;
 
-                _dragWindowBorder.IsVisible = enable;
+                host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+                {
+                    if (state == WindowState.FullScreen)
+                    {
+                        _captionButtons.IsVisible = !enable;
+                        _dragWindowBorder.IsVisible = !enable;
+                    }
+                    else
+                    {
+                        _captionButtons.IsVisible = !_host.OverrideMacOSCaption ? !enable : enable;
+                        _dragWindowBorder.IsVisible = enable;
+                    }
+                });
                 _titlePanel.IsVisible = enable;
                 _leftTitleBarContent.IsVisible = enable;
-                _captionButtons.IsVisible = enable;
 
                 /*
                 if (!_host.ShowTitleBarContentAnyway)
@@ -202,13 +218,13 @@ public class PleasantTitleBar : TemplatedControl
     {
         if (_displayIcon is null || obj is WindowIcon)
             return;
-        
+
         _displayIcon.Children.Clear();
 
         switch (obj)
         {
             case Geometry geometry:
-                _displayIcon.Children.Add(new PathIcon { Data = geometry, Width = 16, Height = 16, [!ForegroundProperty] = _displayIcon[!TextElement.ForegroundProperty]});
+                _displayIcon.Children.Add(new PathIcon { Data = geometry, Width = 16, Height = 16, [!ForegroundProperty] = _displayIcon[!TextElement.ForegroundProperty] });
                 break;
             case IImage icon:
                 _displayIcon.Children.Add(new Image { Source = icon, Width = 16, Height = 16 });
@@ -216,7 +232,7 @@ public class PleasantTitleBar : TemplatedControl
             case Control control:
                 _displayIcon.Children.Add(control);
                 break;
-                    
+
             case null when _host?.Icon is not null:
                 _displayIcon.Children.Add(new Image { Source = _host?.Icon.ToBitmap(), Width = 16, Height = 16 });
                 break;
@@ -227,13 +243,13 @@ public class PleasantTitleBar : TemplatedControl
     {
         if (_displayTitle is null)
             return;
-                
+
         _displayTitle.Children.Clear();
-                
+
         switch (obj)
         {
             case Geometry geometry:
-                _displayTitle.Children.Add(new PathIcon { Data = geometry, Height = 8, Width = double.NaN, [!ForegroundProperty] = _displayTitle[!TextElement.ForegroundProperty]});
+                _displayTitle.Children.Add(new PathIcon { Data = geometry, Height = 8, Width = double.NaN, [!ForegroundProperty] = _displayTitle[!TextElement.ForegroundProperty] });
                 break;
             case IImage icon:
                 _displayTitle.Children.Add(new Image { Source = icon, Height = 8, Width = double.NaN });
@@ -244,6 +260,89 @@ public class PleasantTitleBar : TemplatedControl
             case null when _host?.Title is not null:
                 _displayTitle.Children.Add(new TextBlock { Text = _host.Title });
                 break;
+        }
+    }
+
+    private void PopulateTitleBar()
+    {
+        if (_titleBarGrid == null)
+            return;
+
+        _titleBarGrid.ColumnDefinitions.Clear();
+
+        if (isMacOS)
+        {
+            if (_host != null)
+            {
+                var firstColWidth = !_host.OverrideMacOSCaption
+                ? new GridLength(75, GridUnitType.Pixel)
+                : GridLength.Auto;
+
+                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = firstColWidth });
+            }
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            if (_host != null)
+            {
+                _host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+                {
+                    _titleBarGrid.ColumnDefinitions[0].Width = state == WindowState.FullScreen
+                        ? new GridLength(45, GridUnitType.Pixel)
+                        : (!_host.OverrideMacOSCaption
+                            ? new GridLength(75, GridUnitType.Pixel)
+                            : GridLength.Auto);
+                });
+            }
+        }
+        else
+        {
+            // Non-macOS layout
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40, GridUnitType.Pixel) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        }
+        // Set child placements based on platform.
+        if (isMacOS)
+        {
+            if (_captionButtons != null)
+            {
+                Grid.SetColumn(_captionButtons, 0);
+                _captionButtons.IsHitTestVisible = true;
+            }
+            if (_dragWindowBorder != null)
+            {
+                Grid.SetColumn(_dragWindowBorder, 0);
+                Grid.SetColumnSpan(_dragWindowBorder, 4);
+            }
+            if (_leftTitleBarContent != null)
+                Grid.SetColumn(_leftTitleBarContent, 1);
+            if (_titlePanel != null)
+                Grid.SetColumn(_titlePanel, 2);
+            if (_titleBarContent != null)
+                Grid.SetColumn(_titleBarContent, 3);
+        }
+        else
+        {
+            if (_dragWindowBorder != null)
+            {
+                Grid.SetColumn(_dragWindowBorder, 1);
+                Grid.SetColumnSpan(_dragWindowBorder, 3);
+            }
+            if (_leftTitleBarContent != null)
+            {
+                Grid.SetColumn(_leftTitleBarContent, 1);
+                _leftTitleBarContent.IsHitTestVisible = false;
+            }
+            if (_titlePanel != null)
+                Grid.SetColumn(_titlePanel, 2);
+            if (_titleBarContent != null)
+                Grid.SetColumn(_titleBarContent, 3);
+            if (_captionButtons != null)
+                Grid.SetColumn(_captionButtons, 4);
         }
     }
 }

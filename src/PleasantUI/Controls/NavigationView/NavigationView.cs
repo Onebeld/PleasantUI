@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Runtime.InteropServices;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
@@ -10,6 +11,7 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
@@ -29,6 +31,13 @@ public class NavigationView : TreeView
 {
     private const double LittleWidth = 1005;
     private const double VeryLittleWidth = 650;
+    private double titleBarHeight;
+
+    private Border? _container;
+    private Grid? _mainGrid;
+    private DockPanel? _dockPanel;
+    private Border? _marginPanel;
+    private StackPanel? _stackPanelButtons;
 
     private Button? _backButton;
     private ICommand? _backButtonCommand;
@@ -365,13 +374,16 @@ public class NavigationView : TreeView
         get => _backButtonCommand;
         set => SetAndRaise(BackButtonCommandProperty, ref _backButtonCommand, value);
     }
-    
+
     static NavigationView()
     {
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NavigationView"/> class.
+    /// </summary>
     public NavigationView()
     {
         PseudoClasses.Add(":normal");
@@ -386,28 +398,37 @@ public class NavigationView : TreeView
     {
         base.OnApplyTemplate(e);
 
+        _stackPanelButtons = e.NameScope.Find<StackPanel>("PART_StackPanelButtons");
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
 
+        _container = e.NameScope.Find<Border>("PART_Container");
+        _mainGrid = e.NameScope.Find<Grid>("PART_SplitViewGrid");
+        _dockPanel = e.NameScope.Find<DockPanel>("PART_ItemsPresenterDockPanel");
+        _marginPanel = e.NameScope.Find<Border>("PART_MarginPanel");
+
         if (_headerItem != null)
-            _headerItem.Click += (_, _) =>
-            {
-                if (!AlwaysOpen)
-                    IsOpen = !IsOpen;
-                else
-                    IsOpen = true;
-            };
+        {
+            _headerItem.Click += (_, _) => IsOpen = AlwaysOpen ? true : !IsOpen;
+        }
 
         BackButtonCommandProperty.Changed.Subscribe(x =>
         {
-            if (_backButton is not null)
+            if (_backButton != null)
                 _backButton.IsVisible = x.NewValue.Value is not null;
         });
 
+        if (VisualRoot is PleasantWindow window)
+        {
+            titleBarHeight = window.TitleBarHeight;
+
+            UpdateMacNavigationLayout(window);
+            UpdateContainerTitleHeight(window);
+        }
+
         UpdateTitleAndSelectedContent();
     }
-
     /// <inheritdoc />
     protected override void OnLoaded(RoutedEventArgs e)
     {
@@ -415,7 +436,12 @@ public class NavigationView : TreeView
 
         // Hack. For some reason it does not highlight the first item in the list after running the program
         if (Items.Count > 0)
-            SelectSingleItem(Items[0] as ISelectable, false);
+        {
+            if (Items[0] is ISelectable selectableItem)
+            {
+                SelectSingleItem(selectableItem, false);
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -423,9 +449,12 @@ public class NavigationView : TreeView
     {
         base.OnAttachedToLogicalTree(e);
 
-        if (Items.Count > 0) SelectSingleItem(Items[0] as ISelectable);
+        if (Items.Count > 0 && Items[0] is ISelectable selectableItem)
+        {
+            SelectSingleItem(selectableItem);
+        }
     }
-    
+
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
     {
         if (item.IsSelected)
@@ -433,7 +462,65 @@ public class NavigationView : TreeView
 
         SelectSingleItemCore(item, runAnimation);
     }
-    
+
+    private void UpdateMacNavigationLayout(PleasantWindow window)
+    {
+        if (!window.EnableCustomTitleBar || !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            return;
+
+        window.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+        {
+            if (state == WindowState.FullScreen)
+            {
+                if (_mainGrid != null && _mainGrid.RowDefinitions.Count > 0)
+                    _mainGrid.RowDefinitions.RemoveAt(0);
+                if (_stackPanelButtons != null)
+                    _stackPanelButtons.Margin = new Thickness(5);
+                if (_marginPanel != null)
+                    Grid.SetRow(_marginPanel, 1);
+                if (_dockPanel != null)
+                    Grid.SetRow(_dockPanel, 2);
+            }
+            else if (_mainGrid != null && _marginPanel != null && _dockPanel != null &&
+                     _stackPanelButtons != null && _headerItem != null)
+            {
+                if (_mainGrid.RowDefinitions.Count == 0 ||
+                    _mainGrid.RowDefinitions[0].Height.Value != _headerItem.Height)
+                {
+                    _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
+                }
+                _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 6, 5, 5);
+                Grid.SetRow(_marginPanel, 2);
+                Grid.SetRow(_dockPanel, 3);
+            }
+        });
+    }
+
+    private void UpdateContainerTitleHeight(PleasantWindow window)
+    {
+        if (_container == null)
+            return;
+
+        // Determine margin based on custom title bar setting.
+        var margin = window.EnableCustomTitleBar ? new Thickness(0, titleBarHeight + 1, 0, 0) : new Thickness(0);
+
+        if (DisplayMode == SplitViewDisplayMode.Overlay)
+        {
+            _container.CornerRadius = new CornerRadius(8, 8, 0, 0);
+            _container.BorderThickness = new Thickness(0, 1, 0, 0);
+        }
+        else if (!DisplayTopIndent)
+        {
+            _container.CornerRadius = new CornerRadius(0);
+            _container.BorderThickness = new Thickness(1, 0, 0, 0);
+        }
+        else
+        {
+            _container.CornerRadius = new CornerRadius(8, 0, 0, 0);
+            _container.BorderThickness = new Thickness(1, 1, 0, 0);
+        }
+        _container.Margin = margin;
+    }
     private void OnBoundsChanged(Rect rect)
     {
         if (DynamicDisplayMode)
@@ -507,7 +594,7 @@ public class NavigationView : TreeView
         if (item.FuncControl?.GetInvocationList().Length > 0)
             SelectedContent = item.FuncControl.Invoke();
     }
-    
+
     private void OnSelectedItemChanged()
     {
         UpdateTitleAndSelectedContent();

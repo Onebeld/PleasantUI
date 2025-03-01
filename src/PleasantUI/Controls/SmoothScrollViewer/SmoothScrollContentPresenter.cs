@@ -18,7 +18,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
 {
     private const double EdgeDetectionTolerance = 0.1;
     private const int LogicalScrollItemSize = 50;
-    
+
     private readonly DispatcherTimer _smoothScrollTimer; //Timer(1);
     private Dictionary<int, Vector>? _activeLogicalGestureScrolls;
     private List<Control>? _anchorCandidates;
@@ -90,7 +90,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         SmoothScrollViewer.ViewportProperty.AddOwner<SmoothScrollContentPresenter>(
             o => o.Viewport,
             (o, v) => o.Viewport = v);
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the content can be scrolled horizontally.
     /// </summary>
@@ -118,7 +118,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         set => SetValue(AnimationOffsetProperty, value);
     }
 
-    private bool UsesSmoothScrolling => ShouldUseSmoothScrolling(out Easing _, out TimeSpan __);
+    private bool UsesSmoothScrolling => ShouldUseSmoothScrolling(out Easing? _, out TimeSpan __);
 
     private Vector CurrentFromOffset => UsesSmoothScrolling ? AnimationOffset : Offset;
 
@@ -158,7 +158,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
             return _anchorElement;
         }
     }
-    
+
     /// <summary>
     /// Initializes static members of the <see cref="SmoothScrollContentPresenter" /> class.
     /// </summary>

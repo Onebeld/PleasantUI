@@ -70,8 +70,7 @@
             <ControlTemplate>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="{CompiledBinding $parent[NavigationView].CompactPaneLength, Converter={x:Static IntToColumnDefinitionWidthConverter.Instance}}" />
+                        <ColumnDefinition Width="{CompiledBinding $parent[NavigationView].CompactPaneLength, Converter={x:Static IntToColumnDefinitionWidthConverter.Instance}}" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <SplitView Grid.Column="0"
@@ -84,13 +83,13 @@
                         <SplitView.Pane>
                             <Border Name="PART_Border" 
                                     Padding="0">
-                                <Grid RowDefinitions="Auto,Auto,*">
+                                <Grid x:Name="PART_SplitViewGrid" RowDefinitions="Auto,Auto,*">
                                     <Border x:Name="PART_MarginPanel"
                                             Grid.Row="1"
                                             Width="{TemplateBinding CompactPaneLength}"
                                             Height="90" />
 
-                                    <DockPanel Grid.Row="2">
+                                    <DockPanel x:Name="PART_ItemsPresenterDockPanel" Grid.Row="2">
                                         <SmoothScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
@@ -116,7 +115,7 @@
                                 Grid.Column="0"
                                 Margin="5"
                                 Spacing="5"
-                                Orientation="Vertical">
+                                Orientation="Vertical">       
                         <Button Name="PART_BackButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 ToolTip.Tip="{Localize Back, Default='Back'}"
@@ -176,21 +175,6 @@
         <Style Selector="^ /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8 0 0 0" />
             <Setter Property="BorderThickness" Value="1 1 0 0" />
-            <Setter Property="Margin" Value="0 45 0 0" />
-        </Style>
-        <Style Selector="^[DisplayTopIndent=False] /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="0 0 0 0" />
-            <Setter Property="BorderThickness" Value="1 0 0 0" />
-            <Setter Property="Margin" Value="0 0 0 0" />
-        </Style>
-        <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="8 8 0 0" />
-            <Setter Property="BorderThickness" Value="0 1 0 0" />
-            <Setter Property="Margin" Value="0 45 0 0" />
-        </Style>
-        <Style Selector="^[DisplayMode=Overlay][DisplayTopIndent=False] /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="8 8 0 0" />
-            <Setter Property="BorderThickness" Value="0 1 0 0" />
             <Setter Property="Margin" Value="0 45 0 0" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ StackPanel#PART_StackPanelButtons">

@@ -7,5 +7,5 @@ public class ProgressBarPage : IPage
 {
     public string Title { get; } = "ProgressBar";
     public bool ShowTitle { get; } = true;
-    public Control Content { get; }
+    public Control Content { get; } = null!;
 }

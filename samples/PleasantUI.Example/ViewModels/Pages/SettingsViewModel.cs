@@ -19,11 +19,18 @@ public partial class SettingsViewModel : ObservableObject
             Localizer.ChangeLang(value.Key);
         }
     }
-    
+
     public Theme? SelectedTheme
     {
-        get => PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme);
-        set => PleasantSettings.Current.Theme = value?.Name ?? "System";
+        get => PleasantSettings.Current?.Theme is string themeName
+            ? PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == themeName)
+            : null;
+
+        set
+        {
+            if (PleasantSettings.Current is not null)
+                PleasantSettings.Current.Theme = value?.Name ?? "System";
+        }
     }
 
     public CustomTheme? SelectedCustomTheme
@@ -36,10 +43,10 @@ public partial class SettingsViewModel : ObservableObject
     private async Task CreateThemeAsync()
     {
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, null);
-        
+
         if (newCustomTheme is null)
             return;
-        
+
         PleasantTheme.CustomThemes.Add(newCustomTheme);
     }
 
@@ -47,10 +54,10 @@ public partial class SettingsViewModel : ObservableObject
     private async Task EditThemeAsync(CustomTheme customTheme)
     {
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, customTheme);
-        
+
         if (newCustomTheme is null)
             return;
-        
+
         PleasantUiExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
     }
 

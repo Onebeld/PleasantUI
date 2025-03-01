@@ -22,12 +22,12 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// Gets the singleton instance of the <see cref="Localizer" /> class.
     /// </summary>
     public static Localizer Instance { get; } = new();
-    
+
     /// <summary>
     /// Occurs when a property value changes.
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
     /// <summary>
     /// Occurs when the localization changes.
     /// </summary>
@@ -55,10 +55,10 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             if (string.IsNullOrEmpty(ret))
                 ret = $"Localize:{key}";
 
-            return ret;
+            return ret!;
         }
     }
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Localizer" /> class.
     /// </summary>
@@ -66,7 +66,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     {
         LoadLanguage();
     }
-    
+
     /// <summary>
     /// Translates the specified key.
     /// </summary>
@@ -78,18 +78,27 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     {
         if (key is null)
             return string.Empty;
-        
+
         if (context is not null)
             key = $"{context}/{key}";
-        
+
         string expression = Instance[key];
-        
+
         return string.Format(expression, args);
     }
-    
+
+    /// <summary>
+    /// Adds a resource manager to the current localization instance.
+    /// </summary>
+    /// <param name="resourceManager">The <see cref="ResourceManager"/> to be added.</param>
     public static void AddRes(ResourceManager resourceManager) => Instance.AddResourceManager(resourceManager);
-    
+
+    /// <summary>
+    /// Changes the current language of the application.
+    /// </summary>
+    /// <param name="language">The language code to switch to (e.g., "en", "fr").</param>
     public static void ChangeLang(string language) => Instance.ChangeLanguage(language);
+
 
     /// <summary>
     /// Attempts to get the localized string for the specified key.
@@ -104,7 +113,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             expression = "<ERROR! LANGUAGE Resources is empty>";
             return false;
         }
-        
+
         string? row = GetExpression(key);
 
         if (string.IsNullOrEmpty(row))
@@ -118,7 +127,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         if (string.IsNullOrEmpty(ret))
             ret = $"Localize:{key}";
 
-        expression = ret;
+        expression = ret!;
         return true;
     }
 
@@ -143,7 +152,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         CultureInfo.CurrentUICulture = new CultureInfo(language);
         Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
         LoadLanguage();
-        
+
         LocalizationChanged?.Invoke(language);
     }
 
@@ -180,7 +189,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     {
         return new LocalizeObservable(key);
     }
-    
+
     private void LoadLanguage()
     {
         if (ResourceManagers != null)

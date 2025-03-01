@@ -9,6 +9,10 @@ using PleasantUI.Core.Interfaces;
 
 namespace PleasantUI.Controls;
 
+/// <summary>
+/// A content control that serves as the main view container for PleasantUI applications, 
+/// supporting modal windows and a snackbar queue manager.
+/// </summary>
 [TemplatePart("PART_VisualLayerManager", typeof(VisualLayerManager))]
 [TemplatePart("PART_ContentPresenter", typeof(ContentPresenter))]
 public class PleasantView : ContentControl, IPleasantWindow
@@ -18,7 +22,7 @@ public class PleasantView : ContentControl, IPleasantWindow
 
     /// <inheritdoc />
     public AvaloniaList<PleasantPopupElement> ModalWindows { get; } = [];
-    
+
     static PleasantView()
     {
         TemplateProperty.OverrideDefaultValue<PleasantView>(new FuncControlTemplate((_, ns) => new ContentPresenter

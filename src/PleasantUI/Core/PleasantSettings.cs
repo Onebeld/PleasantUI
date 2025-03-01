@@ -11,13 +11,13 @@ namespace PleasantUI.Core;
 public class PleasantSettings : SettingsBase<PleasantSettings>
 {
     private AvaloniaList<uint> _colorPalettes = [];
-    
+
     private uint _numericalAccentColor;
     private bool _preferUserAccentColor;
-    
+
     private string _theme = "System";
     private Guid? _customThemeId;
-    
+
     private RenderSettings _renderSettings;
     private WindowSettings _windowSettings;
 
@@ -108,6 +108,10 @@ public class PleasantSettings : SettingsBase<PleasantSettings>
         set => SetProperty(ref _colorPalettes, value);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PleasantSettings"/> class 
+    /// with default window and render settings.
+    /// </summary>
     public PleasantSettings()
     {
         _windowSettings = new WindowSettings();
