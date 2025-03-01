@@ -109,13 +109,7 @@ public class PleasantTitleBar : TemplatedControl
 
             _closeMenuItem.Click += (_, _) => window.Close();
             _reestablishMenuItem.Click += (_, _) => window.WindowState = WindowState.Normal;
-            _expandMenuItem.Click += (_, _) =>
-            {
-                if (isMacOS)
-                    window.WindowState = WindowState.FullScreen;
-                else
-                    window.WindowState = WindowState.Maximized;
-            };
+            _expandMenuItem.Click += (_, _) => window.WindowState = WindowState.Maximized;
             _collapseMenuItem.Click += (_, _) => window.WindowState = WindowState.Minimized;
 
             _dragWindowBorder.PointerPressed += OnDragWindowBorderOnPointerPressed;
@@ -179,37 +173,26 @@ public class PleasantTitleBar : TemplatedControl
             }),
             host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(enable =>
             {
-                if (_dragWindowBorder is null ||
-                    _host is null ||
-                    _titlePanel is null ||
-                    _leftTitleBarContent is null ||
-                    _captionButtons is null) return;
+                if (_dragWindowBorder == null || _host == null || _titlePanel == null ||
+                _leftTitleBarContent == null || _captionButtons == null)
+                return;
 
                 host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
                 {
-                    // When in full screen, undo the adjustments.
                     if (state == WindowState.FullScreen)
                     {
+                        _captionButtons.IsVisible = !enable;
                         _dragWindowBorder.IsVisible = !enable;
                     }
                     else
                     {
+                        _captionButtons.IsVisible = !_host.OverrideMacOSCaption ? !enable : enable;
                         _dragWindowBorder.IsVisible = enable;
                     }
                 });
                 _titlePanel.IsVisible = enable;
                 _leftTitleBarContent.IsVisible = enable;
 
-
-
-            if (!_host.OverrideMacOSCaption)
-            {
-                _captionButtons.IsVisible = !enable;
-            }
-            else
-            {
-                _captionButtons.IsVisible = enable;
-            }
                 /*
                 if (!_host.ShowTitleBarContentAnyway)
                     IsVisible = enable;*/
@@ -282,55 +265,43 @@ public class PleasantTitleBar : TemplatedControl
 
     private void PopulateTitleBar()
     {
-        if (_titleBarGrid != null)
-        {
-            _titleBarGrid.ColumnDefinitions.Clear();
-            if (isMacOS)
-            {
-                if (!_host.OverrideMacOSCaption)
-                {
-                    _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(75, GridUnitType.Pixel) });
-                }
-                else
-                {
-                    _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                }
+        if (_titleBarGrid == null)
+            return;
 
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                if (_host != null)
-                {
-                    _host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
-                    {
-                        if (state == WindowState.FullScreen)
-                        {
-                            _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(45, GridUnitType.Pixel);
-                        }
-                        else
-                        {
-                            if (!_host.OverrideMacOSCaption)
-                            {
-                                _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(75, GridUnitType.Pixel);
-                            }
-                            else
-                            {
-                                _titleBarGrid.ColumnDefinitions[0].Width = GridLength.Auto;
-                            }
-                        }
-                    });
-                }
-            }
-            else
+        _titleBarGrid.ColumnDefinitions.Clear();
+
+        if (isMacOS)
+        {
+            var firstColWidth = !_host.OverrideMacOSCaption
+                ? new GridLength(75, GridUnitType.Pixel)
+                : GridLength.Auto;
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = firstColWidth });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            if (_host != null)
             {
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40, GridUnitType.Pixel) });
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                _host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+                {
+                    _titleBarGrid.ColumnDefinitions[0].Width = state == WindowState.FullScreen
+                        ? new GridLength(45, GridUnitType.Pixel)
+                        : (!_host.OverrideMacOSCaption
+                            ? new GridLength(75, GridUnitType.Pixel)
+                            : GridLength.Auto);
+                });
             }
         }
-
+        else
+        {
+            // Non-macOS layout
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40, GridUnitType.Pixel) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        }
+        // Set child placements based on platform.
         if (isMacOS)
         {
             if (_captionButtons != null)

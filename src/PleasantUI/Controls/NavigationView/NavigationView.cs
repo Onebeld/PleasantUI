@@ -51,6 +51,8 @@ public class NavigationView : TreeView
 
     private object? _selectedContent;
 
+    private CompositeDisposable _subscriptions = new CompositeDisposable();
+
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
     /// </summary>
@@ -406,34 +408,31 @@ public class NavigationView : TreeView
         _marginPanel = e.NameScope.Find<Border>("PART_MarginPanel");
 
         if (_headerItem != null)
-            _headerItem.Click += (_, _) =>
-            {
-                if (!AlwaysOpen)
-                    IsOpen = !IsOpen;
-                else
-                    IsOpen = true;
-            };
+        {
+            _headerItem.Click += (_, _) => IsOpen = AlwaysOpen ? true : !IsOpen;
+        }
 
         BackButtonCommandProperty.Changed.Subscribe(x =>
         {
-            if (_backButton is not null)
+            if (_backButton != null)
                 _backButton.IsVisible = x.NewValue.Value is not null;
         });
 
         if (VisualRoot is PleasantWindow window)
         {
-            window.GetObservable(PleasantWindow.TitleBarHeightProperty).Subscribe(height =>
-            {
-                titleBarHeight = height;
-            });
-            UpdateMacNavigationLayout(window);
+            _subscriptions.Add(
+            window.GetObservable(PleasantWindow.TitleBarHeightProperty)
+                  .Subscribe(height => titleBarHeight = height));
 
+            UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
+
+            // Dispose since TitleBar height most likely wont change again
+            _subscriptions.Dispose();
         }
 
         UpdateTitleAndSelectedContent();
     }
-
     /// <inheritdoc />
     protected override void OnLoaded(RoutedEventArgs e)
     {
@@ -462,92 +461,62 @@ public class NavigationView : TreeView
 
     private void UpdateMacNavigationLayout(PleasantWindow window)
     {
-        if (window.EnableCustomTitleBar && RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        if (!window.EnableCustomTitleBar || !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            return;
+
+        window.GetObservable(Window.WindowStateProperty).Subscribe(state =>
         {
-            // Subscribe to window state changes
-            window.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+            if (state == WindowState.FullScreen)
             {
-                if (state == WindowState.FullScreen)
+                if (_mainGrid != null && _mainGrid.RowDefinitions.Count > 0)
+                    _mainGrid.RowDefinitions.RemoveAt(0);
+                if (_stackPanelButtons != null)
+                    _stackPanelButtons.Margin = new Thickness(5);
+                if (_marginPanel != null)
+                    Grid.SetRow(_marginPanel, 1);
+                if (_dockPanel != null)
+                    Grid.SetRow(_dockPanel, 2);
+            }
+            else if (_mainGrid != null && _marginPanel != null && _dockPanel != null &&
+                     _stackPanelButtons != null && _headerItem != null)
+            {
+                if (_mainGrid.RowDefinitions.Count == 0 ||
+                    _mainGrid.RowDefinitions[0].Height.Value != _headerItem.Height)
                 {
-                    if (_mainGrid != null && _mainGrid.RowDefinitions.Count > 0)
-                    {
-                        _mainGrid.RowDefinitions.RemoveAt(0);
-                    }
-                    if (_stackPanelButtons != null)
-                    {
-                        _stackPanelButtons.Margin = new Thickness(5);
-                    }
-                    if (_marginPanel != null)
-                    {
-                        Grid.SetRow(_marginPanel, 1);
-                    }
-                    if (_dockPanel != null)
-                    {
-                        Grid.SetRow(_dockPanel, 2);
-                    }
+                    _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
                 }
-                else
-                {
-                    if (_mainGrid != null && _marginPanel != null && _dockPanel != null && _stackPanelButtons != null && _headerItem != null)
-                    {
-                        if (_mainGrid.RowDefinitions.Count == 0 ||
-                            _mainGrid.RowDefinitions[0].Height.Value != _headerItem.Height)
-                        {
-                            _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
-                        }
-                        _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 6, 5, 5);
-                        Grid.SetRow(_marginPanel, 2);
-                        Grid.SetRow(_dockPanel, 3);
-                    }
-                }
-            });
-        }
+                _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 6, 5, 5);
+                Grid.SetRow(_marginPanel, 2);
+                Grid.SetRow(_dockPanel, 3);
+            }
+        });
     }
 
     private void UpdateContainerTitleHeight(PleasantWindow window)
     {
+        if (_container == null)
+            return;
+
+        // Determine margin based on custom title bar setting.
+        var margin = window.EnableCustomTitleBar ? new Thickness(0, titleBarHeight + 1, 0, 0) : new Thickness(0);
+
         if (DisplayMode == SplitViewDisplayMode.Overlay)
         {
-            if (_container != null)
-            {
-                _container.CornerRadius = new CornerRadius(8, 8, 0, 0);
-                _container.BorderThickness = new Thickness(0, 1, 0, 0);
-                if (window.EnableCustomTitleBar == true)
-                    _container.Margin = new Thickness(0, titleBarHeight + 1, 0, 0);
-                else
-                    _container.Margin = new Thickness(0);
-            }
+            _container.CornerRadius = new CornerRadius(8, 8, 0, 0);
+            _container.BorderThickness = new Thickness(0, 1, 0, 0);
+        }
+        else if (!DisplayTopIndent)
+        {
+            _container.CornerRadius = new CornerRadius(0);
+            _container.BorderThickness = new Thickness(1, 0, 0, 0);
         }
         else
         {
-            if (!DisplayTopIndent)
-            {
-                if (_container != null)
-                {
-                    _container.CornerRadius = new CornerRadius(0, 0, 0, 0);
-                    _container.BorderThickness = new Thickness(1, 0, 0, 0);
-                    if (window.EnableCustomTitleBar == true)
-                        _container.Margin = new Thickness(0, titleBarHeight + 1, 0, 0);
-                    else
-                        _container.Margin = new Thickness(0);
-                }
-            }
-            else
-            {
-                if (_container != null)
-                {
-                    _container.CornerRadius = new CornerRadius(8, 0, 0, 0);
-                    _container.BorderThickness = new Thickness(1, 1, 0, 0);
-                    if (window.EnableCustomTitleBar == true)
-                        _container.Margin = new Thickness(0, titleBarHeight + 1, 0, 0);
-                    else
-                        _container.Margin = new Thickness(0);
-                }
-            }
+            _container.CornerRadius = new CornerRadius(8, 0, 0, 0);
+            _container.BorderThickness = new Thickness(1, 1, 0, 0);
         }
+        _container.Margin = margin;
     }
-
-
     private void OnBoundsChanged(Rect rect)
     {
         if (DynamicDisplayMode)
