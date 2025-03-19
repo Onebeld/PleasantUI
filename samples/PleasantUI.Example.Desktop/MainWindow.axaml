@@ -17,9 +17,5 @@
                 Width="1200"
                 Height="700"
                 Subtitle="Example">
-    <PleasantWindow.LeftTitleBarContent>
-        <Panel Width="45"/>
-    </PleasantWindow.LeftTitleBarContent>
-    
     <example:MainView />
 </PleasantWindow>

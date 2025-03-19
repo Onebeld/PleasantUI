@@ -85,7 +85,8 @@
                                       ToolTip.Tip="{Localize NumberOfColorsInstalled, Context=ThemeEditor, Default='Number of colors installed'}" />
                 </Panel>
 
-                <PleasantBorder>
+                <PleasantBorder BorderThickness="1"
+                                BorderBrush="{DynamicResource ControlBorderColor}">
                     <ThemeVariantScope x:Name="ThemeVariantScope"
                                        RequestedThemeVariant="{CompiledBinding CustomTheme.ThemeVariant}">
                         <Border Background="{DynamicResource BackgroundColor1}" CornerRadius="7.5">

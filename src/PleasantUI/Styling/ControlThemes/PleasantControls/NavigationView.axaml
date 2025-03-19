@@ -101,8 +101,7 @@
                         </SplitView.Pane>
 
                         <Border Name="PART_Container"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}">
+                                Background="{TemplateBinding Background}">
                             <ContentPresenter Name="PART_SelectedContentPresenter"
                                               Content="{TemplateBinding SelectedContent}"
                                               Opacity="1"
@@ -174,7 +173,6 @@
 
         <Style Selector="^ /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8 0 0 0" />
-            <Setter Property="BorderThickness" Value="1 1 0 0" />
             <Setter Property="Margin" Value="0 45 0 0" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ StackPanel#PART_StackPanelButtons">
@@ -188,12 +186,10 @@
         </Style>
         <Style Selector="^[NotMakeOffsetForContentPanel=True] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="0 0 0 0" />
-            <Setter Property="BorderThickness" Value="1 0 0 0" />
             <Setter Property="Margin" Value="0" />
         </Style>
         <Style Selector="^[NotMakeOffsetForContentPanel=True][DisplayMode=Overlay] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8 8 0 0" />
-            <Setter Property="BorderThickness" Value="0 1 0 0" />
             <Setter Property="Margin" Value="0 45 0 0" />
         </Style>
     </ControlTheme>

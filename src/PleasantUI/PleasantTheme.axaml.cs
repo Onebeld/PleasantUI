@@ -44,8 +44,10 @@ public class PleasantTheme : Styles
     {
         AvaloniaXamlLoader.Load(serviceProvider, this);
 
-        PleasantSettings.Initialize(new AppSettingsProvider<PleasantSettings>(), PleasantSettingsGenerationContext.Default);
-        PleasantSettings.Current = PleasantSettings.Load(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+        PleasantSettings.Initialize(new AppSettingsProvider<PleasantSettings>(),
+            PleasantSettingsGenerationContext.Default);
+        PleasantSettings.Current =
+            PleasantSettings.Load(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
 
         _mainResourceDictionary = (Resources as ResourceDictionary)!;
 
@@ -150,7 +152,8 @@ public class PleasantTheme : Styles
         ResourceDictionary? lightThemeCustomColors = null;
 
         if (Application.Current.Resources.ThemeDictionaries.ContainsKey(theme.ThemeVariant))
-            lightThemeCustomColors = (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
+            lightThemeCustomColors =
+                (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
 
         Dictionary<string, Color> newDictionary = lightThemeBasicColors.ToDictionary<string, Color>();
 
@@ -291,7 +294,8 @@ public class PleasantTheme : Styles
 
     private void CurrentDomainOnProcessExit(object? sender, EventArgs e)
     {
-        PleasantSettings.Save(PleasantSettings.Current, Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+        PleasantSettings.Save(PleasantSettings.Current,
+            Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
         PleasantThemesLoader.Save();
     }
 
@@ -413,6 +417,13 @@ public class PleasantTheme : Styles
         foreach (Color darkAccentColor in darkAccentColors)
             _accentColorsDictionary.Add($"AccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}",
                 darkAccentColor);
+
+        HsvColor hsvAccentColor = lightAccentColors[1].ToHsv();
+
+        _accentColorsDictionary.Add("AccentGradientColor1",
+            new HsvColor(hsvAccentColor.A, Math.Min(hsvAccentColor.H + 20, 360), hsvAccentColor.S, hsvAccentColor.V).ToRgb());
+        _accentColorsDictionary.Add("AccentGradientColor2",
+            new HsvColor(hsvAccentColor.A, Math.Max(hsvAccentColor.H - 20, 0), hsvAccentColor.S, hsvAccentColor.V).ToRgb());
 
         Resources.MergedDictionaries.Add(_accentColorsDictionary);
     }

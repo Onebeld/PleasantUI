@@ -237,7 +237,7 @@
         </Style>
         
         <Style Selector="^:checked /template/ Border#OuterBorder">
-            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         </Style>
 

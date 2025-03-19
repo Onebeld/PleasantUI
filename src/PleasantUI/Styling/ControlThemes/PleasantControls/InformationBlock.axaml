@@ -11,9 +11,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
 
         <Setter Property="Template">
             <ControlTemplate>

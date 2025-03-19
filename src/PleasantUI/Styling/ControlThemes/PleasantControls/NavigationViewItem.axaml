@@ -300,7 +300,7 @@
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
         <Style Selector="^:selected /template/ PathIcon#PART_PathIcon">
-            <Setter Property="Foreground" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

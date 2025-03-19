@@ -75,9 +75,7 @@
                         </Panel>
 
                         <Border CornerRadius="{StaticResource ControlCornerRadius}"
-                                BorderThickness="1"
                                 Background="{DynamicResource BackgroundColor2}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
                                 Height="250">
                             <Panel>
                                 <ListBox ItemsSource="{x:Static PleasantTheme.CustomThemes}"

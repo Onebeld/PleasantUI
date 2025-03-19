@@ -80,6 +80,9 @@
         </Style>
         <Style Selector="^[TitleBarType=ClassicExtended][OverrideMacOSCaption=True]">
             <OnPlatform>
+                <OnPlatform.Default>
+                    <Setter Property="TitleBarHeight" Value="44" />
+                </OnPlatform.Default>
                 <OnPlatform.macOS>
                     <Setter Property="TitleBarHeight" Value="44" />
                 </OnPlatform.macOS>

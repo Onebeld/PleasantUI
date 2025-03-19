@@ -43,7 +43,6 @@ public class ColorToTransparentExtension : MarkupExtension
 
         DynamicResourceExtension extension = new(ResourceKey);
 
-
         MultiBinding multiBinding = new()
         {
             Bindings = { extension },

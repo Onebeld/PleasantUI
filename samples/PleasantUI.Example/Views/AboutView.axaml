@@ -71,9 +71,7 @@
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
             
-            <Border Background="{DynamicResource ControlFillColor1}" 
-                    BorderThickness="1"
-                    BorderBrush="{DynamicResource ControlBorderColor}"
+            <Border Background="{DynamicResource ControlFillColor1}"
                     Padding="12"
                     CornerRadius="{StaticResource ControlCornerRadius}">
                 <StackPanel>

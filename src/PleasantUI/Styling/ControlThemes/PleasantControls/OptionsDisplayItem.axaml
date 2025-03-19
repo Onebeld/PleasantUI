@@ -30,8 +30,6 @@
 
     <ControlTheme x:Key="{x:Type OptionsDisplayItem}" TargetType="OptionsDisplayItem">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="11 0 11 0" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 
@@ -92,6 +90,8 @@
                             </Grid>
                         </RippleEffect>
                     </Border>
+                    
+                    <Border Name="Separator" Height="1" Background="#20000000" />
 
                     <ContentPresenter Name="ExpandedContentPresenter"
                                       Content="{TemplateBinding Content}"
@@ -116,6 +116,9 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
         <Style Selector="^ /template/ ContentPresenter#ExpandedContentPresenter">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Border#Separator">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
@@ -193,6 +196,9 @@
             <Setter Property="IsVisible" Value="True" />
             <Setter Property="CornerRadius"
                     Value="{CompiledBinding $parent[OptionsDisplayItem].CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
+        </Style>
+        <Style Selector="^:expanded /template/ Border#Separator">
+            <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^:expanded /template/ Border#LayoutRoot">
             <Setter Property="CornerRadius"

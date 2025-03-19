@@ -7,9 +7,9 @@
             <Color x:Key="TextFillColor2">#9E000000</Color>
             <Color x:Key="TextFillColor3">#72000000</Color>
 
-            <Color x:Key="ControlFillColor1">#05000000</Color>
-            <Color x:Key="ControlFillColor2">#0A000000</Color>
-            <Color x:Key="ControlFillColor3">#0F000000</Color>
+            <Color x:Key="ControlFillColor1">#0B000000</Color>
+            <Color x:Key="ControlFillColor2">#13000000</Color>
+            <Color x:Key="ControlFillColor3">#18000000</Color>
 
             <Color x:Key="ControlDarkFillColor1">#78000000</Color>
             <Color x:Key="ControlDarkFillColor2">#82000000</Color>
@@ -17,10 +17,10 @@
 
             <Color x:Key="ControlBorderColor">#14000000</Color>
 
-            <Color x:Key="BackgroundColor1">#F0F0F0</Color>
-            <Color x:Key="BackgroundColor2">#EBEBEB</Color>
-            <Color x:Key="BackgroundColor3">#E6E6E6</Color>
-            <Color x:Key="BackgroundColor4">#E1E1E1</Color>
+            <Color x:Key="BackgroundColor1">#FFF0F0F0</Color>
+            <Color x:Key="BackgroundColor2">#FFE6E6E6</Color>
+            <Color x:Key="BackgroundColor3">#FFDEDEDE</Color>
+            <Color x:Key="BackgroundColor4">#FFD9D9D9</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -50,10 +50,10 @@
 
             <Color x:Key="ControlBorderColor">#59595959</Color>
 
-            <Color x:Key="BackgroundColor1">#202020</Color>
-            <Color x:Key="BackgroundColor2">#1C1C1C</Color>
-            <Color x:Key="BackgroundColor3">#282828</Color>
-            <Color x:Key="BackgroundColor4">#2C2C2C</Color>
+            <Color x:Key="BackgroundColor1">#FF191919</Color>
+            <Color x:Key="BackgroundColor2">#FF252525</Color>
+            <Color x:Key="BackgroundColor3">#FF313131</Color>
+            <Color x:Key="BackgroundColor4">#FF3F3F3F</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -84,4 +84,10 @@
             </Image>
         </VisualBrush.Visual>
     </VisualBrush>
+    
+    <LinearGradientBrush x:Key="AccentLinearGradientBrush" StartPoint="0%,50%" EndPoint="100%,50%">
+        <GradientStop Color="{DynamicResource AccentGradientColor1}" Offset="0.0" />
+        <GradientStop Color="{DynamicResource AccentLightColor2}" Offset="0.5" />
+        <GradientStop Color="{DynamicResource AccentGradientColor2}" Offset="1.0" />
+    </LinearGradientBrush>
 </ResourceDictionary>

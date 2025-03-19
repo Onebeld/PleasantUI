@@ -40,7 +40,6 @@
                                  UseLayoutRounding="False" />
 
                         <Ellipse Name="CheckGlyph"
-                                 IsVisible="False"
                                  Width="8"
                                  Height="8"
                                  Fill="{ForegroundBasedAccent AccentLightColor3}"
@@ -60,9 +59,13 @@
             </ControlTemplate>
         </Setter>
         <Style Selector="^ /template/ Ellipse#CheckGlyph">
+            <Setter Property="RenderTransform" Value="scale(0.7)" />
+            <Setter Property="Opacity" Value="0" />
+            
             <Setter Property="Transitions">
                 <Transitions>
-                    <BoolTransition Property="IsVisible" Duration="0:0:0.1" /> 
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
                 </Transitions> 
             </Setter>
         </Style>
@@ -82,7 +85,8 @@
             <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
         </Style>
         <Style Selector="^:checked /template/ Ellipse#CheckGlyph">
-            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="RenderTransform" Value="scale(1)" />
+            <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:checked:pointerover">
@@ -101,8 +105,7 @@
     <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type Button}}">
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
             <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
         </Style>
 

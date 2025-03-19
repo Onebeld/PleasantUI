@@ -13,7 +13,7 @@
     <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type Button}}">
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
             <!--<Setter Property="Foreground"
                     Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />-->

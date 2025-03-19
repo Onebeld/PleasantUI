@@ -89,7 +89,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+        <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
