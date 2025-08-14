@@ -6,17 +6,13 @@
     <Import Project="..\..\build\Package.props" />
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.4" />
-        <PackageReference Include="Avalonia.Skia" Version="11.2.4" />
+        <PackageReference Include="Avalonia" Version="11.3.3" />
+        <PackageReference Include="Avalonia.Skia" Version="11.3.3" />
         <PackageReference Include="SkiaSharp" Version="2.88.9" />
-        <PackageReference Include="System.Text.Json" Version="9.0.2" />
+        <PackageReference Include="System.Text.Json" Version="9.0.8" />
     </ItemGroup>
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Core\Bindings\" />
     </ItemGroup>
 </Project>

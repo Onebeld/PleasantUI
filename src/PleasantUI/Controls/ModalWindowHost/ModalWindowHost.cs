@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using PleasantUI.Reactive;
+using Avalonia.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -36,7 +36,7 @@ public class ModalWindowHost : ContentControl
         base.OnAttachedToVisualTree(e);
 
         if (e.Root is Control root)
-            _rootBoundsWatcher = root.GetObservable(BoundsProperty).Subscribe(_ => OnRootBoundsChanged());
+            _rootBoundsWatcher = root.GetObservable(BoundsProperty).Subscribe(new AnonymousObserver<Rect>(_ => OnRootBoundsChanged()));
     }
 
     /// <summary>

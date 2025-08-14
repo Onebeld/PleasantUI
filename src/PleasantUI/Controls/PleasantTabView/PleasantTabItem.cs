@@ -3,8 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Reactive;
 using PleasantUI.Core.Extensions;
-using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -98,10 +98,10 @@ public class PleasantTabItem : TabItem
     static PleasantTabItem()
     {
         IsSelectedProperty.Changed.AddClassHandler<PleasantTabItem>((x, _) => UpdatePseudoClass(x));
-        IsClosableProperty.Changed.Subscribe(e =>
+        IsClosableProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(e =>
         {
             if (e.Sender is PleasantTabItem { _closeButton: not null } a) a._closeButton.IsVisible = a.IsClosable;
-        });
+        }));
     }
 
     /// <summary>

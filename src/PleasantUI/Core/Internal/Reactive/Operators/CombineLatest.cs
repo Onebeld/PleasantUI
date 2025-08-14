@@ -1,4 +1,4 @@
-﻿namespace PleasantUI.Reactive.Operators;
+﻿namespace PleasantUI.Core.Internal.Reactive.Operators;
 
 internal sealed class CombineLatest<TFirst, TSecond, TResult> : IObservable<TResult>
 {

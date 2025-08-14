@@ -3,7 +3,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using PleasantUI.Reactive;
+using Avalonia.Reactive;
+using PleasantUI.Core.Internal;
+using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls.Chrome;
 
@@ -85,45 +87,45 @@ public class PleasantCaptionButtons : TemplatedControl
         if (_disposable == null && Host is not null)
         {
             _disposable = new CompositeDisposable
-        {
-            Host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
             {
-                PseudoClasses.Set(":minimized", state == WindowState.Minimized);
-                PseudoClasses.Set(":normal", state == WindowState.Normal);
-                PseudoClasses.Set(":maximized", state == WindowState.Maximized);
-            }),
-
-            Host.GetObservable(Window.CanResizeProperty).Subscribe(canResize => _maximizeButton.IsEnabled = canResize),
-
-            Host.GetObservable(WindowBase.IsActiveProperty).Subscribe(isActive => PseudoClasses.Set(":isactive", !isActive)),
-
-            Host.GetObservable(PleasantWindow.CaptionButtonsProperty).Subscribe(buttonType =>
-            {
-                switch (buttonType)
+                Host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
                 {
-                    case Type.None:
-                        _minimizeButton.IsVisible = _maximizeButton.IsVisible = _closeButton.IsVisible = false;
-                        break;
-                    case Type.All:
-                        _minimizeButton.IsVisible = _maximizeButton.IsVisible = _closeButton.IsVisible = true;
-                        break;
-                    case Type.Close:
-                        _minimizeButton.IsVisible = _maximizeButton.IsVisible = false;
-                        _closeButton.IsVisible = true;
-                        break;
-                    case Type.CloseAndCollapse:
-                        _minimizeButton.IsVisible = true;
-                        _maximizeButton.IsVisible = false;
-                        _closeButton.IsVisible = true;
-                        break;
-                    case Type.CloseAndExpand:
-                        _minimizeButton.IsVisible = false;
-                        _maximizeButton.IsVisible = true;
-                        _closeButton.IsVisible = true;
-                        break;
-                }
-            })
-        };
+                    PseudoClasses.Set(":minimized", state == WindowState.Minimized);
+                    PseudoClasses.Set(":normal", state == WindowState.Normal);
+                    PseudoClasses.Set(":maximized", state == WindowState.Maximized);
+                })),
+
+                Host.GetObservable(Window.CanResizeProperty).Subscribe(new AnonymousObserver<bool>(canResize => _maximizeButton.IsEnabled = canResize)),
+
+                Host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(isActive => PseudoClasses.Set(":isactive", !isActive))),
+
+                Host.GetObservable(PleasantWindow.CaptionButtonsProperty).Subscribe(new AnonymousObserver<Type>(buttonType =>
+                {
+                    switch (buttonType)
+                    {
+                        case Type.None:
+                            _minimizeButton.IsVisible = _maximizeButton.IsVisible = _closeButton.IsVisible = false;
+                            break;
+                        case Type.All:
+                            _minimizeButton.IsVisible = _maximizeButton.IsVisible = _closeButton.IsVisible = true;
+                            break;
+                        case Type.Close:
+                            _minimizeButton.IsVisible = _maximizeButton.IsVisible = false;
+                            _closeButton.IsVisible = true;
+                            break;
+                        case Type.CloseAndCollapse:
+                            _minimizeButton.IsVisible = true;
+                            _maximizeButton.IsVisible = false;
+                            _closeButton.IsVisible = true;
+                            break;
+                        case Type.CloseAndExpand:
+                            _minimizeButton.IsVisible = false;
+                            _maximizeButton.IsVisible = true;
+                            _closeButton.IsVisible = true;
+                            break;
+                    }
+                }))
+            };
         }
     }
 

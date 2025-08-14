@@ -22,7 +22,7 @@ public class PleasantSnackbar : PleasantPopupElement
     private Button? _button;
     private ContentPresenter? _contentPresenter;
     private Grid? _grid;
-    private Border? _snackbarBorder;
+    private Control? _snackbarBorder;
 
     private IDisposable? _closingTimer;
 
@@ -109,7 +109,7 @@ public class PleasantSnackbar : PleasantPopupElement
     /// </summary>
     public PleasantSnackbar(TopLevel? topLevel)
     {
-        _queueManager = ApplicationHelper.GetSnackbarQueueManager(topLevel);
+        _queueManager = WindowHelper.GetSnackbarQueueManager(topLevel);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public class PleasantSnackbar : PleasantPopupElement
     {
         base.OnApplyTemplate(e);
 
-        _snackbarBorder = e.NameScope.Find<Border>("PART_Snackbar");
+        _snackbarBorder = e.NameScope.Find<Control>("PART_Snackbar");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
         _button = e.NameScope.Find<Button>("PART_Button");
         _grid = e.NameScope.Find<Grid>("PART_Grid");

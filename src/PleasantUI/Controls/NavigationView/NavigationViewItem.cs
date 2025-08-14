@@ -5,9 +5,10 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
+using Avalonia.Metadata;
+using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using PleasantUI.Core.Extensions;
-using PleasantUI.Reactive;
 using LogicalExtensions = PleasantUI.Core.Extensions.LogicalExtensions;
 
 namespace PleasantUI.Controls;
@@ -235,11 +236,6 @@ public class NavigationViewItem : TreeViewItem
     }
 
     /// <summary>
-    /// Needed if AOT does not support creating a class instance by type
-    /// </summary>
-    public Func<Control>? FuncControl { get; set; }
-
-    /// <summary>
     /// Occurs when the Opened event is raised.
     /// </summary>
     public event EventHandler<RoutedEventArgs> Opened
@@ -287,9 +283,9 @@ public class NavigationViewItem : TreeViewItem
             else
                 navigationViewItem.OnDeselected(navigationViewItem, e);
         });
-        IsOpenProperty.Changed.Subscribe(OnIsOpenChanged);
-        OpenPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
-        CompactPaneLengthProperty.Changed.Subscribe(OnPaneSizesChanged);
+        IsOpenProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(OnIsOpenChanged));
+        OpenPaneLengthProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnPaneSizesChanged));
+        CompactPaneLengthProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnPaneSizesChanged));
 
         FocusableProperty.OverrideDefaultValue<NavigationViewItem>(true);
         ClickModeProperty.OverrideDefaultValue<NavigationViewItem>(ClickMode.Release);

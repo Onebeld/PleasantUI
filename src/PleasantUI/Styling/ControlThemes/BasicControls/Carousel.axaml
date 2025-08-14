@@ -4,7 +4,7 @@
     <ControlTheme x:Key="{x:Type Carousel}" TargetType="Carousel">
         <Setter Property="Template">
             <ControlTemplate>
-                <ScrollViewer Name="PART_ScrollViewer"
+                <SmoothScrollViewer Name="PART_ScrollViewer"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
@@ -13,7 +13,7 @@
                     <ItemsPresenter Name="PART_ItemsPresenter"
                                     ItemsPanel="{TemplateBinding ItemsPanel}"
                                     Margin="{TemplateBinding Padding}" />
-                </ScrollViewer>
+                </SmoothScrollViewer>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

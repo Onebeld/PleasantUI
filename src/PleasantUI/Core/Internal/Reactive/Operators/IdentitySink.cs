@@ -1,4 +1,4 @@
-﻿namespace PleasantUI.Reactive.Operators;
+﻿namespace PleasantUI.Core.Internal.Reactive.Operators;
 
 internal abstract class Sink<TTarget> : IDisposable
 {

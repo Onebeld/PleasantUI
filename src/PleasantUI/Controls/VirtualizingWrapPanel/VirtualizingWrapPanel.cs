@@ -535,9 +535,9 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     }
 
     private void RealizeElements(
-    IReadOnlyList<object?> items,
-    Size availableSize,
-    ref MeasureViewport viewport)
+        IReadOnlyList<object?> items,
+        Size availableSize,
+        ref MeasureViewport viewport)
     {
         if (_measureElements is null)
             throw new InvalidOperationException("_measureElements is null.");
@@ -554,7 +554,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         double itemWidth = ItemWidth, itemHeight = ItemHeight;
         bool isItemWidthSet = !double.IsNaN(itemWidth), isItemHeightSet = !double.IsNaN(itemHeight);
         Size childConstraint = new(isItemWidthSet ? itemWidth : availableSize.Width,
-                                   isItemHeightSet ? itemHeight : availableSize.Height);
+            isItemHeightSet ? itemHeight : availableSize.Height);
 
         // Recycle elements before the anchor if necessary.
         if (uv.V <= viewport.AnchorUv.V)

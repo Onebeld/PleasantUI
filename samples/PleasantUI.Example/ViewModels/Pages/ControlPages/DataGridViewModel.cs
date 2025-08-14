@@ -1,10 +1,10 @@
 ﻿using Avalonia.Collections;
-using CommunityToolkit.Mvvm.ComponentModel;
+using PleasantUI.Core;
 using PleasantUI.Example.Models;
 
 namespace PleasantUI.Example.ViewModels.Pages.ControlPages;
 
-public class DataGridViewModel : ObservableObject
+public class DataGridViewModel : ViewModelBase
 {
     public AvaloniaList<DataModel> DataModels { get; }
 

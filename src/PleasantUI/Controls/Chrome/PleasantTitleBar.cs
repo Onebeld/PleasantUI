@@ -7,8 +7,10 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Reactive;
 using PleasantUI.Core.Extensions;
-using PleasantUI.Reactive;
+using PleasantUI.Core.Internal;
+using PleasantUI.Core.Internal.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
 
 namespace PleasantUI.Controls.Chrome;
@@ -123,7 +125,7 @@ public class PleasantTitleBar : TemplatedControl
     {
         CompositeDisposable unused = new()
         {
-            host.GetObservable(Window.WindowStateProperty).Subscribe(windowState =>
+            host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(windowState =>
             {
                 PseudoClasses.Set(":minimized", windowState == WindowState.Minimized);
                 PseudoClasses.Set(":normal", windowState == WindowState.Normal);
@@ -139,45 +141,45 @@ public class PleasantTitleBar : TemplatedControl
                     if (_reestablishMenuItem is not null) _reestablishMenuItem.IsEnabled = false;
                     if (_expandMenuItem is not null) _expandMenuItem.IsEnabled = true;
                 }
-            }),
-            host.GetObservable(WindowBase.IsActiveProperty).Subscribe(b => { PseudoClasses.Set(":isactive", !b); }),
-            host.GetObservable(PleasantWindow.SubtitleProperty).Subscribe(s =>
+            })),
+            host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(b => { PseudoClasses.Set(":isactive", !b); })),
+            host.GetObservable(PleasantWindow.SubtitleProperty).Subscribe(new AnonymousObserver<string>(s =>
             {
                 if (_subtitle is not null) _subtitle.Text = s;
-            }),
-            host.GetObservable(Window.TitleProperty).Subscribe(SetDisplayTitle),
-            host.GetObservable(PleasantWindow.DisplayTitleProperty).Subscribe(SetDisplayTitle),
-            host.GetObservable(PleasantWindow.DisplayIconProperty).Subscribe(SetDisplayIcon),
-            host.GetObservable(Window.IconProperty).Subscribe(SetDisplayIcon),
-            host.GetObservable(PleasantWindow.LeftTitleBarContentProperty).Subscribe(content =>
+            })),
+            host.GetObservable(Window.TitleProperty).Subscribe(new AnonymousObserver<string?>(SetDisplayTitle)),
+            host.GetObservable(PleasantWindow.DisplayTitleProperty).Subscribe(new AnonymousObserver<object?>(SetDisplayTitle)),
+            host.GetObservable(PleasantWindow.DisplayIconProperty).Subscribe(new AnonymousObserver<object?>(SetDisplayIcon)),
+            host.GetObservable(Window.IconProperty).Subscribe(new AnonymousObserver<WindowIcon?>(SetDisplayIcon)),
+            host.GetObservable(PleasantWindow.LeftTitleBarContentProperty).Subscribe(new AnonymousObserver<object?>(content =>
             {
                 if (_leftTitleBarContent is not null)
                     _leftTitleBarContent.Content = content;
-            }),
-            host.GetObservable(PleasantWindow.TitleContentProperty).Subscribe(content =>
+            })),
+            host.GetObservable(PleasantWindow.TitleContentProperty).Subscribe(new AnonymousObserver<object?>(content =>
             {
                 if (_titleBarContent is not null)
                     _titleBarContent.Content = content;
 
                 if (isMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !host.ExtendsContentIntoTitleBar && content is null;
-            }),
-            host.GetObservable(PleasantWindow.TitleBarTypeProperty).Subscribe(type =>
+            })),
+            host.GetObservable(PleasantWindow.TitleBarTypeProperty).Subscribe(new AnonymousObserver<Type>(type =>
             {
                 PseudoClasses.Set(":titlebar", type == Type.Classic);
-            }),
-            host.GetObservable(PleasantWindow.ExtendsContentIntoTitleBarProperty).Subscribe(b =>
+            })),
+            host.GetObservable(PleasantWindow.ExtendsContentIntoTitleBarProperty).Subscribe(new AnonymousObserver<bool>(b =>
             {
                 if (isMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !b;
-            }),
-            host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(enable =>
+            })),
+            host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(new AnonymousObserver<bool>(enable =>
             {
                 if (_dragWindowBorder == null || _host == null || _titlePanel == null ||
                 _leftTitleBarContent == null || _captionButtons == null)
                 return;
 
-                host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+                host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
                 {
                     if (state == WindowState.FullScreen)
                     {
@@ -189,14 +191,14 @@ public class PleasantTitleBar : TemplatedControl
                         _captionButtons.IsVisible = !_host.OverrideMacOSCaption ? !enable : enable;
                         _dragWindowBorder.IsVisible = enable;
                     }
-                });
+                }));
                 _titlePanel.IsVisible = enable;
                 _leftTitleBarContent.IsVisible = enable;
 
                 /*
                 if (!_host.ShowTitleBarContentAnyway)
                     IsVisible = enable;*/
-            })
+            }))
         };
     }
 
@@ -274,7 +276,7 @@ public class PleasantTitleBar : TemplatedControl
         {
             if (_host != null)
             {
-                var firstColWidth = !_host.OverrideMacOSCaption
+                GridLength firstColWidth = !_host.OverrideMacOSCaption
                 ? new GridLength(75, GridUnitType.Pixel)
                 : GridLength.Auto;
 
@@ -284,17 +286,14 @@ public class PleasantTitleBar : TemplatedControl
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            if (_host != null)
+            _host?.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
             {
-                _host.GetObservable(Window.WindowStateProperty).Subscribe(state =>
-                {
-                    _titleBarGrid.ColumnDefinitions[0].Width = state == WindowState.FullScreen
-                        ? new GridLength(45, GridUnitType.Pixel)
-                        : (!_host.OverrideMacOSCaption
-                            ? new GridLength(75, GridUnitType.Pixel)
-                            : GridLength.Auto);
-                });
-            }
+                _titleBarGrid.ColumnDefinitions[0].Width = state == WindowState.FullScreen
+                    ? new GridLength(45, GridUnitType.Pixel)
+                    : (!_host.OverrideMacOSCaption
+                        ? new GridLength(75, GridUnitType.Pixel)
+                        : GridLength.Auto);
+            }));
         }
         else
         {

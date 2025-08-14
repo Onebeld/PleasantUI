@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:models="clr-namespace:PleasantUI.Core.Models"
                     xmlns:models1="clr-namespace:PleasantUI.ToolKit.Models"
                     x:ClassModifier="internal">
     <DataTemplate x:Key="ThemeColorItemTemplate" DataType="{x:Type models1:ThemeColor}">

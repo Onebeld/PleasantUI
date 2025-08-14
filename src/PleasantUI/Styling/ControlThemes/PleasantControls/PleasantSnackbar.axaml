@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -23,55 +21,58 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border x:Name="PART_Snackbar"
-                        Background="{DynamicResource BackgroundColor1}"
-                        BorderBrush="{DynamicResource ControlBorderColor}"
-                        BorderThickness="1"
-                        CornerRadius="99"
-                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
-                    <Border CornerRadius="99"
-                            Margin="-1"
-                            ClipToBounds="True">
-                        <Grid ColumnDefinitions="Auto,*">
-                            <Border x:Name="PART_IconBorder"
-                                    Grid.Column="0"
-                                    Background="{DynamicResource SystemFillColorNeutral}"
-                                    Width="30"
-                                    Height="30"
-                                    CornerRadius="99"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="1"
-                                    Margin="5">
-                                <PathIcon
-                                    Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
-                                    Data="{TemplateBinding Icon}" />
-                            </Border>
-
-                            <Grid x:Name="PART_Grid"
-                                  Grid.Column="1"
-                                  ColumnDefinitions="*,Auto"
-                                  Opacity="0"
-                                  Margin="0 0 10 0">
-                                <ContentPresenter x:Name="PART_ContentPresenter"
-                                                  Grid.Column="0"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  TextAlignment="Start" />
-
-                                <Button x:Name="PART_Button"
-                                        Grid.Column="1"
-                                        Theme="{StaticResource AppBarButtonTheme}"
-                                        Foreground="{DynamicResource AccentLightColor3}"
+                <ShadowBorder CornerRadius="99"
+                              BlurRadius="5"
+                              Offset="0 1"
+                              ShadowColor="#3C000000">
+                    <Border x:Name="PART_Snackbar"
+                            Background="{DynamicResource BackgroundColor1}"
+                            BorderBrush="{DynamicResource ControlBorderColor}"
+                            BorderThickness="1"
+                            CornerRadius="99">
+                        <Border CornerRadius="99"
+                                Margin="-1"
+                                ClipToBounds="True">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Border x:Name="PART_IconBorder"
+                                        Grid.Column="0"
+                                        Background="{DynamicResource SystemFillColorNeutral}"
+                                        Width="30"
+                                        Height="30"
                                         CornerRadius="99"
-                                        Margin="5 5 0 5"/>
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        BorderThickness="1"
+                                        Margin="5">
+                                    <PathIcon
+                                        Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
+                                        Data="{TemplateBinding Icon}" />
+                                </Border>
+
+                                <Grid x:Name="PART_Grid"
+                                      Grid.Column="1"
+                                      ColumnDefinitions="*,Auto"
+                                      Opacity="0"
+                                      Margin="0 0 10 0">
+                                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                                      Grid.Column="0"
+                                                      Content="{TemplateBinding Content}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      TextAlignment="Start" />
+
+                                    <Button x:Name="PART_Button"
+                                            Grid.Column="1"
+                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            Foreground="{DynamicResource AccentLightColor3}"
+                                            CornerRadius="99"
+                                            Margin="5 5 0 5" />
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        </Border>
                     </Border>
-                </Border>
+                </ShadowBorder>
             </ControlTemplate>
         </Setter>
 

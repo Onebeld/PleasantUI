@@ -88,9 +88,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="TabScrollViewerTheme" TargetType="SmoothScrollViewer">
-        <Setter Property="SmoothScrollDuration" Value="0:0:0.015" />
-        <Setter Property="SmoothScrollEasing" Value="0,0 0.5,1" />
+    <ControlTheme x:Key="TabScrollViewerTheme" TargetType="ScrollViewer">
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto,*,Auto">
@@ -98,8 +96,7 @@
                                   Grid.Column="0"
                                   Theme="{StaticResource AppBarRepeatButtonTheme}"
                                   Foreground="{DynamicResource TextFillColor2}"
-                                  IsVisible="{TemplateBinding VisibleMaximum}"
-                                  IsEnabled="{TemplateBinding HorizontalScrollBarEnableDecrease}"
+                                  IsVisible="{TemplateBinding HorizontalScrollBarVisibility}"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Center"
                                   Delay="50"
@@ -111,23 +108,30 @@
                         </Viewbox>
                     </RepeatButton>
 
-                    <SmoothScrollContentPresenter Name="PART_ContentPresenter"
-                                                  Grid.Column="1"
-                                                  Background="{TemplateBinding Background}"
-                                                  CanHorizontallyScroll="{TemplateBinding CanHorizontallyScroll}"
-                                                  CanVerticallyScroll="{TemplateBinding CanVerticallyScroll}"
-                                                  Content="{TemplateBinding Content}"
-                                                  Extent="{TemplateBinding Extent, Mode=TwoWay}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  Offset="{TemplateBinding Offset, Mode=TwoWay}"
-                                                  Viewport="{TemplateBinding Viewport, Mode=TwoWay}" />
+                    <ScrollContentPresenter Name="PART_ContentPresenter"
+                                            Grid.Column="1"
+                                            Background="{TemplateBinding Background}"
+                                            HorizontalSnapPointsType="{TemplateBinding HorizontalSnapPointsType}"
+                                            VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}"
+                                            HorizontalSnapPointsAlignment="{TemplateBinding HorizontalSnapPointsAlignment}"
+                                            VerticalSnapPointsAlignment="{TemplateBinding VerticalSnapPointsAlignment}"
+                                            Content="{TemplateBinding Content}"
+                                            Extent="{TemplateBinding Extent, Mode=TwoWay}"
+                                            Offset="{TemplateBinding Offset, Mode=TwoWay}"
+                                            Padding="{TemplateBinding Padding}">
+                        <ScrollContentPresenter.GestureRecognizers>
+                            <ScrollGestureRecognizer
+                                CanHorizontallyScroll="{CompiledBinding $parent[ScrollContentPresenter].CanHorizontallyScroll}"
+                                CanVerticallyScroll="{CompiledBinding $parent[ScrollContentPresenter].CanVerticallyScroll}"
+                                IsScrollInertiaEnabled="True" />
+                        </ScrollContentPresenter.GestureRecognizers>
+                    </ScrollContentPresenter>
 
                     <RepeatButton Name="PART_ScrollIncreaseButton"
                                   Grid.Column="2"
                                   Theme="{StaticResource AppBarRepeatButtonTheme}"
                                   Foreground="{DynamicResource TextFillColor2}"
-                                  IsVisible="{TemplateBinding VisibleMaximum}"
-                                  IsEnabled="{TemplateBinding HorizontalScrollBarEnableIncrease}"
+                                  IsVisible="{TemplateBinding HorizontalScrollBarVisibility}"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
                                   Margin="5 0 5 0"

@@ -128,7 +128,7 @@
                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Panel>
                                     <SmoothScrollViewer.Styles>
-                                        <Style Selector="SmoothScrollContentPresenter#PART_ContentPresenter">
+                                        <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
                                             <Setter Property="Cursor" Value="IBeam" />
                                         </Style>
                                     </SmoothScrollViewer.Styles>

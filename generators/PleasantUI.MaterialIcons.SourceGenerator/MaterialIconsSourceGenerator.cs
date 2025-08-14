@@ -17,7 +17,7 @@ public class MaterialIconsSourceGenerator : IIncrementalGenerator
 
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
-		HttpClient httpClient = new();
+		using HttpClient httpClient = new();
 
 		Task<Stream> task = Task.Run(() => httpClient.GetStreamAsync(MaterialIconsFetchApi));
 		task.Wait();

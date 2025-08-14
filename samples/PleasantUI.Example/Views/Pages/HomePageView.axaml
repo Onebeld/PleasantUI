@@ -27,7 +27,6 @@
                 </InlineUIContainer>
                 <Run Text="!" />
             </TextBlock>
-            
 
             <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                        Text="Basic controls" />

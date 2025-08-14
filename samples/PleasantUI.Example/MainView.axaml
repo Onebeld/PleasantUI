@@ -2,24 +2,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:PleasantUI.Example.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.MainView">
     <Panel>
         <NavigationView>
-            <NavigationViewItem x:Name="HomeView"
-                                Header="Home"
-                                Icon="{x:Static MaterialIcons.HomeOutline}"/>
+                <NavigationViewItem x:Name="HomeView"
+                                    Header="Home"
+                                    Icon="{x:Static MaterialIcons.HomeOutline}">
+                    <NavigationViewItem.Content>
+                    <views:HomeView/>
+                        
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
         
-            <NavigationViewItem x:Name="AboutView"
-                                Header="About"
-                                Icon="{x:Static MaterialIcons.InformationOutline}"
-                                DockPanel.Dock="Bottom" />
+                <NavigationViewItem x:Name="AboutView"
+                                    Header="About"
+                                    Icon="{x:Static MaterialIcons.InformationOutline}"
+                                    DockPanel.Dock="Bottom">
+                    <NavigationViewItem.Content>
+                        <views:AboutView/>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
         
-            <NavigationViewItem x:Name="SettingsView"
-                                Header="Settings"
-                                DockPanel.Dock="Bottom"
-                                Icon="{x:Static MaterialIcons.CogOutline}"
-                                Margin="0 0 0 5" />
+                <NavigationViewItem x:Name="SettingsView"
+                                    Header="Settings"
+                                    DockPanel.Dock="Bottom"
+                                    Icon="{x:Static MaterialIcons.CogOutline}"
+                                    Margin="0 0 0 5">
+                    <NavigationViewItem.Content>
+                        <views:SettingsView/>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
         </NavigationView>
         
         <OnFormFactor>

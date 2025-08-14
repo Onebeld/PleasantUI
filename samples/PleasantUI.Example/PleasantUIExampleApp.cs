@@ -5,6 +5,7 @@ using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.Structures;
 using PleasantUI.Example.ViewModels;
+using PleasantUI.ToolKit.Services;
 
 namespace PleasantUI.Example;
 
@@ -21,7 +22,7 @@ public class PleasantUiExampleApp : Application
     static PleasantUiExampleApp()
     {
         if (!Design.IsDesignMode)
-            ViewModel = new AppViewModel();
+            ViewModel = new AppViewModel(new EventAggregator());
     }
 
     public PleasantUiExampleApp()

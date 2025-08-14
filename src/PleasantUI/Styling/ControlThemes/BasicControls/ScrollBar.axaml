@@ -188,6 +188,7 @@
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Rectangle Grid.Column="0"
                                            Name="TrackRect"
+                                           Fill="{DynamicResource ControlFillColor2}"
                                            Opacity="0"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"

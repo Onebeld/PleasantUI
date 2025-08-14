@@ -5,10 +5,10 @@ using PleasantUI.Core.Settings;
 namespace PleasantUI.Core;
 
 /// <summary>
-/// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows,
-/// rendering, and accent colors.
+/// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows
+/// and accent colors.
 /// </summary>
-public class PleasantSettings : SettingsBase<PleasantSettings>
+public class PleasantSettings : ViewModelBase
 {
     private AvaloniaList<uint> _colorPalettes = [];
 
@@ -18,7 +18,6 @@ public class PleasantSettings : SettingsBase<PleasantSettings>
     private string _theme = "System";
     private Guid? _customThemeId;
 
-    private RenderSettings _renderSettings;
     private WindowSettings _windowSettings;
 
     /// <summary>
@@ -83,22 +82,6 @@ public class PleasantSettings : SettingsBase<PleasantSettings>
     }
 
     /// <summary>
-    /// Gets the rendering settings
-    /// </summary>
-    [DataMember]
-    public RenderSettings RenderSettings
-    {
-        get => _renderSettings;
-        set
-        {
-            if (value is null)
-                throw new NullReferenceException("RenderSettings is null");
-
-            SetProperty(ref _renderSettings, value);
-        }
-    }
-
-    /// <summary>
     /// Gets or sets the list of color palettes.
     /// </summary>
     [DataMember]
@@ -115,37 +98,5 @@ public class PleasantSettings : SettingsBase<PleasantSettings>
     public PleasantSettings()
     {
         _windowSettings = new WindowSettings();
-        _renderSettings = new RenderSettings();
     }
-
-    /*private static void Setup()
-    {
-        OperatingSystem operatingSystem = Environment.OSVersion;
-
-        if (operatingSystem.Platform is PlatformID.Win32NT)
-        {
-            Version currentVersion = operatingSystem.Version;
-
-            if (currentVersion >= new Version(10, 0, 10586))
-            {
-                Current.WindowSettings.EnableBlur = true;
-                Current.WindowSettings.EnableCustomTitleBar = true;
-            }
-            else
-            {
-                Current.WindowSettings.EnableBlur = false;
-                Current.WindowSettings.EnableCustomTitleBar = false;
-            }
-        }
-        else if (operatingSystem.Platform is PlatformID.MacOSX)
-        {
-            Current.WindowSettings.EnableBlur = true;
-            Current.WindowSettings.EnableCustomTitleBar = true;
-        }
-        else
-        {
-            Current.WindowSettings.EnableBlur = false;
-            Current.WindowSettings.EnableCustomTitleBar = false;
-        }
-    }*/
 }

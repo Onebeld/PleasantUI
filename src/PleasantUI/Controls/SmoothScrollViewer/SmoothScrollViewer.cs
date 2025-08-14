@@ -7,7 +7,8 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using PleasantUI.Reactive;
+using Avalonia.Reactive;
+using PleasantUI.Core;
 
 namespace PleasantUI.Controls;
 
@@ -212,6 +213,14 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// </summary>
     public static readonly StyledProperty<bool> AllowAutoHideProperty =
         ScrollBar.AllowAutoHideProperty.AddOwner<SmoothScrollViewer>();
+    
+    /// <summary>
+    /// Defines the <see cref="IsScrollChainingEnabled"/> property.
+    /// </summary>
+    public static readonly AttachedProperty<bool> IsScrollChainingEnabledProperty =
+        AvaloniaProperty.RegisterAttached<ScrollViewer, Control, bool>(
+            nameof(IsScrollChainingEnabled),
+            defaultValue: true);
 
     /// <summary>
     /// Gets the value of the <see cref="VisibleMaximumProperty" /> property.
@@ -279,6 +288,20 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     {
         get => GetValue(VerticalScrollBarVisibilityProperty);
         set => SetValue(VerticalScrollBarVisibilityProperty, value);
+    }
+    
+    /// <summary>
+    ///  Gets or sets if scroll chaining is enabled. The default value is true.
+    /// </summary>
+    /// <remarks>
+    ///  After a user hits a scroll limit on an element that has been nested within another scrollable element,
+    /// you can specify whether that parent element should continue the scrolling operation begun in its child element.
+    /// This is called scroll chaining.
+    /// </remarks>
+    public bool IsScrollChainingEnabled
+    {
+        get => GetValue(IsScrollChainingEnabledProperty);
+        set => SetValue(IsScrollChainingEnabledProperty, value);
     }
 
     /// <summary>
@@ -609,7 +632,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             ContentPresenter? contentPresenter = Presenter;
             _childSubscription = contentPresenter?
                 .GetObservable(ContentPresenter.ChildProperty)
-                .Subscribe(ChildChanged);
+                .Subscribe(new AnonymousObserver<Control>(ChildChanged));
             return true;
         }
 
@@ -795,7 +818,7 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
             else if (verticalExpanded != null) actualExpanded = verticalExpanded;
         }
 
-        return actualExpanded?.Subscribe(OnScrollBarExpandedChanged);
+        return actualExpanded?.Subscribe(new AnonymousObserver<bool>(OnScrollBarExpandedChanged));
     }
 
     private void OnScrollBarExpandedChanged(bool isExpanded)

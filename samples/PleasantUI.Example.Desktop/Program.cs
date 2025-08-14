@@ -37,7 +37,7 @@ class Program
         stringBuilder.AppendLine($"OS: {Environment.OSVersion}");
         stringBuilder.AppendLine($"CPU: {Environment.ProcessorCount} cores");
         
-        Log.Information("Device information:\n" + stringBuilder);
+        Log.Information("Device information:\n{StringBuilder}", stringBuilder);
     }
 
     public static AppBuilder BuildAvaloniaApp()

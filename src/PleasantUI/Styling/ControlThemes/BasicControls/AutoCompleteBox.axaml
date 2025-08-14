@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -52,7 +50,7 @@
                            PlacementTarget="{TemplateBinding}"
                            Placement="Bottom">
                         <Popup.Styles>
-                            <Style Selector="Popup[IsOpen=True] > Border">
+                            <Style Selector="Popup[IsOpen=True] > ShadowBorder">
                                 <Style.Animations>
                                     <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                                         <KeyFrame Cue="0%">
@@ -68,23 +66,26 @@
                                 </Style.Animations>
                             </Style>
                         </Popup.Styles>
-
-                        <Border Name="PART_SuggestionsContainer"
-                                Padding="0"
-                                Background="{DynamicResource BackgroundColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="{StaticResource ControlBorderThickness}"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                Margin="6 4 6 6"
-                                Opacity="1"
-                                behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
-                            <ListBox Name="PART_SelectingItemsControl"
-                                     BorderThickness="0"
-                                     Background="Transparent"
-                                     ItemTemplate="{TemplateBinding ItemTemplate}"
-                                     Margin="5" />
-                        </Border>
+                        
+                        <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                                      Margin="6 4 6 6"
+                                      BlurRadius="5"
+                                      Offset="0 1"
+                                      ShadowColor="#3C000000">
+                            <Border Name="PART_SuggestionsContainer"
+                                    Padding="0"
+                                    Background="{DynamicResource BackgroundColor1}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="{StaticResource ControlBorderThickness}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    Opacity="1">
+                                <ListBox Name="PART_SelectingItemsControl"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         ItemTemplate="{TemplateBinding ItemTemplate}"
+                                         Margin="5" />
+                            </Border>
+                        </ShadowBorder>
                     </Popup>
                 </Grid>
             </ControlTemplate>

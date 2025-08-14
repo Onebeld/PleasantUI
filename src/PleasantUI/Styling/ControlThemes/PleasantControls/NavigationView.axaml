@@ -91,7 +91,7 @@
 
                                     <DockPanel x:Name="PART_ItemsPresenterDockPanel" Grid.Row="2">
                                         <SmoothScrollViewer DockPanel.Dock="Top">
-                                            <ItemsPresenter Name="PART_ItemsPresenter"
+                                            <ItemsPresenter x:Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
                                                             Margin="0 0 0 5" />
                                         </SmoothScrollViewer>
@@ -101,7 +101,8 @@
                         </SplitView.Pane>
 
                         <Border Name="PART_Container"
-                                Background="{TemplateBinding Background}">
+                                Background="{TemplateBinding Background}"
+                                ClipToBounds="True">
                             <ContentPresenter Name="PART_SelectedContentPresenter"
                                               Content="{TemplateBinding SelectedContent}"
                                               Opacity="1"
@@ -172,8 +173,8 @@
         </Style>
 
         <Style Selector="^ /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="8 0 0 0" />
-            <Setter Property="Margin" Value="0 45 0 0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="0 45 5 5" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ StackPanel#PART_StackPanelButtons">
             <Setter Property="Orientation" Value="Horizontal" />
@@ -189,8 +190,8 @@
             <Setter Property="Margin" Value="0" />
         </Style>
         <Style Selector="^[NotMakeOffsetForContentPanel=True][DisplayMode=Overlay] /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="8 8 0 0" />
-            <Setter Property="Margin" Value="0 45 0 0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="5 45 5 5" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -10,9 +10,9 @@ using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
+using Avalonia.Metadata;
+using Avalonia.Reactive;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
-using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -50,6 +50,8 @@ public class NavigationView : TreeView
     private IEnumerable<string>? _itemsAsStrings;
 
     private object? _selectedContent;
+        
+    private ILogical? _logicalSelectedContent;
 
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
@@ -387,10 +389,10 @@ public class NavigationView : TreeView
     public NavigationView()
     {
         PseudoClasses.Add(":normal");
-        this.GetObservable(BoundsProperty).Subscribe(bounds =>
+        this.GetObservable(BoundsProperty).Subscribe(new AnonymousObserver<Rect>(bounds =>
         {
             Dispatcher.UIThread.InvokeAsync(() => OnBoundsChanged(bounds));
-        });
+        }));
     }
 
     /// <inheritdoc />
@@ -410,14 +412,14 @@ public class NavigationView : TreeView
 
         if (_headerItem != null)
         {
-            _headerItem.Click += (_, _) => IsOpen = AlwaysOpen ? true : !IsOpen;
+            _headerItem.Click += (_, _) => IsOpen = AlwaysOpen || !IsOpen;
         }
 
-        BackButtonCommandProperty.Changed.Subscribe(x =>
+        BackButtonCommandProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<ICommand?>>(x =>
         {
             if (_backButton != null)
                 _backButton.IsVisible = x.NewValue.Value is not null;
-        });
+        }));
 
         if (VisualRoot is PleasantWindow window)
         {
@@ -468,11 +470,11 @@ public class NavigationView : TreeView
         if (!window.EnableCustomTitleBar || !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             return;
 
-        window.GetObservable(Window.WindowStateProperty).Subscribe(state =>
+        window.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
         {
             if (state == WindowState.FullScreen)
             {
-                if (_mainGrid != null && _mainGrid.RowDefinitions.Count > 0)
+                if (_mainGrid is { RowDefinitions.Count: > 0 })
                     _mainGrid.RowDefinitions.RemoveAt(0);
                 if (_stackPanelButtons != null)
                     _stackPanelButtons.Margin = new Thickness(5);
@@ -493,7 +495,7 @@ public class NavigationView : TreeView
                 Grid.SetRow(_marginPanel, 2);
                 Grid.SetRow(_dockPanel, 3);
             }
-        });
+        }));
     }
 
     private void UpdateContainerTitleHeight(PleasantWindow window)
@@ -502,23 +504,10 @@ public class NavigationView : TreeView
             return;
 
         // Determine margin based on custom title bar setting.
-        var margin = window.EnableCustomTitleBar ? new Thickness(0, titleBarHeight + 1, 0, 0) : new Thickness(0);
+        Thickness margin = window.EnableCustomTitleBar ? new Thickness(8, titleBarHeight + 1, 8, 8) : new Thickness(0);
 
-        if (DisplayMode == SplitViewDisplayMode.Overlay)
-        {
-            _container.CornerRadius = new CornerRadius(8, 8, 0, 0);
-            _container.BorderThickness = new Thickness(0, 1, 0, 0);
-        }
-        else if (!DisplayTopIndent)
-        {
-            _container.CornerRadius = new CornerRadius(0);
-            _container.BorderThickness = new Thickness(1, 0, 0, 0);
-        }
-        else
-        {
-            _container.CornerRadius = new CornerRadius(8, 0, 0, 0);
-            _container.BorderThickness = new Thickness(1, 1, 0, 0);
-        }
+        _container.CornerRadius = new CornerRadius(8);
+        
         _container.Margin = margin;
     }
     private void OnBoundsChanged(Rect rect)
@@ -584,15 +573,9 @@ public class NavigationView : TreeView
     private void UpdateTitleAndSelectedContent()
     {
         if (SelectedItem is not NavigationViewItem item) return;
-
+            
         if (item.Content is not null)
-        {
             SelectedContent = item.Content;
-            return;
-        }
-
-        if (item.FuncControl?.GetInvocationList().Length > 0)
-            SelectedContent = item.FuncControl.Invoke();
     }
 
     private void OnSelectedItemChanged()

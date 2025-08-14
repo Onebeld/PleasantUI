@@ -79,8 +79,8 @@ public abstract class PleasantPopupElement : ContentControl
     protected virtual void DeleteCoreForTopLevel()
     {
 
-        var overlayLayer = OverlayLayer.GetOverlayLayer(
-        Host ?? throw new InvalidOperationException("Host is null")
+        OverlayLayer? overlayLayer = OverlayLayer.GetOverlayLayer(
+            Host ?? throw new InvalidOperationException("Host is null")
         ) ?? throw new InvalidOperationException("Unable to find OverlayLayer from given Host.");
 
 

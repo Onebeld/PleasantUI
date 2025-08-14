@@ -1,46 +1,45 @@
-﻿using System.Globalization;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
-using Avalonia.Logging;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using PleasantUI.Controls;
+using PleasantUI.Core;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
-using PleasantUI.ToolKit.Commands;
-using PleasantUI.ToolKit.Commands.ThemeEditor;
+using PleasantUI.Core.Models.Interfaces;
 using PleasantUI.ToolKit.Messages;
 using PleasantUI.ToolKit.Models;
+using PleasantUI.ToolKit.Services;
+using PleasantUI.ToolKit.Services.Interfaces;
+using PleasantUI.ToolKit.Utils;
 
 namespace PleasantUI.ToolKit.ViewModels;
 
 /// <summary>
 /// ViewModel for the <see cref="PleasantUI.ToolKit.ThemeEditorWindow" />.
 /// </summary>
-public class ThemeEditorViewModel : ObservableObject
+public class ThemeEditorViewModel : ViewModelBase, IDisposable
 {
     private readonly ThemeEditorWindow _themeEditorWindow;
     private readonly IPleasantWindow _pleasantWindowParent;
 
-    private readonly Stack<IEditorCommand> _redoStack = new();
-    private readonly Stack<IEditorCommand> _undoStack = new();
-
-    private AvaloniaList<Theme> _themes = new();
     private CustomTheme _customTheme;
-    private string _themeName;
+
+    private readonly IThemeService _themeService;
+
+    private IDisposable _copySub;
+    private IDisposable _pasteColorSub;
+    private IDisposable _requestColorSub;
+    private IDisposable _colorChangedSub;
 
     /// <summary>
     /// Gets the resource dictionary containing the theme colors.
     /// </summary>
-    public readonly ResourceDictionary ResourceDictionary;
+    public ResourceDictionary ResourceDictionary => _themeService.ResourceDictionary;
 
     /// <summary>
     /// Gets or sets the custom theme being edited.
@@ -56,45 +55,39 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public string ThemeName
     {
-        get => _themeName;
+        get => _themeService.ThemeName;
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                return;
-
-            IEditorCommand command = new ThemeNameChangeCommand(this, _themeName, value);
-            ExecuteCommand(command);
+            _themeService.ThemeName = value;
+            
+            UpdateProperties();
         }
     }
 
     /// <summary>
     /// Gets or sets the list of available default themes.
     /// </summary>
-    public AvaloniaList<Theme> Themes
-    {
-        get => _themes;
-        set => SetProperty(ref _themes, value);
-    }
+    public AvaloniaList<Theme> Themes { get; } = new();
 
     /// <summary>
     /// Gets the list of theme colors.
     /// </summary>
-    public AvaloniaList<ThemeColor> ThemeColors { get; } = new();
+    public AvaloniaList<ThemeColor> ThemeColors => _themeService.ThemeColors;
 
     /// <summary>
     /// Gets the colors of the custom theme in JSON format.
     /// </summary>
-    public string ColorsJson => GetJson();
+    public string JsonColors => _themeService.JsonColors;
 
     /// <summary>
     /// Gets a value indicating whether an undo operation is possible.
     /// </summary>
-    public bool CanUndo => _undoStack.Count > 0;
+    public bool CanUndo => _themeService.CanUndo;
 
     /// <summary>
     /// Gets a value indicating whether a redo operation is possible.
     /// </summary>
-    public bool CanRedo => _redoStack.Count > 0;
+    public bool CanRedo => _themeService.CanRedo;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ThemeEditorViewModel" /> class.
@@ -102,23 +95,14 @@ public class ThemeEditorViewModel : ObservableObject
     /// <param name="windowParent">The parent window.</param>
     /// <param name="themeEditorWindow">The theme editor window.</param>
     /// <param name="customTheme">The custom theme to edit (optional).</param>
-    public ThemeEditorViewModel(IPleasantWindow windowParent, ThemeEditorWindow themeEditorWindow,
-        CustomTheme? customTheme)
+    public ThemeEditorViewModel(IPleasantWindow windowParent, ThemeEditorWindow themeEditorWindow, CustomTheme? customTheme)
     {
-        _customTheme = customTheme ?? new CustomTheme(null, "NewTheme", PleasantTheme.GetThemeTemplateDictionary());
-        _themeName = _customTheme.Name;
-
-        ResourceDictionary = new ResourceDictionary();
-
         _pleasantWindowParent = windowParent;
-
-        foreach (KeyValuePair<string, Color> pair in _customTheme.Colors)
-        {
-            ResourceDictionary.Add(pair.Key, pair.Value);
-
-            ThemeColor themeColor = CreateThemeColor(pair.Key, pair.Value);
-            ThemeColors.Add(themeColor);
-        }
+        _customTheme = customTheme ?? new CustomTheme(null, "NewTheme", PleasantTheme.GetThemeTemplateDictionary());
+        _themeService = new ThemeService(TopLevel.GetTopLevel(_pleasantWindowParent as Visual), new EventAggregator());
+        
+        _themeService.ChangeThemeName(_customTheme.Name);
+        _themeService.CreateThemeColors(_customTheme);
 
         foreach (Theme theme in PleasantTheme.Themes)
         {
@@ -132,8 +116,8 @@ public class ThemeEditorViewModel : ObservableObject
             ResourceDictionary);
         _themeEditorWindow = themeEditorWindow;
 
-        OnPropertyChanged(nameof(ColorsJson));
-        RegisterMessengers();
+        RaisePropertyChanged(nameof(JsonColors));
+        RegisterMessages();
     }
 
     /// <summary>
@@ -141,11 +125,8 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public void Undo()
     {
-        if (!CanUndo) return;
-
-        IEditorCommand command = _undoStack.Pop();
-        command.Undo();
-        _redoStack.Push(command);
+        if (!_themeService.Undo())
+            return;
 
         UpdateProperties();
     }
@@ -155,12 +136,9 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public void Redo()
     {
-        if (!CanRedo) return;
-
-        IEditorCommand command = _redoStack.Pop();
-        command.Redo();
-        _undoStack.Push(command);
-
+        if (!_themeService.Redo())
+            return;
+        
         UpdateProperties();
     }
 
@@ -169,14 +147,12 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public async Task CopyThemeAsync()
     {
-        await TopLevel.GetTopLevel(_pleasantWindowParent as Visual)?.Clipboard?.SetTextAsync(ColorsJson)!;
-
-        Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
-
-        if (!Localizer.Instance.TryGetString("ThemeCopiedToClipboard", out string text))
-            text = "Theme copied to clipboard";
-
-        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(text) { Icon = icon });
+        await _themeService.CopyThemeAsync();
+        
+        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(Localizer.TrDefault("ThemeCopiedToClipboard", defaultString: "Theme copied to clipboard"))
+        {
+            Icon = ResourceExtensions.GetResource<Geometry>("CopyRegular")
+        });
     }
 
     /// <summary>
@@ -184,9 +160,11 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public async Task PasteThemeAsync()
     {
-        string? data = await TopLevel.GetTopLevel(_pleasantWindowParent as Visual)?.Clipboard?.GetTextAsync()!;
-
-        ParseColorsFromJson(data);
+        bool result = await _themeService.PasteThemeAsync();
+        
+        ShowImportThemeResultMessage(result);
+        
+        UpdateProperties();
     }
 
     /// <summary>
@@ -194,12 +172,7 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public async Task ImportThemeAsync()
     {
-        TopLevel? topLevel = TopLevel.GetTopLevel(_pleasantWindowParent as Visual);
-
-        if (topLevel is null)
-            return;
-
-        IReadOnlyList<IStorageFile> pickerFileTypes = await topLevel.StorageProvider.OpenFilePickerAsync(
+        IReadOnlyList<IStorageFile> pickerFileTypes = await _themeService.GetTopLevel().StorageProvider.OpenFilePickerAsync(
             new FilePickerOpenOptions
             {
                 FileTypeFilter = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }],
@@ -209,9 +182,13 @@ public class ThemeEditorViewModel : ObservableObject
         if (pickerFileTypes.Count == 0)
             return;
 
-        string json = File.ReadAllText(pickerFileTypes[0].Path.LocalPath);
+        string json = await File.ReadAllTextAsync(pickerFileTypes[0].Path.ToDecodedLocalPath());
 
-        ParseColorsFromJson(json);
+        bool result = _themeService.ImportJson(json);
+
+        ShowImportThemeResultMessage(result);
+        
+        UpdateProperties();
     }
 
     /// <summary>
@@ -219,12 +196,7 @@ public class ThemeEditorViewModel : ObservableObject
     /// </summary>
     public async Task ExportThemeAsync()
     {
-        TopLevel? topLevel = TopLevel.GetTopLevel(_pleasantWindowParent as Visual);
-
-        if (topLevel is null)
-            return;
-
-        IStorageFile? result = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        IStorageFile? result = await _themeService.GetTopLevel().StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             FileTypeChoices = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }],
             DefaultExtension = "json",
@@ -234,56 +206,26 @@ public class ThemeEditorViewModel : ObservableObject
         if (result is null)
             return;
 
-        File.WriteAllText(result.Path.LocalPath, ColorsJson);
-
-        Geometry? fileExportIcon = ResourceExtensions.GetResource<Geometry>("FileExportRegular");
-
-        if (!Localizer.Instance.TryGetString("ThemeExported", out string themeExportedText))
-            themeExportedText = "Theme exported";
-
-        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(themeExportedText)
+        await _themeService.ExportThemeAsync(result.Path.ToDecodedLocalPath());
+        
+        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(Localizer.TrDefault("ThemeExported", defaultString: "Theme exported"))
         {
-            Icon = fileExportIcon,
+            Icon = ResourceExtensions.GetResource<Geometry>("FileExportRegular"),
             NotificationType = NotificationType.Success
         });
     }
 
     /// <summary>
-    /// Changes the name of the theme.
+    /// Applies the colors from the specified theme.
     /// </summary>
-    /// <param name="newName">The new name of the theme.</param>
-    public void ChangeThemeName(string newName)
-    {
-        _themeName = newName;
-        OnPropertyChanged(nameof(ThemeName));
-    }
-
-    /// <summary>
-    /// Applies the colors from the specified default theme.
-    /// </summary>
-    /// <param name="theme">The default theme to apply.</param>
-    public void GetColorsFromTheme(Theme theme)
+    /// <param name="theme">The theme to apply.</param>
+    public void GetColorsFromTheme(ITheme theme)
     {
         _themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
+        
+        _themeService.GetColorsFromTheme(theme);
 
-        Dictionary<string, Color> colors = PleasantTheme.GetColorsDictionary(theme);
-
-        IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, theme.Name);
-        ExecuteCommand(command);
-    }
-
-    /// <summary>
-    /// Applies the colors from the specified custom theme.
-    /// </summary>
-    /// <param name="customTheme">The custom theme to apply.</param>
-    public void GetColorsFromCustomTheme(CustomTheme customTheme)
-    {
-        _themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
-
-        Dictionary<string, Color> colors = customTheme.Colors;
-
-        IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, customTheme.Name);
-        ExecuteCommand(command);
+        UpdateProperties();
     }
 
     /// <summary>
@@ -292,185 +234,80 @@ public class ThemeEditorViewModel : ObservableObject
     /// <param name="file">The JSON file to apply the theme colors from.</param>
     public void DropFile(IStorageItem file)
     {
-        string json = File.ReadAllText(file.Path.AbsolutePath);
+        string json = File.ReadAllText(file.Path.ToDecodedLocalPath());
 
-        ParseColorsFromJson(json);
+        bool result = _themeService.ImportJson(json);
+
+        ShowImportThemeResultMessage(result);
+        
+        UpdateProperties();
     }
 
-    private void ParseColorsFromJson(string? json)
+    private void ShowImportThemeResultMessage(bool result)
     {
-        JsonDocument jsonDocument;
-
-        try
+        if (result)
         {
-            if (json is null)
-                throw new ArgumentNullException(nameof(json));
-
-            jsonDocument = JsonDocument.Parse(json);
-        }
-        catch (Exception)
-        {
-            Logger.Sink?.Log(LogEventLevel.Error, "Theme", this, "Error when parsing colors from json");
-
-            Geometry? closeCircleIcon = ResourceExtensions.GetResource<Geometry>("CloseCircleRegular");
-
-            if (!Localizer.Instance.TryGetString("ThemeImportError", out string themeImportErrorText))
-                themeImportErrorText = "An error occurred while importing the theme";
-
-            PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(themeImportErrorText)
+            PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(Localizer.TrDefault("ThemeImported", defaultString: "The theme has been successfully imported"))
             {
-                Icon = closeCircleIcon,
+                Icon = ResourceExtensions.GetResource<Geometry>("FileImportRegular"),
+                NotificationType = NotificationType.Success
+            });
+        }
+        else
+        {
+            PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(Localizer.TrDefault("ThemeImportError", defaultString: "An error occurred while importing the theme"))
+            {
+                Icon = ResourceExtensions.GetResource<Geometry>("CloseCircleRegular"),
                 NotificationType = NotificationType.Error
             });
-
-            return;
         }
-
-        Dictionary<string, Color> colors = new();
-
-        string? themeName = null;
-
-        if (jsonDocument.RootElement.TryGetProperty("ThemeName", out JsonElement element))
-            themeName = element.GetString();
-
-        foreach (JsonProperty jsonProperty in jsonDocument.RootElement.EnumerateObject())
-        {
-            string name = jsonProperty.Name;
-            string? hexColor = jsonProperty.Value.GetString();
-
-            if (hexColor is null)
-                continue;
-
-            if (!Color.TryParse(hexColor, out Color color))
-                continue;
-
-            colors.Add(name, color);
-        }
-
-        IEditorCommand command = new ThemeChangeCommand(this, GetDictionary(), colors, ThemeName, themeName);
-        ExecuteCommand(command);
-
-        jsonDocument.Dispose();
-
-        Geometry? fileImportIcon = ResourceExtensions.GetResource<Geometry>("FileImportRegular");
-
-        if (!Localizer.Instance.TryGetString("ThemeImported", out string themeImportedText))
-            themeImportedText = "The theme has been successfully imported";
-
-        PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(themeImportedText)
-        {
-            Icon = fileImportIcon,
-            NotificationType = NotificationType.Success
-        });
-    }
-
-    private void ExecuteCommand(IEditorCommand command)
-    {
-        command.Redo();
-
-        _undoStack.Push(command);
-        _redoStack.Clear();
-
-        UpdateProperties();
     }
 
     private void UpdateProperties()
     {
-        OnPropertyChanged(nameof(CanUndo));
-        OnPropertyChanged(nameof(CanRedo));
-
-        OnPropertyChanged(nameof(ColorsJson));
+        RaisePropertyChanged(nameof(CanUndo));
+        RaisePropertyChanged(nameof(CanRedo));
+        RaisePropertyChanged(nameof(JsonColors));
+        RaisePropertyChanged(nameof(ThemeName));
     }
 
-    private Dictionary<string, Color> GetDictionary()
+    private void RegisterMessages()
     {
-        Dictionary<string, Color> colors = new();
-
-        foreach (ThemeColor themeColor in ThemeColors)
-            colors.Add(themeColor.Name, themeColor.Color);
-
-        return colors;
-    }
-
-    private string GetJson()
-    {
-        JsonObject jsonObject = new() { { "ThemeName", JsonValue.Create(ThemeName) } };
-
-        foreach (ThemeColor themeColor in ThemeColors)
-            jsonObject.Add(themeColor.Name,
-                JsonValue.Create("#" + themeColor.Color.ToUInt32().ToString("x8", CultureInfo.InvariantCulture)
-                    .ToUpper()));
-
-        return jsonObject.ToJsonString(new JsonSerializerOptions
+        _copySub = _themeService.EventAggregator.Subscribe<ColorCopyMessage>(async message =>
         {
-            WriteIndented = true
+            await _themeService.CopyColorAsync(message.Color);
+            
+            PleasantSnackbar.Show(_pleasantWindowParent, new PleasantSnackbarOptions(Localizer.TrDefault("ColorCopiedToClipboard", defaultString: "The color is copied to the clipboard"))
+            {
+                Icon = ResourceExtensions.GetResource<Geometry>("CopyRegular")
+            });
+        });
+
+        _pasteColorSub = _themeService.EventAggregator.Subscribe<PasteColorMessage>(async message =>
+        {
+            Color? color = await _themeService.PasteColorAsync();
+            message.TaskCompletionSource.TrySetResult(color);
+        });
+
+        _requestColorSub = _themeService.EventAggregator.Subscribe<ChangeColorMessage>(async message =>
+        {
+            Color? color = await ColorPickerWindow.SelectColor(_pleasantWindowParent, message.PreviousColor.ToUInt32());
+            message.TaskCompletionSource.TrySetResult(color);
+        });
+
+        _colorChangedSub = _themeService.EventAggregator.Subscribe<ChangedColorMessage>(async message =>
+        {
+            _themeService.ChangeColor(message.ThemeColor, message.NewColor, message.PreviousColor);
+            
+            UpdateProperties();
+            
+            await Task.CompletedTask;
         });
     }
 
-    private ThemeColor CreateThemeColor(string key, Color color) => new(key, color);
-
-    private void RegisterMessengers()
+    /// <inheritdoc />
+    public void Dispose()
     {
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncRequestColorMessage>(this,
-            static (recipient, message) =>
-            {
-                async Task<Color?> ReceiveAsync(ThemeEditorViewModel recipient,
-                    AsyncRequestColorMessage requestColorMessage)
-                {
-                    Color? newColor = await ColorPickerWindow.SelectColor(recipient._pleasantWindowParent,
-                        requestColorMessage.PreviousColor.ToUInt32());
-                    return newColor;
-                }
-
-                message.Reply(ReceiveAsync(recipient, message));
-            });
-
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, ColorChangedMessage>(this, (recipient, message) =>
-        {
-            IEditorCommand command = new ColorChangeCommand(message.ThemeColor, ResourceDictionary,
-                message.PreviousValue, message.Value);
-            recipient.ExecuteCommand(command);
-        });
-
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncClipboardSetColorMessage>(this,
-            static (recipient, message) =>
-            {
-                async Task<bool> ReceiveAsync(ThemeEditorViewModel recipient,
-                    AsyncClipboardSetColorMessage setColorMessage)
-                {
-                    await TopLevel.GetTopLevel(recipient._pleasantWindowParent as Visual)?.Clipboard
-                        ?.SetTextAsync(setColorMessage.Color.ToString().ToUpper())!;
-                    return true;
-                }
-
-                message.Reply(ReceiveAsync(recipient, message));
-
-                Geometry? icon = ResourceExtensions.GetResource<Geometry>("CopyRegular");
-
-                if (!Localizer.Instance.TryGetString("ColorCopiedToClipboard", out string text))
-                    text = "The color is copied to the clipboard";
-
-                PleasantSnackbar.Show(recipient._pleasantWindowParent, new PleasantSnackbarOptions(text)
-                {
-                    Icon = icon
-                });
-            });
-
-        WeakReferenceMessenger.Default.Register<ThemeEditorViewModel, AsyncRequestClipboardColorMessage>(this,
-            (recipient, message) =>
-            {
-                async Task<Color?> ReceiveAsync(ThemeEditorViewModel viewModel)
-                {
-                    string? data = await TopLevel.GetTopLevel(viewModel._pleasantWindowParent as Visual)?.Clipboard
-                        ?.GetTextAsync()!;
-
-                    if (!Color.TryParse(data, out Color newColor))
-                        return null;
-
-                    return newColor;
-                }
-
-                message.Reply(ReceiveAsync(recipient));
-            });
+        GC.SuppressFinalize(this);
     }
 }

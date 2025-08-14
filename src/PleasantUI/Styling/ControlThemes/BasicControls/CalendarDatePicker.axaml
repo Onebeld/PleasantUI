@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Margin="100, 20, 100, 400">
@@ -125,7 +123,7 @@
                                    IsLightDismissEnabled="True"
                                    Placement="Bottom">
                                 <Popup.Styles>
-                                    <Style Selector="Popup[IsOpen=True] > Border">
+                                    <Style Selector="Popup[IsOpen=True] > ShadowBorder">
                                         <Style.Animations>
                                             <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
                                                 <KeyFrame Cue="0%">
@@ -141,27 +139,30 @@
                                         </Style.Animations>
                                     </Style>
                                 </Popup.Styles>
-
-                                <Border x:Name="PopupBorder"
-                                        Background="{DynamicResource BackgroundColor1}"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="{StaticResource ControlBorderThickness}"
-                                        Margin="6 4 6 6"
-                                        Padding="0"
-                                        Opacity="1"
-                                        HorizontalAlignment="Stretch"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.SmallWindow}"
-                                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
-                                    <Calendar Name="PART_Calendar"
-                                              Margin="5"
-                                              FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
-                                              IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
-                                              SelectedDate="{CompiledBinding $parent[CalendarDatePicker].SelectedDate, Mode=TwoWay}"
-                                              DisplayDate="{TemplateBinding DisplayDate}"
-                                              DisplayDateStart="{TemplateBinding DisplayDateStart}"
-                                              DisplayDateEnd="{TemplateBinding DisplayDateEnd}" />
-                                </Border>
+                                
+                                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                                              Margin="6 4 6 6"
+                                              BlurRadius="5"
+                                              Offset="0 1"
+                                              ShadowColor="#3C000000">
+                                    <Border x:Name="PopupBorder"
+                                            Background="{DynamicResource BackgroundColor1}"
+                                            BorderBrush="{DynamicResource ControlBorderColor}"
+                                            BorderThickness="{StaticResource ControlBorderThickness}"
+                                            Padding="0"
+                                            Opacity="1"
+                                            HorizontalAlignment="Stretch"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+                                        <Calendar Name="PART_Calendar"
+                                                  Margin="5"
+                                                  FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                                  IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                                  SelectedDate="{CompiledBinding $parent[CalendarDatePicker].SelectedDate, Mode=TwoWay}"
+                                                  DisplayDate="{TemplateBinding DisplayDate}"
+                                                  DisplayDateStart="{TemplateBinding DisplayDateStart}"
+                                                  DisplayDateEnd="{TemplateBinding DisplayDateEnd}" />
+                                    </Border>
+                                </ShadowBorder>
                             </Popup>
                         </Grid>
                     </Panel>

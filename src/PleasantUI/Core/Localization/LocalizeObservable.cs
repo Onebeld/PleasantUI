@@ -1,4 +1,5 @@
-﻿using PleasantUI.Reactive;
+﻿using PleasantUI.Core.Internal;
+using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Core.Localization;
 
@@ -33,7 +34,7 @@ public class LocalizeObservable : IObservable<string>
             {
                 observer.OnCompleted();
                 
-                return Disposable.Empty;
+                return EmptyDisposable.Instance;
             }
 
             lock (this)

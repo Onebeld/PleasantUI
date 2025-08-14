@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using PleasantUI.ToolKit.Models;
-using PleasantUI.ToolKit.ViewModels;
+using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.ToolKit.Commands.ThemeEditor;
 
@@ -17,7 +17,8 @@ public class ThemeChangeCommand : IEditorCommand
     private readonly Dictionary<string, Color> _previousColors;
 
     private readonly string _previousName;
-    private readonly ThemeEditorViewModel _viewModel;
+
+    private readonly IThemeService _themeService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ThemeChangeCommand" /> class.
@@ -27,10 +28,10 @@ public class ThemeChangeCommand : IEditorCommand
     /// <param name="newColors">The new colors.</param>
     /// <param name="previousName">The previous name of the theme.</param>
     /// <param name="newName">The new name of the theme (optional).</param>
-    public ThemeChangeCommand(ThemeEditorViewModel viewModel, Dictionary<string, Color> previousColors,
+    public ThemeChangeCommand(IThemeService themeService, Dictionary<string, Color> previousColors,
         Dictionary<string, Color> newColors, string previousName, string? newName)
     {
-        _viewModel = viewModel;
+        _themeService = themeService;
         _previousColors = previousColors;
         _newColors = newColors;
         _previousName = previousName;
@@ -40,7 +41,7 @@ public class ThemeChangeCommand : IEditorCommand
     /// <inheritdoc />
     public void Undo()
     {
-        AvaloniaList<ThemeColor> themeColors = _viewModel.ThemeColors;
+        AvaloniaList<ThemeColor> themeColors = _themeService.ThemeColors;
 
         foreach (KeyValuePair<string, Color> pair in _previousColors)
             foreach (ThemeColor themeColor in themeColors)
@@ -52,7 +53,7 @@ public class ThemeChangeCommand : IEditorCommand
             }
 
         if (!string.IsNullOrWhiteSpace(_newName))
-            _viewModel.ChangeThemeName(_previousName);
+            _themeService.ChangeThemeName(_previousName);
 
         ChangeColorsInResourceDictionary(themeColors);
     }
@@ -60,19 +61,17 @@ public class ThemeChangeCommand : IEditorCommand
     /// <inheritdoc />
     public void Redo()
     {
-        AvaloniaList<ThemeColor> themeColors = _viewModel.ThemeColors;
+        AvaloniaList<ThemeColor> themeColors = _themeService.ThemeColors;
 
         foreach (KeyValuePair<string, Color> pair in _newColors)
-            foreach (ThemeColor themeColor in themeColors)
+            foreach (ThemeColor themeColor in themeColors.Where(themeColor => themeColor.Name == pair.Key))
             {
-                if (themeColor.Name != pair.Key) continue;
-
                 themeColor.Color = pair.Value;
                 break;
             }
 
         if (!string.IsNullOrWhiteSpace(_newName))
-            _viewModel.ChangeThemeName(_newName ?? string.Empty);
+            _themeService.ChangeThemeName(_newName);
 
 
         ChangeColorsInResourceDictionary(themeColors);
@@ -80,7 +79,7 @@ public class ThemeChangeCommand : IEditorCommand
 
     private void ChangeColorsInResourceDictionary(AvaloniaList<ThemeColor> themeColors)
     {
-        ResourceDictionary resourceDictionary = _viewModel.ResourceDictionary;
+        ResourceDictionary resourceDictionary = _themeService.ResourceDictionary;
 
         foreach (ThemeColor themeColor in themeColors)
             if (resourceDictionary.ContainsKey(themeColor.Name))

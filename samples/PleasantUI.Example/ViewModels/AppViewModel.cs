@@ -1,27 +1,26 @@
 ﻿using Avalonia.Collections;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
-using PleasantUI.Example.Fabrics;
+using PleasantUI.Core;
+using PleasantUI.Example.Factories;
 using PleasantUI.Example.Interfaces;
+using PleasantUI.Example.Messages;
 using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages.BasicControls;
+using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.Example.ViewModels;
 
-public partial class AppViewModel : ObservableObject
+public class AppViewModel : ViewModelBase
 {
+    private readonly IEventAggregator _eventAggregator;
+        
     /// <summary>
     /// The current page
     /// </summary>
-    [ObservableProperty]
     private IPage _page = null!;
     
     /// <summary>
     /// Indicates whether the animation should be forward or backward
     /// </summary>
-    [ObservableProperty]
     private bool _isForwardAnimation = true;
 
     public AvaloniaList<ControlPageCard> BasicControlPageCards { get; }
@@ -30,19 +29,34 @@ public partial class AppViewModel : ObservableObject
     
     public AvaloniaList<ControlPageCard> ToolKitPageCards { get; }
 
-    public AppViewModel()
+    public IPage Page
     {
-        ControlPageCardsFactory factory = new();
+        get => _page;
+        set => SetProperty(ref _page, value);
+    }
+
+    public bool IsForwardAnimation
+    {
+        get => _isForwardAnimation;
+        set => SetProperty(ref _isForwardAnimation, value);
+    }
+
+    public AppViewModel(IEventAggregator eventAggregator)
+    {
+        _eventAggregator = eventAggregator;
+            
+        ControlPageCardsFactory factory = new(eventAggregator);
         
         BasicControlPageCards = factory.CreateBasicControlPageCards();
         PleasantControlPageCards = factory.CreatePleasantControlPageCards();
         ToolKitPageCards = factory.CreateToolkitControlPageCards();
         
         Page = new HomePage();
-        
-        WeakReferenceMessenger.Default.Register<AppViewModel, ValueChangedMessage<IPage>>(this, (recipient, message) =>
+
+        _eventAggregator.Subscribe<ChangePageMessage>(async message =>
         {
-            recipient.ChangePageCommand.Execute(message.Value);
+            ChangePage(message.Page);
+            await Task.CompletedTask;
         });
     }
 
@@ -51,8 +65,7 @@ public partial class AppViewModel : ObservableObject
     /// </summary>
     /// <param name="page">The new page</param>
     /// <param name="forward">The direction of the animation</param>
-    [RelayCommand]
-    private void ChangePage(IPage page)
+    public void ChangePage(IPage page)
     {
         IsForwardAnimation = true;
         Page = page;
@@ -61,8 +74,7 @@ public partial class AppViewModel : ObservableObject
     /// <summary>
     /// Goes back to the home page
     /// </summary>
-    [RelayCommand]
-    private void BackToHomePage()
+    public void BackToHomePage()
     {
         IsForwardAnimation = false;
         Page = new HomePage();

@@ -3,7 +3,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
-using CommunityToolkit.Mvvm.Messaging;
 using PleasantUI.Controls;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
@@ -51,7 +50,7 @@ public partial class ThemeEditorWindow : ContentDialog
     {
         bool cancel = true;
         ThemeEditorWindow window = new();
-        ThemeEditorViewModel viewModel = new((IPleasantWindow)parent, (ThemeEditorWindow)window, (CustomTheme?)customTheme);
+        ThemeEditorViewModel viewModel = new(parent, window, customTheme);
 
         window.DataContext = viewModel;
 
@@ -69,7 +68,7 @@ public partial class ThemeEditorWindow : ContentDialog
 
         window.Closed += (_, _) =>
         {
-            WeakReferenceMessenger.Default.UnregisterAll(viewModel);
+            viewModel.Dispose();
             
             if (cancel)
             {

@@ -11,7 +11,7 @@ namespace PleasantUI.Core.Helpers;
 /// Provides helper methods for managing application-level functionalities, such as retrieving
 /// the Snackbar queue manager and modal windows for a given <see cref="TopLevel"/>.
 /// </summary>
-public static class ApplicationHelper
+public static class WindowHelper
 {
     /// <summary>
     /// Gets the Snackbar queue manager from the given <see cref="TopLevel"/>.

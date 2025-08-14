@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="using:PleasantUI.Behaviors"
-                    xmlns:constants="using:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20"
@@ -16,15 +14,6 @@
         </Border>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="FlyoutBorderTheme" TargetType="Border">
-        <Setter Property="Opacity" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="6 4 6 6" />
-        <Setter Property="(behaviors:ShadowBehavior.BoxShadow)" Value="{x:Static constants:ShadowDepths.SmallWindow}" />
-        <Setter Property="(behaviors:ShadowBehavior.EnableShadowing)"
-                Value="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}" />
-    </ControlTheme>
-
     <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
@@ -35,20 +24,26 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="LayoutRoot"
-                        Theme="{StaticResource FlyoutBorderTheme}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                    <ContentPresenter Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Margin="{TemplateBinding Padding}"
-                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch" />
-                </Border>
+                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                              Margin="6 4 6 6"
+                              BlurRadius="5"
+                              Offset="0 1"
+                              ShadowColor="#3C000000">
+                    <Border Name="LayoutRoot"
+                            Padding="0"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch" />
+                    </Border>
+                </ShadowBorder>
             </ControlTemplate>
         </Setter>
     </ControlTheme>
@@ -66,25 +61,30 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="LayoutRoot"
-                        Theme="{StaticResource FlyoutBorderTheme}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Padding="{TemplateBinding Padding}"
-                        MaxWidth="{TemplateBinding MaxWidth}"
-                        MinHeight="{TemplateBinding MinHeight}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                    <SmoothScrollViewer
-                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                        <ItemsPresenter Name="PART_ItemsPresenter"
-                                        ItemsPanel="{TemplateBinding ItemsPanel}"
-                                        Margin="1 2 1 2"
-                                        KeyboardNavigation.TabNavigation="Continue"
-                                        Grid.IsSharedSizeScope="True" />
-                    </SmoothScrollViewer>
-                </Border>
+                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                              Margin="6 4 6 6"
+                              BlurRadius="5"
+                              Offset="0 1"
+                              ShadowColor="#3C000000">
+                    <Border Name="LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            MinHeight="{TemplateBinding MinHeight}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <SmoothScrollViewer
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            <ItemsPresenter Name="PART_ItemsPresenter"
+                                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                                            Margin="1 2 1 2"
+                                            KeyboardNavigation.TabNavigation="Continue"
+                                            Grid.IsSharedSizeScope="True" />
+                        </SmoothScrollViewer>
+                    </Border>
+                </ShadowBorder>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

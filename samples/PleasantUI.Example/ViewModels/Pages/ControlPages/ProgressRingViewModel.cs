@@ -1,12 +1,22 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using PleasantUI.Core;
 
 namespace PleasantUI.Example.ViewModels.Pages.ControlPages;
 
-public partial class ProgressRingViewModel : ObservableObject
+public partial class ProgressRingViewModel : ViewModelBase
 {
-	[ObservableProperty]
 	private double _value = 25;
 	
-	[ObservableProperty]
 	private bool _isIndeterminate;
+
+	public double Value
+	{
+		get => _value;
+		set => SetProperty(ref _value, value);
+	}
+
+	public bool IsIndeterminate
+	{
+		get => _isIndeterminate;
+		set => SetProperty(ref _isIndeterminate, value);
+	}
 }

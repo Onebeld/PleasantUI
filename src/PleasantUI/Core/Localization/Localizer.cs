@@ -87,6 +87,20 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         return string.Format(expression, args);
     }
 
+    public static string TrDefault(string? key, string? defaultString = null, string? context = null, params object[] args)
+    {
+        if (key is null)
+            return defaultString ?? string.Empty;
+
+        if (context is not null)
+            key = $"{context}/{key}";
+            
+        if (!Instance.TryGetString(key, out string text))
+            text = defaultString ?? string.Empty;
+
+        return string.Format(text, args);
+    }
+
     /// <summary>
     /// Adds a resource manager to the current localization instance.
     /// </summary>

@@ -8,9 +8,9 @@
             <Color x:Key="TextFillColor2">#9E04341A</Color>
             <Color x:Key="TextFillColor3">#7204341A</Color>
 
-            <Color x:Key="ControlFillColor1">#0F457b5e</Color>
-            <Color x:Key="ControlFillColor2">#19457b5e</Color>
-            <Color x:Key="ControlFillColor3">#23457b5e</Color>
+            <Color x:Key="ControlFillColor1">#337DB28A</Color>
+            <Color x:Key="ControlFillColor2">#336B9977</Color>
+            <Color x:Key="ControlFillColor3">#33598062</Color>
 
             <Color x:Key="ControlDarkFillColor1">#BE046A38</Color>
             <Color x:Key="ControlDarkFillColor2">#E1046A38</Color>
@@ -18,10 +18,10 @@
 
             <Color x:Key="ControlBorderColor">#2804341A</Color>
 
-            <Color x:Key="BackgroundColor1">#D1E0D7</Color>
-            <Color x:Key="BackgroundColor2">#c8e0d2</Color>
-            <Color x:Key="BackgroundColor3">#bce0cb</Color>
-            <Color x:Key="BackgroundColor4">#b1e0c5</Color>
+            <Color x:Key="BackgroundColor1">#FFCFE6D9</Color>
+            <Color x:Key="BackgroundColor2">#FFBDDECC</Color>
+            <Color x:Key="BackgroundColor3">#FFADD9BF</Color>
+            <Color x:Key="BackgroundColor4">#FF99CCAF</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -41,9 +41,9 @@
             <Color x:Key="TextFillColor2">#9E461323</Color>
             <Color x:Key="TextFillColor3">#72461323</Color>
 
-            <Color x:Key="ControlFillColor1">#0F7D2248</Color>
-            <Color x:Key="ControlFillColor2">#197D2248</Color>
-            <Color x:Key="ControlFillColor3">#237D2248</Color>
+            <Color x:Key="ControlFillColor1">#1A7D2248</Color>
+            <Color x:Key="ControlFillColor2">#267D2248</Color>
+            <Color x:Key="ControlFillColor3">#337D2248</Color>
 
             <Color x:Key="ControlDarkFillColor1">#BE7D2248</Color>
             <Color x:Key="ControlDarkFillColor2">#E17D2248</Color>
@@ -51,10 +51,10 @@
 
             <Color x:Key="ControlBorderColor">#1E461323</Color>
 
-            <Color x:Key="BackgroundColor1">#ecc7cd</Color>
-            <Color x:Key="BackgroundColor2">#edbbc4</Color>
-            <Color x:Key="BackgroundColor3">#edafbb</Color>
-            <Color x:Key="BackgroundColor4">#eda4b2</Color>
+            <Color x:Key="BackgroundColor1">#FFEDD5D9</Color>
+            <Color x:Key="BackgroundColor2">#FFEDCAD0</Color>
+            <Color x:Key="BackgroundColor3">#FFEDBEC7</Color>
+            <Color x:Key="BackgroundColor4">#FFEDB2BE</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -74,20 +74,20 @@
             <Color x:Key="TextFillColor2">#C40C4744</Color>
             <Color x:Key="TextFillColor3">#920C4744</Color>
 
-            <Color x:Key="ControlFillColor1">#23BBBBBB</Color>
-            <Color x:Key="ControlFillColor2">#23787878</Color>
-            <Color x:Key="ControlFillColor3">#11000000</Color>
+            <Color x:Key="ControlFillColor1">#3382ABBA</Color>
+            <Color x:Key="ControlFillColor2">#4C82ABBA</Color>
+            <Color x:Key="ControlFillColor3">#6682ABBA</Color>
 
             <Color x:Key="ControlDarkFillColor1">#AA10605A</Color>
             <Color x:Key="ControlDarkFillColor2">#C810605A</Color>
             <Color x:Key="ControlDarkFillColor3">#FF10605A</Color>
 
-            <Color x:Key="ControlBorderColor">#3C0C4844</Color>
+            <Color x:Key="ControlBorderColor">#29074743</Color>
 
-            <Color x:Key="BackgroundColor1">#FFD2FAFA</Color>
-            <Color x:Key="BackgroundColor2">#FFC7EDED</Color>
-            <Color x:Key="BackgroundColor3">#FFBFE3E3</Color>
-            <Color x:Key="BackgroundColor4">#FFB6D9D9</Color>
+            <Color x:Key="BackgroundColor1">#FFD4FAFA</Color>
+            <Color x:Key="BackgroundColor2">#FFC2EDED</Color>
+            <Color x:Key="BackgroundColor3">#FFB8E6E6</Color>
+            <Color x:Key="BackgroundColor4">#FFA6DEDE</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -107,9 +107,9 @@
             <Color x:Key="TextFillColor2">#C8594E06</Color>
             <Color x:Key="TextFillColor3">#96594E06</Color>
 
-            <Color x:Key="ControlFillColor1">#0F7B7410</Color>
-            <Color x:Key="ControlFillColor2">#197B720F</Color>
-            <Color x:Key="ControlFillColor3">#237B7213</Color>
+            <Color x:Key="ControlFillColor1">#1A7A7310</Color>
+            <Color x:Key="ControlFillColor2">#267A710F</Color>
+            <Color x:Key="ControlFillColor3">#33736B11</Color>
 
             <Color x:Key="ControlDarkFillColor1">#BE594E06</Color>
             <Color x:Key="ControlDarkFillColor2">#E1594E06</Color>
@@ -117,9 +117,9 @@
 
             <Color x:Key="ControlBorderColor">#2804341A</Color>
 
-            <Color x:Key="BackgroundColor1">#FFE6DCA1</Color>
-            <Color x:Key="BackgroundColor2">#FFDBD08F</Color>
-            <Color x:Key="BackgroundColor3">#FFD4C98A</Color>
+            <Color x:Key="BackgroundColor1">#FFE6DFB8</Color>
+            <Color x:Key="BackgroundColor2">#FFDBD3A4</Color>
+            <Color x:Key="BackgroundColor3">#FFD4CA94</Color>
             <Color x:Key="BackgroundColor4">#FFCCC185</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
@@ -150,10 +150,10 @@
 
             <Color x:Key="ControlBorderColor">#4B527A64</Color>
 
-            <Color x:Key="BackgroundColor1">#FF234534</Color>
-            <Color x:Key="BackgroundColor2">#FF1D3F2E</Color>
-            <Color x:Key="BackgroundColor3">#FF173928</Color>
-            <Color x:Key="BackgroundColor4">#FF113322</Color>
+            <Color x:Key="BackgroundColor1">#FF113322</Color>
+            <Color x:Key="BackgroundColor2">#FF1A402D</Color>
+            <Color x:Key="BackgroundColor3">#FF204533</Color>
+            <Color x:Key="BackgroundColor4">#FF274C3A</Color>
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
@@ -173,9 +173,9 @@
             <Color x:Key="TextFillColor2">#DFE0B8B8</Color>
             <Color x:Key="TextFillColor3">#ABE0B8B8</Color>
 
-            <Color x:Key="ControlFillColor1">#4A692430</Color>
-            <Color x:Key="ControlFillColor2">#6D692430</Color>
-            <Color x:Key="ControlFillColor3">#B4692430</Color>
+            <Color x:Key="ControlFillColor1">#4C69242F</Color>
+            <Color x:Key="ControlFillColor2">#40993D4D</Color>
+            <Color x:Key="ControlFillColor3">#B2802D3A</Color>
 
             <Color x:Key="ControlDarkFillColor1">#C9B63269</Color>
             <Color x:Key="ControlDarkFillColor2">#C9C83774</Color>

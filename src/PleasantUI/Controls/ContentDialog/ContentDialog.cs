@@ -275,7 +275,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 
     private async Task<T?> ShowAsyncCoreForTopLevel<T>(TopLevel? topLevel)
     {
-        _modalWindows = ApplicationHelper.GetModalWindows(topLevel);
+        _modalWindows = WindowHelper.GetModalWindows(topLevel);
         
         TaskCompletionSource<T?> taskCompletionSource = new();
 
@@ -283,7 +283,8 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         
         _modalBackground = new Border
         {
-            Background = new SolidColorBrush(Color.Parse("#3A000000"))
+            Background = new SolidColorBrush(Color.Parse("#3A000000")),
+            Opacity = 0
         };
         
         _panel.Children.Add(_modalBackground);
@@ -296,9 +297,6 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 
         _modalWindows?.Add(this);
         _lastFocus = topLevel?.FocusManager?.GetFocusedElement();
-        
-        ShowBackgroundAnimation?.RunAsync(_modalBackground);
-        OpenAnimation?.RunAsync(this);
 
         return await taskCompletionSource.Task;
     }
@@ -308,7 +306,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     {
         List<IInputElement> children = this.GetVisualDescendants().OfType<IInputElement>()
             .Where(x => KeyboardNavigation.GetIsTabStop((InputElement)x) && x.Focusable &&
-                        x.IsEffectivelyVisible && x.IsEffectivelyEnabled).ToList();
+                        x is { IsEffectivelyVisible: true, IsEffectivelyEnabled: true }).ToList();
 
         if (children.Count == 0)
             return (false, null);
@@ -333,7 +331,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
                 if (children[i] != current) continue;
 
                 if (i == 0)
-                    return (true, children[children.Count - 1]);
+                    return (true, children[^1]);
 
                 return (true, children[i - 1]);
             }
@@ -359,7 +357,16 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 
         Focus(NavigationMethod.Pointer);
     }
-    
+
+    /// <inheritdoc />
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        
+        ShowBackgroundAnimation?.RunAsync(_modalBackground);
+        OpenAnimation?.RunAsync(this);
+    }
+
     private bool ShouldCancelClose(CancelEventArgs? args = null)
     {
         args ??= new CancelEventArgs();

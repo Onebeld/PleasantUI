@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0">
@@ -45,37 +43,40 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border CornerRadius="{TemplateBinding CornerRadius}"
-                        Background="{DynamicResource BackgroundColor1}"
-                        BorderBrush="{DynamicResource ControlBorderColor}"
-                        MinWidth="{TemplateBinding MinWidth}"
-                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        ClipToBounds="False"
-                        BorderThickness="{StaticResource ControlBorderThickness}"
-                        behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ModalWindowDepth}"
-                        behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
-                    <Border ClipToBounds="True"
-                            CornerRadius="{TemplateBinding CornerRadius}">
-                        <Grid RowDefinitions="*,Auto">
-                            <ContentPresenter Grid.Row="0"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                              BlurRadius="60"
+                              ShadowColor="#6E000000"
+                              Offset="0 6">
+                    <Border CornerRadius="{TemplateBinding CornerRadius}"
+                            Background="{DynamicResource BackgroundColor1}"
+                            BorderBrush="{DynamicResource ControlBorderColor}"
+                            MinWidth="{TemplateBinding MinWidth}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            ClipToBounds="False"
+                            BorderThickness="{StaticResource ControlBorderThickness}">
+                        <Border ClipToBounds="True"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <Grid RowDefinitions="*,Auto">
+                                <ContentPresenter Grid.Row="0"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 
-                            <Border Grid.Row="1"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    Background="{DynamicResource BackgroundColor3}"
-                                    BorderThickness="0 1 0 0"
-                                    CornerRadius="0 0 8 8"
-                                    IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                    Height="80">
-                                <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />
-                            </Border>
-                        </Grid>
+                                <Border Grid.Row="1"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        Background="{DynamicResource BackgroundColor3}"
+                                        BorderThickness="0 1 0 0"
+                                        CornerRadius="0 0 8 8"
+                                        IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        Height="80">
+                                    <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />
+                                </Border>
+                            </Grid>
+                        </Border>
                     </Border>
-                </Border>
+                </ShadowBorder>
             </ControlTemplate>
         </Setter>
 

@@ -18,7 +18,7 @@ public static class LogicalExtensions
     }
 
     internal static int CalculateDistanceFromLogicalParent<T>(ILogical logical, int @default = -1)
-    where T : class, ILogical
+        where T : class, ILogical
     {
         int result = 0;
 

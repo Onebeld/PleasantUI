@@ -88,9 +88,5 @@
                 </OnPlatform.macOS>
             </OnPlatform>
         </Style>
-
-        <Style Selector="^[WindowState=Maximized][EnableCustomTitleBar=True] /template/ Panel#PART_PanelBase">
-            <Setter Property="Margin" Value="8" />
-        </Style>
     </ControlTheme>
 </ResourceDictionary>

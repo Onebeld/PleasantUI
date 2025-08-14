@@ -1,12 +1,13 @@
 ﻿using Avalonia.Media;
 using Avalonia.Styling;
+using PleasantUI.Core.Models.Interfaces;
 
 namespace PleasantUI.Core.Models;
 
 /// <summary>
 /// Represents a custom theme with customizable colors.
 /// </summary>
-public class CustomTheme : ViewModelBase
+public class CustomTheme : ViewModelBase, ITheme
 {
     private string _name = null!;
 
@@ -21,6 +22,13 @@ public class CustomTheme : ViewModelBase
     /// Gets the theme variant associated with the theme.
     /// </summary>
     public ThemeVariant ThemeVariant { get; private set; } = null!;
+
+    public void SetThemeVariant(ThemeVariant? themeVariant)
+    {
+        ArgumentNullException.ThrowIfNull(themeVariant);
+
+        ThemeVariant = themeVariant;
+    }
 
     /// <summary>
     /// Gets or sets the dictionary of colors used in the theme.

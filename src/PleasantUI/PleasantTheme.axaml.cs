@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -12,9 +13,10 @@ using PleasantUI.Core;
 using PleasantUI.Core.Constants;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Extensions.Media;
-using PleasantUI.Core.GenerationContexts;
 using PleasantUI.Core.Models;
-using PleasantUI.Core.Settings;
+using PleasantUI.Core.Models.Interfaces;
+using PleasantUI.Core.Settings.Providers;
+using PleasantUI.Core.Settings.Providers.Interfaces;
 
 namespace PleasantUI;
 
@@ -35,6 +37,8 @@ public class PleasantTheme : Styles
     private ResourceDictionary? _accentColorsDictionary;
 
     private IPlatformSettings? _platformSettings;
+    
+    private readonly ISettingsProvider<PleasantSettings> _settingsProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PleasantTheme" /> class
@@ -44,10 +48,10 @@ public class PleasantTheme : Styles
     {
         AvaloniaXamlLoader.Load(serviceProvider, this);
 
-        PleasantSettings.Initialize(new AppSettingsProvider<PleasantSettings>(),
-            PleasantSettingsGenerationContext.Default);
+        _settingsProvider = new PleasantSettingsProvider();
+
         PleasantSettings.Current =
-            PleasantSettings.Load(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+            _settingsProvider.Load(Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
 
         _mainResourceDictionary = (Resources as ResourceDictionary)!;
 
@@ -112,23 +116,6 @@ public class PleasantTheme : Styles
     }
 
     /// <summary>
-    /// Gets the count of keys in the default theme.
-    /// </summary>
-    /// <returns>The count of keys in the default theme.</returns>
-    public static int CountOfKeysTheme()
-    {
-        Theme theme = Themes.First(theme => theme.Name == "Light");
-
-        if (theme.ThemeVariant is null)
-            throw new NullReferenceException("Theme Variant is null");
-
-        ResourceDictionary lightThemeBasicColors =
-            (_mainResourceDictionary.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
-
-        return lightThemeBasicColors.Keys.Count;
-    }
-
-    /// <summary>
     /// Returns a dictionary of colors for the theme.
     /// </summary>
     /// <param name="theme">The theme to get the colors for.</param>
@@ -137,7 +124,7 @@ public class PleasantTheme : Styles
     /// This method returns a dictionary of colors for the theme, which can be used to override the default theme colors.
     /// The dictionary will contain all the colors from the default theme, as well as any custom colors that have been set.
     /// </remarks>
-    public static Dictionary<string, Color> GetColorsDictionary(Theme theme)
+    public static Dictionary<string, Color> GetColorsDictionary(ITheme theme)
     {
         if (Application.Current is null)
             throw new NullReferenceException("Application.Current is null");
@@ -151,9 +138,8 @@ public class PleasantTheme : Styles
 
         ResourceDictionary? lightThemeCustomColors = null;
 
-        if (Application.Current.Resources.ThemeDictionaries.ContainsKey(theme.ThemeVariant))
-            lightThemeCustomColors =
-                (Application.Current.Resources.ThemeDictionaries[theme.ThemeVariant] as ResourceDictionary)!;
+        if (Application.Current.Resources.ThemeDictionaries.TryGetValue(theme.ThemeVariant, out IThemeVariantProvider? value))
+            lightThemeCustomColors = (value as ResourceDictionary)!;
 
         Dictionary<string, Color> newDictionary = lightThemeBasicColors.ToDictionary<string, Color>();
 
@@ -230,7 +216,8 @@ public class PleasantTheme : Styles
         PleasantSettings.Current.PropertyChanged += PleasantSettingsOnPropertyChanged;
         _customThemeChanged += () => ResolveTheme(_platformSettings);
 
-        AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            desktop.ShutdownRequested += DesktopShutdownRequested;
 
         if (PleasantSettings.Current.CustomThemeId is not null)
             SelectedCustomTheme = CustomThemes.FirstOrDefault(x => x.Id == PleasantSettings.Current.CustomThemeId);
@@ -292,10 +279,9 @@ public class PleasantTheme : Styles
         }
     }
 
-    private void CurrentDomainOnProcessExit(object? sender, EventArgs e)
+    private void DesktopShutdownRequested(object? sender, ShutdownRequestedEventArgs e)
     {
-        PleasantSettings.Save(PleasantSettings.Current,
-            Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+        _settingsProvider.Save(PleasantSettings.Current, Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
         PleasantThemesLoader.Save();
     }
 
@@ -344,14 +330,12 @@ public class PleasantTheme : Styles
         if (PleasantSettings.Current is null)
             throw new NullReferenceException("PleasantSettings.Current is null.");
 
-        ThemeVariant? themeVariant;
-
-        if (PleasantSettings.Current.Theme == "Custom")
-            themeVariant = SelectedCustomTheme?.ThemeVariant;
-        else if (PleasantSettings.Current.Theme == "System")
-            themeVariant = GetThemeFromIPlatformSettings(platformSettings);
-        else
-            themeVariant = Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme)?.ThemeVariant;
+        ThemeVariant? themeVariant = PleasantSettings.Current.Theme switch
+        {
+            "Custom" => SelectedCustomTheme?.ThemeVariant,
+            "System" => GetThemeFromIPlatformSettings(platformSettings),
+            _ => Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme)?.ThemeVariant
+        };
 
         if (Application.Current is not null)
             Application.Current.RequestedThemeVariant = themeVariant;
@@ -383,14 +367,14 @@ public class PleasantTheme : Styles
             Application.Current.RequestedThemeVariant = themeVariant;
         }
 
-        if (!PleasantSettings.Current.PreferUserAccentColor)
-        {
-            Color accentColor = e.AccentColor1;
+        if (PleasantSettings.Current.PreferUserAccentColor)
+            return;
+        
+        Color accentColor = e.AccentColor1;
 
-            PleasantSettings.Current.NumericalAccentColor = accentColor.ToUInt32();
+        PleasantSettings.Current.NumericalAccentColor = accentColor.ToUInt32();
 
-            UpdateAccentColors(accentColor);
-        }
+        UpdateAccentColors(accentColor);
     }
 
     private ThemeVariant GetThemeFromIPlatformSettings(IPlatformSettings platformSettings)

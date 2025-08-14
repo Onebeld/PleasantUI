@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using PleasantUI.Core;
+﻿using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
 using PleasantUI.Example.Structures;
@@ -8,7 +6,7 @@ using PleasantUI.ToolKit;
 
 namespace PleasantUI.Example.ViewModels.Pages;
 
-public partial class SettingsViewModel : ObservableObject
+public partial class SettingsViewModel
 {
     public Language SelectedLanguage
     {
@@ -22,7 +20,7 @@ public partial class SettingsViewModel : ObservableObject
 
     public Theme? SelectedTheme
     {
-        get => PleasantSettings.Current?.Theme is string themeName
+        get => PleasantSettings.Current?.Theme is { } themeName
             ? PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == themeName)
             : null;
 
@@ -39,8 +37,7 @@ public partial class SettingsViewModel : ObservableObject
         set => PleasantTheme.SelectedCustomTheme = value;
     }
 
-    [RelayCommand]
-    private async Task CreateThemeAsync()
+    public async Task CreateThemeAsync()
     {
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, null);
 
@@ -50,8 +47,7 @@ public partial class SettingsViewModel : ObservableObject
         PleasantTheme.CustomThemes.Add(newCustomTheme);
     }
 
-    [RelayCommand]
-    private async Task EditThemeAsync(CustomTheme customTheme)
+    public async Task EditThemeAsync(CustomTheme customTheme)
     {
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, customTheme);
 
@@ -61,8 +57,7 @@ public partial class SettingsViewModel : ObservableObject
         PleasantUiExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
     }
 
-    [RelayCommand]
-    private void DeleteTheme(CustomTheme customTheme)
+    public void DeleteTheme(CustomTheme customTheme)
     {
         PleasantTheme.CustomThemes.Remove(customTheme);
     }

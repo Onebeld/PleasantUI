@@ -1,17 +1,19 @@
 ﻿using Avalonia.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
+using PleasantUI.Core;
 using PleasantUI.ToolKit.Messages;
+using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.ToolKit.Models;
 
 /// <summary>
 /// Represents a theme color with associated name and functionality for changing and copying the color.
 /// </summary>
-public class ThemeColor : ObservableObject
+public class ThemeColor : ViewModelBase
 {
+    private readonly IEventAggregator _eventAggregator;
+        
     private Color _color;
-    private string _name = null!;
+    private string _name;
 
     /// <summary>
     /// Gets or sets the name of the color.
@@ -32,7 +34,7 @@ public class ThemeColor : ObservableObject
         {
             SetProperty(ref _color, value);
 
-            OnPropertyChanged(nameof(Brush));
+            RaisePropertyChanged(nameof(Brush));
         }
     }
 
@@ -46,10 +48,12 @@ public class ThemeColor : ObservableObject
     /// </summary>
     /// <param name="name">The name of the color.</param>
     /// <param name="color">The color value.</param>
-    public ThemeColor(string name, Color color)
+    public ThemeColor(string name, Color color, IEventAggregator eventAggregator)
     {
-        Name = name;
-        Color = color;
+        _name = name;
+        _color = color;
+
+        _eventAggregator = eventAggregator;
     }
 
     /// <summary>
@@ -57,14 +61,16 @@ public class ThemeColor : ObservableObject
     /// </summary>
     public async Task ChangeColorAsync()
     {
-        Color? newColor = await WeakReferenceMessenger.Default.Send(new AsyncRequestColorMessage(Color));
+        TaskCompletionSource<Color?> taskCompletionSource = new();
 
+        await _eventAggregator.PublishAsync(new ChangeColorMessage(Color, taskCompletionSource));
+
+        Color? newColor = await taskCompletionSource.Task.ConfigureAwait(false);
+            
         if (newColor is null)
             return;
 
-        Color previousColor = Color;
-
-        WeakReferenceMessenger.Default.Send(new ColorChangedMessage(newColor.Value, this, previousColor));
+        await _eventAggregator.PublishAsync(new ChangedColorMessage(this, newColor.Value, Color));
     }
 
     /// <summary>
@@ -72,7 +78,7 @@ public class ThemeColor : ObservableObject
     /// </summary>
     public async Task CopyColorAsync()
     {
-        await WeakReferenceMessenger.Default.Send(new AsyncClipboardSetColorMessage(Color));
+        await _eventAggregator.PublishAsync(new ColorCopyMessage(Color));
     }
 
     /// <summary>
@@ -80,13 +86,15 @@ public class ThemeColor : ObservableObject
     /// </summary>
     public async Task PasteColorAsync()
     {
-        Color? newColor = await WeakReferenceMessenger.Default.Send(new AsyncRequestClipboardColorMessage());
+        TaskCompletionSource<Color?> taskCompletionSource = new();
 
+        await _eventAggregator.PublishAsync(new PasteColorMessage(taskCompletionSource));
+
+        Color? newColor = await taskCompletionSource.Task.ConfigureAwait(false);
+        
         if (newColor is null)
             return;
 
-        Color previousColor = Color;
-
-        WeakReferenceMessenger.Default.Send(new ColorChangedMessage(newColor.Value, this, previousColor));
+        await _eventAggregator.PublishAsync(new ChangedColorMessage(this, newColor.Value, Color));
     }
 }

@@ -2,8 +2,8 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Reactive;
 using PleasantUI.Core;
-using PleasantUI.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -107,11 +107,11 @@ public class PleasantMiniWindow : PleasantWindowBase
             _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
 
         this.GetObservable(EnableCustomTitleBarProperty)
-            .Subscribe(val => { ExtendClientAreaToDecorationsHint = val; });
-        this.GetObservable(CanResizeProperty).Subscribe(canResize =>
+            .Subscribe(new AnonymousObserver<bool>(val => { ExtendClientAreaToDecorationsHint = val; }));
+        this.GetObservable(CanResizeProperty).Subscribe(new AnonymousObserver<bool>(canResize =>
         {
             ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
-        });
+        }));
     }
 
     /// <inheritdoc />

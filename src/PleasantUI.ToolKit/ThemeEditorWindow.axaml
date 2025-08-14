@@ -256,7 +256,6 @@
                                                                   Content="{CompiledBinding Count, Source={x:Static PleasantTheme.CustomThemes}}"
                                                                   ToolTip.Tip="{Localize NumberOfCustomThemes, Context=ThemeEditor, Default='Number of custom themes'}"/>
                                             </Panel>
-
                                             
                                             <PleasantBorder BackgroundLevel="Level3" Height="150">
                                                 <Panel>
@@ -268,7 +267,7 @@
                                                                     <Button Theme="{StaticResource AppBarButtonTheme}"
                                                                             Margin="5"
                                                                             HorizontalContentAlignment="Left"
-                                                                            Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromCustomTheme}"
+                                                                            Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromTheme}"
                                                                             CommandParameter="{CompiledBinding}">
                                                                         <StackPanel Orientation="Horizontal">
                                                                             <ThemePreviewVariantScope RequestedThemeVariant="{CompiledBinding ThemeVariant}">
@@ -338,7 +337,7 @@
                                      Margin="0 5 0 0"
                                      IsReadOnly="True"
                                      CornerRadius="{StaticResource ControlCornerRadius}"
-                                     Text="{CompiledBinding ColorsJson}" />
+                                     Text="{CompiledBinding JsonColors}" />
 
                             <Panel x:Name="DragAndDropPanel"
                                    DragDrop.AllowDrop="True"
@@ -347,7 +346,7 @@
                                    Margin="0 5 0 0">
                                 <Panel.Styles>
                                     <Style Selector="Panel.DragDrop > Rectangle">
-                                        <Setter Property="Fill" Value="{DynamicResource ControlFillColor3}" />
+                                        <Setter Property="Fill" Value="{DynamicResource ControlFillColor1}" />
                                     </Style>
                                     <Style Selector="Panel > Rectangle">
                                         <Setter Property="Fill" Value="Transparent" />

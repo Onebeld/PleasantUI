@@ -5,9 +5,12 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Layout;
+using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using PleasantUI.Reactive;
+using PleasantUI.Core;
+using PleasantUI.Core.Internal;
+using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -90,6 +93,12 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         SmoothScrollViewer.ViewportProperty.AddOwner<SmoothScrollContentPresenter>(
             o => o.Viewport,
             (o, v) => o.Viewport = v);
+    
+    /// <summary>
+    /// Defines the <see cref="IsScrollChainingEnabled"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsScrollChainingEnabledProperty =
+        SmoothScrollViewer.IsScrollChainingEnabledProperty.AddOwner<SmoothScrollContentPresenter>();
 
     /// <summary>
     /// Gets or sets a value indicating whether the content can be scrolled horizontally.
@@ -148,6 +157,20 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         get => _viewport;
         private set => SetAndRaise(ViewportProperty, ref _viewport, value);
     }
+    
+    /// <summary>
+    ///  Gets or sets if scroll chaining is enabled. The default value is true.
+    /// </summary>
+    /// <remarks>
+    ///  After a user hits a scroll limit on an element that has been nested within another scrollable element,
+    /// you can specify whether that parent element should continue the scrolling operation begun in its child element.
+    /// This is called scroll chaining.
+    /// </remarks>
+    public bool IsScrollChainingEnabled
+    {
+        get => GetValue(IsScrollChainingEnabledProperty);
+        set => SetValue(IsScrollChainingEnabledProperty, value);
+    }
 
     /// <inheritdoc />
     Control? IScrollAnchorProvider.CurrentAnchor
@@ -179,7 +202,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         AddHandler(RequestBringIntoViewEvent, BringIntoViewRequested);
         AddHandler(Gestures.ScrollGestureEvent, OnScrollGesture);
 
-        this.GetObservable(ChildProperty).Subscribe(UpdateScrollableSubscription);
+        this.GetObservable(ChildProperty).Subscribe(new AnonymousObserver<Control>(UpdateScrollableSubscription));
 
         _smoothScrollTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(1), DispatcherPriority.Render,
             SmoothScrollTimer_Elapsed);
@@ -452,12 +475,8 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                     delta = delta.WithY(delta.Y - logicalUnits * LogicalScrollItemSize);
                     dy = logicalUnits * scrollable!.ScrollSize.Height;
                 }
-                else
-                {
-                    dy = delta.Y;
-                }
-
-
+                else dy = delta.Y;
+                
                 y += dy;
                 y = Math.Max(y, 0);
                 y = Math.Min(y, Extent.Height - Viewport.Height);
@@ -472,10 +491,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
                     delta = delta.WithX(delta.X - logicalUnits * LogicalScrollItemSize);
                     dx = logicalUnits * scrollable!.ScrollSize.Width;
                 }
-                else
-                {
-                    dx = delta.X;
-                }
+                else dx = delta.X;
 
                 x += dx;
                 x = Math.Max(x, 0);
@@ -497,34 +513,52 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
     /// <inheritdoc />
     protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
     {
-        if (Extent.Height > Viewport.Height || Extent.Width > Viewport.Width)
+        if (!(Extent.Height > Viewport.Height) && !(Extent.Width > Viewport.Width))
+            return;
+
+        ILogicalScrollable? scrollable = Child as ILogicalScrollable;
+        bool isLogical = scrollable?.IsLogicalScrollEnabled == true;
+
+        Vector current = Offset;
+        
+        double x = current.X, y = current.Y;
+        
+        bool canVert = Extent.Height > Viewport.Height && CanVerticallyScroll;
+        bool canHoriz = Extent.Width > Viewport.Width && CanHorizontallyScroll;
+        
+        bool shift = (e.KeyModifiers & KeyModifiers.Shift) == KeyModifiers.Shift;
+
+        bool scrolled = false;
+
+        if ((shift || !canVert) && canHoriz)
         {
-            ILogicalScrollable? scrollable = Child as ILogicalScrollable;
-            bool isLogical = scrollable?.IsLogicalScrollEnabled == true;
-
-            Vector currentFromOffset = Offset;
-            double x = currentFromOffset.X;
-            double y = currentFromOffset.Y;
-
-            if (Extent.Height > Viewport.Height)
+            double wheel = e.Delta.X != 0 ? e.Delta.X : e.Delta.Y;
+            double step = isLogical ? scrollable!.ScrollSize.Width : 100;
+            double newX = Math.Clamp(x - wheel * step, 0, Extent.Width - Viewport.Width);
+            if (newX != x)
             {
-                double height = isLogical ? scrollable!.ScrollSize.Height : 50;
-                y += -e.Delta.Y * height;
-                y = Math.Max(y, 0);
-                y = Math.Min(y, Extent.Height - Viewport.Height);
+                x = newX;
+                scrolled = true;
             }
-
-            if (Extent.Width > Viewport.Width)
+        }
+        else if (canVert)
+        {
+            double step = isLogical ? scrollable!.ScrollSize.Height : 100;
+            double newY = Math.Clamp(y - e.Delta.Y * step, 0, Extent.Height - Viewport.Height);
+            if (newY != y)
             {
-                double width = isLogical ? scrollable!.ScrollSize.Width : 50;
-                x += -e.Delta.X * width;
-                x = Math.Max(x, 0);
-                x = Math.Min(x, Extent.Width - Viewport.Width);
+                y = newY;
+                scrolled = true;
             }
+        }
 
+        if (scrolled)
+        {
             Offset = new Vector(x, y);
             e.Handled = true;
         }
+        else if (!scrolled && !IsScrollChainingEnabled)
+            e.Handled = true;
     }
 
     /// <inheritdoc />
@@ -608,7 +642,6 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
 
         if (_animTimeRemaining <= 0)
         {
-            //Console.WriteLine("Stopping...");
             _smoothScrollTimerStarted = false;
             _smoothScrollTimer.Stop();
         }
@@ -627,14 +660,16 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
 
             if (scrollable.IsLogicalScrollEnabled)
             {
-                _logicalScrollSubscription = new CompositeDisposable(
-                    this.GetObservable(CanHorizontallyScrollProperty)
-                        .Subscribe(x => scrollable.CanHorizontallyScroll = x),
-                    this.GetObservable(CanVerticallyScrollProperty)
-                        .Subscribe(x => scrollable.CanVerticallyScroll = x),
-                    this.GetObservable(OffsetProperty)
-                        .Skip(1).Subscribe(x => scrollable.Offset = x),
-                    Disposable.Create(() => scrollable.ScrollInvalidated -= ScrollInvalidated));
+                _logicalScrollSubscription = new CompositeDisposable([
+                        this.GetObservable(CanHorizontallyScrollProperty)
+                            .Subscribe(new AnonymousObserver<bool>(x => scrollable.CanHorizontallyScroll = x)),
+                        this.GetObservable(CanVerticallyScrollProperty)
+                            .Subscribe(new AnonymousObserver<bool>(x => scrollable.CanVerticallyScroll = x)),
+                        this.GetObservable(OffsetProperty)
+                            .Skip(1).Subscribe(new AnonymousObserver<Vector>(x => scrollable.Offset = x)),
+                        new AnonymousDisposable(() => scrollable.ScrollInvalidated -= ScrollInvalidated)
+                    ]
+                );
                 UpdateFromScrollable(scrollable);
             }
         }
@@ -672,7 +707,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
         _anchorElementBounds = default;
         _isAnchorElementDirty = false;
 
-        Control? bestCandidate = default;
+        Control? bestCandidate = null;
         double bestCandidateDistance = double.MaxValue;
 
         // Find the anchor candidate that is scrolled closest to the top-left of this

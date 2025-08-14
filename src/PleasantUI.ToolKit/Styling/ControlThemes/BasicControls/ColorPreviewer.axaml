@@ -1,12 +1,10 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:PleasantUI.Behaviors;assembly=PleasantUI"
-                    xmlns:constants="clr-namespace:PleasantUI.Core.Constants;assembly=PleasantUI"
                     xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type ColorPreviewer}" TargetType="ColorPreviewer">
         <Setter Property="Height" Value="70" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto,*,Auto" Background="{TemplateBinding Background}">
@@ -21,10 +19,10 @@
                                 Grid.ColumnSpan="2"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
+                                CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
                                 Background="{StaticResource CheckeredBackgroundBrush}" />
                         <Border x:Name="PART_AccentDecrement2Border"
                                 Grid.Column="0"
-                                ClipToBounds="True"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
                                 Tag="-2"
                                 Background="{TemplateBinding HsvColor, Converter={x:Static converters:ColorPickerConverters.AccentColor}, ConverterParameter='-2'}" />
@@ -44,6 +42,7 @@
                                 Grid.ColumnSpan="2"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
+                                CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                 Background="{StaticResource CheckeredBackgroundBrush}" />
                         <Border x:Name="PART_AccentIncrement1Border"
                                 Grid.Column="0"
@@ -51,17 +50,17 @@
                                 Background="{TemplateBinding HsvColor, Converter={x:Static converters:ColorPickerConverters.AccentColor}, ConverterParameter='1'}" />
                         <Border x:Name="PART_AccentIncrement2Border"
                                 Grid.Column="1"
-                                ClipToBounds="True"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                 Tag="2"
                                 Background="{TemplateBinding HsvColor, Converter={x:Static converters:ColorPickerConverters.AccentColor}, ConverterParameter='2'}" />
                     </Grid>
                     <!-- Must be last for drop shadow Z-index -->
-                    <Border Grid.Column="1"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="10"
-                            behaviors:ShadowBehavior.BoxShadow="{x:Static constants:ShadowDepths.ColorPreviewer}"
-                            behaviors:ShadowBehavior.EnableShadowing="{CompiledBinding RenderSettings.EnableShadowing, Source={x:Static PleasantSettings.Current}}">
+                    <ShadowBorder Grid.Column="1"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Margin="10"
+                                  ShadowColor="#BE000000"
+                                  Offset="0 0"
+                                  BlurRadius="5">
                         <Panel>
                             <Border Background="{StaticResource CheckeredBackgroundBrush}"
                                     CornerRadius="{TemplateBinding CornerRadius}" />
@@ -71,7 +70,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" />
                         </Panel>
-                    </Border>
+                    </ShadowBorder>
                 </Grid>
             </ControlTemplate>
         </Setter>

@@ -18,7 +18,7 @@ public static class LoggerExtensions
     public static AppBuilder LogToSerilog(this AppBuilder builder, LogEventLevel level = LogEventLevel.Warning,
         params string[] areas)
     {
-        Avalonia.Logging.Logger.Sink = new SerilogSink(level, areas);
+        Logger.Sink = new SerilogSink(level, areas);
         return builder;
     }
 }

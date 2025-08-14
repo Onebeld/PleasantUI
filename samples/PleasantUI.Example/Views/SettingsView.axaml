@@ -67,7 +67,7 @@
                             
                             <Button HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
-                                    Command="{CompiledBinding CreateThemeCommand}"
+                                    Command="{CompiledBinding CreateThemeAsync}"
                                     Width="40"
                                     Height="40">
                                 <PathIcon Data="{x:Static MaterialIcons.Plus}" />
@@ -102,7 +102,7 @@
                                                     <Button Theme="{StaticResource AppBarButtonTheme}"
                                                             Width="30"
                                                             Height="30"
-                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeCommand}"
+                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
                                                             CommandParameter="{CompiledBinding}">
                                                         <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
                                                     </Button>
@@ -112,7 +112,7 @@
                                                             Height="30"
                                                             CornerRadius="{StaticResource ControlCornerRadius}"
                                                             BorderThickness="0"
-                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteThemeCommand}"
+                                                            Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
                                                             CommandParameter="{CompiledBinding}">
                                                         <PathIcon Data="{x:Static MaterialIcons.DeleteOutline}" />
                                                     </Button>

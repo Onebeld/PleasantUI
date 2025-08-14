@@ -15,29 +15,31 @@ public static class PleasantThemesLoader
     private const byte MajorVersion = 1;
     private const byte MinorVersion = 0;
 
-    private static readonly string Path =
-        System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PleasantFileNames.Themes);
+    private static readonly string PathToThemes = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PleasantFileNames.Themes);
 
     /// <summary>
     /// Saves the current custom themes to a file.
     /// </summary>
     public static void Save()
     {
-        using FileStream fileStream = new(Path, FileMode.Create, FileAccess.Write);
+        EnsureFilePathFolderExists(PathToThemes);
+        
+        using FileStream fileStream = new(PathToThemes, FileMode.Create, FileAccess.Write);
         using BinaryWriter writer = new(fileStream, Encoding.ASCII);
 
         WriteVersion(writer);
 
         int themesCount = PleasantTheme.CustomThemes.Count;
-        int keysCount = PleasantTheme.CountOfKeysTheme();
+        
+        Dictionary<string, Color> themeTemplateDictionary = PleasantTheme.GetThemeTemplateDictionary();
+        
+        int keysCount = themeTemplateDictionary.Keys.Count;
 
         writer.Write(themesCount);
         writer.Write(keysCount);
 
         if (themesCount == 0)
             return;
-        
-        Dictionary<string, Color> themeTemplateDictionary = PleasantTheme.GetThemeTemplateDictionary();
 
         WriteColorKeys(writer, themeTemplateDictionary);
 
@@ -54,10 +56,10 @@ public static class PleasantThemesLoader
     /// </exception>
     public static CustomTheme[] Load()
     {
-        if (!File.Exists(Path))
+        if (!File.Exists(PathToThemes))
             return [];
 
-        using FileStream fileStream = new(Path, FileMode.Open, FileAccess.Read);
+        using FileStream fileStream = new(PathToThemes, FileMode.Open, FileAccess.Read);
         using BinaryReader reader = new(fileStream, Encoding.ASCII);
 
         uint magicNumber = reader.ReadUInt32();
@@ -80,6 +82,16 @@ public static class PleasantThemesLoader
         CustomTheme[] customThemes = ReadCustomThemes(reader, colorKeys, keysCount, themesCount);
 
         return customThemes;
+    }
+    
+    private static void EnsureFilePathFolderExists(string path)
+    {
+        string? folder = Path.GetDirectoryName(path);
+        if (string.IsNullOrEmpty(folder))
+            throw new ArgumentException("Failed to get the directory path", nameof(path));
+
+        if (!Directory.Exists(folder))
+            Directory.CreateDirectory(folder);
     }
 
     #region Read
@@ -120,10 +132,8 @@ public static class PleasantThemesLoader
             Guid id = new(guidBytes);
 
             int nameLength = reader.ReadByte();
-
-            string themeName = "";
-            for (int j = 0; j < nameLength; j++)
-                themeName += (char)reader.ReadInt16();
+            byte[] buffer = reader.ReadBytes(nameLength * 2);
+            string themeName = Encoding.Unicode.GetString(buffer);
 
             Dictionary<string, Color> dictionary = new();
 
