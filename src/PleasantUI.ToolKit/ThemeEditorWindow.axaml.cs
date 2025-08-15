@@ -15,7 +15,7 @@ namespace PleasantUI.ToolKit;
 /// Represents a dialog that allows the user to edit a theme.
 /// </summary>
 /// <seealso cref="PleasantUI.Controls.ContentDialog" />
-public partial class ThemeEditorWindow : ContentDialog
+public sealed partial class ThemeEditorWindow : ContentDialog
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ThemeEditorWindow"/> class.
@@ -23,7 +23,7 @@ public partial class ThemeEditorWindow : ContentDialog
     /// <remarks>
     /// This constructor is only intended to be used by Avalonia's XAML parser.
     /// </remarks>
-    public ThemeEditorWindow()
+    private ThemeEditorWindow()
     {
         InitializeComponent();
 

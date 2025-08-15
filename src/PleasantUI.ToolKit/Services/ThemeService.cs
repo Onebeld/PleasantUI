@@ -14,7 +14,7 @@ using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.ToolKit.Services;
 
-public class ThemeService : IThemeService
+internal class ThemeService : IThemeService
 {
     private readonly TopLevel _topLevel;
     

@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Reactive;
-using PleasantUI.Core.Internal;
 using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls.Chrome;

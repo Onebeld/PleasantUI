@@ -3,7 +3,7 @@ using PleasantUI.ToolKit.Models;
 
 namespace PleasantUI.ToolKit.Messages;
 
-public class ChangedColorMessage
+internal class ChangedColorMessage
 {
     public ThemeColor ThemeColor { get; }
     

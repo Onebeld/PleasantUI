@@ -2,7 +2,7 @@
 
 namespace PleasantUI.ToolKit.Messages;
 
-public class PasteColorMessage
+internal class PasteColorMessage
 {
     public TaskCompletionSource<Color?> TaskCompletionSource { get; }
 

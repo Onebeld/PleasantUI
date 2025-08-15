@@ -14,15 +14,9 @@ namespace PleasantUI.ToolKit;
 /// <summary>
 /// A control that displays a message box.
 /// </summary>
-public partial class MessageBox : ContentDialog
+public sealed partial class MessageBox : ContentDialog
 {
-    /// <summary>
-    /// A control that displays a message box.
-    /// </summary>
-    public MessageBox()
-    {
-        InitializeComponent();
-    }
+    private MessageBox() => InitializeComponent();
 
     /// <summary>
     /// Displays a message box with the given title and text, and optional buttons and additional text.

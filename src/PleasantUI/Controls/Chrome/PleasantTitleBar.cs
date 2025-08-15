@@ -9,7 +9,6 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Reactive;
 using PleasantUI.Core.Extensions;
-using PleasantUI.Core.Internal;
 using PleasantUI.Core.Internal.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
 

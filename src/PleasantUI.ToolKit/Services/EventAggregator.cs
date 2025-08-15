@@ -1,37 +1,45 @@
 ﻿using System.Collections.Concurrent;
+using Avalonia.Logging;
 using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.ToolKit.Services;
 
 public class EventAggregator : IEventAggregator
 {
-    private readonly ConcurrentDictionary<Type, List<Func<object, Task>>> _handlers = new();
+    private readonly ConcurrentDictionary<Type, List<Func<object, Task>>?> _handlers = new();
     
     public async Task PublishAsync<TEvent>(TEvent ev)
     {
-        if (_handlers.TryGetValue(typeof(TEvent), out List<Func<object, Task>> list))
+        if (ev is null)
+            return;
+        
+        if (_handlers.TryGetValue(typeof(TEvent), out List<Func<object, Task>>? list))
         {
-            Func<object, Task>[] handlers = list.ToArray();
+            Func<object, Task>[]? handlers = list?.ToArray();
 
-            foreach (Func<object, Task> handler in handlers)
-            {
-                try
+            if (handlers != null)
+                foreach (Func<object, Task> handler in handlers)
                 {
-                    await handler(ev).ConfigureAwait(false);
+                    try
+                    {
+                        await handler(ev).ConfigureAwait(false);
+                    }
+                    catch
+                    { 
+                        Logger.Sink?.Log(LogEventLevel.Error, "EventAggregator", this, "Error during event call");
+                    }
                 }
-                catch
-                {
-                    
-                }
-            }
         }
     }
 
     public IDisposable Subscribe<TEvent>(Func<TEvent, Task> handler)
     {
-        List<Func<object, Task>> handlers = _handlers.GetOrAdd(typeof(TEvent), _ => []);
+        List<Func<object, Task>>? handlers = _handlers.GetOrAdd(typeof(TEvent), _ => []);
         Func<object, Task> wrapper = (obj) => handler((TEvent)obj);
 
+        if (handlers == null)
+            throw new NullReferenceException("handlers is null");
+        
         lock (handlers)
             handlers.Add(wrapper);
 
@@ -40,6 +48,7 @@ public class EventAggregator : IEventAggregator
             lock (handlers)
                 handlers.Remove(wrapper);
         });
+
     }
     
     private sealed class Subscription(Action action) : IDisposable

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using PleasantUI.Controls;
 using PleasantUI.Core.Interfaces;
@@ -9,15 +10,11 @@ namespace PleasantUI.ToolKit;
 /// Represents a window that can be used to pick a color.
 /// </summary>
 /// <seealso cref="PleasantUI.Controls.ContentDialog" />
-public partial class ColorPickerWindow : ContentDialog
+public sealed partial class ColorPickerWindow : ContentDialog
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ColorPickerWindow" /> class.
-    /// </summary>
-    public ColorPickerWindow()
-    {
-        InitializeComponent();
-    }
+    private bool _cancel = true;
+    
+    private ColorPickerWindow() => InitializeComponent();
 
     /// <summary>
     /// Opens a color picker window for the user to select a color.
@@ -30,7 +27,8 @@ public partial class ColorPickerWindow : ContentDialog
     /// </returns>
     public static Task<Color?> SelectColor(IPleasantWindow parent, uint? defaultColor = null)
     {
-        bool cancel = true;
+        TaskCompletionSource<Color?> taskCompletionSource = new();
+        
         ColorPickerWindow window = new()
         {
             ColorView =
@@ -38,24 +36,41 @@ public partial class ColorPickerWindow : ContentDialog
                 Color = Color.FromUInt32(defaultColor ?? 0xFFFFFFFF)
             }
         };
-
-        window.CancelButton.Click += (_, _) => { window.CloseAsync(); };
-        window.OkButton.Click += (_, _) =>
+        
+        void CancelButtonOnClick(object? sender, RoutedEventArgs e)
         {
-            cancel = false;
-            window.CloseAsync();
-        };
-        window.KeyDown += (_, e) =>
+            _ = window.CloseAsync();
+        }
+
+        void OkButtonOnClick(object? sender, RoutedEventArgs e)
+        {
+            window._cancel = false;
+            _ = window.CloseAsync();
+        }
+        
+        void WindowOnKeyDown(object? sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter) return;
 
-            cancel = false;
-            window.CloseAsync();
-        };
+            window._cancel = false;
+            _ = window.CloseAsync();
+        }
 
-        TaskCompletionSource<Color?> taskCompletionSource = new();
+        void WindowOnClosed(object? sender, EventArgs e)
+        {
+            taskCompletionSource.TrySetResult(!window._cancel ? window.ColorView.Color : null);
 
-        window.Closed += (_, _) => { taskCompletionSource.TrySetResult(!cancel ? window.ColorView.Color : null); };
+            window.CancelButton.Click -= CancelButtonOnClick;
+            window.OkButton.Click -= OkButtonOnClick;
+            window.KeyDown -= WindowOnKeyDown;
+            window.Closed -= WindowOnClosed;
+        }
+        
+        window.CancelButton.Click += CancelButtonOnClick;
+        window.OkButton.Click += OkButtonOnClick;
+        window.KeyDown += WindowOnKeyDown;
+        window.Closed += WindowOnClosed;
+        
         window.ShowAsync(parent);
 
         return taskCompletionSource.Task;

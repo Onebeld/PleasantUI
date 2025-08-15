@@ -10,7 +10,6 @@ using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
-using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Threading;
 

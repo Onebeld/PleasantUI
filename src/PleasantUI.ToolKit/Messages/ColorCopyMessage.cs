@@ -2,7 +2,7 @@
 
 namespace PleasantUI.ToolKit.Messages;
 
-public class ColorCopyMessage
+internal class ColorCopyMessage
 {
     public Color Color { get; }
 

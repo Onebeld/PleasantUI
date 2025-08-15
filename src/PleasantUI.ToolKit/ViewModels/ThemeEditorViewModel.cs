@@ -22,7 +22,7 @@ namespace PleasantUI.ToolKit.ViewModels;
 /// <summary>
 /// ViewModel for the <see cref="PleasantUI.ToolKit.ThemeEditorWindow" />.
 /// </summary>
-public class ThemeEditorViewModel : ViewModelBase, IDisposable
+internal class ThemeEditorViewModel : ViewModelBase, IDisposable
 {
     private readonly ThemeEditorWindow _themeEditorWindow;
     private readonly IPleasantWindow _pleasantWindowParent;

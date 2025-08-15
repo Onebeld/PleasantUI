@@ -2,7 +2,7 @@
 
 namespace PleasantUI.ToolKit.Messages;
 
-public class ChangeColorMessage
+internal class ChangeColorMessage
 {
     public Color PreviousColor { get; }
     

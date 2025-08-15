@@ -5,7 +5,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
-using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using PleasantUI.Core.Extensions;

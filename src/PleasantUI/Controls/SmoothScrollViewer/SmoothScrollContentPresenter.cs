@@ -9,7 +9,6 @@ using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using PleasantUI.Core;
-using PleasantUI.Core.Internal;
 using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls;

@@ -7,7 +7,7 @@ using PleasantUI.ToolKit.Models;
 
 namespace PleasantUI.ToolKit.Services.Interfaces;
 
-public interface IThemeService
+internal interface IThemeService
 {
     public IEventAggregator EventAggregator { get; }
     

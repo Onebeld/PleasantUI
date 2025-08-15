@@ -1,5 +1,4 @@
-﻿using PleasantUI.Core.Internal;
-using PleasantUI.Core.Internal.Reactive;
+﻿using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Core.Localization;
 
