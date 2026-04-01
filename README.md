@@ -113,7 +113,12 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            desktop.MainWindow = new MainWindow();
+        {
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = new MainWindowViewModel(),
+            };
+        }
 
         base.OnFrameworkInitializationCompleted();
     }
@@ -136,12 +141,11 @@ public partial class MainWindow : PleasantWindow
 ```xml
 <PleasantWindow xmlns="https://github.com/avaloniaui"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                x:Class="YourApp.Views.MainWindow"
-                Title="My App"
-                Subtitle="Beta"
-                TitleBarType="ClassicExtended"
-                ExtendsContentIntoTitleBar="True"
-                Width="1200" Height="700">
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                x:Class="YourApplication.Views.MainWindow"
+                Title="Avalonia Application">
 </PleasantWindow>
 ```
 
