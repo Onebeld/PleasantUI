@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Title>PleasantUI</Title>
+        <PackageId>$(PleasantPackageIdPrefix)PleasantUI</PackageId>
     </PropertyGroup>
 
     <Import Project="..\..\build\Package.props" />

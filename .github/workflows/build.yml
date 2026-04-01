@@ -31,12 +31,14 @@ jobs:
             dotnet restore src/PleasantUI/PleasantUI.csproj
             dotnet restore src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj
             dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+            dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
 
       - name: Build
         run: |
           dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
 
       - name: Verify packages exist
         run: |
@@ -44,8 +46,7 @@ jobs:
           find src/ -name "*.nupkg" 2>/dev/null | sort
 
           FAILED=0
-          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons; do
-            # Search all possible output locations: bin/Release, bin/Release/net*, obj, etc.
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
             FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
             if [ -z "$FOUND" ]; then
               echo "ERROR: No .nupkg found anywhere under src/$project"
@@ -69,6 +70,7 @@ jobs:
             src/PleasantUI/bin/Release/*.nupkg
             src/PleasantUI.DataGrid/bin/Release/*.nupkg
             src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
+            src/PleasantUI.ToolKit/bin/Release/*.nupkg
           if-no-files-found: error
 
   publish:

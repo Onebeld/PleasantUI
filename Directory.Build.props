@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <PleasantPackageIdPrefix>pieckenst.Avalonia12.</PleasantPackageIdPrefix>
+    </PropertyGroup>
+</Project>
