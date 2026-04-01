@@ -46,11 +46,13 @@
                             Description="Click to expand"
                             Icon="{x:Static MaterialIcons.TuneVariant}"
                             Expands="True">
-            <StackPanel Spacing="8" Margin="4">
-                <TextBlock Text="Hidden content revealed on expand." />
-                <CheckBox Content="Enable feature A" />
-                <CheckBox Content="Enable feature B" IsChecked="True" />
-            </StackPanel>
+            <OptionsDisplayItem.Content>
+                <StackPanel Spacing="8" Margin="4">
+                    <TextBlock Text="Hidden content revealed on expand." />
+                    <CheckBox Content="Enable feature A" />
+                    <CheckBox Content="Enable feature B" IsChecked="True" />
+                </StackPanel>
+            </OptionsDisplayItem.Content>
         </OptionsDisplayItem>
     </StackPanel>
 </UserControl>

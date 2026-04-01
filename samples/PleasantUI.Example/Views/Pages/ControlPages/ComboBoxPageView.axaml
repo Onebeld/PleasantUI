@@ -19,16 +19,6 @@
         </ComboBox>
 
         <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="AutoCompleteBox" />
-        <AutoCompleteBox Watermark="Start typing..." HorizontalAlignment="Stretch">
-            <AutoCompleteBox.Items>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Apple</x:String>
-                    <x:String>Banana</x:String>
-                    <x:String>Cherry</x:String>
-                    <x:String>Date</x:String>
-                    <x:String>Elderberry</x:String>
-                </x:Array>
-            </AutoCompleteBox.Items>
-        </AutoCompleteBox>
+        <AutoCompleteBox x:Name="FruitAutoComplete" Watermark="Start typing..." HorizontalAlignment="Stretch" />
     </StackPanel>
 </UserControl>
