@@ -27,13 +27,13 @@
 - [x] 5 Section 5 — Gesture Events
   - [x] 5.1 Replace Gestures.ScrollGestureEvent with InputElement.ScrollGestureEvent in SmoothScrollContentPresenter constructor
 
-- [-] 6 Section 6 — Renamed & Removed Members
+- [x] 6 Section 6 — Renamed & Removed Members
   - [x] 6.1 Rename Watermark to PlaceholderText, PART_Watermark to PART_Placeholder, and PART_FloatingWatermark to PART_FloatingPlaceholder in all 8 affected XAML files
   - [x] 6.2 Rename UseFloatingWatermark to UseFloatingPlaceholder in TextBox.axaml and CalendarDatePicker.axaml
   - [x] 6.3 Update style selector from [UseFloatingWatermark=true]/PART_FloatingWatermark to [UseFloatingPlaceholder=true]/PART_FloatingPlaceholder in TextBox.axaml
   - [x] 6.4 Replace VisualRoot property access with TopLevel.GetTopLevel(this) in PleasantTitleBar.cs, ShadowBorder.cs, NavigationView.cs, and ModalWindowHost.cs
-  - [-] 6.5 Remove using Avalonia.Controls.Generators and replace all ItemContainerGenerator usages with Avalonia 12 VirtualizingPanel container APIs in VirtualizingWrapPanel.cs
-  - [-] 6.6 Replace this.GetVisualRoot() is ILayoutRoot with TopLevel.GetTopLevel(this) is not null in VirtualizingWrapPanel.ScrollIntoView
+  - [x] 6.5 Remove using Avalonia.Controls.Generators and replace all ItemContainerGenerator usages with Avalonia 12 VirtualizingPanel container APIs in VirtualizingWrapPanel.cs
+  - [x] 6.6 Replace this.GetVisualRoot() is ILayoutRoot with TopLevel.GetTopLevel(this) is not null in VirtualizingWrapPanel.ScrollIntoView
 
 - [ ] 7 Section 7 — Android App Initialization
   - [ ] 7.1 Change MainActivity to extend AvaloniaMainActivity (non-generic), remove CustomizeAppBuilder override, and add AndroidApp : AvaloniaAndroidApplication<App> class in MainActivity.cs

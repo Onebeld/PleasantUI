@@ -1,5 +1,4 @@
 ﻿using Avalonia.Media;
-using Avalonia.Utilities;
 
 namespace PleasantUI.Core.Extensions.Media;
 
@@ -24,7 +23,7 @@ public static class ColorExtensions
         HslColor hslColor = color.ToHsl();
 
         double lightness = hslColor.L < Epsilon ? percent : hslColor.L + hslColor.L * percent;
-        MathUtilities.Clamp(lightness, 0.6, 0.7);
+        lightness = Math.Clamp(lightness, 0.6, 0.7);
 
         return HslColor.ToRgb(hslColor.H, hslColor.S, lightness, hslColor.A);
     }

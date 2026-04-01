@@ -411,8 +411,8 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
 
         if (useLayoutRounding)
         {
-            sizeForChild = LayoutHelper.RoundLayoutSizeUp(sizeForChild, scale, scale);
-            availableSize = LayoutHelper.RoundLayoutSizeUp(availableSize, scale, scale);
+            sizeForChild = LayoutHelper.RoundLayoutSizeUp(sizeForChild, scale);
+            availableSize = LayoutHelper.RoundLayoutSizeUp(availableSize, scale);
         }
 
         switch (horizontalContentAlignment)

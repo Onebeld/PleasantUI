@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Utilities;
 using Avalonia.VisualTree;
 using PleasantUI.Controls.Utils;
 
@@ -684,7 +683,12 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private Control CreateElementInternal(IReadOnlyList<object?> items, int index)
     {
-        Control container = GetOrCreateElement(items, index);
+        var generator = ItemContainerGenerator!;
+        object? item = items[index];
+        Control container = generator.CreateContainer(item, index, null);
+        generator.PrepareItemContainer(container, item, index);
+        AddInternalChild(container);
+        generator.ItemContainerPrepared(container, item, index);
         return container;
     }
 
@@ -704,7 +708,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         }
         else
         {
-            RecycleElement(element, index);
+            ItemContainerGenerator!.ClearItemContainer(element);
             element.IsVisible = false;
         }
     }
@@ -717,14 +721,14 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         }
         else
         {
-            RecycleElementOnItemRemoved(element);
-            element.IsVisible = false;
+            ItemContainerGenerator!.ClearItemContainer(element);
+            RemoveInternalChild(element);
         }
     }
 
     private void UpdateElementIndexCore(Control element, int oldIndex, int newIndex)
     {
-        UpdateElementIndex(element, oldIndex, newIndex);
+        ItemContainerGenerator!.ItemContainerIndexChanged(element, oldIndex, newIndex);
     }
 
     private void OnEffectiveViewportChanged(object? sender, EffectiveViewportChangedEventArgs e)
@@ -743,12 +747,14 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         double newViewportStartV = horizontal ? _viewport.Top : _viewport.Left;
         double newViewportEndV = horizontal ? _viewport.Bottom : _viewport.Right;
 
-        if (!MathUtilities.AreClose(oldViewportStartU, newViewportStartU) ||
-            !MathUtilities.AreClose(oldViewportEndU, newViewportEndU) ||
-            !MathUtilities.AreClose(oldViewportStartV, newViewportStartV) ||
-            !MathUtilities.AreClose(oldViewportEndV, newViewportEndV))
+        if (!AreClose(oldViewportStartU, newViewportStartU) ||
+            !AreClose(oldViewportEndU, newViewportEndU) ||
+            !AreClose(oldViewportStartV, newViewportStartV) ||
+            !AreClose(oldViewportEndV, newViewportEndV))
             InvalidateMeasure();
     }
+
+    private static bool AreClose(double a, double b) => Math.Abs(a - b) < 1e-10;
 
     private void OnUnrealizedFocusedElementLostFocus(object? sender, RoutedEventArgs e)
     {
@@ -756,7 +762,8 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             return;
 
         _unrealizedFocusedElement.LostFocus -= OnUnrealizedFocusedElementLostFocus;
-        RecycleElement(_unrealizedFocusedElement, _unrealizedFocusedIndex);
+        ItemContainerGenerator!.ClearItemContainer(_unrealizedFocusedElement);
+        _unrealizedFocusedElement.IsVisible = false;
         _unrealizedFocusedElement = null;
         _unrealizedFocusedIndex = -1;
     }

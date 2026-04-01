@@ -8,7 +8,6 @@
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
-        <Setter Property="ExtendClientAreaChromeHints" Value="SystemChrome" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="Padding" Value="0 32 0 0" />
         <Setter Property="FontSize" Value="14" />
@@ -22,7 +21,7 @@
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
-                        <VisualLayerManager.ChromeOverlayLayer>
+                        <WindowDrawnDecorations>
                             <Panel Height="32" VerticalAlignment="Top">
                                 <Panel Name="PART_DragWindow" Background="Transparent" />
 
@@ -67,7 +66,7 @@
                                     </Button>
                                 </StackPanel>
                             </Panel>
-                        </VisualLayerManager.ChromeOverlayLayer>
+                        </WindowDrawnDecorations>
 
                         <Panel>
                             <ContentPresenter x:Name="PART_ContentWindow"
