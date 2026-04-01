@@ -32,8 +32,12 @@ public sealed partial class MessageBox : ContentDialog
     {
         MessageBox messageBox = new();
 
-        string? titleValue = Localizer.Instance[title];
-        string? textValue = Localizer.Instance[text];
+        string? titleValue = Localizer.Instance.TryGetString(title, out string resolvedTitle)
+            ? resolvedTitle
+            : title;
+        string? textValue = Localizer.Instance.TryGetString(text, out string resolvedText)
+            ? resolvedText
+            : text;
 
         messageBox.Title.Text = titleValue;
         messageBox.Text.Text = textValue;
