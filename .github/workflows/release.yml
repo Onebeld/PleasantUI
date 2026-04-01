@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    paths:
+      - 'build/Package.props'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=$(grep -oP '(?<=<PackageVersion>)[^<]+' build/Package.props)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if tag exists
+        id: tag_check
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup .NET
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore & Build
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          dotnet restore src/PleasantUI/PleasantUI.csproj src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: |
+            src/PleasantUI/bin/Release/*.nupkg
+            src/PleasantUI.DataGrid/bin/Release/*.nupkg
+            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg

@@ -1,0 +1,69 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  release:
+    types: [ published ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore src/PleasantUI/PleasantUI.csproj src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: |
+            src/PleasantUI/bin/Release/*.nupkg
+            src/PleasantUI.DataGrid/bin/Release/*.nupkg
+            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'release'
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore src/PleasantUI/PleasantUI.csproj src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
+
+      - name: Publish to NuGet (Trusted Publishing)
+        run: |
+          dotnet nuget push src/PleasantUI/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json
+          dotnet nuget push src/PleasantUI.DataGrid/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json
+          dotnet nuget push src/PleasantUI.MaterialIcons/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json
