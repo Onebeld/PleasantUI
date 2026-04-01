@@ -15,7 +15,7 @@
         <value>Настройки</value>
     </data>
     <data name="WelcomeToPleasantUI" xml:space="preserve">
-        <value>Добро пожаловать</value>
+        <value>Добро пожаловать в</value>
     </data>
     <data name="Theme" xml:space="preserve">
         <value>Тема</value>
