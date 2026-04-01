@@ -1,4 +1,6 @@
-﻿namespace PleasantUI.Example.Android;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+
+namespace PleasantUI.Example.Android;
 
 public partial class App : PleasantUIExampleApp
 {
@@ -9,13 +11,10 @@ public partial class App : PleasantUIExampleApp
     {
         PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
         
-        if (ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
-        {
-            lifetime.MainView = new PleasantMainView
-            {
-                DataContext = ViewModel
-            };
-        }
+        if (ApplicationLifetime is IActivityApplicationLifetime activityLifetime)
+            activityLifetime.MainViewFactory = () => new PleasantMainView { DataContext = ViewModel };
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime lifetime)
+            lifetime.MainView = new PleasantMainView { DataContext = ViewModel };
         
         base.OnFrameworkInitializationCompleted();
     }

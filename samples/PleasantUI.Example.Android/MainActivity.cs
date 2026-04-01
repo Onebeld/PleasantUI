@@ -1,4 +1,6 @@
-﻿using PleasantUI.Core;
+﻿using Android.Runtime;
+using Avalonia.Android;
+using PleasantUI.Core;
 
 namespace PleasantUI.Example.Android;
 
@@ -8,17 +10,19 @@ namespace PleasantUI.Example.Android;
     Icon = "@drawable/icon",
     MainLauncher = true, 
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
-public class MainActivity : AvaloniaMainActivity<App>
+public class MainActivity : AvaloniaMainActivity
 {
-    protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
-    {
-        return base.CustomizeAppBuilder(builder);
-    }
-
     protected override void OnStop()
     {
         PleasantSettings.Save();
         
         base.OnStop();
     }
+}
+
+[Application]
+public class AndroidApp : AvaloniaAndroidApplication<App>
+{
+    protected AndroidApp(IntPtr javaReference, JniHandleOwnership transfer)
+        : base(javaReference, transfer) { }
 }

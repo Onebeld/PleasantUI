@@ -35,9 +35,9 @@
   - [x] 6.5 Remove using Avalonia.Controls.Generators and replace all ItemContainerGenerator usages with Avalonia 12 VirtualizingPanel container APIs in VirtualizingWrapPanel.cs
   - [x] 6.6 Replace this.GetVisualRoot() is ILayoutRoot with TopLevel.GetTopLevel(this) is not null in VirtualizingWrapPanel.ScrollIntoView
 
-- [ ] 7 Section 7 — Android App Initialization
-  - [ ] 7.1 Change MainActivity to extend AvaloniaMainActivity (non-generic), remove CustomizeAppBuilder override, and add AndroidApp : AvaloniaAndroidApplication<App> class in MainActivity.cs
-  - [ ] 7.2 Add IActivityApplicationLifetime check before ISingleViewApplicationLifetime in App.axaml.cs
+- [x] 7 Section 7 — Android App Initialization
+  - [x] 7.1 Change MainActivity to extend AvaloniaMainActivity (non-generic), remove CustomizeAppBuilder override, and add AndroidApp : AvaloniaAndroidApplication<App> class in MainActivity.cs
+  - [x] 7.2 Add IActivityApplicationLifetime check before ISingleViewApplicationLifetime in App.axaml.cs
 
 - [ ] 8 Verify build
   - [ ] 8.1 Confirm the solution builds with zero compile errors against Avalonia 12 packages
