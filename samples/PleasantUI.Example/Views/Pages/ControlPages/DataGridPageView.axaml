@@ -15,49 +15,51 @@
 
         <!-- Toolbar -->
         <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 12">
-            <CheckBox Content="Grid lines"
+            <CheckBox Content="{Localize GridLines, Context=DataGrid}"
                       IsChecked="{CompiledBinding ShowGridLines}"
                       Margin="0 0 16 4" />
-            <CheckBox Content="Reorder columns"
+            <CheckBox Content="{Localize ReorderColumns, Context=DataGrid}"
                       IsChecked="{CompiledBinding CanUserReorderColumns}"
                       Margin="0 0 16 4" />
-            <CheckBox Content="Resize columns"
+            <CheckBox Content="{Localize ResizeColumns, Context=DataGrid}"
                       IsChecked="{CompiledBinding CanUserResizeColumns}"
                       Margin="0 0 16 4" />
-            <CheckBox Content="Sort columns"
+            <CheckBox Content="{Localize SortColumns, Context=DataGrid}"
                       IsChecked="{CompiledBinding CanUserSortColumns}"
                       Margin="0 0 16 4" />
-            <CheckBox Content="Row details"
+            <CheckBox Content="{Localize RowDetails, Context=DataGrid}"
                       IsChecked="{CompiledBinding ShowRowDetails}"
                       Margin="0 0 0 4" />
         </WrapPanel>
 
         <!-- DataGrid -->
         <DataGrid Grid.Row="1"
+                  x:Name="MainDataGrid"
                   ItemsSource="{CompiledBinding DataModels}"
                   AutoGenerateColumns="False"
                   CanUserReorderColumns="{CompiledBinding CanUserReorderColumns}"
                   CanUserResizeColumns="{CompiledBinding CanUserResizeColumns}"
                   CanUserSortColumns="{CompiledBinding CanUserSortColumns}"
-                  GridLinesVisibility="None"
                   SelectionMode="Extended"
-                  IsReadOnly="False"
-                  x:Name="MainDataGrid">
+                  IsReadOnly="False">
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate x:DataType="models:DataModel">
                     <Border Padding="16 8" Background="{DynamicResource ControlFillColor1}">
                         <StackPanel Orientation="Horizontal" Spacing="24">
                             <StackPanel>
-                                <TextBlock Text="Department" FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
+                                <TextBlock Text="{Localize DetailDepartment, Context=DataGrid}"
+                                           FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
                                 <TextBlock Text="{CompiledBinding Department}" FontSize="14" />
                             </StackPanel>
                             <StackPanel>
-                                <TextBlock Text="Salary" FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
+                                <TextBlock Text="{Localize DetailSalary, Context=DataGrid}"
+                                           FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
                                 <TextBlock Text="{CompiledBinding Salary, StringFormat=\{0:C0\}}" FontSize="14" />
                             </StackPanel>
                             <StackPanel>
-                                <TextBlock Text="Status" FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
+                                <TextBlock Text="{Localize DetailStatus, Context=DataGrid}"
+                                           FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
                                 <TextBlock Text="{CompiledBinding Status}" FontSize="14" />
                             </StackPanel>
                         </StackPanel>
@@ -66,23 +68,23 @@
             </DataGrid.RowDetailsTemplate>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name"
+                <DataGridTextColumn Header="{Localize ColName, Context=DataGrid}"
                                     Binding="{CompiledBinding Name}"
                                     Width="*"
                                     IsReadOnly="False" />
-                <DataGridTextColumn Header="Department"
+                <DataGridTextColumn Header="{Localize ColDepartment, Context=DataGrid}"
                                     Binding="{CompiledBinding Department}"
                                     Width="*" />
-                <DataGridTextColumn Header="Age"
+                <DataGridTextColumn Header="{Localize ColAge, Context=DataGrid}"
                                     Binding="{CompiledBinding Age}"
                                     Width="80" />
-                <DataGridTextColumn Header="Salary"
+                <DataGridTextColumn Header="{Localize ColSalary, Context=DataGrid}"
                                     Binding="{CompiledBinding Salary, StringFormat=\{0:C0\}}"
                                     Width="110" />
-                <DataGridCheckBoxColumn Header="New"
+                <DataGridCheckBoxColumn Header="{Localize ColNew, Context=DataGrid}"
                                         Binding="{CompiledBinding IsNew}"
                                         Width="60" />
-                <DataGridTextColumn Header="Status"
+                <DataGridTextColumn Header="{Localize ColStatus, Context=DataGrid}"
                                     Binding="{CompiledBinding Status}"
                                     Width="100" />
             </DataGrid.Columns>

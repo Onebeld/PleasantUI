@@ -158,6 +158,21 @@
     <data name="Card/ComboBox" xml:space="preserve"><value>Выпадающий список для выбора одного варианта из предопределённого набора.</value></data>
     <data name="Card/TextBox" xml:space="preserve"><value>Прямоугольная область для ввода и редактирования текста.</value></data>
     <data name="Card/DataGrid" xml:space="preserve"><value>Сетка для отображения данных в табличном формате.</value></data>
+    <!-- DataGrid page -->
+    <data name="DataGrid/GridLines" xml:space="preserve"><value>Линии сетки</value></data>
+    <data name="DataGrid/ReorderColumns" xml:space="preserve"><value>Перестановка столбцов</value></data>
+    <data name="DataGrid/ResizeColumns" xml:space="preserve"><value>Изменение ширины</value></data>
+    <data name="DataGrid/SortColumns" xml:space="preserve"><value>Сортировка</value></data>
+    <data name="DataGrid/RowDetails" xml:space="preserve"><value>Детали строки</value></data>
+    <data name="DataGrid/ColName" xml:space="preserve"><value>Имя</value></data>
+    <data name="DataGrid/ColDepartment" xml:space="preserve"><value>Отдел</value></data>
+    <data name="DataGrid/ColAge" xml:space="preserve"><value>Возраст</value></data>
+    <data name="DataGrid/ColSalary" xml:space="preserve"><value>Зарплата</value></data>
+    <data name="DataGrid/ColNew" xml:space="preserve"><value>Новый</value></data>
+    <data name="DataGrid/ColStatus" xml:space="preserve"><value>Статус</value></data>
+    <data name="DataGrid/DetailDepartment" xml:space="preserve"><value>Отдел</value></data>
+    <data name="DataGrid/DetailSalary" xml:space="preserve"><value>Зарплата</value></data>
+    <data name="DataGrid/DetailStatus" xml:space="preserve"><value>Статус</value></data>
     <data name="Card/PleasantSnackbar" xml:space="preserve"><value>Пользовательский элемент для отображения временных ненавязчивых сообщений.</value></data>
     <data name="Card/InformationBlock" xml:space="preserve"><value>Пользовательский элемент для отображения структурированного блока информации с заголовком, иконкой и текстом.</value></data>
     <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Пользовательский элемент, представляющий один пункт в списке параметров.</value></data>

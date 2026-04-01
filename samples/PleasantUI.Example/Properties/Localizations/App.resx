@@ -165,6 +165,21 @@
     <data name="Card/ComboBox" xml:space="preserve"><value>A dropdown list that allows users to select a single option from a predefined list.</value></data>
     <data name="Card/TextBox" xml:space="preserve"><value>A rectangular area where users can enter and edit text.</value></data>
     <data name="Card/DataGrid" xml:space="preserve"><value>A grid that displays data in a tabular format.</value></data>
+    <!-- DataGrid page -->
+    <data name="DataGrid/GridLines" xml:space="preserve"><value>Grid lines</value></data>
+    <data name="DataGrid/ReorderColumns" xml:space="preserve"><value>Reorder columns</value></data>
+    <data name="DataGrid/ResizeColumns" xml:space="preserve"><value>Resize columns</value></data>
+    <data name="DataGrid/SortColumns" xml:space="preserve"><value>Sort columns</value></data>
+    <data name="DataGrid/RowDetails" xml:space="preserve"><value>Row details</value></data>
+    <data name="DataGrid/ColName" xml:space="preserve"><value>Name</value></data>
+    <data name="DataGrid/ColDepartment" xml:space="preserve"><value>Department</value></data>
+    <data name="DataGrid/ColAge" xml:space="preserve"><value>Age</value></data>
+    <data name="DataGrid/ColSalary" xml:space="preserve"><value>Salary</value></data>
+    <data name="DataGrid/ColNew" xml:space="preserve"><value>New</value></data>
+    <data name="DataGrid/ColStatus" xml:space="preserve"><value>Status</value></data>
+    <data name="DataGrid/DetailDepartment" xml:space="preserve"><value>Department</value></data>
+    <data name="DataGrid/DetailSalary" xml:space="preserve"><value>Salary</value></data>
+    <data name="DataGrid/DetailStatus" xml:space="preserve"><value>Status</value></data>
     <data name="Card/PleasantSnackbar" xml:space="preserve"><value>Custom control for displaying temporary, non-intrusive messages to the user.</value></data>
     <data name="Card/InformationBlock" xml:space="preserve"><value>Custom control for displaying a structured block of information, including a title, icon, and descriptive text.</value></data>
     <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Custom control representing a single item in a list of options.</value></data>
