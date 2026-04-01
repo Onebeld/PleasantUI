@@ -39,10 +39,10 @@
                   CanUserReorderColumns="{CompiledBinding CanUserReorderColumns}"
                   CanUserResizeColumns="{CompiledBinding CanUserResizeColumns}"
                   CanUserSortColumns="{CompiledBinding CanUserSortColumns}"
-                  GridLinesVisibility="{CompiledBinding ShowGridLines, Converter={x:Static BoolConverters.ToObject}, ConverterParameter=All|None}"
+                  GridLinesVisibility="None"
                   SelectionMode="Extended"
                   IsReadOnly="False"
-                  RowDetailsVisibilityMode="{CompiledBinding ShowRowDetails, Converter={x:Static BoolConverters.ToObject}, ConverterParameter=VisibleWhenSelected|Collapsed}">
+                  x:Name="MainDataGrid">
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate x:DataType="models:DataModel">
