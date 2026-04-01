@@ -112,5 +112,9 @@ jobs:
           command: |
             for pkg in $(find nupkgs -name "*.nupkg"); do
               echo "Pushing $pkg"
-              dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+              if [ -n "${{ secrets.NUGET_KEY }}" ]; then
+                dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key "${{ secrets.NUGET_KEY }}" --skip-duplicate
+              else
+                dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+              fi
             done
