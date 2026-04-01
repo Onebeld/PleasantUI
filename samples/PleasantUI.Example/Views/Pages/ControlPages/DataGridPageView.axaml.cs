@@ -15,24 +15,24 @@ public partial class DataGridPageView : UserControl
     {
         base.OnLoaded(e);
 
-        if (DataContext is DataGridViewModel vm)
+        var grid = this.FindControl<DataGrid>("MainDataGrid");
+        if (grid is null || DataContext is not DataGridViewModel vm) return;
+
+        vm.PropertyChanged += (_, args) =>
         {
-            vm.PropertyChanged += (_, args) =>
+            switch (args.PropertyName)
             {
-                switch (args.PropertyName)
-                {
-                    case nameof(DataGridViewModel.ShowGridLines):
-                        MainDataGrid.GridLinesVisibility = vm.ShowGridLines
-                            ? DataGridGridLinesVisibility.All
-                            : DataGridGridLinesVisibility.None;
-                        break;
-                    case nameof(DataGridViewModel.ShowRowDetails):
-                        MainDataGrid.RowDetailsVisibilityMode = vm.ShowRowDetails
-                            ? DataGridRowDetailsVisibilityMode.VisibleWhenSelected
-                            : DataGridRowDetailsVisibilityMode.Collapsed;
-                        break;
-                }
-            };
-        }
+                case nameof(DataGridViewModel.ShowGridLines):
+                    grid.GridLinesVisibility = vm.ShowGridLines
+                        ? DataGridGridLinesVisibility.All
+                        : DataGridGridLinesVisibility.None;
+                    break;
+                case nameof(DataGridViewModel.ShowRowDetails):
+                    grid.RowDetailsVisibilityMode = vm.ShowRowDetails
+                        ? DataGridRowDetailsVisibilityMode.VisibleWhenSelected
+                        : DataGridRowDetailsVisibilityMode.Collapsed;
+                    break;
+            }
+        };
     }
 }
