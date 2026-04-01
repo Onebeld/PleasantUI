@@ -7,6 +7,10 @@
     <Import Project="..\..\build\Package.props" />
 
     <ItemGroup>
+        <AvaloniaResource Include="**\*.axaml" Exclude="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
     </ItemGroup>
 
