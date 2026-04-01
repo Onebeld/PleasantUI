@@ -6,15 +6,23 @@ using PleasantUI.ToolKit;
 
 namespace PleasantUI.Example.ViewModels.Pages;
 
-public partial class SettingsViewModel
+public partial class SettingsViewModel : ViewModelBase
 {
+    public SettingsViewModel()
+    {
+        // Re-raise SelectedLanguage when language changes so the ComboBox stays in sync
+        Localizer.Instance.LocalizationChanged += _ => RaisePropertyChanged(nameof(SelectedLanguage));
+    }
+
     public Language SelectedLanguage
     {
-        get => PleasantUiExampleApp.Languages.First(language => language.Key == PleasantUiExampleApp.LanguageKey);
+        get => PleasantUiExampleApp.Languages.FirstOrDefault(l => l.Key == PleasantUiExampleApp.LanguageKey);
         set
         {
+            if (value.Key == PleasantUiExampleApp.LanguageKey) return;
             PleasantUiExampleApp.LanguageKey = value.Key;
             Localizer.ChangeLang(value.Key);
+            RaisePropertyChanged();
         }
     }
 

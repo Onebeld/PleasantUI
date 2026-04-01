@@ -154,7 +154,14 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <inheritdoc />
     public void AddResourceManager(ResourceManager resourceManager)
     {
-        ResourceManagers?.Add(resourceManager);
+        if (ResourceManagers == null) return;
+
+        // Deduplicate by base name to prevent accumulation on hot reload / multiple calls
+        bool alreadyAdded = ResourceManagers.Any(r =>
+            string.Equals(r.BaseName, resourceManager.BaseName, StringComparison.Ordinal));
+
+        if (!alreadyAdded)
+            ResourceManagers.Add(resourceManager);
     }
 
     /// <inheritdoc />
@@ -163,8 +170,11 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         if (string.IsNullOrEmpty(language))
             language = DefaultLanguage;
 
-        CultureInfo.CurrentUICulture = new CultureInfo(language);
-        Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
+        CultureInfo culture = new(language);
+        CultureInfo.CurrentUICulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        Thread.CurrentThread.CurrentUICulture = culture;
+
         LoadLanguage();
 
         LocalizationChanged?.Invoke(language);

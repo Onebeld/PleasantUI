@@ -5,6 +5,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ToolkitPages.MessageBoxPageView">
     <StackPanel Spacing="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
-        <Button x:Name="DefaultMBButton" Content="Show MessageBox" />
+        <Button x:Name="DefaultMBButton" Content="{Localize ShowMessageBox}" />
     </StackPanel>
 </UserControl>

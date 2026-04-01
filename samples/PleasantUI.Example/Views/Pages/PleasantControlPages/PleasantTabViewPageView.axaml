@@ -5,31 +5,28 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantTabViewPageView">
     <StackPanel Spacing="16" Margin="0 8">
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="PleasantTabView" />
-
         <PleasantTabView Height="260">
-            <PleasantTabItem Header="Overview">
+            <PleasantTabItem Header="{Localize Overview}">
                 <StackPanel Spacing="8" Margin="12">
-                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Overview Tab" />
-                    <TextBlock TextWrapping="Wrap"
-                               Text="This is the overview tab. PleasantTabView supports adding and closing tabs, and scrolling the tab strip when there are many tabs." />
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="{Localize OverviewTabTitle}" />
+                    <TextBlock TextWrapping="Wrap" Text="{Localize OverviewTabDescription}" />
                 </StackPanel>
             </PleasantTabItem>
-            <PleasantTabItem Header="Details">
+            <PleasantTabItem Header="{Localize Details}">
                 <StackPanel Spacing="8" Margin="12">
-                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Details Tab" />
-                    <TextBlock Text="Some detailed content lives here." />
-                    <Button Content="Do something" />
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="{Localize DetailsTabTitle}" />
+                    <TextBlock Text="{Localize DetailsTabContent}" />
+                    <Button Content="{Localize DoSomething}" />
                 </StackPanel>
             </PleasantTabItem>
-            <PleasantTabItem Header="Settings">
+            <PleasantTabItem Header="{Localize Settings}">
                 <StackPanel Spacing="8" Margin="12">
-                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Settings Tab" />
-                    <ToggleSwitch Content="Enable notifications" />
-                    <ToggleSwitch Content="Dark mode" />
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="{Localize SettingsTab}" />
+                    <ToggleSwitch Content="{Localize EnableNotifications}" />
+                    <ToggleSwitch Content="{Localize DarkMode}" />
                 </StackPanel>
             </PleasantTabItem>
-            <PleasantTabItem Header="Disabled" IsEnabled="False" />
+            <PleasantTabItem Header="{Localize TabDisabled}" IsEnabled="False" />
         </PleasantTabView>
     </StackPanel>
 </UserControl>

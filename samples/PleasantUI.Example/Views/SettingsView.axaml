@@ -62,7 +62,7 @@
                     <StackPanel Spacing="5">
                         <Panel>
                             <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
-                                       Text="Custom themes"
+                                       Text="{Localize CustomThemes}"
                                        VerticalAlignment="Center" />
                             
                             <Button HorizontalAlignment="Right"

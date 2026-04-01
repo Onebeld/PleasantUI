@@ -8,7 +8,7 @@
     <Panel>
         <NavigationView>
                 <NavigationViewItem x:Name="HomeView"
-                                    Header="Home"
+                                    Header="{Localize Home}"
                                     Icon="{x:Static MaterialIcons.HomeOutline}">
                     <NavigationViewItem.Content>
                     <views:HomeView/>
@@ -17,7 +17,7 @@
                 </NavigationViewItem>
         
                 <NavigationViewItem x:Name="AboutView"
-                                    Header="About"
+                                    Header="{Localize About}"
                                     Icon="{x:Static MaterialIcons.InformationOutline}"
                                     DockPanel.Dock="Bottom">
                     <NavigationViewItem.Content>
@@ -26,7 +26,7 @@
                 </NavigationViewItem>
         
                 <NavigationViewItem x:Name="SettingsView"
-                                    Header="Settings"
+                                    Header="{Localize Settings}"
                                     DockPanel.Dock="Bottom"
                                     Icon="{x:Static MaterialIcons.CogOutline}"
                                     Margin="0 0 0 5">

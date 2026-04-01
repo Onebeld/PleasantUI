@@ -66,4 +66,94 @@
     <data name="Language" xml:space="preserve">
         <value>Language</value>
     </data>
+    <!-- Navigation -->
+    <data name="Home" xml:space="preserve"><value>Home</value></data>
+    <data name="About" xml:space="preserve"><value>About</value></data>
+    <!-- Home page sections -->
+    <data name="BasicControls" xml:space="preserve"><value>Basic controls</value></data>
+    <data name="PleasantControls" xml:space="preserve"><value>Pleasant controls</value></data>
+    <data name="ToolKit" xml:space="preserve"><value>ToolKit</value></data>
+    <!-- About page -->
+    <data name="AboutTitle" xml:space="preserve"><value>About</value></data>
+    <data name="Links" xml:space="preserve"><value>Links</value></data>
+    <data name="Description" xml:space="preserve"><value>Description</value></data>
+    <data name="LibraryDescription" xml:space="preserve"><value>Graphical user interface library for Avalonia with its own controls</value></data>
+    <!-- Settings page -->
+    <data name="CustomThemes" xml:space="preserve"><value>Custom themes</value></data>
+    <!-- Calendar page -->
+    <data name="InlineCalendar" xml:space="preserve"><value>Inline Calendar</value></data>
+    <data name="DatePicker" xml:space="preserve"><value>Date Picker</value></data>
+    <data name="PickADate" xml:space="preserve"><value>Pick a date...</value></data>
+    <!-- Carousel page -->
+    <data name="Carousel" xml:space="preserve"><value>Carousel</value></data>
+    <data name="Previous" xml:space="preserve"><value>← Previous</value></data>
+    <data name="Next" xml:space="preserve"><value>Next →</value></data>
+    <!-- ComboBox page -->
+    <data name="ComboBox" xml:space="preserve"><value>ComboBox</value></data>
+    <data name="SelectAnOption" xml:space="preserve"><value>Select an option...</value></data>
+    <data name="DisabledComboBox" xml:space="preserve"><value>Disabled ComboBox</value></data>
+    <data name="AutoCompleteBox" xml:space="preserve"><value>AutoCompleteBox</value></data>
+    <data name="StartTyping" xml:space="preserve"><value>Start typing...</value></data>
+    <!-- Slider page -->
+    <data name="HorizontalSlider" xml:space="preserve"><value>Horizontal Slider</value></data>
+    <data name="WithTickMarks" xml:space="preserve"><value>With Tick Marks</value></data>
+    <data name="Disabled" xml:space="preserve"><value>Disabled</value></data>
+    <data name="VerticalSlider" xml:space="preserve"><value>Vertical Slider</value></data>
+    <!-- TextBox page -->
+    <data name="TextBox" xml:space="preserve"><value>TextBox</value></data>
+    <data name="EnterText" xml:space="preserve"><value>Enter text...</value></data>
+    <data name="Password" xml:space="preserve"><value>Password</value></data>
+    <data name="EnterPassword" xml:space="preserve"><value>Enter password...</value></data>
+    <data name="Multiline" xml:space="preserve"><value>Multiline</value></data>
+    <data name="EnterMultipleLines" xml:space="preserve"><value>Enter multiple lines...</value></data>
+    <data name="ReadOnly" xml:space="preserve"><value>Read-only</value></data>
+    <data name="ReadOnlyText" xml:space="preserve"><value>This is read-only text</value></data>
+    <data name="DisabledInput" xml:space="preserve"><value>Disabled input</value></data>
+    <data name="NumericUpDown" xml:space="preserve"><value>NumericUpDown</value></data>
+    <!-- Progress page -->
+    <data name="LiveDemo" xml:space="preserve"><value>Live demo</value></data>
+    <data name="Start" xml:space="preserve"><value>Start</value></data>
+    <data name="Reset" xml:space="preserve"><value>Reset</value></data>
+    <data name="Running" xml:space="preserve"><value>Running…</value></data>
+    <data name="Done" xml:space="preserve"><value>Done</value></data>
+    <data name="Indeterminate" xml:space="preserve"><value>Indeterminate</value></data>
+    <data name="IndeterminateDescription" xml:space="preserve"><value>Used when duration is unknown — both bar and ring variants.</value></data>
+    <data name="DeterminateStates" xml:space="preserve"><value>Determinate states</value></data>
+    <data name="ProgressRingSizes" xml:space="preserve"><value>ProgressRing sizes</value></data>
+    <!-- OptionsDisplayItem page -->
+    <data name="Basic" xml:space="preserve"><value>Basic</value></data>
+    <data name="SimpleItem" xml:space="preserve"><value>Simple item</value></data>
+    <data name="NoIconNoAction" xml:space="preserve"><value>No icon, no action</value></data>
+    <data name="WithIcon" xml:space="preserve"><value>With icon</value></data>
+    <data name="ShowsIconOnLeft" xml:space="preserve"><value>Shows an icon on the left</value></data>
+    <data name="Navigates" xml:space="preserve"><value>Navigates</value></data>
+    <data name="TapToNavigate" xml:space="preserve"><value>Tap to navigate somewhere</value></data>
+    <data name="WithActionControls" xml:space="preserve"><value>With action controls</value></data>
+    <data name="ToggleSetting" xml:space="preserve"><value>Toggle setting</value></data>
+    <data name="EnableOrDisableFeature" xml:space="preserve"><value>Enable or disable a feature</value></data>
+    <data name="ChooseTheme" xml:space="preserve"><value>Choose theme</value></data>
+    <data name="Expandable" xml:space="preserve"><value>Expandable</value></data>
+    <data name="AdvancedOptions" xml:space="preserve"><value>Advanced options</value></data>
+    <data name="ClickToExpand" xml:space="preserve"><value>Click to expand</value></data>
+    <data name="HiddenContentOnExpand" xml:space="preserve"><value>Hidden content revealed on expand.</value></data>
+    <data name="EnableFeatureA" xml:space="preserve"><value>Enable feature A</value></data>
+    <data name="EnableFeatureB" xml:space="preserve"><value>Enable feature B</value></data>
+    <!-- PleasantTabView page -->
+    <data name="Overview" xml:space="preserve"><value>Overview</value></data>
+    <data name="OverviewTabTitle" xml:space="preserve"><value>Overview Tab</value></data>
+    <data name="OverviewTabDescription" xml:space="preserve"><value>PleasantTabView supports adding and closing tabs, and scrolling the tab strip when there are many tabs.</value></data>
+    <data name="Details" xml:space="preserve"><value>Details</value></data>
+    <data name="DetailsTabTitle" xml:space="preserve"><value>Details Tab</value></data>
+    <data name="DetailsTabContent" xml:space="preserve"><value>Some detailed content lives here.</value></data>
+    <data name="DoSomething" xml:space="preserve"><value>Do something</value></data>
+    <data name="SettingsTab" xml:space="preserve"><value>Settings Tab</value></data>
+    <data name="EnableNotifications" xml:space="preserve"><value>Enable notifications</value></data>
+    <data name="DarkMode" xml:space="preserve"><value>Dark mode</value></data>
+    <data name="TabDisabled" xml:space="preserve"><value>Disabled</value></data>
+    <!-- Snackbar page -->
+    <data name="ShowSnackbar" xml:space="preserve"><value>Show Snackbar</value></data>
+    <!-- MessageBox page -->
+    <data name="ShowMessageBox" xml:space="preserve"><value>Show MessageBox</value></data>
+    <data name="MessageBoxTitle" xml:space="preserve"><value>MessageBox</value></data>
+    <data name="MessageBoxText" xml:space="preserve"><value>This is a sample message box dialog.</value></data>
 </root>

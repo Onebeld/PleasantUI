@@ -59,4 +59,94 @@
     <data name="Language" xml:space="preserve">
         <value>Язык</value>
     </data>
+    <!-- Navigation -->
+    <data name="Home" xml:space="preserve"><value>Главная</value></data>
+    <data name="About" xml:space="preserve"><value>О программе</value></data>
+    <!-- Home page sections -->
+    <data name="BasicControls" xml:space="preserve"><value>Базовые элементы</value></data>
+    <data name="PleasantControls" xml:space="preserve"><value>Pleasant элементы</value></data>
+    <data name="ToolKit" xml:space="preserve"><value>Инструменты</value></data>
+    <!-- About page -->
+    <data name="AboutTitle" xml:space="preserve"><value>О программе</value></data>
+    <data name="Links" xml:space="preserve"><value>Ссылки</value></data>
+    <data name="Description" xml:space="preserve"><value>Описание</value></data>
+    <data name="LibraryDescription" xml:space="preserve"><value>Библиотека графического интерфейса для Avalonia с собственными элементами управления</value></data>
+    <!-- Settings page -->
+    <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
+    <!-- Calendar page -->
+    <data name="InlineCalendar" xml:space="preserve"><value>Встроенный календарь</value></data>
+    <data name="DatePicker" xml:space="preserve"><value>Выбор даты</value></data>
+    <data name="PickADate" xml:space="preserve"><value>Выберите дату...</value></data>
+    <!-- Carousel page -->
+    <data name="Carousel" xml:space="preserve"><value>Карусель</value></data>
+    <data name="Previous" xml:space="preserve"><value>← Назад</value></data>
+    <data name="Next" xml:space="preserve"><value>Вперёд →</value></data>
+    <!-- ComboBox page -->
+    <data name="ComboBox" xml:space="preserve"><value>Выпадающий список</value></data>
+    <data name="SelectAnOption" xml:space="preserve"><value>Выберите вариант...</value></data>
+    <data name="DisabledComboBox" xml:space="preserve"><value>Отключённый список</value></data>
+    <data name="AutoCompleteBox" xml:space="preserve"><value>Автодополнение</value></data>
+    <data name="StartTyping" xml:space="preserve"><value>Начните вводить...</value></data>
+    <!-- Slider page -->
+    <data name="HorizontalSlider" xml:space="preserve"><value>Горизонтальный слайдер</value></data>
+    <data name="WithTickMarks" xml:space="preserve"><value>С делениями</value></data>
+    <data name="Disabled" xml:space="preserve"><value>Отключён</value></data>
+    <data name="VerticalSlider" xml:space="preserve"><value>Вертикальный слайдер</value></data>
+    <!-- TextBox page -->
+    <data name="TextBox" xml:space="preserve"><value>Текстовое поле</value></data>
+    <data name="EnterText" xml:space="preserve"><value>Введите текст...</value></data>
+    <data name="Password" xml:space="preserve"><value>Пароль</value></data>
+    <data name="EnterPassword" xml:space="preserve"><value>Введите пароль...</value></data>
+    <data name="Multiline" xml:space="preserve"><value>Многострочное</value></data>
+    <data name="EnterMultipleLines" xml:space="preserve"><value>Введите несколько строк...</value></data>
+    <data name="ReadOnly" xml:space="preserve"><value>Только чтение</value></data>
+    <data name="ReadOnlyText" xml:space="preserve"><value>Это текст только для чтения</value></data>
+    <data name="DisabledInput" xml:space="preserve"><value>Отключённый ввод</value></data>
+    <data name="NumericUpDown" xml:space="preserve"><value>Числовое поле</value></data>
+    <!-- Progress page -->
+    <data name="LiveDemo" xml:space="preserve"><value>Живая демонстрация</value></data>
+    <data name="Start" xml:space="preserve"><value>Старт</value></data>
+    <data name="Reset" xml:space="preserve"><value>Сброс</value></data>
+    <data name="Running" xml:space="preserve"><value>Выполняется…</value></data>
+    <data name="Done" xml:space="preserve"><value>Готово</value></data>
+    <data name="Indeterminate" xml:space="preserve"><value>Неопределённый</value></data>
+    <data name="IndeterminateDescription" xml:space="preserve"><value>Используется, когда продолжительность неизвестна — варианты с полосой и кольцом.</value></data>
+    <data name="DeterminateStates" xml:space="preserve"><value>Определённые состояния</value></data>
+    <data name="ProgressRingSizes" xml:space="preserve"><value>Размеры ProgressRing</value></data>
+    <!-- OptionsDisplayItem page -->
+    <data name="Basic" xml:space="preserve"><value>Базовые</value></data>
+    <data name="SimpleItem" xml:space="preserve"><value>Простой элемент</value></data>
+    <data name="NoIconNoAction" xml:space="preserve"><value>Без иконки и действия</value></data>
+    <data name="WithIcon" xml:space="preserve"><value>С иконкой</value></data>
+    <data name="ShowsIconOnLeft" xml:space="preserve"><value>Показывает иконку слева</value></data>
+    <data name="Navigates" xml:space="preserve"><value>Навигация</value></data>
+    <data name="TapToNavigate" xml:space="preserve"><value>Нажмите для перехода</value></data>
+    <data name="WithActionControls" xml:space="preserve"><value>С элементами действий</value></data>
+    <data name="ToggleSetting" xml:space="preserve"><value>Переключатель</value></data>
+    <data name="EnableOrDisableFeature" xml:space="preserve"><value>Включить или отключить функцию</value></data>
+    <data name="ChooseTheme" xml:space="preserve"><value>Выбор темы</value></data>
+    <data name="Expandable" xml:space="preserve"><value>Раскрываемый</value></data>
+    <data name="AdvancedOptions" xml:space="preserve"><value>Расширенные настройки</value></data>
+    <data name="ClickToExpand" xml:space="preserve"><value>Нажмите для раскрытия</value></data>
+    <data name="HiddenContentOnExpand" xml:space="preserve"><value>Скрытое содержимое отображается при раскрытии.</value></data>
+    <data name="EnableFeatureA" xml:space="preserve"><value>Включить функцию A</value></data>
+    <data name="EnableFeatureB" xml:space="preserve"><value>Включить функцию B</value></data>
+    <!-- PleasantTabView page -->
+    <data name="Overview" xml:space="preserve"><value>Обзор</value></data>
+    <data name="OverviewTabTitle" xml:space="preserve"><value>Вкладка обзора</value></data>
+    <data name="OverviewTabDescription" xml:space="preserve"><value>PleasantTabView поддерживает добавление и закрытие вкладок, а также прокрутку панели вкладок.</value></data>
+    <data name="Details" xml:space="preserve"><value>Детали</value></data>
+    <data name="DetailsTabTitle" xml:space="preserve"><value>Вкладка деталей</value></data>
+    <data name="DetailsTabContent" xml:space="preserve"><value>Здесь находится подробное содержимое.</value></data>
+    <data name="DoSomething" xml:space="preserve"><value>Выполнить</value></data>
+    <data name="SettingsTab" xml:space="preserve"><value>Вкладка настроек</value></data>
+    <data name="EnableNotifications" xml:space="preserve"><value>Включить уведомления</value></data>
+    <data name="DarkMode" xml:space="preserve"><value>Тёмный режим</value></data>
+    <data name="TabDisabled" xml:space="preserve"><value>Отключена</value></data>
+    <!-- Snackbar page -->
+    <data name="ShowSnackbar" xml:space="preserve"><value>Показать Snackbar</value></data>
+    <!-- MessageBox page -->
+    <data name="ShowMessageBox" xml:space="preserve"><value>Показать MessageBox</value></data>
+    <data name="MessageBoxTitle" xml:space="preserve"><value>Сообщение</value></data>
+    <data name="MessageBoxText" xml:space="preserve"><value>Это пример диалогового окна с сообщением.</value></data>
 </root>

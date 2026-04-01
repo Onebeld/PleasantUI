@@ -5,52 +5,34 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.OptionsDisplayItemPageView">
     <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500">
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Basic" Margin="0 0 0 4" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Basic}" Margin="0 0 0 4" />
+        <OptionsDisplayItem Header="{Localize SimpleItem}" Description="{Localize NoIconNoAction}" />
+        <OptionsDisplayItem Header="{Localize WithIcon}" Description="{Localize ShowsIconOnLeft}" Icon="{x:Static MaterialIcons.AccountOutline}" />
+        <OptionsDisplayItem Header="{Localize Navigates}" Description="{Localize TapToNavigate}" Icon="{x:Static MaterialIcons.OpenInNew}" Navigates="True" />
 
-        <OptionsDisplayItem Header="Simple item"
-                            Description="No icon, no action" />
-
-        <OptionsDisplayItem Header="With icon"
-                            Description="Shows an icon on the left"
-                            Icon="{x:Static MaterialIcons.AccountOutline}" />
-
-        <OptionsDisplayItem Header="Navigates"
-                            Description="Tap to navigate somewhere"
-                            Icon="{x:Static MaterialIcons.OpenInNew}"
-                            Navigates="True" />
-
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="With action controls" Margin="0 12 0 4" />
-
-        <OptionsDisplayItem Header="Toggle setting"
-                            Description="Enable or disable a feature"
-                            Icon="{x:Static MaterialIcons.CogOutline}">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize WithActionControls}" Margin="0 12 0 4" />
+        <OptionsDisplayItem Header="{Localize ToggleSetting}" Description="{Localize EnableOrDisableFeature}" Icon="{x:Static MaterialIcons.CogOutline}">
             <OptionsDisplayItem.ActionButton>
                 <ToggleSwitch />
             </OptionsDisplayItem.ActionButton>
         </OptionsDisplayItem>
-
-        <OptionsDisplayItem Header="Choose theme"
-                            Icon="{x:Static MaterialIcons.PaletteOutline}">
+        <OptionsDisplayItem Header="{Localize ChooseTheme}" Icon="{x:Static MaterialIcons.PaletteOutline}">
             <OptionsDisplayItem.ActionButton>
                 <ComboBox SelectedIndex="0" MinWidth="120">
-                    <ComboBoxItem Content="Light" />
-                    <ComboBoxItem Content="Dark" />
-                    <ComboBoxItem Content="System" />
+                    <ComboBoxItem Content="{Localize Theme/Light}" />
+                    <ComboBoxItem Content="{Localize Theme/Dark}" />
+                    <ComboBoxItem Content="{Localize Theme/System}" />
                 </ComboBox>
             </OptionsDisplayItem.ActionButton>
         </OptionsDisplayItem>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Expandable" Margin="0 12 0 4" />
-
-        <OptionsDisplayItem Header="Advanced options"
-                            Description="Click to expand"
-                            Icon="{x:Static MaterialIcons.TuneVariant}"
-                            Expands="True">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Expandable}" Margin="0 12 0 4" />
+        <OptionsDisplayItem Header="{Localize AdvancedOptions}" Description="{Localize ClickToExpand}" Icon="{x:Static MaterialIcons.TuneVariant}" Expands="True">
             <OptionsDisplayItem.Content>
                 <StackPanel Spacing="8" Margin="4">
-                    <TextBlock Text="Hidden content revealed on expand." />
-                    <CheckBox Content="Enable feature A" />
-                    <CheckBox Content="Enable feature B" IsChecked="True" />
+                    <TextBlock Text="{Localize HiddenContentOnExpand}" />
+                    <CheckBox Content="{Localize EnableFeatureA}" />
+                    <CheckBox Content="{Localize EnableFeatureB}" IsChecked="True" />
                 </StackPanel>
             </OptionsDisplayItem.Content>
         </OptionsDisplayItem>

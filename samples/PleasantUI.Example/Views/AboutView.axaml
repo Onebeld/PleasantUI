@@ -6,7 +6,7 @@
              x:Class="PleasantUI.Example.Views.AboutView">
     <SmoothScrollViewer>
         <StackPanel Margin="25" Spacing="5">
-            <TextBlock Text="About"
+            <TextBlock Text="{Localize AboutTitle}"
                        Margin="0 0 0 10"
                        Theme="{StaticResource TitleTextBlockTheme}" />
             
@@ -43,7 +43,7 @@
                 </StackPanel>
             </Panel>
             
-            <OptionsDisplayItem Header="Links"
+            <OptionsDisplayItem Header="{Localize Links}"
                                 Icon="{x:Static MaterialIcons.Link}"
                                 Expands="True"
                                 IsExpanded="True">
@@ -75,9 +75,8 @@
                     Padding="12"
                     CornerRadius="{StaticResource ControlCornerRadius}">
                 <StackPanel>
-                    <TextBlock Text="Description" FontWeight="Bold" Margin="0 0 0 10" />
-                    
-                    <TextBlock Text="Graphical user interface library for Avalonia with its own controls" TextWrapping="Wrap" />
+                    <TextBlock Text="{Localize Description}" FontWeight="Bold" Margin="0 0 0 10" />
+                    <TextBlock Text="{Localize LibraryDescription}" TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
         </StackPanel>

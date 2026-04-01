@@ -39,7 +39,7 @@
             <Run Text="!" />
         </TextBlock>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Basic controls" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize BasicControls}" />
 
         <ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
                       ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
@@ -50,7 +50,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Pleasant controls" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize PleasantControls}" />
 
         <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
                       ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
@@ -61,7 +61,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="ToolKit" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ToolKit}" />
 
         <ItemsControl ItemsSource="{CompiledBinding ToolKitPageCards}"
                       ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
