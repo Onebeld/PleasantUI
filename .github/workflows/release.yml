@@ -20,43 +20,73 @@ jobs:
       contents: write
 
     steps:
+      # Always fetch the full history and all tags so version/tag checks are accurate
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      - name: Pull latest changes
+        run: |
+          git fetch origin
+          git reset --hard origin/${{ github.ref_name }}
+          echo "HEAD is now: $(git log -1 --oneline)"
 
       - name: Extract and validate version
         id: version
         run: |
-          VERSION=$(grep -oP '(?<=<PackageVersion>)[^<]+' build/Package.props)
-          if [ -z "$VERSION" ]; then
-            echo "ERROR: Could not extract PackageVersion from build/Package.props"
+          # Verify the file exists before parsing
+          if [ ! -f build/Package.props ]; then
+            echo "ERROR: build/Package.props not found"
             exit 1
           fi
+
+          # Extract version — require it to look like semver (digits, dots, optional pre-release)
+          VERSION=$(grep -oP '(?<=<PackageVersion>)[0-9]+\.[0-9]+\.[0-9]+[^<]*' build/Package.props | head -1)
+
+          if [ -z "$VERSION" ]; then
+            echo "ERROR: Could not extract a valid PackageVersion from build/Package.props"
+            echo "File contents:"
+            cat build/Package.props
+            exit 1
+          fi
+
+          # Reject obviously broken values
+          if [[ "$VERSION" =~ [[:space:]] ]]; then
+            echo "ERROR: Extracted version '$VERSION' contains whitespace"
+            exit 1
+          fi
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Detected version: $VERSION"
 
           # Detect pre-release (contains hyphen, e.g. 5.1.0-alpha1)
-          if echo "$VERSION" | grep -qP '\-'; then
+          if [[ "$VERSION" == *-* ]]; then
             echo "prerelease=true" >> $GITHUB_OUTPUT
+            echo "Pre-release: true"
           else
             echo "prerelease=false" >> $GITHUB_OUTPUT
+            echo "Pre-release: false"
           fi
 
       - name: Check if tag already exists
         id: tag_check
         run: |
-          git fetch --tags
-          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
-            if [ "${{ inputs.force }}" == "true" ]; then
+          git fetch --tags --force
+          TAG="v${{ steps.version.outputs.version }}"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            if [ "${{ github.event.inputs.force }}" == "true" ]; then
               echo "exists=false" >> $GITHUB_OUTPUT
-              echo "Tag exists but force=true, proceeding anyway."
+              echo "Tag $TAG exists but force=true — deleting and re-creating."
+              git push origin ":refs/tags/$TAG" || true
             else
               echo "exists=true" >> $GITHUB_OUTPUT
-              echo "Tag v${{ steps.version.outputs.version }} already exists, skipping release."
+              echo "Tag $TAG already exists. Skipping release. Use force=true to override."
             fi
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.version.outputs.version }} does not exist, proceeding."
+            echo "Tag $TAG does not exist — proceeding."
           fi
 
       - name: Setup .NET
