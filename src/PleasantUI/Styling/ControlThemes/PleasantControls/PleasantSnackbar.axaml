@@ -12,6 +12,7 @@
     <ControlTheme x:Key="{x:Type PleasantSnackbar}" TargetType="PleasantSnackbar">
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="MinWidth" Value="40" />
+        <Setter Property="MaxWidth" Value="480" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Opacity" Value="0" />
@@ -79,6 +80,7 @@
                                                       VerticalContentAlignment="Center"
                                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       Margin="{TemplateBinding Padding}"
+                                                      
                                                       TextAlignment="Start" />
 
                                     <!-- Action button (text button or custom control) -->
