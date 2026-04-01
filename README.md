@@ -144,7 +144,7 @@ public partial class MainWindow : PleasantWindow
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                x:Class="YourApplication.Views.MainWindow"
+                x:Class="YourApp.Views.MainWindow"
                 Title="Avalonia Application">
 </PleasantWindow>
 ```
