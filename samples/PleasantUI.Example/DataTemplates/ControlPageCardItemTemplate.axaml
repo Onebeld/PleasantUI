@@ -5,9 +5,10 @@
         <Button Command="{CompiledBinding OpenPage}"
                 CommandParameter="{CompiledBinding Page}"
                 HorizontalContentAlignment="Stretch"
-                Width="300"
+                MinWidth="260"
+                MaxWidth="340"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                Margin="5">
+                Margin="4">
             <Grid ColumnDefinitions="Auto,10,*">
                 <PathIcon Grid.Column="0" Data="{CompiledBinding Icon}" Width="32" Height="32" />
                 

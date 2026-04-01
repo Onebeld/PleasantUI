@@ -4,5 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.ComboBoxPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="ComboBox" />
+        <ComboBox PlaceholderText="Select an option..." HorizontalAlignment="Stretch">
+            <ComboBoxItem Content="Option 1" />
+            <ComboBoxItem Content="Option 2" />
+            <ComboBoxItem Content="Option 3" />
+            <ComboBoxItem Content="Option 4" />
+        </ComboBox>
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Disabled ComboBox" />
+        <ComboBox PlaceholderText="Disabled" IsEnabled="False" HorizontalAlignment="Stretch">
+            <ComboBoxItem Content="Option 1" />
+        </ComboBox>
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="AutoCompleteBox" />
+        <AutoCompleteBox Watermark="Start typing..." HorizontalAlignment="Stretch">
+            <AutoCompleteBox.Items>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Apple</x:String>
+                    <x:String>Banana</x:String>
+                    <x:String>Cherry</x:String>
+                    <x:String>Date</x:String>
+                    <x:String>Elderberry</x:String>
+                </x:Array>
+            </AutoCompleteBox.Items>
+        </AutoCompleteBox>
+    </StackPanel>
 </UserControl>

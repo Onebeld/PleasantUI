@@ -14,56 +14,63 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <Grid RowDefinitions="Auto,*">
-        <Border Grid.Row="0" Background="#B2D3D3" Height="200" CornerRadius="{StaticResource ControlCornerRadius}">
-            <Image Source="{StaticResource PleasantUI}" Margin="50" />
-        </Border>
-        
-        <StackPanel Grid.Row="1" Spacing="10" Margin="0 10 0 0">
-            <TextBlock Theme="{StaticResource TitleTextBlockTheme}" TextAlignment="Center">
-                <Run Text="{Localize WelcomeToPleasantUI}" />
-                <InlineUIContainer BaselineAlignment="Baseline">
-                    <PathIcon Height="25" Width="NaN" Data="{StaticResource PleasantUINoLogo}" />
-                </InlineUIContainer>
-                <Run Text="!" />
-            </TextBlock>
+    <StackPanel Spacing="16" Margin="0 8"
+                HorizontalAlignment="Stretch">
 
-            <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
-                       Text="Basic controls" />
-            
-            <!--TODO: Controls-->
-            <ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
-                          ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            
-            <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
-                       Text="Pleasant controls" />
-            
-            <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
-                          ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            
-            <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
-                       Text="ToolKit" />
-            
-            <ItemsControl ItemsSource="{CompiledBinding ToolKitPageCards}"
-                          ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </StackPanel>
-    </Grid>
+        <!-- Banner: scales with available width, capped height -->
+        <Border Background="#B2D3D3"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                ClipToBounds="True"
+                MinHeight="100"
+                MaxHeight="220">
+            <Viewbox Stretch="Uniform" HorizontalAlignment="Center">
+                <Image Source="{StaticResource PleasantUI}"
+                       Width="600" Height="160" />
+            </Viewbox>
+        </Border>
+
+        <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap">
+            <Run Text="{Localize WelcomeToPleasantUI}" />
+            <InlineUIContainer BaselineAlignment="Baseline">
+                <PathIcon Height="25" Width="NaN" Data="{StaticResource PleasantUINoLogo}" />
+            </InlineUIContainer>
+            <Run Text="!" />
+        </TextBlock>
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Basic controls" />
+
+        <ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
+                      ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Pleasant controls" />
+
+        <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
+                      ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="ToolKit" />
+
+        <ItemsControl ItemsSource="{CompiledBinding ToolKitPageCards}"
+                      ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+    </StackPanel>
 </UserControl>

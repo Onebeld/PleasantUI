@@ -394,13 +394,11 @@ public class PleasantTheme : Styles
             { "AccentColor", accentColor }
         };
 
-        foreach (Color lightAccentColor in lightAccentColors)
-            _accentColorsDictionary.Add($"AccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}",
-                lightAccentColor);
+        for (int i = 0; i < lightAccentColors.Count; i++)
+            _accentColorsDictionary.Add($"AccentLightColor{i + 1}", lightAccentColors[i]);
 
-        foreach (Color darkAccentColor in darkAccentColors)
-            _accentColorsDictionary.Add($"AccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}",
-                darkAccentColor);
+        for (int i = 0; i < darkAccentColors.Count; i++)
+            _accentColorsDictionary.Add($"AccentDarkColor{i + 1}", darkAccentColors[i]);
 
         HsvColor hsvAccentColor = lightAccentColors[1].ToHsv();
 

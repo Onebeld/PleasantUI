@@ -9,6 +9,6 @@ public partial class MessageBoxPageView : UserControl
     {
         InitializeComponent();
         
-        DefaultMBButton.Click += (_, _) => MessageBox.Show(PleasantUiExampleApp.Main, "Title", "Hello, world!");
+        DefaultMBButton.Click += (_, _) => MessageBox.Show(PleasantUiExampleApp.Main, "MessageBox", "This is a sample message box dialog.");
     }
 }

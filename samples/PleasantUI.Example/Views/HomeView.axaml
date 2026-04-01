@@ -9,7 +9,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.HomeView"
              x:DataType="viewModels:AppViewModel">
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Visible">
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
         <TransitioningContentControl Content="{CompiledBinding Page}">
                 <TransitioningContentControl.PageTransition>
                     <transitions:PleasantPageSlide Orientation="Horizontal" Duration="0:0:0.3" Forward="{CompiledBinding IsForwardAnimation}" />

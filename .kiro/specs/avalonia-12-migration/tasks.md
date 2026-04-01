@@ -39,5 +39,5 @@
   - [x] 7.1 Change MainActivity to extend AvaloniaMainActivity (non-generic), remove CustomizeAppBuilder override, and add AndroidApp : AvaloniaAndroidApplication<App> class in MainActivity.cs
   - [x] 7.2 Add IActivityApplicationLifetime check before ISingleViewApplicationLifetime in App.axaml.cs
 
-- [ ] 8 Verify build
-  - [ ] 8.1 Confirm the solution builds with zero compile errors against Avalonia 12 packages
+- [x] 8 Verify build
+  - [x] 8.1 Confirm the solution builds with zero compile errors against Avalonia 12 packages
