@@ -7,118 +7,249 @@
 
 # PleasantUI
 
-Pleasant UI is a graphical user interface library for Avalonia with its own controls. Previously, it was only available as part of the Regul and Regul Save Cleaner projects. This project has existed since at least 2021.
+PleasantUI is a cross-platform UI theme and control library for [Avalonia](https://github.com/AvaloniaUI/Avalonia), inspired by Microsoft Fluent Design and the WinUI/UWP visual language. It completely re-styles every standard Avalonia control and adds a suite of custom controls, a multi-theme engine with custom theme support, a reactive localization system, and a custom window chrome — all AOT-compatible with no `rd.xml` required.
 
-This library continues the OlibUI tradition of releasing only later versions, not the very first.
+The project has been in active development since 2021, originally as part of the [Regul](https://github.com/Onebeld/Regul) and [Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner) projects.
 
-This library is mostly focused on performance, lightness, and beauty, compared to many others.
+---
 
-This library is fully compatible with AOT compilation, and does not need to be added to rd.xml
+## Features
+
+### Complete Fluent-style control theming
+
+Every standard Avalonia control gets a full Fluent Design makeover — rounded corners, layered fill colors, smooth pointer-over and pressed transitions, and accent color integration:
+
+| Control | Control | Control |
+|---|---|---|
+| Button (+ AppBar, Accent, Danger variants) | CheckBox | RadioButton |
+| ToggleButton / ToggleSwitch | RepeatButton / ButtonSpinner | Slider |
+| TextBox / AutoCompleteBox | NumericUpDown | ComboBox / DropDownButton |
+| Calendar / CalendarDatePicker / TimePicker | DataGrid | ListBox / TreeView |
+| Expander | TabControl / TabItem | ScrollBar / ScrollViewer |
+| ProgressBar | Menu / ContextMenu | ToolTip |
+| Carousel | Separator | NotificationCard |
+
+### Custom Pleasant controls
+
+Controls built from scratch that go beyond what Avalonia ships:
+
+| Control | Description |
+|---|---|
+| `PleasantWindow` | Custom window chrome with a Fluent title bar, subtitle, custom icon/title content, optional blur, content-extends-into-titlebar, and macOS caption override |
+| `NavigationView` / `NavigationViewItem` | Collapsible side navigation panel, similar to WinUI NavigationView |
+| `PleasantTabView` / `PleasantTabItem` | Chromium-style tab strip with add/close buttons and scrollable tab bar |
+| `ContentDialog` | Modal overlay dialog with bottom button panel and smooth scroll content area |
+| `PleasantSnackbar` | Temporary non-intrusive notification bar |
+| `ProgressRing` | Circular progress indicator — both determinate and indeterminate with animated arc |
+| `OptionsDisplayItem` | Settings-style row with header, description, icon, action button slot, navigation chevron, and expandable content |
+| `InformationBlock` | Compact pill-shaped label combining an icon and a value |
+| `MarkedTextBox` / `MarkedNumericUpDown` | Input controls with inline label/unit markers |
+| `RippleEffect` | Material-style ripple click feedback |
+| `SmoothScrollViewer` | ScrollViewer with inertia gesture support |
+| `PleasantMiniWindow` | Lightweight floating window |
+
+### Theme engine
+
+- Built-in themes: **Light**, **Dark**, **Mint**, **Strawberry**, **Ice**, **Sunny**, **Spruce**, **Cherry**, **Cave**, **Lunar**
+- **System** mode — follows the OS light/dark preference automatically
+- **Custom themes** — create, edit, export, import, and persist your own color palettes via the built-in `ThemeEditorWindow`
+- Accent color follows the OS accent or can be overridden per-user; light/dark variants and gradient pairs are generated automatically
+- Settings are persisted to disk automatically on desktop; mobile apps can save manually
+
+### Localization system
+
+- `Localizer` singleton backed by .NET `ResourceManager` — add any number of `.resx` resource files
+- `{Localize Key}` AXAML markup extension binds reactively — switching language updates every bound string instantly without reloading views
+- `Localizer.TrDefault(key, fallback)` for safe lookups that fall back to a raw string instead of an error message
+- `LocalizationChanged` event for view models and code-behind to react to language switches
+
+---
+
+## Packages
+
+| Package | Description |
+|---|---|
+| `PleasantUI` | Core theme, all control styles, Pleasant controls, theme engine, localization |
+| `PleasantUI.ToolKit` | `MessageBox`, `ThemeEditorWindow`, color picker utilities |
+| `PleasantUI.MaterialIcons` | Material Design icon geometry library for use with `PathIcon` |
+| `PleasantUI.DataGrid` | Fluent-styled DataGrid extension |
+
+---
 
 ## Getting Started
 
-Install this library using NuGet, or copy the code to paste into your project file:
+### Install
 
 ```xml
-<PackageReference Include="PleasantUI" Version="4.0.1" />
+<PackageReference Include="PleasantUI" Version="5.1.0-alpha1" />
 ```
 
-### Setup
+### Add the theme
 
-For your application, add PleasantTheme to your styles:
+In your `App.axaml`, add `PleasantTheme` to your styles:
 
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="YourApplication.App">
+             x:Class="YourApp.App">
     <Application.Styles>
         <PleasantTheme />
     </Application.Styles>
 </Application>
 ```
-This library automatically loads settings and saves them when the program is finished _(note, for mobile projects you need to save settings manually)_
 
-Make sure that in the application class file, the XAML loader is in the overridden initialization method. Otherwise, you will get an error that the program is not initialized when you run the program.
+### Initialize correctly
+
+Make sure `AvaloniaXamlLoader.Load(this)` is called in `Initialize()`:
 
 ```csharp
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
-using YourApplication.ViewModels;
-using YourApplication.Views;
-
-namespace YourApplication;
-
 public partial class App : Application
 {
-    // That's exactly what you need to do, as shown below
     public override void Initialize()
     {
-        AvaloniaXamlLoader.Load(this);
+        AvaloniaXamlLoader.Load(this); // required
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowViewModel(),
-            };
-        }
+            desktop.MainWindow = new MainWindow();
 
         base.OnFrameworkInitializationCompleted();
     }
 }
 ```
 
-Next, we need to modify the main window so that it inherits from PleasantWindow:
+### Use PleasantWindow
+
+Replace `Window` with `PleasantWindow` to get the custom Fluent title bar:
 
 ```csharp
 using PleasantUI.Controls;
 
-namespace YourApplication.Views;
-
 public partial class MainWindow : PleasantWindow
 {
-    public MainWindow()
-    {
-        InitializeComponent();
-    }
+    public MainWindow() => InitializeComponent();
 }
 ```
-Make sure that the (A)XAML file of the main window has a PleasantWindow object instead of Window:
 
 ```xml
 <PleasantWindow xmlns="https://github.com/avaloniaui"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                x:Class="YourApplication.Views.MainWindow"
-                Title="Avalonia Application">
+                x:Class="YourApp.Views.MainWindow"
+                Title="My App"
+                Subtitle="Beta"
+                TitleBarType="ClassicExtended"
+                ExtendsContentIntoTitleBar="True"
+                Width="1200" Height="700">
 </PleasantWindow>
 ```
 
-Done! Now you can build your applications with this library.
+Key `PleasantWindow` properties:
+
+| Property | Type | Description |
+|---|---|---|
+| `TitleBarType` | `Classic` / `ClassicExtended` | Title bar layout style |
+| `ExtendsContentIntoTitleBar` | `bool` | Lets content render behind the title bar |
+| `Subtitle` | `string` | Secondary text shown next to the title |
+| `DisplayIcon` | `object` | Custom icon content in the title bar |
+| `DisplayTitle` | `object` | Custom title content (e.g. a `PathIcon`) |
+| `EnableBlur` | `bool` | Acrylic/blur window background |
+| `CaptionButtons` | enum | Which caption buttons to show |
+| `LeftTitleBarContent` | `object` | Content injected left of the title |
+
+---
+
+## Localization
+
+Register your `.resx` resource managers in your `Application` constructor:
+
+```csharp
+public App()
+{
+    Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
+    Localizer.ChangeLang("en");
+}
+```
+
+Use `{Localize Key}` in AXAML — updates live when the language changes:
+
+```xml
+<TextBlock Text="{Localize WelcomeMessage}" />
+<Button Content="{Localize SaveButton}" />
+```
+
+Switch language at runtime:
+
+```csharp
+Localizer.ChangeLang("ru");
+```
+
+Safe lookup with fallback in code-behind:
+
+```csharp
+string title = Localizer.TrDefault("DialogTitle", "Confirm");
+```
+
+---
+
+## Button variants
+
+```xml
+<Button Content="Default" />
+<Button Theme="{StaticResource AccentButtonTheme}" Content="Accent" />
+<Button Theme="{StaticResource DangerButtonTheme}" Content="Danger" />
+<Button Theme="{StaticResource AppBarButtonTheme}" Content="AppBar" />
+```
+
+---
+
+## OptionsDisplayItem
+
+```xml
+<!-- Navigation row -->
+<OptionsDisplayItem Header="Account"
+                    Description="Manage your account"
+                    Icon="{x:Static MaterialIcons.AccountOutline}"
+                    Navigates="True" />
+
+<!-- Row with action control -->
+<OptionsDisplayItem Header="Dark mode"
+                    Icon="{x:Static MaterialIcons.WeatherNight}">
+    <OptionsDisplayItem.ActionButton>
+        <ToggleSwitch />
+    </OptionsDisplayItem.ActionButton>
+</OptionsDisplayItem>
+
+<!-- Expandable row -->
+<OptionsDisplayItem Header="Advanced" Expands="True">
+    <OptionsDisplayItem.Content>
+        <StackPanel>
+            <CheckBox Content="Enable feature X" />
+        </StackPanel>
+    </OptionsDisplayItem.Content>
+</OptionsDisplayItem>
+```
+
+---
 
 ## Screenshots
 
-[Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner) (WIP)
+[Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner)
 
 ![image](https://github.com/Onebeld/PleasantUI/assets/44552715/72544683-228f-4d1d-9465-e0401828bd5d)
 
-[OlibKey](https://github.com/Onebeld/OlibKey) (WIP)
+[OlibKey](https://github.com/Onebeld/OlibKey)
 
 ![image](https://github.com/Onebeld/OlibKey/assets/44552715/c6f78465-0e3a-4757-ba03-903e93ec3e04)
 
+---
+
 ## Credits
 
-* [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia)
-* Some controls from PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI) library
-* [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) by ymg2006
-
-The editors I used to create this project:
-* [JetBrains Rider](https://www.jetbrains.com/rider/)
+- [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia)
+- Some controls inspired by PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI)
+- [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) by ymg2006
+- Built with [JetBrains Rider](https://www.jetbrains.com/rider/)
 
 <img src="https://github.com/Onebeld/PleasantUI/assets/44552715/c6bcf430-4153-4f72-bcca-e97e5cdce491" width="360" align="right"/>
