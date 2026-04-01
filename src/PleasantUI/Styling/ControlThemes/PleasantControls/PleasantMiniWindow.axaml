@@ -21,53 +21,6 @@
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
-                        <WindowDrawnDecorations>
-                            <Panel Height="32" VerticalAlignment="Top">
-                                <Panel Name="PART_DragWindow" Background="Transparent" />
-
-                                <ToggleButton HorizontalAlignment="Left"
-                                              Margin="4"
-                                              Theme="{StaticResource AppBarToggleButtonTheme}"
-                                              IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
-                                              ToolTip.Tip="{DynamicResource FastenOverTheWindows}">
-                                    <Viewbox Width="10" Height="10">
-                                        <Path Data="{StaticResource PinRegular}"
-                                              StrokeThickness="2" />
-                                    </Viewbox>
-                                </ToggleButton>
-
-                                <Border Background="{DynamicResource TextFillColor3}"
-                                        IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}"
-                                        IsHitTestVisible="False"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Height="3"
-                                        Width="30"
-                                        CornerRadius="50" />
-
-                                <StackPanel HorizontalAlignment="Right"
-                                            Orientation="Horizontal"
-                                            Margin="4"
-                                            IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
-                                    <Button x:Name="PART_HiddenButton"
-                                            Theme="{StaticResource AppBarButtonTheme}"
-                                            ToolTip.Tip="{DynamicResource Collapse}">
-                                        <Viewbox Width="10" Height="10">
-                                            <Path Data="{StaticResource SubtractRegular}"
-                                                  StrokeThickness="2" />
-                                        </Viewbox>
-                                    </Button>
-                                    <Button x:Name="PART_CloseButton"
-                                            Theme="{StaticResource AppBarButtonTheme}"
-                                            ToolTip.Tip="{DynamicResource Close}">
-                                        <Viewbox Width="8" Height="8">
-                                            <Path Data="{StaticResource DismissRegular}" />
-                                        </Viewbox>
-                                    </Button>
-                                </StackPanel>
-                            </Panel>
-                        </WindowDrawnDecorations>
-
                         <Panel>
                             <ContentPresenter x:Name="PART_ContentWindow"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -76,6 +29,51 @@
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                             <Panel Name="PART_ModalWindow" ZIndex="5" />
+                        </Panel>
+
+                        <Panel Height="32" VerticalAlignment="Top" ZIndex="1">
+                            <Panel Name="PART_DragWindow" Background="Transparent" />
+
+                            <ToggleButton HorizontalAlignment="Left"
+                                          Margin="4"
+                                          Theme="{StaticResource AppBarToggleButtonTheme}"
+                                          IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
+                                          ToolTip.Tip="{DynamicResource FastenOverTheWindows}">
+                                <Viewbox Width="10" Height="10">
+                                    <Path Data="{StaticResource PinRegular}"
+                                          StrokeThickness="2" />
+                                </Viewbox>
+                            </ToggleButton>
+
+                            <Border Background="{DynamicResource TextFillColor3}"
+                                    IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}"
+                                    IsHitTestVisible="False"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Height="3"
+                                    Width="30"
+                                    CornerRadius="50" />
+
+                            <StackPanel HorizontalAlignment="Right"
+                                        Orientation="Horizontal"
+                                        Margin="4"
+                                        IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
+                                <Button x:Name="PART_HiddenButton"
+                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        ToolTip.Tip="{DynamicResource Collapse}">
+                                    <Viewbox Width="10" Height="10">
+                                        <Path Data="{StaticResource SubtractRegular}"
+                                              StrokeThickness="2" />
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="PART_CloseButton"
+                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        ToolTip.Tip="{DynamicResource Close}">
+                                    <Viewbox Width="8" Height="8">
+                                        <Path Data="{StaticResource DismissRegular}" />
+                                    </Viewbox>
+                                </Button>
+                            </StackPanel>
                         </Panel>
                     </VisualLayerManager>
                 </Panel>

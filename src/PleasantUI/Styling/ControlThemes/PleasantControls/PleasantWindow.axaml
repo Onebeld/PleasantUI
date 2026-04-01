@@ -17,22 +17,20 @@
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
-                        <WindowDrawnDecorations>
-                            <OnPlatform>
-                                <OnPlatform.Default>
-                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
-                                                      VerticalAlignment="Top"
-                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
-                                </OnPlatform.Default>
-                            </OnPlatform>
-                        </WindowDrawnDecorations>
-
                         <ContentPresenter x:Name="PART_ContentWindow"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           Content="{TemplateBinding Content}"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        <OnPlatform ZIndex="1">
+                            <OnPlatform.Default>
+                                <PleasantTitleBar x:Name="PART_PleasantTitleBar"
+                                                  VerticalAlignment="Top"
+                                                  Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
+                            </OnPlatform.Default>
+                        </OnPlatform>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>
