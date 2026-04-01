@@ -1,8 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Reactive;
+using Avalonia.Styling;
+using Avalonia.Threading;
 using PleasantUI.Controls.Chrome;
 
 namespace PleasantUI.Controls;
@@ -12,6 +15,8 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class PleasantWindow : PleasantWindowBase
 {
+    private PleasantSplashScreen? _splashOverlay;
+    private CancellationTokenSource? _splashCts;
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
@@ -83,6 +88,12 @@ public class PleasantWindow : PleasantWindowBase
     /// </summary>
     public static readonly StyledProperty<bool> ExtendsContentIntoTitleBarProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ExtendsContentIntoTitleBar));
+
+    /// <summary>
+    /// Defines the <see cref="SplashScreen"/> property.
+    /// </summary>
+    public static readonly StyledProperty<IPleasantSplashScreen?> SplashScreenProperty =
+        AvaloniaProperty.Register<PleasantWindow, IPleasantSplashScreen?>(nameof(SplashScreen));
 
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
@@ -198,6 +209,18 @@ public class PleasantWindow : PleasantWindowBase
         set => SetValue(ExtendsContentIntoTitleBarProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the splash screen shown during window startup.
+    /// Set this before the window is shown. The splash screen is automatically
+    /// removed after <see cref="IPleasantSplashScreen.RunTasks"/> completes and
+    /// <see cref="IPleasantSplashScreen.MinimumShowTime"/> has elapsed.
+    /// </summary>
+    public IPleasantSplashScreen? SplashScreen
+    {
+        get => GetValue(SplashScreenProperty);
+        set => SetValue(SplashScreenProperty, value);
+    }
+
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
 
@@ -206,11 +229,31 @@ public class PleasantWindow : PleasantWindowBase
     {
         base.OnApplyTemplate(e);
 
+        _splashLayer = e.NameScope.Find<Panel>("PART_SplashLayer");
+
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(new AnonymousObserver<bool>(x => ChangeDecorations(x, WindowState)));
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
+    }
+
+    /// <inheritdoc />
+    protected override void OnOpened(EventArgs e)
+    {
+        base.OnOpened(e);
+
+        if (SplashScreen is not null)
+            _ = RunSplashScreenAsync(SplashScreen);
+    }
+
+    /// <inheritdoc />
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        _splashCts?.Cancel();
+        _splashCts?.Dispose();
+        _splashCts = null;
     }
 
     /// <inheritdoc />
@@ -223,6 +266,69 @@ public class PleasantWindow : PleasantWindowBase
 
         if (change.Property == EnableBlurProperty)
             SetTransparencyLevelHint();
+    }
+
+    private Panel? _splashLayer;
+
+    private async Task RunSplashScreenAsync(IPleasantSplashScreen splash)
+    {
+        _splashCts = new CancellationTokenSource();
+
+        // Wait for template to be applied so PART_SplashLayer is available
+        if (_splashLayer is null) return;
+
+        _splashOverlay = new PleasantSplashScreen
+        {
+            SplashScreen             = splash,
+            HorizontalAlignment      = Avalonia.Layout.HorizontalAlignment.Stretch,
+            VerticalAlignment        = Avalonia.Layout.VerticalAlignment.Stretch,
+            IsHitTestVisible         = true
+        };
+
+        _splashLayer.Children.Add(_splashOverlay);
+        _splashLayer.IsVisible = true;
+
+        var startTime = Environment.TickCount64;
+
+        try
+        {
+            await splash.RunTasks(_splashCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        // Honour minimum show time
+        long elapsed   = Environment.TickCount64 - startTime;
+        int  remaining = splash.MinimumShowTime - (int)elapsed;
+        if (remaining > 0)
+            await Task.Delay(remaining, _splashCts.Token).ContinueWith(_ => { });
+
+        if (_splashCts.IsCancellationRequested) return;
+
+        // Fade out on the UI thread
+        await Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            if (_splashOverlay is null) return;
+
+            var fadeOut = new Animation
+            {
+                Duration = TimeSpan.FromMilliseconds(350),
+                FillMode = FillMode.Forward,
+                Children =
+                {
+                    new KeyFrame { KeyTime = TimeSpan.Zero,                    Setters = { new Setter(OpacityProperty, 1.0) } },
+                    new KeyFrame { KeyTime = TimeSpan.FromMilliseconds(350),   Setters = { new Setter(OpacityProperty, 0.0) } }
+                }
+            };
+
+            await fadeOut.RunAsync(_splashOverlay);
+
+            _splashLayer.Children.Clear();
+            _splashLayer.IsVisible = false;
+            _splashOverlay = null;
+        });
     }
 
     private void ChangeDecorations(bool enableCustomTitleBar, WindowState windowState)

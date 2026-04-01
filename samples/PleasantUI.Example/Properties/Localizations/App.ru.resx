@@ -156,6 +156,9 @@
     <data name="Snackbar/Error" xml:space="preserve"><value>Ошибка</value></data>
     <data name="Snackbar/ErrorDesc" xml:space="preserve"><value>Уведомляет пользователя об ошибке.</value></data>
     <data name="Snackbar/ContentSection" xml:space="preserve"><value>Варианты содержимого</value></data>
+    <data name="Snackbar/LongMessage" xml:space="preserve"><value>Длинное сообщение (многострочное)</value></data>
+    <data name="Snackbar/LongMessageDesc" xml:space="preserve"><value>Сообщение переносится на несколько строк при превышении максимальной ширины таблетки.</value></data>
+    <data name="Snackbar/LongMsg" xml:space="preserve"><value>Экспорт завершён. Файл сохранён в папку Загрузки и готов к открытию. Вы также можете поделиться им прямо оттуда.</value></data>
     <data name="Snackbar/WithTitle" xml:space="preserve"><value>С заголовком</value></data>
     <data name="Snackbar/WithTitleDesc" xml:space="preserve"><value>Жирный заголовок над сообщением — таблетка расширяется вертикально.</value></data>
     <data name="Snackbar/WithAction" xml:space="preserve"><value>С кнопкой действия</value></data>

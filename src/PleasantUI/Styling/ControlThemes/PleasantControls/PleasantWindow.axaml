@@ -35,6 +35,13 @@
                             </OnPlatform>
                         </Panel>
                     </VisualLayerManager>
+
+                    <!-- Splash screen layer — sits above everything, fills the entire window -->
+                    <Panel x:Name="PART_SplashLayer"
+                           ZIndex="9999"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           IsVisible="False" />
                 </Panel>
             </ControlTemplate>
         </Setter>

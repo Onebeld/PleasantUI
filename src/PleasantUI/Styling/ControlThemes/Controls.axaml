@@ -85,6 +85,7 @@
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantSplashScreen.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
                 <MergeResourceInclude Source="PleasantControls/RippleEffect.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />

@@ -43,6 +43,15 @@ public partial class PleasantSnackbarPageView : UserControl
                 NotificationType = NotificationType.Error
             });
 
+        BtnLongMessage.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
+            new PleasantSnackbarOptions(T("LongMsg", "Your export has finished. The file has been saved to your Downloads folder and is ready to open. You can also share it directly from there."))
+            {
+                Icon             = MaterialIcons.FileExportOutline,
+                NotificationType = NotificationType.Information,
+                IsClosable       = true,
+                TimeSpan         = TimeSpan.FromSeconds(8)
+            });
+
         BtnWithTitle.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("WithTitleMsg", "Your changes have been saved to the cloud."))
             {

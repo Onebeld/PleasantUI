@@ -1,0 +1,43 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+
+    <ControlTheme x:Key="{x:Type PleasantSplashScreen}" TargetType="PleasantSplashScreen">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                    <Panel HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+
+                        <!-- Custom content — highest priority -->
+                        <ContentPresenter x:Name="ContentHost"
+                                          Content="{TemplateBinding SplashContent}"
+                                          IsVisible="{TemplateBinding SplashContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                        <!-- App icon — shown when no custom content -->
+                        <Image x:Name="AppImageHost"
+                               Source="{TemplateBinding AppIcon}"
+                               Width="96" Height="96"
+                               Stretch="Uniform"
+                               IsVisible="{TemplateBinding AppIcon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
+                        <!-- App name — fallback when no icon or custom content -->
+                        <TextBlock x:Name="AppNameText"
+                                   Text="{TemplateBinding AppName}"
+                                   Theme="{StaticResource TitleTextBlockTheme}"
+                                   HorizontalAlignment="Center"
+                                   IsVisible="{TemplateBinding AppName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                    </Panel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

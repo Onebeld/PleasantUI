@@ -47,6 +47,13 @@
                        Theme="{StaticResource BodyStrongTextBlockTheme}"
                        Margin="0 4 0 0" />
 
+            <OptionsDisplayItem Header="{Localize Snackbar/LongMessage}"
+                                Description="{Localize Snackbar/LongMessageDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnLongMessage" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
             <OptionsDisplayItem Header="{Localize Snackbar/WithTitle}"
                                 Description="{Localize Snackbar/WithTitleDesc}">
                 <OptionsDisplayItem.ActionButton>

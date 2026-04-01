@@ -163,6 +163,9 @@
     <data name="Snackbar/Error" xml:space="preserve"><value>Error</value></data>
     <data name="Snackbar/ErrorDesc" xml:space="preserve"><value>Notifies the user of a failure.</value></data>
     <data name="Snackbar/ContentSection" xml:space="preserve"><value>Content variants</value></data>
+    <data name="Snackbar/LongMessage" xml:space="preserve"><value>Long message (multiline)</value></data>
+    <data name="Snackbar/LongMessageDesc" xml:space="preserve"><value>Message wraps across multiple lines when it exceeds the max pill width.</value></data>
+    <data name="Snackbar/LongMsg" xml:space="preserve"><value>Your export has finished. The file has been saved to your Downloads folder and is ready to open. You can also share it directly from there.</value></data>
     <data name="Snackbar/WithTitle" xml:space="preserve"><value>With title</value></data>
     <data name="Snackbar/WithTitleDesc" xml:space="preserve"><value>Bold title above the message — pill expands vertically.</value></data>
     <data name="Snackbar/WithAction" xml:space="preserve"><value>With action button</value></data>
