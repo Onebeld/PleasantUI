@@ -76,17 +76,25 @@ jobs:
       - name: Verify packages exist
         if: steps.tag_check.outputs.exists == 'false'
         run: |
-          for pkg in \
-            src/PleasantUI/bin/Release \
-            src/PleasantUI.DataGrid/bin/Release \
-            src/PleasantUI.MaterialIcons/bin/Release; do
-            count=$(find "$pkg" -name "*.nupkg" 2>/dev/null | wc -l)
-            if [ "$count" -eq 0 ]; then
-              echo "ERROR: No .nupkg found in $pkg"
-              exit 1
+          echo "=== Searching for all .nupkg files under src/ ==="
+          find src/ -name "*.nupkg" 2>/dev/null | sort
+
+          FAILED=0
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons; do
+            FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
+            if [ -z "$FOUND" ]; then
+              echo "ERROR: No .nupkg found anywhere under src/$project"
+              echo "--- Directory listing of src/$project/bin ---"
+              find "src/$project/bin" -type f 2>/dev/null || echo "(bin dir not found)"
+              FAILED=1
+            else
+              echo "OK: Found package for $project at $FOUND"
             fi
-            echo "OK: $count package(s) in $pkg"
           done
+
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi
 
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
