@@ -9,6 +9,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
 
@@ -17,19 +18,34 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract version
+      - name: Extract and validate version
         id: version
         run: |
           VERSION=$(grep -oP '(?<=<PackageVersion>)[^<]+' build/Package.props)
+          if [ -z "$VERSION" ]; then
+            echo "ERROR: Could not extract PackageVersion from build/Package.props"
+            exit 1
+          fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
 
-      - name: Check if tag exists
+          # Detect pre-release (contains hyphen, e.g. 5.1.0-alpha1)
+          if echo "$VERSION" | grep -qP '\-'; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if tag already exists
         id: tag_check
         run: |
+          git fetch --tags
           if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.version.outputs.version }} already exists, skipping release."
           else
             echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.version.outputs.version }} does not exist, proceeding."
           fi
 
       - name: Setup .NET
@@ -38,22 +54,56 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Restore & Build
+      - name: Restore (with retry)
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 15
+          command: |
+            dotnet restore src/PleasantUI/PleasantUI.csproj
+            dotnet restore src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj
+            dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+
+      - name: Build
         if: steps.tag_check.outputs.exists == 'false'
         run: |
-          dotnet restore src/PleasantUI/PleasantUI.csproj src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
           dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
 
+      - name: Verify packages exist
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          for pkg in \
+            src/PleasantUI/bin/Release \
+            src/PleasantUI.DataGrid/bin/Release \
+            src/PleasantUI.MaterialIcons/bin/Release; do
+            count=$(find "$pkg" -name "*.nupkg" 2>/dev/null | wc -l)
+            if [ "$count" -eq 0 ]; then
+              echo "ERROR: No .nupkg found in $pkg"
+              exit 1
+            fi
+            echo "OK: $count package(s) in $pkg"
+          done
+
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
+        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
+          prerelease: ${{ steps.version.outputs.prerelease }}
           generate_release_notes: true
+          fail_on_unmatched_files: true
           files: |
             src/PleasantUI/bin/Release/*.nupkg
             src/PleasantUI.DataGrid/bin/Release/*.nupkg
             src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
+
+      - name: Confirm release created
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          echo "Release created: ${{ steps.create_release.outputs.url }}"
