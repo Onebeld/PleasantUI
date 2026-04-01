@@ -98,6 +98,7 @@
     <data name="Password" xml:space="preserve"><value>Пароль</value></data>
     <data name="EnterPassword" xml:space="preserve"><value>Введите пароль...</value></data>
     <data name="Multiline" xml:space="preserve"><value>Многострочное</value></data>
+    <data name="MultilineFlat" xml:space="preserve"><value>Многострочное (плоские углы)</value></data>
     <data name="EnterMultipleLines" xml:space="preserve"><value>Введите несколько строк...</value></data>
     <data name="ReadOnly" xml:space="preserve"><value>Только чтение</value></data>
     <data name="ReadOnlyText" xml:space="preserve"><value>Это текст только для чтения</value></data>
@@ -149,6 +150,37 @@
     <data name="ShowMessageBox" xml:space="preserve"><value>Показать MessageBox</value></data>
     <data name="MessageBoxTitle" xml:space="preserve"><value>Сообщение</value></data>
     <data name="MessageBoxText" xml:space="preserve"><value>Это пример диалогового окна с сообщением.</value></data>
+    <data name="MessageBox/Show" xml:space="preserve"><value>Показать</value></data>
+    <data name="MessageBox/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+    <data name="MessageBox/DefaultVariant" xml:space="preserve"><value>По умолчанию (OK)</value></data>
+    <data name="MessageBox/DefaultVariantDesc" xml:space="preserve"><value>Одна кнопка OK — самый распространённый вариант.</value></data>
+    <data name="MessageBox/OkCancelVariant" xml:space="preserve"><value>OK / Отмена</value></data>
+    <data name="MessageBox/OkCancelVariantDesc" xml:space="preserve"><value>Запрашивает подтверждение или отмену действия.</value></data>
+    <data name="MessageBox/YesNoVariant" xml:space="preserve"><value>Да / Нет</value></data>
+    <data name="MessageBox/YesNoVariantDesc" xml:space="preserve"><value>Задаёт вопрос с ответом да или нет.</value></data>
+    <data name="MessageBox/YesNoCancelVariant" xml:space="preserve"><value>Да / Нет / Отмена</value></data>
+    <data name="MessageBox/YesNoCancelVariantDesc" xml:space="preserve"><value>Тройной выбор — сохранить, не сохранять или отменить.</value></data>
+    <data name="MessageBox/AdditionalTextVariant" xml:space="preserve"><value>С дополнительным текстом</value></data>
+    <data name="MessageBox/AdditionalTextVariantDesc" xml:space="preserve"><value>Показывает ошибку с подробным стек-трейсом в дополнительной области.</value></data>
+    <data name="MessageBox/DangerVariant" xml:space="preserve"><value>Деструктивное действие</value></data>
+    <data name="MessageBox/DangerVariantDesc" xml:space="preserve"><value>Подтверждение удаления с кнопкой в стиле опасности и Отменой как безопасным вариантом.</value></data>
+    <data name="MessageBox/Title" xml:space="preserve"><value>Информация</value></data>
+    <data name="MessageBox/DefaultText" xml:space="preserve"><value>Это диалог по умолчанию с одной кнопкой OK.</value></data>
+    <data name="MessageBox/ConfirmTitle" xml:space="preserve"><value>Подтверждение</value></data>
+    <data name="MessageBox/OkCancelText" xml:space="preserve"><value>Вы хотите продолжить это действие?</value></data>
+    <data name="MessageBox/QuestionTitle" xml:space="preserve"><value>Вопрос</value></data>
+    <data name="MessageBox/YesNoText" xml:space="preserve"><value>Сохранить изменения перед закрытием?</value></data>
+    <data name="MessageBox/YesNoCancelText" xml:space="preserve"><value>Сохранить изменения в документе перед закрытием?</value></data>
+    <data name="MessageBox/ErrorTitle" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="MessageBox/ErrorText" xml:space="preserve"><value>При обработке запроса произошла непредвиденная ошибка.</value></data>
+    <data name="MessageBox/ErrorDetail" xml:space="preserve"><value>System.InvalidOperationException: Ссылка на объект не указывает на экземпляр объекта.\n   at SomeMethod() in File.cs:line 42</value></data>
+    <data name="MessageBox/DangerTitle" xml:space="preserve"><value>Удаление</value></data>
+    <data name="MessageBox/DangerText" xml:space="preserve"><value>Это действие необратимо. Все выбранные элементы будут удалены навсегда.</value></data>
+    <data name="MessageBox/Ok" xml:space="preserve"><value>OK</value></data>
+    <data name="MessageBox/Cancel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="MessageBox/Yes" xml:space="preserve"><value>Да</value></data>
+    <data name="MessageBox/No" xml:space="preserve"><value>Нет</value></data>
+    <data name="MessageBox/Delete" xml:space="preserve"><value>Удалить</value></data>
     <!-- Card descriptions -->
     <data name="Card/Button" xml:space="preserve"><value>Кликабельный элемент, который выполняет действие при нажатии.</value></data>
     <data name="Card/Checkbox" xml:space="preserve"><value>Небольшой интерактивный флажок для выбора одного или нескольких вариантов.</value></data>

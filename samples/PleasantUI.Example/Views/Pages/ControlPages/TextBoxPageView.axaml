@@ -10,7 +10,17 @@
         <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Password}" />
         <TextBox Watermark="{Localize EnterPassword}" PasswordChar="●" />
         <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Multiline}" />
-        <TextBox Watermark="{Localize EnterMultipleLines}" AcceptsReturn="True" TextWrapping="Wrap" Height="80" />
+        <TextBox Classes="MultilineTextBox"
+                 PlaceholderText="{Localize EnterMultipleLines}"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 Height="80" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize MultilineFlat}" />
+        <TextBox Classes="MultilineTextBoxFlat"
+                 PlaceholderText="{Localize EnterMultipleLines}"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 Height="80" />
         <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ReadOnly}" />
         <TextBox Text="{Localize ReadOnlyText}" IsReadOnly="True" />
         <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Disabled}" />

@@ -187,6 +187,22 @@
             <Setter Property="AcceptsTab" Value="True" />
         </Style>
 
+        <!-- Multiline variant with rounded corners (ControlCornerRadius = 8) -->
+        <Style Selector="^.MultilineTextBox">
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+        </Style>
+
+        <!-- Multiline variant with sharp/no corners — useful for code blocks, log output, etc. -->
+        <Style Selector="^.MultilineTextBoxFlat">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+        </Style>
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>

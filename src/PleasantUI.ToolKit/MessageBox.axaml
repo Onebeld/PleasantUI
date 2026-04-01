@@ -9,24 +9,59 @@
                MinWidth="300"
                MinHeight="180"
                x:Class="PleasantUI.ToolKit.MessageBox">
-    <SmoothScrollViewer>
-        <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
-            <TextBlock Grid.Row="0" x:Name="Title" Theme="{StaticResource SubtitleTextBlockTheme}" TextWrapping="Wrap" />
-            <TextBlock Grid.Row="1" x:Name="Text" Margin="0 10 0 0" TextWrapping="Wrap" />
-            <TextBox x:Name="AdditionalText"
-                     Grid.Row="2"
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     IsReadOnly="True"
-                     AcceptsReturn="True"
-                     TextWrapping="Wrap"
-                     VerticalContentAlignment="Stretch"
-                     Margin="0 10 0 0"
-                     MinHeight="150"
-                     MaxHeight="600"
-                     MaxWidth="600" />
-        </Grid>
-    </SmoothScrollViewer>
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Danger header — hidden by default, shown for MessageBoxStyle.Danger -->
+        <Border x:Name="DangerHeader"
+                Grid.Row="0"
+                IsVisible="False"
+                Background="{DynamicResource DangerColor}"
+                Padding="20 14">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource ErrorCircleRegular}"
+                          Width="20" Height="20"
+                          Foreground="White"
+                          VerticalAlignment="Center" />
+                <TextBlock x:Name="Title"
+                           Theme="{StaticResource SubtitleTextBlockTheme}"
+                           Foreground="White"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <SmoothScrollViewer Grid.Row="1">
+            <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
+                <!-- Default title — hidden when danger header is visible -->
+                <TextBlock Grid.Row="0"
+                           x:Name="DefaultTitle"
+                           Theme="{StaticResource SubtitleTextBlockTheme}"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Grid.Row="1"
+                           x:Name="Text"
+                           Margin="0 10 0 0"
+                           TextWrapping="Wrap" />
+
+                <TextBox x:Name="AdditionalText"
+                         Grid.Row="2"
+                         Classes="MultilineTextBoxFlat"
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="NoWrap"
+                         FontFamily="Cascadia Code,Consolas,Menlo,monospace"
+                         FontSize="12"
+                         VerticalContentAlignment="Stretch"
+                         Margin="0 10 0 0"
+                         MinHeight="100"
+                         MaxHeight="300"
+                         MaxWidth="600" />
+            </Grid>
+        </SmoothScrollViewer>
+    </Grid>
+
     <ContentDialog.BottomPanelContent>
         <UniformGrid x:Name="Buttons" Margin="15 0" Rows="0" />
     </ContentDialog.BottomPanelContent>
