@@ -149,4 +149,18 @@
     <data name="ShowMessageBox" xml:space="preserve"><value>Показать MessageBox</value></data>
     <data name="MessageBoxTitle" xml:space="preserve"><value>Сообщение</value></data>
     <data name="MessageBoxText" xml:space="preserve"><value>Это пример диалогового окна с сообщением.</value></data>
+    <!-- Card descriptions -->
+    <data name="Card/Button" xml:space="preserve"><value>Кликабельный элемент, который выполняет действие при нажатии.</value></data>
+    <data name="Card/Checkbox" xml:space="preserve"><value>Небольшой интерактивный флажок для выбора одного или нескольких вариантов.</value></data>
+    <data name="Card/Progress" xml:space="preserve"><value>Круговая анимация, указывающая на выполнение операции или загрузку.</value></data>
+    <data name="Card/Calendar" xml:space="preserve"><value>Элемент для отображения дат и выбора конкретной даты или диапазона дат.</value></data>
+    <data name="Card/Carousel" xml:space="preserve"><value>Контейнер, отображающий элементы по одному с возможностью навигации.</value></data>
+    <data name="Card/ComboBox" xml:space="preserve"><value>Выпадающий список для выбора одного варианта из предопределённого набора.</value></data>
+    <data name="Card/TextBox" xml:space="preserve"><value>Прямоугольная область для ввода и редактирования текста.</value></data>
+    <data name="Card/DataGrid" xml:space="preserve"><value>Сетка для отображения данных в табличном формате.</value></data>
+    <data name="Card/PleasantSnackbar" xml:space="preserve"><value>Пользовательский элемент для отображения временных ненавязчивых сообщений.</value></data>
+    <data name="Card/InformationBlock" xml:space="preserve"><value>Пользовательский элемент для отображения структурированного блока информации с заголовком, иконкой и текстом.</value></data>
+    <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Пользовательский элемент, представляющий один пункт в списке параметров.</value></data>
+    <data name="Card/PleasantTabView" xml:space="preserve"><value>Пользовательский элемент управления с вкладками.</value></data>
+    <data name="Card/MessageBox" xml:space="preserve"><value>Диалог, отображающий сообщение и ожидающий подтверждения пользователя.</value></data>
 </root>

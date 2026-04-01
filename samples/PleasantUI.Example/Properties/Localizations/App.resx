@@ -156,4 +156,18 @@
     <data name="ShowMessageBox" xml:space="preserve"><value>Show MessageBox</value></data>
     <data name="MessageBoxTitle" xml:space="preserve"><value>MessageBox</value></data>
     <data name="MessageBoxText" xml:space="preserve"><value>This is a sample message box dialog.</value></data>
+    <!-- Card descriptions -->
+    <data name="Card/Button" xml:space="preserve"><value>A clickable element that triggers an action when pressed.</value></data>
+    <data name="Card/Checkbox" xml:space="preserve"><value>A small interactive box that allows users to select one or more options from a set.</value></data>
+    <data name="Card/Progress" xml:space="preserve"><value>A circular animation that indicates an ongoing operation or loading process.</value></data>
+    <data name="Card/Calendar" xml:space="preserve"><value>A control that displays dates in a structured format, allowing users to select a specific date or date range.</value></data>
+    <data name="Card/Carousel" xml:space="preserve"><value>A container that displays a set of items one at a time, allowing users to navigate through them sequentially.</value></data>
+    <data name="Card/ComboBox" xml:space="preserve"><value>A dropdown list that allows users to select a single option from a predefined list.</value></data>
+    <data name="Card/TextBox" xml:space="preserve"><value>A rectangular area where users can enter and edit text.</value></data>
+    <data name="Card/DataGrid" xml:space="preserve"><value>A grid that displays data in a tabular format.</value></data>
+    <data name="Card/PleasantSnackbar" xml:space="preserve"><value>Custom control for displaying temporary, non-intrusive messages to the user.</value></data>
+    <data name="Card/InformationBlock" xml:space="preserve"><value>Custom control for displaying a structured block of information, including a title, icon, and descriptive text.</value></data>
+    <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Custom control representing a single item in a list of options.</value></data>
+    <data name="Card/PleasantTabView" xml:space="preserve"><value>Custom control implementing a tabbed interface.</value></data>
+    <data name="Card/MessageBox" xml:space="preserve"><value>A dialog that displays a message and waits for user confirmation.</value></data>
 </root>
