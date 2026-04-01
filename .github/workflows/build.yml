@@ -7,6 +7,12 @@ on:
     branches: [ "main", "master" ]
   release:
     types: [ published ]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish packages to NuGet'
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -76,7 +82,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.publish == true)
     timeout-minutes: 15
     permissions:
       id-token: write
