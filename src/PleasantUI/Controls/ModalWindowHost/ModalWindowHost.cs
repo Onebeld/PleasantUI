@@ -61,12 +61,7 @@ public class ModalWindowHost : ContentControl
     {
         _ = base.MeasureOverride(availableSize);
 
-        return VisualRoot switch
-        {
-            TopLevel topLevel => topLevel.ClientSize,
-            Control control => control.Bounds.Size,
-            _ => default
-        };
+        return TopLevel.GetTopLevel(this) is { } tl ? tl.ClientSize : (Content is Control c ? c.Bounds.Size : default);
     }
 
     /// <summary>

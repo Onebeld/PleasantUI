@@ -420,7 +420,7 @@ public class NavigationView : TreeView
                 _backButton.IsVisible = x.NewValue.Value is not null;
         }));
 
-        if (VisualRoot is PleasantWindow window)
+        if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             titleBarHeight = window.TitleBarHeight;
 

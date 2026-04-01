@@ -102,14 +102,14 @@ public sealed partial class ThemeEditorWindow : ContentDialog
             DragAndDropPanel.Classes.Set("DragDrop", false);
         }
 
-        void DragEnter(object? s, DragEventArgs e)
+        async void DragEnter(object? s, DragEventArgs e)
         {
             e.DragEffects = DragDropEffects.None;
 
-            if (!e.Data.Contains(DataFormats.Files))
+            if (!e.DataTransfer.Contains(DataFormat.Files))
                 return;
 
-            IStorageItem? file = e.Data.GetFiles()?.First();
+            IStorageItem? file = (await e.DataTransfer.GetFilesAsync())?.FirstOrDefault();
 
             if (file is null || !file.Name.EndsWith(".json"))
                 return;
@@ -119,12 +119,12 @@ public sealed partial class ThemeEditorWindow : ContentDialog
             DragAndDropPanel.Classes.Set("DragDrop", true);
         }
 
-        void Drop(object? s, DragEventArgs e)
+        async void Drop(object? s, DragEventArgs e)
         {
-            if (!e.Data.Contains(DataFormats.Files))
+            if (!e.DataTransfer.Contains(DataFormat.Files))
                 return;
 
-            IStorageItem? file = e.Data.GetFiles()?.First();
+            IStorageItem? file = (await e.DataTransfer.GetFilesAsync())?.FirstOrDefault();
 
             if (file is not null && file.Name.EndsWith(".json"))
                 ((ThemeEditorViewModel)DataContext!).DropFile(file);

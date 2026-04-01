@@ -100,7 +100,7 @@ public class PleasantTitleBar : TemplatedControl
         _leftTitleBarContent = e.NameScope.Find<ContentPresenter>("PART_LeftTitleBarContent");
         _titleBarContent = e.NameScope.Find<ContentPresenter>("PART_TitleBarContent");
 
-        if (VisualRoot is PleasantWindow window)
+        if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             _host = window;
             _captionButtons.Host = window;

@@ -9,14 +9,14 @@
                                      Maximum="10"
                                      Increment="0.5"
                                      Width="120"
-                                     Watermark="Enter text" />
+                                     PlaceholderText="Enter text" />
                 <MarkedNumericUpDown Minimum="0"
                                      Mark="B"
                                      Maximum="10"
                                      Increment="0.5"
                                      Width="150"
                                      ButtonSpinnerLocation="Left"
-                                     Watermark="Enter text" />
+                                     PlaceholderText="Enter text" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -47,7 +47,7 @@
                     <MarkedTextBox Name="PART_TextBox"
                                    Mark="{TemplateBinding Mark}"
                                    Padding="{TemplateBinding Padding}"
-                                   Watermark="{TemplateBinding Watermark}"
+                                   PlaceholderText="{TemplateBinding PlaceholderText}"
                                    IsReadOnly="{TemplateBinding IsReadOnly}"
                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

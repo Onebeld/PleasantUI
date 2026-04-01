@@ -229,28 +229,23 @@ public class PleasantWindow : PleasantWindowBase
     {
         ExtendClientAreaToDecorationsHint = enableCustomTitleBar;
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || !EnableCustomTitleBar) return;
-                
+
         if (windowState == WindowState.FullScreen)
         {
-            // Restore Avalonia defaults when in fullscreen.
-            ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.Default;
-            ExtendClientAreaTitleBarHeightHint = 0;
-            SystemDecorations = SystemDecorations.Full;
+            // Restore system decorations when in fullscreen.
+            WindowDecorations = WindowDecorations.Full;
         }
         else
         {
             if (OverrideMacOSCaption)
             {
-                ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+                WindowDecorations = WindowDecorations.None;
             }
             else
             {
-                ExtendClientAreaTitleBarHeightHint = -1;
-                ExtendClientAreaChromeHints = TitleBarType == PleasantTitleBar.Type.Classic
-                    ? Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome
-                    : Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome |
-                      Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
-                SystemDecorations = SystemDecorations.Full;
+                WindowDecorations = TitleBarType == PleasantTitleBar.Type.Classic
+                    ? WindowDecorations.Full
+                    : WindowDecorations.None;
             }
         }
     }

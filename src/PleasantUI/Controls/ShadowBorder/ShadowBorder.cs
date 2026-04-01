@@ -121,8 +121,8 @@ public class ShadowBorder : Decorator
     private Bitmap? CreateShadowBitmap(Size contentSizeDip, double blurDip, Color color, CornerRadius corner)
     {
         double scale = 1.0;
-        if (VisualRoot is { } renderRoot)
-            scale = renderRoot.RenderScaling;
+        if (TopLevel.GetTopLevel(this) is { } topLevel)
+            scale = topLevel.RenderScaling;
 
         double padDip = ComputePad(blurDip);
         double totalWidthDip = contentSizeDip.Width + padDip * 2;

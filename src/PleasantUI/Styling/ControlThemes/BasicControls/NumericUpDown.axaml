@@ -8,13 +8,13 @@
                                Maximum="10"
                                Increment="0.5"
                                Width="190"
-                               Watermark="Enter text" />
+                               PlaceholderText="Enter text" />
                 <NumericUpDown Minimum="0"
                                Maximum="10"
                                Increment="0.5"
                                Width="190"
                                ButtonSpinnerLocation="Left"
-                               Watermark="Enter text" />
+                               PlaceholderText="Enter text" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -48,7 +48,7 @@
                              Margin="1"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"
-                             Watermark="{TemplateBinding Watermark}"
+                             PlaceholderText="{TemplateBinding PlaceholderText}"
                              IsReadOnly="{TemplateBinding IsReadOnly}"
                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -94,7 +94,7 @@
                              Margin="0"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"
-                             Watermark="{TemplateBinding Watermark}"
+                             PlaceholderText="{TemplateBinding PlaceholderText}"
                              IsReadOnly="{TemplateBinding IsReadOnly}"
                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

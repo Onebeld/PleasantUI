@@ -7,7 +7,7 @@
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.ProgressRingPageView"
              x:DataType="controlPages:ProgressRingViewModel">
     <StackPanel Spacing="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
-        <TextBox Watermark="Value" Text="{CompiledBinding Value}" />
+        <TextBox PlaceholderText="Value" Text="{CompiledBinding Value}" />
         <CheckBox Content="IsIndeterminate" Margin="0 0 0 10" IsChecked="{CompiledBinding IsIndeterminate}" />
         <ProgressRing Value="{CompiledBinding Value}"
                       IsIndeterminate="{CompiledBinding IsIndeterminate}" />

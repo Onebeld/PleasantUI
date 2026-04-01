@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Browser" Version="11.3.3" />
+    <PackageReference Include="Avalonia.Browser" Version="12.0.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>

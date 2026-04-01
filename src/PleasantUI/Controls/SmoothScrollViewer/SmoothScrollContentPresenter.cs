@@ -199,7 +199,7 @@ public class SmoothScrollContentPresenter : ContentPresenter, IScrollable, IScro
     public SmoothScrollContentPresenter()
     {
         AddHandler(RequestBringIntoViewEvent, BringIntoViewRequested);
-        AddHandler(Gestures.ScrollGestureEvent, OnScrollGesture);
+        AddHandler(InputElement.ScrollGestureEvent, OnScrollGesture);
 
         this.GetObservable(ChildProperty).Subscribe(new AnonymousObserver<Control>(UpdateScrollableSubscription));
 

@@ -78,7 +78,7 @@ internal class ThemeService : IThemeService
 
     public async Task<Color?> PasteColorAsync()
     {
-        string? text = await _topLevel.Clipboard?.GetTextAsync();
+        string? text = await _topLevel.Clipboard?.TryGetTextAsync();
 
         if (text is null)
             return null;
@@ -101,7 +101,7 @@ internal class ThemeService : IThemeService
 
     public async Task<bool> PasteThemeAsync()
     {
-        string? data = await _topLevel.Clipboard?.GetTextAsync();
+        string? data = await _topLevel.Clipboard?.TryGetTextAsync();
 
         return ImportJson(data);
     }
