@@ -4,5 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.OptionsDisplayItemPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Basic" Margin="0 0 0 4" />
+
+        <OptionsDisplayItem Header="Simple item"
+                            Description="No icon, no action" />
+
+        <OptionsDisplayItem Header="With icon"
+                            Description="Shows an icon on the left"
+                            Icon="{x:Static MaterialIcons.AccountOutline}" />
+
+        <OptionsDisplayItem Header="Navigates"
+                            Description="Tap to navigate somewhere"
+                            Icon="{x:Static MaterialIcons.OpenInNew}"
+                            Navigates="True" />
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="With action controls" Margin="0 12 0 4" />
+
+        <OptionsDisplayItem Header="Toggle setting"
+                            Description="Enable or disable a feature"
+                            Icon="{x:Static MaterialIcons.CogOutline}">
+            <OptionsDisplayItem.ActionButton>
+                <ToggleSwitch />
+            </OptionsDisplayItem.ActionButton>
+        </OptionsDisplayItem>
+
+        <OptionsDisplayItem Header="Choose theme"
+                            Icon="{x:Static MaterialIcons.PaletteOutline}">
+            <OptionsDisplayItem.ActionButton>
+                <ComboBox SelectedIndex="0" MinWidth="120">
+                    <ComboBoxItem Content="Light" />
+                    <ComboBoxItem Content="Dark" />
+                    <ComboBoxItem Content="System" />
+                </ComboBox>
+            </OptionsDisplayItem.ActionButton>
+        </OptionsDisplayItem>
+
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="Expandable" Margin="0 12 0 4" />
+
+        <OptionsDisplayItem Header="Advanced options"
+                            Description="Click to expand"
+                            Icon="{x:Static MaterialIcons.TuneVariant}"
+                            Expands="True">
+            <StackPanel Spacing="8" Margin="4">
+                <TextBlock Text="Hidden content revealed on expand." />
+                <CheckBox Content="Enable feature A" />
+                <CheckBox Content="Enable feature B" IsChecked="True" />
+            </StackPanel>
+        </OptionsDisplayItem>
+    </StackPanel>
 </UserControl>

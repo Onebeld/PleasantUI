@@ -4,5 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantTabViewPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="16" Margin="0 8">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="PleasantTabView" />
+
+        <PleasantTabView Height="260">
+            <PleasantTabItem Header="Overview">
+                <StackPanel Spacing="8" Margin="12">
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Overview Tab" />
+                    <TextBlock TextWrapping="Wrap"
+                               Text="This is the overview tab. PleasantTabView supports adding and closing tabs, and scrolling the tab strip when there are many tabs." />
+                </StackPanel>
+            </PleasantTabItem>
+            <PleasantTabItem Header="Details">
+                <StackPanel Spacing="8" Margin="12">
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Details Tab" />
+                    <TextBlock Text="Some detailed content lives here." />
+                    <Button Content="Do something" />
+                </StackPanel>
+            </PleasantTabItem>
+            <PleasantTabItem Header="Settings">
+                <StackPanel Spacing="8" Margin="12">
+                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="Settings Tab" />
+                    <ToggleSwitch Content="Enable notifications" />
+                    <ToggleSwitch Content="Dark mode" />
+                </StackPanel>
+            </PleasantTabItem>
+            <PleasantTabItem Header="Disabled" IsEnabled="False" />
+        </PleasantTabView>
+    </StackPanel>
 </UserControl>
