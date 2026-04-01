@@ -89,7 +89,7 @@ public sealed partial class ThemeEditorWindow : ContentDialog
         return taskCompletionSource.Task;
     }
 
-    private void ThemeNameTextBoxOnLostFocus(object sender, RoutedEventArgs e)
+    private void ThemeNameTextBoxOnLostFocus(object? sender, FocusChangedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(ThemeNameTextBox.Text))
             ThemeNameTextBox.Text = ((ThemeEditorViewModel)DataContext!).ThemeName;
@@ -106,10 +106,10 @@ public sealed partial class ThemeEditorWindow : ContentDialog
         {
             e.DragEffects = DragDropEffects.None;
 
-            if (!e.DataTransfer.Contains(DataFormat.Files))
+            if (!e.DataTransfer.Contains(DataFormat.File))
                 return;
 
-            IStorageItem? file = (await e.DataTransfer.GetFilesAsync())?.FirstOrDefault();
+            IStorageItem? file = (await ((IAsyncDataTransfer)e.DataTransfer).TryGetFilesAsync())?.FirstOrDefault();
 
             if (file is null || !file.Name.EndsWith(".json"))
                 return;
@@ -121,10 +121,10 @@ public sealed partial class ThemeEditorWindow : ContentDialog
 
         async void Drop(object? s, DragEventArgs e)
         {
-            if (!e.DataTransfer.Contains(DataFormat.Files))
+            if (!e.DataTransfer.Contains(DataFormat.File))
                 return;
 
-            IStorageItem? file = (await e.DataTransfer.GetFilesAsync())?.FirstOrDefault();
+            IStorageItem? file = (await ((IAsyncDataTransfer)e.DataTransfer).TryGetFilesAsync())?.FirstOrDefault();
 
             if (file is not null && file.Name.EndsWith(".json"))
                 ((ThemeEditorViewModel)DataContext!).DropFile(file);

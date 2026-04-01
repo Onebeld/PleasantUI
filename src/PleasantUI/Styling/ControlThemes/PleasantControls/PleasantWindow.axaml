@@ -17,20 +17,23 @@
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
-                        <ContentPresenter x:Name="PART_ContentWindow"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Panel>
+                            <ContentPresenter x:Name="PART_ContentWindow"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-                        <OnPlatform ZIndex="1">
-                            <OnPlatform.Default>
-                                <PleasantTitleBar x:Name="PART_PleasantTitleBar"
-                                                  VerticalAlignment="Top"
-                                                  Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
-                            </OnPlatform.Default>
-                        </OnPlatform>
+                            <OnPlatform>
+                                <OnPlatform.Default>
+                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
+                                                      VerticalAlignment="Top"
+                                                      ZIndex="1"
+                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
+                                </OnPlatform.Default>
+                            </OnPlatform>
+                        </Panel>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>

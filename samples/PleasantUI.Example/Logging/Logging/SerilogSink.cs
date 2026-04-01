@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Avalonia;
 using Avalonia.Logging;
-using Avalonia.Utilities;
 
 namespace PleasantUI.Example.Logging.Logging;
 
@@ -113,36 +112,33 @@ public class SerilogSink(LogEventLevel minimumLevel, IList<string>? areas = null
 		object?[]? values)
 	{
 		StringBuilder result = new();
-		CharacterReader r = new(template.AsSpan());
-		int i = 0;
-
 		result.Append('[');
 		result.Append(area);
 		result.Append("] ");
 
-		while (!r.End)
+		int i = 0;
+		int pos = 0;
+		while (pos < template.Length)
 		{
-			char c = r.Take();
-
+			char c = template[pos++];
 			if (c != '{')
 			{
 				result.Append(c);
 			}
+			else if (pos < template.Length && template[pos] == '{')
+			{
+				result.Append('{');
+				pos++;
+			}
 			else
 			{
-				if (r.Peek != '{')
-				{
-					result.Append('\'');
-					result.Append(values?[i++]);
-					result.Append('\'');
-					r.TakeUntil('}');
-					r.Take();
-				}
-				else
-				{
-					result.Append('{');
-					r.Take();
-				}
+				result.Append('\'');
+				result.Append(values?[i++]);
+				result.Append('\'');
+				while (pos < template.Length && template[pos] != '}')
+					pos++;
+				if (pos < template.Length)
+					pos++; // skip '}'
 			}
 		}
 

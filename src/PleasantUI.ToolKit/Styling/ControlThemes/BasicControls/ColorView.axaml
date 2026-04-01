@@ -348,8 +348,8 @@
                                              VerticalAlignment="Center">
                                     <ColorSlider.IsVisible>
                                         <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                            <CompiledBinding Path="$parent[ColorView].IsAlphaVisible" />
-                                            <CompiledBinding Path="$parent[ColorView].IsComponentSliderVisible" />
+                                            <Binding Path="$parent[ColorView].IsAlphaVisible" />
+                                            <Binding Path="$parent[ColorView].IsComponentSliderVisible" />
                                         </MultiBinding>
                                     </ColorSlider.IsVisible>
                                 </ColorSlider>
