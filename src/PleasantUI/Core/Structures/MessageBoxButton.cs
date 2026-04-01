@@ -24,4 +24,10 @@ public struct MessageBoxButton
     /// Defines pressing Enter on the keyboard as pressing this button
     /// </summary>
     public bool IsKeyDown;
+
+    /// <summary>
+    /// Optional ControlTheme resource key to apply to the button (e.g. "DangerButtonTheme", "AccentButtonTheme").
+    /// When null the default theming logic applies.
+    /// </summary>
+    public string? ThemeKey;
 }

@@ -181,6 +181,14 @@
     <data name="MessageBox/Yes" xml:space="preserve"><value>Да</value></data>
     <data name="MessageBox/No" xml:space="preserve"><value>Нет</value></data>
     <data name="MessageBox/Delete" xml:space="preserve"><value>Удалить</value></data>
+    <data name="MessageBox/CustomVariant" xml:space="preserve"><value>Пользовательский контент</value></data>
+    <data name="MessageBox/CustomVariantDesc" xml:space="preserve"><value>Встраивает группу переключателей в диалог для захвата выбора пользователя вместе с результатом кнопки.</value></data>
+    <data name="MessageBox/CustomTitle" xml:space="preserve"><value>Конфликт данных</value></data>
+    <data name="MessageBox/CustomText" xml:space="preserve"><value>Файл с таким именем уже существует. Как вы хотите продолжить?</value></data>
+    <data name="MessageBox/CustomHint" xml:space="preserve"><value>Выберите способ разрешения конфликта:</value></data>
+    <data name="MessageBox/CustomOption1" xml:space="preserve"><value>Сохранить существующие данные</value></data>
+    <data name="MessageBox/CustomOption2" xml:space="preserve"><value>Заменить новыми данными</value></data>
+    <data name="MessageBox/CustomOption3" xml:space="preserve"><value>Объединить оба</value></data>
     <!-- Card descriptions -->
     <data name="Card/Button" xml:space="preserve"><value>Кликабельный элемент, который выполняет действие при нажатии.</value></data>
     <data name="Card/Checkbox" xml:space="preserve"><value>Небольшой интерактивный флажок для выбора одного или нескольких вариантов.</value></data>

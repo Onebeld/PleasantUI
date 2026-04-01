@@ -1,3 +1,5 @@
+using Avalonia.Controls;
+using Avalonia.Layout;
 using PleasantUI.Core;
 using PleasantUI.Core.Enums;
 using PleasantUI.Core.Localization;
@@ -116,5 +118,62 @@ public class MessageBoxViewModel : ViewModelBase
             style: MessageBoxStyle.Danger);
 
         LastResult = LocalizeResult(result);
+    }
+
+    public async Task ShowCustomContent()
+    {
+        // Build extra content: warning icon + description + radio buttons
+        var option1 = new RadioButton { Content = T("CustomOption1", "Keep existing data"),   GroupName = "MBOptions", IsChecked = true };
+        var option2 = new RadioButton { Content = T("CustomOption2", "Replace with new data"), GroupName = "MBOptions" };
+        var option3 = new RadioButton { Content = T("CustomOption3", "Merge both"),            GroupName = "MBOptions" };
+
+        var panel = new StackPanel
+        {
+            Spacing = 8,
+            Children =
+            {
+                new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    Spacing = 8,
+                    Children =
+                    {
+                        new PathIcon
+                        {
+                            Data   = MaterialIcons.InformationOutline,
+                            Width  = 16,
+                            Height = 16,
+                        },
+                        new TextBlock
+                        {
+                            Text        = T("CustomHint", "Choose how to handle the conflict:"),
+                            TextWrapping = Avalonia.Media.TextWrapping.Wrap,
+                            VerticalAlignment = VerticalAlignment.Center
+                        }
+                    }
+                },
+                option1,
+                option2,
+                option3
+            }
+        };
+
+        var result = await MessageBox.Show<string>(
+            PleasantUiExampleApp.Main,
+            T("CustomTitle", "Data conflict"),
+            T("CustomText",  "A file with this name already exists. How would you like to proceed?"),
+            extraContent: panel,
+            valueSelector: _ => option1.IsChecked == true ? "keep"
+                              : option2.IsChecked == true ? "replace"
+                              : "merge",
+            buttons: new[]
+            {
+                new MessageBoxButton { Text = T("Ok", "OK"),     Result = "OK",     Default = true, IsKeyDown = true },
+                new MessageBoxButton { Text = T("Cancel", "Cancel"), Result = "Cancel" }
+            });
+
+        LastResult = result.Button == "Cancel"
+            ? LocalizeResult("Cancel")
+            : $"{LocalizeResult(result.Button)} → {result.Value}";
     }
 }

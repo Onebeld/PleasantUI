@@ -188,6 +188,14 @@
     <data name="MessageBox/Yes" xml:space="preserve"><value>Yes</value></data>
     <data name="MessageBox/No" xml:space="preserve"><value>No</value></data>
     <data name="MessageBox/Delete" xml:space="preserve"><value>Delete</value></data>
+    <data name="MessageBox/CustomVariant" xml:space="preserve"><value>Custom content</value></data>
+    <data name="MessageBox/CustomVariantDesc" xml:space="preserve"><value>Embeds a radio button group inside the dialog to capture user choice alongside the button result.</value></data>
+    <data name="MessageBox/CustomTitle" xml:space="preserve"><value>Data conflict</value></data>
+    <data name="MessageBox/CustomText" xml:space="preserve"><value>A file with this name already exists. How would you like to proceed?</value></data>
+    <data name="MessageBox/CustomHint" xml:space="preserve"><value>Choose how to handle the conflict:</value></data>
+    <data name="MessageBox/CustomOption1" xml:space="preserve"><value>Keep existing data</value></data>
+    <data name="MessageBox/CustomOption2" xml:space="preserve"><value>Replace with new data</value></data>
+    <data name="MessageBox/CustomOption3" xml:space="preserve"><value>Merge both</value></data>
     <!-- Card descriptions -->
     <data name="Card/Button" xml:space="preserve"><value>A clickable element that triggers an action when pressed.</value></data>
     <data name="Card/Checkbox" xml:space="preserve"><value>A small interactive box that allows users to select one or more options from a set.</value></data>

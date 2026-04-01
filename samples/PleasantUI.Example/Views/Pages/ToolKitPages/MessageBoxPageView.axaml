@@ -82,6 +82,15 @@
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
+            <!-- Custom content -->
+            <OptionsDisplayItem Header="{Localize CustomVariant, Context=MessageBox}"
+                                Description="{Localize CustomVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowCustomContent}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
         </StackPanel>
     </SmoothScrollViewer>
 </UserControl>
