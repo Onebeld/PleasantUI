@@ -2,7 +2,107 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantSnackbarPageView">
-    <Button x:Name="SnackbarButton" Content="{Localize ShowSnackbar}" VerticalAlignment="Top" HorizontalAlignment="Center" />
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="12" MaxWidth="560">
+
+            <!-- ── Severity variants ──────────────────────────────────── -->
+            <TextBlock Text="{Localize Snackbar/SeveritySection}"
+                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Margin="0 4 0 0" />
+
+            <OptionsDisplayItem Header="{Localize Snackbar/Information}"
+                                Description="{Localize Snackbar/InformationDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnInformation" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize Snackbar/Success}"
+                                Description="{Localize Snackbar/SuccessDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnSuccess" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize Snackbar/Warning}"
+                                Description="{Localize Snackbar/WarningDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnWarning" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize Snackbar/Error}"
+                                Description="{Localize Snackbar/ErrorDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnError" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- ── Content variants ──────────────────────────────────── -->
+            <Separator Margin="0 4" />
+            <TextBlock Text="{Localize Snackbar/ContentSection}"
+                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Margin="0 4 0 0" />
+
+            <OptionsDisplayItem Header="{Localize Snackbar/WithTitle}"
+                                Description="{Localize Snackbar/WithTitleDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnWithTitle" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize Snackbar/WithAction}"
+                                Description="{Localize Snackbar/WithActionDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnWithAction" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize Snackbar/WithCustomAction}"
+                                Description="{Localize Snackbar/WithCustomActionDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnWithCustomAction" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize Snackbar/Closable}"
+                                Description="{Localize Snackbar/ClosableDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnClosable" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- ── Events ─────────────────────────────────────────────── -->
+            <Separator Margin="0 4" />
+            <TextBlock Text="{Localize Snackbar/EventsSection}"
+                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Margin="0 4 0 0" />
+
+            <OptionsDisplayItem Header="{Localize Snackbar/WithEvents}"
+                                Description="{Localize Snackbar/WithEventsDesc}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button x:Name="BtnWithEvents" Content="{Localize ShowSnackbar}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Last event result -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="12 8">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Localize Snackbar/LastEvent}"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               VerticalAlignment="Center" />
+                    <TextBlock x:Name="LastEventText"
+                               Text="—"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
 </UserControl>

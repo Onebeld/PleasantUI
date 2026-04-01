@@ -146,6 +146,43 @@
     <data name="TabDisabled" xml:space="preserve"><value>Отключена</value></data>
     <!-- Snackbar page -->
     <data name="ShowSnackbar" xml:space="preserve"><value>Показать Snackbar</value></data>
+    <data name="Snackbar/SeveritySection" xml:space="preserve"><value>Варианты серьёзности</value></data>
+    <data name="Snackbar/Information" xml:space="preserve"><value>Информация</value></data>
+    <data name="Snackbar/InformationDesc" xml:space="preserve"><value>Нейтральное информационное сообщение.</value></data>
+    <data name="Snackbar/Success" xml:space="preserve"><value>Успех</value></data>
+    <data name="Snackbar/SuccessDesc" xml:space="preserve"><value>Подтверждает завершённую операцию.</value></data>
+    <data name="Snackbar/Warning" xml:space="preserve"><value>Предупреждение</value></data>
+    <data name="Snackbar/WarningDesc" xml:space="preserve"><value>Предупреждает пользователя о возможной проблеме.</value></data>
+    <data name="Snackbar/Error" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="Snackbar/ErrorDesc" xml:space="preserve"><value>Уведомляет пользователя об ошибке.</value></data>
+    <data name="Snackbar/ContentSection" xml:space="preserve"><value>Варианты содержимого</value></data>
+    <data name="Snackbar/WithTitle" xml:space="preserve"><value>С заголовком</value></data>
+    <data name="Snackbar/WithTitleDesc" xml:space="preserve"><value>Жирный заголовок над сообщением — таблетка расширяется вертикально.</value></data>
+    <data name="Snackbar/WithAction" xml:space="preserve"><value>С кнопкой действия</value></data>
+    <data name="Snackbar/WithActionDesc" xml:space="preserve"><value>Текстовая кнопка, выполняющая действие и закрывающая уведомление.</value></data>
+    <data name="Snackbar/WithCustomAction" xml:space="preserve"><value>С произвольным элементом действия</value></data>
+    <data name="Snackbar/WithCustomActionDesc" xml:space="preserve"><value>Любой элемент Avalonia в слоте действия.</value></data>
+    <data name="Snackbar/Closable" xml:space="preserve"><value>Закрываемый</value></data>
+    <data name="Snackbar/ClosableDesc" xml:space="preserve"><value>Показывает кнопку × для ручного закрытия. Длительность — 10 с.</value></data>
+    <data name="Snackbar/EventsSection" xml:space="preserve"><value>События</value></data>
+    <data name="Snackbar/WithEvents" xml:space="preserve"><value>События Closing / Closed</value></data>
+    <data name="Snackbar/WithEventsDesc" xml:space="preserve"><value>Вызывает Closing (с возможностью отмены) и Closed с причиной закрытия.</value></data>
+    <data name="Snackbar/LastEvent" xml:space="preserve"><value>Последнее событие:</value></data>
+    <data name="Snackbar/InformationMsg" xml:space="preserve"><value>Это информационное сообщение.</value></data>
+    <data name="Snackbar/SuccessMsg" xml:space="preserve"><value>Операция выполнена успешно.</value></data>
+    <data name="Snackbar/WarningMsg" xml:space="preserve"><value>Заканчивается место на диске.</value></data>
+    <data name="Snackbar/ErrorMsg" xml:space="preserve"><value>Не удалось сохранить файл.</value></data>
+    <data name="Snackbar/WithTitleTitle" xml:space="preserve"><value>Сохранено</value></data>
+    <data name="Snackbar/WithTitleMsg" xml:space="preserve"><value>Ваши изменения сохранены в облаке.</value></data>
+    <data name="Snackbar/WithActionMsg" xml:space="preserve"><value>Элемент перемещён в корзину.</value></data>
+    <data name="Snackbar/Undo" xml:space="preserve"><value>Отменить</value></data>
+    <data name="Snackbar/UndoneMsg" xml:space="preserve"><value>Действие отменено.</value></data>
+    <data name="Snackbar/WithCustomActionMsg" xml:space="preserve"><value>Доступно новое обновление.</value></data>
+    <data name="Snackbar/ViewDetails" xml:space="preserve"><value>Открыть</value></data>
+    <data name="Snackbar/ViewedMsg" xml:space="preserve"><value>Открываем подробности…</value></data>
+    <data name="Snackbar/ClosableTitle" xml:space="preserve"><value>Закрываемый</value></data>
+    <data name="Snackbar/ClosableMsg" xml:space="preserve"><value>У этого уведомления есть кнопка закрытия.</value></data>
+    <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Нажмите или подождите — события отслеживаются.</value></data>
     <!-- MessageBox page -->
     <data name="ShowMessageBox" xml:space="preserve"><value>Показать MessageBox</value></data>
     <data name="MessageBoxTitle" xml:space="preserve"><value>Сообщение</value></data>

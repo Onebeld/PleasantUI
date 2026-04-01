@@ -153,6 +153,43 @@
     <data name="TabDisabled" xml:space="preserve"><value>Disabled</value></data>
     <!-- Snackbar page -->
     <data name="ShowSnackbar" xml:space="preserve"><value>Show Snackbar</value></data>
+    <data name="Snackbar/SeveritySection" xml:space="preserve"><value>Severity variants</value></data>
+    <data name="Snackbar/Information" xml:space="preserve"><value>Information</value></data>
+    <data name="Snackbar/InformationDesc" xml:space="preserve"><value>Neutral informational message.</value></data>
+    <data name="Snackbar/Success" xml:space="preserve"><value>Success</value></data>
+    <data name="Snackbar/SuccessDesc" xml:space="preserve"><value>Confirms a completed operation.</value></data>
+    <data name="Snackbar/Warning" xml:space="preserve"><value>Warning</value></data>
+    <data name="Snackbar/WarningDesc" xml:space="preserve"><value>Alerts the user to a potential issue.</value></data>
+    <data name="Snackbar/Error" xml:space="preserve"><value>Error</value></data>
+    <data name="Snackbar/ErrorDesc" xml:space="preserve"><value>Notifies the user of a failure.</value></data>
+    <data name="Snackbar/ContentSection" xml:space="preserve"><value>Content variants</value></data>
+    <data name="Snackbar/WithTitle" xml:space="preserve"><value>With title</value></data>
+    <data name="Snackbar/WithTitleDesc" xml:space="preserve"><value>Bold title above the message — pill expands vertically.</value></data>
+    <data name="Snackbar/WithAction" xml:space="preserve"><value>With action button</value></data>
+    <data name="Snackbar/WithActionDesc" xml:space="preserve"><value>Text button that triggers an action and closes the snackbar.</value></data>
+    <data name="Snackbar/WithCustomAction" xml:space="preserve"><value>With custom action control</value></data>
+    <data name="Snackbar/WithCustomActionDesc" xml:space="preserve"><value>Any Avalonia control placed in the action slot.</value></data>
+    <data name="Snackbar/Closable" xml:space="preserve"><value>Closable</value></data>
+    <data name="Snackbar/ClosableDesc" xml:space="preserve"><value>Shows a × button so the user can dismiss manually. Duration is 10 s.</value></data>
+    <data name="Snackbar/EventsSection" xml:space="preserve"><value>Events</value></data>
+    <data name="Snackbar/WithEvents" xml:space="preserve"><value>Closing / Closed events</value></data>
+    <data name="Snackbar/WithEventsDesc" xml:space="preserve"><value>Fires Closing (cancellable) and Closed with the close reason.</value></data>
+    <data name="Snackbar/LastEvent" xml:space="preserve"><value>Last event:</value></data>
+    <data name="Snackbar/InformationMsg" xml:space="preserve"><value>This is an informational message.</value></data>
+    <data name="Snackbar/SuccessMsg" xml:space="preserve"><value>Operation completed successfully.</value></data>
+    <data name="Snackbar/WarningMsg" xml:space="preserve"><value>Disk space is running low.</value></data>
+    <data name="Snackbar/ErrorMsg" xml:space="preserve"><value>Failed to save the file.</value></data>
+    <data name="Snackbar/WithTitleTitle" xml:space="preserve"><value>Saved</value></data>
+    <data name="Snackbar/WithTitleMsg" xml:space="preserve"><value>Your changes have been saved to the cloud.</value></data>
+    <data name="Snackbar/WithActionMsg" xml:space="preserve"><value>Item moved to trash.</value></data>
+    <data name="Snackbar/Undo" xml:space="preserve"><value>Undo</value></data>
+    <data name="Snackbar/UndoneMsg" xml:space="preserve"><value>Action undone.</value></data>
+    <data name="Snackbar/WithCustomActionMsg" xml:space="preserve"><value>New update available.</value></data>
+    <data name="Snackbar/ViewDetails" xml:space="preserve"><value>View</value></data>
+    <data name="Snackbar/ViewedMsg" xml:space="preserve"><value>Opening details…</value></data>
+    <data name="Snackbar/ClosableTitle" xml:space="preserve"><value>Dismissable</value></data>
+    <data name="Snackbar/ClosableMsg" xml:space="preserve"><value>This snackbar has a close button.</value></data>
+    <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Tap or wait to dismiss — events are tracked.</value></data>
     <!-- MessageBox page -->
     <data name="ShowMessageBox" xml:space="preserve"><value>Show MessageBox</value></data>
     <data name="MessageBoxTitle" xml:space="preserve"><value>MessageBox</value></data>

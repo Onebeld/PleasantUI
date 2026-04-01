@@ -3,12 +3,14 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
-            <PleasantSnackbar Content="Test message" />
+            <StackPanel Spacing="8">
+                <PleasantSnackbar Content="Simple message" />
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type PleasantSnackbar}" TargetType="PleasantSnackbar">
-        <Setter Property="Height" Value="40" />
+        <Setter Property="MinHeight" Value="40" />
         <Setter Property="MinWidth" Value="40" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -33,7 +35,10 @@
                         <Border CornerRadius="99"
                                 Margin="-1"
                                 ClipToBounds="True">
-                            <Grid ColumnDefinitions="Auto,*">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto"
+                                  VerticalAlignment="Center">
+
+                                <!-- Severity icon pill -->
                                 <Border x:Name="PART_IconBorder"
                                         Grid.Column="0"
                                         Background="{DynamicResource SystemFillColorNeutral}"
@@ -42,33 +47,75 @@
                                         CornerRadius="99"
                                         BorderBrush="{DynamicResource ControlBorderColor}"
                                         BorderThickness="1"
-                                        Margin="5">
-                                    <PathIcon
-                                        Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
-                                        Data="{TemplateBinding Icon}" />
+                                        Margin="5"
+                                        VerticalAlignment="Center">
+                                    <PathIcon Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
+                                              Data="{TemplateBinding Icon}" />
                                 </Border>
 
+                                <!-- Content area: title + message + action button -->
                                 <Grid x:Name="PART_Grid"
                                       Grid.Column="1"
+                                      RowDefinitions="Auto,Auto"
                                       ColumnDefinitions="*,Auto"
                                       Opacity="0"
-                                      Margin="0 0 10 0">
+                                      VerticalAlignment="Center"
+                                      Margin="0 6 6 6">
+
+                                    <!-- Title (only visible when :titled) -->
+                                    <TextBlock x:Name="PART_Title"
+                                               Grid.Row="0" Grid.Column="0"
+                                               Text="{TemplateBinding Title}"
+                                               FontWeight="SemiBold"
+                                               FontSize="13"
+                                               TextWrapping="NoWrap"
+                                               IsVisible="False" />
+
+                                    <!-- Message — spans both rows, centered when no title -->
                                     <ContentPresenter x:Name="PART_ContentPresenter"
-                                                      Grid.Column="0"
+                                                      Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
                                                       Content="{TemplateBinding Content}"
                                                       ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      VerticalContentAlignment="Center"
                                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       Margin="{TemplateBinding Padding}"
                                                       TextAlignment="Start" />
 
+                                    <!-- Action button (text button or custom control) -->
                                     <Button x:Name="PART_Button"
-                                            Grid.Column="1"
+                                            Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
                                             Theme="{StaticResource AppBarButtonTheme}"
                                             Foreground="{DynamicResource AccentLightColor3}"
                                             CornerRadius="99"
+                                            VerticalAlignment="Center"
                                             Margin="5 5 0 5" />
+
+                                    <!-- Custom action button slot -->
+                                    <ContentPresenter x:Name="PART_ActionButton"
+                                                      Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                                                      Content="{TemplateBinding ActionButton}"
+                                                      VerticalContentAlignment="Center"
+                                                      IsVisible="{TemplateBinding ActionButton, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                      Margin="5 5 0 5" />
                                 </Grid>
+
+                                <!-- Close button (only visible when :closable) -->
+                                <Button x:Name="PART_CloseButton"
+                                        Grid.Column="2"
+                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        CornerRadius="99"
+                                        Width="28" Height="28"
+                                        Padding="6"
+                                        VerticalAlignment="Center"
+                                        Margin="0 0 6 0"
+                                        IsVisible="False">
+                                    <PathIcon Data="{StaticResource DismissRegular}"
+                                              Width="10" Height="10" />
+                                </Button>
+
+                                <!-- Fixed right-edge spacer — always present -->
+                                <Border Grid.Column="3" Width="10" />
+
                             </Grid>
                         </Border>
                     </Border>
@@ -76,6 +123,7 @@
             </ControlTemplate>
         </Setter>
 
+        <!-- ── Animations (unchanged) ──────────────────────────────────── -->
         <Style Selector="^">
             <Setter Property="OpenAnimation">
                 <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
@@ -107,6 +155,7 @@
             </Setter>
         </Style>
 
+        <!-- ── Severity icon colours (unchanged) ───────────────────────── -->
         <Style Selector="^ /template/ Border#PART_IconBorder">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
@@ -123,6 +172,7 @@
             <Setter Property="Background" Value="{DynamicResource SystemFillColorCritical}" />
         </Style>
 
+        <!-- ── Grid fade-in transition (unchanged) ─────────────────────── -->
         <Style Selector="^ /template/ Grid#PART_Grid">
             <Setter Property="Transitions">
                 <Transitions>
@@ -130,5 +180,23 @@
                 </Transitions>
             </Setter>
         </Style>
+
+        <!-- ── Title visible when :titled ──────────────────────────────── -->
+        <Style Selector="^:titled /template/ TextBlock#PART_Title">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- When titled: message moves to row 1, loses rowspan, top-aligned -->
+        <Style Selector="^:titled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="(Grid.Row)" Value="1" />
+            <Setter Property="(Grid.RowSpan)" Value="1" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+        </Style>
+
+        <!-- ── Close button visible when :closable ─────────────────────── -->
+        <Style Selector="^:closable /template/ Button#PART_CloseButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
     </ControlTheme>
 </ResourceDictionary>
