@@ -196,6 +196,35 @@
     <data name="MessageBox/CustomOption1" xml:space="preserve"><value>Keep existing data</value></data>
     <data name="MessageBox/CustomOption2" xml:space="preserve"><value>Replace with new data</value></data>
     <data name="MessageBox/CustomOption3" xml:space="preserve"><value>Merge both</value></data>
+    <!-- PleasantDialog samples -->
+    <data name="MessageBox/PleasantDialogSection" xml:space="preserve"><value>PleasantDialog</value></data>
+    <data name="MessageBox/PleasantDialogRichVariant" xml:space="preserve"><value>Rich dialog</value></data>
+    <data name="MessageBox/PleasantDialogRichVariantDesc" xml:space="preserve"><value>Icon, subheader, radio buttons, checkbox, and an expandable footer.</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariant" xml:space="preserve"><value>With progress bar</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariantDesc" xml:space="preserve"><value>Animated progress bar updated from code while the dialog is open.</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariant" xml:space="preserve"><value>Danger with command links</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariantDesc" xml:space="preserve"><value>Red header with large command-link buttons, each with a description.</value></data>
+    <!-- PleasantDialog strings -->
+    <data name="PleasantDialog/Save" xml:space="preserve"><value>Save</value></data>
+    <data name="PleasantDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="PleasantDialog/MoreDetails" xml:space="preserve"><value>More details</value></data>
+    <data name="PleasantDialog/RememberChoice" xml:space="preserve"><value>Remember my choice</value></data>
+    <data name="PleasantDialog/RichTitle" xml:space="preserve"><value>Sync settings</value></data>
+    <data name="PleasantDialog/RichSubHeader" xml:space="preserve"><value>This affects all connected accounts.</value></data>
+    <data name="PleasantDialog/RichBody" xml:space="preserve"><value>Choose how your settings should be synchronized across devices.</value></data>
+    <data name="PleasantDialog/RichOpt1" xml:space="preserve"><value>Sync automatically</value></data>
+    <data name="PleasantDialog/RichOpt2" xml:space="preserve"><value>Ask before syncing</value></data>
+    <data name="PleasantDialog/RichOpt3" xml:space="preserve"><value>Never sync</value></data>
+    <data name="PleasantDialog/RichFooter" xml:space="preserve"><value>Changes take effect after restarting the application.</value></data>
+    <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Processing</value></data>
+    <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
+    <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Please wait while the operation completes…</value></data>
+    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Permanently delete account</value></data>
+    <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>This will remove all your data, settings, and history. This cannot be undone.</value></data>
+    <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Delete everything</value></data>
+    <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Removes all files, preferences, and account data permanently.</value></data>
+    <data name="PleasantDialog/DangerCmd2" xml:space="preserve"><value>Export data first</value></data>
+    <data name="PleasantDialog/DangerCmd2Desc" xml:space="preserve"><value>Download a copy of your data before deletion.</value></data>
     <!-- Card descriptions -->
     <data name="Card/Button" xml:space="preserve"><value>A clickable element that triggers an action when pressed.</value></data>
     <data name="Card/Checkbox" xml:space="preserve"><value>A small interactive box that allows users to select one or more options from a set.</value></data>

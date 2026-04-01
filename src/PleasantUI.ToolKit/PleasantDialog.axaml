@@ -1,0 +1,123 @@
+<ContentDialog xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="420"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="50"
+               MinWidth="320"
+               MaxWidth="600"
+               MinHeight="160"
+               x:Class="PleasantUI.ToolKit.PleasantDialog">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto,Auto,Auto">
+
+        <!-- ── Header (icon + title + subheader) ──────────────────────── -->
+        <Border x:Name="HeaderBorder"
+                Grid.Row="0"
+                Padding="{StaticResource PleasantDialogHeaderPadding}">
+            <Grid ColumnDefinitions="Auto,*">
+
+                <PathIcon x:Name="HeaderIcon"
+                          Grid.Column="0"
+                          Width="{StaticResource PleasantDialogIconSize}"
+                          Height="{StaticResource PleasantDialogIconSize}"
+                          Margin="{StaticResource PleasantDialogIconMargin}"
+                          VerticalAlignment="Top"
+                          IsVisible="False" />
+
+                <StackPanel Grid.Column="1"
+                            Spacing="{StaticResource PleasantDialogHeaderSpacing}">
+                    <TextBlock x:Name="HeaderText"
+                               Theme="{StaticResource SubtitleTextBlockTheme}"
+                               TextWrapping="Wrap" />
+                    <TextBlock x:Name="SubHeaderText"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               TextWrapping="Wrap"
+                               IsVisible="False" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Spacer between header and body -->
+        <Border Grid.Row="1" Height="8" />
+
+        <!-- ── Scrollable body ────────────────────────────────────────── -->
+        <SmoothScrollViewer Grid.Row="2"
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="BodyPanel"
+                        Margin="{StaticResource PleasantDialogContentPadding}"
+                        Spacing="{StaticResource PleasantDialogBodySpacing}">
+
+                <TextBlock x:Name="BodyText"
+                           TextWrapping="Wrap"
+                           IsVisible="False" />
+
+                <!-- Spacer between body text and commands -->
+                <Border Height="4"
+                        IsVisible="{Binding ElementName=BodyText, Path=IsVisible}" />
+
+                <!-- Commands: radio buttons, checkboxes, command links -->
+                <ItemsControl x:Name="CommandsHost"
+                              IsVisible="False">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="{StaticResource PleasantDialogCommandSpacing}" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <!-- Extra content slot for arbitrary controls -->
+                <ContentPresenter x:Name="ExtraContent"
+                                  IsVisible="False" />
+
+            </StackPanel>
+        </SmoothScrollViewer>
+
+        <!-- Spacer between body and progress bar -->
+        <Border Grid.Row="3" Height="8" />
+
+        <!-- ── Progress bar (hidden by default) ──────────────────────── -->
+        <ProgressBar x:Name="ProgressBar"
+                     Grid.Row="4"
+                     Margin="{StaticResource PleasantDialogProgressMargin}"
+                     Height="4"
+                     IsVisible="False" />
+
+        <!-- Spacer between progress bar / body and footer -->
+        <Border Grid.Row="5" Height="4" />
+
+        <!-- ── Footer (expandable) ────────────────────────────────────── -->
+        <Border x:Name="FooterBorder"
+                Grid.Row="6"
+                IsVisible="False"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="0 1 0 0"
+                Padding="{StaticResource PleasantDialogFooterPadding}">
+            <StackPanel Spacing="{StaticResource PleasantDialogFooterSpacing}">
+                <Button x:Name="FooterToggleButton"
+                        Theme="{StaticResource PleasantDialogFooterToggleTheme}"
+                        IsVisible="False">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <PathIcon x:Name="FooterChevron"
+                                  Data="{StaticResource ChevronDownRegular}"
+                                  Width="12" Height="12"
+                                  VerticalAlignment="Center" />
+                        <TextBlock x:Name="FooterToggleText"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <ContentPresenter x:Name="FooterContent"
+                                  IsVisible="False" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid x:Name="ButtonsHost" Margin="15 0" Rows="0" />
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

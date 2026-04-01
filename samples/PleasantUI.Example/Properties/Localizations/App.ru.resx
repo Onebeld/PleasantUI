@@ -189,6 +189,35 @@
     <data name="MessageBox/CustomOption1" xml:space="preserve"><value>Сохранить существующие данные</value></data>
     <data name="MessageBox/CustomOption2" xml:space="preserve"><value>Заменить новыми данными</value></data>
     <data name="MessageBox/CustomOption3" xml:space="preserve"><value>Объединить оба</value></data>
+    <!-- PleasantDialog samples -->
+    <data name="MessageBox/PleasantDialogSection" xml:space="preserve"><value>PleasantDialog</value></data>
+    <data name="MessageBox/PleasantDialogRichVariant" xml:space="preserve"><value>Расширенный диалог</value></data>
+    <data name="MessageBox/PleasantDialogRichVariantDesc" xml:space="preserve"><value>Иконка, подзаголовок, переключатели, флажок и раскрываемый нижний блок.</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariant" xml:space="preserve"><value>С прогресс-баром</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariantDesc" xml:space="preserve"><value>Анимированный прогресс-бар, обновляемый из кода пока диалог открыт.</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariant" xml:space="preserve"><value>Опасный с командными кнопками</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariantDesc" xml:space="preserve"><value>Красный заголовок с крупными командными кнопками, каждая с описанием.</value></data>
+    <!-- PleasantDialog strings -->
+    <data name="PleasantDialog/Save" xml:space="preserve"><value>Сохранить</value></data>
+    <data name="PleasantDialog/Cancel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="PleasantDialog/MoreDetails" xml:space="preserve"><value>Подробнее</value></data>
+    <data name="PleasantDialog/RememberChoice" xml:space="preserve"><value>Запомнить выбор</value></data>
+    <data name="PleasantDialog/RichTitle" xml:space="preserve"><value>Синхронизация настроек</value></data>
+    <data name="PleasantDialog/RichSubHeader" xml:space="preserve"><value>Это затронет все подключённые аккаунты.</value></data>
+    <data name="PleasantDialog/RichBody" xml:space="preserve"><value>Выберите способ синхронизации настроек между устройствами.</value></data>
+    <data name="PleasantDialog/RichOpt1" xml:space="preserve"><value>Синхронизировать автоматически</value></data>
+    <data name="PleasantDialog/RichOpt2" xml:space="preserve"><value>Спрашивать перед синхронизацией</value></data>
+    <data name="PleasantDialog/RichOpt3" xml:space="preserve"><value>Никогда не синхронизировать</value></data>
+    <data name="PleasantDialog/RichFooter" xml:space="preserve"><value>Изменения вступят в силу после перезапуска приложения.</value></data>
+    <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Обработка</value></data>
+    <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
+    <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Пожалуйста, подождите завершения операции…</value></data>
+    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Удалить аккаунт навсегда</value></data>
+    <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>Это удалит все ваши данные, настройки и историю. Действие необратимо.</value></data>
+    <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Удалить всё</value></data>
+    <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Удаляет все файлы, настройки и данные аккаунта навсегда.</value></data>
+    <data name="PleasantDialog/DangerCmd2" xml:space="preserve"><value>Сначала экспортировать данные</value></data>
+    <data name="PleasantDialog/DangerCmd2Desc" xml:space="preserve"><value>Скачать копию данных перед удалением.</value></data>
     <!-- Card descriptions -->
     <data name="Card/Button" xml:space="preserve"><value>Кликабельный элемент, который выполняет действие при нажатии.</value></data>
     <data name="Card/Checkbox" xml:space="preserve"><value>Небольшой интерактивный флажок для выбора одного или нескольких вариантов.</value></data>

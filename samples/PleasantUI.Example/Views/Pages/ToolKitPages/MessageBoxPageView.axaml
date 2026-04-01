@@ -91,6 +91,41 @@
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
+            <!-- ── PleasantDialog section ─────────────────────────────── -->
+            <Separator Margin="0 4" />
+
+            <TextBlock Text="{Localize PleasantDialogSection, Context=MessageBox}"
+                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Margin="0 4 0 0" />
+
+            <!-- Rich dialog with icon + subheader + commands + footer -->
+            <OptionsDisplayItem Header="{Localize PleasantDialogRichVariant, Context=MessageBox}"
+                                Description="{Localize PleasantDialogRichVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowPleasantDialogRich}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Dialog with progress bar -->
+            <OptionsDisplayItem Header="{Localize PleasantDialogProgressVariant, Context=MessageBox}"
+                                Description="{Localize PleasantDialogProgressVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowPleasantDialogProgress}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Danger PleasantDialog with command links -->
+            <OptionsDisplayItem Header="{Localize PleasantDialogDangerVariant, Context=MessageBox}"
+                                Description="{Localize PleasantDialogDangerVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Theme="{StaticResource DangerButtonTheme}"
+                            Command="{CompiledBinding ShowPleasantDialogDanger}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
         </StackPanel>
     </SmoothScrollViewer>
 </UserControl>
