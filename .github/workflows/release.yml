@@ -139,6 +139,62 @@ jobs:
             exit 1
           fi
 
+      - name: Generate AI release notes
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Collect commits since the previous tag (or last 50 if no prior tag)
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            COMMITS=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s (%an)" | head -80)
+          else
+            COMMITS=$(git log --pretty=format:"- %s (%an)" | head -80)
+          fi
+
+          if [ -z "$COMMITS" ]; then
+            COMMITS="- Initial release"
+          fi
+
+          VERSION="v${{ steps.version.outputs.version }}"
+          PRERELEASE="${{ steps.version.outputs.prerelease }}"
+
+          PROMPT="You are writing GitHub release notes for a .NET/Avalonia UI library called PleasantUI ($VERSION).
+          Pre-release: $PRERELEASE.
+          Based on the following git commits, write clear and concise release notes in markdown.
+          Group changes into sections like '### What's New', '### Improvements', '### Bug Fixes', '### Breaking Changes' — only include sections that are relevant.
+          Keep it developer-friendly and factual. Do not invent features not mentioned in the commits.
+
+          Commits:
+          $COMMITS"
+
+          # Call GitHub Models API (available free with GITHUB_TOKEN)
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/vnd.github+json" \
+            "https://models.inference.ai.azure.com/chat/completions" \
+            -d "$(jq -n \
+              --arg model "gpt-4o-mini" \
+              --arg prompt "$PROMPT" \
+              '{model: $model, messages: [{role: "user", content: $prompt}], max_tokens: 1024}'
+            )")
+
+          # Extract the message content; fall back to empty string on failure
+          NOTES=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty' 2>/dev/null || echo "")
+
+          if [ -z "$NOTES" ]; then
+            echo "AI notes generation failed or returned empty — falling back to commit list."
+            NOTES="### Changes in $VERSION
+
+          $COMMITS"
+          fi
+
+          # Write to file to avoid shell escaping issues
+          echo "$NOTES" > /tmp/release_notes.md
+          echo "notes_file=/tmp/release_notes.md" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
         id: create_release
@@ -147,7 +203,7 @@ jobs:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
           prerelease: ${{ steps.version.outputs.prerelease }}
-          generate_release_notes: true
+          body_path: ${{ steps.ai_notes.outputs.notes_file }}
           fail_on_unmatched_files: true
           files: |
             src/PleasantUI/bin/Release/*.nupkg
