@@ -179,37 +179,37 @@ jobs:
             | sort -u \
             | head -150)
 
-          # ── Write static prompt header ────────────────────────────────────────
-          cat > /tmp/release-notes-prompt.txt << 'PROMPT_EOF'
-You are a senior technical writer producing GitHub release notes for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.
-
-Your goal is DETAILED, COMPREHENSIVE release notes that are genuinely useful to developers consuming this library as a NuGet package.
-
-## Instructions
-- Carefully read the commit log, changed file list, public API additions, and source diff below.
-- For every new control or feature: describe what it does, how to use it, and why it matters.
-- For new properties/events: list name, type, and a one-line description.
-- For bug fixes: describe the symptom fixed, not just the commit message.
-- For breaking changes: show before/after API.
-- Use markdown: ### headers, bullet lists, inline `code`, and fenced code blocks for usage examples.
-- Do NOT invent anything not evidenced by the data. If something is unclear, describe it conservatively.
-- If the diff or file list is empty, say so honestly and only describe what the commits indicate.
-
-Sections (include only those with content):
-### ✨ What's New
-### 🔧 Improvements
-### 🐛 Bug Fixes
-### ⚠️ Breaking Changes
-### 📦 Packages
-
-Always end with ### 📦 Packages listing:
-- `PleasantUI`
-- `PleasantUI.DataGrid`
-- `PleasantUI.MaterialIcons`
-- `PleasantUI.ToolKit`
-
----
-PROMPT_EOF
+          # ── Write prompt (all printf — no heredoc to avoid YAML indent issues) ───
+          printf '%s\n' \
+            'You are a senior technical writer producing GitHub release notes for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
+            '' \
+            'Your goal is DETAILED, COMPREHENSIVE release notes that are genuinely useful to developers consuming this library as a NuGet package.' \
+            '' \
+            '## Instructions' \
+            '- Carefully read the commit log, changed file list, public API additions, and source diff below.' \
+            '- For every new control or feature: describe what it does, how to use it, and why it matters.' \
+            '- For new properties/events: list name, type, and a one-line description.' \
+            '- For bug fixes: describe the symptom fixed, not just the commit message.' \
+            '- For breaking changes: show before/after API.' \
+            '- Use markdown: ### headers, bullet lists, inline `code`, and fenced code blocks for usage examples.' \
+            '- Do NOT invent anything not evidenced by the data. If something is unclear, describe it conservatively.' \
+            '- If the diff or file list is empty, say so honestly and only describe what the commits indicate.' \
+            '' \
+            'Sections (include only those with content):' \
+            '### What is New' \
+            '### Improvements' \
+            '### Bug Fixes' \
+            '### Breaking Changes' \
+            '### Packages' \
+            '' \
+            'Always end with a Packages section listing:' \
+            '- PleasantUI' \
+            '- PleasantUI.DataGrid' \
+            '- PleasantUI.MaterialIcons' \
+            '- PleasantUI.ToolKit' \
+            '' \
+            '---' \
+            > /tmp/release-notes-prompt.txt
 
           # ── Append dynamic data with printf (safe — no shell eval of content) ──
           {
