@@ -17,6 +17,7 @@ public class PleasantSettings : ViewModelBase
 
     private string _theme = "System";
     private Guid? _customThemeId;
+    private string _language = "en";
 
     private WindowSettings _windowSettings;
 
@@ -63,6 +64,16 @@ public class PleasantSettings : ViewModelBase
     {
         get => _customThemeId;
         set => SetProperty(ref _customThemeId, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the current language code (e.g., "en", "ru").
+    /// </summary>
+    [DataMember]
+    public string Language
+    {
+        get => _language;
+        set => SetProperty(ref _language, value);
     }
 
     /// <summary>

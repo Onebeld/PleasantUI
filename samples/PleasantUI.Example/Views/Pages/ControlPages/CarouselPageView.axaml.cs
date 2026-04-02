@@ -16,16 +16,24 @@ public partial class CarouselPageView : LocalizedUserControl
 
     private void WireHandlers()
     {
-        PrevButton.Click += (_, _) =>
-        {
-            if (DemoCarousel.SelectedIndex > 0)
-                DemoCarousel.SelectedIndex--;
-        };
+        // Unwire old handlers first
+        PrevButton.Click -= OnPrevClick;
+        NextButton.Click -= OnNextClick;
 
-        NextButton.Click += (_, _) =>
-        {
-            if (DemoCarousel.SelectedIndex < DemoCarousel.ItemCount - 1)
-                DemoCarousel.SelectedIndex++;
-        };
+        // Wire new handlers
+        PrevButton.Click += OnPrevClick;
+        NextButton.Click += OnNextClick;
+    }
+
+    private void OnPrevClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DemoCarousel.SelectedIndex > 0)
+            DemoCarousel.SelectedIndex--;
+    }
+
+    private void OnNextClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DemoCarousel.SelectedIndex < DemoCarousel.ItemCount - 1)
+            DemoCarousel.SelectedIndex++;
     }
 }

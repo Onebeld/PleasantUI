@@ -1,6 +1,7 @@
 using System.Resources;
 using Avalonia;
 using Avalonia.Controls;
+using PleasantUI.Core;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.Structures;
@@ -27,6 +28,12 @@ public class PleasantUiExampleApp : Application
 
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.Library)));
+
+        // Load language from settings if available, otherwise use static LanguageKey
+        if (PleasantSettings.Current is not null && !string.IsNullOrEmpty(PleasantSettings.Current.Language))
+        {
+            LanguageKey = PleasantSettings.Current.Language;
+        }
 
         // IMPORTANT: don't force "en" here.
         // This app can be re-created without the process fully shutting down (hot reload / restart),

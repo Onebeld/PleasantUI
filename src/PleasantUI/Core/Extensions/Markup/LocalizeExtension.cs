@@ -126,11 +126,16 @@ public class LocalizeExtension : MarkupExtension
             // Build a resolver that applies menu bar prefix and default fallback
             string Resolve()
             {
+                string result;
                 if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
-                    return menuBar ? "_" + expression : expression;
-                if (!string.IsNullOrWhiteSpace(defaultVal))
-                    return menuBar ? "_" + defaultVal : defaultVal;
-                return expression;
+                    result = menuBar ? "_" + expression : expression;
+                else if (!string.IsNullOrWhiteSpace(defaultVal))
+                    result = menuBar ? "_" + defaultVal : defaultVal;
+                else
+                    result = expression;
+                
+                System.Diagnostics.Debug.WriteLine($"[LocalizeExtension] Resolve key={resolvedKey} lang={Localizer.Instance.CurrentLanguage} result={result}");
+                return result;
             }
 
             // LocalizeKeyObservable fires PropertyChanged on every language change.

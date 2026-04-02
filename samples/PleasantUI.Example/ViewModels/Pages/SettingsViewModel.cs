@@ -21,6 +21,11 @@ public partial class SettingsViewModel : ViewModelBase
         {
             if (value.Key == PleasantUiExampleApp.LanguageKey) return;
             PleasantUiExampleApp.LanguageKey = value.Key;
+            
+            // Persist language to settings
+            if (PleasantSettings.Current is not null)
+                PleasantSettings.Current.Language = value.Key;
+            
             Localizer.ChangeLang(value.Key);
             RaisePropertyChanged();
         }

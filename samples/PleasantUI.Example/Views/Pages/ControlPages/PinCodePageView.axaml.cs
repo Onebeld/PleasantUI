@@ -5,14 +5,11 @@ namespace PleasantUI.Example.Views.Pages.ControlPages;
 
 public partial class PinCodePageView : LocalizedUserControl
 {
-    private EventHandler<PinCodeCompleteEventArgs>? _onComplete;
-
     public PinCodePageView()
     {
         InitializeComponent();
         WireHandlers();
     }
-    // Complex constructor — don't re-run InitializeComponent
 
     protected override void ReinitializeComponent()
     {
@@ -22,27 +19,40 @@ public partial class PinCodePageView : LocalizedUserControl
 
     private void WireHandlers()
     {
-        _onComplete = (_, e) => { ResultText.Text = e.Value; };
+        // Unwire old handlers first to prevent memory leaks and stale references
+        DefaultPin.Complete  -= OnPinComplete;
+        DigitPin.Complete    -= OnPinComplete;
+        LetterPin.Complete   -= OnPinComplete;
+        PasswordPin.Complete -= OnPinComplete;
+        SixPin.Complete      -= OnPinComplete;
+        ClearButton.Click    -= OnClearClick;
 
-        DefaultPin.Complete  += _onComplete;
-        DigitPin.Complete    += _onComplete;
-        LetterPin.Complete   += _onComplete;
-        PasswordPin.Complete += _onComplete;
-        SixPin.Complete      += _onComplete;
+        // Wire new handlers
+        DefaultPin.Complete  += OnPinComplete;
+        DigitPin.Complete    += OnPinComplete;
+        LetterPin.Complete   += OnPinComplete;
+        PasswordPin.Complete += OnPinComplete;
+        SixPin.Complete      += OnPinComplete;
+        ClearButton.Click    += OnClearClick;
+    }
 
-        ClearButton.Click += (_, _) =>
+    private void OnPinComplete(object? sender, PinCodeCompleteEventArgs e)
+    {
+        ResultText.Text = e.Value;
+    }
+
+    private void OnClearClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        foreach (var pin in new[] { DefaultPin, DigitPin, LetterPin, PasswordPin, SixPin })
         {
-            foreach (var pin in new[] { DefaultPin, DigitPin, LetterPin, PasswordPin, SixPin })
-            {
-                for (int i = 0; i < pin.Count; i++)
-                    pin.Digits[i] = string.Empty;
+            for (int i = 0; i < pin.Count; i++)
+                pin.Digits[i] = string.Empty;
 
-                if (pin.FindControl<ItemsControl>("PART_ItemsControl") is { } ic)
-                    for (int i = 0; i < pin.Count; i++)
-                        if (ic.ContainerFromIndex(i) is PinCodeItem cell)
-                            cell.Text = string.Empty;
-            }
-            ResultText.Text = "—";
-        };
+            if (pin.FindControl<ItemsControl>("PART_ItemsControl") is { } ic)
+                for (int i = 0; i < pin.Count; i++)
+                    if (ic.ContainerFromIndex(i) is PinCodeItem cell)
+                        cell.Text = string.Empty;
+        }
+        ResultText.Text = "—";
     }
 }
