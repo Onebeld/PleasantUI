@@ -23,18 +23,23 @@ public class BindingTranslateConverter : IMultiValueConverter
     /// <inheritdoc />
     public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-        List<object> list = new(values!);
+        if (values is null || values.Count == 0) return string.Empty;
 
-        string key = (list[0] as string)!;
-        
+        string key = (values[0] as string) ?? string.Empty;
+
         if (!string.IsNullOrWhiteSpace(_context))
             key = $"{_context}/{key}";
 
-        list.RemoveAt(0);
+        // values[1] is the language-trigger (ignored as a value, used only to force re-evaluation)
+        // values[2..] are optional format args
+        List<object> args = new();
+        for (int i = 2; i < values.Count; i++)
+            if (values[i] is not null)
+                args.Add(values[i]!);
 
         try
         {
-            return Localizer.Tr(key, args: list.ToArray());
+            return Localizer.Tr(key, args: args.ToArray());
         }
         catch
         {

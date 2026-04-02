@@ -1,17 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class CheckBoxPage : IPage
+public class CheckBoxPage : LocalizedPage
 {
-    public string Title { get; } = "CheckBox";
-
-    public bool ShowTitle { get; } = true;
-
-    public Control Content
-    {
-        get { return new CheckBoxPageView(); }
-    }
+    public override string TitleKey { get; } = "CardTitle/Checkbox";
+    public override bool ShowTitle { get; } = true;
+    public override Control Content => new CheckBoxPageView();
 }

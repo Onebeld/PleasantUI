@@ -157,7 +157,18 @@ public class LocalizeExtension : MarkupExtension
         }
         else if (Key is BindingBase binding)
         {
-            BindingBase[] bindingBases = GetBindings(binding);
+            // Add a language-change trigger so the MultiBinding re-evaluates on every
+            // language switch. Without this the converter only fires when the key binding
+            // itself changes, so the UI stays frozen on the original language.
+            var langTrigger = new LocalizeKeyObservable(() => Localizer.Instance.CurrentLanguage ?? string.Empty);
+            var langBinding = new Binding
+            {
+                Source = langTrigger,
+                Path   = nameof(LocalizeKeyObservable.Value),
+                Mode   = BindingMode.OneWay
+            };
+
+            BindingBase[] bindingBases = GetBindingsWithLang(binding, langBinding);
             return new MultiBinding
             {
                 Bindings  = bindingBases,
@@ -181,5 +192,23 @@ public class LocalizeExtension : MarkupExtension
             bindingBases[i + 1] = _bindings[i];
 
         return bindingBases;
+    }
+
+    /// <summary>
+    /// Builds a bindings array that includes the key binding, the language-trigger binding,
+    /// and any extra format-argument bindings. The converter receives them in that order:
+    /// [key, langTrigger, ...args].
+    /// </summary>
+    private BindingBase[] GetBindingsWithLang(BindingBase keyBinding, BindingBase langBinding)
+    {
+        if (_bindings is null || _bindings.Length == 0)
+            return [keyBinding, langBinding];
+
+        BindingBase[] result = new BindingBase[_bindings.Length + 2];
+        result[0] = keyBinding;
+        result[1] = langBinding;
+        for (int i = 0; i < _bindings.Length; i++)
+            result[i + 2] = _bindings[i];
+        return result;
     }
 }

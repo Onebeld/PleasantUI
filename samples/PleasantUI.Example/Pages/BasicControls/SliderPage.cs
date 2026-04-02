@@ -1,12 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class SliderPage : IPage
+public class SliderPage : LocalizedPage
 {
-    public string Title { get; } = "Slider";
-    public bool ShowTitle { get; } = true;
-    public Control Content { get; } = new SliderPageView();
+    public override string TitleKey { get; } = "CardTitle/Slider";
+    public override bool ShowTitle { get; } = true;
+    public override Control Content { get; } = new SliderPageView();
 }

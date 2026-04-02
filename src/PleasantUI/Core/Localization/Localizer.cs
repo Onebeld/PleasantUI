@@ -24,6 +24,13 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     public static Localizer Instance { get; } = new();
 
     /// <summary>
+    /// Gets the current language code (e.g. "en", "ru").
+    /// Updated by <see cref="ChangeLanguage"/> and used as a reactive trigger
+    /// in dynamic-key localize bindings.
+    /// </summary>
+    public string CurrentLanguage { get; private set; } = DefaultLanguage;
+
+    /// <summary>
     /// Occurs when a property value changes.
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -175,6 +182,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         CultureInfo.DefaultThreadCurrentUICulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
 
+        CurrentLanguage = language;
         LoadLanguage();
 
         LocalizationChanged?.Invoke(language);

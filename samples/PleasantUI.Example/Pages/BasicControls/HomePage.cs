@@ -1,17 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class HomePage : IPage
+public class HomePage : LocalizedPage
 {
-    public string Title { get; } = "Home";
-
-    public bool ShowTitle { get; } = false;
-
-    public Control Content
-    {
-        get { return new HomePageView(); }
-    }
+    public override string TitleKey { get; } = "Home";
+    public override bool ShowTitle { get; } = false;
+    public override Control Content => new HomePageView();
 }

@@ -26,7 +26,7 @@
                                 </Button>
                                 
                                 <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
-                                           Text="{CompiledBinding Title}" />
+                                           Text="{Localize {CompiledBinding TitleKey}}" />
                             </StackPanel>
                             
                             <Decorator Grid.Row="1" Child="{CompiledBinding Content}" />

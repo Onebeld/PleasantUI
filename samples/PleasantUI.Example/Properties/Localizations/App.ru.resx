@@ -341,5 +341,6 @@
     <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>Элемент настроек</value></data>
     <data name="CardTitle/PleasantTabView" xml:space="preserve"><value>Вкладки</value></data>
     <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>Меню</value></data>
+    <data name="CardTitle/Slider" xml:space="preserve"><value>Слайдер</value></data>
     <data name="CardTitle/MessageBox" xml:space="preserve"><value>Диалог</value></data>
 </root>

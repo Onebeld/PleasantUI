@@ -348,6 +348,7 @@
     <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>OptionsDisplayItem</value></data>
     <data name="CardTitle/PleasantTabView" xml:space="preserve"><value>PleasantTabView</value></data>
     <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>PleasantMenu</value></data>
+    <data name="CardTitle/Slider" xml:space="preserve"><value>Slider</value></data>
     <data name="CardTitle/MessageBox" xml:space="preserve"><value>MessageBox</value></data>
 
 </root>

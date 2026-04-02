@@ -1,12 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Views.Pages.PleasantControlPages;
 
 namespace PleasantUI.Example.Pages.PleasantControls;
 
-public class InformationBlockPage : IPage
+public class InformationBlockPage : LocalizedPage
 {
-    public string Title { get; } = "InformationBlock";
-    public bool ShowTitle { get; } = true;
-    public Control Content { get; } = new InformationBlockPageView();
+    public override string TitleKey { get; } = "CardTitle/InformationBlock";
+    public override bool ShowTitle { get; } = true;
+    public override Control Content { get; } = new InformationBlockPageView();
 }

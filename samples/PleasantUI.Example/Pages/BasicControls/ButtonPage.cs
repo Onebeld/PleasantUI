@@ -1,17 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class ButtonPage : IPage
+public class ButtonPage : LocalizedPage
 {
-    public string Title { get; } = "Button";
-
-    public bool ShowTitle { get; } = true;
-
-    public Control Content
-    {
-        get { return new ButtonPageView(); }
-    }
+    public override string TitleKey { get; } = "CardTitle/Button";
+    public override bool ShowTitle { get; } = true;
+    public override Control Content => new ButtonPageView();
 }
