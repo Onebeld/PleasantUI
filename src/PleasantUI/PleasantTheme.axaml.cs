@@ -224,6 +224,7 @@ public class PleasantTheme : Styles
 
         ResolveTheme(_platformSettings);
         ResolveAccentColor(_platformSettings);
+         System.Diagnostics.Debug.WriteLine("Pleasantui INIT done");
     }
 
     private void LoadCustomThemes()
