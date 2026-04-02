@@ -20,6 +20,7 @@ jobs:
       contents: write
       models: read
       pull-requests: read
+      packages: write
 
     steps:
       - uses: actions/checkout@v4
@@ -205,3 +206,25 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           echo "Release created: ${{ steps.create_release.outputs.url }}"
+
+      - name: Publish to GitHub Packages
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          dotnet nuget add source \
+            --username ghudulf \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text \
+            --name github \
+            "https://nuget.pkg.github.com/ghudulf/index.json" || true
+
+          for pkg in \
+            src/PleasantUI/bin/Release/*.nupkg \
+            src/PleasantUI.DataGrid/bin/Release/*.nupkg \
+            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg \
+            src/PleasantUI.ToolKit/bin/Release/*.nupkg; do
+            echo "Pushing $pkg"
+            dotnet nuget push "$pkg" \
+              --api-key ${{ secrets.GITHUB_TOKEN }} \
+              --source "github" \
+              --skip-duplicate
+          done
