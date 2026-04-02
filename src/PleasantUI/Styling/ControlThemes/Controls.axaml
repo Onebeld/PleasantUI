@@ -92,6 +92,7 @@
                 <MergeResourceInclude Source="PleasantControls/RippleEffect.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
+                <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

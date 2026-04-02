@@ -371,4 +371,45 @@
     <data name="CardTitle/Slider" xml:space="preserve"><value>Slider</value></data>
     <data name="CardTitle/MessageBox" xml:space="preserve"><value>MessageBox</value></data>
 
+    <!-- Timeline page -->
+    <data name="CardTitle/Timeline" xml:space="preserve"><value>Timeline</value></data>
+    <data name="Card/Timeline" xml:space="preserve"><value>A vertical sequence of events displayed along a connecting axis line, with support for timestamps, icons, and multiple layout modes.</value></data>
+    <data name="Timeline/Description" xml:space="preserve"><value>Displays a list of events in chronological order along a vertical axis. Supports four layout modes, custom icons, and five severity types.</value></data>
+    <data name="Timeline/DisplayMode" xml:space="preserve"><value>Display mode</value></data>
+    <data name="Timeline/ModeLeft" xml:space="preserve"><value>Left</value></data>
+    <data name="Timeline/ModeRight" xml:space="preserve"><value>Right</value></data>
+    <data name="Timeline/ModeCenter" xml:space="preserve"><value>Center</value></data>
+    <data name="Timeline/ModeAlternate" xml:space="preserve"><value>Alternate</value></data>
+    <data name="Timeline/OrderTracking" xml:space="preserve"><value>Order tracking</value></data>
+    <data name="Timeline/Step1Header" xml:space="preserve"><value>Order placed</value></data>
+    <data name="Timeline/Step1Content" xml:space="preserve"><value>Your order has been received and confirmed.</value></data>
+    <data name="Timeline/Step2Header" xml:space="preserve"><value>Payment verified</value></data>
+    <data name="Timeline/Step2Content" xml:space="preserve"><value>Payment was processed successfully.</value></data>
+    <data name="Timeline/Step3Header" xml:space="preserve"><value>Preparing shipment</value></data>
+    <data name="Timeline/Step3Content" xml:space="preserve"><value>Your items are being packed and prepared.</value></data>
+    <data name="Timeline/Step4Header" xml:space="preserve"><value>Out for delivery</value></data>
+    <data name="Timeline/Step4Content" xml:space="preserve"><value>Estimated delivery date.</value></data>
+    <data name="Timeline/Step5Header" xml:space="preserve"><value>Delivered</value></data>
+    <data name="Timeline/Step5Content" xml:space="preserve"><value>Package delivered to your address.</value></data>
+    <data name="Timeline/ItemTypes" xml:space="preserve"><value>Item types</value></data>
+    <data name="Timeline/ItemTypesDesc" xml:space="preserve"><value>Each item can carry a Type that controls the colour of the default dot when no custom icon is provided.</value></data>
+    <data name="Timeline/TypeDefault" xml:space="preserve"><value>Default</value></data>
+    <data name="Timeline/TypeDefaultDesc" xml:space="preserve"><value>Neutral grey dot.</value></data>
+    <data name="Timeline/TypeOngoing" xml:space="preserve"><value>Ongoing</value></data>
+    <data name="Timeline/TypeOngoingDesc" xml:space="preserve"><value>Blue dot — operation in progress.</value></data>
+    <data name="Timeline/TypeSuccess" xml:space="preserve"><value>Success</value></data>
+    <data name="Timeline/TypeSuccessDesc" xml:space="preserve"><value>Green dot — completed successfully.</value></data>
+    <data name="Timeline/TypeWarning" xml:space="preserve"><value>Warning</value></data>
+    <data name="Timeline/TypeWarningDesc" xml:space="preserve"><value>Yellow dot — needs attention.</value></data>
+    <data name="Timeline/TypeError" xml:space="preserve"><value>Error</value></data>
+    <data name="Timeline/TypeErrorDesc" xml:space="preserve"><value>Red dot — something went wrong.</value></data>
+    <data name="Timeline/CustomIcon" xml:space="preserve"><value>Custom icons</value></data>
+    <data name="Timeline/CustomIconDesc" xml:space="preserve"><value>Set the Icon property to any control — PathIcon, Image, or anything else.</value></data>
+    <data name="Timeline/IconStep1" xml:space="preserve"><value>Approved</value></data>
+    <data name="Timeline/IconStep1Desc" xml:space="preserve"><value>Request was approved by the reviewer.</value></data>
+    <data name="Timeline/IconStep2" xml:space="preserve"><value>In review</value></data>
+    <data name="Timeline/IconStep2Desc" xml:space="preserve"><value>Awaiting review from the team.</value></data>
+    <data name="Timeline/IconStep3" xml:space="preserve"><value>Rejected</value></data>
+    <data name="Timeline/IconStep3Desc" xml:space="preserve"><value>Request was rejected. Please revise and resubmit.</value></data>
+
 </root>

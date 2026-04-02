@@ -363,4 +363,45 @@
     <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>Меню</value></data>
     <data name="CardTitle/Slider" xml:space="preserve"><value>Слайдер</value></data>
     <data name="CardTitle/MessageBox" xml:space="preserve"><value>Диалог</value></data>
+
+    <!-- Timeline page -->
+    <data name="CardTitle/Timeline" xml:space="preserve"><value>Временная шкала</value></data>
+    <data name="Card/Timeline" xml:space="preserve"><value>Вертикальная последовательность событий вдоль оси с поддержкой временных меток, иконок и нескольких режимов отображения.</value></data>
+    <data name="Timeline/Description" xml:space="preserve"><value>Отображает список событий в хронологическом порядке вдоль вертикальной оси. Поддерживает четыре режима расположения, пользовательские иконки и пять типов серьёзности.</value></data>
+    <data name="Timeline/DisplayMode" xml:space="preserve"><value>Режим отображения</value></data>
+    <data name="Timeline/ModeLeft" xml:space="preserve"><value>Слева</value></data>
+    <data name="Timeline/ModeRight" xml:space="preserve"><value>Справа</value></data>
+    <data name="Timeline/ModeCenter" xml:space="preserve"><value>По центру</value></data>
+    <data name="Timeline/ModeAlternate" xml:space="preserve"><value>Чередование</value></data>
+    <data name="Timeline/OrderTracking" xml:space="preserve"><value>Отслеживание заказа</value></data>
+    <data name="Timeline/Step1Header" xml:space="preserve"><value>Заказ оформлен</value></data>
+    <data name="Timeline/Step1Content" xml:space="preserve"><value>Ваш заказ получен и подтверждён.</value></data>
+    <data name="Timeline/Step2Header" xml:space="preserve"><value>Оплата подтверждена</value></data>
+    <data name="Timeline/Step2Content" xml:space="preserve"><value>Платёж успешно обработан.</value></data>
+    <data name="Timeline/Step3Header" xml:space="preserve"><value>Подготовка к отправке</value></data>
+    <data name="Timeline/Step3Content" xml:space="preserve"><value>Ваши товары упаковываются и готовятся к отправке.</value></data>
+    <data name="Timeline/Step4Header" xml:space="preserve"><value>В пути</value></data>
+    <data name="Timeline/Step4Content" xml:space="preserve"><value>Ожидаемая дата доставки.</value></data>
+    <data name="Timeline/Step5Header" xml:space="preserve"><value>Доставлено</value></data>
+    <data name="Timeline/Step5Content" xml:space="preserve"><value>Посылка доставлена по вашему адресу.</value></data>
+    <data name="Timeline/ItemTypes" xml:space="preserve"><value>Типы элементов</value></data>
+    <data name="Timeline/ItemTypesDesc" xml:space="preserve"><value>Каждый элемент может иметь тип, определяющий цвет точки по умолчанию при отсутствии пользовательской иконки.</value></data>
+    <data name="Timeline/TypeDefault" xml:space="preserve"><value>По умолчанию</value></data>
+    <data name="Timeline/TypeDefaultDesc" xml:space="preserve"><value>Нейтральная серая точка.</value></data>
+    <data name="Timeline/TypeOngoing" xml:space="preserve"><value>В процессе</value></data>
+    <data name="Timeline/TypeOngoingDesc" xml:space="preserve"><value>Синяя точка — операция выполняется.</value></data>
+    <data name="Timeline/TypeSuccess" xml:space="preserve"><value>Успех</value></data>
+    <data name="Timeline/TypeSuccessDesc" xml:space="preserve"><value>Зелёная точка — выполнено успешно.</value></data>
+    <data name="Timeline/TypeWarning" xml:space="preserve"><value>Предупреждение</value></data>
+    <data name="Timeline/TypeWarningDesc" xml:space="preserve"><value>Жёлтая точка — требует внимания.</value></data>
+    <data name="Timeline/TypeError" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="Timeline/TypeErrorDesc" xml:space="preserve"><value>Красная точка — что-то пошло не так.</value></data>
+    <data name="Timeline/CustomIcon" xml:space="preserve"><value>Пользовательские иконки</value></data>
+    <data name="Timeline/CustomIconDesc" xml:space="preserve"><value>Установите свойство Icon в любой элемент — PathIcon, Image или что-либо другое.</value></data>
+    <data name="Timeline/IconStep1" xml:space="preserve"><value>Одобрено</value></data>
+    <data name="Timeline/IconStep1Desc" xml:space="preserve"><value>Запрос одобрен рецензентом.</value></data>
+    <data name="Timeline/IconStep2" xml:space="preserve"><value>На проверке</value></data>
+    <data name="Timeline/IconStep2Desc" xml:space="preserve"><value>Ожидает проверки командой.</value></data>
+    <data name="Timeline/IconStep3" xml:space="preserve"><value>Отклонено</value></data>
+    <data name="Timeline/IconStep3Desc" xml:space="preserve"><value>Запрос отклонён. Исправьте и отправьте повторно.</value></data>
 </root>
