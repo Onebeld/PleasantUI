@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:PleasantUI.Converters"
                     x:ClassModifier="internal">
 
 	<Design.PreviewWith>
@@ -23,6 +24,9 @@
 		<Setter Property="FontWeight" Value="SemiBold" />
 		<Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
 		<Setter Property="Cursor" Value="IBeam" />
+		<Setter Property="ClipToBounds" Value="False" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
 
 		<Setter Property="Transitions">
 			<Transitions>
@@ -36,14 +40,16 @@
 				<Border Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}">
 					<TextBlock x:Name="PART_Text"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="{TemplateBinding FontSize}"
                                FontWeight="{TemplateBinding FontWeight}"
                                Foreground="{TemplateBinding Foreground}"
-                               Text="{TemplateBinding Text}" />
+                               Text="{Binding DisplayText, RelativeSource={RelativeSource TemplatedParent}}" />
 				</Border>
 			</ControlTemplate>
 		</Setter>
@@ -68,23 +74,29 @@
 		<Style Selector="^:filled:focused">
 			<Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
 		</Style>
+	</ControlTheme>
 
-		<!-- Password mode (через псевдокласс!) -->
-		<Style Selector="^:password /template/ TextBlock#PART_Text">
-			<Setter Property="Text"
-					Value="{Binding PasswordChar, RelativeSource={RelativeSource TemplatedParent}}" />
-		</Style>
-
+	<!-- PinCodeItemsControl (derived from ItemsControl, needs its own template) -->
+	<ControlTheme x:Key="{x:Type PinCodeItemsControl}" TargetType="PinCodeItemsControl">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<ItemsPresenter Name="PART_ItemsPresenter"
+				                ItemsPanel="{TemplateBinding ItemsPanel}" />
+			</ControlTemplate>
+		</Setter>
 	</ControlTheme>
 
 	<!-- PinCode -->
 	<ControlTheme x:Key="{x:Type PinCode}" TargetType="PinCode">
 		<Setter Property="Focusable" Value="True" />
+		<Setter Property="Height" Value="44" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
 
 		<Setter Property="Template">
 			<ControlTemplate TargetType="PinCode">
 				<PinCodeItemsControl x:Name="PART_ItemsControl"
-                                     ItemsSource="{TemplateBinding Digits}">
+				                     ItemsSource="{Binding Digits, RelativeSource={RelativeSource TemplatedParent}}">
 					<PinCodeItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel Orientation="Horizontal"

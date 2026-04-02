@@ -23,10 +23,10 @@
 
                 <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
                     <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
-                               Text="{CompiledBinding Title}"
+                               Text="{Localize {Binding TitleKey}}"
                                TextWrapping="Wrap" />
                     <TextBlock Foreground="{DynamicResource TextFillColor2}"
-                               Text="{CompiledBinding Description}"
+                               Text="{Localize {Binding DescriptionKey}}"
                                TextWrapping="Wrap"
                                FontSize="12" />
                 </StackPanel>

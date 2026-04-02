@@ -10,11 +10,25 @@ namespace PleasantUI.Example.Models;
 public class ControlPageCard : INotifyPropertyChanged
 {
     private readonly IEventAggregator _eventAggregator;
-    private readonly string _descriptionKey;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public string Title { get; set; }
+    /// <summary>
+    /// The localization key for the title.
+    /// </summary>
+    public string TitleKey { get; }
+
+    /// <summary>
+    /// The localization key for the description.
+    /// </summary>
+    public string DescriptionKey { get; }
+
+    /// <summary>
+    /// Resolved title — re-evaluated whenever the language changes.
+    /// </summary>
+    public string Title =>
+        Localizer.Instance.TryGetString(TitleKey, out string value) ? value : TitleKey;
+
     public Geometry Icon { get; set; }
     public IPage Page { get; set; }
 
@@ -22,19 +36,34 @@ public class ControlPageCard : INotifyPropertyChanged
     /// Resolved description — re-evaluated whenever the language changes.
     /// </summary>
     public string Description =>
-        Localizer.Instance.TryGetString(_descriptionKey, out string value) ? value : _descriptionKey;
+        Localizer.Instance.TryGetString(DescriptionKey, out string value) ? value : DescriptionKey;
 
-    public ControlPageCard(string title, Geometry icon, string descriptionKey, IPage page, IEventAggregator eventAggregator)
+    public ControlPageCard(string titleKey, Geometry icon, string descriptionKey, IPage page, IEventAggregator eventAggregator)
     {
         _eventAggregator = eventAggregator;
-        _descriptionKey = descriptionKey;
+        TitleKey = titleKey;
+        DescriptionKey = descriptionKey;
 
-        Title = title;
         Icon = icon;
         Page = page;
 
         Localizer.Instance.LocalizationChanged += _ =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+        {
+            // Marshal to UI thread to ensure bindings update properly
+            if (Avalonia.Threading.Dispatcher.UIThread.CheckAccess())
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+            }
+            else
+            {
+                Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                });
+            }
+        };
     }
 
     public void OpenPage()

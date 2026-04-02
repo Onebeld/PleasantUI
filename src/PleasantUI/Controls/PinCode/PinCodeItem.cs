@@ -9,18 +9,22 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A single character cell inside a <see cref="PinCode"/> control.
 /// </summary>
-[PseudoClasses(":filled", ":focused", ":password")]
+[PseudoClasses(":filled", ":focused")]
 public class PinCodeItem : TemplatedControl
 {
+    /// <summary>The raw entered character.</summary>
     public static readonly StyledProperty<string> TextProperty =
-        AvaloniaProperty.Register<PinCodeItem, string>(
-            nameof(Text),
-            defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
+        AvaloniaProperty.Register<PinCodeItem, string>(nameof(Text), string.Empty);
 
+    /// <summary>When non-zero, each filled cell shows this character instead of <see cref="Text"/>.</summary>
     public static readonly StyledProperty<char> PasswordCharProperty =
-        AvaloniaProperty.Register<PinCodeItem, char>(
-            nameof(PasswordChar),
-            defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
+        AvaloniaProperty.Register<PinCodeItem, char>(nameof(PasswordChar));
+
+    /// <summary>The text actually displayed — either <see cref="Text"/> or <see cref="PasswordChar"/>.</summary>
+    public static readonly DirectProperty<PinCodeItem, string> DisplayTextProperty =
+        AvaloniaProperty.RegisterDirect<PinCodeItem, string>(nameof(DisplayText), o => o.DisplayText);
+
+    private string _displayText = string.Empty;
 
     public string Text
     {
@@ -34,24 +38,29 @@ public class PinCodeItem : TemplatedControl
         set => SetValue(PasswordCharProperty, value);
     }
 
+    public string DisplayText
+    {
+        get => _displayText;
+        private set => SetAndRaise(DisplayTextProperty, ref _displayText, value);
+    }
+
     static PinCodeItem()
     {
-        TextProperty.Changed.AddClassHandler<PinCodeItem>((item, _) =>
-            item.UpdateStates());
-
-        PasswordCharProperty.Changed.AddClassHandler<PinCodeItem>((item, _) =>
-            item.UpdateStates());
-
         FocusableProperty.OverrideDefaultValue<PinCodeItem>(true);
     }
 
-    private void UpdateStates()
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        bool hasText = !string.IsNullOrEmpty(Text);
-        bool isPassword = PasswordChar != '\0' && hasText;
+        base.OnPropertyChanged(change);
 
-        PseudoClasses.Set(":filled", hasText);
-        PseudoClasses.Set(":password", isPassword);
+        if (change.Property == TextProperty || change.Property == PasswordCharProperty)
+        {
+            bool filled = !string.IsNullOrEmpty(Text);
+            PseudoClasses.Set(":filled", filled);
+            DisplayText = filled && PasswordChar != '\0'
+                ? PasswordChar.ToString()
+                : Text;
+        }
     }
 
     protected override void OnGotFocus(FocusChangedEventArgs e)

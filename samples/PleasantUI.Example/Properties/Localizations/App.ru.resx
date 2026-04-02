@@ -267,6 +267,20 @@
     <data name="Card/ComboBox" xml:space="preserve"><value>Выпадающий список для выбора одного варианта из предопределённого набора.</value></data>
     <data name="Card/TextBox" xml:space="preserve"><value>Прямоугольная область для ввода и редактирования текста.</value></data>
     <data name="Card/DataGrid" xml:space="preserve"><value>Сетка для отображения данных в табличном формате.</value></data>
+    <data name="Card/PinCode" xml:space="preserve"><value>Элемент ввода PIN / OTP с отдельными ячейками для каждого символа.</value></data>
+    <!-- PinCode page -->
+    <data name="PinCode/LastValue" xml:space="preserve"><value>Последнее значение:</value></data>
+    <data name="PinCode/Default" xml:space="preserve"><value>По умолчанию (буквы + цифры)</value></data>
+    <data name="PinCode/DefaultDesc" xml:space="preserve"><value>Принимает любую букву или цифру. Заполните все 4 ячейки для срабатывания события Complete.</value></data>
+    <data name="PinCode/DigitOnly" xml:space="preserve"><value>Только цифры</value></data>
+    <data name="PinCode/DigitOnlyDesc" xml:space="preserve"><value>Принимаются только 0–9. Буквы игнорируются.</value></data>
+    <data name="PinCode/LetterOnly" xml:space="preserve"><value>Только буквы</value></data>
+    <data name="PinCode/LetterOnlyDesc" xml:space="preserve"><value>Принимаются только A–Z / a–z.</value></data>
+    <data name="PinCode/PasswordMask" xml:space="preserve"><value>Маска пароля</value></data>
+    <data name="PinCode/PasswordMaskDesc" xml:space="preserve"><value>Каждая заполненная ячейка показывает ● вместо реального символа.</value></data>
+    <data name="PinCode/SixCells" xml:space="preserve"><value>6 ячеек (OTP)</value></data>
+    <data name="PinCode/SixCellsDesc" xml:space="preserve"><value>Стандартная длина одноразового пароля. Поддержка вставки — попробуйте Ctrl+V с 6-значной строкой.</value></data>
+    <data name="PinCode/Clear" xml:space="preserve"><value>Очистить всё</value></data>
     <!-- DataGrid page -->
     <data name="DataGrid/GridLines" xml:space="preserve"><value>Линии сетки</value></data>
     <data name="DataGrid/ReorderColumns" xml:space="preserve"><value>Перестановка столбцов</value></data>
@@ -312,4 +326,20 @@
     <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Открытые файлы</value></data>
     <data name="PleasantMenu/Modules" xml:space="preserve"><value>Загруженные модули</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>Диалог, отображающий сообщение и ожидающий подтверждения пользователя.</value></data>
+    <!-- Card titles -->
+    <data name="CardTitle/Button" xml:space="preserve"><value>Кнопка</value></data>
+    <data name="CardTitle/Checkbox" xml:space="preserve"><value>Флажок</value></data>
+    <data name="CardTitle/Progress" xml:space="preserve"><value>Прогресс</value></data>
+    <data name="CardTitle/Calendar" xml:space="preserve"><value>Календарь</value></data>
+    <data name="CardTitle/Carousel" xml:space="preserve"><value>Карусель</value></data>
+    <data name="CardTitle/ComboBox" xml:space="preserve"><value>Выпадающий список</value></data>
+    <data name="CardTitle/TextBox" xml:space="preserve"><value>Текстовое поле</value></data>
+    <data name="CardTitle/DataGrid" xml:space="preserve"><value>Таблица</value></data>
+    <data name="CardTitle/PinCode" xml:space="preserve"><value>Пин-код</value></data>
+    <data name="CardTitle/PleasantSnackbar" xml:space="preserve"><value>Уведомление</value></data>
+    <data name="CardTitle/InformationBlock" xml:space="preserve"><value>Информационный блок</value></data>
+    <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>Элемент настроек</value></data>
+    <data name="CardTitle/PleasantTabView" xml:space="preserve"><value>Вкладки</value></data>
+    <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>Меню</value></data>
+    <data name="CardTitle/MessageBox" xml:space="preserve"><value>Диалог</value></data>
 </root>

@@ -1,8 +1,5 @@
 ﻿using Avalonia.Data;
-using Avalonia.Data.Core;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
 using PleasantUI.Converters;
 using PleasantUI.Core.Localization;
 
@@ -122,57 +119,50 @@ public class LocalizeExtension : MarkupExtension
             if (!string.IsNullOrWhiteSpace(Context))
                 key = $"{Context}/{Key}";
 
-            ClrPropertyInfo keyInfo = new(
-                nameof(Key),
-                _ =>
-                {
-                    if (Localizer.Instance.TryGetString(key, out string expression))
-                        return MenuBar ? "_" + expression : expression;
+            string resolvedKey = key;
+            bool menuBar = MenuBar;
+            string? defaultVal = Default;
 
-                    if (!string.IsNullOrWhiteSpace(Default))
-                        return MenuBar ? "_" + Default : Default;
-
-                    return expression;
-                },
-                null,
-                typeof(string));
-
-            CompiledBindingPath path = new CompiledBindingPathBuilder()
-                .Property(keyInfo, PropertyInfoAccessorFactory.CreateInpcPropertyAccessor)
-                .Build();
-
-            CompiledBindingExtension binding = new(path)
+            // Build a resolver that applies menu bar prefix and default fallback
+            string Resolve()
             {
-                Mode = BindingMode.OneWay,
-                Source = Localizer.Instance
+                if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
+                    return menuBar ? "_" + expression : expression;
+                if (!string.IsNullOrWhiteSpace(defaultVal))
+                    return menuBar ? "_" + defaultVal : defaultVal;
+                return expression;
+            }
+
+            // LocalizeKeyObservable fires PropertyChanged("Value") + ("") + ("Item") on every
+            // language change, so both reflection and compiled bindings pick it up.
+            var observable = new LocalizeKeyObservable(Resolve);
+
+            // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources
+            var binding = new Binding
+            {
+                Source = observable,
+                Path   = nameof(LocalizeKeyObservable.Value),
+                Mode   = BindingMode.OneWay
             };
 
             if (_bindings is null || _bindings.Length <= 0)
                 return binding;
 
             BindingBase[] bindingBases = GetBindings(binding);
-
-            MultiBinding multiBinding = new()
+            return new MultiBinding
             {
-                // ReSharper disable once CoVariantArrayConversion
-                Bindings = bindingBases,
+                Bindings  = bindingBases,
                 Converter = new TranslateConverter()
             };
-
-            return multiBinding;
         }
         else if (Key is BindingBase binding)
         {
             BindingBase[] bindingBases = GetBindings(binding);
-
-            MultiBinding multiBinding = new()
+            return new MultiBinding
             {
-                // ReSharper disable once CoVariantArrayConversion
-                Bindings = bindingBases,
+                Bindings  = bindingBases,
                 Converter = new BindingTranslateConverter(Context)
             };
-
-            return multiBinding;
         }
 
         throw new NotSupportedException("Key must be a string or BindingBase");

@@ -47,7 +47,7 @@ public class PinCode : TemplatedControl
     public static readonly StyledProperty<double> SpacingProperty =
         AvaloniaProperty.Register<PinCode, double>(nameof(Spacing), 8);
 
-    private IList<string> _digits = [];
+    private IList<string> _digits = new List<string>(Enumerable.Repeat(string.Empty, 4));
 
     public int         Count           { get => GetValue(CountProperty);           set => SetValue(CountProperty, value); }
     public PinCodeMode Mode            { get => GetValue(ModeProperty);            set => SetValue(ModeProperty, value); }
@@ -59,7 +59,13 @@ public class PinCode : TemplatedControl
     public IList<string> Digits
     {
         get => _digits;
-        private set => SetAndRaise(DigitsProperty, ref _digits, value);
+        private set
+        {
+            SetAndRaise(DigitsProperty, ref _digits, value);
+            // Keep ItemsControl in sync whenever the list is replaced
+            if (_itemsControl is not null)
+                _itemsControl.ItemsSource = _digits;
+        }
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -80,16 +86,26 @@ public class PinCode : TemplatedControl
     static PinCode()
     {
         FocusableProperty.OverrideDefaultValue<PinCode>(true);
-       
 
         CountProperty.Changed.AddClassHandler<PinCode, int>((pin, args) =>
         {
             int n = args.NewValue.Value;
             if (n > 0)
+            {
                 pin.Digits = new List<string>(Enumerable.Repeat(string.Empty, n));
+                // If template already applied, refresh ItemsSource
+                if (pin._itemsControl is not null)
+                    pin._itemsControl.ItemsSource = pin.Digits;
+            }
         });
 
         KeyDownEvent.AddClassHandler<PinCode>((o, e) => o.OnPreviewKeyDown(e), RoutingStrategies.Tunnel);
+    }
+
+    public PinCode()
+    {
+        // Initialize with default Count so Digits is non-empty before template applies
+        Digits = new List<string>(Enumerable.Repeat(string.Empty, Count));
     }
 
     // ── Template ──────────────────────────────────────────────────────────────
@@ -99,6 +115,9 @@ public class PinCode : TemplatedControl
     {
         base.OnApplyTemplate(e);
         _itemsControl = e.NameScope.Get<PinCodeItemsControl>("PART_ItemsControl");
+
+        // Ensure ItemsSource is set — Digits may have been initialized before template applied
+        _itemsControl.ItemsSource = Digits;
 
         AddHandler(PointerPressedEvent, OnControlPressed, RoutingStrategies.Tunnel, handledEventsToo: false);
     }

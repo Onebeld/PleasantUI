@@ -274,6 +274,20 @@
     <data name="Card/ComboBox" xml:space="preserve"><value>A dropdown list that allows users to select a single option from a predefined list.</value></data>
     <data name="Card/TextBox" xml:space="preserve"><value>A rectangular area where users can enter and edit text.</value></data>
     <data name="Card/DataGrid" xml:space="preserve"><value>A grid that displays data in a tabular format.</value></data>
+    <data name="Card/PinCode" xml:space="preserve"><value>A PIN / OTP entry control with individual character cells.</value></data>
+    <!-- PinCode page -->
+    <data name="PinCode/LastValue" xml:space="preserve"><value>Last completed value:</value></data>
+    <data name="PinCode/Default" xml:space="preserve"><value>Default (letters + digits)</value></data>
+    <data name="PinCode/DefaultDesc" xml:space="preserve"><value>Accepts any letter or digit. Fill all 4 cells to fire the Complete event.</value></data>
+    <data name="PinCode/DigitOnly" xml:space="preserve"><value>Digit only</value></data>
+    <data name="PinCode/DigitOnlyDesc" xml:space="preserve"><value>Only 0–9 are accepted. Letters are silently ignored.</value></data>
+    <data name="PinCode/LetterOnly" xml:space="preserve"><value>Letter only</value></data>
+    <data name="PinCode/LetterOnlyDesc" xml:space="preserve"><value>Only A–Z / a–z are accepted.</value></data>
+    <data name="PinCode/PasswordMask" xml:space="preserve"><value>Password mask</value></data>
+    <data name="PinCode/PasswordMaskDesc" xml:space="preserve"><value>Each filled cell shows ● instead of the actual digit.</value></data>
+    <data name="PinCode/SixCells" xml:space="preserve"><value>6-cell OTP</value></data>
+    <data name="PinCode/SixCellsDesc" xml:space="preserve"><value>Typical one-time password length. Paste support — try Ctrl+V with a 6-digit string.</value></data>
+    <data name="PinCode/Clear" xml:space="preserve"><value>Clear all</value></data>
     <!-- DataGrid page -->
     <data name="DataGrid/GridLines" xml:space="preserve"><value>Grid lines</value></data>
     <data name="DataGrid/ReorderColumns" xml:space="preserve"><value>Reorder columns</value></data>
@@ -319,4 +333,21 @@
     <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Open files</value></data>
     <data name="PleasantMenu/Modules" xml:space="preserve"><value>Loaded modules</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>A dialog that displays a message and waits for user confirmation.</value></data>
+    <!-- Card titles -->
+    <data name="CardTitle/Button" xml:space="preserve"><value>Button</value></data>
+    <data name="CardTitle/Checkbox" xml:space="preserve"><value>Checkbox</value></data>
+    <data name="CardTitle/Progress" xml:space="preserve"><value>Progress</value></data>
+    <data name="CardTitle/Calendar" xml:space="preserve"><value>Calendar</value></data>
+    <data name="CardTitle/Carousel" xml:space="preserve"><value>Carousel</value></data>
+    <data name="CardTitle/ComboBox" xml:space="preserve"><value>ComboBox</value></data>
+    <data name="CardTitle/TextBox" xml:space="preserve"><value>TextBox</value></data>
+    <data name="CardTitle/DataGrid" xml:space="preserve"><value>DataGrid</value></data>
+    <data name="CardTitle/PinCode" xml:space="preserve"><value>PinCode</value></data>
+    <data name="CardTitle/PleasantSnackbar" xml:space="preserve"><value>PleasantSnackbar</value></data>
+    <data name="CardTitle/InformationBlock" xml:space="preserve"><value>InformationBlock</value></data>
+    <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>OptionsDisplayItem</value></data>
+    <data name="CardTitle/PleasantTabView" xml:space="preserve"><value>PleasantTabView</value></data>
+    <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>PleasantMenu</value></data>
+    <data name="CardTitle/MessageBox" xml:space="preserve"><value>MessageBox</value></data>
+
 </root>

@@ -1,5 +1,7 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Threading;
 using PleasantUI.Core;
+using PleasantUI.Core.Localization;
 using PleasantUI.Example.Factories;
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Messages;
@@ -58,6 +60,18 @@ public class AppViewModel : ViewModelBase
             ChangePage(message.Page);
             await Task.CompletedTask;
         });
+
+        // Force card refresh when language changes
+        Localizer.Instance.LocalizationChanged += _ =>
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                // Force refresh of all card collections
+                RaisePropertyChanged(nameof(BasicControlPageCards));
+                RaisePropertyChanged(nameof(PleasantControlPageCards));
+                RaisePropertyChanged(nameof(ToolKitPageCards));
+            });
+        };
     }
 
     /// <summary>
