@@ -2,8 +2,7 @@
 using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages.BasicControls;
 using PleasantUI.Example.Pages.PleasantControls;
-using PleasantUI.Example.Pages.Toolkit;
-using PleasantUI.ToolKit.Services.Interfaces;
+using PleasantUI.Example.Pages.Toolkit;using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.Example.Factories;
 
@@ -42,6 +41,7 @@ public class ControlPageCardsFactory
             new("CardTitle/PleasantTabView",     MaterialIcons.Tab,                   "Card/PleasantTabView",     new PleasantTabViewPage(),     _eventAggregator),
             new("CardTitle/PleasantMenu",        MaterialIcons.MenuOpen,              "Card/PleasantMenu",        new PleasantMenuPage(),        _eventAggregator),
             new("CardTitle/Timeline",            MaterialIcons.TimelineOutline,       "Card/Timeline",            new TimelinePage(),            _eventAggregator),
+            new("CardTitle/InstallWizard",       MaterialIcons.WizardHat,             "Card/InstallWizard",       new InstallWizardPage(),       _eventAggregator),
         ];
     }
 

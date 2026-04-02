@@ -93,6 +93,7 @@
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
                 <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
+                <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

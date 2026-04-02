@@ -404,4 +404,49 @@
     <data name="Timeline/IconStep2Desc" xml:space="preserve"><value>Ожидает проверки командой.</value></data>
     <data name="Timeline/IconStep3" xml:space="preserve"><value>Отклонено</value></data>
     <data name="Timeline/IconStep3Desc" xml:space="preserve"><value>Запрос отклонён. Исправьте и отправьте повторно.</value></data>
+
+    <!-- InstallWizard page -->
+    <data name="CardTitle/InstallWizard" xml:space="preserve"><value>Мастер установки</value></data>
+    <data name="Card/InstallWizard" xml:space="preserve"><value>Многошаговый мастер установки с боковой панелью шагов, прогресс-баром и навигацией Назад / Далее / Отмена.</value></data>
+    <data name="InstallWizard/Description" xml:space="preserve"><value>Шаблонный элемент управления, который проводит пользователя через многоэтапный процесс настройки. Включает боковую панель отслеживания шагов, область содержимого с плавными переходами и нижнюю панель навигации.</value></data>
+    <data name="InstallWizard/DemoTitle" xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="InstallWizard/DemoDesc" xml:space="preserve"><value>Используйте кнопки Назад и Далее для перемещения между шагами. Боковая панель отслеживает прогресс и отмечает завершённые шаги галочкой.</value></data>
+    <data name="InstallWizard/AppName" xml:space="preserve"><value>Установка PleasantUI</value></data>
+    <data name="InstallWizard/FooterText" xml:space="preserve"><value>© 2025 PleasantUI. Все права защищены.</value></data>
+    <data name="InstallWizard/Step1Header" xml:space="preserve"><value>Добро пожаловать</value></data>
+    <data name="InstallWizard/Step1Desc" xml:space="preserve"><value>Добро пожаловать в мастер установки PleasantUI.</value></data>
+    <data name="InstallWizard/Step1Body" xml:space="preserve"><value>Этот мастер проведёт вас через установку PleasantUI. Нажмите Далее для продолжения.</value></data>
+    <data name="InstallWizard/Step1Check" xml:space="preserve"><value>Создать ярлык на рабочем столе</value></data>
+    <data name="InstallWizard/Step2Header" xml:space="preserve"><value>Лицензионное соглашение</value></data>
+    <data name="InstallWizard/Step2Desc" xml:space="preserve"><value>Пожалуйста, прочитайте лицензионное соглашение перед продолжением.</value></data>
+    <data name="InstallWizard/LicenseText" xml:space="preserve"><value>Лицензия MIT
+
+Настоящим предоставляется бесплатное разрешение любому лицу, получившему копию данного программного обеспечения и сопутствующей документации, использовать программное обеспечение без ограничений, включая права на использование, копирование, изменение, слияние, публикацию, распространение, сублицензирование и продажу копий программного обеспечения.</value></data>
+    <data name="InstallWizard/Step2Check" xml:space="preserve"><value>Я принимаю условия лицензионного соглашения</value></data>
+    <data name="InstallWizard/Step3Header" xml:space="preserve"><value>Тип установки</value></data>
+    <data name="InstallWizard/Step3Desc" xml:space="preserve"><value>Выберите способ установки PleasantUI.</value></data>
+    <data name="InstallWizard/TypeStandard" xml:space="preserve"><value>Стандартная</value></data>
+    <data name="InstallWizard/TypeStandardDesc" xml:space="preserve"><value>Устанавливает наиболее распространённые компоненты. Рекомендуется для большинства пользователей.</value></data>
+    <data name="InstallWizard/TypeCustom" xml:space="preserve"><value>Выборочная</value></data>
+    <data name="InstallWizard/TypeCustomDesc" xml:space="preserve"><value>Выберите компоненты для установки. Для опытных пользователей.</value></data>
+    <data name="InstallWizard/Step4Header" xml:space="preserve"><value>Установка</value></data>
+    <data name="InstallWizard/Step4Desc" xml:space="preserve"><value>Пожалуйста, подождите, пока копируются файлы.</value></data>
+    <data name="InstallWizard/InstallingStatus" xml:space="preserve"><value>Копирование файлов...</value></data>
+    <data name="InstallWizard/InstallingFiles" xml:space="preserve"><value>Установка PleasantUI.dll</value></data>
+    <data name="InstallWizard/Step5Header" xml:space="preserve"><value>Итог</value></data>
+    <data name="InstallWizard/Step5Desc" xml:space="preserve"><value>Установка завершена.</value></data>
+    <data name="InstallWizard/SuccessMessage" xml:space="preserve"><value>Установка выполнена успешно.</value></data>
+    <data name="InstallWizard/SuccessDetail" xml:space="preserve"><value>PleasantUI успешно установлен. Нажмите Готово, чтобы закрыть мастер.</value></data>
+    <data name="InstallWizard/PropsTitle" xml:space="preserve"><value>Основные свойства</value></data>
+    <data name="InstallWizard/PropAppName" xml:space="preserve"><value>Название приложения в заголовке боковой панели.</value></data>
+    <data name="InstallWizard/PropAppIcon" xml:space="preserve"><value>Иконка, отображаемая над названием приложения в боковой панели.</value></data>
+    <data name="InstallWizard/PropFooterText" xml:space="preserve"><value>Текст авторских прав или информации в нижней части боковой панели.</value></data>
+    <data name="InstallWizard/PropSteps" xml:space="preserve"><value>Упорядоченный список элементов WizardStep. Каждый шаг имеет Header, Description и произвольное Content.</value></data>
+    <data name="InstallWizard/PropCancel" xml:space="preserve"><value>Управляет видимостью кнопки Отмена. По умолчанию true.</value></data>
+    <data name="InstallWizard/PropEvents" xml:space="preserve"><value>Маршрутизируемые события, вызываемые при завершении мастера (кнопка Далее на последнем шаге) или отмене.</value></data>
+    <data name="InstallWizard/ModesTitle" xml:space="preserve"><value>Режимы отображения</value></data>
+    <data name="InstallWizard/ModesDesc" xml:space="preserve"><value>Мастер можно встроить в страницу, показать как модальный ContentDialog или открыть в отдельном окне PleasantWindow.</value></data>
+    <data name="InstallWizard/ShowModal" xml:space="preserve"><value>Открыть как модальный</value></data>
+    <data name="InstallWizard/ShowWindow" xml:space="preserve"><value>Открыть в окне</value></data>
+
 </root>

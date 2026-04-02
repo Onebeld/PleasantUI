@@ -412,4 +412,50 @@
     <data name="Timeline/IconStep3" xml:space="preserve"><value>Rejected</value></data>
     <data name="Timeline/IconStep3Desc" xml:space="preserve"><value>Request was rejected. Please revise and resubmit.</value></data>
 
+    <!-- InstallWizard page -->
+    <data name="CardTitle/InstallWizard" xml:space="preserve"><value>InstallWizard</value></data>
+    <data name="Card/InstallWizard" xml:space="preserve"><value>A multi-step installation wizard with a sidebar step list, progress bar, and Back / Next / Cancel navigation.</value></data>
+    <data name="InstallWizard/Description" xml:space="preserve"><value>A templated control that guides users through a multi-step setup process. Combines a sidebar step tracker, a content area with smooth transitions, and a navigation footer.</value></data>
+    <data name="InstallWizard/DemoTitle" xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="InstallWizard/DemoDesc" xml:space="preserve"><value>Use the Back and Next buttons to navigate between steps. The sidebar tracks progress and marks completed steps with a checkmark.</value></data>
+    <data name="InstallWizard/AppName" xml:space="preserve"><value>PleasantUI Setup</value></data>
+    <data name="InstallWizard/FooterText" xml:space="preserve"><value>© 2025 PleasantUI. All rights reserved.</value></data>
+    <data name="InstallWizard/Step1Header" xml:space="preserve"><value>Welcome</value></data>
+    <data name="InstallWizard/Step1Desc" xml:space="preserve"><value>Welcome to the PleasantUI Setup Wizard.</value></data>
+    <data name="InstallWizard/Step1Body" xml:space="preserve"><value>This wizard will guide you through the installation of PleasantUI. Click Next to continue.</value></data>
+    <data name="InstallWizard/Step1Check" xml:space="preserve"><value>I want to create a desktop shortcut</value></data>
+    <data name="InstallWizard/Step2Header" xml:space="preserve"><value>License Agreement</value></data>
+    <data name="InstallWizard/Step2Desc" xml:space="preserve"><value>Please read the license agreement before continuing.</value></data>
+    <data name="InstallWizard/LicenseText" xml:space="preserve"><value>MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</value></data>
+    <data name="InstallWizard/Step2Check" xml:space="preserve"><value>I accept the terms of the license agreement</value></data>
+    <data name="InstallWizard/Step3Header" xml:space="preserve"><value>Installation Type</value></data>
+    <data name="InstallWizard/Step3Desc" xml:space="preserve"><value>Choose how you want to install PleasantUI.</value></data>
+    <data name="InstallWizard/TypeStandard" xml:space="preserve"><value>Standard</value></data>
+    <data name="InstallWizard/TypeStandardDesc" xml:space="preserve"><value>Installs the most common components. Recommended for most users.</value></data>
+    <data name="InstallWizard/TypeCustom" xml:space="preserve"><value>Custom</value></data>
+    <data name="InstallWizard/TypeCustomDesc" xml:space="preserve"><value>Choose which components to install. For advanced users.</value></data>
+    <data name="InstallWizard/Step4Header" xml:space="preserve"><value>Installing</value></data>
+    <data name="InstallWizard/Step4Desc" xml:space="preserve"><value>Please wait while files are being copied.</value></data>
+    <data name="InstallWizard/InstallingStatus" xml:space="preserve"><value>Copying files...</value></data>
+    <data name="InstallWizard/InstallingFiles" xml:space="preserve"><value>Installing PleasantUI.dll</value></data>
+    <data name="InstallWizard/Step5Header" xml:space="preserve"><value>Summary</value></data>
+    <data name="InstallWizard/Step5Desc" xml:space="preserve"><value>Installation complete.</value></data>
+    <data name="InstallWizard/SuccessMessage" xml:space="preserve"><value>Installation was successful.</value></data>
+    <data name="InstallWizard/SuccessDetail" xml:space="preserve"><value>PleasantUI has been installed successfully. Click Finish to close the wizard.</value></data>
+    <data name="InstallWizard/PropsTitle" xml:space="preserve"><value>Key properties</value></data>
+    <data name="InstallWizard/PropAppName" xml:space="preserve"><value>Application name shown in the sidebar header.</value></data>
+    <data name="InstallWizard/PropAppIcon" xml:space="preserve"><value>Icon content displayed above the app name in the sidebar.</value></data>
+    <data name="InstallWizard/PropFooterText" xml:space="preserve"><value>Copyright or info text shown at the bottom of the sidebar.</value></data>
+    <data name="InstallWizard/PropSteps" xml:space="preserve"><value>Ordered list of WizardStep items. Each step has Header, Description, and arbitrary Content.</value></data>
+    <data name="InstallWizard/PropCancel" xml:space="preserve"><value>Controls visibility of the Cancel button. Default is true.</value></data>
+    <data name="InstallWizard/PropEvents" xml:space="preserve"><value>Routed events raised when the wizard finishes (last step Next) or is cancelled.</value></data>
+    <data name="InstallWizard/ModesTitle" xml:space="preserve"><value>Display modes</value></data>
+    <data name="InstallWizard/ModesDesc" xml:space="preserve"><value>The wizard can be embedded in a page, shown as a modal ContentDialog overlay, or opened in a standalone PleasantWindow.</value></data>
+    <data name="InstallWizard/ShowModal" xml:space="preserve"><value>Open as Modal</value></data>
+    <data name="InstallWizard/ShowWindow" xml:space="preserve"><value>Open as Window</value></data>
+
 </root>
