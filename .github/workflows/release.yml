@@ -134,101 +134,103 @@ jobs:
       - name: Collect commits and build prompt
         if: steps.tag_check.outputs.exists == 'false'
         run: |
+          # ── Find previous tag ─────────────────────────────────────────────────
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          echo "Previous tag: '${PREV_TAG}'"
+
+          if [ -n "$PREV_TAG" ]; then
+            RANGE="${PREV_TAG}..HEAD"
+          else
+            # No previous tag — diff against the very first commit
+            FIRST=$(git rev-list --max-parents=0 HEAD)
+            RANGE="${FIRST}..HEAD"
+          fi
+          echo "Diff range: $RANGE"
 
           # ── Commit log ────────────────────────────────────────────────────────
-          if [ -n "$PREV_TAG" ]; then
-            RANGE="$PREV_TAG..HEAD"
-          else
-            RANGE="HEAD"
-          fi
+          COMMITS=$(git log "$RANGE" --pretty=format:"[%h] %s (%an, %ad)" --date=short)
+          [ -z "$COMMITS" ] && COMMITS="(no commits in range — possibly initial release)"
+          echo "Commit count: $(echo "$COMMITS" | wc -l)"
 
-          COMMITS=$(git log $RANGE --pretty=format:"[%h] %s (%an, %ad)" --date=short | head -120)
-          [ -z "$COMMITS" ] && COMMITS="- Initial release"
+          # ── Changed files (whole repo, not just src/) ─────────────────────────
+          FILE_LIST=$(git diff --name-only "$RANGE" | grep -v '^samples/' | head -120)
+          STAT_SUMMARY=$(git diff --shortstat "$RANGE" | tail -1)
+          echo "Files changed: $STAT_SUMMARY"
 
-          # ── Changed files summary ─────────────────────────────────────────────
-          if [ -n "$PREV_TAG" ]; then
-            CHANGED_FILES=$(git diff --stat "$PREV_TAG"..HEAD -- 'src/**' | tail -1)
-            FILE_LIST=$(git diff --name-only "$PREV_TAG"..HEAD -- 'src/**' | head -80)
-          else
-            CHANGED_FILES="(initial commit)"
-            FILE_LIST=$(git diff --name-only HEAD~1..HEAD -- 'src/**' 2>/dev/null | head -80 || echo "")
-          fi
+          # ── Source diff — .cs and .axaml across entire repo except samples ─────
+          # Use git diff with explicit pathspecs (no shell globs)
+          SRC_DIFF=$(git diff "$RANGE" --unified=2 \
+            -- '*.cs' '*.axaml' \
+            | grep -v '^diff --git a/samples/' \
+            | grep -v '^--- a/samples/' \
+            | grep -v '^+++ b/samples/' \
+            | head -2500)
 
-          # ── Source diff (src/ only, capped to keep prompt manageable) ─────────
-          if [ -n "$PREV_TAG" ]; then
-            SRC_DIFF=$(git diff "$PREV_TAG"..HEAD \
-              -- 'src/**/*.cs' 'src/**/*.axaml' \
-              --unified=3 \
-              | head -1200)
-          else
-            SRC_DIFF="(no previous tag — diff unavailable)"
-          fi
+          echo "Diff lines captured: $(echo "$SRC_DIFF" | wc -l)"
 
-          # ── New/modified public API surface (class/interface/enum declarations) ─
-          if [ -n "$PREV_TAG" ]; then
-            API_SURFACE=$(git diff "$PREV_TAG"..HEAD -- 'src/**/*.cs' \
-              | grep '^+' \
-              | grep -E '^\+\s*(public|protected)\s+(static\s+|abstract\s+|sealed\s+|partial\s+|override\s+|virtual\s+|readonly\s+)*(class|interface|enum|record|struct|void|bool|int|string|Task|IEnumerable|IList|List|object|double|float|long|uint|AvaloniaProperty|StyledProperty|DirectProperty|AttachedProperty)' \
-              | sed 's/^+//' \
-              | head -120)
-          else
-            API_SURFACE=""
-          fi
+          # ── Public API additions ───────────────────────────────────────────────
+          API_SURFACE=$(git diff "$RANGE" -- '*.cs' \
+            | grep '^+[^+]' \
+            | grep -v '^+.*\/\/' \
+            | grep -E '\s(public|protected)\s' \
+            | grep -E '(class |interface |enum |record |struct |void |bool |int |string |Task|AvaloniaProperty|StyledProperty|DirectProperty|AttachedProperty|RoutedEvent)' \
+            | sed 's/^+//' \
+            | sed 's/^[[:space:]]*//' \
+            | sort -u \
+            | head -150)
 
-          # ── Write prompt file ─────────────────────────────────────────────────
+          # ── Write static prompt header ────────────────────────────────────────
           cat > /tmp/release-notes-prompt.txt << 'PROMPT_EOF'
-          You are a senior technical writer producing GitHub release notes for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.
+You are a senior technical writer producing GitHub release notes for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.
 
-          Your goal is to produce DETAILED, COMPREHENSIVE release notes that are genuinely useful to developers consuming this library as a NuGet package.
+Your goal is DETAILED, COMPREHENSIVE release notes that are genuinely useful to developers consuming this library as a NuGet package.
 
-          ## Instructions
-          - Analyse the commit log, changed file list, source diff, and public API surface provided below.
-          - For every new control, feature, or API: describe what it does, how to use it, and why it matters.
-          - If a control has new properties or events, list them with their types and a one-line description.
-          - For bug fixes: describe the symptom that was fixed, not just the commit message.
-          - For breaking changes: show the before/after API so consumers know exactly what to update.
-          - Use proper markdown: headers (###), bullet lists, inline code (`ClassName`, `PropertyName`), and fenced code blocks for usage examples where helpful.
-          - Do NOT invent anything not evidenced by the data below. If something is unclear, describe it conservatively.
-          - Sections to use (only include sections that have content):
-            ### ✨ What's New
-            ### 🔧 Improvements
-            ### 🐛 Bug Fixes
-            ### ⚠️ Breaking Changes
-            ### 📦 Packages
+## Instructions
+- Carefully read the commit log, changed file list, public API additions, and source diff below.
+- For every new control or feature: describe what it does, how to use it, and why it matters.
+- For new properties/events: list name, type, and a one-line description.
+- For bug fixes: describe the symptom fixed, not just the commit message.
+- For breaking changes: show before/after API.
+- Use markdown: ### headers, bullet lists, inline `code`, and fenced code blocks for usage examples.
+- Do NOT invent anything not evidenced by the data. If something is unclear, describe it conservatively.
+- If the diff or file list is empty, say so honestly and only describe what the commits indicate.
 
-          Always end with a "### 📦 Packages" section listing the four NuGet packages in this release:
-          - `PleasantUI`
-          - `PleasantUI.DataGrid`
-          - `PleasantUI.MaterialIcons`
-          - `PleasantUI.ToolKit`
-          PROMPT_EOF
+Sections (include only those with content):
+### ✨ What's New
+### 🔧 Improvements
+### 🐛 Bug Fixes
+### ⚠️ Breaking Changes
+### 📦 Packages
 
-          # Append dynamic data safely using printf to avoid any shell interpretation
+Always end with ### 📦 Packages listing:
+- `PleasantUI`
+- `PleasantUI.DataGrid`
+- `PleasantUI.MaterialIcons`
+- `PleasantUI.ToolKit`
+
+---
+PROMPT_EOF
+
+          # ── Append dynamic data with printf (safe — no shell eval of content) ──
           {
-            printf '\n---\n\n'
-            printf '**Version:** v%s\n' "${{ steps.version.outputs.version }}"
-            printf '**Pre-release:** %s\n\n' "${{ steps.version.outputs.prerelease }}"
+            printf 'Version: v%s  |  Pre-release: %s\n\n' \
+              "${{ steps.version.outputs.version }}" \
+              "${{ steps.version.outputs.prerelease }}"
 
-            printf '## Commit Log\n\n```\n'
-            printf '%s\n' "$COMMITS"
-            printf '```\n\n'
+            printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
 
-            printf '## Changed Source Files\n\n```\n'
-            printf '%s\n' "$FILE_LIST"
-            printf '\n%s\n' "$CHANGED_FILES"
-            printf '```\n\n'
+            printf '## Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
+              "$FILE_LIST" "$STAT_SUMMARY"
 
             if [ -n "$API_SURFACE" ]; then
-              printf '## New / Modified Public API Declarations\n\n```csharp\n'
-              printf '%s\n' "$API_SURFACE"
-              printf '```\n\n'
+              printf '## New / Modified Public API\n```csharp\n%s\n```\n\n' "$API_SURFACE"
             fi
 
-            printf '## Source Diff (src/ — first 1200 lines)\n\n```diff\n'
-            printf '%s\n' "$SRC_DIFF"
-            printf '```\n'
+            printf '## Source Diff (*.cs + *.axaml, excl. samples/, first 2500 lines)\n```diff\n%s\n```\n' \
+              "$SRC_DIFF"
           } >> /tmp/release-notes-prompt.txt
+
+          echo "=== Prompt size: $(wc -c < /tmp/release-notes-prompt.txt) bytes ==="
 
       - name: Generate AI release notes
         if: steps.tag_check.outputs.exists == 'false'
