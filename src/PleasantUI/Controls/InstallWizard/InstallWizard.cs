@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Controls;
 
@@ -310,9 +311,13 @@ public class InstallWizard : TemplatedControl
         if (_nextButton is not null)   _nextButton.Click   += OnNextClicked;
         if (_cancelButton is not null) _cancelButton.Click += OnCancelClicked;
 
+        Localizer.Instance.LocalizationChanged += OnLocalizationChanged;
+
         RefreshComputedProperties();
         UpdateButtonStates();
     }
+
+    private void OnLocalizationChanged(string _) => UpdateButtonStates();
 
     // ── Navigation ───────────────────────────────────────────────────────────
 
@@ -367,9 +372,12 @@ public class InstallWizard : TemplatedControl
             _backButton.IsEnabled = CurrentStepIndex > 0;
 
         if (_nextButton is not null)
-            _nextButton.Content = CurrentStepIndex >= Steps.Count - 1
-                ? "Finish"
-                : NextButtonText;
+        {
+            bool isLast = CurrentStepIndex >= Steps.Count - 1;
+            _nextButton.Content = isLast
+                ? Localizer.Instance.TryGetString("InstallWizard/BtnFinish", out var finish) ? finish : "Finish"
+                : Localizer.Instance.TryGetString("InstallWizard/BtnNext",   out var next)   ? next   : NextButtonText;
+        }
     }
 
     // ── Display mode factory methods ─────────────────────────────────────────

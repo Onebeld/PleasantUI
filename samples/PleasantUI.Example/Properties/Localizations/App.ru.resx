@@ -448,5 +448,9 @@
     <data name="InstallWizard/ModesDesc" xml:space="preserve"><value>Мастер можно встроить в страницу, показать как модальный ContentDialog или открыть в отдельном окне PleasantWindow.</value></data>
     <data name="InstallWizard/ShowModal" xml:space="preserve"><value>Открыть как модальный</value></data>
     <data name="InstallWizard/ShowWindow" xml:space="preserve"><value>Открыть в окне</value></data>
+    <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Назад</value></data>
+    <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Далее</value></data>
+    <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Готово</value></data>
+    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Отмена</value></data>
 
 </root>

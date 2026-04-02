@@ -457,5 +457,9 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="InstallWizard/ModesDesc" xml:space="preserve"><value>The wizard can be embedded in a page, shown as a modal ContentDialog overlay, or opened in a standalone PleasantWindow.</value></data>
     <data name="InstallWizard/ShowModal" xml:space="preserve"><value>Open as Modal</value></data>
     <data name="InstallWizard/ShowWindow" xml:space="preserve"><value>Open as Window</value></data>
+    <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Back</value></data>
+    <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Next</value></data>
+    <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Finish</value></data>
+    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Cancel</value></data>
 
 </root>

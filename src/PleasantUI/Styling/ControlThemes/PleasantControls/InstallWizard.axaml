@@ -224,16 +224,16 @@
                                     <Border Grid.Column="0" />
                                     <Button Name="PART_CancelButton"
                                             Grid.Column="1"
-                                            Content="{TemplateBinding CancelButtonText}"
+                                            Content="{Localize InstallWizard/BtnCancel}"
                                             IsVisible="{TemplateBinding ShowCancelButton}"
                                             MinWidth="80" />
                                     <Button Name="PART_BackButton"
                                             Grid.Column="3"
-                                            Content="{TemplateBinding BackButtonText}"
+                                            Content="{Localize InstallWizard/BtnBack}"
                                             MinWidth="80" />
                                     <Button Name="PART_NextButton"
                                             Grid.Column="5"
-                                            Content="{TemplateBinding NextButtonText}"
+                                            Content="{Localize InstallWizard/BtnNext}"
                                             Theme="{StaticResource AccentButtonTheme}"
                                             MinWidth="80" />
                                 </Grid>
