@@ -7,5 +7,9 @@ public class HomePage : LocalizedPage
 {
     public override string TitleKey { get; } = "Home";
     public override bool ShowTitle { get; } = false;
-    public override Control Content => new HomePageView();
+
+    // Lazily created once per HomePage instance — a new HomePage means a new HomePageView
+    // with fresh LocalizeKeyObservable bindings, which is exactly what we want on language change.
+    private HomePageView? _view;
+    public override Control Content => _view ??= new HomePageView();
 }

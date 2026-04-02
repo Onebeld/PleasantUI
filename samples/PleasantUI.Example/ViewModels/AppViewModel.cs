@@ -1,5 +1,7 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Threading;
 using PleasantUI.Core;
+using PleasantUI.Core.Localization;
 using PleasantUI.Example.Factories;
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Messages;
@@ -12,22 +14,19 @@ namespace PleasantUI.Example.ViewModels;
 public class AppViewModel : ViewModelBase
 {
     private readonly IEventAggregator _eventAggregator;
-        
-    /// <summary>
-    /// The current page
-    /// </summary>
+    private readonly ControlPageCardsFactory _factory;
+
     private IPage _page = null!;
-    
-    /// <summary>
-    /// Indicates whether the animation should be forward or backward
-    /// </summary>
     private bool _isForwardAnimation = true;
 
-    public AvaloniaList<ControlPageCard> BasicControlPageCards { get; }
-    
-    public AvaloniaList<ControlPageCard> PleasantControlPageCards { get; }
-    
-    public AvaloniaList<ControlPageCard> ToolKitPageCards { get; }
+    // Backing stores so we can rebuild on language change
+    private readonly List<ControlPageCard> _basicCards;
+    private readonly List<ControlPageCard> _pleasantCards;
+    private readonly List<ControlPageCard> _toolkitCards;
+
+    public AvaloniaList<ControlPageCard> BasicControlPageCards { get; } = [];
+    public AvaloniaList<ControlPageCard> PleasantControlPageCards { get; } = [];
+    public AvaloniaList<ControlPageCard> ToolKitPageCards { get; } = [];
 
     public IPage Page
     {
@@ -44,13 +43,16 @@ public class AppViewModel : ViewModelBase
     public AppViewModel(IEventAggregator eventAggregator)
     {
         _eventAggregator = eventAggregator;
-            
-        ControlPageCardsFactory factory = new(eventAggregator);
-        
-        BasicControlPageCards = factory.CreateBasicControlPageCards();
-        PleasantControlPageCards = factory.CreatePleasantControlPageCards();
-        ToolKitPageCards = factory.CreateToolkitControlPageCards();
-        
+        _factory = new ControlPageCardsFactory(eventAggregator);
+
+        _basicCards   = [.. _factory.CreateBasicControlPageCards()];
+        _pleasantCards = [.. _factory.CreatePleasantControlPageCards()];
+        _toolkitCards  = [.. _factory.CreateToolkitControlPageCards()];
+
+        BasicControlPageCards.AddRange(_basicCards);
+        PleasantControlPageCards.AddRange(_pleasantCards);
+        ToolKitPageCards.AddRange(_toolkitCards);
+
         Page = new HomePage();
 
         _eventAggregator.Subscribe<ChangePageMessage>(async message =>
@@ -58,22 +60,54 @@ public class AppViewModel : ViewModelBase
             ChangePage(message.Page);
             await Task.CompletedTask;
         });
+
+        // On language change: rebuild all card lists so Avalonia tears down and
+        // recreates every item container, picking up the freshly translated strings.
+        Localizer.Instance.LocalizationChanged += OnLanguageChanged;
     }
 
-    /// <summary>
-    /// Changes the current page
-    /// </summary>
-    /// <param name="page">The new page</param>
-    /// <param name="forward">The direction of the animation</param>
+    private void OnLanguageChanged(string _)
+    {
+        // Always post with Background priority so this runs AFTER all LocalizationChanged
+        // handlers have fired and all resource managers have been primed with the new language.
+        // Running inline (even on UI thread) means new card instances still read stale values.
+        Dispatcher.UIThread.Post(Rebuild, DispatcherPriority.Background);
+    }
+
+    private void Rebuild()
+    {
+        System.Diagnostics.Debug.WriteLine($"[AppViewModel] Rebuild cards, lang={Localizer.Instance.CurrentLanguage}");
+
+        var newBasic    = _factory.CreateBasicControlPageCards().ToList();
+        var newPleasant = _factory.CreatePleasantControlPageCards().ToList();
+        var newToolkit  = _factory.CreateToolkitControlPageCards().ToList();
+
+        BasicControlPageCards.Clear();
+        PleasantControlPageCards.Clear();
+        ToolKitPageCards.Clear();
+
+        BasicControlPageCards.AddRange(newBasic);
+        PleasantControlPageCards.AddRange(newPleasant);
+        ToolKitPageCards.AddRange(newToolkit);
+
+        // Force-recreate the current page so its view rebuilds with fresh LocalizeKeyObservable
+        // bindings. HomePageView also handles this itself via its own LocalizationChanged handler,
+        // but replacing the page ensures the DataTemplate re-applies cleanly.
+        if (Page is HomePage)
+        {
+            System.Diagnostics.Debug.WriteLine($"[AppViewModel] Replacing HomePage with fresh instance");
+            Page = new HomePage();
+        }
+
+        System.Diagnostics.Debug.WriteLine($"[AppViewModel] Rebuild done, first card title={newBasic.FirstOrDefault()?.Title}");
+    }
+
     public void ChangePage(IPage page)
     {
         IsForwardAnimation = true;
         Page = page;
     }
 
-    /// <summary>
-    /// Goes back to the home page
-    /// </summary>
     public void BackToHomePage()
     {
         IsForwardAnimation = false;

@@ -18,7 +18,7 @@
                 <TransitioningContentControl.ContentTemplate>
                     <DataTemplate DataType="interfaces:IPage">
                         <Grid RowDefinitions="Auto,*" Margin="15">
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5" IsVisible="{CompiledBinding ShowTitle}">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5" IsVisible="{Binding ShowTitle}">
                                 <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
                                         ToolTip.Tip="Back to home page">
                                     <PathIcon Data="{x:Static MaterialIcons.ArrowLeft}"
@@ -26,10 +26,10 @@
                                 </Button>
                                 
                                 <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
-                                           Text="{Localize {CompiledBinding TitleKey}}" />
+                                           Text="{Binding Title}" />
                             </StackPanel>
                             
-                            <Decorator Grid.Row="1" Child="{CompiledBinding Content}" />
+                            <Decorator Grid.Row="1" Child="{Binding Content}" />
                         </Grid>
                     </DataTemplate>
                 </TransitioningContentControl.ContentTemplate>

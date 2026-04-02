@@ -29,12 +29,17 @@ public abstract class LocalizedPage : IPage
         Localizer.Instance.LocalizationChanged += OnLocalizationChanged;
     }
 
-    private void OnLocalizationChanged(string _)
+    private void OnLocalizationChanged(string lang)
     {
-        if (Dispatcher.UIThread.CheckAccess())
+        void Notify()
+        {
+            System.Diagnostics.Debug.WriteLine($"[LocalizedPage] PropertyChanged Title for key={TitleKey} lang={lang}");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+        }
+
+        if (Dispatcher.UIThread.CheckAccess())
+            Notify();
         else
-            Dispatcher.UIThread.Post(() =>
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title))));
+            Dispatcher.UIThread.Post(Notify);
     }
 }

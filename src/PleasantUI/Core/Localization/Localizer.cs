@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
 
@@ -15,6 +16,10 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     private const string IndexerArrayName = "Item[]";
 
     private static readonly List<ResourceManager>? ResourceManagers = new();
+
+    // Strong references to all LocalizeKeyObservable instances — prevents GC from
+    // collecting them and silently killing their LocalizationChanged subscriptions.
+    private static readonly List<object> AliveObservables = new();
 
     private List<ResourceManager>? _resources;
 
@@ -171,11 +176,23 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             ResourceManagers.Add(resourceManager);
     }
 
+    /// <summary>
+    /// Keeps a strong reference to a <see cref="LocalizeKeyObservable"/> so it is never
+    /// garbage-collected while this singleton is alive.
+    /// </summary>
+    internal static void RegisterObservable(object observable)
+    {
+        lock (AliveObservables)
+            AliveObservables.Add(observable);
+    }
+
     /// <inheritdoc />
     public void ChangeLanguage(string language = "en")
     {
         if (string.IsNullOrEmpty(language))
             language = DefaultLanguage;
+
+        Debug.WriteLine($"[Localizer] ChangeLanguage → \"{language}\" (subscribers: {LocalizationChanged?.GetInvocationList().Length ?? 0}, observables: {AliveObservables.Count})");
 
         CultureInfo culture = new(language);
         CultureInfo.CurrentUICulture = culture;
@@ -185,7 +202,24 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         CurrentLanguage = language;
         LoadLanguage();
 
+        // Force-prime every ResourceManager with the new culture so satellite assemblies
+        // are loaded NOW — before we fire LocalizationChanged. Without this, the first
+        // GetString call happens inside a PropertyChanged handler, which triggers lazy
+        // satellite DLL loading AFTER the handler returns, so the UI reads stale values.
+        // GetResourceSet with createIfNotExists=true forces the satellite DLL to load immediately.
+        if (ResourceManagers != null)
+        {
+            foreach (ResourceManager rm in ResourceManagers)
+            {
+                try { rm.GetResourceSet(culture, createIfNotExists: true, tryParents: true); } catch { /* ignore */ }
+            }
+        }
+
+        Debug.WriteLine($"[Localizer] Resources primed for \"{language}\", firing LocalizationChanged");
+
         LocalizationChanged?.Invoke(language);
+
+        Debug.WriteLine($"[Localizer] ChangeLanguage done → \"{language}\"");
     }
 
     /// <inheritdoc />
