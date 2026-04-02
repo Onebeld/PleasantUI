@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: write
+      models: read
+      pull-requests: read
 
     steps:
       # Always fetch the full history and all tags so version/tag checks are accurate
@@ -35,23 +37,19 @@ jobs:
       - name: Extract and validate version
         id: version
         run: |
-          # Verify the file exists before parsing
           if [ ! -f build/Package.props ]; then
             echo "ERROR: build/Package.props not found"
             exit 1
           fi
 
-          # Extract version — require it to look like semver (digits, dots, optional pre-release)
           VERSION=$(grep -oP '(?<=<PackageVersion>)[0-9]+\.[0-9]+\.[0-9]+[^<]*' build/Package.props | head -1)
 
           if [ -z "$VERSION" ]; then
             echo "ERROR: Could not extract a valid PackageVersion from build/Package.props"
-            echo "File contents:"
             cat build/Package.props
             exit 1
           fi
 
-          # Reject obviously broken values
           if [[ "$VERSION" =~ [[:space:]] ]]; then
             echo "ERROR: Extracted version '$VERSION' contains whitespace"
             exit 1
@@ -60,13 +58,10 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Detected version: $VERSION"
 
-          # Detect pre-release (contains hyphen, e.g. 5.1.0-alpha1)
           if [[ "$VERSION" == *-* ]]; then
             echo "prerelease=true" >> $GITHUB_OUTPUT
-            echo "Pre-release: true"
           else
             echo "prerelease=false" >> $GITHUB_OUTPUT
-            echo "Pre-release: false"
           fi
 
       - name: Check if tag already exists
@@ -82,7 +77,7 @@ jobs:
               git push origin ":refs/tags/$TAG" || true
             else
               echo "exists=true" >> $GITHUB_OUTPUT
-              echo "Tag $TAG already exists. Skipping release. Use force=true to override."
+              echo "Tag $TAG already exists. Skipping release."
             fi
           else
             echo "exists=false" >> $GITHUB_OUTPUT
@@ -127,7 +122,6 @@ jobs:
             FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
             if [ -z "$FOUND" ]; then
               echo "ERROR: No .nupkg found anywhere under src/$project"
-              echo "--- Directory listing of src/$project/bin ---"
               find "src/$project/bin" -type f 2>/dev/null || echo "(bin dir not found)"
               FAILED=1
             else
@@ -135,65 +129,59 @@ jobs:
             fi
           done
 
-          if [ "$FAILED" -eq 1 ]; then
-            exit 1
+          [ "$FAILED" -eq 1 ] && exit 1
+
+      - name: Collect commits since last tag
+        if: steps.tag_check.outputs.exists == 'false'
+        id: commits
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            LIST=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s (%an)" | head -80)
+          else
+            LIST=$(git log --pretty=format:"- %s (%an)" | head -80)
           fi
+          [ -z "$LIST" ] && LIST="- Initial release"
+
+          # Write prompt file for ai-inference action
+          cat > /tmp/release-notes-prompt.txt <<EOF
+          You are a technical writer generating GitHub release notes for PleasantUI,
+          a cross-platform .NET/Avalonia UI theme and control library.
+          Write clear, developer-friendly markdown. Only include sections that are relevant.
+          Use these sections as needed: ### What's New, ### Improvements, ### Bug Fixes, ### Breaking Changes.
+          Be factual — do not invent features not present in the commits.
+
+          Version: v${{ steps.version.outputs.version }}
+          Pre-release: ${{ steps.version.outputs.prerelease }}
+
+          Commits since last release:
+          $LIST
+          EOF
 
       - name: Generate AI release notes
         if: steps.tag_check.outputs.exists == 'false'
         id: ai_notes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-completion-tokens: 1024
+          prompt-file: /tmp/release-notes-prompt.txt
+
+      - name: Write release notes to file
+        if: steps.tag_check.outputs.exists == 'false'
+        id: notes_file
         run: |
-          # Collect commits since the previous tag (or last 50 if no prior tag)
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          if [ -n "$PREV_TAG" ]; then
-            COMMITS=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s (%an)" | head -80)
+          # Prefer response-file (handles larger outputs); fall back to inline response
+          if [ -f "${{ steps.ai_notes.outputs.response-file }}" ]; then
+            cp "${{ steps.ai_notes.outputs.response-file }}" /tmp/release_notes.md
+          elif [ -n "${{ steps.ai_notes.outputs.response }}" ]; then
+            printf '%s' "${{ steps.ai_notes.outputs.response }}" > /tmp/release_notes.md
           else
-            COMMITS=$(git log --pretty=format:"- %s (%an)" | head -80)
+            echo "AI generation returned empty — using commit list as fallback."
+            echo "### Changes in v${{ steps.version.outputs.version }}" > /tmp/release_notes.md
+            grep "^-" /tmp/release-notes-prompt.txt >> /tmp/release_notes.md || true
           fi
-
-          if [ -z "$COMMITS" ]; then
-            COMMITS="- Initial release"
-          fi
-
-          VERSION="v${{ steps.version.outputs.version }}"
-          PRERELEASE="${{ steps.version.outputs.prerelease }}"
-
-          PROMPT="You are writing GitHub release notes for a .NET/Avalonia UI library called PleasantUI ($VERSION).
-          Pre-release: $PRERELEASE.
-          Based on the following git commits, write clear and concise release notes in markdown.
-          Group changes into sections like '### What's New', '### Improvements', '### Bug Fixes', '### Breaking Changes' — only include sections that are relevant.
-          Keep it developer-friendly and factual. Do not invent features not mentioned in the commits.
-
-          Commits:
-          $COMMITS"
-
-          # Call GitHub Models API (available free with GITHUB_TOKEN)
-          RESPONSE=$(curl -s -X POST \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -H "Accept: application/vnd.github+json" \
-            "https://models.inference.ai.azure.com/chat/completions" \
-            -d "$(jq -n \
-              --arg model "gpt-4o-mini" \
-              --arg prompt "$PROMPT" \
-              '{model: $model, messages: [{role: "user", content: $prompt}], max_tokens: 1024}'
-            )")
-
-          # Extract the message content; fall back to empty string on failure
-          NOTES=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty' 2>/dev/null || echo "")
-
-          if [ -z "$NOTES" ]; then
-            echo "AI notes generation failed or returned empty — falling back to commit list."
-            NOTES="### Changes in $VERSION
-
-          $COMMITS"
-          fi
-
-          # Write to file to avoid shell escaping issues
-          echo "$NOTES" > /tmp/release_notes.md
-          echo "notes_file=/tmp/release_notes.md" >> $GITHUB_OUTPUT
+          echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
@@ -203,7 +191,7 @@ jobs:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
           prerelease: ${{ steps.version.outputs.prerelease }}
-          body_path: ${{ steps.ai_notes.outputs.notes_file }}
+          body_path: ${{ steps.notes_file.outputs.path }}
           fail_on_unmatched_files: true
           files: |
             src/PleasantUI/bin/Release/*.nupkg
@@ -213,5 +201,4 @@ jobs:
 
       - name: Confirm release created
         if: steps.tag_check.outputs.exists == 'false'
-        run: |
-          echo "Release created: ${{ steps.create_release.outputs.url }}"
+        run: echo "Release created: ${{ steps.create_release.outputs.url }}"
