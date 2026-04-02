@@ -105,8 +105,26 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 
 ### Install
 
+> **Note:** Until [Onebeld/PleasantUI#6](https://github.com/Onebeld/PleasantUI/pull/6) is merged upstream, this fork targets Avalonia 12 and is ahead of the upstream Avalonia 11 packages. Use the fork packages if you need Avalonia 12 support.
+
+**This fork (Avalonia 12, recommended)**
+
+Published under the `pieckenst.Avalonia12.*` prefix on NuGet:
+
 ```xml
-<PackageReference Include="PleasantUI" Version="5.1.0-alpha1" />
+<PackageReference Include="pieckenst.Avalonia12.PleasantUI" Version="5.1.0-alpha4.2" />
+<PackageReference Include="pieckenst.Avalonia12.PleasantUI.DataGrid" Version="5.1.0-alpha4.2" />
+<PackageReference Include="pieckenst.Avalonia12.PleasantUI.MaterialIcons" Version="5.1.0-alpha4.2" />
+<PackageReference Include="pieckenst.Avalonia12.PleasantUI.ToolKit" Version="5.1.0-alpha4.2" />
+```
+
+**Original upstream (Avalonia 11)**
+
+Only `PleasantUI` and `PleasantUI.DataGrid` are published upstream — `MaterialIcons` and `ToolKit` are exclusive to this fork.
+
+```xml
+<PackageReference Include="PleasantUI" Version="5.0.0-alpha3" />
+<PackageReference Include="PleasantUI.DataGrid" Version="5.0.0-alpha2" />
 ```
 
 ### Add the theme
