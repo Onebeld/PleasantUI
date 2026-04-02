@@ -461,6 +461,9 @@ public class NavigationView : TreeView
         if (item.IsSelected)
             return;
 
+        // Close any open submenu popups before selecting
+        CloseAllSubMenuPopups();
+
         SelectSingleItemCore(item, runAnimation);
     }
 
@@ -580,5 +583,18 @@ public class NavigationView : TreeView
     private void OnSelectedItemChanged()
     {
         UpdateTitleAndSelectedContent();
+    }
+
+    /// <summary>
+    /// Closes all open submenu popups in the navigation view.
+    /// Called when a selection is made to ensure popups are dismissed.
+    /// </summary>
+    private void CloseAllSubMenuPopups()
+    {
+        foreach (var item in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        {
+            if (item.IsSubMenuOpen)
+                item.IsSubMenuOpen = false;
+        }
     }
 }

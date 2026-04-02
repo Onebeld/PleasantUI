@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -15,6 +16,7 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// Represents an item within a <see cref="NavigationView" />.
 /// </summary>
+[TemplatePart("PART_Popup", typeof(Popup))]
 public class NavigationViewItem : TreeViewItem
 {
     private object? _content;
@@ -23,6 +25,9 @@ public class NavigationViewItem : TreeViewItem
 
     private int _navigationViewDistance;
     private object _title = "Title";
+    private bool _isSubMenuOpen;
+
+    private Popup? _popup;
     
     /// <summary>
     /// Defines the <see cref="Content" /> property.
@@ -93,6 +98,16 @@ public class NavigationViewItem : TreeViewItem
     public static readonly DirectProperty<NavigationViewItem, double> ExternalLengthProperty =
         AvaloniaProperty.RegisterDirect<NavigationViewItem, double>(nameof(ExternalLength),
             o => o.ExternalLength);
+
+    /// <summary>
+    /// Defines the <see cref="IsSubMenuOpen" /> property.
+    /// Controls whether the flyout popup submenu is open (used in compact/collapsed pane mode).
+    /// </summary>
+    public static readonly DirectProperty<NavigationViewItem, bool> IsSubMenuOpenProperty =
+        AvaloniaProperty.RegisterDirect<NavigationViewItem, bool>(
+            nameof(IsSubMenuOpen),
+            o => o.IsSubMenuOpen,
+            (o, v) => o.IsSubMenuOpen = v);
 
     /// <summary>
     /// Defines the routed event for when the <see cref="NavigationViewItem" /> is opened.
@@ -235,6 +250,16 @@ public class NavigationViewItem : TreeViewItem
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the flyout submenu popup is open.
+    /// This is used when the navigation pane is in compact (collapsed) mode and the item has children.
+    /// </summary>
+    public bool IsSubMenuOpen
+    {
+        get => _isSubMenuOpen;
+        set => SetAndRaise(IsSubMenuOpenProperty, ref _isSubMenuOpen, value);
+    }
+
+    /// <summary>
     /// Occurs when the Opened event is raised.
     /// </summary>
     public event EventHandler<RoutedEventArgs> Opened
@@ -352,6 +377,19 @@ public class NavigationViewItem : TreeViewItem
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
+
+        if (_popup is not null)
+        {
+            _popup.Closed -= OnPopupClosed;
+        }
+
+        _popup = e.NameScope.Find<Popup>("PART_Popup");
+
+        if (_popup is not null)
+        {
+            _popup.Closed += OnPopupClosed;
+        }
+
         UpdatePseudoClasses();
     }
 
@@ -414,12 +452,19 @@ public class NavigationViewItem : TreeViewItem
         {
             case true:
                 sender.RaiseEvent(new RoutedEventArgs(OpenedEvent));
+                // Close popup when pane opens
+                sender.IsSubMenuOpen = false;
                 break;
             case false:
                 sender.IsExpanded = false;
                 sender.RaiseEvent(new RoutedEventArgs(ClosedEvent));
                 break;
         }
+    }
+
+    private void OnPopupClosed(object? sender, EventArgs e)
+    {
+        IsSubMenuOpen = false;
     }
 
     private void UpdatePseudoClasses()
@@ -438,6 +483,13 @@ public class NavigationViewItem : TreeViewItem
 
     private void Select()
     {
+        // When pane is closed (compact mode) and item has children, toggle the popup submenu
+        if (!IsOpen && ItemCount > 0)
+        {
+            IsSubMenuOpen = !IsSubMenuOpen;
+            return;
+        }
+
         if (!IsSelected)
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
     }
