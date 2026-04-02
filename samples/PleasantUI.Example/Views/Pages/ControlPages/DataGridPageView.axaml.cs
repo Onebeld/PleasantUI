@@ -4,12 +4,9 @@ using PleasantUI.Example.ViewModels.Pages.ControlPages;
 
 namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-public partial class DataGridPageView : UserControl
+public partial class DataGridPageView : LocalizedUserControl
 {
-    public DataGridPageView()
-    {
-        InitializeComponent();
-    }
+    public DataGridPageView() => InitializeComponent();
 
     protected override void OnLoaded(RoutedEventArgs e)
     {
@@ -35,4 +32,6 @@ public partial class DataGridPageView : UserControl
             }
         };
     }
+
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

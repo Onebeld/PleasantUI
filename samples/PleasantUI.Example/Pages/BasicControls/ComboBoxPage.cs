@@ -7,5 +7,5 @@ public class ComboBoxPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/ComboBox";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new ComboBoxPageView();
+    protected override Control CreateContent() => new ComboBoxPageView();
 }

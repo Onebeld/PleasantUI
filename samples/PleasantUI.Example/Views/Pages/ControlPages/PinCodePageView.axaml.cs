@@ -1,25 +1,34 @@
 using Avalonia.Controls;
 using PleasantUI.Controls;
-using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-public partial class PinCodePageView : UserControl
+public partial class PinCodePageView : LocalizedUserControl
 {
+    private EventHandler<PinCodeCompleteEventArgs>? _onComplete;
+
     public PinCodePageView()
     {
         InitializeComponent();
+        WireHandlers();
+    }
+    // Complex constructor — don't re-run InitializeComponent
 
-        void OnComplete(object? sender, PinCodeCompleteEventArgs e)
-        {
-            ResultText.Text = e.Value;
-        }
+    protected override void ReinitializeComponent()
+    {
+        InitializeComponent();
+        WireHandlers();
+    }
 
-        DefaultPin.Complete  += OnComplete;
-        DigitPin.Complete    += OnComplete;
-        LetterPin.Complete   += OnComplete;
-        PasswordPin.Complete += OnComplete;
-        SixPin.Complete      += OnComplete;
+    private void WireHandlers()
+    {
+        _onComplete = (_, e) => { ResultText.Text = e.Value; };
+
+        DefaultPin.Complete  += _onComplete;
+        DigitPin.Complete    += _onComplete;
+        LetterPin.Complete   += _onComplete;
+        PasswordPin.Complete += _onComplete;
+        SixPin.Complete      += _onComplete;
 
         ClearButton.Click += (_, _) =>
         {
@@ -28,7 +37,6 @@ public partial class PinCodePageView : UserControl
                 for (int i = 0; i < pin.Count; i++)
                     pin.Digits[i] = string.Empty;
 
-                // Reset visual cells
                 if (pin.FindControl<ItemsControl>("PART_ItemsControl") is { } ic)
                     for (int i = 0; i < pin.Count; i++)
                         if (ic.ContainerFromIndex(i) is PinCodeItem cell)

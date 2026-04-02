@@ -1,4 +1,4 @@
-﻿using System.Resources;
+using System.Resources;
 using Avalonia;
 using Avalonia.Controls;
 using PleasantUI.Core.Interfaces;
@@ -15,25 +15,34 @@ public class PleasantUiExampleApp : Application
 
     public static IPleasantWindow Main { get; protected set; } = null!;
 
-    public static AppViewModel ViewModel { get; } = null!;
+    public static AppViewModel ViewModel { get; private set; } = null!;
 
     public static TopLevel? TopLevel { get; protected set; }
 
-    static PleasantUiExampleApp()
-    {
-        if (!Design.IsDesignMode)
-            ViewModel = new AppViewModel(new EventAggregator());
-    }
-
     public PleasantUiExampleApp()
     {
-        if (!Design.IsDesignMode)
-            DataContext = ViewModel;
+        // Soft restarts can keep static singletons alive. Start from a clean localization state
+        // so we can't end up with mixed old/new subscribers and stale resources.
+        Localizer.Reset();
 
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.Library)));
 
-        Localizer.ChangeLang("en");
+        // IMPORTANT: don't force "en" here.
+        // This app can be re-created without the process fully shutting down (hot reload / restart),
+        // so static state (LanguageKey, Localizer singleton) may persist. Always sync Localizer to
+        // the current LanguageKey so the Settings combobox and actual UI language can't diverge.
+        Localizer.ChangeLang(LanguageKey);
+
+        // CRITICAL: construct a fresh VM *after* localization is initialized.
+        // On soft restarts (without full process shutdown), static singletons can survive.
+        // Recreating the AppViewModel here prevents "welcome stuck in English" caused by
+        // VM properties being initialized before resources/culture are ready.
+        if (!Design.IsDesignMode)
+        {
+            ViewModel = new AppViewModel(new EventAggregator());
+            DataContext = ViewModel;
+        }
     }
 
     public static string LanguageKey { get; set; } = "en";

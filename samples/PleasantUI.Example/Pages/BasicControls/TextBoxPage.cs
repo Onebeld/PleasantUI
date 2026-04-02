@@ -7,5 +7,5 @@ public class TextBoxPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/TextBox";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new TextBoxPageView();
+    protected override Control CreateContent() => new TextBoxPageView();
 }

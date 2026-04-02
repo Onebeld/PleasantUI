@@ -7,5 +7,5 @@ public class CheckBoxPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/Checkbox";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new CheckBoxPageView();
+    protected override Control CreateContent() => new CheckBoxPageView();
 }

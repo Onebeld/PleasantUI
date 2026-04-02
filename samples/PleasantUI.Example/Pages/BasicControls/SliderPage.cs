@@ -7,5 +7,5 @@ public class SliderPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/Slider";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new SliderPageView();
+    protected override Control CreateContent() => new SliderPageView();
 }

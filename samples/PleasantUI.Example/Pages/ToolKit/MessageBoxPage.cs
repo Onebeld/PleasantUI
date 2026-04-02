@@ -7,5 +7,5 @@ public class MessageBoxPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/MessageBox";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new MessageBoxPageView();
+    protected override Control CreateContent() => new MessageBoxPageView();
 }

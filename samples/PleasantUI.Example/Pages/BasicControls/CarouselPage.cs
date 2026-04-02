@@ -7,5 +7,5 @@ public class CarouselPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/Carousel";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new CarouselPageView();
+    protected override Control CreateContent() => new CarouselPageView();
 }

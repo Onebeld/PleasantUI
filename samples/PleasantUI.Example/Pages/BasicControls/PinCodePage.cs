@@ -7,5 +7,5 @@ public class PinCodePage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/PinCode";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new PinCodePageView();
+    protected override Control CreateContent() => new PinCodePageView();
 }

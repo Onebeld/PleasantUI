@@ -7,5 +7,5 @@ public class ButtonPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/Button";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new ButtonPageView();
+    protected override Control CreateContent() => new ButtonPageView();
 }

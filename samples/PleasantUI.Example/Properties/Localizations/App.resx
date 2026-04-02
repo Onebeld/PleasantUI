@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -94,6 +94,10 @@
     <data name="DisabledComboBox" xml:space="preserve"><value>Disabled ComboBox</value></data>
     <data name="AutoCompleteBox" xml:space="preserve"><value>AutoCompleteBox</value></data>
     <data name="StartTyping" xml:space="preserve"><value>Start typing...</value></data>
+    <data name="ComboBoxPage/Option1" xml:space="preserve"><value>Option 1</value></data>
+    <data name="ComboBoxPage/Option2" xml:space="preserve"><value>Option 2</value></data>
+    <data name="ComboBoxPage/Option3" xml:space="preserve"><value>Option 3</value></data>
+    <data name="ComboBoxPage/Option4" xml:space="preserve"><value>Option 4</value></data>
     <!-- Slider page -->
     <data name="HorizontalSlider" xml:space="preserve"><value>Horizontal Slider</value></data>
     <data name="WithTickMarks" xml:space="preserve"><value>With Tick Marks</value></data>
@@ -121,6 +125,8 @@
     <data name="IndeterminateDescription" xml:space="preserve"><value>Used when duration is unknown — both bar and ring variants.</value></data>
     <data name="DeterminateStates" xml:space="preserve"><value>Determinate states</value></data>
     <data name="ProgressRingSizes" xml:space="preserve"><value>ProgressRing sizes</value></data>
+    <data name="ProgressRing/Value" xml:space="preserve"><value>Value</value></data>
+    <data name="ProgressRing/IsIndeterminate" xml:space="preserve"><value>Is indeterminate</value></data>
     <!-- OptionsDisplayItem page -->
     <data name="Basic" xml:space="preserve"><value>Basic</value></data>
     <data name="SimpleItem" xml:space="preserve"><value>Simple item</value></data>
@@ -333,6 +339,20 @@
     <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Open files</value></data>
     <data name="PleasantMenu/Modules" xml:space="preserve"><value>Loaded modules</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>A dialog that displays a message and waits for user confirmation.</value></data>
+    <!-- InformationBlock page -->
+    <data name="InformationBlock/Account" xml:space="preserve"><value>Account</value></data>
+    <!-- Button page -->
+    <data name="ButtonPage/Button" xml:space="preserve"><value>Button</value></data>
+    <data name="ButtonPage/AppBarButton" xml:space="preserve"><value>AppBarButton</value></data>
+    <data name="ButtonPage/AccentButton" xml:space="preserve"><value>AccentButton</value></data>
+    <data name="ButtonPage/DangerButton" xml:space="preserve"><value>DangerButton</value></data>
+    <data name="ButtonPage/DisabledButton" xml:space="preserve"><value>Disabled button</value></data>
+    <data name="ButtonPage/ButtonSpinner" xml:space="preserve"><value>ButtonSpinner</value></data>
+    <data name="ButtonPage/ToggleButton" xml:space="preserve"><value>ToggleButton</value></data>
+    <data name="ButtonPage/RepeatButton" xml:space="preserve"><value>RepeatButton</value></data>
+    <data name="ButtonPage/RadioButton1" xml:space="preserve"><value>RadioButton 1</value></data>
+    <data name="ButtonPage/RadioButton2" xml:space="preserve"><value>RadioButton 2</value></data>
+    <data name="ButtonPage/Content1" xml:space="preserve"><value>Content 1</value></data>
     <!-- Card titles -->
     <data name="CardTitle/Button" xml:space="preserve"><value>Button</value></data>
     <data name="CardTitle/Checkbox" xml:space="preserve"><value>Checkbox</value></data>

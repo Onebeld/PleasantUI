@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
@@ -19,9 +19,11 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
 
     // Strong references to all LocalizeKeyObservable instances — prevents GC from
     // collecting them and silently killing their LocalizationChanged subscriptions.
-    private static readonly List<object> AliveObservables = new();
+    private static readonly List<object> AliveObservables = [];
+    private static readonly object ObservableLock = new();
 
     private List<ResourceManager>? _resources;
+    private int _isChangingLanguage;
 
     /// <summary>
     /// Gets the singleton instance of the <see cref="Localizer" /> class.
@@ -125,6 +127,13 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <param name="language">The language code to switch to (e.g., "en", "fr").</param>
     public static void ChangeLang(string language) => Instance.ChangeLanguage(language);
 
+    /// <summary>
+    /// Resets the localizer to a clean state. Intended for app "soft restarts"
+    /// (hot reload / restart without full process shutdown) where static singletons
+    /// and event subscriptions may survive.
+    /// </summary>
+    public static void Reset() => Instance.ResetInternal();
+
 
     /// <summary>
     /// Attempts to get the localized string for the specified key.
@@ -172,8 +181,32 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         bool alreadyAdded = ResourceManagers.Any(r =>
             string.Equals(r.BaseName, resourceManager.BaseName, StringComparison.Ordinal));
 
-        if (!alreadyAdded)
-            ResourceManagers.Add(resourceManager);
+        if (alreadyAdded)
+            return;
+
+        ResourceManagers.Add(resourceManager);
+
+        // Make AddRes safe to call at any time: update active resource list immediately.
+        // Without this, views/VMs created before the first ChangeLanguage() can resolve
+        // keys against an empty _resources list and never re-evaluate.
+        LoadLanguage();
+
+        // Prime the newly-added manager for the current culture so the first GetString
+        // after registration doesn't race satellite assembly loading.
+        try
+        {
+            var culture = CultureInfo.CurrentUICulture;
+            resourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: true);
+        }
+        catch
+        {
+            // ignore
+        }
+
+        // If we're not currently in ChangeLanguage(), force a refresh so bindings
+        // already on-screen re-evaluate with the newly available resources.
+        if (Interlocked.CompareExchange(ref _isChangingLanguage, 0, 0) == 0)
+            LocalizationChanged?.Invoke(CurrentLanguage);
     }
 
     /// <summary>
@@ -182,8 +215,38 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// </summary>
     internal static void RegisterObservable(object observable)
     {
-        lock (AliveObservables)
+        lock (ObservableLock)
             AliveObservables.Add(observable);
+    }
+
+    private void ResetInternal()
+    {
+        // Prevent re-entrancy / inconsistent state.
+        Interlocked.Exchange(ref _isChangingLanguage, 1);
+
+        try
+        {
+            // Clear resource managers & resolved list.
+            ResourceManagers?.Clear();
+            _resources = null;
+
+            // Drop strong references to observables so old bindings can be collected.
+            lock (ObservableLock)
+                AliveObservables.Clear();
+
+            // Drop event subscribers that might reference old visual trees.
+            LocalizationChanged = null;
+            PropertyChanged = null;
+
+            CurrentLanguage = DefaultLanguage;
+
+            // Force any remaining bindings that still reference this instance to re-evaluate.
+            InvalidateEvents();
+        }
+        finally
+        {
+            Interlocked.Exchange(ref _isChangingLanguage, 0);
+        }
     }
 
     /// <inheritdoc />
@@ -192,11 +255,15 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         if (string.IsNullOrEmpty(language))
             language = DefaultLanguage;
 
+        Interlocked.Exchange(ref _isChangingLanguage, 1);
         Debug.WriteLine($"[Localizer] ChangeLanguage → \"{language}\" (subscribers: {LocalizationChanged?.GetInvocationList().Length ?? 0}, observables: {AliveObservables.Count})");
 
         CultureInfo culture = new(language);
+        CultureInfo.CurrentCulture = culture;
         CultureInfo.CurrentUICulture = culture;
+        CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;
+        Thread.CurrentThread.CurrentCulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
 
         CurrentLanguage = language;
@@ -220,6 +287,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         LocalizationChanged?.Invoke(language);
 
         Debug.WriteLine($"[Localizer] ChangeLanguage done → \"{language}\"");
+        Interlocked.Exchange(ref _isChangingLanguage, 0);
     }
 
     /// <inheritdoc />

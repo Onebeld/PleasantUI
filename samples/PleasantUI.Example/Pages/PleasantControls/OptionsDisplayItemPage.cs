@@ -7,5 +7,5 @@ public class OptionsDisplayItemPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/OptionsDisplayItem";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new OptionsDisplayItemPageView();
+    protected override Control CreateContent() => new OptionsDisplayItemPageView();
 }

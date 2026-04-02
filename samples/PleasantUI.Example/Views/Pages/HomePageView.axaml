@@ -13,33 +13,32 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <StackPanel Spacing="16" Margin="0 8"
-                HorizontalAlignment="Stretch">
 
-        <!-- Banner: scales with available width, capped height -->
+    <StackPanel Spacing="16" Margin="0 8" HorizontalAlignment="Stretch">
+
         <Border Background="#B2D3D3"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 ClipToBounds="True"
                 MinHeight="100"
                 MaxHeight="220">
             <Viewbox Stretch="Uniform" HorizontalAlignment="Center">
-                <Image Source="{StaticResource PleasantUI}"
-                       Width="600" Height="160" />
+                <Image Source="{StaticResource PleasantUI}" Width="600" Height="160" />
             </Viewbox>
         </Border>
 
+        <!-- Welcome text bound directly to VM property — updates instantly via SetProperty/INotifyPropertyChanged -->
         <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
                    TextAlignment="Center"
                    TextWrapping="Wrap">
-            <Run Text="{Localize WelcomeToPleasantUI}" />
+            <Run Text="{CompiledBinding WelcomeText}" />
             <InlineUIContainer BaselineAlignment="Baseline">
                 <PathIcon Height="25" Width="NaN" Data="{StaticResource PleasantUINoLogo}" />
             </InlineUIContainer>
             <Run Text="!" />
         </TextBlock>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize BasicControls}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                   Text="{CompiledBinding BasicControlsText}" />
 
         <ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
                       ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
@@ -50,7 +49,8 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize PleasantControls}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                   Text="{CompiledBinding PleasantControlsText}" />
 
         <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
                       ItemTemplate="{StaticResource ControlPageCardItemTemplate}">
@@ -61,7 +61,8 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ToolKit}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                   Text="{CompiledBinding ToolKitText}" />
 
         <ItemsControl ItemsSource="{CompiledBinding ToolKitPageCards}"
                       ItemTemplate="{StaticResource ControlPageCardItemTemplate}">

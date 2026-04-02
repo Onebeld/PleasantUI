@@ -7,5 +7,5 @@ public class PleasantSnackbarPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/PleasantSnackbar";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new PleasantSnackbarPageView();
+    protected override Control CreateContent() => new PleasantSnackbarPageView();
 }

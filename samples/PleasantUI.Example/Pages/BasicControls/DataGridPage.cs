@@ -7,5 +7,5 @@ public class DataGridPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/DataGrid";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new DataGridPageView();
+    protected override Control CreateContent() => new DataGridPageView();
 }

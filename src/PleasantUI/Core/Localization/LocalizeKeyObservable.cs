@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace PleasantUI.Core.Localization;
 
@@ -24,9 +23,9 @@ public sealed class LocalizeKeyObservable : INotifyPropertyChanged
         get => _value;
         private set
         {
-            if (_value == value) return;
             _value = value;
-            // Fire all variants so both compiled and reflection bindings pick it up
+            // Fire ALL variants unconditionally — compiled bindings, reflection bindings,
+            // indexer bindings all need to see the change regardless of value equality.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item"));
@@ -35,19 +34,15 @@ public sealed class LocalizeKeyObservable : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Creates a new observable and registers it with <see cref="Localizer"/> so it
-    /// is never garbage-collected while the localizer is alive.
+    /// Creates a new observable, evaluates the resolver immediately, and registers
+    /// a strong reference in <see cref="Localizer"/> to prevent GC collection.
     /// </summary>
     public LocalizeKeyObservable(Func<string> resolver)
     {
         _resolver = resolver;
         _value = resolver();
 
-        // Keep a strong reference so GC cannot collect this instance while the
-        // Localizer singleton is alive — otherwise the event subscription below
-        // would silently stop firing after the first GC pass.
         Localizer.RegisterObservable(this);
-
         Localizer.Instance.LocalizationChanged += OnLanguageChanged;
     }
 
@@ -55,6 +50,7 @@ public sealed class LocalizeKeyObservable : INotifyPropertyChanged
     {
         string newValue = _resolver();
         Debug.WriteLine($"[LocalizeKeyObservable] lang={language} old=\"{_value}\" new=\"{newValue}\"");
+        // Always assign — setter fires PropertyChanged unconditionally
         Value = newValue;
     }
 }

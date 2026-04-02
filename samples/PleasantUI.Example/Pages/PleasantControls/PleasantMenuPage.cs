@@ -7,5 +7,5 @@ public class PleasantMenuPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/PleasantMenu";
     public override bool ShowTitle { get; } = true;
-    public override Control Content => new PleasantMenuPageView();
+    protected override Control CreateContent() => new PleasantMenuPageView();
 }

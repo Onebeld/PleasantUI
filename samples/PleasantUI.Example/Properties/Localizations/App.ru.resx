@@ -1,4 +1,4 @@
-﻿<root>
+<root>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -87,6 +87,10 @@
     <data name="DisabledComboBox" xml:space="preserve"><value>Отключённый список</value></data>
     <data name="AutoCompleteBox" xml:space="preserve"><value>Автодополнение</value></data>
     <data name="StartTyping" xml:space="preserve"><value>Начните вводить...</value></data>
+    <data name="ComboBoxPage/Option1" xml:space="preserve"><value>Вариант 1</value></data>
+    <data name="ComboBoxPage/Option2" xml:space="preserve"><value>Вариант 2</value></data>
+    <data name="ComboBoxPage/Option3" xml:space="preserve"><value>Вариант 3</value></data>
+    <data name="ComboBoxPage/Option4" xml:space="preserve"><value>Вариант 4</value></data>
     <!-- Slider page -->
     <data name="HorizontalSlider" xml:space="preserve"><value>Горизонтальный слайдер</value></data>
     <data name="WithTickMarks" xml:space="preserve"><value>С делениями</value></data>
@@ -114,6 +118,8 @@
     <data name="IndeterminateDescription" xml:space="preserve"><value>Используется, когда продолжительность неизвестна — варианты с полосой и кольцом.</value></data>
     <data name="DeterminateStates" xml:space="preserve"><value>Определённые состояния</value></data>
     <data name="ProgressRingSizes" xml:space="preserve"><value>Размеры ProgressRing</value></data>
+    <data name="ProgressRing/Value" xml:space="preserve"><value>Значение</value></data>
+    <data name="ProgressRing/IsIndeterminate" xml:space="preserve"><value>Неопределённый</value></data>
     <!-- OptionsDisplayItem page -->
     <data name="Basic" xml:space="preserve"><value>Базовые</value></data>
     <data name="SimpleItem" xml:space="preserve"><value>Простой элемент</value></data>
@@ -326,6 +332,20 @@
     <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Открытые файлы</value></data>
     <data name="PleasantMenu/Modules" xml:space="preserve"><value>Загруженные модули</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>Диалог, отображающий сообщение и ожидающий подтверждения пользователя.</value></data>
+    <!-- InformationBlock page -->
+    <data name="InformationBlock/Account" xml:space="preserve"><value>Аккаунт</value></data>
+    <!-- Button page -->
+    <data name="ButtonPage/Button" xml:space="preserve"><value>Кнопка</value></data>
+    <data name="ButtonPage/AppBarButton" xml:space="preserve"><value>Кнопка AppBar</value></data>
+    <data name="ButtonPage/AccentButton" xml:space="preserve"><value>Акцентная</value></data>
+    <data name="ButtonPage/DangerButton" xml:space="preserve"><value>Опасная</value></data>
+    <data name="ButtonPage/DisabledButton" xml:space="preserve"><value>Отключённая кнопка</value></data>
+    <data name="ButtonPage/ButtonSpinner" xml:space="preserve"><value>Кнопка-спиннер</value></data>
+    <data name="ButtonPage/ToggleButton" xml:space="preserve"><value>Переключатель</value></data>
+    <data name="ButtonPage/RepeatButton" xml:space="preserve"><value>Повтор</value></data>
+    <data name="ButtonPage/RadioButton1" xml:space="preserve"><value>Радио 1</value></data>
+    <data name="ButtonPage/RadioButton2" xml:space="preserve"><value>Радио 2</value></data>
+    <data name="ButtonPage/Content1" xml:space="preserve"><value>Содержимое 1</value></data>
     <!-- Card titles -->
     <data name="CardTitle/Button" xml:space="preserve"><value>Кнопка</value></data>
     <data name="CardTitle/Checkbox" xml:space="preserve"><value>Флажок</value></data>

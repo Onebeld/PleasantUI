@@ -7,5 +7,5 @@ public class PleasantTabViewPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/PleasantTabView";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new PleasantTabViewPageView();
+    protected override Control CreateContent() => new PleasantTabViewPageView();
 }

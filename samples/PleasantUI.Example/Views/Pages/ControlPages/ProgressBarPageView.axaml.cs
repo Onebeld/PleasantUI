@@ -1,15 +1,16 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-public partial class ProgressBarPageView : UserControl
+public partial class ProgressBarPageView : LocalizedUserControl
 {
     private DispatcherTimer? _timer;
     private double _value;
+    private StartButtonState _startState = StartButtonState.Ready;
 
-    // stored after InitializeComponent so we don't rely on source-gen fields
     private ProgressBar _liveBar = null!;
     private RangeBase _liveRing = null!;
     private TextBlock _liveLabel = null!;
@@ -18,14 +19,26 @@ public partial class ProgressBarPageView : UserControl
     public ProgressBarPageView()
     {
         InitializeComponent();
+        WireHandlers();
+    }
 
-        _liveBar     = this.FindControl<ProgressBar>("LiveBar")!;
-        _liveRing    = this.FindControl<RangeBase>("LiveRing")!;
-        _liveLabel   = this.FindControl<TextBlock>("LiveLabel")!;
-        _startButton = this.FindControl<Button>("StartButton")!;
+    private enum StartButtonState
+    {
+        Ready,
+        Running,
+        Done
+    }
 
-        _startButton.Click += (_, _) => StartAnimation();
-        this.FindControl<Button>("ResetButton")!.Click += (_, _) => Reset();
+    private void RefreshLocalizedRuntimeText()
+    {
+        // Only touches runtime-set strings (code-behind overwrites the XAML {Localize} binding).
+        _startButton.Content = _startState switch
+        {
+            StartButtonState.Ready   => Localizer.Tr("Start"),
+            StartButtonState.Running => Localizer.Tr("Running"),
+            StartButtonState.Done    => Localizer.Tr("Done"),
+            _ => _startButton.Content
+        };
     }
 
     private void StartAnimation()
@@ -43,11 +56,13 @@ public partial class ProgressBarPageView : UserControl
             if (_value >= 100)
             {
                 _timer.Stop();
-                _startButton.Content = "Done";
+                _startState = StartButtonState.Done;
+                RefreshLocalizedRuntimeText();
             }
         };
         _timer.Start();
-        _startButton.Content = "Running…";
+        _startState = StartButtonState.Running;
+        RefreshLocalizedRuntimeText();
         _startButton.IsEnabled = false;
     }
 
@@ -58,7 +73,33 @@ public partial class ProgressBarPageView : UserControl
         _liveBar.Value = 0;
         _liveRing.Value = 0;
         _liveLabel.Text = "0%";
-        _startButton.Content = "Start";
+        _startState = StartButtonState.Ready;
+        RefreshLocalizedRuntimeText();
         _startButton.IsEnabled = true;
+    }
+    // Complex constructor — don't re-run InitializeComponent
+
+    protected override void ReinitializeComponent()
+    {
+        // Stop timer so it doesn't try to update the old visual tree.
+        _timer?.Stop();
+        _timer = null;
+
+        InitializeComponent();
+        WireHandlers();
+    }
+
+    private void WireHandlers()
+    {
+        _liveBar     = this.FindControl<ProgressBar>("LiveBar")!;
+        _liveRing    = this.FindControl<RangeBase>("LiveRing")!;
+        _liveLabel   = this.FindControl<TextBlock>("LiveLabel")!;
+        _startButton = this.FindControl<Button>("StartButton")!;
+
+        _startButton.Click += (_, _) => StartAnimation();
+        this.FindControl<Button>("ResetButton")!.Click += (_, _) => Reset();
+
+        Localizer.Instance.LocalizationChanged += _ => RefreshLocalizedRuntimeText();
+        RefreshLocalizedRuntimeText();
     }
 }

@@ -7,5 +7,5 @@ public class CalendarPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/Calendar";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new CalendarPageView();
+    protected override Control CreateContent() => new CalendarPageView();
 }

@@ -1,8 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace PleasantUI.Example.Views.Pages.ToolkitPages;
 
-namespace PleasantUI.Example.Views.Pages.ToolkitPages;
-
-public partial class MessageBoxPageView : UserControl
+public partial class MessageBoxPageView : LocalizedUserControl
 {
     public MessageBoxPageView() => InitializeComponent();
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

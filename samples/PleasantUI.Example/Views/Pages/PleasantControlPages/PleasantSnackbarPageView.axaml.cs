@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using PleasantUI.Controls;
@@ -6,7 +6,7 @@ using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
-public partial class PleasantSnackbarPageView : UserControl
+public partial class PleasantSnackbarPageView : LocalizedUserControl
 {
     private static string T(string key, string fallback) =>
         Localizer.TrDefault(key, fallback, "Snackbar");
@@ -14,115 +14,79 @@ public partial class PleasantSnackbarPageView : UserControl
     public PleasantSnackbarPageView()
     {
         InitializeComponent();
+        WireHandlers();
+    }
+    // Complex constructor — don't re-run InitializeComponent
 
+    protected override void ReinitializeComponent()
+    {
+        InitializeComponent();
+        WireHandlers();
+    }
+
+    private void WireHandlers()
+    {
         BtnInformation.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("InformationMsg", "This is an informational message."))
-            {
-                Icon             = MaterialIcons.InformationOutline,
-                NotificationType = NotificationType.Information
-            });
+            { Icon = MaterialIcons.InformationOutline, NotificationType = NotificationType.Information });
 
         BtnSuccess.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("SuccessMsg", "Operation completed successfully."))
-            {
-                Icon             = MaterialIcons.CheckCircleOutline,
-                NotificationType = NotificationType.Success
-            });
+            { Icon = MaterialIcons.CheckCircleOutline, NotificationType = NotificationType.Success });
 
         BtnWarning.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("WarningMsg", "Disk space is running low."))
-            {
-                Icon             = MaterialIcons.AlertOutline,
-                NotificationType = NotificationType.Warning
-            });
+            { Icon = MaterialIcons.AlertOutline, NotificationType = NotificationType.Warning });
 
         BtnError.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("ErrorMsg", "Failed to save the file."))
-            {
-                Icon             = MaterialIcons.CloseCircleOutline,
-                NotificationType = NotificationType.Error
-            });
+            { Icon = MaterialIcons.CloseCircleOutline, NotificationType = NotificationType.Error });
 
         BtnLongMessage.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
-            new PleasantSnackbarOptions(T("LongMsg", "Your export has finished. The file has been saved to your Downloads folder and is ready to open. You can also share it directly from there."))
-            {
-                Icon             = MaterialIcons.FileExportOutline,
-                NotificationType = NotificationType.Information,
-                IsClosable       = true,
-                TimeSpan         = TimeSpan.FromSeconds(8)
-            });
+            new PleasantSnackbarOptions(T("LongMsg", "Your export has finished. The file has been saved to your Downloads folder and is ready to open."))
+            { Icon = MaterialIcons.FileExportOutline, NotificationType = NotificationType.Information, IsClosable = true, TimeSpan = TimeSpan.FromSeconds(8) });
 
         BtnWithTitle.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("WithTitleMsg", "Your changes have been saved to the cloud."))
-            {
-                Title            = T("WithTitleTitle", "Saved"),
-                Icon             = MaterialIcons.CloudCheckOutline,
-                NotificationType = NotificationType.Success
-            });
+            { Title = T("WithTitleTitle", "Saved"), Icon = MaterialIcons.CloudCheckOutline, NotificationType = NotificationType.Success });
 
         BtnWithAction.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("WithActionMsg", "Item moved to trash."))
             {
-                Icon             = MaterialIcons.DeleteOutline,
-                NotificationType = NotificationType.Information,
-                ButtonText       = T("Undo", "Undo"),
-                ButtonAction     = () => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
+                Icon = MaterialIcons.DeleteOutline, NotificationType = NotificationType.Information,
+                ButtonText = T("Undo", "Undo"),
+                ButtonAction = () => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
                     new PleasantSnackbarOptions(T("UndoneMsg", "Action undone."))
-                    {
-                        Icon             = MaterialIcons.UndoVariant,
-                        NotificationType = NotificationType.Success
-                    })
+                    { Icon = MaterialIcons.UndoVariant, NotificationType = NotificationType.Success })
             });
 
         BtnWithCustomAction.Click += (_, _) =>
         {
             var actionBtn = new Button
             {
-                Content      = T("ViewDetails", "View"),
-                Theme        = Application.Current!.TryFindResource("AccentButtonTheme", out object? t)
-                               ? t as Avalonia.Styling.ControlTheme : null,
-                CornerRadius = new Avalonia.CornerRadius(99),
-                Padding      = new Avalonia.Thickness(10, 4)
+                Content = T("ViewDetails", "View"),
+                Theme = Application.Current!.TryFindResource("AccentButtonTheme", out object? t) ? t as Avalonia.Styling.ControlTheme : null,
+                CornerRadius = new CornerRadius(99),
+                Padding = new Thickness(10, 4)
             };
             actionBtn.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
-                new PleasantSnackbarOptions(T("ViewedMsg", "Opening details…"))
-                {
-                    NotificationType = NotificationType.Information
-                });
+                new PleasantSnackbarOptions(T("ViewedMsg", "Opening details…")) { NotificationType = NotificationType.Information });
 
             PleasantSnackbar.Show(PleasantUiExampleApp.Main,
                 new PleasantSnackbarOptions(T("WithCustomActionMsg", "New update available."))
-                {
-                    Icon             = MaterialIcons.AccessPointCheck,
-                    NotificationType = NotificationType.Information,
-                    ActionButton     = actionBtn
-                });
+                { Icon = MaterialIcons.AccessPointCheck, NotificationType = NotificationType.Information, ActionButton = actionBtn });
         };
 
         BtnClosable.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("ClosableMsg", "This snackbar has a close button."))
-            {
-                Title            = T("ClosableTitle", "Dismissable"),
-                Icon             = MaterialIcons.InformationOutline,
-                NotificationType = NotificationType.Information,
-                IsClosable       = true,
-                TimeSpan         = TimeSpan.FromSeconds(10)
-            });
+            { Title = T("ClosableTitle", "Dismissable"), Icon = MaterialIcons.InformationOutline, NotificationType = NotificationType.Information, IsClosable = true, TimeSpan = TimeSpan.FromSeconds(10) });
 
         BtnWithEvents.Click += (_, _) => PleasantSnackbar.Show(PleasantUiExampleApp.Main,
             new PleasantSnackbarOptions(T("WithEventsMsg", "Tap or wait to dismiss — events are tracked."))
             {
-                Icon             = MaterialIcons.BellOutline,
-                NotificationType = NotificationType.Information,
-                IsClosable       = true,
-                Closing          = (_, args) =>
-                {
-                    LastEventText.Text = $"Closing ({args.Reason})";
-                },
-                Closed           = (_, args) =>
-                {
-                    LastEventText.Text = $"Closed ({args.Reason})";
-                }
+                Icon = MaterialIcons.BellOutline, NotificationType = NotificationType.Information, IsClosable = true,
+                Closing = (_, args) => { LastEventText.Text = $"Closing ({args.Reason})"; },
+                Closed  = (_, args) => { LastEventText.Text = $"Closed ({args.Reason})"; }
             });
     }
 }

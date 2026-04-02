@@ -7,5 +7,5 @@ public class InformationBlockPage : LocalizedPage
 {
     public override string TitleKey { get; } = "CardTitle/InformationBlock";
     public override bool ShowTitle { get; } = true;
-    public override Control Content { get; } = new InformationBlockPageView();
+    protected override Control CreateContent() => new InformationBlockPageView();
 }

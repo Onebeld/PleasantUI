@@ -133,16 +133,16 @@ public class LocalizeExtension : MarkupExtension
                 return expression;
             }
 
-            // LocalizeKeyObservable fires PropertyChanged("Value") + ("") + ("Item") on every
-            // language change, so both reflection and compiled bindings pick it up.
+            // LocalizeKeyObservable fires PropertyChanged on every language change.
+            // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources.
             var observable = new LocalizeKeyObservable(Resolve);
-
-            // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources
             var binding = new Binding
             {
-                Source = observable,
-                Path   = nameof(LocalizeKeyObservable.Value),
-                Mode   = BindingMode.OneWay
+                Source          = observable,
+                Path            = nameof(LocalizeKeyObservable.Value),
+                Mode            = BindingMode.OneWay,
+                FallbackValue   = resolvedKey,
+                TargetNullValue = resolvedKey
             };
 
             if (_bindings is null || _bindings.Length <= 0)
