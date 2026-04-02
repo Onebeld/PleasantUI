@@ -143,20 +143,18 @@ jobs:
           fi
           [ -z "$LIST" ] && LIST="- Initial release"
 
-          # Write prompt file for ai-inference action
-          cat > /tmp/release-notes-prompt.txt <<EOF
-          You are a technical writer generating GitHub release notes for PleasantUI,
-          a cross-platform .NET/Avalonia UI theme and control library.
-          Write clear, developer-friendly markdown. Only include sections that are relevant.
-          Use these sections as needed: ### What's New, ### Improvements, ### Bug Fixes, ### Breaking Changes.
-          Be factual — do not invent features not present in the commits.
+          VERSION="v${{ steps.version.outputs.version }}"
+          PRERELEASE="${{ steps.version.outputs.prerelease }}"
 
-          Version: v${{ steps.version.outputs.version }}
-          Pre-release: ${{ steps.version.outputs.prerelease }}
-
-          Commits since last release:
-          $LIST
-          EOF
+          printf 'You are a technical writer generating GitHub release notes for PleasantUI,\n' > /tmp/release-notes-prompt.txt
+          printf 'a cross-platform .NET/Avalonia UI theme and control library.\n' >> /tmp/release-notes-prompt.txt
+          printf 'Write clear, developer-friendly markdown. Only include sections that are relevant.\n' >> /tmp/release-notes-prompt.txt
+          printf 'Use these sections as needed: ### What'"'"'s New, ### Improvements, ### Bug Fixes, ### Breaking Changes.\n' >> /tmp/release-notes-prompt.txt
+          printf 'Be factual - do not invent features not present in the commits.\n\n' >> /tmp/release-notes-prompt.txt
+          printf 'Version: %s\n' "$VERSION" >> /tmp/release-notes-prompt.txt
+          printf 'Pre-release: %s\n\n' "$PRERELEASE" >> /tmp/release-notes-prompt.txt
+          printf 'Commits since last release:\n' >> /tmp/release-notes-prompt.txt
+          printf '%s\n' "$LIST" >> /tmp/release-notes-prompt.txt
 
       - name: Generate AI release notes
         if: steps.tag_check.outputs.exists == 'false'
@@ -170,12 +168,14 @@ jobs:
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'
         id: notes_file
+        env:
+          AI_RESPONSE: ${{ steps.ai_notes.outputs.response }}
+          AI_RESPONSE_FILE: ${{ steps.ai_notes.outputs.response-file }}
         run: |
-          # Prefer response-file (handles larger outputs); fall back to inline response
-          if [ -f "${{ steps.ai_notes.outputs.response-file }}" ]; then
-            cp "${{ steps.ai_notes.outputs.response-file }}" /tmp/release_notes.md
-          elif [ -n "${{ steps.ai_notes.outputs.response }}" ]; then
-            printf '%s' "${{ steps.ai_notes.outputs.response }}" > /tmp/release_notes.md
+          if [ -f "$AI_RESPONSE_FILE" ] && [ -s "$AI_RESPONSE_FILE" ]; then
+            cp "$AI_RESPONSE_FILE" /tmp/release_notes.md
+          elif [ -n "$AI_RESPONSE" ]; then
+            printf '%s' "$AI_RESPONSE" > /tmp/release_notes.md
           else
             echo "AI generation returned empty — using commit list as fallback."
             echo "### Changes in v${{ steps.version.outputs.version }}" > /tmp/release_notes.md
