@@ -293,5 +293,30 @@
     <data name="Card/InformationBlock" xml:space="preserve"><value>Custom control for displaying a structured block of information, including a title, icon, and descriptive text.</value></data>
     <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Custom control representing a single item in a list of options.</value></data>
     <data name="Card/PleasantTabView" xml:space="preserve"><value>Custom control implementing a tabbed interface.</value></data>
+    <data name="Card/PleasantMenu" xml:space="preserve"><value>A flyout application menu with a title, icon grid, badges, and footer utility buttons.</value></data>
+    <!-- PleasantMenu page -->
+    <data name="PleasantMenu/Description" xml:space="preserve"><value>A customizable flyout menu with a title, optional info badges, a grid of large icon buttons, and a footer bar with small utility buttons.</value></data>
+    <data name="PleasantMenu/BasicDemo" xml:space="preserve"><value>Full menu (3 columns, badges, footer)</value></data>
+    <data name="PleasantMenu/NoFooterDemo" xml:space="preserve"><value>Without footer</value></data>
+    <data name="PleasantMenu/TwoColumnDemo" xml:space="preserve"><value>2-column layout</value></data>
+    <data name="PleasantMenu/OpenMenu" xml:space="preserve"><value>Open menu</value></data>
+    <data name="PleasantMenu/MenuTitle" xml:space="preserve"><value>Menu</value></data>
+    <data name="PleasantMenu/Open" xml:space="preserve"><value>Open</value></data>
+    <data name="PleasantMenu/OpenTip" xml:space="preserve"><value>Open a file</value></data>
+    <data name="PleasantMenu/Save" xml:space="preserve"><value>Save</value></data>
+    <data name="PleasantMenu/SaveTip" xml:space="preserve"><value>Save current file</value></data>
+    <data name="PleasantMenu/New" xml:space="preserve"><value>New</value></data>
+    <data name="PleasantMenu/NewTip" xml:space="preserve"><value>Create new file</value></data>
+    <data name="PleasantMenu/Tools" xml:space="preserve"><value>Tools</value></data>
+    <data name="PleasantMenu/ToolsTip" xml:space="preserve"><value>Open tools</value></data>
+    <data name="PleasantMenu/Home" xml:space="preserve"><value>Home</value></data>
+    <data name="PleasantMenu/HomeTip" xml:space="preserve"><value>Go to home screen</value></data>
+    <data name="PleasantMenu/Delete" xml:space="preserve"><value>Delete</value></data>
+    <data name="PleasantMenu/DeleteTip" xml:space="preserve"><value>Delete selected</value></data>
+    <data name="PleasantMenu/Settings" xml:space="preserve"><value>Settings</value></data>
+    <data name="PleasantMenu/About" xml:space="preserve"><value>About</value></data>
+    <data name="PleasantMenu/Exit" xml:space="preserve"><value>Exit</value></data>
+    <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Open files</value></data>
+    <data name="PleasantMenu/Modules" xml:space="preserve"><value>Loaded modules</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>A dialog that displays a message and waits for user confirmation.</value></data>
 </root>

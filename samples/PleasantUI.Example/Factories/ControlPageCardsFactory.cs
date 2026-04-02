@@ -39,6 +39,7 @@ public class ControlPageCardsFactory
             new("InformationBlock",    MaterialIcons.InformationBoxOutline, "Card/InformationBlock",    new InformationBlockPage(),    _eventAggregator),
             new("OptionsDisplayItem",  MaterialIcons.ViewListOutline,       "Card/OptionsDisplayItem",  new OptionsDisplayItemPage(),  _eventAggregator),
             new("PleasantTabView",     MaterialIcons.Tab,                   "Card/PleasantTabView",     new PleasantTabViewPage(),     _eventAggregator),
+            new("PleasantMenu",        MaterialIcons.MenuOpen,              "Card/PleasantMenu",        new PleasantMenuPage(),        _eventAggregator),
         ];
     }
 

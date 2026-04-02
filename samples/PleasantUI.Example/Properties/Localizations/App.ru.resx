@@ -286,5 +286,30 @@
     <data name="Card/InformationBlock" xml:space="preserve"><value>Пользовательский элемент для отображения структурированного блока информации с заголовком, иконкой и текстом.</value></data>
     <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Пользовательский элемент, представляющий один пункт в списке параметров.</value></data>
     <data name="Card/PleasantTabView" xml:space="preserve"><value>Пользовательский элемент управления с вкладками.</value></data>
+    <data name="Card/PleasantMenu" xml:space="preserve"><value>Всплывающее меню приложения с заголовком, сеткой иконок, значками и нижней панелью.</value></data>
+    <!-- PleasantMenu page -->
+    <data name="PleasantMenu/Description" xml:space="preserve"><value>Настраиваемое всплывающее меню с заголовком, опциональными значками, сеткой крупных кнопок с иконками и нижней панелью утилит.</value></data>
+    <data name="PleasantMenu/BasicDemo" xml:space="preserve"><value>Полное меню (3 колонки, значки, нижняя панель)</value></data>
+    <data name="PleasantMenu/NoFooterDemo" xml:space="preserve"><value>Без нижней панели</value></data>
+    <data name="PleasantMenu/TwoColumnDemo" xml:space="preserve"><value>Макет в 2 колонки</value></data>
+    <data name="PleasantMenu/OpenMenu" xml:space="preserve"><value>Открыть меню</value></data>
+    <data name="PleasantMenu/MenuTitle" xml:space="preserve"><value>Меню</value></data>
+    <data name="PleasantMenu/Open" xml:space="preserve"><value>Открыть</value></data>
+    <data name="PleasantMenu/OpenTip" xml:space="preserve"><value>Открыть файл</value></data>
+    <data name="PleasantMenu/Save" xml:space="preserve"><value>Сохранить</value></data>
+    <data name="PleasantMenu/SaveTip" xml:space="preserve"><value>Сохранить текущий файл</value></data>
+    <data name="PleasantMenu/New" xml:space="preserve"><value>Создать</value></data>
+    <data name="PleasantMenu/NewTip" xml:space="preserve"><value>Создать новый файл</value></data>
+    <data name="PleasantMenu/Tools" xml:space="preserve"><value>Инструменты</value></data>
+    <data name="PleasantMenu/ToolsTip" xml:space="preserve"><value>Открыть инструменты</value></data>
+    <data name="PleasantMenu/Home" xml:space="preserve"><value>Главная</value></data>
+    <data name="PleasantMenu/HomeTip" xml:space="preserve"><value>Перейти на главный экран</value></data>
+    <data name="PleasantMenu/Delete" xml:space="preserve"><value>Удалить</value></data>
+    <data name="PleasantMenu/DeleteTip" xml:space="preserve"><value>Удалить выбранное</value></data>
+    <data name="PleasantMenu/Settings" xml:space="preserve"><value>Настройки</value></data>
+    <data name="PleasantMenu/About" xml:space="preserve"><value>О программе</value></data>
+    <data name="PleasantMenu/Exit" xml:space="preserve"><value>Выход</value></data>
+    <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Открытые файлы</value></data>
+    <data name="PleasantMenu/Modules" xml:space="preserve"><value>Загруженные модули</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>Диалог, отображающий сообщение и ожидающий подтверждения пользователя.</value></data>
 </root>

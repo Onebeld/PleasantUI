@@ -76,6 +76,29 @@ Controls built from scratch that go beyond what Avalonia ships:
 
 ---
 
+## Documentation
+
+Detailed reference docs for each control are in the [`docs/`](docs/) folder:
+
+| Doc | Controls |
+|---|---|
+| [PleasantWindow](docs/PleasantWindow.md) | `PleasantWindow`, `IPleasantSplashScreen` |
+| [PleasantMiniWindow](docs/PleasantMiniWindow.md) | `PleasantMiniWindow` |
+| [NavigationView](docs/NavigationView.md) | `NavigationView`, `NavigationViewItem` |
+| [PleasantTabView](docs/PleasantTabView.md) | `PleasantTabView`, `PleasantTabItem` |
+| [ContentDialog](docs/ContentDialog.md) | `ContentDialog` |
+| [MessageBox](docs/MessageBox.md) | `MessageBox` (ToolKit) |
+| [PleasantDialog](docs/PleasantDialog.md) | `PleasantDialog` (ToolKit) |
+| [PleasantSnackbar](docs/PleasantSnackbar.md) | `PleasantSnackbar` |
+| [ProgressRing](docs/ProgressRing.md) | `ProgressRing` |
+| [OptionsDisplayItem](docs/OptionsDisplayItem.md) | `OptionsDisplayItem` |
+| [InformationBlock](docs/InformationBlock.md) | `InformationBlock` |
+| [DataGrid](docs/DataGrid.md) | `PleasantUI.DataGrid` package |
+| [Localization](docs/Localization.md) | `Localizer`, `{Localize}` markup extension |
+| [Theme Engine](docs/ThemeEngine.md) | `PleasantTheme`, custom themes, color tokens |
+
+---
+
 ## Getting Started
 
 ### Install
