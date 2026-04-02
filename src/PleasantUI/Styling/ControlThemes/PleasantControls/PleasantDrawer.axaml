@@ -1,0 +1,196 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Width="400" Height="500">
+            <controls:PleasantDrawer Title="Drawer Title" Position="Right" Width="320">
+                <TextBlock Text="Drawer content." Margin="20" TextWrapping="Wrap" />
+            </controls:PleasantDrawer>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:PleasantDrawer}" TargetType="controls:PleasantDrawer">
+        <Setter Property="Background"          Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="BorderBrush"         Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness"     Value="1" />
+        <Setter Property="MinWidth"            Value="200" />
+        <Setter Property="MinHeight"           Value="80" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="PART_Overlay"
+                            Background="#3A000000"
+                            Opacity="0"
+                            IsHitTestVisible="{TemplateBinding CanLightDismiss}" />
+                    <ShadowBorder Name="PART_DrawerPanel"
+                                  BlurRadius="40"
+                                  ShadowColor="#5A000000"
+                                  Offset="-4 0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Stretch"
+                                  MinWidth="{TemplateBinding MinWidth}"
+                                  MinHeight="{TemplateBinding MinHeight}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8 0 0 8"
+                                ClipToBounds="True">
+                            <Grid RowDefinitions="Auto,*,Auto">
+                                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="20 16 16 0">
+                                    <TextBlock Grid.Column="0"
+                                               Text="{TemplateBinding Title}"
+                                               FontSize="16" FontWeight="SemiBold"
+                                               VerticalAlignment="Center" TextWrapping="Wrap"
+                                               IsVisible="{TemplateBinding Title, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                               Foreground="{DynamicResource TextFillColor1}" />
+                                    <Button Name="PART_CloseButton"
+                                            Grid.Column="1"
+                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            Width="32" Height="32" Padding="8"
+                                            VerticalAlignment="Top">
+                                        <PathIcon Data="{StaticResource DismissRegular}" Width="10" Height="10" />
+                                    </Button>
+                                </Grid>
+                                <Border Grid.Row="0" Height="1" Margin="0 52 0 0"
+                                        Background="{DynamicResource ControlBorderColor}"
+                                        IsVisible="{TemplateBinding Title, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                <SmoothScrollViewer Grid.Row="1" Padding="20 12"
+                                                    HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Auto">
+                                    <ContentPresenter Content="{TemplateBinding Content}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </SmoothScrollViewer>
+                                <Border Grid.Row="2"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        BorderThickness="0 1 0 0"
+                                        Background="{DynamicResource BackgroundColor3}"
+                                        Padding="20 12"
+                                        IsVisible="{TemplateBinding FooterContent, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                    <ContentPresenter Content="{TemplateBinding FooterContent}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </ShadowBorder>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Overlay fade animations shared across all positions -->
+        <Style Selector="^">
+            <Setter Property="ShowOverlayAnimation">
+                <Animation Duration="0:0:0.25" FillMode="Both">
+                    <KeyFrame KeyTime="0:0:0">   <Setter Property="Opacity" Value="0" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.25"><Setter Property="Opacity" Value="1" /></KeyFrame>
+                </Animation>
+            </Setter>
+            <Setter Property="HideOverlayAnimation">
+                <Animation Duration="0:0:0.2" FillMode="Both">
+                    <KeyFrame KeyTime="0:0:0">  <Setter Property="Opacity" Value="1" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.2"><Setter Property="Opacity" Value="0" /></KeyFrame>
+                </Animation>
+            </Setter>
+        </Style>
+
+        <!-- Right -->
+        <Style Selector="^:right">
+            <Setter Property="OpenAnimation">
+                <Animation Duration="0:0:0.25" FillMode="Both" Easing="CubicEaseOut">
+                    <KeyFrame KeyTime="0:0:0">   <Setter Property="TranslateTransform.X" Value="320" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.25"><Setter Property="TranslateTransform.X" Value="0" />  <Setter Property="Opacity" Value="1" /></KeyFrame>
+                </Animation>
+            </Setter>
+            <Setter Property="CloseAnimation">
+                <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseIn">
+                    <KeyFrame KeyTime="0:0:0">  <Setter Property="TranslateTransform.X" Value="0" />  <Setter Property="Opacity" Value="1" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.2"><Setter Property="TranslateTransform.X" Value="320" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                </Animation>
+            </Setter>
+        </Style>
+        <Style Selector="^:right /template/ ShadowBorder#PART_DrawerPanel">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment"   Value="Stretch" />
+            <Setter Property="Offset"              Value="-4 0" />
+        </Style>
+        <Style Selector="^:right /template/ ShadowBorder#PART_DrawerPanel > Border">
+            <Setter Property="CornerRadius" Value="8 0 0 8" />
+        </Style>
+
+        <!-- Left -->
+        <Style Selector="^:left">
+            <Setter Property="OpenAnimation">
+                <Animation Duration="0:0:0.25" FillMode="Both" Easing="CubicEaseOut">
+                    <KeyFrame KeyTime="0:0:0">   <Setter Property="TranslateTransform.X" Value="-320" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.25"><Setter Property="TranslateTransform.X" Value="0" />   <Setter Property="Opacity" Value="1" /></KeyFrame>
+                </Animation>
+            </Setter>
+            <Setter Property="CloseAnimation">
+                <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseIn">
+                    <KeyFrame KeyTime="0:0:0">  <Setter Property="TranslateTransform.X" Value="0" />   <Setter Property="Opacity" Value="1" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.2"><Setter Property="TranslateTransform.X" Value="-320" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                </Animation>
+            </Setter>
+        </Style>
+        <Style Selector="^:left /template/ ShadowBorder#PART_DrawerPanel">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment"   Value="Stretch" />
+            <Setter Property="Offset"              Value="4 0" />
+        </Style>
+        <Style Selector="^:left /template/ ShadowBorder#PART_DrawerPanel > Border">
+            <Setter Property="CornerRadius" Value="0 8 8 0" />
+        </Style>
+
+        <!-- Top -->
+        <Style Selector="^:top">
+            <Setter Property="OpenAnimation">
+                <Animation Duration="0:0:0.25" FillMode="Both" Easing="CubicEaseOut">
+                    <KeyFrame KeyTime="0:0:0">   <Setter Property="TranslateTransform.Y" Value="-300" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.25"><Setter Property="TranslateTransform.Y" Value="0" />   <Setter Property="Opacity" Value="1" /></KeyFrame>
+                </Animation>
+            </Setter>
+            <Setter Property="CloseAnimation">
+                <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseIn">
+                    <KeyFrame KeyTime="0:0:0">  <Setter Property="TranslateTransform.Y" Value="0" />   <Setter Property="Opacity" Value="1" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.2"><Setter Property="TranslateTransform.Y" Value="-300" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                </Animation>
+            </Setter>
+        </Style>
+        <Style Selector="^:top /template/ ShadowBorder#PART_DrawerPanel">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment"   Value="Top" />
+            <Setter Property="Offset"              Value="0 4" />
+        </Style>
+        <Style Selector="^:top /template/ ShadowBorder#PART_DrawerPanel > Border">
+            <Setter Property="CornerRadius" Value="0 0 8 8" />
+        </Style>
+
+        <!-- Bottom -->
+        <Style Selector="^:bottom">
+            <Setter Property="OpenAnimation">
+                <Animation Duration="0:0:0.25" FillMode="Both" Easing="CubicEaseOut">
+                    <KeyFrame KeyTime="0:0:0">   <Setter Property="TranslateTransform.Y" Value="300" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.25"><Setter Property="TranslateTransform.Y" Value="0" />  <Setter Property="Opacity" Value="1" /></KeyFrame>
+                </Animation>
+            </Setter>
+            <Setter Property="CloseAnimation">
+                <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseIn">
+                    <KeyFrame KeyTime="0:0:0">  <Setter Property="TranslateTransform.Y" Value="0" />  <Setter Property="Opacity" Value="1" /></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.2"><Setter Property="TranslateTransform.Y" Value="300" /><Setter Property="Opacity" Value="0" /></KeyFrame>
+                </Animation>
+            </Setter>
+        </Style>
+        <Style Selector="^:bottom /template/ ShadowBorder#PART_DrawerPanel">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment"   Value="Bottom" />
+            <Setter Property="Offset"              Value="0 -4" />
+        </Style>
+        <Style Selector="^:bottom /template/ ShadowBorder#PART_DrawerPanel > Border">
+            <Setter Property="CornerRadius" Value="8 8 0 0" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

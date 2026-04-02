@@ -35,6 +35,7 @@
                 <MergeResourceInclude Source="BasicControls/ListBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Menu.axaml" />
                 <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/ModalWindowHost.axaml" />
                 <MergeResourceInclude Source="BasicControls/NativeMenuBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
@@ -94,6 +95,8 @@
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
                 <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantDrawer.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PopConfirm.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

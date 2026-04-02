@@ -1,0 +1,129 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="40">
+            <controls:PopConfirm PopupHeader="Delete item?"
+                                  PopupContent="This action cannot be undone.">
+                <Button Content="Delete" />
+            </controls:PopConfirm>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:PopConfirm}" TargetType="controls:PopConfirm">
+        <Setter Property="Placement" Value="BottomEdgeAlignedLeft" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <!-- Wrapped trigger content -->
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                    <!-- Confirmation popup -->
+                    <Popup Name="PART_Popup"
+                           IsLightDismissEnabled="True"
+                           IsOpen="{Binding IsDropdownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                           OverlayInputPassThroughElement="{Binding #PART_ContentPresenter}"
+                           Placement="{TemplateBinding Placement}">
+                        <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                                      BlurRadius="20"
+                                      ShadowColor="#4A000000"
+                                      Offset="0 4">
+                            <Border MaxWidth="320"
+                                    Padding="16"
+                                    Margin="4"
+                                    Background="{DynamicResource BackgroundColor1}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="{StaticResource ControlBorderThickness}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+
+                                    <!-- Icon area -->
+                                    <Panel Grid.Row="0" Grid.Column="0"
+                                           Margin="0 2 10 0"
+                                           VerticalAlignment="Top">
+                                        <!-- Custom icon when provided -->
+                                        <ContentPresenter Content="{TemplateBinding Icon}"
+                                                          IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                        <!-- Default warning icon when no custom icon -->
+                                        <PathIcon Name="PART_DefaultIcon"
+                                                  Width="16" Height="16"
+                                                  Data="{StaticResource DeleteRegular}"
+                                                  Foreground="{DynamicResource SystemFillColorCaution}"
+                                                  IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNull}}" />
+                                    </Panel>
+
+                                    <!-- Header + body -->
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Spacing="6">
+                                        <ContentPresenter Content="{TemplateBinding PopupHeader}"
+                                                          ContentTemplate="{TemplateBinding PopupHeaderTemplate}"
+                                                          FontSize="14"
+                                                          FontWeight="SemiBold"
+                                                          TextWrapping="Wrap"
+                                                          IsVisible="{TemplateBinding PopupHeader, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                          Foreground="{DynamicResource TextFillColor1}" />
+                                        <ContentPresenter Content="{TemplateBinding PopupContent}"
+                                                          ContentTemplate="{TemplateBinding PopupContentTemplate}"
+                                                          FontSize="13"
+                                                          TextWrapping="Wrap"
+                                                          Foreground="{DynamicResource TextFillColor2}" />
+                                    </StackPanel>
+
+                                    <!-- Close button -->
+                                    <Button Name="PART_CloseButton"
+                                            Grid.Row="0" Grid.Column="2"
+                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            Width="24" Height="24"
+                                            Padding="5"
+                                            Margin="8 0 0 0"
+                                            VerticalAlignment="Top">
+                                        <PathIcon Data="{StaticResource DismissRegular}"
+                                                  Width="9" Height="9" />
+                                    </Button>
+
+                                    <!-- Action buttons -->
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                                Margin="0 14 0 0"
+                                                Spacing="8"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <Button Name="PART_CancelButton"
+                                                Command="{TemplateBinding CancelCommand}"
+                                                CommandParameter="{TemplateBinding CancelCommandParameter}"
+                                                Content="{Localize PopConfirm/Cancel}" />
+                                        <Button Name="PART_ConfirmButton"
+                                                Theme="{StaticResource AccentButtonTheme}"
+                                                Command="{TemplateBinding ConfirmCommand}"
+                                                CommandParameter="{TemplateBinding ConfirmCommandParameter}"
+                                                Content="{Localize PopConfirm/Confirm}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </ShadowBorder>
+                    </Popup>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Severity variants via style classes -->
+        <Style Selector="^.Warning /template/ PathIcon#PART_DefaultIcon">
+            <Setter Property="Data"       Value="{StaticResource DeleteRegular}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCaution}" />
+        </Style>
+        <Style Selector="^.Error /template/ PathIcon#PART_DefaultIcon">
+            <Setter Property="Data"       Value="{StaticResource CloseCircleRegular}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCritical}" />
+        </Style>
+        <Style Selector="^.Success /template/ PathIcon#PART_DefaultIcon">
+            <Setter Property="Data"       Value="{StaticResource CheckmarkRegular}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccess}" />
+        </Style>
+        <Style Selector="^.Information /template/ PathIcon#PART_DefaultIcon">
+            <Setter Property="Data"       Value="{StaticResource MoreRegular}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemFillColorNeutral}" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

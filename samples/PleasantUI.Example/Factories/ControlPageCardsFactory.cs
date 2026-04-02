@@ -42,6 +42,8 @@ public class ControlPageCardsFactory
             new("CardTitle/PleasantMenu",        MaterialIcons.MenuOpen,              "Card/PleasantMenu",        new PleasantMenuPage(),        _eventAggregator),
             new("CardTitle/Timeline",            MaterialIcons.TimelineOutline,       "Card/Timeline",            new TimelinePage(),            _eventAggregator),
             new("CardTitle/InstallWizard",       MaterialIcons.WizardHat,             "Card/InstallWizard",       new InstallWizardPage(),       _eventAggregator),
+            new("CardTitle/PleasantDrawer",      MaterialIcons.DrawingBox,    "Card/PleasantDrawer",      new PleasantDrawerPage(),      _eventAggregator),
+            new("CardTitle/PopConfirm",          MaterialIcons.CheckboxMarkedCircle,  "Card/PopConfirm",          new PopConfirmPage(),          _eventAggregator),
         ];
     }
 

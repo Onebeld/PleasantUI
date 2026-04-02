@@ -453,4 +453,38 @@
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Готово</value></data>
     <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Отмена</value></data>
 
+    <!-- PopConfirm -->
+    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Подтвердить</value></data>
+    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Отмена</value></data>
+
+    <!-- Drawer page -->
+    <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Выдвижная панель</value></data>
+    <data name="Card/PleasantDrawer"            xml:space="preserve"><value>Панель, выезжающая с любого края экрана поверх основного содержимого с поддержкой заголовка, подвала и закрытия по клику.</value></data>
+    <data name="PleasantDrawer/Description"     xml:space="preserve"><value>Выдвижная панель-оверлей, появляющаяся с любого края. Поддерживает закрытие по клику вне панели, заголовок, подвал и все четыре позиции.</value></data>
+    <data name="PleasantDrawer/DemoTitle"       xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="PleasantDrawer/DemoDesc"        xml:space="preserve"><value>Нажмите кнопку, чтобы открыть панель с соответствующей стороны.</value></data>
+    <data name="PleasantDrawer/OpenRight"       xml:space="preserve"><value>Справа</value></data>
+    <data name="PleasantDrawer/OpenLeft"        xml:space="preserve"><value>Слева</value></data>
+    <data name="PleasantDrawer/OpenTop"         xml:space="preserve"><value>Сверху</value></data>
+    <data name="PleasantDrawer/OpenBottom"      xml:space="preserve"><value>Снизу</value></data>
+    <data name="PleasantDrawer/DrawerTitle"     xml:space="preserve"><value>Выдвижная панель</value></data>
+    <data name="PleasantDrawer/DrawerContent"   xml:space="preserve"><value>Это область содержимого панели. Поддерживает любые элементы управления Avalonia и автоматически прокручивается при переполнении.</value></data>
+    <data name="PleasantDrawer/FooterClose"     xml:space="preserve"><value>Закрыть</value></data>
+
+    <!-- PopConfirm page -->
+    <data name="CardTitle/PopConfirm"           xml:space="preserve"><value>Подтверждение</value></data>
+    <data name="Card/PopConfirm"                xml:space="preserve"><value>Лёгкий всплывающий запрос подтверждения, оборачивающий любой элемент управления.</value></data>
+    <data name="PopConfirm/Description"         xml:space="preserve"><value>Оборачивает любой триггерный элемент и показывает небольшой попап с заголовком, текстом и кнопками Подтвердить / Отмена перед выполнением команды.</value></data>
+    <data name="PopConfirm/DemoTitle"           xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="PopConfirm/DemoDesc"            xml:space="preserve"><value>Нажмите кнопки ниже, чтобы увидеть PopConfirm в разных конфигурациях.</value></data>
+    <data name="PopConfirm/DeleteHeader"        xml:space="preserve"><value>Удалить элемент?</value></data>
+    <data name="PopConfirm/DeleteBody"          xml:space="preserve"><value>Это действие нельзя отменить.</value></data>
+    <data name="PopConfirm/DeleteBtn"           xml:space="preserve"><value>Удалить</value></data>
+    <data name="PopConfirm/SubmitHeader"        xml:space="preserve"><value>Отправить форму?</value></data>
+    <data name="PopConfirm/SubmitBody"          xml:space="preserve"><value>Вы уверены, что хотите отправить эту форму?</value></data>
+    <data name="PopConfirm/SubmitBtn"           xml:space="preserve"><value>Отправить</value></data>
+    <data name="PopConfirm/LogoutHeader"        xml:space="preserve"><value>Выйти из аккаунта?</value></data>
+    <data name="PopConfirm/LogoutBody"          xml:space="preserve"><value>Вы будете выведены из своего аккаунта.</value></data>
+    <data name="PopConfirm/LogoutBtn"           xml:space="preserve"><value>Выйти</value></data>
+
 </root>

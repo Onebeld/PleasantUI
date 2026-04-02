@@ -462,4 +462,38 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Finish</value></data>
     <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Cancel</value></data>
 
+    <!-- PopConfirm -->
+    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Confirm</value></data>
+    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Cancel</value></data>
+
+    <!-- Drawer page -->
+    <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Drawer</value></data>
+    <data name="Card/PleasantDrawer"            xml:space="preserve"><value>A panel that slides in from any edge of the screen, overlaying the main content with optional title, footer, and light-dismiss support.</value></data>
+    <data name="PleasantDrawer/Description"     xml:space="preserve"><value>A slide-in overlay panel that can appear from any edge. Supports light-dismiss, optional title, footer content, and all four positions.</value></data>
+    <data name="PleasantDrawer/DemoTitle"       xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="PleasantDrawer/DemoDesc"        xml:space="preserve"><value>Click a button to open the drawer from the corresponding edge.</value></data>
+    <data name="PleasantDrawer/OpenRight"       xml:space="preserve"><value>Open Right</value></data>
+    <data name="PleasantDrawer/OpenLeft"        xml:space="preserve"><value>Open Left</value></data>
+    <data name="PleasantDrawer/OpenTop"         xml:space="preserve"><value>Open Top</value></data>
+    <data name="PleasantDrawer/OpenBottom"      xml:space="preserve"><value>Open Bottom</value></data>
+    <data name="PleasantDrawer/DrawerTitle"     xml:space="preserve"><value>Drawer Panel</value></data>
+    <data name="PleasantDrawer/DrawerContent"   xml:space="preserve"><value>This is the drawer content area. It supports any Avalonia control and scrolls automatically when content overflows.</value></data>
+    <data name="PleasantDrawer/FooterClose"     xml:space="preserve"><value>Close</value></data>
+
+    <!-- PopConfirm page -->
+    <data name="CardTitle/PopConfirm"           xml:space="preserve"><value>PopConfirm</value></data>
+    <data name="Card/PopConfirm"                xml:space="preserve"><value>A lightweight confirmation popup that wraps any control and asks for confirmation before executing a command.</value></data>
+    <data name="PopConfirm/Description"         xml:space="preserve"><value>Wraps any trigger control and shows a small popup with a header, body, and Confirm / Cancel buttons before executing a command.</value></data>
+    <data name="PopConfirm/DemoTitle"           xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="PopConfirm/DemoDesc"            xml:space="preserve"><value>Click the buttons below to see PopConfirm in different configurations.</value></data>
+    <data name="PopConfirm/DeleteHeader"        xml:space="preserve"><value>Delete item?</value></data>
+    <data name="PopConfirm/DeleteBody"          xml:space="preserve"><value>This action cannot be undone.</value></data>
+    <data name="PopConfirm/DeleteBtn"           xml:space="preserve"><value>Delete</value></data>
+    <data name="PopConfirm/SubmitHeader"        xml:space="preserve"><value>Submit form?</value></data>
+    <data name="PopConfirm/SubmitBody"          xml:space="preserve"><value>Are you sure you want to submit this form?</value></data>
+    <data name="PopConfirm/SubmitBtn"           xml:space="preserve"><value>Submit</value></data>
+    <data name="PopConfirm/LogoutHeader"        xml:space="preserve"><value>Sign out?</value></data>
+    <data name="PopConfirm/LogoutBody"          xml:space="preserve"><value>You will be signed out of your account.</value></data>
+    <data name="PopConfirm/LogoutBtn"           xml:space="preserve"><value>Sign out</value></data>
+
 </root>

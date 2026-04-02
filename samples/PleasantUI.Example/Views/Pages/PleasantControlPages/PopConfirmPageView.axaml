@@ -1,0 +1,113 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PopConfirmPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+
+            <TextBlock Text="{Localize PopConfirm/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize PopConfirm/DemoTitle}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize PopConfirm/DemoDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <!-- Default warning style -->
+                    <WrapPanel Orientation="Horizontal">
+                        <WrapPanel.Styles>
+                            <Style Selector="controls|PopConfirm">
+                                <Setter Property="Margin" Value="0 0 12 12" />
+                            </Style>
+                        </WrapPanel.Styles>
+
+                        <controls:PopConfirm PopupHeader="{Localize PopConfirm/DeleteHeader}"
+                                              PopupContent="{Localize PopConfirm/DeleteBody}">
+                            <Button Content="{Localize PopConfirm/DeleteBtn}" />
+                        </controls:PopConfirm>
+
+                        <controls:PopConfirm Classes="Success"
+                                              PopupHeader="{Localize PopConfirm/SubmitHeader}"
+                                              PopupContent="{Localize PopConfirm/SubmitBody}">
+                            <Button Content="{Localize PopConfirm/SubmitBtn}"
+                                    Theme="{StaticResource AccentButtonTheme}" />
+                        </controls:PopConfirm>
+
+                        <controls:PopConfirm Classes="Error"
+                                              PopupHeader="{Localize PopConfirm/LogoutHeader}"
+                                              PopupContent="{Localize PopConfirm/LogoutBody}">
+                            <Button Content="{Localize PopConfirm/LogoutBtn}" />
+                        </controls:PopConfirm>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Placement variants -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Placement variants"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <WrapPanel Orientation="Horizontal">
+                        <WrapPanel.Styles>
+                            <Style Selector="controls|PopConfirm">
+                                <Setter Property="Margin" Value="0 0 12 12" />
+                            </Style>
+                        </WrapPanel.Styles>
+
+                        <controls:PopConfirm PopupHeader="Top?" Placement="Top">
+                            <Button Content="Top" />
+                        </controls:PopConfirm>
+
+                        <controls:PopConfirm PopupHeader="Bottom?" Placement="Bottom">
+                            <Button Content="Bottom" />
+                        </controls:PopConfirm>
+
+                        <controls:PopConfirm PopupHeader="Right?" Placement="Right">
+                            <Button Content="Right" />
+                        </controls:PopConfirm>
+
+                        <controls:PopConfirm PopupHeader="Left?" Placement="Left">
+                            <Button Content="Left" />
+                        </controls:PopConfirm>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Properties reference -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Key properties"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="PopupHeader"      FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Bold title shown at the top of the popup." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="PopupContent"     FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Body text or any control shown below the header." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="ConfirmCommand"   FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="Command executed when the user clicks Confirm." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="TriggerMode"      FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="Click, Focus, or both — what opens the popup." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Placement"        FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" Text="Standard Avalonia PlacementMode — where the popup appears relative to the trigger." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>
