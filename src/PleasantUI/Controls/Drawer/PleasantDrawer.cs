@@ -415,12 +415,6 @@ public class PleasantDrawer : PleasantPopupElement
     private void OnCloseButtonClick(object? sender, RoutedEventArgs e)
         => _ = CloseDrawerAsync();
 
-    private void OnOverlayPressed(object? sender, PointerPressedEventArgs e)
-    {
-        if (CanLightDismiss)
-            _ = CloseDrawerAsync();
-    }
-
     private void UpdatePositionPseudoClasses(DrawerPosition position)
     {
         PseudoClasses.Set(PC_Left,   position == DrawerPosition.Left);

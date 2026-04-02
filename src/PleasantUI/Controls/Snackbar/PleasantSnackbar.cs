@@ -225,7 +225,8 @@ public class PleasantSnackbar : PleasantPopupElement
         double maxSnackbarWidth = _snackbarBorder!.Bounds.Width;
         _snackbarBorder.Width = MinWidth;
 
-        await OpenAnimation?.RunAsync(this)!;
+        if (OpenAnimation is not null)
+            await OpenAnimation.RunAsync(this);
 
         Animation animation = new()
         {
@@ -249,7 +250,11 @@ public class PleasantSnackbar : PleasantPopupElement
             _grid.Opacity = 1;
     }
 
-    private async Task RunCloseAnimation() => await CloseAnimation?.RunAsync(this)!;
+    private async Task RunCloseAnimation()
+    {
+        if (CloseAnimation is not null)
+            await CloseAnimation.RunAsync(this);
+    }
 
     // ── Button helpers ────────────────────────────────────────────────────────
 

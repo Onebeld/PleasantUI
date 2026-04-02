@@ -260,7 +260,8 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
                     HideBackgroundAnimation?.RunAsync(_modalBackground);
                 }
 
-                await CloseAnimation?.RunAsync(this)!;
+                if (CloseAnimation is not null)
+                    await CloseAnimation.RunAsync(this);
 
                 if (_lastFocus is not null)
                 {
@@ -297,6 +298,12 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 
         _modalWindows?.Add(this);
         _lastFocus = topLevel?.FocusManager?.GetFocusedElement();
+
+        Closed += (_, _) =>
+{
+    try { taskCompletionSource.TrySetResult(_dialogResult is T result ? result : default); }
+    catch { taskCompletionSource.TrySetResult(default); }
+};
 
         return await taskCompletionSource.Task;
     }
@@ -359,13 +366,23 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     }
 
     /// <inheritdoc />
-    protected override void OnLoaded(RoutedEventArgs e)
+protected override async void OnLoaded(RoutedEventArgs e)
+{
+    base.OnLoaded(e);
+    
+    try
     {
-        base.OnLoaded(e);
-        
-        ShowBackgroundAnimation?.RunAsync(_modalBackground);
-        OpenAnimation?.RunAsync(this);
+        if (ShowBackgroundAnimation is not null && _modalBackground is not null)
+            await ShowBackgroundAnimation.RunAsync(_modalBackground);
+
+        if (OpenAnimation is not null)
+            await OpenAnimation.RunAsync(this);
     }
+    catch (Exception ex)
+    {
+        System.Diagnostics.Debug.WriteLine($"[ContentDialog] Animation error: {ex}");
+    }
+}
 
     private bool ShouldCancelClose(CancelEventArgs? args = null)
     {
