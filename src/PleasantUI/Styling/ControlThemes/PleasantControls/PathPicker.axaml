@@ -27,31 +27,33 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <DockPanel>
-                    <Button x:Name="PART_Button"
-                            DockPanel.Dock="Right"
-                            Theme="{StaticResource AppBarButtonTheme}"
-                            CornerRadius="0 {TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}} {TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}} 0"
-                            Margin="1 0 0 0"
-                            Padding="10 5"
-                            VerticalAlignment="Stretch">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                <PathIcon Width="16" Height="16" Data="{StaticResource FolderRegular}" />
-                                <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
+                <Grid ColumnDefinitions="*,Auto">
                     <TextBox x:Name="PART_TextBox"
-                             DockPanel.Dock="Left"
+                             Grid.Column="0"
                              AcceptsReturn="{TemplateBinding AllowMultiple}"
                              Text="{TemplateBinding SelectedPathsText, Mode=TwoWay}"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}} 0 0 {TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
+                             Background="{TemplateBinding Background}"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             CornerRadius="{TemplateBinding CornerRadius}"
                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                              Padding="10 5" />
-                </DockPanel>
+                    <Button x:Name="PART_Button"
+                             Grid.Column="1"
+                             Theme="{StaticResource AppBarButtonTheme}"
+                             Margin="4 0 0 0"
+                             Padding="10 5"
+                             VerticalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Viewbox Width="16" Height="16">
+                                <Path Data="{StaticResource FileImportRegular}"
+                                      Fill="{DynamicResource TextFillColor1}"
+                                      Stretch="Uniform" />
+                            </Viewbox>
+                            <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </ControlTemplate>
         </Setter>
 
@@ -81,7 +83,11 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Padding="11 5">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <PathIcon Width="16" Height="16" Data="{StaticResource FolderRegular}" />
+                        <Viewbox Width="16" Height="16">
+                            <Path Data="{StaticResource FileImportRegular}"
+                                  Fill="{DynamicResource TextFillColor1}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
                         <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
@@ -93,33 +99,35 @@
         </Style>
     </ControlTheme>
 
-    <!-- Compact PathPicker Theme - Small button next to text with full border -->
+    <!-- Compact PathPicker Theme - Small button integrated into textbox -->
     <ControlTheme x:Key="CompactPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
         <Setter Property="Template">
             <ControlTemplate>
-                <DockPanel Background="{TemplateBinding Background}"
-                           BorderBrush="{TemplateBinding BorderBrush}"
-                           BorderThickness="{TemplateBinding BorderThickness}"
-                           CornerRadius="{TemplateBinding CornerRadius}">
-                    <Button x:Name="PART_Button"
-                            DockPanel.Dock="Right"
-                            Theme="{StaticResource AppBarButtonTheme}"
-                            CornerRadius="0 {TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}} {TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}} 0"
-                            Margin="0"
-                            Padding="8 5"
-                            VerticalAlignment="Stretch">
-                        <PathIcon Width="16" Height="16" Data="{StaticResource FolderRegular}" />
-                    </Button>
+                <Grid>
                     <TextBox x:Name="PART_TextBox"
-                             DockPanel.Dock="Left"
                              AcceptsReturn="{TemplateBinding AllowMultiple}"
                              Text="{TemplateBinding SelectedPathsText, Mode=TwoWay}"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}} 0 0 {TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
+                             Background="{TemplateBinding Background}"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             CornerRadius="{TemplateBinding CornerRadius}"
                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                             Padding="10 5" />
-                </DockPanel>
+                             Padding="10 5">
+                        <TextBox.InnerRightContent>
+                            <Button x:Name="PART_Button"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Margin="4 0 0 0"
+                                    Padding="6"
+                                    VerticalAlignment="Center">
+                                <Viewbox Width="16" Height="16">
+                                    <Path Data="{StaticResource FileImportRegular}"
+                                          Fill="{DynamicResource TextFillColor1}"
+                                          Stretch="Uniform" />
+                                </Viewbox>
+                            </Button>
+                        </TextBox.InnerRightContent>
+                    </TextBox>
+                </Grid>
             </ControlTemplate>
         </Setter>
 

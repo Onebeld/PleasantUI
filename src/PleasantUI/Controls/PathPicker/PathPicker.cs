@@ -6,6 +6,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Logging;
 using Avalonia.Platform.Storage;
 
@@ -100,6 +101,10 @@ public partial class PathPicker : TemplatedControl
     public static readonly StyledProperty<bool> IsClearSelectionOnCancelProperty =
         AvaloniaProperty.Register<PathPicker, bool>(nameof(IsClearSelectionOnCancel));
 
+    /// <summary>Defines the <see cref="VerticalContentAlignment"/> property.</summary>
+    public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
+        AvaloniaProperty.Register<PathPicker, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Center);
+
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the dialog title shown in the platform picker.</summary>
@@ -188,6 +193,13 @@ public partial class PathPicker : TemplatedControl
     {
         get => GetValue(IsClearSelectionOnCancelProperty);
         set => SetValue(IsClearSelectionOnCancelProperty, value);
+    }
+
+    /// <summary>Gets or sets the vertical alignment of the content.</summary>
+    public VerticalAlignment VerticalContentAlignment
+    {
+        get => GetValue(VerticalContentAlignmentProperty);
+        set => SetValue(VerticalContentAlignmentProperty, value);
     }
 
     // ── Direct property backing field ─────────────────────────────────────────
