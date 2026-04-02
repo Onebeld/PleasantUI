@@ -496,4 +496,14 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="PopConfirm/LogoutBody"          xml:space="preserve"><value>You will be signed out of your account.</value></data>
     <data name="PopConfirm/LogoutBtn"           xml:space="preserve"><value>Sign out</value></data>
 
+    <!-- PathPicker page -->
+    <data name="CardTitle/PathPicker"           xml:space="preserve"><value>PathPicker</value></data>
+    <data name="Card/PathPicker"                xml:space="preserve"><value>A control combining a text box and a browse button to let users pick files or folders via the platform storage picker.</value></data>
+    <data name="PathPicker/Description"         xml:space="preserve"><value>Combines a read-only TextBox with a browse button. Supports OpenFile, SaveFile, and OpenFolder modes, optional multi-select, file-type filters, and two-way binding on the selected path text.</value></data>
+    <data name="PathPicker/DemoTitle"           xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="PathPicker/OpenFile"            xml:space="preserve"><value>Open file</value></data>
+    <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Open folder</value></data>
+    <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Save file</value></data>
+    <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Open multiple files</value></data>
+
 </root>

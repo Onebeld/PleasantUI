@@ -44,6 +44,7 @@ public class ControlPageCardsFactory
             new("CardTitle/InstallWizard",       MaterialIcons.WizardHat,             "Card/InstallWizard",       new InstallWizardPage(),       _eventAggregator),
             new("CardTitle/PleasantDrawer",      MaterialIcons.DrawingBox,    "Card/PleasantDrawer",      new PleasantDrawerPage(),      _eventAggregator),
             new("CardTitle/PopConfirm",          MaterialIcons.CheckboxMarkedCircle,  "Card/PopConfirm",          new PopConfirmPage(),          _eventAggregator),
+            new("CardTitle/PathPicker",          MaterialIcons.FolderOpenOutline,     "Card/PathPicker",          new PathPickerPage(),          _eventAggregator),
         ];
     }
 

@@ -487,4 +487,14 @@
     <data name="PopConfirm/LogoutBody"          xml:space="preserve"><value>Вы будете выведены из своего аккаунта.</value></data>
     <data name="PopConfirm/LogoutBtn"           xml:space="preserve"><value>Выйти</value></data>
 
+    <!-- PathPicker page -->
+    <data name="CardTitle/PathPicker"           xml:space="preserve"><value>Выбор пути</value></data>
+    <data name="Card/PathPicker"                xml:space="preserve"><value>Элемент управления, сочетающий текстовое поле и кнопку обзора для выбора файлов или папок через системный диалог.</value></data>
+    <data name="PathPicker/Description"         xml:space="preserve"><value>Сочетает поле только для чтения с кнопкой обзора. Поддерживает режимы OpenFile, SaveFile и OpenFolder, множественный выбор, фильтры типов файлов и двустороннее связывание текста выбранного пути.</value></data>
+    <data name="PathPicker/DemoTitle"           xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="PathPicker/OpenFile"            xml:space="preserve"><value>Открыть файл</value></data>
+    <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Открыть папку</value></data>
+    <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Сохранить файл</value></data>
+    <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Открыть несколько файлов</value></data>
+
 </root>
