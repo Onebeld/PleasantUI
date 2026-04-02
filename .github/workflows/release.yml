@@ -22,7 +22,6 @@ jobs:
       pull-requests: read
 
     steps:
-      # Always fetch the full history and all tags so version/tag checks are accurate
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -131,9 +130,8 @@ jobs:
 
           [ "$FAILED" -eq 1 ] && exit 1
 
-      - name: Collect commits since last tag
+      - name: Collect commits and build prompt
         if: steps.tag_check.outputs.exists == 'false'
-        id: commits
         run: |
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           if [ -n "$PREV_TAG" ]; then
@@ -143,18 +141,19 @@ jobs:
           fi
           [ -z "$LIST" ] && LIST="- Initial release"
 
-          VERSION="v${{ steps.version.outputs.version }}"
-          PRERELEASE="${{ steps.version.outputs.prerelease }}"
-
-          printf 'You are a technical writer generating GitHub release notes for PleasantUI,\n' > /tmp/release-notes-prompt.txt
-          printf 'a cross-platform .NET/Avalonia UI theme and control library.\n' >> /tmp/release-notes-prompt.txt
-          printf 'Write clear, developer-friendly markdown. Only include sections that are relevant.\n' >> /tmp/release-notes-prompt.txt
-          printf 'Use these sections as needed: ### What'"'"'s New, ### Improvements, ### Bug Fixes, ### Breaking Changes.\n' >> /tmp/release-notes-prompt.txt
-          printf 'Be factual - do not invent features not present in the commits.\n\n' >> /tmp/release-notes-prompt.txt
-          printf 'Version: %s\n' "$VERSION" >> /tmp/release-notes-prompt.txt
-          printf 'Pre-release: %s\n\n' "$PRERELEASE" >> /tmp/release-notes-prompt.txt
-          printf 'Commits since last release:\n' >> /tmp/release-notes-prompt.txt
-          printf '%s\n' "$LIST" >> /tmp/release-notes-prompt.txt
+          {
+            echo "You are a technical writer generating GitHub release notes for PleasantUI,"
+            echo "a cross-platform .NET/Avalonia UI theme and control library."
+            echo "Write clear, developer-friendly markdown. Only include sections that are relevant."
+            echo "Use these sections as needed: ### What's New, ### Improvements, ### Bug Fixes, ### Breaking Changes."
+            echo "Be factual - do not invent features not present in the commits."
+            echo ""
+            echo "Version: v${{ steps.version.outputs.version }}"
+            echo "Pre-release: ${{ steps.version.outputs.prerelease }}"
+            echo ""
+            echo "Commits since last release:"
+            echo "$LIST"
+          } > /tmp/release-notes-prompt.txt
 
       - name: Generate AI release notes
         if: steps.tag_check.outputs.exists == 'false'
@@ -168,19 +167,22 @@ jobs:
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'
         id: notes_file
-        env:
-          AI_RESPONSE: ${{ steps.ai_notes.outputs.response }}
-          AI_RESPONSE_FILE: ${{ steps.ai_notes.outputs.response-file }}
         run: |
-          if [ -f "$AI_RESPONSE_FILE" ] && [ -s "$AI_RESPONSE_FILE" ]; then
-            cp "$AI_RESPONSE_FILE" /tmp/release_notes.md
-          elif [ -n "$AI_RESPONSE" ]; then
-            printf '%s' "$AI_RESPONSE" > /tmp/release_notes.md
+          RESPONSE_FILE="${{ steps.ai_notes.outputs.response-file }}"
+          RESPONSE="${{ steps.ai_notes.outputs.response }}"
+
+          if [ -f "$RESPONSE_FILE" ] && [ -s "$RESPONSE_FILE" ]; then
+            cp "$RESPONSE_FILE" /tmp/release_notes.md
+          elif [ -n "$RESPONSE" ]; then
+            printf '%s\n' "$RESPONSE" > /tmp/release_notes.md
           else
-            echo "AI generation returned empty — using commit list as fallback."
-            echo "### Changes in v${{ steps.version.outputs.version }}" > /tmp/release_notes.md
-            grep "^-" /tmp/release-notes-prompt.txt >> /tmp/release_notes.md || true
+            echo "AI generation returned empty - using commit list as fallback."
+            {
+              echo "### Changes in v${{ steps.version.outputs.version }}"
+              grep "^-" /tmp/release-notes-prompt.txt || true
+            } > /tmp/release_notes.md
           fi
+
           echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
@@ -201,4 +203,5 @@ jobs:
 
       - name: Confirm release created
         if: steps.tag_check.outputs.exists == 'false'
-        run: echo "Release created: ${{ steps.create_release.outputs.url }}"
+        run: |
+          echo "Release created: ${{ steps.create_release.outputs.url }}"
