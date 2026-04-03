@@ -96,6 +96,30 @@ public class PleasantWindow : PleasantWindowBase
         AvaloniaProperty.Register<PleasantWindow, IPleasantSplashScreen?>(nameof(SplashScreen));
 
     /// <summary>
+    /// Defines the <see cref="IsCloseButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsCloseButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsCloseButtonVisible), true);
+
+    /// <summary>
+    /// Defines the <see cref="IsMinimizeButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsMinimizeButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsMinimizeButtonVisible), true);
+
+    /// <summary>
+    /// Defines the <see cref="IsRestoreButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsRestoreButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsRestoreButtonVisible), true);
+
+    /// <summary>
+    /// Defines the <see cref="IsFullScreenButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsFullScreenButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsFullScreenButtonVisible), false);
+
+    /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
     /// </summary>
     public bool EnableCustomTitleBar
@@ -219,6 +243,42 @@ public class PleasantWindow : PleasantWindowBase
     {
         get => GetValue(SplashScreenProperty);
         set => SetValue(SplashScreenProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the close button is visible.
+    /// </summary>
+    public bool IsCloseButtonVisible
+    {
+        get => GetValue(IsCloseButtonVisibleProperty);
+        set => SetValue(IsCloseButtonVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the minimize button is visible.
+    /// </summary>
+    public bool IsMinimizeButtonVisible
+    {
+        get => GetValue(IsMinimizeButtonVisibleProperty);
+        set => SetValue(IsMinimizeButtonVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the restore/maximize button is visible.
+    /// </summary>
+    public bool IsRestoreButtonVisible
+    {
+        get => GetValue(IsRestoreButtonVisibleProperty);
+        set => SetValue(IsRestoreButtonVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the full-screen toggle button is visible.
+    /// </summary>
+    public bool IsFullScreenButtonVisible
+    {
+        get => GetValue(IsFullScreenButtonVisibleProperty);
+        set => SetValue(IsFullScreenButtonVisibleProperty, value);
     }
 
     /// <inheritdoc />

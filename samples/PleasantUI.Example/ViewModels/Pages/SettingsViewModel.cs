@@ -1,4 +1,6 @@
-﻿using PleasantUI.Core;
+﻿using Avalonia.Controls;
+using PleasantUI.Controls;
+using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
 using PleasantUI.Example.Structures;
@@ -12,6 +14,17 @@ public partial class SettingsViewModel : ViewModelBase
     {
         // Re-raise SelectedLanguage when language changes so the ComboBox stays in sync
         Localizer.Instance.LocalizationChanged += _ => RaisePropertyChanged(nameof(SelectedLanguage));
+    }
+
+    public bool IsFullScreenButtonVisible
+    {
+        get => PleasantUiExampleApp.Main is PleasantWindow w && w.IsFullScreenButtonVisible;
+        set
+        {
+            if (PleasantUiExampleApp.Main is PleasantWindow w)
+                w.IsFullScreenButtonVisible = value;
+            RaisePropertyChanged();
+        }
     }
 
     public Language SelectedLanguage

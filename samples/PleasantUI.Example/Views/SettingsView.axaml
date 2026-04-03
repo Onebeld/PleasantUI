@@ -35,6 +35,13 @@
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
+            <OptionsDisplayItem Header="{Localize FullScreenButton, Default='Full Screen Button'}"
+                                Description="{Localize FullScreenButtonDescription, Default='Show a full screen toggle button in the title bar'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch IsChecked="{CompiledBinding IsFullScreenButtonVisible}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
             <OptionsDisplayItem Header="{Localize Theme}"
                                 Icon="{StaticResource BrushVariantRegular}"
                                 Expands="True">
