@@ -98,7 +98,8 @@
                                                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
                                                                   HorizontalAlignment="Left"
                                                                   ClipToBounds="True"
-                                                                  VerticalAlignment="Center" />
+                                                                  VerticalAlignment="Center"
+                                                                  TextElement.FontSize="13" />
                                             </Border>
                                             <ToggleButton Grid.Column="3"
                                                           Padding="5" Margin="5"
@@ -330,6 +331,10 @@
         <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="{DynamicResource AccentLightColor2}" />
+        </Style>
+
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter > TextBlock">
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         </Style>
 
         <Style Selector="^ /template/ PathIcon#PART_PathIcon">
