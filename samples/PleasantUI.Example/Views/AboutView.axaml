@@ -209,7 +209,8 @@
                         <Button x:Name="GitHubButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
-                                Padding="12 6">
+                                Padding="12 6"
+                                Click="GitHubButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <PathIcon Data="{StaticResource Github}"
                                           Width="18"
@@ -221,7 +222,8 @@
                         <Button x:Name="PatreonButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
-                                Padding="12 6">
+                                Padding="12 6"
+                                Click="PatreonButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <PathIcon Data="{StaticResource HeartOutline}"
                                           Width="18"
@@ -233,7 +235,8 @@
                         <Button x:Name="BoostyButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
-                                Padding="12 6">
+                                Padding="12 6"
+                                Click="BoostyButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <PathIcon Data="{StaticResource CurrencyUsd}"
                                           Width="18"
