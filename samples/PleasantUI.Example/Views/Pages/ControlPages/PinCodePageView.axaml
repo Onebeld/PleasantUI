@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PleasantUI.Example.Views.Pages.ControlPages.PinCodePageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="20" MaxWidth="560">
+
+            <!-- Result indicator -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="12 8">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Localize PinCode/LastValue}"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               VerticalAlignment="Center" />
+                    <TextBlock x:Name="ResultText"
+                               Text="—"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+            <!-- Default (digits + letters, 4 cells) -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="{Localize PinCode/Default}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize PinCode/DefaultDesc}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12" />
+                <PinCode x:Name="DefaultPin" Count="4" />
+            </StackPanel>
+
+            <!-- Digit only -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="{Localize PinCode/DigitOnly}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize PinCode/DigitOnlyDesc}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12" />
+                <PinCode x:Name="DigitPin" Count="4" Mode="Digit" />
+            </StackPanel>
+
+            <!-- Letter only -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="{Localize PinCode/LetterOnly}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize PinCode/LetterOnlyDesc}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12" />
+                <PinCode x:Name="LetterPin" Count="4" Mode="Letter" />
+            </StackPanel>
+
+            <!-- Password mask -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="{Localize PinCode/PasswordMask}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize PinCode/PasswordMaskDesc}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12" />
+                <PinCode x:Name="PasswordPin" Count="6" Mode="Digit" PasswordChar="●" />
+            </StackPanel>
+
+            <!-- 6 cells -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="{Localize PinCode/SixCells}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize PinCode/SixCellsDesc}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12" />
+                <PinCode x:Name="SixPin" Count="6" Mode="Digit" />
+            </StackPanel>
+
+            <!-- Clear button -->
+            <Button x:Name="ClearButton"
+                    Content="{Localize PinCode/Clear}"
+                    HorizontalAlignment="Left" />
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

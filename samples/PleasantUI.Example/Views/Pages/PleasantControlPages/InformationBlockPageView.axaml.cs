@@ -1,11 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
-namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
-
-public partial class InformationBlockPageView : UserControl
+public partial class InformationBlockPageView : LocalizedUserControl
 {
-    public InformationBlockPageView()
-    {
-        InitializeComponent();
-    }
+    public InformationBlockPageView() => InitializeComponent();
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

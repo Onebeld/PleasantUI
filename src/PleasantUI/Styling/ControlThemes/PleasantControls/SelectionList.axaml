@@ -1,0 +1,149 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls">
+
+    <!-- ── SelectionListItem ─────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="controls:SelectionListItem">
+                <Border Name="RootBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        Margin="2"
+                        ClipToBounds="True">
+                    <Grid ColumnDefinitions="Auto,*">
+
+                        <!-- Image / icon area — hidden by :no-image pseudo-class -->
+                        <Border Name="ImageBorder"
+                                Grid.Column="0"
+                                Width="80" Height="80"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                ClipToBounds="True"
+                                Margin="0 0 12 0"
+                                Background="{DynamicResource ControlFillColor2}">
+                            <Panel>
+                                <Image Name="PART_Image"
+                                       Source="{TemplateBinding Image}"
+                                       Stretch="UniformToFill" />
+                                <ContentPresenter Name="PART_ImagePresenter"
+                                                  ContentTemplate="{TemplateBinding ImageTemplate}"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch" />
+                            </Panel>
+                        </Border>
+
+                        <!-- Text stack -->
+                        <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Name="PART_Title"
+                                       Text="{TemplateBinding Title}"
+                                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Name="PART_Subtitle"
+                                       Text="{TemplateBinding Subtitle}"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       FontSize="12"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Name="PART_Timestamp"
+                                       Text="{TemplateBinding Timestamp}"
+                                       Foreground="{DynamicResource TextFillColor3}"
+                                       FontSize="11" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Interaction states -->
+        <Style Selector="^:pointerover /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!-- Visibility driven by pseudo-classes set in SelectionListItem.UpdatePseudoClasses() -->
+        <Style Selector="^:no-image /template/ Border#ImageBorder">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:no-subtitle /template/ TextBlock#PART_Subtitle">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:no-timestamp /template/ TextBlock#PART_Timestamp">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── SelectionList ─────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:SelectionList}" TargetType="controls:SelectionList">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="controls:SelectionList">
+                <Grid RowDefinitions="Auto,8,*">
+
+                    <!-- Selection count — shown/hidden from code-behind -->
+                    <TextBlock Name="PART_SelectionCount"
+                               Grid.Row="0"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               VerticalAlignment="Center"
+                               IsVisible="False" />
+
+                    <!-- Items -->
+                    <Panel Grid.Row="2">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer Background="{TemplateBinding Background}"
+                                          HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                          VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                <ItemsPresenter Name="PART_ItemsPresenter"
+                                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                Margin="{TemplateBinding Padding}" />
+                            </ScrollViewer>
+                        </Border>
+
+                        <!-- Empty state — shown/hidden from code-behind -->
+                        <TextBlock Name="PART_EmptyMessage"
+                                   Text="{TemplateBinding EmptyMessage}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   IsVisible="False" />
+                    </Panel>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Horizontal orientation variant -->
+        <Style Selector="^[Orientation=Horizontal]">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

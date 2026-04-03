@@ -4,17 +4,31 @@
     <DataTemplate x:Key="ControlPageCardItemTemplate" DataType="{x:Type models:ControlPageCard}">
         <Button Command="{CompiledBinding OpenPage}"
                 CommandParameter="{CompiledBinding Page}"
+                HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
-                Width="300"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                Margin="5">
-            <Grid ColumnDefinitions="Auto,10,*">
-                <PathIcon Grid.Column="0" Data="{CompiledBinding Icon}" Width="32" Height="32" />
-                
-                <StackPanel Grid.Column="2" Spacing="5">
-                    <TextBlock Theme="{StaticResource SubtitleTextBlockTheme}" Text="{CompiledBinding Title}" />
-                    
-                    <TextBlock Foreground="{DynamicResource TextFillColor2}" Text="{CompiledBinding Description}" TextWrapping="Wrap" />
+                Margin="4"
+                Padding="12 10">
+            <Grid ColumnDefinitions="Auto,12,*">
+                <Border Grid.Column="0"
+                        Width="40" Height="40"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Background="{DynamicResource ControlFillColor2}"
+                        VerticalAlignment="Top">
+                    <PathIcon Data="{CompiledBinding Icon}"
+                              Width="20" Height="20"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                </Border>
+
+                <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
+                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                               Text="{Binding Title}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Foreground="{DynamicResource TextFillColor2}"
+                               Text="{Binding Description}"
+                               TextWrapping="Wrap"
+                               FontSize="12" />
                 </StackPanel>
             </Grid>
         </Button>

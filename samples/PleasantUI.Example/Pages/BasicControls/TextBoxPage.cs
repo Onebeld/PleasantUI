@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
+using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class TextBoxPage : IPage
+public class TextBoxPage : LocalizedPage
 {
-    public string Title { get; } = "TextBox";
-    public bool ShowTitle { get; } = true;
-    public Control Content { get; } = null!;
+    public override string TitleKey { get; } = "CardTitle/TextBox";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new TextBoxPageView();
 }

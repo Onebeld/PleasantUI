@@ -4,5 +4,9 @@ namespace PleasantUI.Example.Desktop;
 
 public partial class MainWindow : PleasantWindow
 {
-    public MainWindow() => InitializeComponent();
+    public MainWindow()
+    {
+        InitializeComponent();
+        SplashScreen = new ExampleSplashScreen();
+    }
 }

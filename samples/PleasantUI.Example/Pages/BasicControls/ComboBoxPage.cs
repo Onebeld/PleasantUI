@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
+using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class ComboBoxPage : IPage
+public class ComboBoxPage : LocalizedPage
 {
-    public string Title { get; } = "ComboBox";
-    public bool ShowTitle { get; } = true;
-    public Control Content { get; } = null!;
+    public override string TitleKey { get; } = "CardTitle/ComboBox";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new ComboBoxPageView();
 }

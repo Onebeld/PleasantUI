@@ -1,0 +1,676 @@
+name: Release
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    paths:
+      - 'build/Package.props'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force release even if tag exists'
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      models: read
+      pull-requests: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      - name: Pull latest changes
+        run: |
+          git fetch origin
+          git reset --hard origin/${{ github.ref_name }}
+          echo "HEAD is now: $(git log -1 --oneline)"
+
+      - name: Extract and validate version
+        id: version
+        run: |
+          if [ ! -f build/Package.props ]; then
+            echo "ERROR: build/Package.props not found"
+            exit 1
+          fi
+
+          VERSION=$(grep -oP '(?<=<PackageVersion>)[0-9]+\.[0-9]+\.[0-9]+[^<]*' build/Package.props | head -1)
+
+          if [ -z "$VERSION" ]; then
+            echo "ERROR: Could not extract a valid PackageVersion from build/Package.props"
+            cat build/Package.props
+            exit 1
+          fi
+
+          if [[ "$VERSION" =~ [[:space:]] ]]; then
+            echo "ERROR: Extracted version '$VERSION' contains whitespace"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
+
+          if [[ "$VERSION" == *-* ]]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if tag already exists
+        id: tag_check
+        run: |
+          git fetch --tags --force
+          TAG="v${{ steps.version.outputs.version }}"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            if [ "${{ github.event.inputs.force }}" == "true" ]; then
+              echo "exists=false" >> $GITHUB_OUTPUT
+              echo "Tag $TAG exists but force=true — deleting and re-creating."
+              git push origin ":refs/tags/$TAG" || true
+            else
+              echo "exists=true" >> $GITHUB_OUTPUT
+              echo "Tag $TAG already exists. Skipping release."
+            fi
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag $TAG does not exist — proceeding."
+          fi
+
+      - name: Setup .NET
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore (with retry)
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 15
+          command: |
+            dotnet restore src/PleasantUI/PleasantUI.csproj
+            dotnet restore src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj
+            dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+            dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
+
+      - name: Build
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
+
+      - name: Verify packages exist
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          echo "=== Searching for all .nupkg files under src/ ==="
+          find src/ -name "*.nupkg" 2>/dev/null | sort
+
+          FAILED=0
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+            FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
+            if [ -z "$FOUND" ]; then
+              echo "ERROR: No .nupkg found anywhere under src/$project"
+              find "src/$project/bin" -type f 2>/dev/null || echo "(bin dir not found)"
+              FAILED=1
+            else
+              echo "OK: Found package for $project at $FOUND"
+            fi
+          done
+
+          if [ "$FAILED" -eq 1 ]; then exit 1; fi
+
+      - name: Collect commits and build context chunks
+        if: steps.tag_check.outputs.exists == 'false'
+        id: collect
+        run: |
+          # ── Find previous tag ─────────────────────────────────────────────────
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          echo "Previous tag: '${PREV_TAG}'"
+
+          if [ -n "$PREV_TAG" ]; then
+            RANGE="${PREV_TAG}..HEAD"
+          else
+            FIRST=$(git rev-list --max-parents=0 HEAD)
+            RANGE="${FIRST}..HEAD"
+          fi
+          echo "range=$RANGE" >> $GITHUB_OUTPUT
+          echo "Diff range: $RANGE"
+
+          # ── Commit log ────────────────────────────────────────────────────────
+          COMMITS=$(git log "$RANGE" --pretty=format:"[%h] %s (%an, %ad)" --date=short)
+          [ -z "$COMMITS" ] && COMMITS="(no commits in range — possibly initial release)"
+
+          # ── Changed files (excl. samples/) ────────────────────────────────────
+          FILE_LIST=$(git diff --name-only "$RANGE" | grep -v '^samples/' | head -200)
+          STAT_SUMMARY=$(git diff --shortstat "$RANGE" | tail -1)
+
+          # ── Public API additions ───────────────────────────────────────────────
+          API_SURFACE=$(git diff "$RANGE" -- '*.cs' \
+            | grep '^+[^+]' \
+            | grep -v '^+.*\/\/' \
+            | grep -E '\s(public|protected)\s' \
+            | grep -E '(class |interface |enum |record |struct |void |bool |int |string |Task|AvaloniaProperty|StyledProperty|DirectProperty|AttachedProperty|RoutedEvent)' \
+            | sed 's/^+//' \
+            | sed 's/^[[:space:]]*//' \
+            | sort -u \
+            | head -200)
+
+          # ── Shared system prompt — all printf, no heredoc ──────────────────────
+          printf '%s\n' \
+            'You are a senior technical writer analysing a PleasantUI release diff batch.' \
+            'PleasantUI is a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
+            '' \
+            '## Your task' \
+            'Extract EVERY meaningful change from the diffs below. Output structured bullet points — NOT final release notes.' \
+            'This output will be merged with other batches, so completeness matters more than brevity.' \
+            'Do NOT drop or summarise away any finding. One bullet per distinct change.' \
+            '' \
+            '## Rules' \
+            '- Each diff is a COMPLETE per-file diff — read it fully before drawing conclusions.' \
+            '- New control/feature: name, what it does, key public API (properties, events, methods).' \
+            '- New property/event: name, type, one-line purpose.' \
+            '- Bug fix: describe the symptom that was fixed, not just the commit wording.' \
+            '- Breaking change: old API → new API, one line each.' \
+            '- If a file has no meaningful public-facing change (e.g. only whitespace/comments), skip it.' \
+            '- Do NOT invent anything not evidenced by the diff.' \
+            '' \
+            '## Output format (strict)' \
+            'Group findings under these exact headings (omit empty ones):' \
+            '**New Controls / Features**' \
+            '**Improvements**' \
+            '**Bug Fixes**' \
+            '**Breaking Changes**' \
+            '' \
+            'Each bullet: `- [FileName] <one concise sentence>`' \
+            '' \
+            '---' \
+            > /tmp/system-prompt.txt
+
+          # ── Prompt 1: commits + files + API surface (always fits, no diff) ─────
+          {
+            cat /tmp/system-prompt.txt
+            printf '\n'
+            printf 'Version: v%s\n' "${{ steps.version.outputs.version }}"
+            printf 'Release type: %s\n\n' \
+              "$( [ '${{ steps.version.outputs.prerelease }}' = 'true' ] && printf 'PRE-RELEASE (alpha/beta/rc — may contain incomplete features and known issues)' || printf 'STABLE RELEASE' )"
+            printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
+            printf '## All Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
+              "$FILE_LIST" "$STAT_SUMMARY"
+            if [ -n "$API_SURFACE" ]; then
+              printf '## New / Modified Public API\n```csharp\n%s\n```\n' "$API_SURFACE"
+            fi
+          } > /tmp/prompt-1.txt
+
+          # ── Split diff per-file into batches of ~700 lines each ───────────────
+          # We collect complete per-file diffs so AI always sees a whole file diff,
+          # never a mid-function cut. Max 5 diff batches (prompts 2-6).
+          CHANGED_SRC=$(git diff --name-only "$RANGE" \
+            | grep -v '^samples/' \
+            | grep -E '\.(cs|axaml)$')
+
+          mkdir -p /tmp/prompts
+          cp /tmp/prompt-1.txt /tmp/prompts/
+
+          BATCH_NUM=2
+          BATCH_LINES=0
+          BATCH_CONTENT=""
+          MAX_BATCH_LINES=700
+          MAX_BATCHES=5
+
+          for FILE in $CHANGED_SRC; do
+            FILE_DIFF=$(git diff "$RANGE" --unified=3 -- "$FILE" 2>/dev/null)
+            [ -z "$FILE_DIFF" ] && continue
+
+            FILE_LINES=$(printf '%s\n' "$FILE_DIFF" | wc -l)
+
+            # If adding this file would overflow the batch, flush current batch first
+            if [ $BATCH_LINES -gt 0 ] && [ $(( BATCH_LINES + FILE_LINES )) -gt $MAX_BATCH_LINES ]; then
+              if [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
+                PART_NUM=$(( BATCH_NUM - 1 ))
+                {
+                  cat /tmp/system-prompt.txt
+                  printf '\nThis is diff batch %d. Analyse each file diff completely and list your findings.\n\n' "$PART_NUM"
+                  printf '%s\n' "$BATCH_CONTENT"
+                } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+                echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
+                BATCH_NUM=$(( BATCH_NUM + 1 ))
+              fi
+              BATCH_LINES=0
+              BATCH_CONTENT=""
+            fi
+
+            # Accumulate into current batch (skip if we already hit max batches)
+            if [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
+              BATCH_CONTENT=$(printf '%s\n\n### File: %s\n```diff\n%s\n```\n' \
+                "$BATCH_CONTENT" "$FILE" "$FILE_DIFF")
+              BATCH_LINES=$(( BATCH_LINES + FILE_LINES ))
+            fi
+          done
+
+          # Flush final batch
+          if [ $BATCH_LINES -gt 0 ] && [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
+            PART_NUM=$(( BATCH_NUM - 1 ))
+            {
+              cat /tmp/system-prompt.txt
+              printf '\nThis is diff batch %d. Analyse each file diff completely and list your findings.\n\n' "$PART_NUM"
+              printf '%s\n' "$BATCH_CONTENT"
+            } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+            echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
+          fi
+
+          # ── Ensure prompts 2-6 exist (empty marker if no content) ─────────────
+          for N in 2 3 4 5 6; do
+            if [ ! -f "/tmp/prompts/prompt-${N}.txt" ]; then
+              printf 'No diff content for this batch.\n' > "/tmp/prompts/prompt-${N}.txt"
+            fi
+          done
+
+          echo "=== All prompt sizes ==="
+          for N in 1 2 3 4 5 6; do
+            printf 'prompt-%d.txt: %d bytes\n' "$N" "$(wc -c < /tmp/prompts/prompt-${N}.txt)"
+          done
+
+      - name: Upload prompt artifacts
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-prompts
+          path: /tmp/prompts/
+          retention-days: 1
+
+      # ── AI passes — each gets complete per-file diffs, never a mid-file cut ───
+      - name: AI pass 1 — commits + API surface
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass1
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-1.txt
+
+      - name: Save pass 1 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt
+          sleep 65
+
+      - name: AI pass 2 — diff batch 1
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass2
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-2.txt
+
+      - name: Save pass 2 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt
+          sleep 65
+
+      - name: AI pass 3 — diff batch 2
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass3
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-3.txt
+
+      - name: Save pass 3 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt
+          sleep 65
+
+      - name: AI pass 4 — diff batch 3
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass4
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-4.txt
+
+      - name: Save pass 4 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt
+          sleep 65
+
+      - name: AI pass 5 — diff batch 4
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass5
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-5.txt
+
+      - name: Save pass 5 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt
+          sleep 65
+
+      - name: AI pass 6 — diff batch 5
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass6
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-6.txt
+
+      - name: Save pass 6 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt
+          sleep 65
+
+      - name: Build merge-A prompt (passes 1-3)
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+            'Below are raw per-batch findings from analysis passes 1-3 of this release.' \
+            '' \
+            'Your task: produce a LOSSLESS intermediate summary.' \
+            '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
+            '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
+            '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
+            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+            '- Each bullet: `- [FileName] <concise fact>`' \
+            '- This output feeds a final merge step — completeness is critical.' \
+            '' \
+            '---' \
+            > /tmp/prompt-merge-a.txt
+          {
+            printf '## Pass 1 — Commits, changed files, public API\n'
+            cat /tmp/pass-1.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 2 — Diff batch 1\n'
+            cat /tmp/pass-2.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 3 — Diff batch 2\n'
+            cat /tmp/pass-3.txt 2>/dev/null || printf '(no output)\n'
+          } >> /tmp/prompt-merge-a.txt
+          printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
+
+      - name: AI merge-A (passes 1-3)
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_merge_a
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompt-merge-a.txt
+
+      - name: Save merge-A response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt
+          sleep 65
+
+      - name: Compress merge-A output
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are compressing a change-log summary for PleasantUI.' \
+            'Rewrite the input as a TIGHT structured list. Rules:' \
+            '- One bullet per distinct change. Max 12 words per bullet.' \
+            '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
+            '- Preserve ALL items — do not drop any finding.' \
+            '- No prose, no headers, no blank lines between bullets.' \
+            '- Output ONLY the bullet list, nothing else.' \
+            '---' \
+            > /tmp/prompt-compress-a.txt
+          cat /tmp/merge-a.txt >> /tmp/prompt-compress-a.txt
+          printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
+
+      - name: AI compress-A
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_compress_a
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompt-compress-a.txt
+
+      - name: Save compress-A response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt
+          sleep 65
+
+      - name: Build merge-B prompt (passes 4-6)
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+            'Below are raw per-batch findings from analysis passes 4-6 of this release.' \
+            '' \
+            'Your task: produce a LOSSLESS intermediate summary.' \
+            '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
+            '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
+            '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
+            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+            '- Each bullet: `- [FileName] <concise fact>`' \
+            '- This output feeds a final merge step — completeness is critical.' \
+            '' \
+            '---' \
+            > /tmp/prompt-merge-b.txt
+          {
+            printf '## Pass 4 — Diff batch 3\n'
+            cat /tmp/pass-4.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 5 — Diff batch 4\n'
+            cat /tmp/pass-5.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 6 — Diff batch 5\n'
+            cat /tmp/pass-6.txt 2>/dev/null || printf '(no output)\n'
+          } >> /tmp/prompt-merge-b.txt
+          printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
+
+      - name: AI merge-B (passes 4-6)
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_merge_b
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompt-merge-b.txt
+
+      - name: Save merge-B response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt
+          sleep 65
+
+      - name: Compress merge-B output
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are compressing a change-log summary for PleasantUI.' \
+            'Rewrite the input as a TIGHT structured list. Rules:' \
+            '- One bullet per distinct change. Max 12 words per bullet.' \
+            '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
+            '- Preserve ALL items — do not drop any finding.' \
+            '- No prose, no headers, no blank lines between bullets.' \
+            '- Output ONLY the bullet list, nothing else.' \
+            '---' \
+            > /tmp/prompt-compress-b.txt
+          cat /tmp/merge-b.txt >> /tmp/prompt-compress-b.txt
+          printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
+
+      - name: AI compress-B
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_compress_b
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompt-compress-b.txt
+
+      - name: Save compress-B response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt
+          sleep 65
+
+      - name: Build final merge prompt (compress-A + compress-B)
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          IS_PRERELEASE="${{ steps.version.outputs.prerelease }}"
+          VERSION="v${{ steps.version.outputs.version }}"
+
+          printf '%s\n' \
+            'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+            'Below are two compressed change lists covering the COMPLETE diff of this release.' \
+            'Each line is one distinct change. Together they represent every change in this release.' \
+            '' \
+            '## Critical rules' \
+            '- You MUST include every single bullet from BOTH lists in your output.' \
+            '- Read ALL bullets before writing. Do not stop after the first section.' \
+            '- Deduplicate only true duplicates (same file + same change in both lists).' \
+            '- When the same item appears in both, use the more detailed description.' \
+            '- Use markdown: ### section headers, bullet lists, inline code.' \
+            '- Do NOT invent anything not present in the lists.' \
+            '- After writing, mentally verify: does every input bullet appear somewhere in the output?' \
+            > /tmp/prompt-final.txt
+
+          if [ "$IS_PRERELEASE" = 'true' ]; then
+            printf '%s\n' \
+              '' \
+              '## Release type: PRE-RELEASE' \
+              "This is a pre-release build ($VERSION). Adjust the tone accordingly:" \
+              '- Open with a short pre-release notice: features may be incomplete, APIs may change.' \
+              '- Mark experimental or in-progress items with *(experimental)* or *(preview)*.' \
+              '- Use language like "introduces", "adds initial support for", "work in progress".' \
+              >> /tmp/prompt-final.txt
+          else
+            printf '%s\n' \
+              '' \
+              '## Release type: STABLE RELEASE' \
+              "This is a stable release ($VERSION). Adjust the tone accordingly:" \
+              '- Write with confidence. Features are production-ready.' \
+              '- Use language like "adds", "improves", "fixes", "introduces".' \
+              '- No experimental caveats unless explicitly noted in the lists.' \
+              >> /tmp/prompt-final.txt
+          fi
+
+          printf '%s\n' \
+            '' \
+            '## Required output sections (include only those with content):' \
+            '### What is New' \
+            '### Improvements' \
+            '### Bug Fixes' \
+            '### Breaking Changes' \
+            '### Packages' \
+            '' \
+            'Always end with a Packages section listing:' \
+            '- PleasantUI' \
+            '- PleasantUI.DataGrid' \
+            '- PleasantUI.MaterialIcons' \
+            '- PleasantUI.ToolKit' \
+            '' \
+            '---' \
+            >> /tmp/prompt-final.txt
+
+          {
+            printf '## Compressed list A (passes 1-3: commits, API, diff batches 1-2)\n'
+            cat /tmp/compress-a.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Compressed list B (passes 4-6: diff batches 3-5)\n'
+            cat /tmp/compress-b.txt 2>/dev/null || printf '(no output)\n'
+          } >> /tmp/prompt-final.txt
+
+          printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
+
+      - name: AI final merge — write release notes
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_merge
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4.1
+          max-tokens: 8000
+          prompt-file: /tmp/prompt-final.txt
+
+      - name: Save final merge response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt
+      - name: Write release notes to file
+        if: steps.tag_check.outputs.exists == 'false'
+        id: notes_file
+        run: |
+          if [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
+            cp /tmp/final-merge.txt /tmp/release_notes.md
+            echo "Using final merged AI-generated release notes."
+          else
+            # Fallback: use whichever intermediate merges succeeded
+            {
+              printf '### Changes in v%s\n\n' "${{ steps.version.outputs.version }}"
+              cat /tmp/compress-a.txt 2>/dev/null || cat /tmp/merge-a.txt 2>/dev/null || true
+              printf '\n'
+              cat /tmp/compress-b.txt 2>/dev/null || cat /tmp/merge-b.txt 2>/dev/null || true
+            } > /tmp/release_notes.md
+            echo "Used fallback: compressed merge outputs."
+          fi
+
+          echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          prerelease: ${{ steps.version.outputs.prerelease }}
+          body_path: ${{ steps.notes_file.outputs.path }}
+          fail_on_unmatched_files: true
+          files: |
+            src/PleasantUI/bin/Release/*.nupkg
+            src/PleasantUI.DataGrid/bin/Release/*.nupkg
+            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
+            src/PleasantUI.ToolKit/bin/Release/*.nupkg
+
+      - name: Confirm release created
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          echo "Release created: ${{ steps.create_release.outputs.url }}"
+
+      - name: Publish to GitHub Packages
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          dotnet nuget add source \
+            --username ghudulf \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text \
+            --name github \
+            "https://nuget.pkg.github.com/ghudulf/index.json" || true
+
+          for pkg in \
+            src/PleasantUI/bin/Release/*.nupkg \
+            src/PleasantUI.DataGrid/bin/Release/*.nupkg \
+            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg \
+            src/PleasantUI.ToolKit/bin/Release/*.nupkg; do
+            echo "Pushing $pkg"
+            dotnet nuget push "$pkg" \
+              --api-key ${{ secrets.GITHUB_TOKEN }} \
+              --source "github" \
+              --skip-duplicate
+          done

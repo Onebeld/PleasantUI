@@ -1,4 +1,4 @@
-﻿using System.Windows.Input;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
@@ -20,252 +20,227 @@ namespace PleasantUI.Controls;
 public class PleasantSnackbar : PleasantPopupElement
 {
     private Button? _button;
+    private Button? _closeButton;
     private ContentPresenter? _contentPresenter;
     private Grid? _grid;
     private Control? _snackbarBorder;
 
     private IDisposable? _closingTimer;
+    private SnackbarCloseReason _closeReason = SnackbarCloseReason.Programmatic;
+
+    private EventHandler<SnackbarClosingEventArgs>? _closingHandler;
+    private EventHandler<SnackbarClosedEventArgs>? _closedHandler;
 
     private readonly SnackbarQueueManager<PleasantSnackbar>? _queueManager;
 
-    /// <summary>
-    /// Defines the <see cref="OpenAnimation" /> property.
-    /// </summary>
+    // ── Avalonia properties ───────────────────────────────────────────────────
+
     public static readonly StyledProperty<Animation?> OpenAnimationProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Animation?>(nameof(OpenAnimation));
 
-    /// <summary>
-    /// Defines the <see cref="CloseAnimation" /> property.
-    /// </summary>
     public static readonly StyledProperty<Animation?> CloseAnimationProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Animation?>(nameof(CloseAnimation));
 
-    /// <summary>
-    /// Defines the <see cref="Icon" /> property.
-    /// </summary>
     public static readonly StyledProperty<Geometry?> IconProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Geometry?>(nameof(Icon));
 
-    /// <summary>
-    /// Defines the <see cref="NotificationType" /> property.
-    /// </summary>
     public static readonly StyledProperty<NotificationType> NotificationTypeProperty =
         AvaloniaProperty.Register<NotificationCard, NotificationType>(nameof(NotificationType));
 
-    /// <summary>
-    /// Defines the <see cref="Command" /> property.
-    /// </summary>
     public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<Button, ICommand?>(nameof(Command), enableDataValidation: true);
 
-    /// <summary>
-    /// Gets or sets the animation to use when the Snackbar opens.
-    /// </summary>
-    public Animation? OpenAnimation
-    {
-        get => GetValue(OpenAnimationProperty);
-        set => SetValue(OpenAnimationProperty, value);
-    }
+    /// <summary>Optional bold title shown above the message.</summary>
+    public static readonly StyledProperty<string?> TitleProperty =
+        AvaloniaProperty.Register<PleasantSnackbar, string?>(nameof(Title));
 
-    /// <summary>
-    /// Gets or sets the animation to use when the Snackbar closes.
-    /// </summary>
-    public Animation? CloseAnimation
-    {
-        get => GetValue(CloseAnimationProperty);
-        set => SetValue(CloseAnimationProperty, value);
-    }
+    /// <summary>Whether a close (×) button is shown.</summary>
+    public static readonly StyledProperty<bool> IsClosableProperty =
+        AvaloniaProperty.Register<PleasantSnackbar, bool>(nameof(IsClosable), false);
 
-    /// <summary>
-    /// Gets or sets the icon to display in the Snackbar.
-    /// </summary>
-    public Geometry? Icon
-    {
-        get => GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
+    /// <summary>Arbitrary action control placed in the snackbar.</summary>
+    public static readonly StyledProperty<Control?> ActionButtonProperty =
+        AvaloniaProperty.Register<PleasantSnackbar, Control?>(nameof(ActionButton));
 
-    /// <summary>
-    /// Gets or sets the type of notification to display.
-    /// </summary>
-    public NotificationType NotificationType
-    {
-        get => GetValue(NotificationTypeProperty);
-        set => SetValue(NotificationTypeProperty, value);
-    }
+    // ── CLR properties ────────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Gets or sets an <see cref="ICommand" /> to be invoked when the button is clicked.
-    /// </summary>
-    public ICommand? Command
-    {
-        get => GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
+    public Animation? OpenAnimation  { get => GetValue(OpenAnimationProperty);  set => SetValue(OpenAnimationProperty, value); }
+    public Animation? CloseAnimation { get => GetValue(CloseAnimationProperty); set => SetValue(CloseAnimationProperty, value); }
+    public Geometry?  Icon           { get => GetValue(IconProperty);           set => SetValue(IconProperty, value); }
+    public NotificationType NotificationType { get => GetValue(NotificationTypeProperty); set => SetValue(NotificationTypeProperty, value); }
+    public ICommand?  Command        { get => GetValue(CommandProperty);        set => SetValue(CommandProperty, value); }
+    public string?    Title          { get => GetValue(TitleProperty);          set => SetValue(TitleProperty, value); }
+    public bool       IsClosable     { get => GetValue(IsClosableProperty);     set => SetValue(IsClosableProperty, value); }
+    public Control?   ActionButton   { get => GetValue(ActionButtonProperty);   set => SetValue(ActionButtonProperty, value); }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PleasantSnackbar"/> class.
-    /// Retrieves the Snackbar queue manager from the application helper.
-    /// </summary>
+    // ── Constructor ───────────────────────────────────────────────────────────
+
     public PleasantSnackbar(TopLevel? topLevel)
     {
         _queueManager = WindowHelper.GetSnackbarQueueManager(topLevel);
     }
 
-    /// <summary>
-    /// Shows the Snackbar with the given options.
-    /// </summary>
-    /// <param name="options">The options to use when showing the Snackbar.</param>
-    public static void Show(PleasantSnackbarOptions options) => ShowCoreForTopLevel(null, options);
+    // ── Static Show overloads ─────────────────────────────────────────────────
 
-    /// <summary>
-    /// Shows the Snackbar with the given options on the specified window.
-    /// </summary>
-    /// <param name="window">The window to show the Snackbar on.</param>
-    /// <param name="options">The options to use when showing the Snackbar.</param>
-    public static void Show(Window window, PleasantSnackbarOptions options) => ShowCoreForTopLevel(window, options);
-
-    /// <summary>
-    /// Shows the Snackbar with the given options on the specified window.
-    /// </summary>
-    /// <param name="pleasantWindow">The window to show the Snackbar on.</param>
-    /// <param name="options">The options to use when showing the Snackbar.</param>
+    public static void Show(PleasantSnackbarOptions options)                          => ShowCoreForTopLevel(null, options);
+    public static void Show(Window window, PleasantSnackbarOptions options)           => ShowCoreForTopLevel(window, options);
     public static void Show(IPleasantWindow pleasantWindow, PleasantSnackbarOptions options) => ShowCoreForTopLevel(pleasantWindow as TopLevel, options);
+    public static void Show(TopLevel topLevel, PleasantSnackbarOptions options)       => ShowCoreForTopLevel(topLevel, options);
 
-    /// <summary>
-    /// Shows the Snackbar with the given options on the specified window.
-    /// </summary>
-    /// <param name="topLevel">The window to show the Snackbar on.</param>
-    /// <param name="options">The options to use when showing the Snackbar.</param>
-    public static void Show(TopLevel topLevel, PleasantSnackbarOptions options) => ShowCoreForTopLevel(topLevel, options);
+    // ── Internal host management ──────────────────────────────────────────────
 
     internal void CreateHost()
     {
         Host ??= new ModalWindowHost();
         Host.Content = this;
-
         ShowCoreForTopLevel(TopLevel);
     }
 
-    internal void DeleteHost()
-    {
-        base.DeleteCoreForTopLevel();
-    }
+    internal void DeleteHost() => base.DeleteCoreForTopLevel();
 
-    /// <inheritdoc />
+    // ── Template ──────────────────────────────────────────────────────────────
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        _snackbarBorder = e.NameScope.Find<Control>("PART_Snackbar");
+        _snackbarBorder  = e.NameScope.Find<Control>("PART_Snackbar");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
-        _button = e.NameScope.Find<Button>("PART_Button");
-        _grid = e.NameScope.Find<Grid>("PART_Grid");
+        _button          = e.NameScope.Find<Button>("PART_Button");
+        _grid            = e.NameScope.Find<Grid>("PART_Grid");
+        _closeButton     = e.NameScope.Find<Button>("PART_CloseButton");
 
         if (_snackbarBorder is null || _contentPresenter is null)
             throw new NullReferenceException("Snackbar border or content presenter not found");
+
+        if (_closeButton is not null)
+            _closeButton.Click += (_, _) => OnCloseButtonClicked();
+
+        UpdateClosableState();
+        UpdateTitleState();
     }
 
-    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
 
         if (e.Property == NotificationTypeProperty)
             UpdateNotificationType();
+        else if (e.Property == IsClosableProperty)
+            UpdateClosableState();
+        else if (e.Property == TitleProperty)
+            UpdateTitleState();
     }
+
+    // ── Core show logic ───────────────────────────────────────────────────────
 
     private static void ShowCoreForTopLevel(TopLevel? parent, PleasantSnackbarOptions options)
     {
         if (options.TimeSpan == TimeSpan.Zero)
             options.TimeSpan = TimeSpan.FromSeconds(3);
 
-        PleasantSnackbar pleasantSnackbar = new(parent)
+        PleasantSnackbar snackbar = new(parent)
         {
-            Content = options.Message,
-            Icon = options.Icon,
+            Content          = options.Message,
+            Title            = options.Title,
+            Icon             = options.Icon,
             NotificationType = options.NotificationType,
-
-            TopLevel = parent
+            IsClosable       = options.IsClosable,
+            TopLevel         = parent,
+            _closingHandler  = options.Closing,
+            _closedHandler   = options.Closed
         };
 
-        pleasantSnackbar.TemplateApplied += (_, _) =>
+        // Wire action button
+        snackbar.TemplateApplied += (_, _) =>
         {
-            pleasantSnackbar.DefineButton(options.ButtonText, options.ButtonAction);
+            if (options.ActionButton is not null)
+                snackbar.DefineActionButton(options.ActionButton);
+            else
+                snackbar.DefineButton(options.ButtonText, options.ButtonAction);
         };
 
-        pleasantSnackbar.Loaded += async (_, _) =>
+        snackbar.Loaded += async (_, _) =>
         {
-            await pleasantSnackbar.Open();
+            await snackbar.Open();
 
-            pleasantSnackbar._closingTimer = DispatcherTimer.RunOnce(() => _ = pleasantSnackbar.Close(), options.TimeSpan);
-
-            pleasantSnackbar.PointerPressed += (_, _) =>
+            snackbar._closingTimer = DispatcherTimer.RunOnce(() =>
             {
-                pleasantSnackbar._closingTimer.Dispose();
+                snackbar._closeReason = SnackbarCloseReason.Timeout;
+                _ = snackbar.Close();
+            }, options.TimeSpan);
 
-                _ = pleasantSnackbar.Close();
+            snackbar.PointerPressed += (_, _) =>
+            {
+                snackbar._closingTimer?.Dispose();
+                snackbar._closeReason = SnackbarCloseReason.UserDismiss;
+                _ = snackbar.Close();
             };
         };
 
-        pleasantSnackbar._queueManager?.Enqueue(pleasantSnackbar);
+        snackbar._queueManager?.Enqueue(snackbar);
 
-        if (pleasantSnackbar._queueManager is null)
+        if (snackbar._queueManager is null)
         {
-            pleasantSnackbar.CreateHost();
+            snackbar.CreateHost();
             return;
         }
 
-        if (pleasantSnackbar._queueManager.Count <= 1)
-            pleasantSnackbar.CreateHost();
+        if (snackbar._queueManager.Count <= 1)
+            snackbar.CreateHost();
     }
+
+    // ── Close logic with Closing/Closed events ────────────────────────────────
 
     private async Task Close(Action? action = null)
     {
-        IsHitTestVisible = false;
+        // Fire Closing — allow cancellation
+        if (_closingHandler is not null)
+        {
+            var args = new SnackbarClosingEventArgs(_closeReason);
+            _closingHandler.Invoke(this, args);
+            if (args.Cancel) return;
+        }
 
+        IsHitTestVisible = false;
         await RunCloseAnimation();
         action?.Invoke();
+
+        _closedHandler?.Invoke(this, new SnackbarClosedEventArgs(_closeReason));
 
         _queueManager?.Dequeue();
     }
 
+    private void OnCloseButtonClicked()
+    {
+        _closingTimer?.Dispose();
+        _closeReason = SnackbarCloseReason.CloseButton;
+        _ = Close();
+    }
+
+    // ── Open animation ────────────────────────────────────────────────────────
+
     private async Task Open()
     {
         double maxSnackbarWidth = _snackbarBorder!.Bounds.Width;
-
         _snackbarBorder.Width = MinWidth;
 
-        await OpenAnimation?.RunAsync(this)!;
+        if (OpenAnimation is not null)
+            await OpenAnimation.RunAsync(this);
 
         Animation animation = new()
         {
-            Easing = new CubicEaseInOut(),
-            Duration = TimeSpan.FromSeconds(0.3),
-            FillMode = FillMode.Both,
-            Children =
+            Easing    = new CubicEaseInOut(),
+            Duration  = TimeSpan.FromSeconds(0.3),
+            FillMode  = FillMode.Both,
+            Children  =
             {
-                new KeyFrame
-                {
-                    KeyTime = TimeSpan.FromSeconds(0),
-                    Setters =
-                    {
-                        new Setter(WidthProperty, MinWidth)
-                    }
-                },
-                new KeyFrame
-                {
-                    KeyTime = TimeSpan.FromSeconds(0.3),
-                    Setters =
-                    {
-                        new Setter(WidthProperty, maxSnackbarWidth)
-                    }
-                }
+                new KeyFrame { KeyTime = TimeSpan.Zero,               Setters = { new Setter(WidthProperty, MinWidth) } },
+                new KeyFrame { KeyTime = TimeSpan.FromSeconds(0.3),   Setters = { new Setter(WidthProperty, maxSnackbarWidth) } }
             }
         };
 
         await animation.RunAsync(_snackbarBorder);
-
         _snackbarBorder.Width = double.NaN;
 
         if (_contentPresenter != null)
@@ -275,44 +250,60 @@ public class PleasantSnackbar : PleasantPopupElement
             _grid.Opacity = 1;
     }
 
+    private async Task RunCloseAnimation()
+    {
+        if (CloseAnimation is not null)
+            await CloseAnimation.RunAsync(this);
+    }
+
+    // ── Button helpers ────────────────────────────────────────────────────────
+
     private void DefineButton(string? content, Action? action)
     {
-        if (_button is null)
-            return;
+        if (_button is null) return;
 
         if (string.IsNullOrWhiteSpace(content) || action is null)
+        {
             _button.IsVisible = false;
+            return;
+        }
 
         _button.Content = content;
         _button.Click += async (_, _) =>
         {
             _closingTimer?.Dispose();
-
+            _closeReason = SnackbarCloseReason.UserDismiss;
             await Close(action);
         };
     }
 
-    private async Task RunCloseAnimation() => await CloseAnimation?.RunAsync(this)!;
+    private void DefineActionButton(Control actionButton)
+    {
+        if (_button is null) return;
+        _button.IsVisible = false;
+
+        // Place the custom control in the ActionButton slot if the template supports it,
+        // otherwise fall back to replacing the button content
+        ActionButton = actionButton;
+    }
+
+    // ── Pseudo-class helpers ──────────────────────────────────────────────────
 
     private void UpdateNotificationType()
     {
-        switch (NotificationType)
-        {
-            case NotificationType.Error:
-                PseudoClasses.Add(":error");
-                break;
+        PseudoClasses.Set(":error",       NotificationType == NotificationType.Error);
+        PseudoClasses.Set(":information", NotificationType == NotificationType.Information);
+        PseudoClasses.Set(":success",     NotificationType == NotificationType.Success);
+        PseudoClasses.Set(":warning",     NotificationType == NotificationType.Warning);
+    }
 
-            case NotificationType.Information:
-                PseudoClasses.Add(":information");
-                break;
+    private void UpdateClosableState()
+    {
+        PseudoClasses.Set(":closable", IsClosable);
+    }
 
-            case NotificationType.Success:
-                PseudoClasses.Add(":success");
-                break;
-
-            case NotificationType.Warning:
-                PseudoClasses.Add(":warning");
-                break;
-        }
+    private void UpdateTitleState()
+    {
+        PseudoClasses.Set(":titled", !string.IsNullOrEmpty(Title));
     }
 }

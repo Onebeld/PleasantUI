@@ -1,0 +1,111 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:PleasantUI.Converters"
+                    x:ClassModifier="internal">
+
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<StackPanel Spacing="12">
+				<PinCode Count="4" />
+				<PinCode Count="6" PasswordChar="●" />
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+
+	<!-- PinCodeItem -->
+	<ControlTheme x:Key="{x:Type PinCodeItem}" TargetType="PinCodeItem">
+		<Setter Property="Width" Value="44" />
+		<Setter Property="Height" Value="44" />
+		<Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+		<Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+		<Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+		<Setter Property="FontSize" Value="18" />
+		<Setter Property="FontWeight" Value="SemiBold" />
+		<Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+		<Setter Property="Cursor" Value="IBeam" />
+		<Setter Property="ClipToBounds" Value="False" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
+
+		<Setter Property="Transitions">
+			<Transitions>
+				<BrushTransition Property="Background" Duration="0:0:0.1" />
+				<BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
+			</Transitions>
+		</Setter>
+
+		<Setter Property="Template">
+			<ControlTemplate TargetType="PinCodeItem">
+				<Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}">
+					<TextBlock x:Name="PART_Text"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="{TemplateBinding FontSize}"
+                               FontWeight="{TemplateBinding FontWeight}"
+                               Foreground="{TemplateBinding Foreground}"
+                               Text="{Binding DisplayText, RelativeSource={RelativeSource TemplatedParent}}" />
+				</Border>
+			</ControlTemplate>
+		</Setter>
+
+		<!-- Hover -->
+		<Style Selector="^:pointerover">
+			<Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+		</Style>
+
+		<!-- Focus -->
+		<Style Selector="^:focused">
+			<Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
+		</Style>
+
+		<!-- Filled -->
+		<Style Selector="^:filled">
+			<Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+		</Style>
+
+		<!-- Filled + focused -->
+		<Style Selector="^:filled:focused">
+			<Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+		</Style>
+	</ControlTheme>
+
+	<!-- PinCodeItemsControl (derived from ItemsControl, needs its own template) -->
+	<ControlTheme x:Key="{x:Type PinCodeItemsControl}" TargetType="PinCodeItemsControl">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<ItemsPresenter Name="PART_ItemsPresenter"
+				                ItemsPanel="{TemplateBinding ItemsPanel}" />
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+
+	<!-- PinCode -->
+	<ControlTheme x:Key="{x:Type PinCode}" TargetType="PinCode">
+		<Setter Property="Focusable" Value="True" />
+		<Setter Property="Height" Value="44" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+
+		<Setter Property="Template">
+			<ControlTemplate TargetType="PinCode">
+				<PinCodeItemsControl x:Name="PART_ItemsControl"
+				                     ItemsSource="{Binding Digits, RelativeSource={RelativeSource TemplatedParent}}">
+					<PinCodeItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal"
+                                        Spacing="{Binding Spacing, RelativeSource={RelativeSource AncestorType=PinCode}}" />
+						</ItemsPanelTemplate>
+					</PinCodeItemsControl.ItemsPanel>
+				</PinCodeItemsControl>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+
+</ResourceDictionary>

@@ -1,6 +1,19 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:collections="clr-namespace:Avalonia.Collections;assembly=Avalonia.Controls.DataGrid">
+
+    <!--
+        Fallback brush definitions for DataGrid-specific resources.
+        These are defined here so the DataGrid renders correctly even if the host
+        application does not define them. They use DynamicResource internally so
+        they still respond to theme changes when the host provides overrides.
+    -->
+    <SolidColorBrush x:Key="DataGridRowBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="DataGridRowInvalidBrush" Color="#33FF0000" />
+    <SolidColorBrush x:Key="DataGridDetailsPresenterBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="{DynamicResource AccentColor}" />
+    <SolidColorBrush x:Key="DataGridScrollBarsSeparatorBackground" Color="{DynamicResource BackgroundColor2}" />
+    <SolidColorBrush x:Key="DataGridDisabledVisualElementBackground" Color="#66FFFFFF" />
     <StreamGeometry x:Key="DataGridSortIconDescendingPath">M1875 1011l-787 787v-1798h-128v1798l-787 -787l-90 90l941 941l941 -941z</StreamGeometry>
     <StreamGeometry x:Key="DataGridSortIconAscendingPath">M1965 947l-941 -941l-941 941l90 90l787 -787v1798h128v-1798l787 787z</StreamGeometry>
     

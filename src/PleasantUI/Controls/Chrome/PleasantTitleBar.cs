@@ -36,6 +36,7 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_LeftTitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitlePanel", typeof(StackPanel))]
+[PseudoClasses(":active", ":minimized", ":normal", ":maximized", ":isactive", ":titlebar")]
 public class PleasantTitleBar : TemplatedControl
 {
     /// <summary>
@@ -76,6 +77,34 @@ public class PleasantTitleBar : TemplatedControl
     private ContentPresenter? _titleBarContent;
     private StackPanel? _titlePanel;
 
+    /// <summary>
+    /// Defines the <see cref="IsTitleVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsTitleVisibleProperty =
+        AvaloniaProperty.Register<PleasantTitleBar, bool>(nameof(IsTitleVisible), true);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the title panel (icon + title + subtitle) is visible.
+    /// </summary>
+    public bool IsTitleVisible
+    {
+        get => GetValue(IsTitleVisibleProperty);
+        set => SetValue(IsTitleVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the attached property that controls whether the drag area of the title bar responds to hit-testing.
+    /// </summary>
+    public static readonly AttachedProperty<bool> IsTitleBarHitTestVisibleProperty =
+        AvaloniaProperty.RegisterAttached<PleasantTitleBar, Window, bool>(
+            "IsTitleBarHitTestVisible", defaultValue: true);
+
+    /// <summary>Gets the IsTitleBarHitTestVisible attached value from a window.</summary>
+    public static bool GetIsTitleBarHitTestVisible(Window obj) => obj.GetValue(IsTitleBarHitTestVisibleProperty);
+
+    /// <summary>Sets the IsTitleBarHitTestVisible attached value on a window.</summary>
+    public static void SetIsTitleBarHitTestVisible(Window obj, bool value) => obj.SetValue(IsTitleBarHitTestVisibleProperty, value);
+
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -100,7 +129,7 @@ public class PleasantTitleBar : TemplatedControl
         _leftTitleBarContent = e.NameScope.Find<ContentPresenter>("PART_LeftTitleBarContent");
         _titleBarContent = e.NameScope.Find<ContentPresenter>("PART_TitleBarContent");
 
-        if (VisualRoot is PleasantWindow window)
+        if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             _host = window;
             _captionButtons.Host = window;
@@ -141,7 +170,11 @@ public class PleasantTitleBar : TemplatedControl
                     if (_expandMenuItem is not null) _expandMenuItem.IsEnabled = true;
                 }
             })),
-            host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(b => { PseudoClasses.Set(":isactive", !b); })),
+            host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(b =>
+            {
+                PseudoClasses.Set(":active", b);
+                PseudoClasses.Set(":isactive", !b);
+            })),
             host.GetObservable(PleasantWindow.SubtitleProperty).Subscribe(new AnonymousObserver<string>(s =>
             {
                 if (_subtitle is not null) _subtitle.Text = s;
@@ -172,31 +205,37 @@ public class PleasantTitleBar : TemplatedControl
                 if (isMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !b;
             })),
+            this.GetObservable(IsTitleVisibleProperty).Subscribe(new AnonymousObserver<bool>(visible =>
+            {
+                // Only apply when custom title bar is active; EnableCustomTitleBar handler owns visibility otherwise
+                if (_titlePanel is not null && (_host?.EnableCustomTitleBar ?? false))
+                    _titlePanel.IsVisible = visible;
+            })),
+            host.GetObservable(IsTitleBarHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(hitTestVisible =>
+            {
+                if (_dragWindowBorder is not null)
+                    _dragWindowBorder.IsHitTestVisible = hitTestVisible;
+            })),
             host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(new AnonymousObserver<bool>(enable =>
             {
                 if (_dragWindowBorder == null || _host == null || _titlePanel == null ||
-                _leftTitleBarContent == null || _captionButtons == null)
-                return;
+                    _leftTitleBarContent == null || _captionButtons == null)
+                    return;
 
                 host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
                 {
-                    if (state == WindowState.FullScreen)
-                    {
-                        _captionButtons.IsVisible = !enable;
-                        _dragWindowBorder.IsVisible = !enable;
-                    }
-                    else
-                    {
-                        _captionButtons.IsVisible = !_host.OverrideMacOSCaption ? !enable : enable;
-                        _dragWindowBorder.IsVisible = enable;
-                    }
+                    // On macOS without caption override, native buttons are used — hide custom ones.
+                    // Otherwise always keep the panel visible; UpdateButtonVisibility controls individual buttons.
+                    bool usesCustomCaptions = !isMacOS || _host.OverrideMacOSCaption;
+                    _captionButtons.IsVisible = enable && usesCustomCaptions;
+                    // Drag border is not useful in fullscreen
+                    _dragWindowBorder.IsVisible = enable && state != WindowState.FullScreen;
                 }));
-                _titlePanel.IsVisible = enable;
-                _leftTitleBarContent.IsVisible = enable;
 
-                /*
-                if (!_host.ShowTitleBarContentAnyway)
-                    IsVisible = enable;*/
+                bool usesCustomCaptionsNow = !isMacOS || _host.OverrideMacOSCaption;
+                _captionButtons.IsVisible = enable && usesCustomCaptionsNow;
+                _titlePanel.IsVisible = enable && IsTitleVisible;
+                _leftTitleBarContent.IsVisible = enable;
             }))
         };
     }

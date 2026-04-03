@@ -1,8 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Reactive;
+using Avalonia.Styling;
+using Avalonia.Threading;
 using PleasantUI.Controls.Chrome;
 
 namespace PleasantUI.Controls;
@@ -12,6 +15,8 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class PleasantWindow : PleasantWindowBase
 {
+    private PleasantSplashScreen? _splashOverlay;
+    private CancellationTokenSource? _splashCts;
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
@@ -83,6 +88,36 @@ public class PleasantWindow : PleasantWindowBase
     /// </summary>
     public static readonly StyledProperty<bool> ExtendsContentIntoTitleBarProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(ExtendsContentIntoTitleBar));
+
+    /// <summary>
+    /// Defines the <see cref="SplashScreen"/> property.
+    /// </summary>
+    public static readonly StyledProperty<IPleasantSplashScreen?> SplashScreenProperty =
+        AvaloniaProperty.Register<PleasantWindow, IPleasantSplashScreen?>(nameof(SplashScreen));
+
+    /// <summary>
+    /// Defines the <see cref="IsCloseButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsCloseButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsCloseButtonVisible), true);
+
+    /// <summary>
+    /// Defines the <see cref="IsMinimizeButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsMinimizeButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsMinimizeButtonVisible), true);
+
+    /// <summary>
+    /// Defines the <see cref="IsRestoreButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsRestoreButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsRestoreButtonVisible), true);
+
+    /// <summary>
+    /// Defines the <see cref="IsFullScreenButtonVisible"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsFullScreenButtonVisibleProperty =
+        AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsFullScreenButtonVisible), false);
 
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
@@ -198,6 +233,54 @@ public class PleasantWindow : PleasantWindowBase
         set => SetValue(ExtendsContentIntoTitleBarProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the splash screen shown during window startup.
+    /// Set this before the window is shown. The splash screen is automatically
+    /// removed after <see cref="IPleasantSplashScreen.RunTasks"/> completes and
+    /// <see cref="IPleasantSplashScreen.MinimumShowTime"/> has elapsed.
+    /// </summary>
+    public IPleasantSplashScreen? SplashScreen
+    {
+        get => GetValue(SplashScreenProperty);
+        set => SetValue(SplashScreenProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the close button is visible.
+    /// </summary>
+    public bool IsCloseButtonVisible
+    {
+        get => GetValue(IsCloseButtonVisibleProperty);
+        set => SetValue(IsCloseButtonVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the minimize button is visible.
+    /// </summary>
+    public bool IsMinimizeButtonVisible
+    {
+        get => GetValue(IsMinimizeButtonVisibleProperty);
+        set => SetValue(IsMinimizeButtonVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the restore/maximize button is visible.
+    /// </summary>
+    public bool IsRestoreButtonVisible
+    {
+        get => GetValue(IsRestoreButtonVisibleProperty);
+        set => SetValue(IsRestoreButtonVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the full-screen toggle button is visible.
+    /// </summary>
+    public bool IsFullScreenButtonVisible
+    {
+        get => GetValue(IsFullScreenButtonVisibleProperty);
+        set => SetValue(IsFullScreenButtonVisibleProperty, value);
+    }
+
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
 
@@ -206,11 +289,31 @@ public class PleasantWindow : PleasantWindowBase
     {
         base.OnApplyTemplate(e);
 
+        _splashLayer = e.NameScope.Find<Panel>("PART_SplashLayer");
+
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(new AnonymousObserver<bool>(x => ChangeDecorations(x, WindowState)));
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
+    }
+
+    /// <inheritdoc />
+    protected override void OnOpened(EventArgs e)
+    {
+        base.OnOpened(e);
+
+        if (SplashScreen is not null)
+            _ = RunSplashScreenAsync(SplashScreen);
+    }
+
+    /// <inheritdoc />
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        _splashCts?.Cancel();
+        _splashCts?.Dispose();
+        _splashCts = null;
     }
 
     /// <inheritdoc />
@@ -225,32 +328,90 @@ public class PleasantWindow : PleasantWindowBase
             SetTransparencyLevelHint();
     }
 
+    private Panel? _splashLayer;
+
+    private async Task RunSplashScreenAsync(IPleasantSplashScreen splash)
+    {
+        _splashCts = new CancellationTokenSource();
+
+        // Wait for template to be applied so PART_SplashLayer is available
+        if (_splashLayer is null) return;
+
+        _splashOverlay = new PleasantSplashScreen
+        {
+            SplashScreen             = splash,
+            HorizontalAlignment      = Avalonia.Layout.HorizontalAlignment.Stretch,
+            VerticalAlignment        = Avalonia.Layout.VerticalAlignment.Stretch,
+            IsHitTestVisible         = true
+        };
+
+        _splashLayer.Children.Add(_splashOverlay);
+        _splashLayer.IsVisible = true;
+
+        var startTime = Environment.TickCount64;
+
+        try
+        {
+            await splash.RunTasks(_splashCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        // Honour minimum show time
+        long elapsed   = Environment.TickCount64 - startTime;
+        int  remaining = splash.MinimumShowTime - (int)elapsed;
+        if (remaining > 0)
+            await Task.Delay(remaining, _splashCts.Token).ContinueWith(_ => { });
+
+        if (_splashCts.IsCancellationRequested) return;
+
+        // Fade out on the UI thread
+        await Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            if (_splashOverlay is null) return;
+
+            var fadeOut = new Animation
+            {
+                Duration = TimeSpan.FromMilliseconds(350),
+                FillMode = FillMode.Forward,
+                Children =
+                {
+                    new KeyFrame { KeyTime = TimeSpan.Zero,                    Setters = { new Setter(OpacityProperty, 1.0) } },
+                    new KeyFrame { KeyTime = TimeSpan.FromMilliseconds(350),   Setters = { new Setter(OpacityProperty, 0.0) } }
+                }
+            };
+
+            await fadeOut.RunAsync(_splashOverlay);
+
+            _splashLayer.Children.Clear();
+            _splashLayer.IsVisible = false;
+            _splashOverlay = null;
+        });
+    }
+
     private void ChangeDecorations(bool enableCustomTitleBar, WindowState windowState)
     {
         ExtendClientAreaToDecorationsHint = enableCustomTitleBar;
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || !EnableCustomTitleBar) return;
-                
+
         if (windowState == WindowState.FullScreen)
         {
-            // Restore Avalonia defaults when in fullscreen.
-            ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.Default;
-            ExtendClientAreaTitleBarHeightHint = 0;
-            SystemDecorations = SystemDecorations.Full;
+            // Restore system decorations when in fullscreen.
+            WindowDecorations = WindowDecorations.Full;
         }
         else
         {
             if (OverrideMacOSCaption)
             {
-                ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
+                WindowDecorations = WindowDecorations.None;
             }
             else
             {
-                ExtendClientAreaTitleBarHeightHint = -1;
-                ExtendClientAreaChromeHints = TitleBarType == PleasantTitleBar.Type.Classic
-                    ? Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome
-                    : Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome |
-                      Avalonia.Platform.ExtendClientAreaChromeHints.OSXThickTitleBar;
-                SystemDecorations = SystemDecorations.Full;
+                WindowDecorations = TitleBarType == PleasantTitleBar.Type.Classic
+                    ? WindowDecorations.Full
+                    : WindowDecorations.None;
             }
         }
     }

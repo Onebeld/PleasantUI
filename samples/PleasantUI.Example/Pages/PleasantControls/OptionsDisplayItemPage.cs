@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
+using PleasantUI.Example.Views.Pages.PleasantControlPages;
 
 namespace PleasantUI.Example.Pages.PleasantControls;
 
-public class OptionsDisplayItemPage : IPage
+public class OptionsDisplayItemPage : LocalizedPage
 {
-    public string Title { get; } = "OptionsDisplayItem";
-    public bool ShowTitle { get; } = true;
-    public Control Content { get; } = null!;
+    public override string TitleKey { get; } = "CardTitle/OptionsDisplayItem";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new OptionsDisplayItemPageView();
 }

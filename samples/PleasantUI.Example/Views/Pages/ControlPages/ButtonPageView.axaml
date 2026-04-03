@@ -1,4 +1,4 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,26 +6,26 @@
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.ButtonPageView"
              Margin="0 10 0 0">
     <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
-        <Button Content="Button" x:Name="MessageBoxButton" />
+        <Button Content="{Localize Button, Context=ButtonPage}" x:Name="MessageBoxButton" />
         <Button>
             <PathIcon Data="{StaticResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
         </Button>
-        <Button Theme="{StaticResource AppBarButtonTheme}" Content="AppBarButton" />
-        <Button Theme="{StaticResource AccentButtonTheme}" Content="AccentButton" />
-        <Button Theme="{StaticResource DangerButtonTheme}" Content="DangerButton" />
-        <Button IsEnabled="False" Content="Disabled button" />
+        <Button Theme="{StaticResource AppBarButtonTheme}" Content="{Localize AppBarButton, Context=ButtonPage}" />
+        <Button Theme="{StaticResource AccentButtonTheme}" Content="{Localize AccentButton, Context=ButtonPage}" />
+        <Button Theme="{StaticResource DangerButtonTheme}" Content="{Localize DangerButton, Context=ButtonPage}" />
+        <Button IsEnabled="False" Content="{Localize DisabledButton, Context=ButtonPage}" />
         
-        <ButtonSpinner Content="ButtonSpinner" />
+        <ButtonSpinner Content="{Localize ButtonSpinner, Context=ButtonPage}" />
         
-        <ToggleButton Content="ToggleButton" />
+        <ToggleButton Content="{Localize ToggleButton, Context=ButtonPage}" />
         
-        <RepeatButton Content="RepeatButton" />
+        <RepeatButton Content="{Localize RepeatButton, Context=ButtonPage}" />
         
-        <RadioButton Content="RadioButton 1" GroupName="Group1" />
-        <RadioButton Content="RadioButton 2" GroupName="Group1" />
+        <RadioButton Content="{Localize RadioButton1, Context=ButtonPage}" GroupName="Group1" />
+        <RadioButton Content="{Localize RadioButton2, Context=ButtonPage}" GroupName="Group1" />
 
-        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="RadioButton 1" GroupName="Group2" />
-        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="RadioButton 2" GroupName="Group2" />
+        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="{Localize RadioButton1, Context=ButtonPage}" GroupName="Group2" />
+        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="{Localize RadioButton2, Context=ButtonPage}" GroupName="Group2" />
 
             <ListBox Height="200">
                 <ListBoxItem Content="Content 1" />

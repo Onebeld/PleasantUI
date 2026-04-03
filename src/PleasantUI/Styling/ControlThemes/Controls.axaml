@@ -35,6 +35,7 @@
                 <MergeResourceInclude Source="BasicControls/ListBoxItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/Menu.axaml" />
                 <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/ModalWindowHost.axaml" />
                 <MergeResourceInclude Source="BasicControls/NativeMenuBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
@@ -76,6 +77,8 @@
                 <MergeResourceInclude Source="PleasantControls/NavigationViewItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PathPicker.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantFileChooser.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantBorder.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantFlyoutPresenter.axaml" />
@@ -85,10 +88,19 @@
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantSplashScreen.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantMenu.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PinCode.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
                 <MergeResourceInclude Source="PleasantControls/RippleEffect.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
+                <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
+                <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantDrawer.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PopConfirm.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantDockingStyles.axaml" />
+                <MergeResourceInclude Source="PleasantControls/SelectionList.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

@@ -224,6 +224,7 @@ public class PleasantTheme : Styles
 
         ResolveTheme(_platformSettings);
         ResolveAccentColor(_platformSettings);
+         System.Diagnostics.Debug.WriteLine("Pleasantui INIT done");
     }
 
     private void LoadCustomThemes()
@@ -281,8 +282,10 @@ public class PleasantTheme : Styles
 
     private void DesktopShutdownRequested(object? sender, ShutdownRequestedEventArgs e)
     {
+        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] DesktopShutdownRequested - saving settings with Theme={PleasantSettings.Current?.Theme}");
         _settingsProvider.Save(PleasantSettings.Current, Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
         PleasantThemesLoader.Save();
+        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Settings saved");
     }
 
     private void PleasantSettingsOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -296,6 +299,15 @@ public class PleasantTheme : Styles
         {
             case nameof(PleasantSettings.Current.Theme):
                 ResolveTheme(_platformSettings);
+                // Persist immediately so the setting survives even if the process is killed
+                // (e.g., stopped via debugger) without ShutdownRequested firing.
+                _settingsProvider.Save(PleasantSettings.Current,
+                    Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
+                break;
+            case nameof(PleasantSettings.Current.Language):
+                // Persist language changes immediately as well.
+                _settingsProvider.Save(PleasantSettings.Current,
+                    Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
                 break;
             case nameof(PleasantSettings.Current.NumericalAccentColor):
                 UpdateAccentColors(Color.FromUInt32(PleasantSettings.Current.NumericalAccentColor));
@@ -330,12 +342,16 @@ public class PleasantTheme : Styles
         if (PleasantSettings.Current is null)
             throw new NullReferenceException("PleasantSettings.Current is null.");
 
+        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] ResolveTheme - Current.Theme={PleasantSettings.Current.Theme}");
+
         ThemeVariant? themeVariant = PleasantSettings.Current.Theme switch
         {
             "Custom" => SelectedCustomTheme?.ThemeVariant,
             "System" => GetThemeFromIPlatformSettings(platformSettings),
             _ => Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme)?.ThemeVariant
         };
+
+        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] ResolveTheme - resolved to {themeVariant}");
 
         if (Application.Current is not null)
             Application.Current.RequestedThemeVariant = themeVariant;
@@ -394,13 +410,11 @@ public class PleasantTheme : Styles
             { "AccentColor", accentColor }
         };
 
-        foreach (Color lightAccentColor in lightAccentColors)
-            _accentColorsDictionary.Add($"AccentLightColor{lightAccentColors.IndexOf(lightAccentColor) + 1}",
-                lightAccentColor);
+        for (int i = 0; i < lightAccentColors.Count; i++)
+            _accentColorsDictionary.Add($"AccentLightColor{i + 1}", lightAccentColors[i]);
 
-        foreach (Color darkAccentColor in darkAccentColors)
-            _accentColorsDictionary.Add($"AccentDarkColor{darkAccentColors.IndexOf(darkAccentColor) + 1}",
-                darkAccentColor);
+        for (int i = 0; i < darkAccentColors.Count; i++)
+            _accentColorsDictionary.Add($"AccentDarkColor{i + 1}", darkAccentColors[i]);
 
         HsvColor hsvAccentColor = lightAccentColors[1].ToHsv();
 

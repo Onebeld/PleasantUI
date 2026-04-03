@@ -1,4 +1,4 @@
-﻿<root>
+<root>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -15,7 +15,7 @@
         <value>Настройки</value>
     </data>
     <data name="WelcomeToPleasantUI" xml:space="preserve">
-        <value>Добро пожаловать</value>
+        <value>Добро пожаловать в</value>
     </data>
     <data name="Theme" xml:space="preserve">
         <value>Тема</value>
@@ -59,4 +59,465 @@
     <data name="Language" xml:space="preserve">
         <value>Язык</value>
     </data>
+    <!-- Navigation -->
+    <data name="Home" xml:space="preserve"><value>Главная</value></data>
+    <data name="About" xml:space="preserve"><value>О программе</value></data>
+    <!-- Home page sections -->
+    <data name="BasicControls" xml:space="preserve"><value>Базовые элементы</value></data>
+    <data name="PleasantControls" xml:space="preserve"><value>Pleasant элементы</value></data>
+    <data name="ToolKit" xml:space="preserve"><value>Инструменты</value></data>
+    <!-- About page -->
+    <data name="AboutTitle" xml:space="preserve"><value>О программе</value></data>
+    <data name="Links" xml:space="preserve"><value>Ссылки</value></data>
+    <data name="Description" xml:space="preserve"><value>Описание</value></data>
+    <data name="LibraryDescription" xml:space="preserve"><value>Библиотека графического интерфейса для Avalonia с собственными элементами управления</value></data>
+    <!-- Settings page -->
+    <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
+    <!-- Calendar page -->
+    <data name="InlineCalendar" xml:space="preserve"><value>Встроенный календарь</value></data>
+    <data name="DatePicker" xml:space="preserve"><value>Выбор даты</value></data>
+    <data name="PickADate" xml:space="preserve"><value>Выберите дату...</value></data>
+    <!-- Carousel page -->
+    <data name="Carousel" xml:space="preserve"><value>Карусель</value></data>
+    <data name="Previous" xml:space="preserve"><value>← Назад</value></data>
+    <data name="Next" xml:space="preserve"><value>Вперёд →</value></data>
+    <!-- ComboBox page -->
+    <data name="ComboBox" xml:space="preserve"><value>Выпадающий список</value></data>
+    <data name="SelectAnOption" xml:space="preserve"><value>Выберите вариант...</value></data>
+    <data name="DisabledComboBox" xml:space="preserve"><value>Отключённый список</value></data>
+    <data name="AutoCompleteBox" xml:space="preserve"><value>Автодополнение</value></data>
+    <data name="StartTyping" xml:space="preserve"><value>Начните вводить...</value></data>
+    <data name="ComboBoxPage/Option1" xml:space="preserve"><value>Вариант 1</value></data>
+    <data name="ComboBoxPage/Option2" xml:space="preserve"><value>Вариант 2</value></data>
+    <data name="ComboBoxPage/Option3" xml:space="preserve"><value>Вариант 3</value></data>
+    <data name="ComboBoxPage/Option4" xml:space="preserve"><value>Вариант 4</value></data>
+    <!-- Slider page -->
+    <data name="HorizontalSlider" xml:space="preserve"><value>Горизонтальный слайдер</value></data>
+    <data name="WithTickMarks" xml:space="preserve"><value>С делениями</value></data>
+    <data name="Disabled" xml:space="preserve"><value>Отключён</value></data>
+    <data name="VerticalSlider" xml:space="preserve"><value>Вертикальный слайдер</value></data>
+    <!-- TextBox page -->
+    <data name="TextBox" xml:space="preserve"><value>Текстовое поле</value></data>
+    <data name="EnterText" xml:space="preserve"><value>Введите текст...</value></data>
+    <data name="Password" xml:space="preserve"><value>Пароль</value></data>
+    <data name="EnterPassword" xml:space="preserve"><value>Введите пароль...</value></data>
+    <data name="Multiline" xml:space="preserve"><value>Многострочное</value></data>
+    <data name="MultilineFlat" xml:space="preserve"><value>Многострочное (плоские углы)</value></data>
+    <data name="EnterMultipleLines" xml:space="preserve"><value>Введите несколько строк...</value></data>
+    <data name="ReadOnly" xml:space="preserve"><value>Только чтение</value></data>
+    <data name="ReadOnlyText" xml:space="preserve"><value>Это текст только для чтения</value></data>
+    <data name="DisabledInput" xml:space="preserve"><value>Отключённый ввод</value></data>
+    <data name="NumericUpDown" xml:space="preserve"><value>Числовое поле</value></data>
+    <!-- Progress page -->
+    <data name="LiveDemo" xml:space="preserve"><value>Живая демонстрация</value></data>
+    <data name="Start" xml:space="preserve"><value>Старт</value></data>
+    <data name="Reset" xml:space="preserve"><value>Сброс</value></data>
+    <data name="Running" xml:space="preserve"><value>Выполняется…</value></data>
+    <data name="Done" xml:space="preserve"><value>Готово</value></data>
+    <data name="Indeterminate" xml:space="preserve"><value>Неопределённый</value></data>
+    <data name="IndeterminateDescription" xml:space="preserve"><value>Используется, когда продолжительность неизвестна — варианты с полосой и кольцом.</value></data>
+    <data name="DeterminateStates" xml:space="preserve"><value>Определённые состояния</value></data>
+    <data name="ProgressRingSizes" xml:space="preserve"><value>Размеры ProgressRing</value></data>
+    <data name="ProgressRing/Value" xml:space="preserve"><value>Значение</value></data>
+    <data name="ProgressRing/IsIndeterminate" xml:space="preserve"><value>Неопределённый</value></data>
+    <!-- OptionsDisplayItem page -->
+    <data name="Basic" xml:space="preserve"><value>Базовые</value></data>
+    <data name="SimpleItem" xml:space="preserve"><value>Простой элемент</value></data>
+    <data name="NoIconNoAction" xml:space="preserve"><value>Без иконки и действия</value></data>
+    <data name="WithIcon" xml:space="preserve"><value>С иконкой</value></data>
+    <data name="ShowsIconOnLeft" xml:space="preserve"><value>Показывает иконку слева</value></data>
+    <data name="Navigates" xml:space="preserve"><value>Навигация</value></data>
+    <data name="TapToNavigate" xml:space="preserve"><value>Нажмите для перехода</value></data>
+    <data name="WithActionControls" xml:space="preserve"><value>С элементами действий</value></data>
+    <data name="ToggleSetting" xml:space="preserve"><value>Переключатель</value></data>
+    <data name="EnableOrDisableFeature" xml:space="preserve"><value>Включить или отключить функцию</value></data>
+    <data name="ChooseTheme" xml:space="preserve"><value>Выбор темы</value></data>
+    <data name="Expandable" xml:space="preserve"><value>Раскрываемый</value></data>
+    <data name="AdvancedOptions" xml:space="preserve"><value>Расширенные настройки</value></data>
+    <data name="ClickToExpand" xml:space="preserve"><value>Нажмите для раскрытия</value></data>
+    <data name="HiddenContentOnExpand" xml:space="preserve"><value>Скрытое содержимое отображается при раскрытии.</value></data>
+    <data name="EnableFeatureA" xml:space="preserve"><value>Включить функцию A</value></data>
+    <data name="EnableFeatureB" xml:space="preserve"><value>Включить функцию B</value></data>
+    <!-- PleasantTabView page -->
+    <data name="Overview" xml:space="preserve"><value>Обзор</value></data>
+    <data name="OverviewTabTitle" xml:space="preserve"><value>Вкладка обзора</value></data>
+    <data name="OverviewTabDescription" xml:space="preserve"><value>PleasantTabView поддерживает добавление и закрытие вкладок, а также прокрутку панели вкладок.</value></data>
+    <data name="Details" xml:space="preserve"><value>Детали</value></data>
+    <data name="DetailsTabTitle" xml:space="preserve"><value>Вкладка деталей</value></data>
+    <data name="DetailsTabContent" xml:space="preserve"><value>Здесь находится подробное содержимое.</value></data>
+    <data name="DoSomething" xml:space="preserve"><value>Выполнить</value></data>
+    <data name="SettingsTab" xml:space="preserve"><value>Вкладка настроек</value></data>
+    <data name="EnableNotifications" xml:space="preserve"><value>Включить уведомления</value></data>
+    <data name="DarkMode" xml:space="preserve"><value>Тёмный режим</value></data>
+    <data name="TabDisabled" xml:space="preserve"><value>Отключена</value></data>
+    <!-- Snackbar page -->
+    <data name="ShowSnackbar" xml:space="preserve"><value>Показать Snackbar</value></data>
+    <data name="Snackbar/SeveritySection" xml:space="preserve"><value>Варианты серьёзности</value></data>
+    <data name="Snackbar/Information" xml:space="preserve"><value>Информация</value></data>
+    <data name="Snackbar/InformationDesc" xml:space="preserve"><value>Нейтральное информационное сообщение.</value></data>
+    <data name="Snackbar/Success" xml:space="preserve"><value>Успех</value></data>
+    <data name="Snackbar/SuccessDesc" xml:space="preserve"><value>Подтверждает завершённую операцию.</value></data>
+    <data name="Snackbar/Warning" xml:space="preserve"><value>Предупреждение</value></data>
+    <data name="Snackbar/WarningDesc" xml:space="preserve"><value>Предупреждает пользователя о возможной проблеме.</value></data>
+    <data name="Snackbar/Error" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="Snackbar/ErrorDesc" xml:space="preserve"><value>Уведомляет пользователя об ошибке.</value></data>
+    <data name="Snackbar/ContentSection" xml:space="preserve"><value>Варианты содержимого</value></data>
+    <data name="Snackbar/LongMessage" xml:space="preserve"><value>Длинное сообщение (многострочное)</value></data>
+    <data name="Snackbar/LongMessageDesc" xml:space="preserve"><value>Сообщение переносится на несколько строк при превышении максимальной ширины таблетки.</value></data>
+    <data name="Snackbar/LongMsg" xml:space="preserve"><value>Экспорт завершён. Файл сохранён в папку Загрузки и готов к открытию. Вы также можете поделиться им прямо оттуда.</value></data>
+    <data name="Snackbar/WithTitle" xml:space="preserve"><value>С заголовком</value></data>
+    <data name="Snackbar/WithTitleDesc" xml:space="preserve"><value>Жирный заголовок над сообщением — таблетка расширяется вертикально.</value></data>
+    <data name="Snackbar/WithAction" xml:space="preserve"><value>С кнопкой действия</value></data>
+    <data name="Snackbar/WithActionDesc" xml:space="preserve"><value>Текстовая кнопка, выполняющая действие и закрывающая уведомление.</value></data>
+    <data name="Snackbar/WithCustomAction" xml:space="preserve"><value>С произвольным элементом действия</value></data>
+    <data name="Snackbar/WithCustomActionDesc" xml:space="preserve"><value>Любой элемент Avalonia в слоте действия.</value></data>
+    <data name="Snackbar/Closable" xml:space="preserve"><value>Закрываемый</value></data>
+    <data name="Snackbar/ClosableDesc" xml:space="preserve"><value>Показывает кнопку × для ручного закрытия. Длительность — 10 с.</value></data>
+    <data name="Snackbar/EventsSection" xml:space="preserve"><value>События</value></data>
+    <data name="Snackbar/WithEvents" xml:space="preserve"><value>События Closing / Closed</value></data>
+    <data name="Snackbar/WithEventsDesc" xml:space="preserve"><value>Вызывает Closing (с возможностью отмены) и Closed с причиной закрытия.</value></data>
+    <data name="Snackbar/LastEvent" xml:space="preserve"><value>Последнее событие:</value></data>
+    <data name="Snackbar/InformationMsg" xml:space="preserve"><value>Это информационное сообщение.</value></data>
+    <data name="Snackbar/SuccessMsg" xml:space="preserve"><value>Операция выполнена успешно.</value></data>
+    <data name="Snackbar/WarningMsg" xml:space="preserve"><value>Заканчивается место на диске.</value></data>
+    <data name="Snackbar/ErrorMsg" xml:space="preserve"><value>Не удалось сохранить файл.</value></data>
+    <data name="Snackbar/WithTitleTitle" xml:space="preserve"><value>Сохранено</value></data>
+    <data name="Snackbar/WithTitleMsg" xml:space="preserve"><value>Ваши изменения сохранены в облаке.</value></data>
+    <data name="Snackbar/WithActionMsg" xml:space="preserve"><value>Элемент перемещён в корзину.</value></data>
+    <data name="Snackbar/Undo" xml:space="preserve"><value>Отменить</value></data>
+    <data name="Snackbar/UndoneMsg" xml:space="preserve"><value>Действие отменено.</value></data>
+    <data name="Snackbar/WithCustomActionMsg" xml:space="preserve"><value>Доступно новое обновление.</value></data>
+    <data name="Snackbar/ViewDetails" xml:space="preserve"><value>Открыть</value></data>
+    <data name="Snackbar/ViewedMsg" xml:space="preserve"><value>Открываем подробности…</value></data>
+    <data name="Snackbar/ClosableTitle" xml:space="preserve"><value>Закрываемый</value></data>
+    <data name="Snackbar/ClosableMsg" xml:space="preserve"><value>У этого уведомления есть кнопка закрытия.</value></data>
+    <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Нажмите или подождите — события отслеживаются.</value></data>
+    <!-- MessageBox page -->
+    <data name="ShowMessageBox" xml:space="preserve"><value>Показать MessageBox</value></data>
+    <data name="MessageBoxTitle" xml:space="preserve"><value>Сообщение</value></data>
+    <data name="MessageBoxText" xml:space="preserve"><value>Это пример диалогового окна с сообщением.</value></data>
+    <data name="MessageBox/Show" xml:space="preserve"><value>Показать</value></data>
+    <data name="MessageBox/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+    <data name="MessageBox/DefaultVariant" xml:space="preserve"><value>По умолчанию (OK)</value></data>
+    <data name="MessageBox/DefaultVariantDesc" xml:space="preserve"><value>Одна кнопка OK — самый распространённый вариант.</value></data>
+    <data name="MessageBox/OkCancelVariant" xml:space="preserve"><value>OK / Отмена</value></data>
+    <data name="MessageBox/OkCancelVariantDesc" xml:space="preserve"><value>Запрашивает подтверждение или отмену действия.</value></data>
+    <data name="MessageBox/YesNoVariant" xml:space="preserve"><value>Да / Нет</value></data>
+    <data name="MessageBox/YesNoVariantDesc" xml:space="preserve"><value>Задаёт вопрос с ответом да или нет.</value></data>
+    <data name="MessageBox/YesNoCancelVariant" xml:space="preserve"><value>Да / Нет / Отмена</value></data>
+    <data name="MessageBox/YesNoCancelVariantDesc" xml:space="preserve"><value>Тройной выбор — сохранить, не сохранять или отменить.</value></data>
+    <data name="MessageBox/AdditionalTextVariant" xml:space="preserve"><value>С дополнительным текстом</value></data>
+    <data name="MessageBox/AdditionalTextVariantDesc" xml:space="preserve"><value>Показывает ошибку с подробным стек-трейсом в дополнительной области.</value></data>
+    <data name="MessageBox/DangerVariant" xml:space="preserve"><value>Деструктивное действие</value></data>
+    <data name="MessageBox/DangerVariantDesc" xml:space="preserve"><value>Подтверждение удаления с кнопкой в стиле опасности и Отменой как безопасным вариантом.</value></data>
+    <data name="MessageBox/Title" xml:space="preserve"><value>Информация</value></data>
+    <data name="MessageBox/DefaultText" xml:space="preserve"><value>Это диалог по умолчанию с одной кнопкой OK.</value></data>
+    <data name="MessageBox/ConfirmTitle" xml:space="preserve"><value>Подтверждение</value></data>
+    <data name="MessageBox/OkCancelText" xml:space="preserve"><value>Вы хотите продолжить это действие?</value></data>
+    <data name="MessageBox/QuestionTitle" xml:space="preserve"><value>Вопрос</value></data>
+    <data name="MessageBox/YesNoText" xml:space="preserve"><value>Сохранить изменения перед закрытием?</value></data>
+    <data name="MessageBox/YesNoCancelText" xml:space="preserve"><value>Сохранить изменения в документе перед закрытием?</value></data>
+    <data name="MessageBox/ErrorTitle" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="MessageBox/ErrorText" xml:space="preserve"><value>При обработке запроса произошла непредвиденная ошибка.</value></data>
+    <data name="MessageBox/ErrorDetail" xml:space="preserve"><value>System.InvalidOperationException: Ссылка на объект не указывает на экземпляр объекта.\n   at SomeMethod() in File.cs:line 42</value></data>
+    <data name="MessageBox/DangerTitle" xml:space="preserve"><value>Удаление</value></data>
+    <data name="MessageBox/DangerText" xml:space="preserve"><value>Это действие необратимо. Все выбранные элементы будут удалены навсегда.</value></data>
+    <data name="MessageBox/Ok" xml:space="preserve"><value>OK</value></data>
+    <data name="MessageBox/Cancel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="MessageBox/Yes" xml:space="preserve"><value>Да</value></data>
+    <data name="MessageBox/No" xml:space="preserve"><value>Нет</value></data>
+    <data name="MessageBox/Delete" xml:space="preserve"><value>Удалить</value></data>
+    <data name="MessageBox/CustomVariant" xml:space="preserve"><value>Пользовательский контент</value></data>
+    <data name="MessageBox/CustomVariantDesc" xml:space="preserve"><value>Встраивает группу переключателей в диалог для захвата выбора пользователя вместе с результатом кнопки.</value></data>
+    <data name="MessageBox/CustomTitle" xml:space="preserve"><value>Конфликт данных</value></data>
+    <data name="MessageBox/CustomText" xml:space="preserve"><value>Файл с таким именем уже существует. Как вы хотите продолжить?</value></data>
+    <data name="MessageBox/CustomHint" xml:space="preserve"><value>Выберите способ разрешения конфликта:</value></data>
+    <data name="MessageBox/CustomOption1" xml:space="preserve"><value>Сохранить существующие данные</value></data>
+    <data name="MessageBox/CustomOption2" xml:space="preserve"><value>Заменить новыми данными</value></data>
+    <data name="MessageBox/CustomOption3" xml:space="preserve"><value>Объединить оба</value></data>
+    <!-- PleasantDialog samples -->
+    <data name="MessageBox/PleasantDialogSection" xml:space="preserve"><value>PleasantDialog</value></data>
+    <data name="MessageBox/PleasantDialogRichVariant" xml:space="preserve"><value>Расширенный диалог</value></data>
+    <data name="MessageBox/PleasantDialogRichVariantDesc" xml:space="preserve"><value>Иконка, подзаголовок, переключатели, флажок и раскрываемый нижний блок.</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariant" xml:space="preserve"><value>С прогресс-баром</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariantDesc" xml:space="preserve"><value>Анимированный прогресс-бар, обновляемый из кода пока диалог открыт.</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariant" xml:space="preserve"><value>Опасный с командными кнопками</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariantDesc" xml:space="preserve"><value>Красный заголовок с крупными командными кнопками, каждая с описанием.</value></data>
+    <!-- PleasantDialog strings -->
+    <data name="PleasantDialog/Save" xml:space="preserve"><value>Сохранить</value></data>
+    <data name="PleasantDialog/Cancel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="PleasantDialog/MoreDetails" xml:space="preserve"><value>Подробнее</value></data>
+    <data name="PleasantDialog/RememberChoice" xml:space="preserve"><value>Запомнить выбор</value></data>
+    <data name="PleasantDialog/RichTitle" xml:space="preserve"><value>Синхронизация настроек</value></data>
+    <data name="PleasantDialog/RichSubHeader" xml:space="preserve"><value>Это затронет все подключённые аккаунты.</value></data>
+    <data name="PleasantDialog/RichBody" xml:space="preserve"><value>Выберите способ синхронизации настроек между устройствами.</value></data>
+    <data name="PleasantDialog/RichOpt1" xml:space="preserve"><value>Синхронизировать автоматически</value></data>
+    <data name="PleasantDialog/RichOpt2" xml:space="preserve"><value>Спрашивать перед синхронизацией</value></data>
+    <data name="PleasantDialog/RichOpt3" xml:space="preserve"><value>Никогда не синхронизировать</value></data>
+    <data name="PleasantDialog/RichFooter" xml:space="preserve"><value>Изменения вступят в силу после перезапуска приложения.</value></data>
+    <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Обработка</value></data>
+    <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
+    <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Пожалуйста, подождите завершения операции…</value></data>
+    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Удалить аккаунт навсегда</value></data>
+    <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>Это удалит все ваши данные, настройки и историю. Действие необратимо.</value></data>
+    <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Удалить всё</value></data>
+    <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Удаляет все файлы, настройки и данные аккаунта навсегда.</value></data>
+    <data name="PleasantDialog/DangerCmd2" xml:space="preserve"><value>Сначала экспортировать данные</value></data>
+    <data name="PleasantDialog/DangerCmd2Desc" xml:space="preserve"><value>Скачать копию данных перед удалением.</value></data>
+    <!-- Card descriptions -->
+    <data name="Card/Button" xml:space="preserve"><value>Кликабельный элемент, который выполняет действие при нажатии.</value></data>
+    <data name="Card/Checkbox" xml:space="preserve"><value>Небольшой интерактивный флажок для выбора одного или нескольких вариантов.</value></data>
+    <data name="Card/Progress" xml:space="preserve"><value>Круговая анимация, указывающая на выполнение операции или загрузку.</value></data>
+    <data name="Card/Calendar" xml:space="preserve"><value>Элемент для отображения дат и выбора конкретной даты или диапазона дат.</value></data>
+    <data name="Card/Carousel" xml:space="preserve"><value>Контейнер, отображающий элементы по одному с возможностью навигации.</value></data>
+    <data name="Card/ComboBox" xml:space="preserve"><value>Выпадающий список для выбора одного варианта из предопределённого набора.</value></data>
+    <data name="Card/TextBox" xml:space="preserve"><value>Прямоугольная область для ввода и редактирования текста.</value></data>
+    <data name="Card/DataGrid" xml:space="preserve"><value>Сетка для отображения данных в табличном формате.</value></data>
+    <data name="Card/PinCode" xml:space="preserve"><value>Элемент ввода PIN / OTP с отдельными ячейками для каждого символа.</value></data>
+    <!-- PinCode page -->
+    <data name="PinCode/LastValue" xml:space="preserve"><value>Последнее значение:</value></data>
+    <data name="PinCode/Default" xml:space="preserve"><value>По умолчанию (буквы + цифры)</value></data>
+    <data name="PinCode/DefaultDesc" xml:space="preserve"><value>Принимает любую букву или цифру. Заполните все 4 ячейки для срабатывания события Complete.</value></data>
+    <data name="PinCode/DigitOnly" xml:space="preserve"><value>Только цифры</value></data>
+    <data name="PinCode/DigitOnlyDesc" xml:space="preserve"><value>Принимаются только 0–9. Буквы игнорируются.</value></data>
+    <data name="PinCode/LetterOnly" xml:space="preserve"><value>Только буквы</value></data>
+    <data name="PinCode/LetterOnlyDesc" xml:space="preserve"><value>Принимаются только A–Z / a–z.</value></data>
+    <data name="PinCode/PasswordMask" xml:space="preserve"><value>Маска пароля</value></data>
+    <data name="PinCode/PasswordMaskDesc" xml:space="preserve"><value>Каждая заполненная ячейка показывает ● вместо реального символа.</value></data>
+    <data name="PinCode/SixCells" xml:space="preserve"><value>6 ячеек (OTP)</value></data>
+    <data name="PinCode/SixCellsDesc" xml:space="preserve"><value>Стандартная длина одноразового пароля. Поддержка вставки — попробуйте Ctrl+V с 6-значной строкой.</value></data>
+    <data name="PinCode/Clear" xml:space="preserve"><value>Очистить всё</value></data>
+    <!-- DataGrid page -->
+    <data name="DataGrid/GridLines" xml:space="preserve"><value>Линии сетки</value></data>
+    <data name="DataGrid/ReorderColumns" xml:space="preserve"><value>Перестановка столбцов</value></data>
+    <data name="DataGrid/ResizeColumns" xml:space="preserve"><value>Изменение ширины</value></data>
+    <data name="DataGrid/SortColumns" xml:space="preserve"><value>Сортировка</value></data>
+    <data name="DataGrid/RowDetails" xml:space="preserve"><value>Детали строки</value></data>
+    <data name="DataGrid/ColName" xml:space="preserve"><value>Имя</value></data>
+    <data name="DataGrid/ColDepartment" xml:space="preserve"><value>Отдел</value></data>
+    <data name="DataGrid/ColAge" xml:space="preserve"><value>Возраст</value></data>
+    <data name="DataGrid/ColSalary" xml:space="preserve"><value>Зарплата</value></data>
+    <data name="DataGrid/ColNew" xml:space="preserve"><value>Новый</value></data>
+    <data name="DataGrid/ColStatus" xml:space="preserve"><value>Статус</value></data>
+    <data name="DataGrid/DetailDepartment" xml:space="preserve"><value>Отдел</value></data>
+    <data name="DataGrid/DetailSalary" xml:space="preserve"><value>Зарплата</value></data>
+    <data name="DataGrid/DetailStatus" xml:space="preserve"><value>Статус</value></data>
+    <data name="Card/PleasantSnackbar" xml:space="preserve"><value>Пользовательский элемент для отображения временных ненавязчивых сообщений.</value></data>
+    <data name="Card/InformationBlock" xml:space="preserve"><value>Пользовательский элемент для отображения структурированного блока информации с заголовком, иконкой и текстом.</value></data>
+    <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Пользовательский элемент, представляющий один пункт в списке параметров.</value></data>
+    <data name="Card/PleasantTabView" xml:space="preserve"><value>Пользовательский элемент управления с вкладками.</value></data>
+    <data name="Card/PleasantMenu" xml:space="preserve"><value>Всплывающее меню приложения с заголовком, сеткой иконок, значками и нижней панелью.</value></data>
+    <!-- PleasantMenu page -->
+    <data name="PleasantMenu/Description" xml:space="preserve"><value>Настраиваемое всплывающее меню с заголовком, опциональными значками, сеткой крупных кнопок с иконками и нижней панелью утилит.</value></data>
+    <data name="PleasantMenu/BasicDemo" xml:space="preserve"><value>Полное меню (3 колонки, значки, нижняя панель)</value></data>
+    <data name="PleasantMenu/NoFooterDemo" xml:space="preserve"><value>Без нижней панели</value></data>
+    <data name="PleasantMenu/TwoColumnDemo" xml:space="preserve"><value>Макет в 2 колонки</value></data>
+    <data name="PleasantMenu/OpenMenu" xml:space="preserve"><value>Открыть меню</value></data>
+    <data name="PleasantMenu/MenuTitle" xml:space="preserve"><value>Меню</value></data>
+    <data name="PleasantMenu/Open" xml:space="preserve"><value>Открыть</value></data>
+    <data name="PleasantMenu/OpenTip" xml:space="preserve"><value>Открыть файл</value></data>
+    <data name="PleasantMenu/Save" xml:space="preserve"><value>Сохранить</value></data>
+    <data name="PleasantMenu/SaveTip" xml:space="preserve"><value>Сохранить текущий файл</value></data>
+    <data name="PleasantMenu/New" xml:space="preserve"><value>Создать</value></data>
+    <data name="PleasantMenu/NewTip" xml:space="preserve"><value>Создать новый файл</value></data>
+    <data name="PleasantMenu/Tools" xml:space="preserve"><value>Инструменты</value></data>
+    <data name="PleasantMenu/ToolsTip" xml:space="preserve"><value>Открыть инструменты</value></data>
+    <data name="PleasantMenu/Home" xml:space="preserve"><value>Главная</value></data>
+    <data name="PleasantMenu/HomeTip" xml:space="preserve"><value>Перейти на главный экран</value></data>
+    <data name="PleasantMenu/Delete" xml:space="preserve"><value>Удалить</value></data>
+    <data name="PleasantMenu/DeleteTip" xml:space="preserve"><value>Удалить выбранное</value></data>
+    <data name="PleasantMenu/Settings" xml:space="preserve"><value>Настройки</value></data>
+    <data name="PleasantMenu/About" xml:space="preserve"><value>О программе</value></data>
+    <data name="PleasantMenu/Exit" xml:space="preserve"><value>Выход</value></data>
+    <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Открытые файлы</value></data>
+    <data name="PleasantMenu/Modules" xml:space="preserve"><value>Загруженные модули</value></data>
+    <data name="Card/MessageBox" xml:space="preserve"><value>Диалог, отображающий сообщение и ожидающий подтверждения пользователя.</value></data>
+    <!-- InformationBlock page -->
+    <data name="InformationBlock/Account" xml:space="preserve"><value>Аккаунт</value></data>
+    <!-- Button page -->
+    <data name="ButtonPage/Button" xml:space="preserve"><value>Кнопка</value></data>
+    <data name="ButtonPage/AppBarButton" xml:space="preserve"><value>Кнопка AppBar</value></data>
+    <data name="ButtonPage/AccentButton" xml:space="preserve"><value>Акцентная</value></data>
+    <data name="ButtonPage/DangerButton" xml:space="preserve"><value>Опасная</value></data>
+    <data name="ButtonPage/DisabledButton" xml:space="preserve"><value>Отключённая кнопка</value></data>
+    <data name="ButtonPage/ButtonSpinner" xml:space="preserve"><value>Кнопка-спиннер</value></data>
+    <data name="ButtonPage/ToggleButton" xml:space="preserve"><value>Переключатель</value></data>
+    <data name="ButtonPage/RepeatButton" xml:space="preserve"><value>Повтор</value></data>
+    <data name="ButtonPage/RadioButton1" xml:space="preserve"><value>Радио 1</value></data>
+    <data name="ButtonPage/RadioButton2" xml:space="preserve"><value>Радио 2</value></data>
+    <data name="ButtonPage/Content1" xml:space="preserve"><value>Содержимое 1</value></data>
+    <!-- Card titles -->
+    <data name="CardTitle/Button" xml:space="preserve"><value>Кнопка</value></data>
+    <data name="CardTitle/Checkbox" xml:space="preserve"><value>Флажок</value></data>
+    <data name="CardTitle/Progress" xml:space="preserve"><value>Прогресс</value></data>
+    <data name="CardTitle/Calendar" xml:space="preserve"><value>Календарь</value></data>
+    <data name="CardTitle/Carousel" xml:space="preserve"><value>Карусель</value></data>
+    <data name="CardTitle/ComboBox" xml:space="preserve"><value>Выпадающий список</value></data>
+    <data name="CardTitle/TextBox" xml:space="preserve"><value>Текстовое поле</value></data>
+    <data name="CardTitle/DataGrid" xml:space="preserve"><value>Таблица</value></data>
+    <data name="CardTitle/PinCode" xml:space="preserve"><value>Пин-код</value></data>
+    <data name="CardTitle/SelectionList" xml:space="preserve"><value>Список выбора</value></data>
+    <data name="SelectionList/VerticalWithImages" xml:space="preserve"><value>Вертикальный список с изображениями</value></data>
+    <data name="SelectionList/VerticalDescription" xml:space="preserve"><value>Список с множественным выбором: миниатюра, заголовок, подзаголовок и метка времени.</value></data>
+    <data name="SelectionList/HorizontalChips" xml:space="preserve"><value>Горизонтальный список тегов</value></data>
+    <data name="SelectionList/HorizontalDescription" xml:space="preserve"><value>Горизонтальная ориентация для выбора тегов или категорий.</value></data>
+    <data name="SelectionList/EmptyState" xml:space="preserve"><value>Пустое состояние</value></data>
+    <data name="SelectionList/EmptyMessage" xml:space="preserve"><value>Элементы не найдены</value></data>
+    <data name="CardTitle/PleasantSnackbar" xml:space="preserve"><value>Уведомление</value></data>
+    <data name="CardTitle/InformationBlock" xml:space="preserve"><value>Информационный блок</value></data>
+    <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>Элемент настроек</value></data>
+    <data name="CardTitle/PleasantTabView" xml:space="preserve"><value>Вкладки</value></data>
+    <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>Меню</value></data>
+    <data name="CardTitle/Slider" xml:space="preserve"><value>Слайдер</value></data>
+    <data name="CardTitle/MessageBox" xml:space="preserve"><value>Диалог</value></data>
+
+    <!-- Timeline page -->
+    <data name="CardTitle/Timeline" xml:space="preserve"><value>Временная шкала</value></data>
+    <data name="Card/Timeline" xml:space="preserve"><value>Вертикальная последовательность событий вдоль оси с поддержкой временных меток, иконок и нескольких режимов отображения.</value></data>
+    <data name="Timeline/Description" xml:space="preserve"><value>Отображает список событий в хронологическом порядке вдоль вертикальной оси. Поддерживает четыре режима расположения, пользовательские иконки и пять типов серьёзности.</value></data>
+    <data name="Timeline/DisplayMode" xml:space="preserve"><value>Режим отображения</value></data>
+    <data name="Timeline/ModeLeft" xml:space="preserve"><value>Слева</value></data>
+    <data name="Timeline/ModeRight" xml:space="preserve"><value>Справа</value></data>
+    <data name="Timeline/ModeCenter" xml:space="preserve"><value>По центру</value></data>
+    <data name="Timeline/ModeAlternate" xml:space="preserve"><value>Чередование</value></data>
+    <data name="Timeline/OrderTracking" xml:space="preserve"><value>Отслеживание заказа</value></data>
+    <data name="Timeline/Step1Header" xml:space="preserve"><value>Заказ оформлен</value></data>
+    <data name="Timeline/Step1Content" xml:space="preserve"><value>Ваш заказ получен и подтверждён.</value></data>
+    <data name="Timeline/Step2Header" xml:space="preserve"><value>Оплата подтверждена</value></data>
+    <data name="Timeline/Step2Content" xml:space="preserve"><value>Платёж успешно обработан.</value></data>
+    <data name="Timeline/Step3Header" xml:space="preserve"><value>Подготовка к отправке</value></data>
+    <data name="Timeline/Step3Content" xml:space="preserve"><value>Ваши товары упаковываются и готовятся к отправке.</value></data>
+    <data name="Timeline/Step4Header" xml:space="preserve"><value>В пути</value></data>
+    <data name="Timeline/Step4Content" xml:space="preserve"><value>Ожидаемая дата доставки.</value></data>
+    <data name="Timeline/Step5Header" xml:space="preserve"><value>Доставлено</value></data>
+    <data name="Timeline/Step5Content" xml:space="preserve"><value>Посылка доставлена по вашему адресу.</value></data>
+    <data name="Timeline/ItemTypes" xml:space="preserve"><value>Типы элементов</value></data>
+    <data name="Timeline/ItemTypesDesc" xml:space="preserve"><value>Каждый элемент может иметь тип, определяющий цвет точки по умолчанию при отсутствии пользовательской иконки.</value></data>
+    <data name="Timeline/TypeDefault" xml:space="preserve"><value>По умолчанию</value></data>
+    <data name="Timeline/TypeDefaultDesc" xml:space="preserve"><value>Нейтральная серая точка.</value></data>
+    <data name="Timeline/TypeOngoing" xml:space="preserve"><value>В процессе</value></data>
+    <data name="Timeline/TypeOngoingDesc" xml:space="preserve"><value>Синяя точка — операция выполняется.</value></data>
+    <data name="Timeline/TypeSuccess" xml:space="preserve"><value>Успех</value></data>
+    <data name="Timeline/TypeSuccessDesc" xml:space="preserve"><value>Зелёная точка — выполнено успешно.</value></data>
+    <data name="Timeline/TypeWarning" xml:space="preserve"><value>Предупреждение</value></data>
+    <data name="Timeline/TypeWarningDesc" xml:space="preserve"><value>Жёлтая точка — требует внимания.</value></data>
+    <data name="Timeline/TypeError" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="Timeline/TypeErrorDesc" xml:space="preserve"><value>Красная точка — что-то пошло не так.</value></data>
+    <data name="Timeline/CustomIcon" xml:space="preserve"><value>Пользовательские иконки</value></data>
+    <data name="Timeline/CustomIconDesc" xml:space="preserve"><value>Установите свойство Icon в любой элемент — PathIcon, Image или что-либо другое.</value></data>
+    <data name="Timeline/IconStep1" xml:space="preserve"><value>Одобрено</value></data>
+    <data name="Timeline/IconStep1Desc" xml:space="preserve"><value>Запрос одобрен рецензентом.</value></data>
+    <data name="Timeline/IconStep2" xml:space="preserve"><value>На проверке</value></data>
+    <data name="Timeline/IconStep2Desc" xml:space="preserve"><value>Ожидает проверки командой.</value></data>
+    <data name="Timeline/IconStep3" xml:space="preserve"><value>Отклонено</value></data>
+    <data name="Timeline/IconStep3Desc" xml:space="preserve"><value>Запрос отклонён. Исправьте и отправьте повторно.</value></data>
+
+    <!-- InstallWizard page -->
+    <data name="CardTitle/InstallWizard" xml:space="preserve"><value>Мастер установки</value></data>
+    <data name="Card/InstallWizard" xml:space="preserve"><value>Многошаговый мастер установки с боковой панелью шагов, прогресс-баром и навигацией Назад / Далее / Отмена.</value></data>
+    <data name="InstallWizard/Description" xml:space="preserve"><value>Шаблонный элемент управления, который проводит пользователя через многоэтапный процесс настройки. Включает боковую панель отслеживания шагов, область содержимого с плавными переходами и нижнюю панель навигации.</value></data>
+    <data name="InstallWizard/DemoTitle" xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="InstallWizard/DemoDesc" xml:space="preserve"><value>Используйте кнопки Назад и Далее для перемещения между шагами. Боковая панель отслеживает прогресс и отмечает завершённые шаги галочкой.</value></data>
+    <data name="InstallWizard/AppName" xml:space="preserve"><value>Установка PleasantUI</value></data>
+    <data name="InstallWizard/FooterText" xml:space="preserve"><value>© 2025 PleasantUI. Все права защищены.</value></data>
+    <data name="InstallWizard/Step1Header" xml:space="preserve"><value>Добро пожаловать</value></data>
+    <data name="InstallWizard/Step1Desc" xml:space="preserve"><value>Добро пожаловать в мастер установки PleasantUI.</value></data>
+    <data name="InstallWizard/Step1Body" xml:space="preserve"><value>Этот мастер проведёт вас через установку PleasantUI. Нажмите Далее для продолжения.</value></data>
+    <data name="InstallWizard/Step1Check" xml:space="preserve"><value>Создать ярлык на рабочем столе</value></data>
+    <data name="InstallWizard/Step2Header" xml:space="preserve"><value>Лицензионное соглашение</value></data>
+    <data name="InstallWizard/Step2Desc" xml:space="preserve"><value>Пожалуйста, прочитайте лицензионное соглашение перед продолжением.</value></data>
+    <data name="InstallWizard/LicenseText" xml:space="preserve"><value>Лицензия MIT
+
+Настоящим предоставляется бесплатное разрешение любому лицу, получившему копию данного программного обеспечения и сопутствующей документации, использовать программное обеспечение без ограничений, включая права на использование, копирование, изменение, слияние, публикацию, распространение, сублицензирование и продажу копий программного обеспечения.</value></data>
+    <data name="InstallWizard/Step2Check" xml:space="preserve"><value>Я принимаю условия лицензионного соглашения</value></data>
+    <data name="InstallWizard/Step3Header" xml:space="preserve"><value>Тип установки</value></data>
+    <data name="InstallWizard/Step3Desc" xml:space="preserve"><value>Выберите способ установки PleasantUI.</value></data>
+    <data name="InstallWizard/TypeStandard" xml:space="preserve"><value>Стандартная</value></data>
+    <data name="InstallWizard/TypeStandardDesc" xml:space="preserve"><value>Устанавливает наиболее распространённые компоненты. Рекомендуется для большинства пользователей.</value></data>
+    <data name="InstallWizard/TypeCustom" xml:space="preserve"><value>Выборочная</value></data>
+    <data name="InstallWizard/TypeCustomDesc" xml:space="preserve"><value>Выберите компоненты для установки. Для опытных пользователей.</value></data>
+    <data name="InstallWizard/Step4Header" xml:space="preserve"><value>Установка</value></data>
+    <data name="InstallWizard/Step4Desc" xml:space="preserve"><value>Пожалуйста, подождите, пока копируются файлы.</value></data>
+    <data name="InstallWizard/InstallingStatus" xml:space="preserve"><value>Копирование файлов...</value></data>
+    <data name="InstallWizard/InstallingFiles" xml:space="preserve"><value>Установка PleasantUI.dll</value></data>
+    <data name="InstallWizard/Step5Header" xml:space="preserve"><value>Итог</value></data>
+    <data name="InstallWizard/Step5Desc" xml:space="preserve"><value>Установка завершена.</value></data>
+    <data name="InstallWizard/SuccessMessage" xml:space="preserve"><value>Установка выполнена успешно.</value></data>
+    <data name="InstallWizard/SuccessDetail" xml:space="preserve"><value>PleasantUI успешно установлен. Нажмите Готово, чтобы закрыть мастер.</value></data>
+    <data name="InstallWizard/PropsTitle" xml:space="preserve"><value>Основные свойства</value></data>
+    <data name="InstallWizard/PropAppName" xml:space="preserve"><value>Название приложения в заголовке боковой панели.</value></data>
+    <data name="InstallWizard/PropAppIcon" xml:space="preserve"><value>Иконка, отображаемая над названием приложения в боковой панели.</value></data>
+    <data name="InstallWizard/PropFooterText" xml:space="preserve"><value>Текст авторских прав или информации в нижней части боковой панели.</value></data>
+    <data name="InstallWizard/PropSteps" xml:space="preserve"><value>Упорядоченный список элементов WizardStep. Каждый шаг имеет Header, Description и произвольное Content.</value></data>
+    <data name="InstallWizard/PropCancel" xml:space="preserve"><value>Управляет видимостью кнопки Отмена. По умолчанию true.</value></data>
+    <data name="InstallWizard/PropEvents" xml:space="preserve"><value>Маршрутизируемые события, вызываемые при завершении мастера (кнопка Далее на последнем шаге) или отмене.</value></data>
+    <data name="InstallWizard/ModesTitle" xml:space="preserve"><value>Режимы отображения</value></data>
+    <data name="InstallWizard/ModesDesc" xml:space="preserve"><value>Мастер можно встроить в страницу, показать как модальный ContentDialog или открыть в отдельном окне PleasantWindow.</value></data>
+    <data name="InstallWizard/ShowModal" xml:space="preserve"><value>Открыть как модальный</value></data>
+    <data name="InstallWizard/ShowWindow" xml:space="preserve"><value>Открыть в окне</value></data>
+    <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Назад</value></data>
+    <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Далее</value></data>
+    <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Готово</value></data>
+    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Отмена</value></data>
+
+    <!-- PopConfirm -->
+    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Подтвердить</value></data>
+    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Отмена</value></data>
+
+    <!-- Drawer page -->
+    <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Выдвижная панель</value></data>
+    <data name="Card/PleasantDrawer"            xml:space="preserve"><value>Панель, выезжающая с любого края экрана поверх основного содержимого с поддержкой заголовка, подвала и закрытия по клику.</value></data>
+    <data name="PleasantDrawer/Description"     xml:space="preserve"><value>Выдвижная панель-оверлей, появляющаяся с любого края. Поддерживает закрытие по клику вне панели, заголовок, подвал и все четыре позиции.</value></data>
+    <data name="PleasantDrawer/DemoTitle"       xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="PleasantDrawer/DemoDesc"        xml:space="preserve"><value>Нажмите кнопку, чтобы открыть панель с соответствующей стороны.</value></data>
+    <data name="PleasantDrawer/OpenRight"       xml:space="preserve"><value>Справа</value></data>
+    <data name="PleasantDrawer/OpenLeft"        xml:space="preserve"><value>Слева</value></data>
+    <data name="PleasantDrawer/OpenTop"         xml:space="preserve"><value>Сверху</value></data>
+    <data name="PleasantDrawer/OpenBottom"      xml:space="preserve"><value>Снизу</value></data>
+    <data name="PleasantDrawer/DrawerTitle"     xml:space="preserve"><value>Выдвижная панель</value></data>
+    <data name="PleasantDrawer/DrawerContent"   xml:space="preserve"><value>Это область содержимого панели. Поддерживает любые элементы управления Avalonia и автоматически прокручивается при переполнении.</value></data>
+    <data name="PleasantDrawer/FooterClose"     xml:space="preserve"><value>Закрыть</value></data>
+
+    <!-- PopConfirm page -->
+    <data name="CardTitle/PopConfirm"           xml:space="preserve"><value>Подтверждение</value></data>
+    <data name="Card/PopConfirm"                xml:space="preserve"><value>Лёгкий всплывающий запрос подтверждения, оборачивающий любой элемент управления.</value></data>
+    <data name="PopConfirm/Description"         xml:space="preserve"><value>Оборачивает любой триггерный элемент и показывает небольшой попап с заголовком, текстом и кнопками Подтвердить / Отмена перед выполнением команды.</value></data>
+    <data name="PopConfirm/DemoTitle"           xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="PopConfirm/DemoDesc"            xml:space="preserve"><value>Нажмите кнопки ниже, чтобы увидеть PopConfirm в разных конфигурациях.</value></data>
+    <data name="PopConfirm/DeleteHeader"        xml:space="preserve"><value>Удалить элемент?</value></data>
+    <data name="PopConfirm/DeleteBody"          xml:space="preserve"><value>Это действие нельзя отменить.</value></data>
+    <data name="PopConfirm/DeleteBtn"           xml:space="preserve"><value>Удалить</value></data>
+    <data name="PopConfirm/SubmitHeader"        xml:space="preserve"><value>Отправить форму?</value></data>
+    <data name="PopConfirm/SubmitBody"          xml:space="preserve"><value>Вы уверены, что хотите отправить эту форму?</value></data>
+    <data name="PopConfirm/SubmitBtn"           xml:space="preserve"><value>Отправить</value></data>
+    <data name="PopConfirm/LogoutHeader"        xml:space="preserve"><value>Выйти из аккаунта?</value></data>
+    <data name="PopConfirm/LogoutBody"          xml:space="preserve"><value>Вы будете выведены из своего аккаунта.</value></data>
+    <data name="PopConfirm/LogoutBtn"           xml:space="preserve"><value>Выйти</value></data>
+
+    <!-- PathPicker page -->
+    <data name="CardTitle/PathPicker"           xml:space="preserve"><value>Выбор пути</value></data>
+    <data name="Card/PathPicker"                xml:space="preserve"><value>Элемент управления, сочетающий текстовое поле и кнопку обзора для выбора файлов или папок через системный диалог.</value></data>
+    <data name="PathPicker/Description"         xml:space="preserve"><value>Сочетает поле только для чтения с кнопкой обзора. Поддерживает режимы OpenFile, SaveFile и OpenFolder, множественный выбор, фильтры типов файлов и двустороннее связывание текста выбранного пути.</value></data>
+    <data name="PathPicker/DemoTitle"           xml:space="preserve"><value>Интерактивная демонстрация</value></data>
+    <data name="PathPicker/OpenFile"            xml:space="preserve"><value>Открыть файл</value></data>
+    <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Открыть папку</value></data>
+    <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Сохранить файл</value></data>
+    <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Открыть несколько файлов</value></data>
+
+    <!-- Docking page -->
+    <data name="CardTitle/Docking"              xml:space="preserve"><value>Докинг</value></data>
+    <data name="Card/Docking"                   xml:space="preserve"><value>Полная система докинга с изменяемыми боковыми панелями, разделёнными видами и перетаскиваемыми инструментами.</value></data>
+    <data name="Docking/Description"            xml:space="preserve"><value>Перетаскивайте кнопки боковой панели между левой и правой панелями. Изменяйте размер панелей, перетаскивая разделители. Щёлкните правой кнопкой мыши по кнопке, чтобы переместить её через контекстное меню.</value></data>
+    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>ПРОВОДНИК</value></data>
+    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>СВОЙСТВА</value></data>
+    <data name="Docking/EditorArea"             xml:space="preserve"><value>Область редактора</value></data>
+    <data name="Docking/DragHint"               xml:space="preserve"><value>Перетащите кнопки боковой панели для перестановки панелей</value></data>
+    <data name="Docking/PropName"               xml:space="preserve"><value>Имя</value></data>
+    <data name="Docking/PropWidth"              xml:space="preserve"><value>Ширина</value></data>
+    <data name="Docking/PropHeight"             xml:space="preserve"><value>Высота</value></data>
+    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Лево — Верх</value></data>
+    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Лево — Низ</value></data>
+    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Право — Верх</value></data>
+    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Право — Низ</value></data>
+
 </root>

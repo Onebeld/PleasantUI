@@ -1,0 +1,132 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TimelinePageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+
+            <!-- Description -->
+            <TextBlock Text="{Localize Timeline/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- Mode selector -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{Localize Timeline/DisplayMode}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <RadioButton x:Name="ModeLeft"     Content="{Localize Timeline/ModeLeft}"     IsChecked="True" GroupName="TimelineMode" />
+                        <RadioButton x:Name="ModeRight"    Content="{Localize Timeline/ModeRight}"    GroupName="TimelineMode" />
+                        <RadioButton x:Name="ModeCenter"   Content="{Localize Timeline/ModeCenter}"   GroupName="TimelineMode" />
+                        <RadioButton x:Name="ModeAlternate" Content="{Localize Timeline/ModeAlternate}" GroupName="TimelineMode" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Live timeline demo -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize Timeline/OrderTracking}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+
+                    <Timeline x:Name="DemoTimeline">
+                        <TimelineItem Header="{Localize Timeline/Step1Header}"
+                                      Content="{Localize Timeline/Step1Content}"
+                                      Time="2024-03-01 09:00:00"
+                                      TimeFormat="yyyy-MM-dd HH:mm"
+                                      Type="Success" />
+                        <TimelineItem Header="{Localize Timeline/Step2Header}"
+                                      Content="{Localize Timeline/Step2Content}"
+                                      Time="2024-03-02 14:30:00"
+                                      TimeFormat="yyyy-MM-dd HH:mm"
+                                      Type="Success" />
+                        <TimelineItem Header="{Localize Timeline/Step3Header}"
+                                      Content="{Localize Timeline/Step3Content}"
+                                      Time="2024-03-03 11:15:00"
+                                      TimeFormat="yyyy-MM-dd HH:mm"
+                                      Type="Ongoing" />
+                        <TimelineItem Header="{Localize Timeline/Step4Header}"
+                                      Content="{Localize Timeline/Step4Content}"
+                                      Time="2024-03-05 00:00:00"
+                                      TimeFormat="yyyy-MM-dd"
+                                      Type="Default" />
+                        <TimelineItem Header="{Localize Timeline/Step5Header}"
+                                      Content="{Localize Timeline/Step5Content}"
+                                      Time="2024-03-07 00:00:00"
+                                      TimeFormat="yyyy-MM-dd"
+                                      Type="Default" />
+                    </Timeline>
+                </StackPanel>
+            </Border>
+
+            <!-- Item types -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize Timeline/ItemTypes}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize Timeline/ItemTypesDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <Timeline>
+                        <TimelineItem Header="{Localize Timeline/TypeDefault}"  Type="Default"  Content="{Localize Timeline/TypeDefaultDesc}" />
+                        <TimelineItem Header="{Localize Timeline/TypeOngoing}"  Type="Ongoing"  Content="{Localize Timeline/TypeOngoingDesc}" />
+                        <TimelineItem Header="{Localize Timeline/TypeSuccess}"  Type="Success"  Content="{Localize Timeline/TypeSuccessDesc}" />
+                        <TimelineItem Header="{Localize Timeline/TypeWarning}"  Type="Warning"  Content="{Localize Timeline/TypeWarningDesc}" />
+                        <TimelineItem Header="{Localize Timeline/TypeError}"    Type="Error"    Content="{Localize Timeline/TypeErrorDesc}" />
+                    </Timeline>
+                </StackPanel>
+            </Border>
+
+            <!-- Custom icon -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize Timeline/CustomIcon}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize Timeline/CustomIconDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <Timeline>
+                        <TimelineItem Header="{Localize Timeline/IconStep1}" Content="{Localize Timeline/IconStep1Desc}">
+                            <TimelineItem.Icon>
+                                <PathIcon Data="{StaticResource CheckmarkRegular}"
+                                          Width="12" Height="12"
+                                          Foreground="{DynamicResource SystemFillColorSuccess}" />
+                            </TimelineItem.Icon>
+                        </TimelineItem>
+                        <TimelineItem Header="{Localize Timeline/IconStep2}" Content="{Localize Timeline/IconStep2Desc}">
+                            <TimelineItem.Icon>
+                                <PathIcon Data="{StaticResource ArrowLeftRegular}"
+                                          Width="12" Height="12"
+                                          Foreground="{DynamicResource SystemFillColorNeutral}" />
+                            </TimelineItem.Icon>
+                        </TimelineItem>
+                        <TimelineItem Header="{Localize Timeline/IconStep3}" Content="{Localize Timeline/IconStep3Desc}">
+                            <TimelineItem.Icon>
+                                <PathIcon Data="{StaticResource DeleteRegular}"
+                                          Width="12" Height="12"
+                                          Foreground="{DynamicResource SystemFillColorCritical}" />
+                            </TimelineItem.Icon>
+                        </TimelineItem>
+                    </Timeline>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

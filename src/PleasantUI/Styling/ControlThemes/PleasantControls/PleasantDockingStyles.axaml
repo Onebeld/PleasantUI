@@ -1,0 +1,51 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="PleasantDockingDividerBrush">#0F000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarDividerBrush">#0F000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForeground">#E4000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundChecked">#18000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundChecked">#E4000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundPointerOver">#09000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundPointerOver">#E4000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundPressed">#06000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundPressed">#9E000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundDisabled">#00FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundDisabled">#5C000000</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingGhostBackground">#06000000</SolidColorBrush>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="PleasantDockingDividerBrush">#15FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarDividerBrush">#15FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForeground">#FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundChecked">#12FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundChecked">#FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundPointerOver">#0FFFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundPointerOver">#FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundPressed">#0AFFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundPressed">#C5FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonBackgroundDisabled">#00FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingSideBarButtonForegroundDisabled">#5DFFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="PleasantDockingGhostBackground">#0AFFFFFF</SolidColorBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <CornerRadius x:Key="PleasantDockingSideBarButtonCornerRadius">4</CornerRadius>
+
+    <ResourceDictionary.MergedDictionaries>
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantHorizontallySplittedView.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantVerticallySplittedView.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantReDock.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantReDockHost.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantSideBar.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantSideBarButton.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantControls/PleasantOverflowLayoutView.axaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

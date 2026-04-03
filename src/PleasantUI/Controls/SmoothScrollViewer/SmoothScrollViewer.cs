@@ -307,12 +307,12 @@ public class SmoothScrollViewer : ContentControl, IScrollable, IScrollAnchorProv
     /// <summary>
     /// Gets a value indicating whether the viewer can scroll horizontally.
     /// </summary>
-    private bool CanHorizontallyScroll => HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled;
+    public bool CanHorizontallyScroll => HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled;
 
     /// <summary>
     /// Gets a value indicating whether the viewer can scroll vertically.
     /// </summary>
-    private bool CanVerticallyScroll => VerticalScrollBarVisibility != ScrollBarVisibility.Disabled;
+    public bool CanVerticallyScroll => VerticalScrollBarVisibility != ScrollBarVisibility.Disabled;
 
     /// <summary>
     /// Gets the maximum horizontal scrollbar value.

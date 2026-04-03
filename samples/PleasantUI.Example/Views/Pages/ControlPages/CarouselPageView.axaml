@@ -4,5 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.CarouselPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Carousel}" HorizontalAlignment="Center" />
+        <Carousel x:Name="DemoCarousel" Width="400" Height="200">
+            <Border Background="{DynamicResource AccentColor}" CornerRadius="{StaticResource ControlCornerRadius}">
+                <TextBlock Text="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+            </Border>
+            <Border Background="{DynamicResource ControlFillColor2}" CornerRadius="{StaticResource ControlCornerRadius}">
+                <TextBlock Text="2" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border Background="{DynamicResource ControlFillColor3}" CornerRadius="{StaticResource ControlCornerRadius}">
+                <TextBlock Text="3" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+        </Carousel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+            <Button x:Name="PrevButton" Content="{Localize Previous}" />
+            <Button x:Name="NextButton" Content="{Localize Next}" />
+        </StackPanel>
+    </StackPanel>
 </UserControl>

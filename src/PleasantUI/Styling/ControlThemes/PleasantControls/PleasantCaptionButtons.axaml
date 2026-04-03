@@ -27,6 +27,10 @@
                         </Style>
                     </StackPanel.Styles>
 
+                    <Button Name="PART_FullScreenButton"
+                            IsVisible="False">
+                        <PathIcon Width="10" Height="10" />
+                    </Button>
                     <Button Name="PART_MinimizeButton"
                             ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
                         <PathIcon Data="{StaticResource SubtractRegular}" Width="10" Height="10" />
@@ -53,6 +57,19 @@
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
             <Setter Property="Opacity" Value="0.5" />
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
+        </Style>
+
+        <Style Selector="^ /template/ Button#PART_FullScreenButton">
+            <Setter Property="ToolTip.Tip" Value="{Localize FullScreen, Default='Full Screen'}" />
+            <Style Selector="^ PathIcon">
+                <Setter Property="Data" Value="{StaticResource FullScreenEnterRegular}" />
+            </Style>
+        </Style>
+        <Style Selector="^:fullscreen /template/ Button#PART_FullScreenButton">
+            <Setter Property="ToolTip.Tip" Value="{Localize ExitFullScreen, Default='Exit Full Screen'}" />
+            <Style Selector="^ PathIcon">
+                <Setter Property="Data" Value="{StaticResource FullScreenExitRegular}" />
+            </Style>
         </Style>
 
         <Style Selector="^ /template/ Button#PART_MaximizeButton">

@@ -2,9 +2,130 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PleasantUI.Example.Views.Pages.ToolkitPages.MessageBoxPageView">
-    <StackPanel Spacing="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
-        <Button x:Name="DefaultMBButton" Content="Show MessageBox" />
-    </StackPanel>
+             xmlns:vm="clr-namespace:PleasantUI.Example.ViewModels.Pages.ToolKitPages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+             x:Class="PleasantUI.Example.Views.Pages.ToolkitPages.MessageBoxPageView"
+             x:DataType="vm:MessageBoxViewModel">
+    <UserControl.DataContext>
+        <vm:MessageBoxViewModel />
+    </UserControl.DataContext>
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="12" MaxWidth="560">
+
+            <!-- Result indicator -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="12 8">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Localize LastResult, Context=MessageBox}"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{CompiledBinding LastResult}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+            <!-- Default / single OK -->
+            <OptionsDisplayItem Header="{Localize DefaultVariant, Context=MessageBox}"
+                                Description="{Localize DefaultVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowDefault}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- OK / Cancel -->
+            <OptionsDisplayItem Header="{Localize OkCancelVariant, Context=MessageBox}"
+                                Description="{Localize OkCancelVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowOkCancel}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Yes / No -->
+            <OptionsDisplayItem Header="{Localize YesNoVariant, Context=MessageBox}"
+                                Description="{Localize YesNoVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowYesNo}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Yes / No / Cancel -->
+            <OptionsDisplayItem Header="{Localize YesNoCancelVariant, Context=MessageBox}"
+                                Description="{Localize YesNoCancelVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowYesNoCancel}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- With additional text -->
+            <OptionsDisplayItem Header="{Localize AdditionalTextVariant, Context=MessageBox}"
+                                Description="{Localize AdditionalTextVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowWithAdditionalText}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Danger / destructive -->
+            <OptionsDisplayItem Header="{Localize DangerVariant, Context=MessageBox}"
+                                Description="{Localize DangerVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Theme="{StaticResource DangerButtonTheme}"
+                            Command="{CompiledBinding ShowDanger}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Custom content -->
+            <OptionsDisplayItem Header="{Localize CustomVariant, Context=MessageBox}"
+                                Description="{Localize CustomVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowCustomContent}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- ── PleasantDialog section ─────────────────────────────── -->
+            <Separator Margin="0 4" />
+
+            <TextBlock Text="{Localize PleasantDialogSection, Context=MessageBox}"
+                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Margin="0 4 0 0" />
+
+            <!-- Rich dialog with icon + subheader + commands + footer -->
+            <OptionsDisplayItem Header="{Localize PleasantDialogRichVariant, Context=MessageBox}"
+                                Description="{Localize PleasantDialogRichVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowPleasantDialogRich}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Dialog with progress bar -->
+            <OptionsDisplayItem Header="{Localize PleasantDialogProgressVariant, Context=MessageBox}"
+                                Description="{Localize PleasantDialogProgressVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Command="{CompiledBinding ShowPleasantDialogProgress}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Danger PleasantDialog with command links -->
+            <OptionsDisplayItem Header="{Localize PleasantDialogDangerVariant, Context=MessageBox}"
+                                Description="{Localize PleasantDialogDangerVariantDesc, Context=MessageBox}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=MessageBox}"
+                            Theme="{StaticResource DangerButtonTheme}"
+                            Command="{CompiledBinding ShowPleasantDialogDanger}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+        </StackPanel>
+    </SmoothScrollViewer>
 </UserControl>

@@ -14,30 +14,54 @@ public class BindingTranslateConverter : IMultiValueConverter
     /// <summary>
     /// Initializes a new instance of the <see cref="BindingTranslateConverter"/> class.
     /// </summary>
-    /// <param name="context">The context for the translation, which will be used to construct the localization key.</param>
     public BindingTranslateConverter(string? context)
     {
         _context = context;
     }
-    
-    /// <inheritdoc />
-    public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
-    {
-        List<object> list = new(values!);
 
-        string key = (list[0] as string)!;
-        
+    /// <inheritdoc />
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values is null || values.Count == 0)
+            return string.Empty;
+
+        // values[0] = key (from the bound property, e.g. TitleKey)
+        // values[1] = language trigger (ignored as value, forces re-evaluation on lang change)
+        // values[2..] = optional format args
+
+        // Skip if Avalonia hasn't provided a real value yet (UnsetValue sentinel)
+        object? raw = values[0];
+        if (raw is null || raw.GetType().Name == "UnsetValueType")
+            return string.Empty;
+
+        string key = (raw as string) ?? raw.ToString() ?? string.Empty;
+        if (string.IsNullOrEmpty(key))
+            return string.Empty;
+
         if (!string.IsNullOrWhiteSpace(_context))
             key = $"{_context}/{key}";
 
-        list.RemoveAt(0);
+        // Collect format args from values[2..], skipping nulls and UnsetValue
+        var args = new List<object>();
+        for (int i = 2; i < values.Count; i++)
+        {
+            object? arg = values[i];
+            if (arg is null || arg.GetType().Name == "UnsetValueType") continue;
+            args.Add(arg);
+        }
 
         try
         {
-            return Localizer.Tr(key, args: list.ToArray());
+            string result = args.Count > 0
+                ? Localizer.Tr(key, args: [.. args])
+                : Localizer.Tr(key);
+
+            System.Diagnostics.Debug.WriteLine($"[BindingTranslateConverter] key=\"{key}\" → \"{result}\" lang={Localizer.Instance.CurrentLanguage}");
+            return result;
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"[BindingTranslateConverter] ERROR key=\"{key}\": {ex.Message}");
             return Localizer.Tr(key);
         }
     }

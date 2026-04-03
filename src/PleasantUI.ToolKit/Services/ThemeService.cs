@@ -3,6 +3,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Logging;
 using Avalonia.Media;
 using PleasantUI.Core.Models;
@@ -73,12 +75,15 @@ internal class ThemeService : IThemeService
 
     public async Task CopyColorAsync(Color color)
     {
-        await _topLevel.Clipboard?.SetTextAsync(ConvertColorToHex(color));
+        if (_topLevel.Clipboard is { } clipboard)
+            await clipboard.SetTextAsync(ConvertColorToHex(color));
     }
 
     public async Task<Color?> PasteColorAsync()
     {
-        string? text = await _topLevel.Clipboard?.GetTextAsync();
+        string? text = _topLevel.Clipboard is { } clipboard
+            ? await clipboard.TryGetTextAsync()
+            : null;
 
         if (text is null)
             return null;
@@ -96,12 +101,15 @@ internal class ThemeService : IThemeService
 
     public async Task CopyThemeAsync()
     {
-        _topLevel.Clipboard?.SetTextAsync(JsonColors);
+        if (_topLevel.Clipboard is { } clipboard)
+            await clipboard.SetTextAsync(JsonColors);
     }
 
     public async Task<bool> PasteThemeAsync()
     {
-        string? data = await _topLevel.Clipboard?.GetTextAsync();
+        string? data = _topLevel.Clipboard is { } clipboard
+            ? await clipboard.TryGetTextAsync()
+            : null;
 
         return ImportJson(data);
     }

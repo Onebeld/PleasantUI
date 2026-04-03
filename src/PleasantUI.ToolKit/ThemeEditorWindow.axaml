@@ -43,7 +43,7 @@
             </TextBlock>
             <TextBox x:Name="ThemeNameTextBox"
                      Grid.Column="3"
-                     Watermark="{Localize ThemeName, Context=ThemeEditor, Default='Theme name'}"
+                     PlaceholderText="{Localize ThemeName, Context=ThemeEditor, Default='Theme name'}"
                      MaxLength="255"
                      Text="{CompiledBinding ThemeName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
         </Grid>

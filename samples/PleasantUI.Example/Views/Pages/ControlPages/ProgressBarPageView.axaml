@@ -1,8 +1,67 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.ProgressBarPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="12" Margin="0 8">
+        <Border Background="{DynamicResource ControlFillColor1}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize LiveDemo}" />
+                <Grid ColumnDefinitions="*,16,64" RowDefinitions="Auto,6,Auto,12,Auto">
+                    <ProgressBar Grid.Row="0" Grid.Column="0" x:Name="LiveBar" Minimum="0" Maximum="100" Value="0" Height="8" />
+                    <ProgressRing Grid.Row="0" Grid.RowSpan="5" Grid.Column="2" x:Name="LiveRing" Minimum="0" Maximum="100" Value="0" Width="64" Height="64" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" x:Name="LiveLabel" Foreground="{DynamicResource TextFillColor2}" FontSize="12" Text="0%" />
+                    <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="StartButton" Content="{Localize Start}" Theme="{StaticResource AccentButtonTheme}" />
+                        <Button x:Name="ResetButton" Content="{Localize Reset}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Border Background="{DynamicResource ControlFillColor1}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Indeterminate}" />
+                <TextBlock Foreground="{DynamicResource TextFillColor2}" FontSize="12" Text="{Localize IndeterminateDescription}" />
+                <Grid ColumnDefinitions="*,16,Auto" VerticalAlignment="Center">
+                    <ProgressBar Grid.Column="0" IsIndeterminate="True" Height="8" />
+                    <ProgressRing Grid.Column="2" IsIndeterminate="True" Width="40" Height="40" />
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Border Background="{DynamicResource ControlFillColor1}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="16">
+            <StackPanel Spacing="10">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize DeterminateStates}" />
+                <TextBlock Foreground="{DynamicResource TextFillColor2}" FontSize="12" Text="25%" />
+                <ProgressBar Minimum="0" Maximum="100" Value="25" Height="8" />
+                <TextBlock Foreground="{DynamicResource TextFillColor2}" FontSize="12" Text="65%" />
+                <ProgressBar Minimum="0" Maximum="100" Value="65" Height="8" />
+                <TextBlock Foreground="{DynamicResource TextFillColor2}" FontSize="12" Text="{Localize Disabled}" />
+                <ProgressBar Minimum="0" Maximum="100" Value="40" Height="8" IsEnabled="False" />
+            </StackPanel>
+        </Border>
+        <Border Background="{DynamicResource ControlFillColor1}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ProgressRingSizes}" />
+                <StackPanel Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <ProgressRing IsIndeterminate="True" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="24" FontSize="11" Foreground="{DynamicResource TextFillColor2}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <ProgressRing IsIndeterminate="True" Width="40" Height="40" HorizontalAlignment="Center" />
+                        <TextBlock Text="40" FontSize="11" Foreground="{DynamicResource TextFillColor2}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <ProgressRing IsIndeterminate="True" Width="56" Height="56" HorizontalAlignment="Center" />
+                        <TextBlock Text="56" FontSize="11" Foreground="{DynamicResource TextFillColor2}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <ProgressRing IsIndeterminate="True" Width="72" Height="72" HorizontalAlignment="Center" />
+                        <TextBlock Text="72" FontSize="11" Foreground="{DynamicResource TextFillColor2}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </UserControl>

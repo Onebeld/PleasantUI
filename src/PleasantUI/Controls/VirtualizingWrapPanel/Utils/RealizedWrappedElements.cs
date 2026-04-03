@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Layout;
-using Avalonia.Utilities;
 using PleasantUI.Core.Extensions;
 
 namespace PleasantUI.Controls.Utils;
@@ -143,7 +142,7 @@ internal class RealizedWrappedElements
             return (-1, new UvSize(viewportStart.Orientation));
 
         // If we're at 0 then display the first item.
-        if (MathUtilities.IsZero(viewportStart.U) && MathUtilities.IsZero(viewportStart.V))
+        if (Math.Abs(viewportStart.U) < 1e-10 && Math.Abs(viewportStart.V) < 1e-10)
             return (0, new UvSize(viewportStart.Orientation));
 
         if (_positions is not null && !_startUUnstable)

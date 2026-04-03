@@ -1,8 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-namespace PleasantUI.Example.Views.Pages.ControlPages;
-
-public partial class CheckBoxPageView : UserControl
+public partial class CheckBoxPageView : LocalizedUserControl
 {
     public CheckBoxPageView() => InitializeComponent();
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

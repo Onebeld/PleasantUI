@@ -1,11 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
-namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
-
-public partial class OptionsDisplayItemPageView : UserControl
+public partial class OptionsDisplayItemPageView : LocalizedUserControl
 {
-    public OptionsDisplayItemPageView()
-    {
-        InitializeComponent();
-    }
+    public OptionsDisplayItemPageView() => InitializeComponent();
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

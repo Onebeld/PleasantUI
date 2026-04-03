@@ -1,0 +1,221 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:PleasantUI.Converters"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20" Width="400">
+            <StackPanel Spacing="20">
+                <Timeline>
+                    <TimelineItem Header="Order placed"
+                                  Time="2024-01-01"
+                                  TimeFormat="yyyy-MM-dd"
+                                  Type="Success" />
+                    <TimelineItem Header="Processing"
+                                  Time="2024-01-02"
+                                  TimeFormat="yyyy-MM-dd"
+                                  Type="Ongoing" />
+                    <TimelineItem Header="Shipped"
+                                  Time="2024-01-03"
+                                  TimeFormat="yyyy-MM-dd" />
+                    <TimelineItem Header="Delivered"
+                                  Time="2024-01-04"
+                                  TimeFormat="yyyy-MM-dd"
+                                  Type="Default" />
+                </Timeline>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── Timeline container ─────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type Timeline}" TargetType="Timeline">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <!-- ── TimelineItem ───────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type TimelineItem}" TargetType="TimelineItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Top" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <!--
+                    Three-column grid:
+                      Col 0 – left area  (time when :all-right or :separate, empty otherwise)
+                      Col 1 – axis node  (icon + connecting line)
+                      Col 2 – right area (header + content when :all-left or :separate)
+                    Widths are set at runtime by TimelinePanel.
+                -->
+                <Grid Name="PART_RootGrid"
+                      ColumnDefinitions="Auto,Auto,Auto"
+                      RowDefinitions="Auto,Auto,Auto">
+
+                    <!-- ── Axis column: icon node + connecting line ── -->
+                    <Grid Name="PART_IconAxisRoot"
+                          Grid.Column="1"
+                          Grid.Row="0"
+                          Grid.RowSpan="3"
+                          RowDefinitions="Auto,*">
+
+                        <!-- Icon node -->
+                        <Panel Name="PART_Icon" Grid.Row="0">
+                            <!-- Custom icon content -->
+                            <ContentPresenter Margin="8"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding Icon}"
+                                              ContentTemplate="{TemplateBinding IconTemplate}" />
+                            <!-- Default dot shown when no icon is set -->
+                            <Ellipse Name="PART_DefaultDot"
+                                     Width="12"
+                                     Height="12"
+                                     Margin="8"
+                                     IsVisible="False"
+                                     Fill="{DynamicResource ControlDarkFillColor2}" />
+                        </Panel>
+
+                        <!-- Connecting line to next item -->
+                        <Rectangle Name="PART_AxisLine"
+                                   Grid.Row="1"
+                                   Width="2"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Stretch"
+                                   Fill="{DynamicResource ControlBorderColor}" />
+                    </Grid>
+
+                    <!-- ── Header (default: right column, row 0) ── -->
+                    <ContentPresenter Name="PART_Header"
+                                      Grid.Row="0"
+                                      Grid.Column="2"
+                                      Margin="8 4"
+                                      VerticalAlignment="Top"
+                                      Content="{TemplateBinding Header}"
+                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                      FontSize="14"
+                                      FontWeight="SemiBold"
+                                      Foreground="{DynamicResource TextFillColor1}" />
+
+                    <!-- ── Content / description (default: right column, row 1) ── -->
+                    <ContentPresenter Name="PART_Content"
+                                      Grid.Row="1"
+                                      Grid.Column="2"
+                                      Margin="8 2"
+                                      VerticalAlignment="Top"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      FontSize="12"
+                                      Foreground="{DynamicResource TextFillColor2}" />
+
+                    <!-- ── Timestamp (default: right column, row 2) ── -->
+                    <TextBlock Name="PART_Time"
+                               Grid.Row="2"
+                               Grid.Column="2"
+                               Margin="8 2 8 12"
+                               VerticalAlignment="Top"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor3}"
+                               TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{x:Static converters:TimelineConverters.DateTimeFormat}">
+                                <Binding Path="Time"       RelativeSource="{RelativeSource TemplatedParent}" />
+                                <Binding Path="TimeFormat" RelativeSource="{RelativeSource TemplatedParent}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- ── Last item: hide the connecting line ── -->
+        <Style Selector="^:last /template/ Rectangle#PART_AxisLine">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- ── Empty icon: show default dot ── -->
+        <Style Selector="^:empty-icon /template/ Ellipse#PART_DefaultDot">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- ── Dot colours by Type ── -->
+        <Style Selector="^:empty-icon[Type=Default] /template/ Ellipse#PART_DefaultDot">
+            <Setter Property="Fill" Value="{DynamicResource ControlDarkFillColor2}" />
+        </Style>
+        <Style Selector="^:empty-icon[Type=Ongoing] /template/ Ellipse#PART_DefaultDot">
+            <Setter Property="Fill" Value="{DynamicResource SystemFillColorNeutral}" />
+        </Style>
+        <Style Selector="^:empty-icon[Type=Success] /template/ Ellipse#PART_DefaultDot">
+            <Setter Property="Fill" Value="{DynamicResource SystemFillColorSuccess}" />
+        </Style>
+        <Style Selector="^:empty-icon[Type=Warning] /template/ Ellipse#PART_DefaultDot">
+            <Setter Property="Fill" Value="{DynamicResource SystemFillColorCaution}" />
+        </Style>
+        <Style Selector="^:empty-icon[Type=Error] /template/ Ellipse#PART_DefaultDot">
+            <Setter Property="Fill" Value="{DynamicResource SystemFillColorCritical}" />
+        </Style>
+
+        <!-- ── :all-left  – content right, time below content ── -->
+        <Style Selector="^:all-left /template/ ContentPresenter#PART_Header">
+            <Setter Property="Grid.Row"    Value="0" />
+            <Setter Property="Grid.Column" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment"        Value="Left" />
+        </Style>
+        <Style Selector="^:all-left /template/ ContentPresenter#PART_Content">
+            <Setter Property="Grid.Row"    Value="1" />
+            <Setter Property="Grid.Column" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment"        Value="Left" />
+        </Style>
+        <Style Selector="^:all-left /template/ TextBlock#PART_Time">
+            <Setter Property="Grid.Row"          Value="2" />
+            <Setter Property="Grid.Column"       Value="2" />
+            <Setter Property="TextAlignment"     Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <!-- ── :all-right – content left, time below content ── -->
+        <Style Selector="^:all-right /template/ ContentPresenter#PART_Header">
+            <Setter Property="Grid.Row"    Value="0" />
+            <Setter Property="Grid.Column" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="HorizontalAlignment"        Value="Right" />
+        </Style>
+        <Style Selector="^:all-right /template/ ContentPresenter#PART_Content">
+            <Setter Property="Grid.Row"    Value="1" />
+            <Setter Property="Grid.Column" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="HorizontalAlignment"        Value="Right" />
+        </Style>
+        <Style Selector="^:all-right /template/ TextBlock#PART_Time">
+            <Setter Property="Grid.Row"          Value="2" />
+            <Setter Property="Grid.Column"       Value="0" />
+            <Setter Property="TextAlignment"     Value="Right" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <!-- ── :separate – time left, content right ── -->
+        <Style Selector="^:separate /template/ ContentPresenter#PART_Header">
+            <Setter Property="Grid.Row"    Value="0" />
+            <Setter Property="Grid.Column" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment"        Value="Left" />
+        </Style>
+        <Style Selector="^:separate /template/ ContentPresenter#PART_Content">
+            <Setter Property="Grid.Row"    Value="1" />
+            <Setter Property="Grid.Column" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment"        Value="Left" />
+            <Setter Property="Margin"      Value="8 2 8 12" />
+        </Style>
+        <Style Selector="^:separate /template/ TextBlock#PART_Time">
+            <Setter Property="Grid.Row"          Value="0" />
+            <Setter Property="Grid.Column"       Value="0" />
+            <Setter Property="TextAlignment"     Value="Right" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin"            Value="8 4" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,104 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+
+    <!-- ── Sizes & spacing ──────────────────────────────────────────────── -->
+    <x:Double x:Key="PleasantDialogCommandMinHeight">52</x:Double>
+    <Thickness x:Key="PleasantDialogHeaderPadding">20 18 20 14</Thickness>
+    <Thickness x:Key="PleasantDialogContentPadding">20 0 20 16</Thickness>
+    <Thickness x:Key="PleasantDialogCommandPadding">12 10 12 10</Thickness>
+    <Thickness x:Key="PleasantDialogProgressMargin">20 0 20 12</Thickness>
+    <Thickness x:Key="PleasantDialogFooterPadding">20 12</Thickness>
+    <x:Double x:Key="PleasantDialogIconSize">28</x:Double>
+    <Thickness x:Key="PleasantDialogIconMargin">0 0 14 0</Thickness>
+    <x:Double x:Key="PleasantDialogHeaderSpacing">6</x:Double>
+    <x:Double x:Key="PleasantDialogBodySpacing">12</x:Double>
+    <x:Double x:Key="PleasantDialogCommandSpacing">6</x:Double>
+    <x:Double x:Key="PleasantDialogFooterSpacing">8</x:Double>
+
+    <!-- ── Command link button theme ────────────────────────────────────── -->
+    <!--
+        PleasantDialogCommandLinkTheme: a full-width button with a bold label
+        and an optional secondary description line, matching PleasantUI's
+        ControlFillColor tokens and RippleEffect pattern.
+    -->
+    <ControlTheme x:Key="PleasantDialogCommandLinkTheme" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="{StaticResource PleasantDialogCommandPadding}" />
+        <Setter Property="MinHeight" Value="{StaticResource PleasantDialogCommandMinHeight}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="Root"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <RippleEffect x:Name="PART_Ripple">
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}" />
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── Footer toggle button theme ───────────────────────────────────── -->
+    <!--
+        Minimal text-only button for the "More details / Less details" toggle.
+        Uses accent color to signal interactivity without heavy chrome.
+    -->
+    <ControlTheme x:Key="PleasantDialogFooterToggleTheme" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColor}" />
+        <Setter Property="Padding" Value="0 4" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter x:Name="PART_ContentPresenter"
+                                  Content="{TemplateBinding Content}"
+                                  Padding="{TemplateBinding Padding}"
+                                  TextBlock.Foreground="{TemplateBinding Foreground}" />
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource AccentLightColor1}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Foreground" Value="{DynamicResource AccentLightColor2}" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

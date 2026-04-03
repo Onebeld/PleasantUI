@@ -8,8 +8,8 @@
             <StackPanel Spacing="5">
                 <TextBox />
                 <TextBox Classes="ClearTextBox" Text="Hello Down there, so loooooooong" />
-                <TextBox Watermark="Watermark" />
-                <TextBox Classes="RevealPasswordTextBox" Watermark="Watermark" PasswordChar="●" Text="Hello" />
+                <TextBox PlaceholderText="Watermark" />
+                <TextBox Classes="RevealPasswordTextBox" PlaceholderText="Watermark" PasswordChar="●" Text="Hello" />
                 <TextBox Text="Disabled Text Box" IsEnabled="False" />
                 <TextBox Text="Sample">
                     <DataValidationErrors.Error>
@@ -90,11 +90,11 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
                             <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
-                                <TextBlock Name="PART_FloatingWatermark"
+                                <TextBlock Name="PART_FloatingPlaceholder"
                                            Foreground="{DynamicResource TextFillColor2}"
                                            FontSize="12"
                                            IsVisible="False"
-                                           Text="{TemplateBinding Watermark}"
+                                           Text="{TemplateBinding PlaceholderText}"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            FontWeight="SemiBold"
                                            DockPanel.Dock="Top" />
@@ -103,8 +103,8 @@
                                     HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                     <Panel>
-                                        <TextBlock Name="PART_Watermark"
-                                                   Text="{TemplateBinding Watermark}"
+                                        <TextBlock Name="PART_Placeholder"
+                                                   Text="{TemplateBinding PlaceholderText}"
                                                    Foreground="{DynamicResource TextFillColor3}"
                                                    TextAlignment="{TemplateBinding TextAlignment}"
                                                    TextWrapping="{TemplateBinding TextWrapping}"
@@ -187,6 +187,22 @@
             <Setter Property="AcceptsTab" Value="True" />
         </Style>
 
+        <!-- Multiline variant with rounded corners (ControlCornerRadius = 8) -->
+        <Style Selector="^.MultilineTextBox">
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+        </Style>
+
+        <!-- Multiline variant with sharp/no corners — useful for code blocks, log output, etc. -->
+        <Style Selector="^.MultilineTextBoxFlat">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+        </Style>
+
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
@@ -198,7 +214,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
 
-        <Style Selector="^[UseFloatingWatermark=true]:not(:empty) /template/ TextBlock#PART_FloatingWatermark">
+        <Style Selector="^[UseFloatingPlaceholder=true]:not(:empty) /template/ TextBlock#PART_FloatingPlaceholder">
             <Setter Property="IsVisible" Value="True" />
         </Style>
     </ControlTheme>

@@ -1,0 +1,112 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:docking="using:PleasantUI.Controls.Docking"
+             xmlns:local="using:PleasantUI.Example.Views.Pages.ToolkitPages"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="PleasantUI.Example.Views.Pages.ToolkitPages.DockingPageView">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Description strip -->
+        <Border Grid.Row="0"
+                Padding="16 10"
+                Background="{DynamicResource ControlFillColor1}"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="0 0 0 1">
+            <TextBlock Text="{Localize Docking/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+        </Border>
+
+        <!-- Live docking demo -->
+        <docking:ReDockHost Grid.Row="1"
+                            x:Name="Host">
+
+            <docking:ReDockHost.LeftSideBar>
+                <docking:SideBar x:Name="LeftBar" Location="Left">
+                    <docking:SideBar.ItemTemplate>
+                        <DataTemplate x:DataType="local:ToolItem">
+                            <docking:SideBarButton IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                                                   ToolTip.Tip="{Binding Label}">
+                                <PathIcon Data="{Binding IconData}"
+                                          Width="16" Height="16" />
+                            </docking:SideBarButton>
+                        </DataTemplate>
+                    </docking:SideBar.ItemTemplate>
+                </docking:SideBar>
+            </docking:ReDockHost.LeftSideBar>
+
+            <docking:ReDockHost.RightSideBar>
+                <docking:SideBar x:Name="RightBar" Location="Right">
+                    <docking:SideBar.ItemTemplate>
+                        <DataTemplate x:DataType="local:ToolItem">
+                            <docking:SideBarButton IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                                                   ToolTip.Tip="{Binding Label}">
+                                <PathIcon Data="{Binding IconData}"
+                                          Width="16" Height="16" />
+                            </docking:SideBarButton>
+                        </DataTemplate>
+                    </docking:SideBar.ItemTemplate>
+                </docking:SideBar>
+            </docking:ReDockHost.RightSideBar>
+
+            <docking:ReDockHost.MainContent>
+                <docking:ReDock x:Name="MainDock">
+
+                    <!-- LeftContent and RightContent are intentionally left empty here.
+                         Content is injected dynamically by ReDockHost.HandleButtonToggle
+                         when a SideBarButton is toggled, using the content registered via
+                         RegisterButtonContent(). This allows content to follow buttons
+                         when they are dragged between sidebars. -->
+
+                    <!-- Center editor area -->
+                    <Border Background="{DynamicResource BackgroundColor1}">
+                        <StackPanel VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Spacing="10">
+                            <PathIcon Data="{StaticResource DocumentRegular}"
+                                      Width="36" Height="36"
+                                      Foreground="{DynamicResource TextFillColor3}" />
+                            <TextBlock Text="{Localize Docking/EditorArea}"
+                                       HorizontalAlignment="Center"
+                                       FontSize="14"
+                                       Foreground="{DynamicResource TextFillColor2}" />
+                            <TextBlock Text="{Localize Docking/DragHint}"
+                                       HorizontalAlignment="Center"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource TextFillColor3}" />
+                        </StackPanel>
+                    </Border>
+
+                </docking:ReDock>
+            </docking:ReDockHost.MainContent>
+
+            <docking:ReDockHost.DockAreas>
+                <docking:DockArea Location="LeftUpperTop"
+                                  Target="LeftContent"
+                                  LocalizedName="{Localize Docking/AreaLeftTop}"
+                                  SideBar="{Binding #LeftBar}"
+                                  View="{Binding #MainDock}" />
+                <docking:DockArea Location="LeftLowerBottom"
+                                  Target="RightContent"
+                                  LocalizedName="{Localize Docking/AreaLeftBottom}"
+                                  SideBar="{Binding #LeftBar}"
+                                  View="{Binding #MainDock}" />
+                <docking:DockArea Location="RightUpperTop"
+                                  Target="RightContent"
+                                  LocalizedName="{Localize Docking/AreaRightTop}"
+                                  SideBar="{Binding #RightBar}"
+                                  View="{Binding #MainDock}" />
+                <docking:DockArea Location="RightLowerBottom"
+                                  Target="LeftContent"
+                                  LocalizedName="{Localize Docking/AreaRightBottom}"
+                                  SideBar="{Binding #RightBar}"
+                                  View="{Binding #MainDock}" />
+            </docking:ReDockHost.DockAreas>
+
+        </docking:ReDockHost>
+    </Grid>
+
+</UserControl>

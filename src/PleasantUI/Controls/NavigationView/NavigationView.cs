@@ -420,7 +420,7 @@ public class NavigationView : TreeView
                 _backButton.IsVisible = x.NewValue.Value is not null;
         }));
 
-        if (VisualRoot is PleasantWindow window)
+        if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             titleBarHeight = window.TitleBarHeight;
 
@@ -458,9 +458,8 @@ public class NavigationView : TreeView
 
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
     {
-        if (item.IsSelected)
-            return;
-
+        // Always run deselection of other items, even if this item is already selected
+        CloseAllSubMenuPopups();
         SelectSingleItemCore(item, runAnimation);
     }
 
@@ -550,6 +549,12 @@ public class NavigationView : TreeView
             TransitionAnimation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
         }
 
+        // Deselect all previously selected items in the tree before selecting the new one
+        foreach (var navItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        {
+            if (navItem.IsSelected && !ReferenceEquals(navItem, item))
+                navItem.IsSelected = false;
+        }
         if (item is ISelectable selectableItem)
             selectableItem.IsSelected = true;
 
@@ -580,5 +585,18 @@ public class NavigationView : TreeView
     private void OnSelectedItemChanged()
     {
         UpdateTitleAndSelectedContent();
+    }
+
+    /// <summary>
+    /// Closes all open submenu popups in the navigation view.
+    /// Called when a selection is made to ensure popups are dismissed.
+    /// </summary>
+    private void CloseAllSubMenuPopups()
+    {
+        foreach (var item in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        {
+            if (item.IsSubMenuOpen)
+                item.IsSubMenuOpen = false;
+        }
     }
 }

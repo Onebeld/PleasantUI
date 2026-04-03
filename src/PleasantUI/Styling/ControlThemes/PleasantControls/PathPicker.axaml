@@ -1,0 +1,144 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50" Width="500">
+            <StackPanel Spacing="15">
+                <controls:PathPicker Title="Browse..." Width="350" />
+                <controls:PathPicker Title="Open File" Width="350" Mode="OpenFile" FileFilter="[All][Text,*.txt]" />
+                <controls:PathPicker Title="Save File" Width="350" Mode="SaveFile" />
+                <controls:PathPicker Title="Select Folder" Width="350" Mode="OpenFolder" />
+                <controls:PathPicker Theme="{StaticResource ButtonPathPickerTheme}" Title="Browse Files..." />
+                <controls:PathPicker Theme="{StaticResource CompactPathPickerTheme}" Width="350" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Default PathPicker Theme - TextBox + Browse Button -->
+    <ControlTheme x:Key="{x:Type controls:PathPicker}" TargetType="controls:PathPicker">
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBox x:Name="PART_TextBox"
+                             Grid.Column="0"
+                             AcceptsReturn="{TemplateBinding AllowMultiple}"
+                             Text="{TemplateBinding SelectedPathsText, Mode=TwoWay}"
+                             Background="{TemplateBinding Background}"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             CornerRadius="{TemplateBinding CornerRadius}"
+                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                             Padding="10 5" />
+                    <Button x:Name="PART_Button"
+                             Grid.Column="1"
+                             Theme="{StaticResource AppBarButtonTheme}"
+                             Margin="4 0 0 0"
+                             Padding="10 5"
+                             VerticalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Viewbox Width="16" Height="16">
+                                <Path Data="{StaticResource FileImportRegular}"
+                                      Fill="{DynamicResource TextFillColor1}"
+                                      Stretch="Uniform" />
+                            </Viewbox>
+                            <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Remove pressed transform from button -->
+        <Style Selector="^ /template/ Button#PART_Button:pressed">
+            <Setter Property="RenderTransform" Value="{x:Null}" />
+        </Style>
+
+        <!-- Empty state styling -->
+        <Style Selector="^:empty /template/ TextBox#PART_TextBox">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <!-- Has value state -->
+        <Style Selector="^:hasvalue /template/ TextBox#PART_TextBox">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Button-only PathPicker Theme -->
+    <ControlTheme x:Key="ButtonPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Button x:Name="PART_Button"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="11 5">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Viewbox Width="16" Height="16">
+                            <Path Data="{StaticResource FileImportRegular}"
+                                  Fill="{DynamicResource TextFillColor1}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
+                        <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Button#PART_Button:pressed">
+            <Setter Property="RenderTransform" Value="{x:Null}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Compact PathPicker Theme - Small button integrated into textbox -->
+    <ControlTheme x:Key="CompactPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <TextBox x:Name="PART_TextBox"
+                             AcceptsReturn="{TemplateBinding AllowMultiple}"
+                             Text="{TemplateBinding SelectedPathsText, Mode=TwoWay}"
+                             Background="{TemplateBinding Background}"
+                             BorderBrush="{TemplateBinding BorderBrush}"
+                             BorderThickness="{TemplateBinding BorderThickness}"
+                             CornerRadius="{TemplateBinding CornerRadius}"
+                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                             Padding="10 5">
+                        <TextBox.InnerRightContent>
+                            <Button x:Name="PART_Button"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Margin="4 0 0 0"
+                                    Padding="6"
+                                    VerticalAlignment="Center">
+                                <Viewbox Width="16" Height="16">
+                                    <Path Data="{StaticResource FileImportRegular}"
+                                          Fill="{DynamicResource TextFillColor1}"
+                                          Stretch="Uniform" />
+                                </Viewbox>
+                            </Button>
+                        </TextBox.InnerRightContent>
+                    </TextBox>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Button#PART_Button:pressed">
+            <Setter Property="RenderTransform" Value="{x:Null}" />
+        </Style>
+
+        <!-- Empty state styling -->
+        <Style Selector="^:empty /template/ TextBox#PART_TextBox">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -134,4 +134,22 @@
     <data name="Undo" xml:space="preserve">
         <value>Отмена</value>
     </data>
+    <data name="On" xml:space="preserve">
+        <value>Вкл</value>
+    </data>
+    <data name="Off" xml:space="preserve">
+        <value>Выкл</value>
+    </data>
+    <data name="FullScreen" xml:space="preserve">
+        <value>Полный экран</value>
+    </data>
+    <data name="ExitFullScreen" xml:space="preserve">
+        <value>Выйти из полного экрана</value>
+    </data>
+    <data name="FullScreenButton" xml:space="preserve">
+        <value>Кнопка полного экрана</value>
+    </data>
+    <data name="FullScreenButtonDescription" xml:space="preserve">
+        <value>Показать кнопку переключения полного экрана в заголовке окна</value>
+    </data>
 </root>

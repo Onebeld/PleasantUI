@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Layout;
 using Avalonia.Reactive;
 
 namespace PleasantUI.Controls;
@@ -14,6 +15,38 @@ public class ModalWindowHost : ContentControl
     private IDisposable? _rootBoundsWatcher;
 
     /// <summary>
+    /// Defines the <see cref="HorizontalContentAlignment"/> property.
+    /// </summary>
+    public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty =
+        AvaloniaProperty.Register<ModalWindowHost, HorizontalAlignment>(nameof(HorizontalContentAlignment), HorizontalAlignment.Center);
+
+    /// <summary>
+    /// Defines the <see cref="VerticalContentAlignment"/> property.
+    /// </summary>
+    public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
+        AvaloniaProperty.Register<ModalWindowHost, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Center);
+
+    /// <summary>
+    /// Gets or sets the horizontal alignment of the content within the host.
+    /// This controls how the overlay is positioned in the OverlayLayer.
+    /// </summary>
+    public HorizontalAlignment HorizontalContentAlignment
+    {
+        get => GetValue(HorizontalContentAlignmentProperty);
+        set => SetValue(HorizontalContentAlignmentProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the vertical alignment of the content within the host.
+    /// This controls how the overlay is positioned in the OverlayLayer.
+    /// </summary>
+    public VerticalAlignment VerticalContentAlignment
+    {
+        get => GetValue(VerticalContentAlignmentProperty);
+        set => SetValue(VerticalContentAlignmentProperty, value);
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ModalWindowHost"/> class.
     /// </summary>
     public ModalWindowHost()
@@ -24,7 +57,7 @@ public class ModalWindowHost : ContentControl
     /// <summary>
     /// Gets the key to use for styling this control.
     /// </summary>
-    protected override Type StyleKeyOverride => typeof(OverlayPopupHost);
+    protected override Type StyleKeyOverride => typeof(ModalWindowHost);
 
     /// <summary>
     /// Called when the control is attached to the visual tree.
@@ -61,12 +94,7 @@ public class ModalWindowHost : ContentControl
     {
         _ = base.MeasureOverride(availableSize);
 
-        return VisualRoot switch
-        {
-            TopLevel topLevel => topLevel.ClientSize,
-            Control control => control.Bounds.Size,
-            _ => default
-        };
+        return TopLevel.GetTopLevel(this) is { } tl ? tl.ClientSize : (Content is Control c ? c.Bounds.Size : default);
     }
 
     /// <summary>

@@ -1,8 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace PleasantUI.Example.Views.Pages.ControlPages;
 
-namespace PleasantUI.Example.Views.Pages.ControlPages;
-
-public partial class ButtonPageView : UserControl
+public partial class ButtonPageView : LocalizedUserControl
 {
     public ButtonPageView() => InitializeComponent();
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

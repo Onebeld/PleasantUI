@@ -1,11 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
-namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
-
-public partial class PleasantTabViewPageView : UserControl
+public partial class PleasantTabViewPageView : LocalizedUserControl
 {
-    public PleasantTabViewPageView()
-    {
-        InitializeComponent();
-    }
+    public PleasantTabViewPageView() => InitializeComponent();
+    protected override void ReinitializeComponent() => InitializeComponent();
 }

@@ -23,6 +23,10 @@ public partial class App : PleasantUiExampleApp
         }
         
         PleasantTheme = Styles[0] as PleasantTheme ?? throw new NullReferenceException("PleasantTheme is null");
+
+        // PleasantTheme constructor has now loaded PleasantSettings from disk.
+        // Apply persisted language and construct the AppViewModel with the correct language.
+        InitializeFromSettings();
         
         Main = new MainWindow
         {

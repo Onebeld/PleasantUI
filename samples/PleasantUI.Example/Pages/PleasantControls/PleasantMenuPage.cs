@@ -1,0 +1,11 @@
+using Avalonia.Controls;
+using PleasantUI.Example.Views.Pages.PleasantControlPages;
+
+namespace PleasantUI.Example.Pages.PleasantControls;
+
+public class PleasantMenuPage : LocalizedPage
+{
+    public override string TitleKey { get; } = "CardTitle/PleasantMenu";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new PleasantMenuPageView();
+}

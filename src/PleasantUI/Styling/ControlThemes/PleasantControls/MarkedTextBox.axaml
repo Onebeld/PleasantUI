@@ -6,7 +6,7 @@
             <StackPanel Spacing="5">
                 <MarkedTextBox Mark="R" />
                 <MarkedTextBox Mark="#" Text="Hello Down there" />
-                <MarkedTextBox Mark="B" Watermark="Watermark" />
+                <MarkedTextBox Mark="B" PlaceholderText="Watermark" />
                 <MarkedTextBox Mark="C" Text="Test" IsEnabled="False" />
             </StackPanel>
         </Border>
@@ -101,8 +101,8 @@
                                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                         VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                         <Panel>
-                                            <TextBlock Name="PART_Watermark"
-                                                       Text="{TemplateBinding Watermark}"
+                                            <TextBlock Name="PART_Placeholder"
+                                                       Text="{TemplateBinding PlaceholderText}"
                                                        Foreground="{DynamicResource TextFillColor2}"
                                                        TextAlignment="{TemplateBinding TextAlignment}"
                                                        TextWrapping="{TemplateBinding TextWrapping}"

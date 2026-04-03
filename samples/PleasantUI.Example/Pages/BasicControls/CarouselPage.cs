@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
-using PleasantUI.Example.Interfaces;
+using PleasantUI.Example.Views.Pages.ControlPages;
 
 namespace PleasantUI.Example.Pages.BasicControls;
 
-public class CarouselPage : IPage
+public class CarouselPage : LocalizedPage
 {
-    public string Title { get; } = "Carousel";
-    public bool ShowTitle { get; } = true;
-    public Control Content { get; } = null!;
+    public override string TitleKey { get; } = "CardTitle/Carousel";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new CarouselPageView();
 }

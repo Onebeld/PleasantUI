@@ -14,7 +14,6 @@
                             <Setter Property="ItemsSource" Value="{CompiledBinding Menu.Items}" />
                             <Setter Property="Command" Value="{CompiledBinding Command}" />
                             <Setter Property="CommandParameter" Value="{CompiledBinding CommandParameter}" />
-                            <Setter Property="(NativeMenuBar.EnableMenuItemClickForwarding)" Value="True" />
                             <Setter Property="Icon"
                                     Value="{CompiledBinding Icon, Converter={x:Static OtherConverters.BitmapToImage}}" />
                         </Style>

@@ -1,15 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Title>PleasantUI.DataGrid</Title>
+        <PackageId>$(PleasantPackageIdPrefix)PleasantUI.DataGrid</PackageId>
     </PropertyGroup>
 
     <Import Project="..\..\build\Package.props" />
+
+    <ItemGroup>
+        <AvaloniaResource Include="**\*.axaml" Exclude="obj\**" />
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\PleasantUI\PleasantUI.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.3" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.0.0-rc2" />
     </ItemGroup>
 </Project>

@@ -1,0 +1,121 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PathPickerPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+
+            <TextBlock Text="{Localize PathPicker/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- Demo -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="14">
+                    <TextBlock Text="{Localize PathPicker/DemoTitle}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+
+                    <!-- Open file -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="{Localize PathPicker/OpenFile}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                        <controls:PathPicker Title="{Localize PathPicker/OpenFile}"
+                                              Mode="OpenFile"
+                                              FileFilter="[TextPlain][All]" />
+                    </StackPanel>
+
+                    <!-- Open folder -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="{Localize PathPicker/OpenFolder}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                        <controls:PathPicker Title="{Localize PathPicker/OpenFolder}"
+                                              Mode="OpenFolder" />
+                    </StackPanel>
+
+                    <!-- Save file -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="{Localize PathPicker/SaveFile}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                        <controls:PathPicker Title="{Localize PathPicker/SaveFile}"
+                                              Mode="SaveFile"
+                                              SuggestedFileName="output"
+                                              DefaultFileExtension=".txt"
+                                              FileFilter="[TextPlain][All]" />
+                    </StackPanel>
+
+                    <!-- Multi-select -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="{Localize PathPicker/MultiFile}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                        <controls:PathPicker Title="{Localize PathPicker/MultiFile}"
+                                              Mode="OpenFile"
+                                              AllowMultiple="True" />
+                    </StackPanel>
+
+                    <!-- Custom picker UI -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="UseCustomPicker = True"
+                                   FontFamily="Consolas,Monospace"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" />
+                        <TextBlock Text="Opens the built-in PleasantUI file browser instead of the platform dialog."
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                        <controls:PathPicker Title="Browse (custom UI)"
+                                              Mode="OpenFile"
+                                              UseCustomPicker="True" />
+                    </StackPanel>
+
+                    <!-- Compact theme variant -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="CompactPathPickerTheme"
+                                   FontFamily="Consolas,Monospace"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" />
+                        <controls:PathPicker Title="Browse…"
+                                              Mode="OpenFile"
+                                              Theme="{StaticResource CompactPathPickerTheme}"
+                                              ButtonContent="Browse…" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Properties reference -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Key properties"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Mode"                  FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="OpenFile / SaveFile / OpenFolder" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="AllowMultiple"         FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Enables multi-select in OpenFile and OpenFolder modes." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="FileFilter"            FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="[Name,*.ext,*.ext2] or built-in names: [All][ImageAll][TextPlain]…" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="SelectedPaths"         FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="Read-only list of selected local paths." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="SelectedPathsText"     FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" Text="Two-way bindable newline-separated string of selected paths." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Command"               FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="2" Text="Executed after the picker closes, receives SelectedPaths as parameter." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="UseCustomPicker"       FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="2" Text="When true, shows the built-in PleasantUI file browser instead of the platform-native dialog." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    </Grid>                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

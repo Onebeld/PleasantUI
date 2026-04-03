@@ -108,10 +108,6 @@ public class PleasantMiniWindow : PleasantWindowBase
 
         this.GetObservable(EnableCustomTitleBarProperty)
             .Subscribe(new AnonymousObserver<bool>(val => { ExtendClientAreaToDecorationsHint = val; }));
-        this.GetObservable(CanResizeProperty).Subscribe(new AnonymousObserver<bool>(canResize =>
-        {
-            ExtendClientAreaTitleBarHeightHint = canResize ? 8 : 1;
-        }));
     }
 
     /// <inheritdoc />

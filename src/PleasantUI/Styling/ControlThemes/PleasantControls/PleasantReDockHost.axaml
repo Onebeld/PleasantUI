@@ -1,0 +1,60 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:PleasantUI.Controls.Docking"
+                    x:ClassModifier="internal">
+
+    <ControlTheme x:Key="PleasantReDockHostThumb" TargetType="Thumb">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Cursor" Value="SizeWestEast" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <Border Width="1"
+                            Background="{DynamicResource PleasantDockingDividerBrush}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border > Border">
+            <Setter Property="Background" Value="{DynamicResource AccentFillColor1}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type controls:ReDockHost}" TargetType="controls:ReDockHost">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Name="PART_Root" ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+
+                    <ContentPresenter Grid.Column="0"
+                                      Content="{TemplateBinding LeftSideBar}"
+                                      Width="{TemplateBinding LeftSideBarWidth}" />
+
+                    <Thumb Name="PART_LeftThumb"
+                           Grid.Column="1"
+                           Theme="{StaticResource PleasantReDockHostThumb}" />
+
+                    <ContentPresenter Grid.Column="2"
+                                      Name="PART_MainContent"
+                                      Content="{TemplateBinding MainContent}"
+                                      ContentTemplate="{TemplateBinding MainContentTemplate}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch" />
+
+                    <Thumb Name="PART_RightThumb"
+                           Grid.Column="3"
+                           Theme="{StaticResource PleasantReDockHostThumb}" />
+
+                    <ContentPresenter Grid.Column="4"
+                                      Content="{TemplateBinding RightSideBar}"
+                                      Width="{TemplateBinding RightSideBarWidth}" />
+
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

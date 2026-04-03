@@ -1,0 +1,126 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish packages to NuGet'
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore (with retry)
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 15
+          command: |
+            dotnet restore src/PleasantUI/PleasantUI.csproj
+            dotnet restore src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj
+            dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
+            dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
+
+      - name: Verify packages exist
+        run: |
+          echo "=== Searching for all .nupkg files under src/ ==="
+          find src/ -name "*.nupkg" 2>/dev/null | sort
+
+          FAILED=0
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+            FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
+            if [ -z "$FOUND" ]; then
+              echo "ERROR: No .nupkg found anywhere under src/$project"
+              echo "--- Directory listing of src/$project/bin ---"
+              find "src/$project/bin" -type f 2>/dev/null || echo "(bin dir not found)"
+              FAILED=1
+            else
+              echo "OK: Found package for $project at $FOUND"
+            fi
+          done
+
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: |
+            src/PleasantUI/bin/Release/*.nupkg
+            src/PleasantUI.DataGrid/bin/Release/*.nupkg
+            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
+            src/PleasantUI.ToolKit/bin/Release/*.nupkg
+          if-no-files-found: error
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true')
+    timeout-minutes: 15
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-packages
+          path: nupkgs
+
+      - name: Verify downloaded packages
+        run: |
+          count=$(find nupkgs -name "*.nupkg" | wc -l)
+          echo "Found $count package(s)"
+          if [ "$count" -eq 0 ]; then
+            echo "ERROR: No packages to publish"
+            exit 1
+          fi
+          find nupkgs -name "*.nupkg"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Publish to NuGet (Trusted Publishing, with retry)
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: |
+            for pkg in $(find nupkgs -name "*.nupkg"); do
+              echo "Pushing $pkg"
+              if [ -n "${{ secrets.NUGET_KEY }}" ]; then
+                dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key "${{ secrets.NUGET_KEY }}" --skip-duplicate
+              else
+                dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --skip-duplicate
+              fi
+            done

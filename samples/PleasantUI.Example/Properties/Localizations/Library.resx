@@ -141,4 +141,22 @@
     <data name="Undo" xml:space="preserve">
         <value>Undo</value>
     </data>
+    <data name="On" xml:space="preserve">
+        <value>On</value>
+    </data>
+    <data name="Off" xml:space="preserve">
+        <value>Off</value>
+    </data>
+    <data name="FullScreen" xml:space="preserve">
+        <value>Full Screen</value>
+    </data>
+    <data name="ExitFullScreen" xml:space="preserve">
+        <value>Exit Full Screen</value>
+    </data>
+    <data name="FullScreenButton" xml:space="preserve">
+        <value>Full Screen Button</value>
+    </data>
+    <data name="FullScreenButtonDescription" xml:space="preserve">
+        <value>Show a full screen toggle button in the title bar</value>
+    </data>
 </root>

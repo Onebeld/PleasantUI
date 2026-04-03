@@ -2,11 +2,9 @@
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Utilities;
 using Avalonia.VisualTree;
 using PleasantUI.Controls.Utils;
 
@@ -32,7 +30,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     private UvSize _lastEstimatedElementSizeUv = new(Orientation.Horizontal, 25, 25);
     private RealizedWrappedElements? _measureElements;
     private RealizedWrappedElements? _realizedElements;
-    private Stack<Control>? _recyclePool;
     private Control? _scrollToElement;
     private int _scrollToIndex = -1;
     private ScrollViewer? _scrollViewer;
@@ -112,9 +109,9 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     /// </summary>
     public VirtualizingWrapPanel()
     {
-        _recycleElement = RecycleElement;
-        _recycleElementOnItemRemoved = RecycleElementOnItemRemoved;
-        _updateElementIndex = UpdateElementIndex;
+        _recycleElement = RecycleElementCore;
+        _recycleElementOnItemRemoved = RecycleElementOnItemRemovedCore;
+        _updateElementIndex = UpdateElementIndexCore;
         EffectiveViewportChanged += OnEffectiveViewportChanged;
     }
 
@@ -338,7 +335,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             return element;
         }
 
-        if (this.GetVisualRoot() is ILayoutRoot)
+        if (TopLevel.GetTopLevel(this) is not null)
         {
             // Create and measure the element to be brought into view. Store it in a field so that
             // it can be re-used in the layout pass.
@@ -348,7 +345,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             bool isItemHeightSet = !double.IsNaN(itemHeight);
             Size size = new(isItemWidthSet ? itemWidth : double.PositiveInfinity,
                 isItemHeightSet ? itemHeight : double.PositiveInfinity);
-            _scrollToElement = GetOrCreateElement(items, index);
+            _scrollToElement = GetOrCreateElementInternal(items, index);
             _scrollToElement.Measure(size);
             _scrollToIndex = index;
 
@@ -569,7 +566,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             if (firstChildMeasured)
                 childConstraint = new Size(size.Width, size.Height);
 
-            Control e = GetOrCreateElement(items, index);
+            Control e = GetOrCreateElementInternal(items, index);
             e.Measure(childConstraint);
             if (!firstChildMeasured)
             {
@@ -609,7 +606,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             if (firstChildMeasured)
                 childConstraint = new Size(size.Width, size.Height);
 
-            Control e = GetOrCreateElement(items, index);
+            Control e = GetOrCreateElementInternal(items, index);
             e.Measure(childConstraint);
             if (!firstChildMeasured)
             {
@@ -632,12 +629,12 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         _realizedElements.RecycleElementsBefore(index + 1, _recycleElement, Orientation);
     }
 
-    private Control GetOrCreateElement(IReadOnlyList<object?> items, int index)
+    private Control GetOrCreateElementInternal(IReadOnlyList<object?> items, int index)
     {
         Control e = GetRealizedElement(index) ??
                     GetItemIsOwnContainer(items, index) ??
                     GetRecycledElement(items, index) ??
-                    CreateElement(items, index);
+                    CreateElementInternal(items, index);
         return e;
     }
 
@@ -672,9 +669,6 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private Control? GetRecycledElement(IReadOnlyList<object?> items, int index)
     {
-        ItemContainerGenerator generator = ItemContainerGenerator!;
-        object? item = items[index];
-
         if (_unrealizedFocusedIndex == index && _unrealizedFocusedElement is not null)
         {
             Control? element = _unrealizedFocusedElement;
@@ -684,33 +678,21 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             return element;
         }
 
-        if (_recyclePool?.Count > 0)
-        {
-            Control recycled = _recyclePool.Pop();
-            recycled.IsVisible = true;
-            generator.PrepareItemContainer(recycled, item, index);
-            generator.ItemContainerPrepared(recycled, item, index);
-            return recycled;
-        }
-
         return null;
     }
 
-    private Control CreateElement(IReadOnlyList<object?> items, int index)
+    private Control CreateElementInternal(IReadOnlyList<object?> items, int index)
     {
-        ItemContainerGenerator generator = ItemContainerGenerator!;
+        var generator = ItemContainerGenerator!;
         object? item = items[index];
-        generator.NeedsContainer(item, index, out object? key);
-        Control container = generator.CreateContainer(item, index, key);
-
+        Control container = generator.CreateContainer(item, index, null);
         generator.PrepareItemContainer(container, item, index);
         AddInternalChild(container);
         generator.ItemContainerPrepared(container, item, index);
-
         return container;
     }
 
-    private void RecycleElement(Control element, int index)
+    private void RecycleElementCore(Control element, int index)
     {
         _scrollViewer?.UnregisterAnchorCandidate(element);
 
@@ -727,13 +709,11 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         else
         {
             ItemContainerGenerator!.ClearItemContainer(element);
-            _recyclePool ??= new Stack<Control>();
-            _recyclePool.Push(element);
             element.IsVisible = false;
         }
     }
 
-    private void RecycleElementOnItemRemoved(Control element)
+    private void RecycleElementOnItemRemovedCore(Control element)
     {
         if (element.IsSet(ItemIsOwnContainerProperty))
         {
@@ -742,18 +722,13 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         else
         {
             ItemContainerGenerator!.ClearItemContainer(element);
-            _recyclePool ??= new Stack<Control>();
-            _recyclePool.Push(element);
-            element.IsVisible = false;
+            RemoveInternalChild(element);
         }
     }
 
-    private void UpdateElementIndex(Control element, int oldIndex, int newIndex)
+    private void UpdateElementIndexCore(Control element, int oldIndex, int newIndex)
     {
-        if (ItemContainerGenerator is null)
-            throw new InvalidOperationException("ItemContainerGenerator is null.");
-
-        ItemContainerGenerator.ItemContainerIndexChanged(element, oldIndex, newIndex);
+        ItemContainerGenerator!.ItemContainerIndexChanged(element, oldIndex, newIndex);
     }
 
     private void OnEffectiveViewportChanged(object? sender, EffectiveViewportChangedEventArgs e)
@@ -772,12 +747,14 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         double newViewportStartV = horizontal ? _viewport.Top : _viewport.Left;
         double newViewportEndV = horizontal ? _viewport.Bottom : _viewport.Right;
 
-        if (!MathUtilities.AreClose(oldViewportStartU, newViewportStartU) ||
-            !MathUtilities.AreClose(oldViewportEndU, newViewportEndU) ||
-            !MathUtilities.AreClose(oldViewportStartV, newViewportStartV) ||
-            !MathUtilities.AreClose(oldViewportEndV, newViewportEndV))
+        if (!AreClose(oldViewportStartU, newViewportStartU) ||
+            !AreClose(oldViewportEndU, newViewportEndU) ||
+            !AreClose(oldViewportStartV, newViewportStartV) ||
+            !AreClose(oldViewportEndV, newViewportEndV))
             InvalidateMeasure();
     }
+
+    private static bool AreClose(double a, double b) => Math.Abs(a - b) < 1e-10;
 
     private void OnUnrealizedFocusedElementLostFocus(object? sender, RoutedEventArgs e)
     {
@@ -785,7 +762,8 @@ public class VirtualizingWrapPanel : VirtualizingPanel
             return;
 
         _unrealizedFocusedElement.LostFocus -= OnUnrealizedFocusedElementLostFocus;
-        RecycleElement(_unrealizedFocusedElement, _unrealizedFocusedIndex);
+        ItemContainerGenerator!.ClearItemContainer(_unrealizedFocusedElement);
+        _unrealizedFocusedElement.IsVisible = false;
         _unrealizedFocusedElement = null;
         _unrealizedFocusedIndex = -1;
     }

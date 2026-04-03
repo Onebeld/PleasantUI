@@ -4,5 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.SliderPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="16" HorizontalAlignment="Center" VerticalAlignment="Center" Width="360">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize HorizontalSlider}" />
+        <Slider Minimum="0" Maximum="100" Value="40" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize WithTickMarks}" />
+        <Slider Minimum="0" Maximum="10" Value="5" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Disabled}" />
+        <Slider Minimum="0" Maximum="100" Value="60" IsEnabled="False" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize VerticalSlider}" />
+        <Slider Orientation="Vertical" Minimum="0" Maximum="100" Value="30" Height="120" HorizontalAlignment="Left" />
+    </StackPanel>
 </UserControl>

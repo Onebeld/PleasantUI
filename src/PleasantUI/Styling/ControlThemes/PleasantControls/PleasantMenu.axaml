@@ -1,0 +1,68 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+
+    <ControlTheme x:Key="{x:Type PleasantMenu}" TargetType="PleasantMenu">
+        <Setter Property="Background"   Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="Foreground"   Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="MinWidth"     Value="320" />
+        <Setter Property="MaxWidth"     Value="520" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="Auto,*,Auto">
+
+                        <!-- ── Header ──────────────────────────────────── -->
+                        <Grid Grid.Row="0"
+                              ColumnDefinitions="*,Auto"
+                              Margin="20 15 20 8">
+
+                            <TextBlock Grid.Column="0"
+                                       Text="{TemplateBinding Title}"
+                                       Theme="{StaticResource SubtitleTextBlockTheme}"
+                                       VerticalAlignment="Center" />
+
+                            <!-- Badges slot (InformationBlocks, counts, etc.) -->
+                            <ContentPresenter Grid.Column="1"
+                                              Content="{TemplateBinding Badges}"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+
+                        <!-- ── Items grid ──────────────────────────────── -->
+                        <Panel x:Name="PART_ItemsPanel"
+                               Grid.Row="1"
+                               Margin="10 0 10 10" />
+
+                        <!-- ── Footer ──────────────────────────────────── -->
+                        <Border Grid.Row="2"
+                                IsVisible="{TemplateBinding ShowFooter}"
+                                Background="{DynamicResource BackgroundColor3}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 1 0 0"
+                                Padding="8 5">
+                            <Panel>
+                                <!-- Left-aligned footer buttons -->
+                                <StackPanel x:Name="PART_FooterLeft"
+                                            Orientation="Horizontal"
+                                            Spacing="4"
+                                            HorizontalAlignment="Left" />
+
+                                <!-- Right-aligned footer buttons -->
+                                <StackPanel x:Name="PART_FooterRight"
+                                            Orientation="Horizontal"
+                                            Spacing="4"
+                                            HorizontalAlignment="Right" />
+                            </Panel>
+                        </Border>
+
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

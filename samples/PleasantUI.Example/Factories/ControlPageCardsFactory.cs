@@ -20,27 +20,16 @@ public class ControlPageCardsFactory
     {
         return
         [
-            new("Button", MaterialIcons.ButtonCursor, "A clickable element that triggers an action when pressed.",
-                new ButtonPage(), _eventAggregator),
-            new("Checkbox", MaterialIcons.CheckboxMarkedOutline,
-                "A small interactive box that allows users to select one or more options from a set.",
-                new CheckBoxPage(), _eventAggregator),
-            new("Progress", MaterialIcons.ProgressHelper,
-                "A circular animation that indicates an ongoing operation or loading process.", new ProgressPage(),
-                _eventAggregator),
-            new("Calendar", MaterialIcons.CalendarOutline,
-                "A control that displays dates in a structured format, allowing users to select a specific date or date range.",
-                new CalendarPage(), _eventAggregator),
-            new("Carousel", MaterialIcons.ViewCarouselOutline,
-                "A container that displays a set of items (images, text, etc.) one at a time, allowing users to navigate through them sequentially.",
-                new CarouselPage(), _eventAggregator),
-            new("ComboBox", MaterialIcons.ExpandAllOutline,
-                "A dropdown list that allows users to select a single option from a predefined list. It combines a text box with a dropdown menu.",
-                new ComboBoxPage(), _eventAggregator),
-            new("TextBox", MaterialIcons.FormTextbox, "A rectangular area where users can enter and edit text.",
-                new TextBoxPage(), _eventAggregator),
-            new("DataGrid", MaterialIcons.Grid, "A grid that displays data in a tabular format.", new DataGridPage(),
-                _eventAggregator)
+            new("CardTitle/Button",       MaterialIcons.ButtonCursor,        "Card/Button",    new ButtonPage(),   _eventAggregator),
+            new("CardTitle/Checkbox",     MaterialIcons.CheckboxMarkedOutline,"Card/Checkbox",  new CheckBoxPage(), _eventAggregator),
+            new("CardTitle/Progress",     MaterialIcons.ProgressHelper,       "Card/Progress",  new ProgressPage(), _eventAggregator),
+            new("CardTitle/Calendar",     MaterialIcons.CalendarOutline,      "Card/Calendar",  new CalendarPage(), _eventAggregator),
+            new("CardTitle/Carousel",     MaterialIcons.ViewCarouselOutline,  "Card/Carousel",  new CarouselPage(), _eventAggregator),
+            new("CardTitle/ComboBox",     MaterialIcons.ExpandAllOutline,     "Card/ComboBox",  new ComboBoxPage(), _eventAggregator),
+            new("CardTitle/TextBox",      MaterialIcons.FormTextbox,          "Card/TextBox",   new TextBoxPage(),  _eventAggregator),
+            new("CardTitle/DataGrid",     MaterialIcons.Grid,                 "Card/DataGrid",  new DataGridPage(), _eventAggregator),
+            new("CardTitle/PinCode",      MaterialIcons.KeyboardOutline,       "Card/PinCode",   new PinCodePage(),  _eventAggregator),
+            new("CardTitle/SelectionList", MaterialIcons.ViewListOutline, "Card/SelectionList", new SelectionListPage(), _eventAggregator),
         ];
     }
 
@@ -48,24 +37,25 @@ public class ControlPageCardsFactory
     {
         return
         [
-            new("PleasantSnackbar", MaterialIcons.InformationOutline,
-                "Custom control for displaying temporary, non-intrusive messages to the user.",
-                new PleasantSnackbarPage(), _eventAggregator),
-            new("InformationBlock", MaterialIcons.InformationBoxOutline,
-                "Custom control for displaying a structured block of information, potentially including a title, icon, and descriptive text.",
-                new InformationBlockPage(), _eventAggregator),
-            new("OptionsDisplayItem", MaterialIcons.ViewListOutline,
-                "Custom control representing a single item in a list of options.", new OptionsDisplayItemPage(),
-                _eventAggregator),
-            new("PleasantTabView", MaterialIcons.Tab, "Custom control implementing a tabbed interface.",
-                new PleasantTabViewPage(), _eventAggregator)
+            new("CardTitle/PleasantSnackbar",    MaterialIcons.InformationOutline,    "Card/PleasantSnackbar",    new PleasantSnackbarPage(),    _eventAggregator),
+            new("CardTitle/InformationBlock",    MaterialIcons.InformationBoxOutline, "Card/InformationBlock",    new InformationBlockPage(),    _eventAggregator),
+            new("CardTitle/OptionsDisplayItem",  MaterialIcons.ViewListOutline,       "Card/OptionsDisplayItem",  new OptionsDisplayItemPage(),  _eventAggregator),
+            new("CardTitle/PleasantTabView",     MaterialIcons.Tab,                   "Card/PleasantTabView",     new PleasantTabViewPage(),     _eventAggregator),
+            new("CardTitle/PleasantMenu",        MaterialIcons.MenuOpen,              "Card/PleasantMenu",        new PleasantMenuPage(),        _eventAggregator),
+            new("CardTitle/Timeline",            MaterialIcons.TimelineOutline,       "Card/Timeline",            new TimelinePage(),            _eventAggregator),
+            new("CardTitle/InstallWizard",       MaterialIcons.WizardHat,             "Card/InstallWizard",       new InstallWizardPage(),       _eventAggregator),
+            new("CardTitle/PleasantDrawer",      MaterialIcons.DrawingBox,    "Card/PleasantDrawer",      new PleasantDrawerPage(),      _eventAggregator),
+            new("CardTitle/PopConfirm",          MaterialIcons.CheckboxMarkedCircle,  "Card/PopConfirm",          new PopConfirmPage(),          _eventAggregator),
+            new("CardTitle/PathPicker",          MaterialIcons.FolderOpenOutline,     "Card/PathPicker",          new PathPickerPage(),          _eventAggregator),
         ];
     }
 
     public AvaloniaList<ControlPageCard> CreateToolkitControlPageCards()
     {
-        return [
-            new("MessageBox", MaterialIcons.MessageOutline, "", new MessageBoxPage(), _eventAggregator)
+        return
+        [
+            new("CardTitle/MessageBox", MaterialIcons.MessageOutline, "Card/MessageBox", new MessageBoxPage(), _eventAggregator),
+            new("CardTitle/Docking",    MaterialIcons.ViewDashboardOutline, "Card/Docking", new DockingPage(), _eventAggregator),
         ];
     }
 }

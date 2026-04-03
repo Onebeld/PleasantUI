@@ -1,8 +1,22 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.ComboBoxPageView">
-    Welcome to Avalonia!
+    <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ComboBox}" />
+        <ComboBox PlaceholderText="{Localize SelectAnOption}" HorizontalAlignment="Stretch">
+            <ComboBoxItem Content="{Localize Option1, Context=ComboBoxPage}" />
+            <ComboBoxItem Content="{Localize Option2, Context=ComboBoxPage}" />
+            <ComboBoxItem Content="{Localize Option3, Context=ComboBoxPage}" />
+            <ComboBoxItem Content="{Localize Option4, Context=ComboBoxPage}" />
+        </ComboBox>
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize DisabledComboBox}" />
+        <ComboBox PlaceholderText="{Localize Disabled}" IsEnabled="False" HorizontalAlignment="Stretch">
+            <ComboBoxItem Content="{Localize Option1, Context=ComboBoxPage}" />
+        </ComboBox>
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize AutoCompleteBox}" />
+        <AutoCompleteBox x:Name="FruitAutoComplete" Watermark="{Localize StartTyping}" HorizontalAlignment="Stretch" />
+    </StackPanel>
 </UserControl>

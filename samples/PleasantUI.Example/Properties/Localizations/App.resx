@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -66,4 +66,467 @@
     <data name="Language" xml:space="preserve">
         <value>Language</value>
     </data>
+    <!-- Navigation -->
+    <data name="Home" xml:space="preserve"><value>Home</value></data>
+    <data name="About" xml:space="preserve"><value>About</value></data>
+    <!-- Home page sections -->
+    <data name="BasicControls" xml:space="preserve"><value>Basic controls</value></data>
+    <data name="PleasantControls" xml:space="preserve"><value>Pleasant controls</value></data>
+    <data name="ToolKit" xml:space="preserve"><value>ToolKit</value></data>
+    <!-- About page -->
+    <data name="AboutTitle" xml:space="preserve"><value>About</value></data>
+    <data name="Links" xml:space="preserve"><value>Links</value></data>
+    <data name="Description" xml:space="preserve"><value>Description</value></data>
+    <data name="LibraryDescription" xml:space="preserve"><value>Graphical user interface library for Avalonia with its own controls</value></data>
+    <!-- Settings page -->
+    <data name="CustomThemes" xml:space="preserve"><value>Custom themes</value></data>
+    <!-- Calendar page -->
+    <data name="InlineCalendar" xml:space="preserve"><value>Inline Calendar</value></data>
+    <data name="DatePicker" xml:space="preserve"><value>Date Picker</value></data>
+    <data name="PickADate" xml:space="preserve"><value>Pick a date...</value></data>
+    <!-- Carousel page -->
+    <data name="Carousel" xml:space="preserve"><value>Carousel</value></data>
+    <data name="Previous" xml:space="preserve"><value>← Previous</value></data>
+    <data name="Next" xml:space="preserve"><value>Next →</value></data>
+    <!-- ComboBox page -->
+    <data name="ComboBox" xml:space="preserve"><value>ComboBox</value></data>
+    <data name="SelectAnOption" xml:space="preserve"><value>Select an option...</value></data>
+    <data name="DisabledComboBox" xml:space="preserve"><value>Disabled ComboBox</value></data>
+    <data name="AutoCompleteBox" xml:space="preserve"><value>AutoCompleteBox</value></data>
+    <data name="StartTyping" xml:space="preserve"><value>Start typing...</value></data>
+    <data name="ComboBoxPage/Option1" xml:space="preserve"><value>Option 1</value></data>
+    <data name="ComboBoxPage/Option2" xml:space="preserve"><value>Option 2</value></data>
+    <data name="ComboBoxPage/Option3" xml:space="preserve"><value>Option 3</value></data>
+    <data name="ComboBoxPage/Option4" xml:space="preserve"><value>Option 4</value></data>
+    <!-- Slider page -->
+    <data name="HorizontalSlider" xml:space="preserve"><value>Horizontal Slider</value></data>
+    <data name="WithTickMarks" xml:space="preserve"><value>With Tick Marks</value></data>
+    <data name="Disabled" xml:space="preserve"><value>Disabled</value></data>
+    <data name="VerticalSlider" xml:space="preserve"><value>Vertical Slider</value></data>
+    <!-- TextBox page -->
+    <data name="TextBox" xml:space="preserve"><value>TextBox</value></data>
+    <data name="EnterText" xml:space="preserve"><value>Enter text...</value></data>
+    <data name="Password" xml:space="preserve"><value>Password</value></data>
+    <data name="EnterPassword" xml:space="preserve"><value>Enter password...</value></data>
+    <data name="Multiline" xml:space="preserve"><value>Multiline</value></data>
+    <data name="MultilineFlat" xml:space="preserve"><value>Multiline (flat corners)</value></data>
+    <data name="EnterMultipleLines" xml:space="preserve"><value>Enter multiple lines...</value></data>
+    <data name="ReadOnly" xml:space="preserve"><value>Read-only</value></data>
+    <data name="ReadOnlyText" xml:space="preserve"><value>This is read-only text</value></data>
+    <data name="DisabledInput" xml:space="preserve"><value>Disabled input</value></data>
+    <data name="NumericUpDown" xml:space="preserve"><value>NumericUpDown</value></data>
+    <!-- Progress page -->
+    <data name="LiveDemo" xml:space="preserve"><value>Live demo</value></data>
+    <data name="Start" xml:space="preserve"><value>Start</value></data>
+    <data name="Reset" xml:space="preserve"><value>Reset</value></data>
+    <data name="Running" xml:space="preserve"><value>Running…</value></data>
+    <data name="Done" xml:space="preserve"><value>Done</value></data>
+    <data name="Indeterminate" xml:space="preserve"><value>Indeterminate</value></data>
+    <data name="IndeterminateDescription" xml:space="preserve"><value>Used when duration is unknown — both bar and ring variants.</value></data>
+    <data name="DeterminateStates" xml:space="preserve"><value>Determinate states</value></data>
+    <data name="ProgressRingSizes" xml:space="preserve"><value>ProgressRing sizes</value></data>
+    <data name="ProgressRing/Value" xml:space="preserve"><value>Value</value></data>
+    <data name="ProgressRing/IsIndeterminate" xml:space="preserve"><value>Is indeterminate</value></data>
+    <!-- OptionsDisplayItem page -->
+    <data name="Basic" xml:space="preserve"><value>Basic</value></data>
+    <data name="SimpleItem" xml:space="preserve"><value>Simple item</value></data>
+    <data name="NoIconNoAction" xml:space="preserve"><value>No icon, no action</value></data>
+    <data name="WithIcon" xml:space="preserve"><value>With icon</value></data>
+    <data name="ShowsIconOnLeft" xml:space="preserve"><value>Shows an icon on the left</value></data>
+    <data name="Navigates" xml:space="preserve"><value>Navigates</value></data>
+    <data name="TapToNavigate" xml:space="preserve"><value>Tap to navigate somewhere</value></data>
+    <data name="WithActionControls" xml:space="preserve"><value>With action controls</value></data>
+    <data name="ToggleSetting" xml:space="preserve"><value>Toggle setting</value></data>
+    <data name="EnableOrDisableFeature" xml:space="preserve"><value>Enable or disable a feature</value></data>
+    <data name="ChooseTheme" xml:space="preserve"><value>Choose theme</value></data>
+    <data name="Expandable" xml:space="preserve"><value>Expandable</value></data>
+    <data name="AdvancedOptions" xml:space="preserve"><value>Advanced options</value></data>
+    <data name="ClickToExpand" xml:space="preserve"><value>Click to expand</value></data>
+    <data name="HiddenContentOnExpand" xml:space="preserve"><value>Hidden content revealed on expand.</value></data>
+    <data name="EnableFeatureA" xml:space="preserve"><value>Enable feature A</value></data>
+    <data name="EnableFeatureB" xml:space="preserve"><value>Enable feature B</value></data>
+    <!-- PleasantTabView page -->
+    <data name="Overview" xml:space="preserve"><value>Overview</value></data>
+    <data name="OverviewTabTitle" xml:space="preserve"><value>Overview Tab</value></data>
+    <data name="OverviewTabDescription" xml:space="preserve"><value>PleasantTabView supports adding and closing tabs, and scrolling the tab strip when there are many tabs.</value></data>
+    <data name="Details" xml:space="preserve"><value>Details</value></data>
+    <data name="DetailsTabTitle" xml:space="preserve"><value>Details Tab</value></data>
+    <data name="DetailsTabContent" xml:space="preserve"><value>Some detailed content lives here.</value></data>
+    <data name="DoSomething" xml:space="preserve"><value>Do something</value></data>
+    <data name="SettingsTab" xml:space="preserve"><value>Settings Tab</value></data>
+    <data name="EnableNotifications" xml:space="preserve"><value>Enable notifications</value></data>
+    <data name="DarkMode" xml:space="preserve"><value>Dark mode</value></data>
+    <data name="TabDisabled" xml:space="preserve"><value>Disabled</value></data>
+    <!-- Snackbar page -->
+    <data name="ShowSnackbar" xml:space="preserve"><value>Show Snackbar</value></data>
+    <data name="Snackbar/SeveritySection" xml:space="preserve"><value>Severity variants</value></data>
+    <data name="Snackbar/Information" xml:space="preserve"><value>Information</value></data>
+    <data name="Snackbar/InformationDesc" xml:space="preserve"><value>Neutral informational message.</value></data>
+    <data name="Snackbar/Success" xml:space="preserve"><value>Success</value></data>
+    <data name="Snackbar/SuccessDesc" xml:space="preserve"><value>Confirms a completed operation.</value></data>
+    <data name="Snackbar/Warning" xml:space="preserve"><value>Warning</value></data>
+    <data name="Snackbar/WarningDesc" xml:space="preserve"><value>Alerts the user to a potential issue.</value></data>
+    <data name="Snackbar/Error" xml:space="preserve"><value>Error</value></data>
+    <data name="Snackbar/ErrorDesc" xml:space="preserve"><value>Notifies the user of a failure.</value></data>
+    <data name="Snackbar/ContentSection" xml:space="preserve"><value>Content variants</value></data>
+    <data name="Snackbar/LongMessage" xml:space="preserve"><value>Long message (multiline)</value></data>
+    <data name="Snackbar/LongMessageDesc" xml:space="preserve"><value>Message wraps across multiple lines when it exceeds the max pill width.</value></data>
+    <data name="Snackbar/LongMsg" xml:space="preserve"><value>Your export has finished. The file has been saved to your Downloads folder and is ready to open. You can also share it directly from there.</value></data>
+    <data name="Snackbar/WithTitle" xml:space="preserve"><value>With title</value></data>
+    <data name="Snackbar/WithTitleDesc" xml:space="preserve"><value>Bold title above the message — pill expands vertically.</value></data>
+    <data name="Snackbar/WithAction" xml:space="preserve"><value>With action button</value></data>
+    <data name="Snackbar/WithActionDesc" xml:space="preserve"><value>Text button that triggers an action and closes the snackbar.</value></data>
+    <data name="Snackbar/WithCustomAction" xml:space="preserve"><value>With custom action control</value></data>
+    <data name="Snackbar/WithCustomActionDesc" xml:space="preserve"><value>Any Avalonia control placed in the action slot.</value></data>
+    <data name="Snackbar/Closable" xml:space="preserve"><value>Closable</value></data>
+    <data name="Snackbar/ClosableDesc" xml:space="preserve"><value>Shows a × button so the user can dismiss manually. Duration is 10 s.</value></data>
+    <data name="Snackbar/EventsSection" xml:space="preserve"><value>Events</value></data>
+    <data name="Snackbar/WithEvents" xml:space="preserve"><value>Closing / Closed events</value></data>
+    <data name="Snackbar/WithEventsDesc" xml:space="preserve"><value>Fires Closing (cancellable) and Closed with the close reason.</value></data>
+    <data name="Snackbar/LastEvent" xml:space="preserve"><value>Last event:</value></data>
+    <data name="Snackbar/InformationMsg" xml:space="preserve"><value>This is an informational message.</value></data>
+    <data name="Snackbar/SuccessMsg" xml:space="preserve"><value>Operation completed successfully.</value></data>
+    <data name="Snackbar/WarningMsg" xml:space="preserve"><value>Disk space is running low.</value></data>
+    <data name="Snackbar/ErrorMsg" xml:space="preserve"><value>Failed to save the file.</value></data>
+    <data name="Snackbar/WithTitleTitle" xml:space="preserve"><value>Saved</value></data>
+    <data name="Snackbar/WithTitleMsg" xml:space="preserve"><value>Your changes have been saved to the cloud.</value></data>
+    <data name="Snackbar/WithActionMsg" xml:space="preserve"><value>Item moved to trash.</value></data>
+    <data name="Snackbar/Undo" xml:space="preserve"><value>Undo</value></data>
+    <data name="Snackbar/UndoneMsg" xml:space="preserve"><value>Action undone.</value></data>
+    <data name="Snackbar/WithCustomActionMsg" xml:space="preserve"><value>New update available.</value></data>
+    <data name="Snackbar/ViewDetails" xml:space="preserve"><value>View</value></data>
+    <data name="Snackbar/ViewedMsg" xml:space="preserve"><value>Opening details…</value></data>
+    <data name="Snackbar/ClosableTitle" xml:space="preserve"><value>Dismissable</value></data>
+    <data name="Snackbar/ClosableMsg" xml:space="preserve"><value>This snackbar has a close button.</value></data>
+    <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Tap or wait to dismiss — events are tracked.</value></data>
+    <!-- MessageBox page -->
+    <data name="ShowMessageBox" xml:space="preserve"><value>Show MessageBox</value></data>
+    <data name="MessageBoxTitle" xml:space="preserve"><value>MessageBox</value></data>
+    <data name="MessageBoxText" xml:space="preserve"><value>This is a sample message box dialog.</value></data>
+    <data name="MessageBox/Show" xml:space="preserve"><value>Show</value></data>
+    <data name="MessageBox/LastResult" xml:space="preserve"><value>Last result:</value></data>
+    <data name="MessageBox/DefaultVariant" xml:space="preserve"><value>Default (OK)</value></data>
+    <data name="MessageBox/DefaultVariantDesc" xml:space="preserve"><value>Single OK button, the most common variant.</value></data>
+    <data name="MessageBox/OkCancelVariant" xml:space="preserve"><value>OK / Cancel</value></data>
+    <data name="MessageBox/OkCancelVariantDesc" xml:space="preserve"><value>Asks the user to confirm or cancel an action.</value></data>
+    <data name="MessageBox/YesNoVariant" xml:space="preserve"><value>Yes / No</value></data>
+    <data name="MessageBox/YesNoVariantDesc" xml:space="preserve"><value>Asks a yes-or-no question.</value></data>
+    <data name="MessageBox/YesNoCancelVariant" xml:space="preserve"><value>Yes / No / Cancel</value></data>
+    <data name="MessageBox/YesNoCancelVariantDesc" xml:space="preserve"><value>Three-way choice — save, discard, or cancel.</value></data>
+    <data name="MessageBox/AdditionalTextVariant" xml:space="preserve"><value>With additional text</value></data>
+    <data name="MessageBox/AdditionalTextVariantDesc" xml:space="preserve"><value>Shows an error with a detailed stack trace in the secondary text area.</value></data>
+    <data name="MessageBox/DangerVariant" xml:space="preserve"><value>Destructive action</value></data>
+    <data name="MessageBox/DangerVariantDesc" xml:space="preserve"><value>Delete confirmation with a danger-styled button and Cancel as the safe default.</value></data>
+    <data name="MessageBox/Title" xml:space="preserve"><value>Information</value></data>
+    <data name="MessageBox/DefaultText" xml:space="preserve"><value>This is a default message box with a single OK button.</value></data>
+    <data name="MessageBox/ConfirmTitle" xml:space="preserve"><value>Confirm</value></data>
+    <data name="MessageBox/OkCancelText" xml:space="preserve"><value>Do you want to proceed with this action?</value></data>
+    <data name="MessageBox/QuestionTitle" xml:space="preserve"><value>Question</value></data>
+    <data name="MessageBox/YesNoText" xml:space="preserve"><value>Would you like to save your changes before closing?</value></data>
+    <data name="MessageBox/YesNoCancelText" xml:space="preserve"><value>Save changes to the document before closing?</value></data>
+    <data name="MessageBox/ErrorTitle" xml:space="preserve"><value>Error</value></data>
+    <data name="MessageBox/ErrorText" xml:space="preserve"><value>An unexpected error occurred while processing your request.</value></data>
+    <data name="MessageBox/ErrorDetail" xml:space="preserve"><value>System.InvalidOperationException: Object reference not set to an instance of an object.\n   at SomeMethod() in File.cs:line 42</value></data>
+    <data name="MessageBox/DangerTitle" xml:space="preserve"><value>Delete</value></data>
+    <data name="MessageBox/DangerText" xml:space="preserve"><value>This action is irreversible. All selected items will be permanently deleted.</value></data>
+    <data name="MessageBox/Ok" xml:space="preserve"><value>OK</value></data>
+    <data name="MessageBox/Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="MessageBox/Yes" xml:space="preserve"><value>Yes</value></data>
+    <data name="MessageBox/No" xml:space="preserve"><value>No</value></data>
+    <data name="MessageBox/Delete" xml:space="preserve"><value>Delete</value></data>
+    <data name="MessageBox/CustomVariant" xml:space="preserve"><value>Custom content</value></data>
+    <data name="MessageBox/CustomVariantDesc" xml:space="preserve"><value>Embeds a radio button group inside the dialog to capture user choice alongside the button result.</value></data>
+    <data name="MessageBox/CustomTitle" xml:space="preserve"><value>Data conflict</value></data>
+    <data name="MessageBox/CustomText" xml:space="preserve"><value>A file with this name already exists. How would you like to proceed?</value></data>
+    <data name="MessageBox/CustomHint" xml:space="preserve"><value>Choose how to handle the conflict:</value></data>
+    <data name="MessageBox/CustomOption1" xml:space="preserve"><value>Keep existing data</value></data>
+    <data name="MessageBox/CustomOption2" xml:space="preserve"><value>Replace with new data</value></data>
+    <data name="MessageBox/CustomOption3" xml:space="preserve"><value>Merge both</value></data>
+    <!-- PleasantDialog samples -->
+    <data name="MessageBox/PleasantDialogSection" xml:space="preserve"><value>PleasantDialog</value></data>
+    <data name="MessageBox/PleasantDialogRichVariant" xml:space="preserve"><value>Rich dialog</value></data>
+    <data name="MessageBox/PleasantDialogRichVariantDesc" xml:space="preserve"><value>Icon, subheader, radio buttons, checkbox, and an expandable footer.</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariant" xml:space="preserve"><value>With progress bar</value></data>
+    <data name="MessageBox/PleasantDialogProgressVariantDesc" xml:space="preserve"><value>Animated progress bar updated from code while the dialog is open.</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariant" xml:space="preserve"><value>Danger with command links</value></data>
+    <data name="MessageBox/PleasantDialogDangerVariantDesc" xml:space="preserve"><value>Red header with large command-link buttons, each with a description.</value></data>
+    <!-- PleasantDialog strings -->
+    <data name="PleasantDialog/Save" xml:space="preserve"><value>Save</value></data>
+    <data name="PleasantDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="PleasantDialog/MoreDetails" xml:space="preserve"><value>More details</value></data>
+    <data name="PleasantDialog/RememberChoice" xml:space="preserve"><value>Remember my choice</value></data>
+    <data name="PleasantDialog/RichTitle" xml:space="preserve"><value>Sync settings</value></data>
+    <data name="PleasantDialog/RichSubHeader" xml:space="preserve"><value>This affects all connected accounts.</value></data>
+    <data name="PleasantDialog/RichBody" xml:space="preserve"><value>Choose how your settings should be synchronized across devices.</value></data>
+    <data name="PleasantDialog/RichOpt1" xml:space="preserve"><value>Sync automatically</value></data>
+    <data name="PleasantDialog/RichOpt2" xml:space="preserve"><value>Ask before syncing</value></data>
+    <data name="PleasantDialog/RichOpt3" xml:space="preserve"><value>Never sync</value></data>
+    <data name="PleasantDialog/RichFooter" xml:space="preserve"><value>Changes take effect after restarting the application.</value></data>
+    <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Processing</value></data>
+    <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
+    <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Please wait while the operation completes…</value></data>
+    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Permanently delete account</value></data>
+    <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>This will remove all your data, settings, and history. This cannot be undone.</value></data>
+    <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Delete everything</value></data>
+    <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Removes all files, preferences, and account data permanently.</value></data>
+    <data name="PleasantDialog/DangerCmd2" xml:space="preserve"><value>Export data first</value></data>
+    <data name="PleasantDialog/DangerCmd2Desc" xml:space="preserve"><value>Download a copy of your data before deletion.</value></data>
+    <!-- Card descriptions -->
+    <data name="Card/Button" xml:space="preserve"><value>A clickable element that triggers an action when pressed.</value></data>
+    <data name="Card/Checkbox" xml:space="preserve"><value>A small interactive box that allows users to select one or more options from a set.</value></data>
+    <data name="Card/Progress" xml:space="preserve"><value>A circular animation that indicates an ongoing operation or loading process.</value></data>
+    <data name="Card/Calendar" xml:space="preserve"><value>A control that displays dates in a structured format, allowing users to select a specific date or date range.</value></data>
+    <data name="Card/Carousel" xml:space="preserve"><value>A container that displays a set of items one at a time, allowing users to navigate through them sequentially.</value></data>
+    <data name="Card/ComboBox" xml:space="preserve"><value>A dropdown list that allows users to select a single option from a predefined list.</value></data>
+    <data name="Card/TextBox" xml:space="preserve"><value>A rectangular area where users can enter and edit text.</value></data>
+    <data name="Card/DataGrid" xml:space="preserve"><value>A grid that displays data in a tabular format.</value></data>
+    <data name="Card/PinCode" xml:space="preserve"><value>A PIN / OTP entry control with individual character cells.</value></data>
+    <!-- PinCode page -->
+    <data name="PinCode/LastValue" xml:space="preserve"><value>Last completed value:</value></data>
+    <data name="PinCode/Default" xml:space="preserve"><value>Default (letters + digits)</value></data>
+    <data name="PinCode/DefaultDesc" xml:space="preserve"><value>Accepts any letter or digit. Fill all 4 cells to fire the Complete event.</value></data>
+    <data name="PinCode/DigitOnly" xml:space="preserve"><value>Digit only</value></data>
+    <data name="PinCode/DigitOnlyDesc" xml:space="preserve"><value>Only 0–9 are accepted. Letters are silently ignored.</value></data>
+    <data name="PinCode/LetterOnly" xml:space="preserve"><value>Letter only</value></data>
+    <data name="PinCode/LetterOnlyDesc" xml:space="preserve"><value>Only A–Z / a–z are accepted.</value></data>
+    <data name="PinCode/PasswordMask" xml:space="preserve"><value>Password mask</value></data>
+    <data name="PinCode/PasswordMaskDesc" xml:space="preserve"><value>Each filled cell shows ● instead of the actual digit.</value></data>
+    <data name="PinCode/SixCells" xml:space="preserve"><value>6-cell OTP</value></data>
+    <data name="PinCode/SixCellsDesc" xml:space="preserve"><value>Typical one-time password length. Paste support — try Ctrl+V with a 6-digit string.</value></data>
+    <data name="PinCode/Clear" xml:space="preserve"><value>Clear all</value></data>
+    <!-- DataGrid page -->
+    <data name="DataGrid/GridLines" xml:space="preserve"><value>Grid lines</value></data>
+    <data name="DataGrid/ReorderColumns" xml:space="preserve"><value>Reorder columns</value></data>
+    <data name="DataGrid/ResizeColumns" xml:space="preserve"><value>Resize columns</value></data>
+    <data name="DataGrid/SortColumns" xml:space="preserve"><value>Sort columns</value></data>
+    <data name="DataGrid/RowDetails" xml:space="preserve"><value>Row details</value></data>
+    <data name="DataGrid/ColName" xml:space="preserve"><value>Name</value></data>
+    <data name="DataGrid/ColDepartment" xml:space="preserve"><value>Department</value></data>
+    <data name="DataGrid/ColAge" xml:space="preserve"><value>Age</value></data>
+    <data name="DataGrid/ColSalary" xml:space="preserve"><value>Salary</value></data>
+    <data name="DataGrid/ColNew" xml:space="preserve"><value>New</value></data>
+    <data name="DataGrid/ColStatus" xml:space="preserve"><value>Status</value></data>
+    <data name="DataGrid/DetailDepartment" xml:space="preserve"><value>Department</value></data>
+    <data name="DataGrid/DetailSalary" xml:space="preserve"><value>Salary</value></data>
+    <data name="DataGrid/DetailStatus" xml:space="preserve"><value>Status</value></data>
+    <data name="Card/PleasantSnackbar" xml:space="preserve"><value>Custom control for displaying temporary, non-intrusive messages to the user.</value></data>
+    <data name="Card/InformationBlock" xml:space="preserve"><value>Custom control for displaying a structured block of information, including a title, icon, and descriptive text.</value></data>
+    <data name="Card/OptionsDisplayItem" xml:space="preserve"><value>Custom control representing a single item in a list of options.</value></data>
+    <data name="Card/PleasantTabView" xml:space="preserve"><value>Custom control implementing a tabbed interface.</value></data>
+    <data name="Card/PleasantMenu" xml:space="preserve"><value>A flyout application menu with a title, icon grid, badges, and footer utility buttons.</value></data>
+    <!-- PleasantMenu page -->
+    <data name="PleasantMenu/Description" xml:space="preserve"><value>A customizable flyout menu with a title, optional info badges, a grid of large icon buttons, and a footer bar with small utility buttons.</value></data>
+    <data name="PleasantMenu/BasicDemo" xml:space="preserve"><value>Full menu (3 columns, badges, footer)</value></data>
+    <data name="PleasantMenu/NoFooterDemo" xml:space="preserve"><value>Without footer</value></data>
+    <data name="PleasantMenu/TwoColumnDemo" xml:space="preserve"><value>2-column layout</value></data>
+    <data name="PleasantMenu/OpenMenu" xml:space="preserve"><value>Open menu</value></data>
+    <data name="PleasantMenu/MenuTitle" xml:space="preserve"><value>Menu</value></data>
+    <data name="PleasantMenu/Open" xml:space="preserve"><value>Open</value></data>
+    <data name="PleasantMenu/OpenTip" xml:space="preserve"><value>Open a file</value></data>
+    <data name="PleasantMenu/Save" xml:space="preserve"><value>Save</value></data>
+    <data name="PleasantMenu/SaveTip" xml:space="preserve"><value>Save current file</value></data>
+    <data name="PleasantMenu/New" xml:space="preserve"><value>New</value></data>
+    <data name="PleasantMenu/NewTip" xml:space="preserve"><value>Create new file</value></data>
+    <data name="PleasantMenu/Tools" xml:space="preserve"><value>Tools</value></data>
+    <data name="PleasantMenu/ToolsTip" xml:space="preserve"><value>Open tools</value></data>
+    <data name="PleasantMenu/Home" xml:space="preserve"><value>Home</value></data>
+    <data name="PleasantMenu/HomeTip" xml:space="preserve"><value>Go to home screen</value></data>
+    <data name="PleasantMenu/Delete" xml:space="preserve"><value>Delete</value></data>
+    <data name="PleasantMenu/DeleteTip" xml:space="preserve"><value>Delete selected</value></data>
+    <data name="PleasantMenu/Settings" xml:space="preserve"><value>Settings</value></data>
+    <data name="PleasantMenu/About" xml:space="preserve"><value>About</value></data>
+    <data name="PleasantMenu/Exit" xml:space="preserve"><value>Exit</value></data>
+    <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Open files</value></data>
+    <data name="PleasantMenu/Modules" xml:space="preserve"><value>Loaded modules</value></data>
+    <data name="Card/MessageBox" xml:space="preserve"><value>A dialog that displays a message and waits for user confirmation.</value></data>
+    <!-- InformationBlock page -->
+    <data name="InformationBlock/Account" xml:space="preserve"><value>Account</value></data>
+    <!-- Button page -->
+    <data name="ButtonPage/Button" xml:space="preserve"><value>Button</value></data>
+    <data name="ButtonPage/AppBarButton" xml:space="preserve"><value>AppBarButton</value></data>
+    <data name="ButtonPage/AccentButton" xml:space="preserve"><value>AccentButton</value></data>
+    <data name="ButtonPage/DangerButton" xml:space="preserve"><value>DangerButton</value></data>
+    <data name="ButtonPage/DisabledButton" xml:space="preserve"><value>Disabled button</value></data>
+    <data name="ButtonPage/ButtonSpinner" xml:space="preserve"><value>ButtonSpinner</value></data>
+    <data name="ButtonPage/ToggleButton" xml:space="preserve"><value>ToggleButton</value></data>
+    <data name="ButtonPage/RepeatButton" xml:space="preserve"><value>RepeatButton</value></data>
+    <data name="ButtonPage/RadioButton1" xml:space="preserve"><value>RadioButton 1</value></data>
+    <data name="ButtonPage/RadioButton2" xml:space="preserve"><value>RadioButton 2</value></data>
+    <data name="ButtonPage/Content1" xml:space="preserve"><value>Content 1</value></data>
+    <!-- Card titles -->
+    <data name="CardTitle/Button" xml:space="preserve"><value>Button</value></data>
+    <data name="CardTitle/Checkbox" xml:space="preserve"><value>Checkbox</value></data>
+    <data name="CardTitle/Progress" xml:space="preserve"><value>Progress</value></data>
+    <data name="CardTitle/Calendar" xml:space="preserve"><value>Calendar</value></data>
+    <data name="CardTitle/Carousel" xml:space="preserve"><value>Carousel</value></data>
+    <data name="CardTitle/ComboBox" xml:space="preserve"><value>ComboBox</value></data>
+    <data name="CardTitle/TextBox" xml:space="preserve"><value>TextBox</value></data>
+    <data name="CardTitle/DataGrid" xml:space="preserve"><value>DataGrid</value></data>
+    <data name="CardTitle/PinCode" xml:space="preserve"><value>PinCode</value></data>
+    <data name="CardTitle/SelectionList" xml:space="preserve"><value>SelectionList</value></data>
+    <data name="SelectionList/VerticalWithImages" xml:space="preserve"><value>Vertical list with images</value></data>
+    <data name="SelectionList/VerticalDescription" xml:space="preserve"><value>Multi-select list with image thumbnail, title, subtitle and timestamp per item.</value></data>
+    <data name="SelectionList/HorizontalChips" xml:space="preserve"><value>Horizontal chip list</value></data>
+    <data name="SelectionList/HorizontalDescription" xml:space="preserve"><value>Horizontal orientation for tag or category selection.</value></data>
+    <data name="SelectionList/EmptyState" xml:space="preserve"><value>Empty state</value></data>
+    <data name="SelectionList/EmptyMessage" xml:space="preserve"><value>No items found</value></data>
+    <data name="CardTitle/PleasantSnackbar" xml:space="preserve"><value>PleasantSnackbar</value></data>
+    <data name="CardTitle/InformationBlock" xml:space="preserve"><value>InformationBlock</value></data>
+    <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>OptionsDisplayItem</value></data>
+    <data name="CardTitle/PleasantTabView" xml:space="preserve"><value>PleasantTabView</value></data>
+    <data name="CardTitle/PleasantMenu" xml:space="preserve"><value>PleasantMenu</value></data>
+    <data name="CardTitle/Slider" xml:space="preserve"><value>Slider</value></data>
+    <data name="CardTitle/MessageBox" xml:space="preserve"><value>MessageBox</value></data>
+
+    <!-- Timeline page -->
+    <data name="CardTitle/Timeline" xml:space="preserve"><value>Timeline</value></data>
+    <data name="Card/Timeline" xml:space="preserve"><value>A vertical sequence of events displayed along a connecting axis line, with support for timestamps, icons, and multiple layout modes.</value></data>
+    <data name="Timeline/Description" xml:space="preserve"><value>Displays a list of events in chronological order along a vertical axis. Supports four layout modes, custom icons, and five severity types.</value></data>
+    <data name="Timeline/DisplayMode" xml:space="preserve"><value>Display mode</value></data>
+    <data name="Timeline/ModeLeft" xml:space="preserve"><value>Left</value></data>
+    <data name="Timeline/ModeRight" xml:space="preserve"><value>Right</value></data>
+    <data name="Timeline/ModeCenter" xml:space="preserve"><value>Center</value></data>
+    <data name="Timeline/ModeAlternate" xml:space="preserve"><value>Alternate</value></data>
+    <data name="Timeline/OrderTracking" xml:space="preserve"><value>Order tracking</value></data>
+    <data name="Timeline/Step1Header" xml:space="preserve"><value>Order placed</value></data>
+    <data name="Timeline/Step1Content" xml:space="preserve"><value>Your order has been received and confirmed.</value></data>
+    <data name="Timeline/Step2Header" xml:space="preserve"><value>Payment verified</value></data>
+    <data name="Timeline/Step2Content" xml:space="preserve"><value>Payment was processed successfully.</value></data>
+    <data name="Timeline/Step3Header" xml:space="preserve"><value>Preparing shipment</value></data>
+    <data name="Timeline/Step3Content" xml:space="preserve"><value>Your items are being packed and prepared.</value></data>
+    <data name="Timeline/Step4Header" xml:space="preserve"><value>Out for delivery</value></data>
+    <data name="Timeline/Step4Content" xml:space="preserve"><value>Estimated delivery date.</value></data>
+    <data name="Timeline/Step5Header" xml:space="preserve"><value>Delivered</value></data>
+    <data name="Timeline/Step5Content" xml:space="preserve"><value>Package delivered to your address.</value></data>
+    <data name="Timeline/ItemTypes" xml:space="preserve"><value>Item types</value></data>
+    <data name="Timeline/ItemTypesDesc" xml:space="preserve"><value>Each item can carry a Type that controls the colour of the default dot when no custom icon is provided.</value></data>
+    <data name="Timeline/TypeDefault" xml:space="preserve"><value>Default</value></data>
+    <data name="Timeline/TypeDefaultDesc" xml:space="preserve"><value>Neutral grey dot.</value></data>
+    <data name="Timeline/TypeOngoing" xml:space="preserve"><value>Ongoing</value></data>
+    <data name="Timeline/TypeOngoingDesc" xml:space="preserve"><value>Blue dot — operation in progress.</value></data>
+    <data name="Timeline/TypeSuccess" xml:space="preserve"><value>Success</value></data>
+    <data name="Timeline/TypeSuccessDesc" xml:space="preserve"><value>Green dot — completed successfully.</value></data>
+    <data name="Timeline/TypeWarning" xml:space="preserve"><value>Warning</value></data>
+    <data name="Timeline/TypeWarningDesc" xml:space="preserve"><value>Yellow dot — needs attention.</value></data>
+    <data name="Timeline/TypeError" xml:space="preserve"><value>Error</value></data>
+    <data name="Timeline/TypeErrorDesc" xml:space="preserve"><value>Red dot — something went wrong.</value></data>
+    <data name="Timeline/CustomIcon" xml:space="preserve"><value>Custom icons</value></data>
+    <data name="Timeline/CustomIconDesc" xml:space="preserve"><value>Set the Icon property to any control — PathIcon, Image, or anything else.</value></data>
+    <data name="Timeline/IconStep1" xml:space="preserve"><value>Approved</value></data>
+    <data name="Timeline/IconStep1Desc" xml:space="preserve"><value>Request was approved by the reviewer.</value></data>
+    <data name="Timeline/IconStep2" xml:space="preserve"><value>In review</value></data>
+    <data name="Timeline/IconStep2Desc" xml:space="preserve"><value>Awaiting review from the team.</value></data>
+    <data name="Timeline/IconStep3" xml:space="preserve"><value>Rejected</value></data>
+    <data name="Timeline/IconStep3Desc" xml:space="preserve"><value>Request was rejected. Please revise and resubmit.</value></data>
+
+    <!-- InstallWizard page -->
+    <data name="CardTitle/InstallWizard" xml:space="preserve"><value>InstallWizard</value></data>
+    <data name="Card/InstallWizard" xml:space="preserve"><value>A multi-step installation wizard with a sidebar step list, progress bar, and Back / Next / Cancel navigation.</value></data>
+    <data name="InstallWizard/Description" xml:space="preserve"><value>A templated control that guides users through a multi-step setup process. Combines a sidebar step tracker, a content area with smooth transitions, and a navigation footer.</value></data>
+    <data name="InstallWizard/DemoTitle" xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="InstallWizard/DemoDesc" xml:space="preserve"><value>Use the Back and Next buttons to navigate between steps. The sidebar tracks progress and marks completed steps with a checkmark.</value></data>
+    <data name="InstallWizard/AppName" xml:space="preserve"><value>PleasantUI Setup</value></data>
+    <data name="InstallWizard/FooterText" xml:space="preserve"><value>© 2025 PleasantUI. All rights reserved.</value></data>
+    <data name="InstallWizard/Step1Header" xml:space="preserve"><value>Welcome</value></data>
+    <data name="InstallWizard/Step1Desc" xml:space="preserve"><value>Welcome to the PleasantUI Setup Wizard.</value></data>
+    <data name="InstallWizard/Step1Body" xml:space="preserve"><value>This wizard will guide you through the installation of PleasantUI. Click Next to continue.</value></data>
+    <data name="InstallWizard/Step1Check" xml:space="preserve"><value>I want to create a desktop shortcut</value></data>
+    <data name="InstallWizard/Step2Header" xml:space="preserve"><value>License Agreement</value></data>
+    <data name="InstallWizard/Step2Desc" xml:space="preserve"><value>Please read the license agreement before continuing.</value></data>
+    <data name="InstallWizard/LicenseText" xml:space="preserve"><value>MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</value></data>
+    <data name="InstallWizard/Step2Check" xml:space="preserve"><value>I accept the terms of the license agreement</value></data>
+    <data name="InstallWizard/Step3Header" xml:space="preserve"><value>Installation Type</value></data>
+    <data name="InstallWizard/Step3Desc" xml:space="preserve"><value>Choose how you want to install PleasantUI.</value></data>
+    <data name="InstallWizard/TypeStandard" xml:space="preserve"><value>Standard</value></data>
+    <data name="InstallWizard/TypeStandardDesc" xml:space="preserve"><value>Installs the most common components. Recommended for most users.</value></data>
+    <data name="InstallWizard/TypeCustom" xml:space="preserve"><value>Custom</value></data>
+    <data name="InstallWizard/TypeCustomDesc" xml:space="preserve"><value>Choose which components to install. For advanced users.</value></data>
+    <data name="InstallWizard/Step4Header" xml:space="preserve"><value>Installing</value></data>
+    <data name="InstallWizard/Step4Desc" xml:space="preserve"><value>Please wait while files are being copied.</value></data>
+    <data name="InstallWizard/InstallingStatus" xml:space="preserve"><value>Copying files...</value></data>
+    <data name="InstallWizard/InstallingFiles" xml:space="preserve"><value>Installing PleasantUI.dll</value></data>
+    <data name="InstallWizard/Step5Header" xml:space="preserve"><value>Summary</value></data>
+    <data name="InstallWizard/Step5Desc" xml:space="preserve"><value>Installation complete.</value></data>
+    <data name="InstallWizard/SuccessMessage" xml:space="preserve"><value>Installation was successful.</value></data>
+    <data name="InstallWizard/SuccessDetail" xml:space="preserve"><value>PleasantUI has been installed successfully. Click Finish to close the wizard.</value></data>
+    <data name="InstallWizard/PropsTitle" xml:space="preserve"><value>Key properties</value></data>
+    <data name="InstallWizard/PropAppName" xml:space="preserve"><value>Application name shown in the sidebar header.</value></data>
+    <data name="InstallWizard/PropAppIcon" xml:space="preserve"><value>Icon content displayed above the app name in the sidebar.</value></data>
+    <data name="InstallWizard/PropFooterText" xml:space="preserve"><value>Copyright or info text shown at the bottom of the sidebar.</value></data>
+    <data name="InstallWizard/PropSteps" xml:space="preserve"><value>Ordered list of WizardStep items. Each step has Header, Description, and arbitrary Content.</value></data>
+    <data name="InstallWizard/PropCancel" xml:space="preserve"><value>Controls visibility of the Cancel button. Default is true.</value></data>
+    <data name="InstallWizard/PropEvents" xml:space="preserve"><value>Routed events raised when the wizard finishes (last step Next) or is cancelled.</value></data>
+    <data name="InstallWizard/ModesTitle" xml:space="preserve"><value>Display modes</value></data>
+    <data name="InstallWizard/ModesDesc" xml:space="preserve"><value>The wizard can be embedded in a page, shown as a modal ContentDialog overlay, or opened in a standalone PleasantWindow.</value></data>
+    <data name="InstallWizard/ShowModal" xml:space="preserve"><value>Open as Modal</value></data>
+    <data name="InstallWizard/ShowWindow" xml:space="preserve"><value>Open as Window</value></data>
+    <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Back</value></data>
+    <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Next</value></data>
+    <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Finish</value></data>
+    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Cancel</value></data>
+
+    <!-- PopConfirm -->
+    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Confirm</value></data>
+    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Cancel</value></data>
+
+    <!-- Drawer page -->
+    <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Drawer</value></data>
+    <data name="Card/PleasantDrawer"            xml:space="preserve"><value>A panel that slides in from any edge of the screen, overlaying the main content with optional title, footer, and light-dismiss support.</value></data>
+    <data name="PleasantDrawer/Description"     xml:space="preserve"><value>A slide-in overlay panel that can appear from any edge. Supports light-dismiss, optional title, footer content, and all four positions.</value></data>
+    <data name="PleasantDrawer/DemoTitle"       xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="PleasantDrawer/DemoDesc"        xml:space="preserve"><value>Click a button to open the drawer from the corresponding edge.</value></data>
+    <data name="PleasantDrawer/OpenRight"       xml:space="preserve"><value>Open Right</value></data>
+    <data name="PleasantDrawer/OpenLeft"        xml:space="preserve"><value>Open Left</value></data>
+    <data name="PleasantDrawer/OpenTop"         xml:space="preserve"><value>Open Top</value></data>
+    <data name="PleasantDrawer/OpenBottom"      xml:space="preserve"><value>Open Bottom</value></data>
+    <data name="PleasantDrawer/DrawerTitle"     xml:space="preserve"><value>Drawer Panel</value></data>
+    <data name="PleasantDrawer/DrawerContent"   xml:space="preserve"><value>This is the drawer content area. It supports any Avalonia control and scrolls automatically when content overflows.</value></data>
+    <data name="PleasantDrawer/FooterClose"     xml:space="preserve"><value>Close</value></data>
+
+    <!-- PopConfirm page -->
+    <data name="CardTitle/PopConfirm"           xml:space="preserve"><value>PopConfirm</value></data>
+    <data name="Card/PopConfirm"                xml:space="preserve"><value>A lightweight confirmation popup that wraps any control and asks for confirmation before executing a command.</value></data>
+    <data name="PopConfirm/Description"         xml:space="preserve"><value>Wraps any trigger control and shows a small popup with a header, body, and Confirm / Cancel buttons before executing a command.</value></data>
+    <data name="PopConfirm/DemoTitle"           xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="PopConfirm/DemoDesc"            xml:space="preserve"><value>Click the buttons below to see PopConfirm in different configurations.</value></data>
+    <data name="PopConfirm/DeleteHeader"        xml:space="preserve"><value>Delete item?</value></data>
+    <data name="PopConfirm/DeleteBody"          xml:space="preserve"><value>This action cannot be undone.</value></data>
+    <data name="PopConfirm/DeleteBtn"           xml:space="preserve"><value>Delete</value></data>
+    <data name="PopConfirm/SubmitHeader"        xml:space="preserve"><value>Submit form?</value></data>
+    <data name="PopConfirm/SubmitBody"          xml:space="preserve"><value>Are you sure you want to submit this form?</value></data>
+    <data name="PopConfirm/SubmitBtn"           xml:space="preserve"><value>Submit</value></data>
+    <data name="PopConfirm/LogoutHeader"        xml:space="preserve"><value>Sign out?</value></data>
+    <data name="PopConfirm/LogoutBody"          xml:space="preserve"><value>You will be signed out of your account.</value></data>
+    <data name="PopConfirm/LogoutBtn"           xml:space="preserve"><value>Sign out</value></data>
+
+    <!-- PathPicker page -->
+    <data name="CardTitle/PathPicker"           xml:space="preserve"><value>PathPicker</value></data>
+    <data name="Card/PathPicker"                xml:space="preserve"><value>A control combining a text box and a browse button to let users pick files or folders via the platform storage picker.</value></data>
+    <data name="PathPicker/Description"         xml:space="preserve"><value>Combines a read-only TextBox with a browse button. Supports OpenFile, SaveFile, and OpenFolder modes, optional multi-select, file-type filters, and two-way binding on the selected path text.</value></data>
+    <data name="PathPicker/DemoTitle"           xml:space="preserve"><value>Interactive demo</value></data>
+    <data name="PathPicker/OpenFile"            xml:space="preserve"><value>Open file</value></data>
+    <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Open folder</value></data>
+    <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Save file</value></data>
+    <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Open multiple files</value></data>
+
+    <!-- Docking page -->
+    <data name="CardTitle/Docking"              xml:space="preserve"><value>Docking</value></data>
+    <data name="Card/Docking"                   xml:space="preserve"><value>A full docking system with resizable sidebars, split views, and drag-and-drop tool panels.</value></data>
+    <data name="Docking/Description"            xml:space="preserve"><value>Drag the sidebar buttons between the left and right bars. Resize panels by dragging the dividers. Right-click a button to move it via the context menu.</value></data>
+    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>EXPLORER</value></data>
+    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>PROPERTIES</value></data>
+    <data name="Docking/EditorArea"             xml:space="preserve"><value>Editor area</value></data>
+    <data name="Docking/DragHint"               xml:space="preserve"><value>Drag sidebar buttons to rearrange panels</value></data>
+    <data name="Docking/PropName"               xml:space="preserve"><value>Name</value></data>
+    <data name="Docking/PropWidth"              xml:space="preserve"><value>Width</value></data>
+    <data name="Docking/PropHeight"             xml:space="preserve"><value>Height</value></data>
+    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Left — Upper</value></data>
+    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Left — Lower</value></data>
+    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Right — Upper</value></data>
+    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Right — Lower</value></data>
+
 </root>
