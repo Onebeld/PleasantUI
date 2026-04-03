@@ -88,7 +88,7 @@
     <data name="About/PatreonSupport" xml:space="preserve"><value>Поддержать на Patreon</value></data>
     <data name="About/BoostySupport" xml:space="preserve"><value>Поддержать на Boosty</value></data>
     <data name="About/CreditsTitle" xml:space="preserve"><value>Благодарности</value></data>
-    <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI — кроссплатформенный UI фреймворк&#x0A;• Aura.UI от PieroCastillo — вдохновение для элементов&#x0A;• FluentAvalonia.ProgressRing от ymg2006&#x0A;• JetBrains Rider — IDE для разработки</value></data>
+    <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI — кроссплатформенный UI фреймворк&#x0A;• Aura.UI от PieroCastillo — вдохновение для элементов&#x0A;• FluentAvalonia.ProgressRing от ymg2006&#x0A;• JetBrains Rider — IDE для разработки&#x0A;• Andrey Savich (pieckenst) — вклад в развитие библиотеки (PR #6)</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
     <!-- Calendar page -->
