@@ -11,6 +11,10 @@ on:
         description: 'Force release even if tag exists'
         type: boolean
         default: false
+      skip_ai_notes:
+        description: 'Skip AI-generated release notes (use simple commit list instead)'
+        type: boolean
+        default: false
 
 jobs:
   release:
@@ -226,7 +230,8 @@ jobs:
           BATCH_NUM=2
           BATCH_LINES=0
           BATCH_CONTENT=""
-          MAX_BATCH_LINES=700
+          MAX_BATCH_LINES=500
+          MAX_PROMPT_BYTES=24000
           MAX_BATCHES=5
 
           for FILE in $CHANGED_SRC; do
@@ -245,7 +250,14 @@ jobs:
                   printf '%s\n' "$BATCH_CONTENT"
                 } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
                 echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
-                BATCH_NUM=$(( BATCH_NUM + 1 ))
+                # Check prompt size and truncate if needed (roughly 4 chars per token)
+            PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
+            if [ "$PROMPT_SIZE" -gt "$MAX_PROMPT_BYTES" ]; then
+              echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating..."
+              head -c "$MAX_PROMPT_BYTES" "/tmp/prompts/prompt-${BATCH_NUM}.txt" > "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp"
+              mv "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp" "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+              printf '\n\n[Content truncated due to size limits]\n' >> "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+            fi
               fi
               BATCH_LINES=0
               BATCH_CONTENT=""
@@ -268,6 +280,14 @@ jobs:
               printf '%s\n' "$BATCH_CONTENT"
             } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
             echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
+            # Check prompt size and truncate if needed
+            PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
+            if [ "$PROMPT_SIZE" -gt "$MAX_PROMPT_BYTES" ]; then
+              echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating..."
+              head -c "$MAX_PROMPT_BYTES" "/tmp/prompts/prompt-${BATCH_NUM}.txt" > "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp"
+              mv "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp" "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+              printf '\n\n[Content truncated due to size limits]\n' >> "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+            fi
           fi
 
           # ── Ensure prompts 2-6 exist (empty marker if no content) ─────────────
@@ -292,8 +312,9 @@ jobs:
 
       # ── AI passes — each gets complete per-file diffs, never a mid-file cut ───
       - name: AI pass 1 — commits + API surface
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass1
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -301,14 +322,15 @@ jobs:
           prompt-file: /tmp/prompts/prompt-1.txt
 
       - name: Save pass 1 response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt
           sleep 65
 
       - name: AI pass 2 — diff batch 1
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass2
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -316,14 +338,15 @@ jobs:
           prompt-file: /tmp/prompts/prompt-2.txt
 
       - name: Save pass 2 response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt
           sleep 65
 
       - name: AI pass 3 — diff batch 2
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass3
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -331,14 +354,15 @@ jobs:
           prompt-file: /tmp/prompts/prompt-3.txt
 
       - name: Save pass 3 response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt
           sleep 65
 
       - name: AI pass 4 — diff batch 3
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass4
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -346,14 +370,15 @@ jobs:
           prompt-file: /tmp/prompts/prompt-4.txt
 
       - name: Save pass 4 response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt
           sleep 65
 
       - name: AI pass 5 — diff batch 4
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass5
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -361,14 +386,15 @@ jobs:
           prompt-file: /tmp/prompts/prompt-5.txt
 
       - name: Save pass 5 response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt
           sleep 65
 
       - name: AI pass 6 — diff batch 5
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass6
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -376,13 +402,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-6.txt
 
       - name: Save pass 6 response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt
           sleep 65
 
       - name: Build merge-A prompt (passes 1-3)
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
@@ -410,8 +436,9 @@ jobs:
           printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
 
       - name: AI merge-A (passes 1-3)
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge_a
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -419,13 +446,13 @@ jobs:
           prompt-file: /tmp/prompt-merge-a.txt
 
       - name: Save merge-A response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt
           sleep 65
 
       - name: Compress merge-A output
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
@@ -442,8 +469,9 @@ jobs:
           printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
 
       - name: AI compress-A
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_compress_a
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -451,13 +479,13 @@ jobs:
           prompt-file: /tmp/prompt-compress-a.txt
 
       - name: Save compress-A response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt
           sleep 65
 
       - name: Build merge-B prompt (passes 4-6)
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
@@ -485,8 +513,9 @@ jobs:
           printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
 
       - name: AI merge-B (passes 4-6)
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge_b
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -494,13 +523,13 @@ jobs:
           prompt-file: /tmp/prompt-merge-b.txt
 
       - name: Save merge-B response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt
           sleep 65
 
       - name: Compress merge-B output
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
@@ -517,8 +546,9 @@ jobs:
           printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
 
       - name: AI compress-B
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_compress_b
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
@@ -526,13 +556,13 @@ jobs:
           prompt-file: /tmp/prompt-compress-b.txt
 
       - name: Save compress-B response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt
           sleep 65
 
       - name: Build final merge prompt (compress-A + compress-B)
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           IS_PRERELEASE="${{ steps.version.outputs.prerelease }}"
@@ -601,8 +631,9 @@ jobs:
           printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
 
       - name: AI final merge — write release notes
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge
+        continue-on-error: true
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4.1
@@ -610,27 +641,54 @@ jobs:
           prompt-file: /tmp/prompt-final.txt
 
       - name: Save final merge response
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'
         id: notes_file
         run: |
-          if [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
+          AI_FAILED=""
+          if [ '${{ github.event.inputs.skip_ai_notes }}' == 'true' ]; then
+            # Generate simple release notes from commits
+            {
+              printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
+              printf '### Commits\n\n'
+              git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
+              printf '\n### Changed Files\n\n'
+              git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || printf '- No files changed\n'
+              printf '\n### Packages\n'
+              printf '- PleasantUI\n'
+              printf '- PleasantUI.DataGrid\n'
+              printf '- PleasantUI.MaterialIcons\n'
+              printf '- PleasantUI.ToolKit\n'
+            } > /tmp/release_notes.md
+            echo "Using simple commit-based release notes (AI generation skipped)."
+          elif [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
             cp /tmp/final-merge.txt /tmp/release_notes.md
             echo "Using final merged AI-generated release notes."
           else
-            # Fallback: use whichever intermediate merges succeeded
+            AI_FAILED="true"
+            # Fallback: generate simple release notes from commits when AI fails
             {
-              printf '### Changes in v%s\n\n' "${{ steps.version.outputs.version }}"
-              cat /tmp/compress-a.txt 2>/dev/null || cat /tmp/merge-a.txt 2>/dev/null || true
-              printf '\n'
-              cat /tmp/compress-b.txt 2>/dev/null || cat /tmp/merge-b.txt 2>/dev/null || true
+              printf '> **Note:** AI-generated release notes failed. Using commit history instead.\n\n'
+              printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
+              printf '### Commits\n\n'
+              git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
+              printf '\n### Changed Files\n\n'
+              git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || printf '- No files changed\n'
+              printf '\n### Packages\n'
+              printf '- PleasantUI\n'
+              printf '- PleasantUI.DataGrid\n'
+              printf '- PleasantUI.MaterialIcons\n'
+              printf '- PleasantUI.ToolKit\n'
             } > /tmp/release_notes.md
-            echo "Used fallback: compressed merge outputs."
+            echo "WARNING: AI release notes generation failed. Used commit-based fallback."
           fi
 
           echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
+          if [ -n "$AI_FAILED" ]; then
+            echo "::warning::AI release notes generation failed - using commit-based fallback"
+          fi
 
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
