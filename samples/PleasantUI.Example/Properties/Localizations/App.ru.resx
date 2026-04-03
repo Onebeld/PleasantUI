@@ -70,7 +70,25 @@
     <data name="AboutTitle" xml:space="preserve"><value>О программе</value></data>
     <data name="Links" xml:space="preserve"><value>Ссылки</value></data>
     <data name="Description" xml:space="preserve"><value>Описание</value></data>
-    <data name="LibraryDescription" xml:space="preserve"><value>Библиотека графического интерфейса для Avalonia с собственными элементами управления</value></data>
+    <data name="LibraryDescription" xml:space="preserve"><value>PleasantUI — это кроссплатформенная библиотека тем и элементов управления UI для Avalonia, вдохновлённая Microsoft Fluent Design. Она включает полную темизацию в стиле Fluent, собственные элементы управления (PleasantWindow, NavigationView, ContentDialog, ProgressRing и др.), мультитемный движок с 10+ встроенными темами и поддержкой пользовательских тем, а также реактивную систему локализации. Все элементы совместимы с AOT без необходимости rd.xml.</value></data>
+    <data name="About/License" xml:space="preserve"><value>Лицензия MIT</value></data>
+    <data name="About/FeatureFluentDesign" xml:space="preserve"><value>Fluent Design</value></data>
+    <data name="About/FeatureFluentDesignDesc" xml:space="preserve"><value>Полная темизация в стиле Fluent с закруглёнными углами и плавными переходами</value></data>
+    <data name="About/FeatureCustomControls" xml:space="preserve"><value>Пользовательские элементы</value></data>
+    <data name="About/FeatureCustomControlsDesc" xml:space="preserve"><value>PleasantWindow, NavigationView, ContentDialog, TabView и другие</value></data>
+    <data name="About/FeatureThemes" xml:space="preserve"><value>10+ тем</value></data>
+    <data name="About/FeatureThemesDesc" xml:space="preserve"><value>Встроенные темы плюс редактор с полной настройкой цветов</value></data>
+    <data name="About/FeatureLocalization" xml:space="preserve"><value>Локализация</value></data>
+    <data name="About/FeatureLocalizationDesc" xml:space="preserve"><value>Реактивная система локализации с переключением языка в реальном времени</value></data>
+    <data name="About/FeatureAOT" xml:space="preserve"><value>Готовность к AOT</value></data>
+    <data name="About/FeatureAOTDesc" xml:space="preserve"><value>Полная совместимость с AOT без необходимости rd.xml</value></data>
+    <data name="About/FeatureCrossPlatform" xml:space="preserve"><value>Кроссплатформенность</value></data>
+    <data name="About/FeatureCrossPlatformDesc" xml:space="preserve"><value>Работает на Windows, macOS, Linux и мобильных платформах</value></data>
+    <data name="About/GitHubRepo" xml:space="preserve"><value>Репозиторий GitHub</value></data>
+    <data name="About/PatreonSupport" xml:space="preserve"><value>Поддержать на Patreon</value></data>
+    <data name="About/BoostySupport" xml:space="preserve"><value>Поддержать на Boosty</value></data>
+    <data name="About/CreditsTitle" xml:space="preserve"><value>Благодарности</value></data>
+    <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI — кроссплатформенный UI фреймворк&#x0A;• Aura.UI от PieroCastillo — вдохновение для элементов&#x0A;• FluentAvalonia.ProgressRing от ymg2006&#x0A;• JetBrains Rider — IDE для разработки&#x0A;• Andrey Savich (pieckenst) — вклад в развитие библиотеки (PR #6)</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
     <!-- Calendar page -->
