@@ -298,8 +298,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 3000
           prompt-file: /tmp/prompts/prompt-1.txt
+
+      - name: Save pass 1 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt
 
       - name: AI pass 2 — diff batch 1
         if: steps.tag_check.outputs.exists == 'false'
@@ -308,8 +311,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 3000
           prompt-file: /tmp/prompts/prompt-2.txt
+
+      - name: Save pass 2 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt
 
       - name: AI pass 3 — diff batch 2
         if: steps.tag_check.outputs.exists == 'false'
@@ -318,8 +324,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 3000
           prompt-file: /tmp/prompts/prompt-3.txt
+
+      - name: Save pass 3 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt
 
       - name: AI pass 4 — diff batch 3
         if: steps.tag_check.outputs.exists == 'false'
@@ -328,8 +337,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 3000
           prompt-file: /tmp/prompts/prompt-4.txt
+
+      - name: Save pass 4 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt
 
       - name: AI pass 5 — diff batch 4
         if: steps.tag_check.outputs.exists == 'false'
@@ -338,8 +350,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 3000
           prompt-file: /tmp/prompts/prompt-5.txt
+
+      - name: Save pass 5 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt
 
       - name: AI pass 6 — diff batch 5
         if: steps.tag_check.outputs.exists == 'false'
@@ -348,8 +363,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 3000
           prompt-file: /tmp/prompts/prompt-6.txt
+
+      - name: Save pass 6 response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt
 
       - name: Build merge-A prompt (passes 1-3)
         if: steps.tag_check.outputs.exists == 'false'
@@ -371,11 +389,11 @@ jobs:
             > /tmp/prompt-merge-a.txt
           {
             printf '## Pass 1 — Commits, changed files, public API\n'
-            cat "${{ steps.ai_pass1.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/pass-1.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 2 — Diff batch 1\n'
-            cat "${{ steps.ai_pass2.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/pass-2.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 3 — Diff batch 2\n'
-            cat "${{ steps.ai_pass3.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/pass-3.txt 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-merge-a.txt
           printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
 
@@ -386,8 +404,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 2000
           prompt-file: /tmp/prompt-merge-a.txt
+
+      - name: Save merge-A response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt
 
       - name: Compress merge-A output
         if: steps.tag_check.outputs.exists == 'false'
@@ -403,7 +424,7 @@ jobs:
             '- Output ONLY the bullet list, nothing else.' \
             '---' \
             > /tmp/prompt-compress-a.txt
-          cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null >> /tmp/prompt-compress-a.txt
+          cat /tmp/merge-a.txt >> /tmp/prompt-compress-a.txt
           printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
 
       - name: AI compress-A
@@ -413,8 +434,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 1200
           prompt-file: /tmp/prompt-compress-a.txt
+
+      - name: Save compress-A response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt
 
       - name: Build merge-B prompt (passes 4-6)
         if: steps.tag_check.outputs.exists == 'false'
@@ -436,11 +460,11 @@ jobs:
             > /tmp/prompt-merge-b.txt
           {
             printf '## Pass 4 — Diff batch 3\n'
-            cat "${{ steps.ai_pass4.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/pass-4.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 5 — Diff batch 4\n'
-            cat "${{ steps.ai_pass5.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/pass-5.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 6 — Diff batch 5\n'
-            cat "${{ steps.ai_pass6.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/pass-6.txt 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-merge-b.txt
           printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
 
@@ -451,8 +475,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 2000
           prompt-file: /tmp/prompt-merge-b.txt
+
+      - name: Save merge-B response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt
 
       - name: Compress merge-B output
         if: steps.tag_check.outputs.exists == 'false'
@@ -468,7 +495,7 @@ jobs:
             '- Output ONLY the bullet list, nothing else.' \
             '---' \
             > /tmp/prompt-compress-b.txt
-          cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null >> /tmp/prompt-compress-b.txt
+          cat /tmp/merge-b.txt >> /tmp/prompt-compress-b.txt
           printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
 
       - name: AI compress-B
@@ -478,8 +505,11 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 1200
           prompt-file: /tmp/prompt-compress-b.txt
+
+      - name: Save compress-B response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt
 
       - name: Build final merge prompt (compress-A + compress-B)
         if: steps.tag_check.outputs.exists == 'false'
@@ -543,9 +573,9 @@ jobs:
 
           {
             printf '## Compressed list A (passes 1-3: commits, API, diff batches 1-2)\n'
-            cat "${{ steps.ai_compress_a.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/compress-a.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Compressed list B (passes 4-6: diff batches 3-5)\n'
-            cat "${{ steps.ai_compress_b.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            cat /tmp/compress-b.txt 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-final.txt
 
           printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
@@ -557,27 +587,26 @@ jobs:
         with:
           model: openai/gpt-4o
           max-tokens: 8000
-          max-completion-tokens: 4000
           prompt-file: /tmp/prompt-final.txt
+
+      - name: Save final merge response
+        if: steps.tag_check.outputs.exists == 'false'
+        run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt
 
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'
         id: notes_file
         run: |
-          RESPONSE_FILE="${{ steps.ai_merge.outputs.response-file }}"
-
-          if [ -f "$RESPONSE_FILE" ] && [ -s "$RESPONSE_FILE" ]; then
-            cp "$RESPONSE_FILE" /tmp/release_notes.md
+          if [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
+            cp /tmp/final-merge.txt /tmp/release_notes.md
             echo "Using final merged AI-generated release notes."
           else
             # Fallback: use whichever intermediate merges succeeded
             {
               printf '### Changes in v%s\n\n' "${{ steps.version.outputs.version }}"
-              cat "${{ steps.ai_compress_a.outputs.response-file }}" 2>/dev/null || \
-                cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null || true
+              cat /tmp/compress-a.txt 2>/dev/null || cat /tmp/merge-a.txt 2>/dev/null || true
               printf '\n'
-              cat "${{ steps.ai_compress_b.outputs.response-file }}" 2>/dev/null || \
-                cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null || true
+              cat /tmp/compress-b.txt 2>/dev/null || cat /tmp/merge-b.txt 2>/dev/null || true
             } > /tmp/release_notes.md
             echo "Used fallback: compressed merge outputs."
           fi
