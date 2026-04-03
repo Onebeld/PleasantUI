@@ -94,12 +94,13 @@
 
                     <!-- Feature Highlights -->
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
-                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="0 8">
-                            <PathIcon Data="{StaticResource PaletteOutline}"
+                        <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
+                            <PathIcon Grid.Column="0" Data="{StaticResource PaletteOutline}"
                                       Width="24"
                                       Height="24"
+                                      Margin="0 2 10 0"
                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <StackPanel Spacing="2">
+                            <StackPanel Grid.Column="1" Spacing="4">
                                 <TextBlock Text="{Localize About/FeatureFluentDesign}"
                                            FontWeight="SemiBold"
                                            FontSize="13" />
@@ -108,14 +109,15 @@
                                            Foreground="{DynamicResource TextFillColor3}"
                                            FontSize="12" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
-                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="8 0 0 8">
-                            <PathIcon Data="{StaticResource ViewDashboardOutline}"
+                        <Grid Grid.Column="1" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
+                            <PathIcon Grid.Column="0" Data="{StaticResource ViewDashboardOutline}"
                                       Width="24"
                                       Height="24"
+                                      Margin="0 2 10 0"
                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <StackPanel Spacing="2">
+                            <StackPanel Grid.Column="1" Spacing="4">
                                 <TextBlock Text="{Localize About/FeatureCustomControls}"
                                            FontWeight="SemiBold"
                                            FontSize="13" />
@@ -124,14 +126,15 @@
                                            Foreground="{DynamicResource TextFillColor3}"
                                            FontSize="12" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
-                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0 8">
-                            <PathIcon Data="{StaticResource ThemeLightDark}"
+                        <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
+                            <PathIcon Grid.Column="0" Data="{StaticResource ThemeLightDark}"
                                       Width="24"
                                       Height="24"
+                                      Margin="0 2 10 0"
                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <StackPanel Spacing="2">
+                            <StackPanel Grid.Column="1" Spacing="4">
                                 <TextBlock Text="{Localize About/FeatureThemes}"
                                            FontWeight="SemiBold"
                                            FontSize="13" />
@@ -140,14 +143,15 @@
                                            Foreground="{DynamicResource TextFillColor3}"
                                            FontSize="12" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
-                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="8 0 0 8">
-                            <PathIcon Data="{StaticResource Translate}"
+                        <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
+                            <PathIcon Grid.Column="0" Data="{StaticResource Translate}"
                                       Width="24"
                                       Height="24"
+                                      Margin="0 2 10 0"
                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <StackPanel Spacing="2">
+                            <StackPanel Grid.Column="1" Spacing="4">
                                 <TextBlock Text="{Localize About/FeatureLocalization}"
                                            FontWeight="SemiBold"
                                            FontSize="13" />
@@ -156,14 +160,15 @@
                                            Foreground="{DynamicResource TextFillColor3}"
                                            FontSize="12" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
-                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Spacing="10" Margin="0 8">
-                            <PathIcon Data="{StaticResource FastForward}"
+                        <Grid Grid.Column="0" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
+                            <PathIcon Grid.Column="0" Data="{StaticResource FastForward}"
                                       Width="24"
                                       Height="24"
+                                      Margin="0 2 10 0"
                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <StackPanel Spacing="2">
+                            <StackPanel Grid.Column="1" Spacing="4">
                                 <TextBlock Text="{Localize About/FeatureAOT}"
                                            FontWeight="SemiBold"
                                            FontSize="13" />
@@ -172,14 +177,15 @@
                                            Foreground="{DynamicResource TextFillColor3}"
                                            FontSize="12" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
-                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Spacing="10" Margin="8 0 0 8">
-                            <PathIcon Data="{StaticResource Laptop}"
+                        <Grid Grid.Column="1" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
+                            <PathIcon Grid.Column="0" Data="{StaticResource Laptop}"
                                       Width="24"
                                       Height="24"
+                                      Margin="0 2 10 0"
                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <StackPanel Spacing="2">
+                            <StackPanel Grid.Column="1" Spacing="4">
                                 <TextBlock Text="{Localize About/FeatureCrossPlatform}"
                                            FontWeight="SemiBold"
                                            FontSize="13" />
@@ -188,7 +194,7 @@
                                            Foreground="{DynamicResource TextFillColor3}"
                                            FontSize="12" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
                     </Grid>
                 </StackPanel>
             </Border>
