@@ -169,19 +169,31 @@ jobs:
 
           # ── Shared system prompt — all printf, no heredoc ──────────────────────
           printf '%s\n' \
-            'You are a senior technical writer producing GitHub release notes for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
-            'Your goal is DETAILED, COMPREHENSIVE release notes that are genuinely useful to developers consuming this library as a NuGet package.' \
+            'You are a senior technical writer analysing a PleasantUI release diff batch.' \
+            'PleasantUI is a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
             '' \
-            '## Instructions' \
-            '- Carefully read every file diff provided. Each diff is a COMPLETE per-file diff so you have full context.' \
-            '- For every new control or feature: describe what it does, how to use it, and why it matters.' \
-            '- For new properties/events/attached properties: list name, type, and a one-line description.' \
-            '- For bug fixes: describe the symptom fixed, not just the commit message.' \
-            '- For breaking changes: show before/after API.' \
-            '- Use markdown: ### headers, bullet lists, inline code, and fenced code blocks for usage examples.' \
-            '- Do NOT invent anything not evidenced by the data. If something is unclear, describe it conservatively.' \
-            '- If the diff or file list is empty, say so honestly and only describe what the commits indicate.' \
-            '- This is ONE BATCH of changed files — output your findings as bullet points, NOT final release notes.' \
+            '## Your task' \
+            'Extract EVERY meaningful change from the diffs below. Output structured bullet points — NOT final release notes.' \
+            'This output will be merged with other batches, so completeness matters more than brevity.' \
+            'Do NOT drop or summarise away any finding. One bullet per distinct change.' \
+            '' \
+            '## Rules' \
+            '- Each diff is a COMPLETE per-file diff — read it fully before drawing conclusions.' \
+            '- New control/feature: name, what it does, key public API (properties, events, methods).' \
+            '- New property/event: name, type, one-line purpose.' \
+            '- Bug fix: describe the symptom that was fixed, not just the commit wording.' \
+            '- Breaking change: old API → new API, one line each.' \
+            '- If a file has no meaningful public-facing change (e.g. only whitespace/comments), skip it.' \
+            '- Do NOT invent anything not evidenced by the diff.' \
+            '' \
+            '## Output format (strict)' \
+            'Group findings under these exact headings (omit empty ones):' \
+            '**New Controls / Features**' \
+            '**Improvements**' \
+            '**Bug Fixes**' \
+            '**Breaking Changes**' \
+            '' \
+            'Each bullet: `- [FileName] <one concise sentence>`' \
             '' \
             '---' \
             > /tmp/system-prompt.txt
@@ -190,9 +202,9 @@ jobs:
           {
             cat /tmp/system-prompt.txt
             printf '\n'
-            printf 'Version: v%s  |  Pre-release: %s\n\n' \
-              "${{ steps.version.outputs.version }}" \
-              "${{ steps.version.outputs.prerelease }}"
+            printf 'Version: v%s\n' "${{ steps.version.outputs.version }}"
+            printf 'Release type: %s\n\n' \
+              "$( [ '${{ steps.version.outputs.prerelease }}' = 'true' ] && printf 'PRE-RELEASE (alpha/beta/rc — may contain incomplete features and known issues)' || printf 'STABLE RELEASE' )"
             printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
             printf '## All Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
               "$FILE_LIST" "$STAT_SUMMARY"
@@ -345,11 +357,16 @@ jobs:
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw findings from analysis passes 1-3 of this release.' \
-            'Condense them into a compact, deduplicated bullet-point summary grouped by category.' \
-            'Categories: New Controls/Features | Improvements | Bug Fixes | Breaking Changes' \
-            'Be concise — this summary will be merged with other summaries in a later step.' \
-            'Do NOT write final release notes yet. Just structured bullet points.' \
+            'Below are raw per-batch findings from analysis passes 1-3 of this release.' \
+            '' \
+            'Your task: produce a LOSSLESS intermediate summary.' \
+            '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
+            '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
+            '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
+            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+            '- Each bullet: `- [FileName] <concise fact>`' \
+            '- This output feeds a final merge step — completeness is critical.' \
+            '' \
             '---' \
             > /tmp/prompt-merge-a.txt
           {
@@ -378,11 +395,16 @@ jobs:
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw findings from analysis passes 4-6 of this release.' \
-            'Condense them into a compact, deduplicated bullet-point summary grouped by category.' \
-            'Categories: New Controls/Features | Improvements | Bug Fixes | Breaking Changes' \
-            'Be concise — this summary will be merged with other summaries in a later step.' \
-            'Do NOT write final release notes yet. Just structured bullet points.' \
+            'Below are raw per-batch findings from analysis passes 4-6 of this release.' \
+            '' \
+            'Your task: produce a LOSSLESS intermediate summary.' \
+            '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
+            '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
+            '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
+            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+            '- Each bullet: `- [FileName] <concise fact>`' \
+            '- This output feeds a final merge step — completeness is critical.' \
+            '' \
             '---' \
             > /tmp/prompt-merge-b.txt
           {
@@ -409,13 +431,45 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
+          IS_PRERELEASE="${{ steps.version.outputs.prerelease }}"
+          VERSION="v${{ steps.version.outputs.version }}"
+
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are two condensed summaries covering the full diff of this release.' \
-            'Write the final GitHub release notes by merging and deduplicating both summaries.' \
-            'Prefer the most detailed description when the same item appears in both.' \
+            'Below are two lossless intermediate summaries covering the COMPLETE diff of this release.' \
+            'Write the final GitHub release notes from them.' \
             '' \
-            'Use these sections (include only those with content):' \
+            '## Critical rules' \
+            '- Every finding from both summaries MUST appear in the output. Do not drop any item.' \
+            '- Deduplicate only true duplicates (identical change mentioned in both summaries).' \
+            '- When the same item appears in both, use the more detailed description.' \
+            '- Use markdown: ### section headers, bullet lists, inline code.' \
+            '- Do NOT invent anything not present in the summaries.' \
+            > /tmp/prompt-final.txt
+
+          if [ "$IS_PRERELEASE" = 'true' ]; then
+            printf '%s\n' \
+              '' \
+              '## Release type: PRE-RELEASE' \
+              "This is a pre-release build ($VERSION). Adjust the tone accordingly:" \
+              '- Open with a short pre-release notice: features may be incomplete, APIs may change.' \
+              '- Mark experimental or in-progress items with *(experimental)* or *(preview)*.' \
+              '- Do not oversell stability. Use language like "introduces", "adds initial support for", "work in progress".' \
+              >> /tmp/prompt-final.txt
+          else
+            printf '%s\n' \
+              '' \
+              '## Release type: STABLE RELEASE' \
+              "This is a stable release ($VERSION). Adjust the tone accordingly:" \
+              '- Write with confidence. Features are production-ready.' \
+              '- Use language like "adds", "improves", "fixes", "introduces".' \
+              '- No experimental caveats unless explicitly noted in the summaries.' \
+              >> /tmp/prompt-final.txt
+          fi
+
+          printf '%s\n' \
+            '' \
+            '## Required sections (include only those with content):' \
             '### What is New' \
             '### Improvements' \
             '### Bug Fixes' \
@@ -429,13 +483,15 @@ jobs:
             '- PleasantUI.ToolKit' \
             '' \
             '---' \
-            > /tmp/prompt-final.txt
+            >> /tmp/prompt-final.txt
+
           {
             printf '## Summary A (passes 1-3: commits, API, diff batches 1-2)\n'
             cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
             printf '\n## Summary B (passes 4-6: diff batches 3-5)\n'
             cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-final.txt
+
           printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
 
       - name: AI final merge — write release notes
