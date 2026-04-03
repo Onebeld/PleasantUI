@@ -458,12 +458,8 @@ public class NavigationView : TreeView
 
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
     {
-        if (item.IsSelected)
-            return;
-
-        // Close any open submenu popups before selecting
+        // Always run deselection of other items, even if this item is already selected
         CloseAllSubMenuPopups();
-
         SelectSingleItemCore(item, runAnimation);
     }
 
