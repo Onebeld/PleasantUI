@@ -296,7 +296,7 @@ jobs:
         id: ai_pass1
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompts/prompt-1.txt
 
@@ -311,7 +311,7 @@ jobs:
         id: ai_pass2
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompts/prompt-2.txt
 
@@ -326,7 +326,7 @@ jobs:
         id: ai_pass3
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompts/prompt-3.txt
 
@@ -341,7 +341,7 @@ jobs:
         id: ai_pass4
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompts/prompt-4.txt
 
@@ -356,7 +356,7 @@ jobs:
         id: ai_pass5
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompts/prompt-5.txt
 
@@ -371,7 +371,7 @@ jobs:
         id: ai_pass6
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompts/prompt-6.txt
 
@@ -414,7 +414,7 @@ jobs:
         id: ai_merge_a
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompt-merge-a.txt
 
@@ -446,7 +446,7 @@ jobs:
         id: ai_compress_a
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompt-compress-a.txt
 
@@ -489,7 +489,7 @@ jobs:
         id: ai_merge_b
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompt-merge-b.txt
 
@@ -521,7 +521,7 @@ jobs:
         id: ai_compress_b
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-4o-mini
           max-tokens: 8000
           prompt-file: /tmp/prompt-compress-b.txt
 
@@ -605,7 +605,7 @@ jobs:
         id: ai_merge
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-4o
+          model: openai/gpt-5
           max-tokens: 8000
           prompt-file: /tmp/prompt-final.txt
 
