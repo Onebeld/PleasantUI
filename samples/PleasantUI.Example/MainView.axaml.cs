@@ -10,6 +10,10 @@ namespace PleasantUI.Example;
 
 public partial class MainView : UserControl
 {
+    // Tracks the last leaf NavigationViewItem that was selected so we can
+    // explicitly deselect it when the user switches to About/Settings.
+    private NavigationViewItem? _lastLeafItem;
+
     public MainView()
     {
         InitializeComponent();
@@ -24,14 +28,19 @@ public partial class MainView : UserControl
         var selected = e.AddedItems[0] as NavigationViewItem;
         if (selected is null) return;
 
-        // Home item itself — go back to home card grid
-        if (ReferenceEquals(selected, HomeNavItem))
+        // Switching to a top-level item (About, Settings, or Home directly) —
+        // clear any previously selected leaf so it doesn't stay highlighted.
+        if (selected.Tag is null)
         {
-            vm.BackToHomePage();
+            ClearLastLeaf();
+
+            if (ReferenceEquals(selected, HomeNavItem))
+                vm.BackToHomePage();
+
             return;
         }
 
-        // Leaf items use Tag to identify the target page
+        // Leaf item — navigate to the corresponding page
         var page = selected.Tag as string switch
         {
             // Basic controls
@@ -39,7 +48,8 @@ public partial class MainView : UserControl
             "Checkbox"      => new CheckBoxPage(),
             "Progress"      => new ProgressPage(),
             "Calendar"      => new CalendarPage(),
-            "Carousel"      => new Pages.BasicControls.CarouselPage(),            "ComboBox"      => new ComboBoxPage(),
+            "Carousel"      => new Pages.BasicControls.CarouselPage(),
+            "ComboBox"      => new ComboBoxPage(),
             "TextBox"       => new TextBoxPage(),
             "DataGrid"      => new DataGridPage(),
             "PinCode"       => new PinCodePage(),
@@ -63,11 +73,25 @@ public partial class MainView : UserControl
 
         if (page is null) return;
 
+        // Deselect the previous leaf before tracking the new one
+        ClearLastLeaf();
+        _lastLeafItem = selected;
+
         vm.ChangePage(page);
 
-        // Keep HomeNavItem selected so its Content (HomeView) stays visible
+        // Redirect SelectedItem back to HomeNavItem so its Content (HomeView)
+        // stays visible, without going through SelectionChanged again.
         MainNavigationView.SelectionChanged -= OnNavigationSelectionChanged;
         MainNavigationView.SelectedItem = HomeNavItem;
         MainNavigationView.SelectionChanged += OnNavigationSelectionChanged;
+    }
+
+    private void ClearLastLeaf()
+    {
+        if (_lastLeafItem is not null)
+        {
+            _lastLeafItem.IsSelected = false;
+            _lastLeafItem = null;
+        }
     }
 }

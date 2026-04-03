@@ -555,7 +555,6 @@ public class NavigationView : TreeView
             if (navItem.IsSelected && !ReferenceEquals(navItem, item))
                 navItem.IsSelected = false;
         }
-
         if (item is ISelectable selectableItem)
             selectableItem.IsSelected = true;
 
