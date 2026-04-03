@@ -605,7 +605,7 @@ jobs:
         id: ai_merge
         uses: actions/ai-inference@v1
         with:
-          model: openai/gpt-5
+          model: openai/gpt-4.1
           max-tokens: 8000
           prompt-file: /tmp/prompt-final.txt
 
