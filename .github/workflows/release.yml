@@ -238,7 +238,8 @@ jobs:
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o
-          max-completion-tokens: 3000
+          max-tokens: 8000 
+          max-completion-tokens: 8000
           prompt-file: /tmp/release-notes-prompt.txt
 
       - name: Write release notes to file
