@@ -101,6 +101,10 @@ public partial class PathPicker : TemplatedControl
     public static readonly StyledProperty<bool> IsClearSelectionOnCancelProperty =
         AvaloniaProperty.Register<PathPicker, bool>(nameof(IsClearSelectionOnCancel));
 
+    /// <summary>Defines the <see cref="UseCustomPicker"/> property.</summary>
+    public static readonly StyledProperty<bool> UseCustomPickerProperty =
+        AvaloniaProperty.Register<PathPicker, bool>(nameof(UseCustomPicker), defaultValue: false);
+
     /// <summary>Defines the <see cref="VerticalContentAlignment"/> property.</summary>
     public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
         AvaloniaProperty.Register<PathPicker, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Center);
@@ -195,6 +199,16 @@ public partial class PathPicker : TemplatedControl
         set => SetValue(IsClearSelectionOnCancelProperty, value);
     }
 
+    /// <summary>
+    /// When true, uses the built-in <see cref="PleasantFileChooser"/> UI instead of
+    /// the platform-native storage picker dialog.
+    /// </summary>
+    public bool UseCustomPicker
+    {
+        get => GetValue(UseCustomPickerProperty);
+        set => SetValue(UseCustomPickerProperty, value);
+    }
+
     /// <summary>Gets or sets the vertical alignment of the content.</summary>
     public VerticalAlignment VerticalContentAlignment
     {
@@ -280,21 +294,52 @@ public partial class PathPicker : TemplatedControl
 
     private async void OnButtonClick(object? sender, RoutedEventArgs e)
     {
-        if (TopLevel.GetTopLevel(this)?.StorageProvider is not { } storage) return;
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel is null) return;
 
         try
         {
             if (_button is not null) _button.IsEnabled = false;
 
-            IReadOnlyList<string?> picked = Mode switch
-            {
-                PathPickerMode.OpenFile   => await PickOpenFileAsync(storage),
-                PathPickerMode.SaveFile   => await PickSaveFileAsync(storage),
-                PathPickerMode.OpenFolder => await PickOpenFolderAsync(storage),
-                _                         => []
-            };
+            IReadOnlyList<string>? picked;
 
-            var nonNull = picked.Where(p => p is not null).Select(p => p!).ToList();
+            if (UseCustomPicker)
+            {
+                // Build filter list for the custom picker
+                var filters = ParseFileFilter(FileFilter)?
+                    .Select(f => new PleasantFileChooserFilter(
+                        f.Name ?? string.Empty,
+                        (IReadOnlyList<string>)(f.Patterns ?? [])))
+                    .ToList()
+                    ?? new List<PleasantFileChooserFilter>();
+
+                picked = await PleasantFileChooser.ShowAsync(topLevel, new PleasantFileChooserOptions
+                {
+                    Title            = Title,
+                    AllowMultiple    = AllowMultiple,
+                    FoldersOnly      = Mode == PathPickerMode.OpenFolder,
+                    InitialDirectory = SuggestedStartPath,
+                    Filters          = filters
+                });
+            }
+            else
+            {
+                // Platform-native picker
+                if (topLevel.StorageProvider is not { } storage) return;
+
+                IReadOnlyList<string?> raw = Mode switch
+                {
+                    PathPickerMode.OpenFile   => await PickOpenFileAsync(storage),
+                    PathPickerMode.SaveFile   => await PickSaveFileAsync(storage),
+                    PathPickerMode.OpenFolder => await PickOpenFolderAsync(storage),
+                    _                         => []
+                };
+
+                picked = raw.Where(p => p is not null).Select(p => p!).ToList();
+            }
+
+            var nonNull = picked?.Where(p => !string.IsNullOrEmpty(p)).ToList()
+                          ?? new List<string>();
 
             if (nonNull.Count > 0)
                 SelectedPaths = nonNull;

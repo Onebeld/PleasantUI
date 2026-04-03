@@ -62,6 +62,21 @@
                                               AllowMultiple="True" />
                     </StackPanel>
 
+                    <!-- Custom picker UI -->
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="UseCustomPicker = True"
+                                   FontFamily="Consolas,Monospace"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" />
+                        <TextBlock Text="Opens the built-in PleasantUI file browser instead of the platform dialog."
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                        <controls:PathPicker Title="Browse (custom UI)"
+                                              Mode="OpenFile"
+                                              UseCustomPicker="True" />
+                    </StackPanel>
+
                     <!-- Compact theme variant -->
                     <StackPanel Spacing="6">
                         <TextBlock Text="CompactPathPickerTheme"
@@ -83,7 +98,7 @@
                 <StackPanel Spacing="10">
                     <TextBlock Text="Key properties"
                                Theme="{StaticResource BodyStrongTextBlockTheme}" />
-                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Mode"                  FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="OpenFile / SaveFile / OpenFolder" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="AllowMultiple"         FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
@@ -96,8 +111,9 @@
                         <TextBlock Grid.Row="4" Grid.Column="2" Text="Two-way bindable newline-separated string of selected paths." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Command"               FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
                         <TextBlock Grid.Row="5" Grid.Column="2" Text="Executed after the picker closes, receives SelectedPaths as parameter." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
-                    </Grid>
-                </StackPanel>
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="UseCustomPicker"       FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="2" Text="When true, shows the built-in PleasantUI file browser instead of the platform-native dialog." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    </Grid>                </StackPanel>
             </Border>
 
         </StackPanel>

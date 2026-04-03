@@ -78,6 +78,7 @@
                 <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PathPicker.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantFileChooser.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantBorder.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantFlyoutPresenter.axaml" />

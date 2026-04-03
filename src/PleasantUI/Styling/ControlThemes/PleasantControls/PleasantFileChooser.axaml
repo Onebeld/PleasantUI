@@ -1,0 +1,241 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <ControlTheme x:Key="{x:Type controls:PleasantFileChooser}" TargetType="controls:PleasantFileChooser">
+        <Setter Property="MaxWidth"  Value="760" />
+        <Setter Property="MaxHeight" Value="520" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+
+        <Setter Property="Template">
+            <ControlTemplate TargetType="controls:PleasantFileChooser">
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid ColumnDefinitions="180,*">
+
+                        <!-- ── LEFT SIDEBAR ──────────────────────────────────── -->
+                        <Border Grid.Column="0"
+                                Background="{DynamicResource ControlFillColor2}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 1 0">
+                            <Grid RowDefinitions="Auto,*">
+                                <TextBlock Grid.Row="0"
+                                           Margin="16 16 16 8"
+                                           Text="Quick Access"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                                <ListBox Name="PART_QuickLinks"
+                                         Grid.Row="1"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Padding="8 0 8 8"
+                                         ItemsSource="{TemplateBinding QuickLinks}"
+                                         Focusable="False">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="controls:PleasantFileChooserItem">
+                                            <StackPanel Orientation="Horizontal" Spacing="10" Margin="4 3">
+                                                <Viewbox Width="16" Height="16" VerticalAlignment="Center">
+                                                    <Path Stretch="Uniform"
+                                                          Fill="{DynamicResource AccentFillColor1}"
+                                                          Data="{StaticResource FileImportRegular}" />
+                                                </Viewbox>
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontSize="13"
+                                                           VerticalAlignment="Center"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource TextFillColor1}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+
+                        <!-- ── MAIN AREA ─────────────────────────────────────── -->
+                        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*,Auto">
+
+                            <!-- Navigation bar -->
+                            <Grid Grid.Row="0"
+                                  ColumnDefinitions="Auto,Auto,Auto,*"
+                                  Margin="12 12 12 8">
+                                <Button Name="PART_BackButton"
+                                        Grid.Column="0"
+                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Width="32" Height="32" Padding="6"
+                                        ToolTip.Tip="Back"
+                                        IsEnabled="{TemplateBinding CanGoBack}">
+                                    <Viewbox Width="14" Height="14">
+                                        <Path Data="{StaticResource ArrowLeftRegular}"
+                                              Fill="{DynamicResource TextFillColor1}"
+                                              Stretch="Uniform" />
+                                    </Viewbox>
+                                </Button>
+                                <Button Name="PART_ForwardButton"
+                                        Grid.Column="1"
+                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Width="32" Height="32" Padding="6"
+                                        ToolTip.Tip="Forward"
+                                        IsEnabled="{TemplateBinding CanGoForward}">
+                                    <Viewbox Width="14" Height="14">
+                                        <Path Data="{StaticResource ArrowRightRegular}"
+                                              Fill="{DynamicResource TextFillColor1}"
+                                              Stretch="Uniform" />
+                                    </Viewbox>
+                                </Button>
+                                <Button Name="PART_UpButton"
+                                        Grid.Column="2"
+                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Width="32" Height="32" Padding="6"
+                                        Margin="4 0 8 0"
+                                        ToolTip.Tip="Up"
+                                        IsEnabled="{TemplateBinding CanGoUp}">
+                                    <Viewbox Width="14" Height="14">
+                                        <Path Data="{StaticResource ChevronUpRegular}"
+                                              Fill="{DynamicResource TextFillColor1}"
+                                              Stretch="Uniform" />
+                                    </Viewbox>
+                                </Button>
+                                <TextBox Name="PART_LocationBox"
+                                         Grid.Column="3"
+                                         Text="{TemplateBinding CurrentPath}"
+                                         FontSize="13"
+                                         VerticalContentAlignment="Center" />
+                            </Grid>
+
+                            <!-- Filter / search bar -->
+                            <Grid Grid.Row="1"
+                                  ColumnDefinitions="*,8,Auto"
+                                  Margin="12 0 12 8">
+                                <TextBox Name="PART_FilterBox"
+                                         Grid.Column="0"
+                                         Text="{TemplateBinding FilterText}"
+                                         PlaceholderText="Search..."
+                                         FontSize="13"
+                                         VerticalContentAlignment="Center" />
+                                <ComboBox Name="PART_FilterCombo"
+                                          Grid.Column="2"
+                                          MinWidth="140"
+                                          FontSize="13"
+                                          ItemsSource="{TemplateBinding Filters}"
+                                          SelectedIndex="{TemplateBinding SelectedFilterIndex}"
+                                          IsVisible="{TemplateBinding Filters, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate DataType="controls:PleasantFileChooserFilter">
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>
+
+                            <!-- File list -->
+                            <Border Grid.Row="2"
+                                    Margin="12 0 12 0"
+                                    Background="{DynamicResource ControlFillColor1}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    ClipToBounds="True">
+                                <Grid RowDefinitions="Auto,*">
+                                    <!-- Column headers -->
+                                    <Grid Grid.Row="0"
+                                          ColumnDefinitions="28,*,140,100,80"
+                                          Background="{DynamicResource ControlFillColor2}"
+                                          Height="32">
+                                        <TextBlock Grid.Column="1" Text="Name"     FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" Margin="8 0" Foreground="{DynamicResource TextFillColor2}" />
+                                        <TextBlock Grid.Column="2" Text="Modified" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" Margin="8 0" Foreground="{DynamicResource TextFillColor2}" />
+                                        <TextBlock Grid.Column="3" Text="Type"     FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" Margin="8 0" Foreground="{DynamicResource TextFillColor2}" />
+                                        <TextBlock Grid.Column="4" Text="Size"     FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" Margin="8 0" Foreground="{DynamicResource TextFillColor2}" />
+                                    </Grid>
+
+                                    <ListBox Name="PART_FileList"
+                                             Grid.Row="1"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             ItemsSource="{TemplateBinding Items}"
+                                             SelectionMode="Multiple">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="controls:PleasantFileChooserItem">
+                                                <Grid ColumnDefinitions="28,*,140,100,80" Height="28">
+                                                    <Viewbox Grid.Column="0" Width="16" Height="16"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center">
+                                                        <Path Stretch="Uniform"
+                                                              Fill="{DynamicResource AccentFillColor1}"
+                                                              Data="{StaticResource FileImportRegular}" />
+                                                    </Viewbox>
+                                                    <TextBlock Grid.Column="1"
+                                                               Text="{Binding Name}"
+                                                               FontSize="13"
+                                                               VerticalAlignment="Center"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               Margin="8 0"
+                                                               Foreground="{DynamicResource TextFillColor1}" />
+                                                    <TextBlock Grid.Column="2"
+                                                               Text="{Binding Modified, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center"
+                                                               Margin="8 0"
+                                                               Foreground="{DynamicResource TextFillColor2}" />
+                                                    <TextBlock Grid.Column="3"
+                                                               Text="{Binding Extension}"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center"
+                                                               Margin="8 0"
+                                                               Foreground="{DynamicResource TextFillColor2}" />
+                                                    <TextBlock Grid.Column="4"
+                                                               Text="{Binding SizeText}"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Right"
+                                                               Margin="8 0"
+                                                               Foreground="{DynamicResource TextFillColor2}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </Border>
+
+                            <!-- Bottom bar -->
+                            <Border Grid.Row="3"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="0 1 0 0"
+                                    Padding="12 12">
+                                <Grid ColumnDefinitions="Auto,*,8,Auto,8,Auto">
+                                    <TextBlock Grid.Column="0"
+                                               Text="File name:"
+                                               FontSize="13"
+                                               VerticalAlignment="Center"
+                                               Margin="0 0 12 0"
+                                               Foreground="{DynamicResource TextFillColor1}" />
+                                    <TextBox Name="PART_FileNameBox"
+                                             Grid.Column="1"
+                                             Text="{TemplateBinding FileName}"
+                                             FontSize="13"
+                                             VerticalContentAlignment="Center" />
+                                    <Button Name="PART_CancelButton"
+                                            Grid.Column="3"
+                                            Content="{Localize PopConfirm/Cancel}"
+                                            MinWidth="90" />
+                                    <Button Name="PART_OkButton"
+                                            Grid.Column="5"
+                                            Theme="{StaticResource AccentButtonTheme}"
+                                            Content="{Localize PathPicker/OpenFile}"
+                                            MinWidth="90" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
