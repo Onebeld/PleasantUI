@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             xmlns:local="clr-namespace:PleasantUI.Example.Views.Pages.ControlPages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PleasantUI.Example.Views.Pages.ControlPages.SelectionListPageView"
+             x:DataType="local:SelectionListPageView"
+             DataContext="{Binding $self}">
+    <StackPanel Spacing="12" Margin="0 8">
+
+        <!-- Vertical list with image items -->
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                           Text="{Localize SelectionList/VerticalWithImages}" />
+                <TextBlock Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12"
+                           Text="{Localize SelectionList/VerticalDescription}" />
+                <controls:SelectionList ItemsSource="{Binding Items}"
+                                        Orientation="Vertical"
+                                        EmptyMessage="{Localize SelectionList/EmptyMessage}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Horizontal chip list -->
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                           Text="{Localize SelectionList/HorizontalChips}" />
+                <TextBlock Foreground="{DynamicResource TextFillColor2}"
+                           FontSize="12"
+                           Text="{Localize SelectionList/HorizontalDescription}" />
+                <controls:SelectionList ItemsSource="{Binding ChipItems}"
+                                        Orientation="Horizontal"
+                                        EmptyMessage="{Localize SelectionList/EmptyMessage}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Empty state demo -->
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                           Text="{Localize SelectionList/EmptyState}" />
+                <controls:SelectionList EmptyMessage="{Localize SelectionList/EmptyMessage}" />
+            </StackPanel>
+        </Border>
+
+    </StackPanel>
+</UserControl>

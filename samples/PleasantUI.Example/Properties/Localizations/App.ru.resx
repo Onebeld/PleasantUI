@@ -356,6 +356,13 @@
     <data name="CardTitle/TextBox" xml:space="preserve"><value>Текстовое поле</value></data>
     <data name="CardTitle/DataGrid" xml:space="preserve"><value>Таблица</value></data>
     <data name="CardTitle/PinCode" xml:space="preserve"><value>Пин-код</value></data>
+    <data name="CardTitle/SelectionList" xml:space="preserve"><value>Список выбора</value></data>
+    <data name="SelectionList/VerticalWithImages" xml:space="preserve"><value>Вертикальный список с изображениями</value></data>
+    <data name="SelectionList/VerticalDescription" xml:space="preserve"><value>Список с множественным выбором: миниатюра, заголовок, подзаголовок и метка времени.</value></data>
+    <data name="SelectionList/HorizontalChips" xml:space="preserve"><value>Горизонтальный список тегов</value></data>
+    <data name="SelectionList/HorizontalDescription" xml:space="preserve"><value>Горизонтальная ориентация для выбора тегов или категорий.</value></data>
+    <data name="SelectionList/EmptyState" xml:space="preserve"><value>Пустое состояние</value></data>
+    <data name="SelectionList/EmptyMessage" xml:space="preserve"><value>Элементы не найдены</value></data>
     <data name="CardTitle/PleasantSnackbar" xml:space="preserve"><value>Уведомление</value></data>
     <data name="CardTitle/InformationBlock" xml:space="preserve"><value>Информационный блок</value></data>
     <data name="CardTitle/OptionsDisplayItem" xml:space="preserve"><value>Элемент настроек</value></data>

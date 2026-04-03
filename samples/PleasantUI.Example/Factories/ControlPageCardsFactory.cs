@@ -29,6 +29,7 @@ public class ControlPageCardsFactory
             new("CardTitle/TextBox",      MaterialIcons.FormTextbox,          "Card/TextBox",   new TextBoxPage(),  _eventAggregator),
             new("CardTitle/DataGrid",     MaterialIcons.Grid,                 "Card/DataGrid",  new DataGridPage(), _eventAggregator),
             new("CardTitle/PinCode",      MaterialIcons.KeyboardOutline,       "Card/PinCode",   new PinCodePage(),  _eventAggregator),
+            new("CardTitle/SelectionList", MaterialIcons.ViewListOutline, "Card/SelectionList", new SelectionListPage(), _eventAggregator),
         ];
     }
 
