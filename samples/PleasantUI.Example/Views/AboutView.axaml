@@ -2,81 +2,268 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:MaterialIcons="clr-namespace:PleasantUI.MaterialIcons;assembly=PleasantUI.MaterialIcons"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.AboutView">
     <SmoothScrollViewer>
-        <StackPanel Margin="25" Spacing="5">
+        <StackPanel Margin="25" Spacing="16">
+            <!-- Header -->
             <TextBlock Text="{Localize AboutTitle}"
                        Margin="0 0 0 10"
                        Theme="{StaticResource TitleTextBlockTheme}" />
-            
-            <Panel>
-                <Grid HorizontalAlignment="Left" ColumnDefinitions="Auto,Auto">
-                    <Image Grid.Column="0" Source="{StaticResource PleasantUILogo}" Width="70" />
-                    
-                    <StackPanel Grid.Column="1" Width="150" Margin="20 0 0 0" VerticalAlignment="Center">
+
+            <!-- Hero Section with Logo and Version -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="20">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <!-- Logo -->
+                    <Border Grid.Column="0"
+                            Background="#B2D3D3"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Width="80"
+                            Height="80">
+                        <Viewbox Stretch="Uniform" Margin="10">
+                            <Image Source="{StaticResource PleasantUI}" Width="64" Height="64" />
+                        </Viewbox>
+                    </Border>
+
+                    <!-- Title and Version -->
+                    <StackPanel Grid.Column="1" Margin="20 0" VerticalAlignment="Center">
                         <PathIcon Data="{StaticResource PleasantUINoLogo}"
+                                  Height="35"
+                                  Width="NaN"
+                                  HorizontalAlignment="Left" />
+                        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 8 0 0">
+                            <TextBlock Foreground="{DynamicResource TextFillColor3}"
+                                       FontSize="13"
+                                       Text="{Localize About/License}" />
+                            <TextBlock Foreground="{DynamicResource TextFillColor3}"
+                                       FontSize="13"
+                                       Text="|" />
+                            <TextBlock x:Name="VersionTextBlock"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Author -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <PathIcon Data="{StaticResource Onebeld}"
+                                  Width="120"
                                   Height="NaN"
-                                  Width="NaN" />
-                        
-                        <TextBlock Foreground="{DynamicResource TextFillColor3}"
+                                  HorizontalAlignment="Right" />
+                        <TextBlock Text="Dmitry Zhutkov"
                                    FontSize="12"
-                                   Text="License: MIT" />
-                        
-                        <TextBlock x:Name="VersionTextBlock" Margin="0 -2 0 0"
-                                   FontSize="12"
-                                   Foreground="{DynamicResource TextFillColor3}" />
+                                   TextAlignment="Right"
+                                   Foreground="{DynamicResource TextFillColor3}"
+                                   Margin="0 5 0 0" />
                     </StackPanel>
                 </Grid>
-                
-                <StackPanel HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Width="200">
-                    <PathIcon Data="{StaticResource Onebeld}"
-                              Width="NaN"
-                              Height="NaN" />
-                    
-                    <TextBlock Text="Dmitry Zhutkov"
-                               FontSize="12"
-                               TextAlignment="Right"
-                               Foreground="{DynamicResource TextFillColor3}"/>
+            </Border>
+
+            <!-- Description Section with Rich Formatting -->
+            <Border Background="{DynamicResource ControlFillColor2}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource InformationCircleOutline}"
+                                  Width="20"
+                                  Height="20"
+                                  Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <TextBlock Text="{Localize Description}"
+                                   FontWeight="SemiBold"
+                                   FontSize="16" />
+                    </StackPanel>
+
+                    <!-- Multiline description in a styled read-only TextBox -->
+                    <Border Background="{DynamicResource ControlFillColor1}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Padding="12">
+                        <TextBox Text="{Localize LibraryDescription}"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 IsReadOnly="True"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 Padding="0"
+                                 FontSize="14"
+                                 LineHeight="22" />
+                    </Border>
+
+                    <!-- Feature Highlights -->
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
+                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="0 8">
+                            <PathIcon Data="{StaticResource PaletteOutline}"
+                                      Width="24"
+                                      Height="24"
+                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Localize About/FeatureFluentDesign}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13" />
+                                <TextBlock Text="{Localize About/FeatureFluentDesignDesc}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="12" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="8 0">
+                            <PathIcon Data="{StaticResource ViewDashboardOutline}"
+                                      Width="24"
+                                      Height="24"
+                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Localize About/FeatureCustomControls}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13" />
+                                <TextBlock Text="{Localize About/FeatureCustomControlsDesc}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="12" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="0 8">
+                            <PathIcon Data="{StaticResource ThemeLightDark}"
+                                      Width="24"
+                                      Height="24"
+                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Localize About/FeatureThemes}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13" />
+                                <TextBlock Text="{Localize About/FeatureThemesDesc}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="12" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0 8">
+                            <PathIcon Data="{StaticResource Translate}"
+                                      Width="24"
+                                      Height="24"
+                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Localize About/FeatureLocalization}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13" />
+                                <TextBlock Text="{Localize About/FeatureLocalizationDesc}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="12" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="8 0">
+                            <PathIcon Data="{StaticResource FastForward}"
+                                      Width="24"
+                                      Height="24"
+                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Localize About/FeatureAOT}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13" />
+                                <TextBlock Text="{Localize About/FeatureAOTDesc}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="12" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0 8">
+                            <PathIcon Data="{StaticResource Laptop}"
+                                      Width="24"
+                                      Height="24"
+                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Localize About/FeatureCrossPlatform}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13" />
+                                <TextBlock Text="{Localize About/FeatureCrossPlatformDesc}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="12" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
-            </Panel>
-            
+            </Border>
+
+            <!-- Links Section -->
             <OptionsDisplayItem Header="{Localize Links}"
-                                Icon="{x:Static MaterialIcons.Link}"
+                                Icon="{StaticResource LinkVariant}"
                                 Expands="True"
                                 IsExpanded="True">
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="10" Margin="45 0 0 0">
-                        <Button x:Name="PatreonButton"
-                                Theme="{StaticResource AppBarButtonTheme}"
-                                Content="Patreon"
-                                Foreground="{StaticResource AccentLightColor1}"
-                                HorizontalAlignment="Left"
-                                Padding="5 0" />
                         <Button x:Name="GitHubButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
-                                Content="GitHub"
-                                Foreground="{StaticResource AccentLightColor1}"
                                 HorizontalAlignment="Left"
-                                Padding="5 0" />
+                                Padding="12 6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <PathIcon Data="{StaticResource Github}"
+                                          Width="18"
+                                          Height="18" />
+                                <TextBlock Text="{Localize About/GitHubRepo}"
+                                           Foreground="{StaticResource AccentLightColor1}" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="PatreonButton"
+                                Theme="{StaticResource AppBarButtonTheme}"
+                                HorizontalAlignment="Left"
+                                Padding="12 6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <PathIcon Data="{StaticResource HeartOutline}"
+                                          Width="18"
+                                          Height="18" />
+                                <TextBlock Text="{Localize About/PatreonSupport}"
+                                           Foreground="{StaticResource AccentLightColor1}" />
+                            </StackPanel>
+                        </Button>
                         <Button x:Name="BoostyButton"
                                 Theme="{StaticResource AppBarButtonTheme}"
-                                Content="Boosty"
-                                Foreground="{StaticResource AccentLightColor1}"
                                 HorizontalAlignment="Left"
-                                Padding="5 0" />
+                                Padding="12 6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <PathIcon Data="{StaticResource CurrencyUsd}"
+                                          Width="18"
+                                          Height="18" />
+                                <TextBlock Text="{Localize About/BoostySupport}"
+                                           Foreground="{StaticResource AccentLightColor1}" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
-            
+
+            <!-- Credits Section -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    Padding="12"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-                <StackPanel>
-                    <TextBlock Text="{Localize Description}" FontWeight="Bold" Margin="0 0 0 10" />
-                    <TextBlock Text="{Localize LibraryDescription}" TextWrapping="Wrap" />
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource Heart}"
+                                  Width="18"
+                                  Height="18"
+                                  Foreground="{DynamicResource SystemErrorTextColor}" />
+                        <TextBlock Text="{Localize About/CreditsTitle}"
+                                   FontWeight="SemiBold"
+                                   FontSize="14" />
+                    </StackPanel>
+                    <TextBox Text="{Localize About/CreditsText}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             Padding="0"
+                             FontSize="13"
+                             LineHeight="20"
+                             Foreground="{DynamicResource TextFillColor3}" />
                 </StackPanel>
             </Border>
         </StackPanel>

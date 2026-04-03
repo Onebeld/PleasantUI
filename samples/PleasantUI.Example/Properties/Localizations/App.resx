@@ -77,7 +77,25 @@
     <data name="AboutTitle" xml:space="preserve"><value>About</value></data>
     <data name="Links" xml:space="preserve"><value>Links</value></data>
     <data name="Description" xml:space="preserve"><value>Description</value></data>
-    <data name="LibraryDescription" xml:space="preserve"><value>Graphical user interface library for Avalonia with its own controls</value></data>
+    <data name="LibraryDescription" xml:space="preserve"><value>PleasantUI is a cross-platform UI theme and control library for Avalonia, inspired by Microsoft Fluent Design. It features complete Fluent-style control theming, custom Pleasant controls (PleasantWindow, NavigationView, ContentDialog, ProgressRing, and more), a multi-theme engine with 10+ built-in themes and custom theme support, and a reactive localization system. All controls are AOT-compatible with no rd.xml required.</value></data>
+    <data name="About/License" xml:space="preserve"><value>MIT License</value></data>
+    <data name="About/FeatureFluentDesign" xml:space="preserve"><value>Fluent Design</value></data>
+    <data name="About/FeatureFluentDesignDesc" xml:space="preserve"><value>Complete Fluent-style theming with rounded corners and smooth transitions</value></data>
+    <data name="About/FeatureCustomControls" xml:space="preserve"><value>Custom Controls</value></data>
+    <data name="About/FeatureCustomControlsDesc" xml:space="preserve"><value>PleasantWindow, NavigationView, ContentDialog, TabView, and more</value></data>
+    <data name="About/FeatureThemes" xml:space="preserve"><value>10+ Themes</value></data>
+    <data name="About/FeatureThemesDesc" xml:space="preserve"><value>Built-in themes plus custom theme editor with full color customization</value></data>
+    <data name="About/FeatureLocalization" xml:space="preserve"><value>Localization</value></data>
+    <data name="About/FeatureLocalizationDesc" xml:space="preserve"><value>Reactive localization system with runtime language switching</value></data>
+    <data name="About/FeatureAOT" xml:space="preserve"><value>AOT Ready</value></data>
+    <data name="About/FeatureAOTDesc" xml:space="preserve"><value>Fully AOT-compatible with no rd.xml required</value></data>
+    <data name="About/FeatureCrossPlatform" xml:space="preserve"><value>Cross-Platform</value></data>
+    <data name="About/FeatureCrossPlatformDesc" xml:space="preserve"><value>Works on Windows, macOS, Linux, and mobile platforms</value></data>
+    <data name="About/GitHubRepo" xml:space="preserve"><value>GitHub Repository</value></data>
+    <data name="About/PatreonSupport" xml:space="preserve"><value>Support on Patreon</value></data>
+    <data name="About/BoostySupport" xml:space="preserve"><value>Support on Boosty</value></data>
+    <data name="About/CreditsTitle" xml:space="preserve"><value>Credits &amp; Acknowledgments</value></data>
+    <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI - The cross-platform UI framework&#x0A;• Aura.UI by PieroCastillo - Control inspiration&#x0A;• FluentAvalonia.ProgressRing by ymg2006&#x0A;• JetBrains Rider - Development IDE</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Custom themes</value></data>
     <!-- Calendar page -->
