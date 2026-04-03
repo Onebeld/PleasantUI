@@ -5,6 +5,8 @@
 
 <img align="center" src="https://i.imgur.com/Sr3crB8.png">
 
+![Imgur](https://i.imgur.com/7HXbYEo.png)
+
 # PleasantUI
 
 > **Repositories:** [Original (Onebeld)](https://github.com/Onebeld/PleasantUI) · [Fork (ghudulf)](https://github.com/ghudulf/PleasantUI)
@@ -35,20 +37,25 @@ Every standard Avalonia control gets a full Fluent Design makeover — rounded c
 
 Controls built from scratch that go beyond what Avalonia ships:
 
-| Control | Description |
-|---|---|
-| `PleasantWindow` | Custom window chrome with a Fluent title bar, subtitle, custom icon/title content, optional blur, content-extends-into-titlebar, and macOS caption override |
-| `NavigationView` / `NavigationViewItem` | Collapsible side navigation panel, similar to WinUI NavigationView |
-| `PleasantTabView` / `PleasantTabItem` | Chromium-style tab strip with add/close buttons and scrollable tab bar |
-| `ContentDialog` | Modal overlay dialog with bottom button panel and smooth scroll content area |
-| `PleasantSnackbar` | Temporary non-intrusive notification bar |
-| `ProgressRing` | Circular progress indicator — both determinate and indeterminate with animated arc |
-| `OptionsDisplayItem` | Settings-style row with header, description, icon, action button slot, navigation chevron, and expandable content |
-| `InformationBlock` | Compact pill-shaped label combining an icon and a value |
-| `MarkedTextBox` / `MarkedNumericUpDown` | Input controls with inline label/unit markers |
-| `RippleEffect` | Material-style ripple click feedback |
-| `SmoothScrollViewer` | ScrollViewer with inertia gesture support |
-| `PleasantMiniWindow` | Lightweight floating window |
+| Control                                 | Description                                                                                                                                                                                   | Demo                                      |
+|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| `PleasantWindow`                        | Custom window chrome with a Fluent title bar, subtitle, custom icon/title content, optional blur, content-extends-into-titlebar, and macOS caption override                                   | None                                      |
+| `NavigationView` / `NavigationViewItem` | Collapsible side navigation panel, similar to WinUI NavigationView                                                                                                                            | None                                      |
+| `PleasantTabView` / `PleasantTabItem`   | Chromium-style tab strip with add/close buttons and scrollable tab bar                                                                                                                        | None                                      |
+| `ContentDialog`                         | Modal overlay dialog with bottom button panel and smooth scroll content area                                                                                                                  | None                                      |
+| `PleasantSnackbar`                      | Temporary non-intrusive notification bar                                                                                                                                                      | ![Imgur](https://i.imgur.com/tAppDaS.gif) |
+| `ProgressRing`                          | Circular progress indicator — both determinate and indeterminate with animated arc                                                                                                            | ![Imgur](https://i.imgur.com/htsqFUE.gif) |
+| `OptionsDisplayItem`                    | Settings-style row with header, description, icon, action button slot, navigation chevron, and expandable content                                                                             | ![Imgur](https://i.imgur.com/ro1lGRN.png) |
+| `InformationBlock`                      | Compact pill-shaped label combining an icon and a value                                                                                                                                       | ![Imgur](https://i.imgur.com/SX0BZ2k.png) |
+| `MarkedTextBox` / `MarkedNumericUpDown` | Input controls with inline label/unit markers                                                                                                                                                 | None                                      |
+| `RippleEffect`                          | Material-style ripple click feedback                                                                                                                                                          | ![Imgur](https://i.imgur.com/2WtIPvj.gif) |
+| `SmoothScrollViewer`                    | ScrollViewer with inertia gesture support                                                                                                                                                     | None                                      |
+| `PleasantMiniWindow`                    | Lightweight floating window                                                                                                                                                                   | None                                      |
+| `Timeline`                              | Displays a list of events in chronological order along a vertical axis. Supports four layout modes, custom icons, and five severity types.                                                    | ![Imgur](https://i.imgur.com/DGP3nDR.png) |
+| `InstallWizard`                         | A multi-step installation wizard with a sidebar step list, progress bar, and Back / Next / Cancel navigation.                                                                                 | ![Imgur](https://i.imgur.com/bbgKH3L.png) |
+| `PleasantMenu`                          | A customizable flyout menu with a title, optional info badges, a grid of large icon buttons, and a footer bar with small utility buttons.                                                     | ![Imgur](https://i.imgur.com/kGYM2fL.png) |
+| `PathPicker`                            | Combines a read-only TextBox with a browse button. Supports OpenFile, SaveFile, and OpenFolder modes, optional multi-select, file-type filters, and two-way binding on the selected path text. | ![Imgur](https://i.imgur.com/qYyeQDd.png) |
+| `PopConfirm`                            | Wraps any trigger control and shows a small popup with a header, body, and Confirm / Cancel buttons before executing a command.                                                               | ![Imgur](https://i.imgur.com/D8VEQ8J.png) |
 
 ### Theme engine
 
