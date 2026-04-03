@@ -389,6 +389,33 @@ jobs:
           max-completion-tokens: 2000
           prompt-file: /tmp/prompt-merge-a.txt
 
+      - name: Compress merge-A output
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are compressing a change-log summary for PleasantUI.' \
+            'Rewrite the input as a TIGHT structured list. Rules:' \
+            '- One bullet per distinct change. Max 12 words per bullet.' \
+            '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
+            '- Preserve ALL items — do not drop any finding.' \
+            '- No prose, no headers, no blank lines between bullets.' \
+            '- Output ONLY the bullet list, nothing else.' \
+            '---' \
+            > /tmp/prompt-compress-a.txt
+          cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null >> /tmp/prompt-compress-a.txt
+          printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
+
+      - name: AI compress-A
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_compress_a
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 1200
+          prompt-file: /tmp/prompt-compress-a.txt
+
       - name: Build merge-B prompt (passes 4-6)
         if: steps.tag_check.outputs.exists == 'false'
         run: |
@@ -427,7 +454,34 @@ jobs:
           max-completion-tokens: 2000
           prompt-file: /tmp/prompt-merge-b.txt
 
-      - name: Build final merge prompt (merge-A + merge-B)
+      - name: Compress merge-B output
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are compressing a change-log summary for PleasantUI.' \
+            'Rewrite the input as a TIGHT structured list. Rules:' \
+            '- One bullet per distinct change. Max 12 words per bullet.' \
+            '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
+            '- Preserve ALL items — do not drop any finding.' \
+            '- No prose, no headers, no blank lines between bullets.' \
+            '- Output ONLY the bullet list, nothing else.' \
+            '---' \
+            > /tmp/prompt-compress-b.txt
+          cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null >> /tmp/prompt-compress-b.txt
+          printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
+
+      - name: AI compress-B
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_compress_b
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 1200
+          prompt-file: /tmp/prompt-compress-b.txt
+
+      - name: Build final merge prompt (compress-A + compress-B)
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
@@ -436,15 +490,17 @@ jobs:
 
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are two lossless intermediate summaries covering the COMPLETE diff of this release.' \
-            'Write the final GitHub release notes from them.' \
+            'Below are two compressed change lists covering the COMPLETE diff of this release.' \
+            'Each line is one distinct change. Together they represent every change in this release.' \
             '' \
             '## Critical rules' \
-            '- Every finding from both summaries MUST appear in the output. Do not drop any item.' \
-            '- Deduplicate only true duplicates (identical change mentioned in both summaries).' \
+            '- You MUST include every single bullet from BOTH lists in your output.' \
+            '- Read ALL bullets before writing. Do not stop after the first section.' \
+            '- Deduplicate only true duplicates (same file + same change in both lists).' \
             '- When the same item appears in both, use the more detailed description.' \
             '- Use markdown: ### section headers, bullet lists, inline code.' \
-            '- Do NOT invent anything not present in the summaries.' \
+            '- Do NOT invent anything not present in the lists.' \
+            '- After writing, mentally verify: does every input bullet appear somewhere in the output?' \
             > /tmp/prompt-final.txt
 
           if [ "$IS_PRERELEASE" = 'true' ]; then
@@ -454,7 +510,7 @@ jobs:
               "This is a pre-release build ($VERSION). Adjust the tone accordingly:" \
               '- Open with a short pre-release notice: features may be incomplete, APIs may change.' \
               '- Mark experimental or in-progress items with *(experimental)* or *(preview)*.' \
-              '- Do not oversell stability. Use language like "introduces", "adds initial support for", "work in progress".' \
+              '- Use language like "introduces", "adds initial support for", "work in progress".' \
               >> /tmp/prompt-final.txt
           else
             printf '%s\n' \
@@ -463,13 +519,13 @@ jobs:
               "This is a stable release ($VERSION). Adjust the tone accordingly:" \
               '- Write with confidence. Features are production-ready.' \
               '- Use language like "adds", "improves", "fixes", "introduces".' \
-              '- No experimental caveats unless explicitly noted in the summaries.' \
+              '- No experimental caveats unless explicitly noted in the lists.' \
               >> /tmp/prompt-final.txt
           fi
 
           printf '%s\n' \
             '' \
-            '## Required sections (include only those with content):' \
+            '## Required output sections (include only those with content):' \
             '### What is New' \
             '### Improvements' \
             '### Bug Fixes' \
@@ -486,10 +542,10 @@ jobs:
             >> /tmp/prompt-final.txt
 
           {
-            printf '## Summary A (passes 1-3: commits, API, diff batches 1-2)\n'
-            cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
-            printf '\n## Summary B (passes 4-6: diff batches 3-5)\n'
-            cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '## Compressed list A (passes 1-3: commits, API, diff batches 1-2)\n'
+            cat "${{ steps.ai_compress_a.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '\n## Compressed list B (passes 4-6: diff batches 3-5)\n'
+            cat "${{ steps.ai_compress_b.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-final.txt
 
           printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
@@ -517,11 +573,13 @@ jobs:
             # Fallback: use whichever intermediate merges succeeded
             {
               printf '### Changes in v%s\n\n' "${{ steps.version.outputs.version }}"
-              cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null || true
+              cat "${{ steps.ai_compress_a.outputs.response-file }}" 2>/dev/null || \
+                cat "${{ steps.ai_merge_a.outputs.response-file }}" 2>/dev/null || true
               printf '\n'
-              cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null || true
+              cat "${{ steps.ai_compress_b.outputs.response-file }}" 2>/dev/null || \
+                cat "${{ steps.ai_merge_b.outputs.response-file }}" 2>/dev/null || true
             } > /tmp/release_notes.md
-            echo "Used fallback: intermediate merge outputs."
+            echo "Used fallback: compressed merge outputs."
           fi
 
           echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
