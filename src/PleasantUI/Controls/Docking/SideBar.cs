@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -263,6 +264,9 @@ public class SideBar : TemplatedControl
     private void OnDrop(object? sender, DragEventArgs e)
     {
         var (location, index) = DetermineLocation(e);
+        var cursorOnSidebar = e.GetPosition(this);
+        Debug.WriteLine($"[SideBar.OnDrop] Location={Location} cursor=({cursorOnSidebar.X:F1},{cursorOnSidebar.Y:F1}) determinedLocation={location} index={index}");
+
         OnDragLeave(sender, e);
 
         SideBar? oldSideBar = null;
@@ -270,12 +274,26 @@ public class SideBar : TemplatedControl
         {
             if (!e.DataTransfer.Contains(SideBarButton.DragFormat) ||
                 SideBarButton.CurrentDragButton is not { DockLocation: not null } button)
+            {
+                Debug.WriteLine($"[SideBar.OnDrop] No drag button or no DockLocation — aborting");
                 return;
+            }
 
-            if (index < 0) return;
+            Debug.WriteLine($"[SideBar.OnDrop] button.DataContext={button.DataContext} button.DockLocation={button.DockLocation.ButtonLocation}/{button.DockLocation.LeftRight}");
+
+            if (index < 0)
+            {
+                Debug.WriteLine($"[SideBar.OnDrop] index<0 — aborting");
+                return;
+            }
 
             oldSideBar = button.FindAncestorOfType<SideBar>();
+            Debug.WriteLine($"[SideBar.OnDrop] oldSideBar={oldSideBar?.Location.ToString() ?? "null"} thisLocation={Location} sameBar={ReferenceEquals(oldSideBar, this)}");
+
             if (oldSideBar == null) return;
+
+            if (!ReferenceEquals(oldSideBar, this))
+                oldSideBar.SetGridHitTestVisible(true);
 
             var args = new SideBarButtonMoveEventArgs(ReDockHost.ButtonMoveEvent, this)
             {
@@ -289,33 +307,48 @@ public class SideBar : TemplatedControl
             };
 
             RaiseEvent(args);
+            Debug.WriteLine($"[SideBar.OnDrop] ButtonMoveEvent raised, Handled={args.Handled}");
 
             if (args.Handled) return;
 
             var newItemsSource = location switch
             {
-                SideBarButtonLocation.UpperTop => UpperTopToolsSource,
+                SideBarButtonLocation.UpperTop    => UpperTopToolsSource,
                 SideBarButtonLocation.UpperBottom => UpperBottomToolsSource,
-                SideBarButtonLocation.LowerTop => LowerTopToolsSource,
+                SideBarButtonLocation.LowerTop    => LowerTopToolsSource,
                 SideBarButtonLocation.LowerBottom => LowerBottomToolsSource,
-                _ => null
+                _                                 => null
             };
 
-            var itemsControl = button.FindAncestorOfType<ItemsControl>();
-            var items = itemsControl?.ItemsSource;
-
-            if (items is not IList oldSource || newItemsSource is not IList newSource) return;
-
-            if (oldSource.Contains(button.DataContext))
+            // Resolve the SOURCE list from the source sidebar using the button's recorded
+            // DockLocation — do NOT use FindAncestorOfType<ItemsControl>() because after
+            // ReinitializeComponent the button may be visually parented under the wrong
+            // sidebar's container, causing an InvalidCastException when Contains() is called
+            // on a typed AvaloniaList<T> with the wrong object type.
+            var sourceLocation = button.DockLocation.ButtonLocation;
+            var oldItemsSource = sourceLocation switch
             {
-                oldSource.Remove(button.DataContext);
-                newSource.Insert(index, button.DataContext);
-            }
-            else if (oldSource.Contains(button))
+                SideBarButtonLocation.UpperTop    => oldSideBar.UpperTopToolsSource,
+                SideBarButtonLocation.UpperBottom => oldSideBar.UpperBottomToolsSource,
+                SideBarButtonLocation.LowerTop    => oldSideBar.LowerTopToolsSource,
+                SideBarButtonLocation.LowerBottom => oldSideBar.LowerBottomToolsSource,
+                _                                 => null
+            };
+
+            // Store move information in the button for deferred execution after drag completes
+            // This prevents the original button from detaching during the drag operation
+            button.PendingMove = new PendingMoveInfo
             {
-                oldSource.Remove(button);
-                newSource.Insert(index, button);
-            }
+                DataContext = button.DataContext,
+                SourceSideBar = oldSideBar,
+                SourceLocation = button.DockLocation,
+                DestinationSideBar = this,
+                DestinationLocation = new DockAreaLocation(location, Location),
+                DestinationIndex = index
+            };
+
+            Debug.WriteLine($"[SideBar.OnDrop] Stored pending move for later execution");
+            e.Handled = true;
         }
         finally
         {
@@ -328,11 +361,16 @@ public class SideBar : TemplatedControl
     {
         if (!e.DataTransfer.Contains(SideBarButton.DragFormat)) return;
 
+        var pos = e.GetPosition(this);
+        Debug.WriteLine($"[SideBar.OnDragEnter] Location={Location} cursorOnSidebar={pos:F1} bounds={Bounds.Size} host={(_host != null ? "found" : "null")}");
+
         SetGridHitTestVisible(false);
         _supportedLocations = _host?.DockAreas
             .Where(i => i.Location.LeftRight == Location)
             .Select(i => i.Location.ButtonLocation)
             .ToArray();
+
+        Debug.WriteLine($"[SideBar.OnDragEnter] supportedLocations=[{(_supportedLocations == null ? "ALL" : string.Join(",", _supportedLocations))}]");
 
         if (_upperDivider != null)
             _upperDivider.IsVisible = SupportsLocation(SideBarButtonLocation.UpperTop) && SupportsLocation(SideBarButtonLocation.UpperBottom);
@@ -361,6 +399,9 @@ public class SideBar : TemplatedControl
 
         if (!e.DataTransfer.Contains(SideBarButton.DragFormat)) return;
 
+        var pos = e.GetPosition(this);
+        Debug.WriteLine($"[SideBar.OnDragLeave] Location={Location} cursorOnSidebar={pos:F1}");
+
         SetGridHitTestVisible(true);
 
         foreach (Control item in _upperTopTools.GetRealizedContainers()
@@ -384,6 +425,8 @@ public class SideBar : TemplatedControl
             _layer = null;
             _dragGhost = null;
         }
+
+        Debug.WriteLine($"[SideBar.OnDragLeave] Cleanup done");
     }
 
     private void OnDragOver(object? sender, DragEventArgs e)
@@ -394,6 +437,10 @@ public class SideBar : TemplatedControl
             return;
 
         if (!e.DataTransfer.Contains(SideBarButton.DragFormat)) return;
+
+        var cursorOnSidebar = e.GetPosition(this);
+        var cursorOnGrid    = e.GetPosition(_grid);
+        Debug.WriteLine($"[SideBar.OnDragOver] Location={Location} cursor=({cursorOnSidebar.X:F1},{cursorOnSidebar.Y:F1}) onGrid=({cursorOnGrid.X:F1},{cursorOnGrid.Y:F1}) gridBounds={_grid.Bounds.Size} upperStackH={_upperStack.Bounds.Height:F1} lowerStackH={_lowerStack.Bounds.Height:F1}");
 
         const double Spacing = 8;
         var Size = ButtonHeight;
@@ -569,10 +616,21 @@ public class SideBar : TemplatedControl
         if (_upperTopTools == null || _upperBottomTools == null ||
             _lowerTopTools == null || _lowerBottomTools == null || _grid == null ||
             _upperStack == null || _lowerStack == null)
+        {
+            Debug.WriteLine($"[SideBar.DetermineLocation] Location={Location} — null template parts, returning (-1)");
             return (default, -1);
+        }
+
+        var cursorOnSidebar = e.GetPosition(this);
+        Debug.WriteLine($"[SideBar.DetermineLocation] Location={Location} cursor=({cursorOnSidebar.X:F1},{cursorOnSidebar.Y:F1}) supported=[{(_supportedLocations == null ? "ALL" : string.Join(",", _supportedLocations))}]");
+        Debug.WriteLine($"[SideBar.DetermineLocation]   upperTopTools: bounds={_upperTopTools.Bounds} items={_upperTopTools.ItemCount} posOnCtrl={e.GetPosition(_upperTopTools):F1}");
+        Debug.WriteLine($"[SideBar.DetermineLocation]   upperBottomTools: bounds={_upperBottomTools.Bounds} items={_upperBottomTools.ItemCount} posOnCtrl={e.GetPosition(_upperBottomTools):F1}");
+        Debug.WriteLine($"[SideBar.DetermineLocation]   lowerTopTools: bounds={_lowerTopTools.Bounds} items={_lowerTopTools.ItemCount} posOnCtrl={e.GetPosition(_lowerTopTools):F1}");
+        Debug.WriteLine($"[SideBar.DetermineLocation]   lowerBottomTools: bounds={_lowerBottomTools.Bounds} items={_lowerBottomTools.ItemCount} posOnCtrl={e.GetPosition(_lowerBottomTools):F1}");
 
         var spaceBetween = _grid.Bounds.Height - (_upperStack.Bounds.Height + _lowerStack.Bounds.Height);
         if (spaceBetween < 0) spaceBetween = 16;
+        Debug.WriteLine($"[SideBar.DetermineLocation]   spaceBetween={spaceBetween:F1}");
 
         const double Spacing = 8;
 
@@ -583,13 +641,21 @@ public class SideBar : TemplatedControl
                 Control? item = _upperTopTools.ContainerFromIndex(i);
                 if (item?.IsVisible != true) continue;
                 var pos = e.GetPosition(item);
+                Debug.WriteLine($"[SideBar.DetermineLocation]   UpperTop[{i}] posOnItem=({pos.X:F1},{pos.Y:F1}) itemH={item.Bounds.Height:F1} margin.Top={item.Margin.Top:F1} threshold={item.Bounds.Height / 2:F1}");
                 if (pos.Y + item.Margin.Top < item.Bounds.Height / 2)
+                {
+                    Debug.WriteLine($"[SideBar.DetermineLocation] → UpperTop index={i} (before item)");
                     return (SideBarButtonLocation.UpperTop, i);
+                }
             }
 
             var ctrlPos = e.GetPosition(_upperTopTools);
+            Debug.WriteLine($"[SideBar.DetermineLocation]   UpperTop ctrlPos=({ctrlPos.X:F1},{ctrlPos.Y:F1}) ctrlH={_upperTopTools.Bounds.Height:F1} threshold={_upperTopTools.Bounds.Height + Spacing:F1}");
             if (ctrlPos.Y < _upperTopTools.Bounds.Height + Spacing)
+            {
+                Debug.WriteLine($"[SideBar.DetermineLocation] → UpperTop index={_upperTopTools.ItemCount} (append)");
                 return (SideBarButtonLocation.UpperTop, _upperTopTools.ItemCount);
+            }
         }
 
         if (SupportsLocation(SideBarButtonLocation.UpperBottom))
@@ -599,55 +665,108 @@ public class SideBar : TemplatedControl
                 Control? item = _upperBottomTools.ContainerFromIndex(i);
                 if (item?.IsVisible != true) continue;
                 var pos = e.GetPosition(item);
+                Debug.WriteLine($"[SideBar.DetermineLocation]   UpperBottom[{i}] posOnItem=({pos.X:F1},{pos.Y:F1}) threshold={item.Bounds.Height / 2:F1}");
                 if (pos.Y + item.Margin.Top < item.Bounds.Height / 2)
+                {
+                    Debug.WriteLine($"[SideBar.DetermineLocation] → UpperBottom index={i}");
                     return (SideBarButtonLocation.UpperBottom, i);
+                }
             }
 
             var ctrlPos = e.GetPosition(_upperBottomTools);
+            Debug.WriteLine($"[SideBar.DetermineLocation]   UpperBottom ctrlPos=({ctrlPos.X:F1},{ctrlPos.Y:F1}) threshold={_upperBottomTools.Bounds.Height + spaceBetween / 2:F1}");
             if (ctrlPos.Y < _upperBottomTools.Bounds.Height + spaceBetween / 2)
+            {
+                Debug.WriteLine($"[SideBar.DetermineLocation] → UpperBottom index={_upperBottomTools.ItemCount} (append)");
                 return (SideBarButtonLocation.UpperBottom, _upperBottomTools.ItemCount);
+            }
         }
 
         if (SupportsLocation(SideBarButtonLocation.LowerTop))
         {
             var ctrlPos = e.GetPosition(_lowerTopTools);
+            Debug.WriteLine($"[SideBar.DetermineLocation]   LowerTop ctrlPos=({ctrlPos.X:F1},{ctrlPos.Y:F1})");
             if (ctrlPos.Y < 0)
+            {
+                Debug.WriteLine($"[SideBar.DetermineLocation] → LowerTop index=0 (before section)");
                 return (SideBarButtonLocation.LowerTop, 0);
+            }
 
             for (int i = 0; i < _lowerTopTools.ItemCount; i++)
             {
                 Control? item = _lowerTopTools.ContainerFromIndex(i);
                 if (item?.IsVisible != true) continue;
                 var pos = e.GetPosition(item);
+                Debug.WriteLine($"[SideBar.DetermineLocation]   LowerTop[{i}] posOnItem=({pos.X:F1},{pos.Y:F1}) threshold={item.Bounds.Height / 2:F1}");
                 if (pos.Y < item.Bounds.Height / 2)
+                {
+                    Debug.WriteLine($"[SideBar.DetermineLocation] → LowerTop index={i}");
                     return (SideBarButtonLocation.LowerTop, i);
+                }
             }
 
             ctrlPos = e.GetPosition(_lowerTopTools);
             if (ctrlPos.Y < _lowerTopTools.Bounds.Height + 8)
+            {
+                Debug.WriteLine($"[SideBar.DetermineLocation] → LowerTop index={_lowerTopTools.ItemCount} (append)");
                 return (SideBarButtonLocation.LowerTop, _lowerTopTools.ItemCount);
+            }
         }
 
         if (SupportsLocation(SideBarButtonLocation.LowerBottom))
         {
             var ctrlPos = e.GetPosition(_lowerBottomTools);
+            Debug.WriteLine($"[SideBar.DetermineLocation]   LowerBottom ctrlPos=({ctrlPos.X:F1},{ctrlPos.Y:F1})");
             if (ctrlPos.Y < -8)
+            {
+                Debug.WriteLine($"[SideBar.DetermineLocation] → LowerBottom index=0 (before section)");
                 return (SideBarButtonLocation.LowerBottom, 0);
+            }
 
             for (int i = 0; i < _lowerBottomTools.ItemCount; i++)
             {
                 Control? item = _lowerBottomTools.ContainerFromIndex(i);
                 if (item?.IsVisible != true) continue;
                 var pos = e.GetPosition(item);
+                Debug.WriteLine($"[SideBar.DetermineLocation]   LowerBottom[{i}] posOnItem=({pos.X:F1},{pos.Y:F1}) threshold={item.Bounds.Height / 2:F1}");
                 if (pos.Y < item.Bounds.Height / 2)
+                {
+                    Debug.WriteLine($"[SideBar.DetermineLocation] → LowerBottom index={i}");
                     return (SideBarButtonLocation.LowerBottom, i);
+                }
             }
 
             ctrlPos = e.GetPosition(_lowerBottomTools);
             if (ctrlPos.Y > _lowerBottomTools.Bounds.Height - 16)
+            {
+                Debug.WriteLine($"[SideBar.DetermineLocation] → LowerBottom index={_lowerBottomTools.ItemCount} (append)");
                 return (SideBarButtonLocation.LowerBottom, _lowerBottomTools.ItemCount);
+            }
         }
 
+        // Fallback
+        if (SupportsLocation(SideBarButtonLocation.UpperTop))
+        {
+            Debug.WriteLine($"[SideBar.DetermineLocation] → FALLBACK UpperTop index={_upperTopTools.ItemCount}");
+            return (SideBarButtonLocation.UpperTop, _upperTopTools.ItemCount);
+        }
+        if (SupportsLocation(SideBarButtonLocation.UpperBottom))
+        {
+            Debug.WriteLine($"[SideBar.DetermineLocation] → FALLBACK UpperBottom index={_upperBottomTools.ItemCount}");
+            return (SideBarButtonLocation.UpperBottom, _upperBottomTools.ItemCount);
+        }
+        if (SupportsLocation(SideBarButtonLocation.LowerTop))
+        {
+            Debug.WriteLine($"[SideBar.DetermineLocation] → FALLBACK LowerTop index={_lowerTopTools.ItemCount}");
+            return (SideBarButtonLocation.LowerTop, _lowerTopTools.ItemCount);
+        }
+        if (SupportsLocation(SideBarButtonLocation.LowerBottom))
+        {
+            Debug.WriteLine($"[SideBar.DetermineLocation] → FALLBACK LowerBottom index={_lowerBottomTools.ItemCount}");
+            return (SideBarButtonLocation.LowerBottom, _lowerBottomTools.ItemCount);
+        }
+
+        Debug.WriteLine($"[SideBar.DetermineLocation] → NO MATCH returning (-1)");
         return (default, -1);
     }
 

@@ -219,6 +219,14 @@ public class ReDock : TemplatedControl, IDockAreaView
         _leftThumb      = e.NameScope.Get<Thumb>("PART_LeftThumb");
         _rightThumb     = e.NameScope.Get<Thumb>("PART_RightThumb");
 
+        // Ensure side presenters start hidden when they have no content so the
+        // columns collapse immediately. HandleButtonToggle will set IsVisible=true
+        // when content is injected dynamically.
+        if (_leftPresenter.Content == null)
+            _leftPresenter.IsVisible = false;
+        if (_rightPresenter.Content == null)
+            _rightPresenter.IsVisible = false;
+
         var leftObs  = _leftPresenter.IsChildVisibleObservable();
         var rightObs = _rightPresenter.IsChildVisibleObservable();
 

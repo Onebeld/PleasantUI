@@ -29,27 +29,35 @@ public class PleasantUiExampleApp : Application
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
         Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.Library)));
 
-        // Load language from settings if available, otherwise use static LanguageKey
+        // NOTE: PleasantSettings.Current is NOT yet set here — PleasantTheme (which loads
+        // settings from disk) is initialized later during Initialize() → AvaloniaXamlLoader.Load().
+        // Language loading from persisted settings is deferred to InitializeFromSettings(),
+        // which is called from OnFrameworkInitializationCompleted() after PleasantTheme is ready.
+        Localizer.ChangeLang(LanguageKey);
+    }
+
+    /// <summary>
+    /// Called from OnFrameworkInitializationCompleted() after PleasantTheme has been
+    /// initialized and PleasantSettings.Current has been loaded from disk.
+    /// Applies the persisted language and constructs the AppViewModel.
+    /// </summary>
+    protected void InitializeFromSettings()
+    {
+        if (Design.IsDesignMode) return;
+
+        // Now PleasantSettings.Current is available — apply persisted language.
         if (PleasantSettings.Current is not null && !string.IsNullOrEmpty(PleasantSettings.Current.Language))
         {
             LanguageKey = PleasantSettings.Current.Language;
         }
 
-        // IMPORTANT: don't force "en" here.
-        // This app can be re-created without the process fully shutting down (hot reload / restart),
-        // so static state (LanguageKey, Localizer singleton) may persist. Always sync Localizer to
-        // the current LanguageKey so the Settings combobox and actual UI language can't diverge.
+        // Re-apply language now that we know the persisted value.
+        // This fires LocalizationChanged so all already-subscribed bindings update.
         Localizer.ChangeLang(LanguageKey);
 
-        // CRITICAL: construct a fresh VM *after* localization is initialized.
-        // On soft restarts (without full process shutdown), static singletons can survive.
-        // Recreating the AppViewModel here prevents "welcome stuck in English" caused by
-        // VM properties being initialized before resources/culture are ready.
-        if (!Design.IsDesignMode)
-        {
-            ViewModel = new AppViewModel(new EventAggregator());
-            DataContext = ViewModel;
-        }
+        // Construct VM after localization is fully initialized with the correct language.
+        ViewModel = new AppViewModel(new EventAggregator());
+        DataContext = ViewModel;
     }
 
     public static string LanguageKey { get; set; } = "en";

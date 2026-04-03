@@ -53,7 +53,10 @@ public partial class SettingsViewModel : ViewModelBase
         set
         {
             if (PleasantSettings.Current is not null)
+            {
                 PleasantSettings.Current.Theme = value?.Name ?? "System";
+                System.Diagnostics.Debug.WriteLine($"[SettingsViewModel] Theme changed to {PleasantSettings.Current.Theme}");
+            }
         }
     }
 

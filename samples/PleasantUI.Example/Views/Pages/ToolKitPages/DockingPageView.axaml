@@ -55,29 +55,11 @@
             <docking:ReDockHost.MainContent>
                 <docking:ReDock x:Name="MainDock">
 
-                    <docking:ReDock.LeftContent>
-                        <!-- Explorer panel — visible when Explorer button is checked -->
-                        <Border x:Name="ExplorerPanel"
-                                Background="{DynamicResource ControlFillColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="0 0 1 0"
-                                MinWidth="140">
-                            <StackPanel Margin="10 8" Spacing="2">
-                                <TextBlock Text="{Localize Docking/ExplorerPanel}"
-                                           FontSize="10"
-                                           FontWeight="SemiBold"
-                                           LetterSpacing="1"
-                                           Foreground="{DynamicResource TextFillColor2}"
-                                           Margin="0 0 0 6" />
-                                <TextBlock Text="src/" FontSize="13" />
-                                <TextBlock Text="Controls/" FontSize="13" Margin="12 0 0 0" Foreground="{DynamicResource TextFillColor2}" />
-                                <TextBlock Text="Core/" FontSize="13" Margin="12 0 0 0" Foreground="{DynamicResource TextFillColor2}" />
-                                <TextBlock Text="Styling/" FontSize="13" Margin="12 0 0 0" Foreground="{DynamicResource TextFillColor2}" />
-                                <TextBlock Text="README.md" FontSize="13" />
-                                <TextBlock Text="PleasantUI.sln" FontSize="13" />
-                            </StackPanel>
-                        </Border>
-                    </docking:ReDock.LeftContent>
+                    <!-- LeftContent and RightContent are intentionally left empty here.
+                         Content is injected dynamically by ReDockHost.HandleButtonToggle
+                         when a SideBarButton is toggled, using the content registered via
+                         RegisterButtonContent(). This allows content to follow buttons
+                         when they are dragged between sidebars. -->
 
                     <!-- Center editor area -->
                     <Border Background="{DynamicResource BackgroundColor1}">
@@ -97,36 +79,6 @@
                                        Foreground="{DynamicResource TextFillColor3}" />
                         </StackPanel>
                     </Border>
-
-                    <docking:ReDock.RightContent>
-                        <!-- Properties panel — visible when Properties button is checked -->
-                        <Border x:Name="PropertiesPanel"
-                                Background="{DynamicResource ControlFillColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="1 0 0 0"
-                                MinWidth="160">
-                            <StackPanel Margin="10 8" Spacing="8">
-                                <TextBlock Text="{Localize Docking/PropertiesPanel}"
-                                           FontSize="10"
-                                           FontWeight="SemiBold"
-                                           LetterSpacing="1"
-                                           Foreground="{DynamicResource TextFillColor2}"
-                                           Margin="0 0 0 2" />
-                                <StackPanel Spacing="2">
-                                    <TextBlock Text="{Localize Docking/PropName}" FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
-                                    <TextBlock Text="MyControl" FontWeight="SemiBold" />
-                                </StackPanel>
-                                <StackPanel Spacing="2">
-                                    <TextBlock Text="{Localize Docking/PropWidth}" FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
-                                    <TextBlock Text="320" FontWeight="SemiBold" />
-                                </StackPanel>
-                                <StackPanel Spacing="2">
-                                    <TextBlock Text="{Localize Docking/PropHeight}" FontSize="11" Foreground="{DynamicResource TextFillColor2}" />
-                                    <TextBlock Text="240" FontWeight="SemiBold" />
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </docking:ReDock.RightContent>
 
                 </docking:ReDock>
             </docking:ReDockHost.MainContent>
