@@ -304,7 +304,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt
-          sleep 15
+          sleep 65
 
       - name: AI pass 2 — diff batch 1
         if: steps.tag_check.outputs.exists == 'false'
@@ -319,7 +319,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt
-          sleep 15
+          sleep 65
 
       - name: AI pass 3 — diff batch 2
         if: steps.tag_check.outputs.exists == 'false'
@@ -334,7 +334,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt
-          sleep 15
+          sleep 65
 
       - name: AI pass 4 — diff batch 3
         if: steps.tag_check.outputs.exists == 'false'
@@ -349,7 +349,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt
-          sleep 15
+          sleep 65
 
       - name: AI pass 5 — diff batch 4
         if: steps.tag_check.outputs.exists == 'false'
@@ -364,7 +364,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt
-          sleep 15
+          sleep 65
 
       - name: AI pass 6 — diff batch 5
         if: steps.tag_check.outputs.exists == 'false'
@@ -379,7 +379,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt
-          sleep 20
+          sleep 65
 
       - name: Build merge-A prompt (passes 1-3)
         if: steps.tag_check.outputs.exists == 'false'
@@ -422,7 +422,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt
-          sleep 20
+          sleep 65
 
       - name: Compress merge-A output
         if: steps.tag_check.outputs.exists == 'false'
@@ -454,7 +454,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt
-          sleep 20
+          sleep 65
 
       - name: Build merge-B prompt (passes 4-6)
         if: steps.tag_check.outputs.exists == 'false'
@@ -497,7 +497,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt
-          sleep 20
+          sleep 65
 
       - name: Compress merge-B output
         if: steps.tag_check.outputs.exists == 'false'
@@ -529,7 +529,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt
-          sleep 20
+          sleep 65
 
       - name: Build final merge prompt (compress-A + compress-B)
         if: steps.tag_check.outputs.exists == 'false'
