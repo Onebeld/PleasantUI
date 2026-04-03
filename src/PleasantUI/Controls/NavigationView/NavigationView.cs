@@ -553,6 +553,13 @@ public class NavigationView : TreeView
             TransitionAnimation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
         }
 
+        // Deselect all previously selected items in the tree before selecting the new one
+        foreach (var navItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        {
+            if (navItem.IsSelected && !ReferenceEquals(navItem, item))
+                navItem.IsSelected = false;
+        }
+
         if (item is ISelectable selectableItem)
             selectableItem.IsSelected = true;
 
