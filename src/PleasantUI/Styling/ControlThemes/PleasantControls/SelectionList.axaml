@@ -40,10 +40,9 @@
                                        Source="{TemplateBinding Image}"
                                        Stretch="UniformToFill" />
                                 <ContentPresenter Name="PART_ImagePresenter"
-                                                  Content="{TemplateBinding Content}"
                                                   ContentTemplate="{TemplateBinding ImageTemplate}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch" />
                             </Panel>
                         </Border>
 
