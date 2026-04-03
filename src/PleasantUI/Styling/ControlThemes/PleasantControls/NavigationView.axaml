@@ -39,7 +39,7 @@
 
     <ControlTheme x:Key="{x:Type NavigationView}" TargetType="NavigationView">
         <Setter Property="CompactPaneLength" Value="50" />
-        <Setter Property="OpenPaneLength" Value="250" />
+        <Setter Property="OpenPaneLength" Value="275" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
