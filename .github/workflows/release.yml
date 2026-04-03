@@ -131,8 +131,9 @@ jobs:
 
           if [ "$FAILED" -eq 1 ]; then exit 1; fi
 
-      - name: Collect commits and build prompt
+      - name: Collect commits and build context chunks
         if: steps.tag_check.outputs.exists == 'false'
+        id: collect
         run: |
           # ── Find previous tag ─────────────────────────────────────────────────
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
@@ -141,32 +142,19 @@ jobs:
           if [ -n "$PREV_TAG" ]; then
             RANGE="${PREV_TAG}..HEAD"
           else
-            # No previous tag — diff against the very first commit
             FIRST=$(git rev-list --max-parents=0 HEAD)
             RANGE="${FIRST}..HEAD"
           fi
+          echo "range=$RANGE" >> $GITHUB_OUTPUT
           echo "Diff range: $RANGE"
 
           # ── Commit log ────────────────────────────────────────────────────────
           COMMITS=$(git log "$RANGE" --pretty=format:"[%h] %s (%an, %ad)" --date=short)
           [ -z "$COMMITS" ] && COMMITS="(no commits in range — possibly initial release)"
-          echo "Commit count: $(echo "$COMMITS" | wc -l)"
 
-          # ── Changed files (whole repo, not just src/) ─────────────────────────
-          FILE_LIST=$(git diff --name-only "$RANGE" | grep -v '^samples/' | head -120)
+          # ── Changed files (excl. samples/) ────────────────────────────────────
+          FILE_LIST=$(git diff --name-only "$RANGE" | grep -v '^samples/' | head -200)
           STAT_SUMMARY=$(git diff --shortstat "$RANGE" | tail -1)
-          echo "Files changed: $STAT_SUMMARY"
-
-          # ── Source diff — .cs and .axaml across entire repo except samples ─────
-          # Use git diff with explicit pathspecs (no shell globs)
-          SRC_DIFF=$(git diff "$RANGE" --unified=2 \
-            -- '*.cs' '*.axaml' \
-            | grep -v '^diff --git a/samples/' \
-            | grep -v '^--- a/samples/' \
-            | grep -v '^+++ b/samples/' \
-            | head -2500)
-
-          echo "Diff lines captured: $(echo "$SRC_DIFF" | wc -l)"
 
           # ── Public API additions ───────────────────────────────────────────────
           API_SURFACE=$(git diff "$RANGE" -- '*.cs' \
@@ -177,25 +165,191 @@ jobs:
             | sed 's/^+//' \
             | sed 's/^[[:space:]]*//' \
             | sort -u \
-            | head -150)
+            | head -200)
 
-          # ── Write prompt (all printf — no heredoc to avoid YAML indent issues) ───
+          # ── Shared system prompt — all printf, no heredoc ──────────────────────
           printf '%s\n' \
             'You are a senior technical writer producing GitHub release notes for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
-            '' \
             'Your goal is DETAILED, COMPREHENSIVE release notes that are genuinely useful to developers consuming this library as a NuGet package.' \
             '' \
             '## Instructions' \
-            '- Carefully read the commit log, changed file list, public API additions, and source diff below.' \
+            '- Carefully read every file diff provided. Each diff is a COMPLETE per-file diff so you have full context.' \
             '- For every new control or feature: describe what it does, how to use it, and why it matters.' \
-            '- For new properties/events: list name, type, and a one-line description.' \
+            '- For new properties/events/attached properties: list name, type, and a one-line description.' \
             '- For bug fixes: describe the symptom fixed, not just the commit message.' \
             '- For breaking changes: show before/after API.' \
-            '- Use markdown: ### headers, bullet lists, inline `code`, and fenced code blocks for usage examples.' \
+            '- Use markdown: ### headers, bullet lists, inline code, and fenced code blocks for usage examples.' \
             '- Do NOT invent anything not evidenced by the data. If something is unclear, describe it conservatively.' \
             '- If the diff or file list is empty, say so honestly and only describe what the commits indicate.' \
+            '- This is ONE BATCH of changed files — output your findings as bullet points, NOT final release notes.' \
             '' \
-            'Sections (include only those with content):' \
+            '---' \
+            > /tmp/system-prompt.txt
+
+          # ── Prompt 1: commits + files + API surface (always fits, no diff) ─────
+          {
+            cat /tmp/system-prompt.txt
+            printf '\n'
+            printf 'Version: v%s  |  Pre-release: %s\n\n' \
+              "${{ steps.version.outputs.version }}" \
+              "${{ steps.version.outputs.prerelease }}"
+            printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
+            printf '## All Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
+              "$FILE_LIST" "$STAT_SUMMARY"
+            if [ -n "$API_SURFACE" ]; then
+              printf '## New / Modified Public API\n```csharp\n%s\n```\n' "$API_SURFACE"
+            fi
+          } > /tmp/prompt-1.txt
+
+          # ── Split diff per-file into batches of ~700 lines each ───────────────
+          # We collect complete per-file diffs so AI always sees a whole file diff,
+          # never a mid-function cut. Max 5 diff batches (prompts 2-6).
+          CHANGED_SRC=$(git diff --name-only "$RANGE" \
+            | grep -v '^samples/' \
+            | grep -E '\.(cs|axaml)$')
+
+          mkdir -p /tmp/prompts
+          cp /tmp/prompt-1.txt /tmp/prompts/
+
+          BATCH_NUM=2
+          BATCH_LINES=0
+          BATCH_CONTENT=""
+          MAX_BATCH_LINES=700
+          MAX_BATCHES=5
+
+          for FILE in $CHANGED_SRC; do
+            FILE_DIFF=$(git diff "$RANGE" --unified=3 -- "$FILE" 2>/dev/null)
+            [ -z "$FILE_DIFF" ] && continue
+
+            FILE_LINES=$(printf '%s\n' "$FILE_DIFF" | wc -l)
+
+            # If adding this file would overflow the batch, flush current batch first
+            if [ $BATCH_LINES -gt 0 ] && [ $(( BATCH_LINES + FILE_LINES )) -gt $MAX_BATCH_LINES ]; then
+              if [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
+                PART_NUM=$(( BATCH_NUM - 1 ))
+                {
+                  cat /tmp/system-prompt.txt
+                  printf '\nThis is diff batch %d. Analyse each file diff completely and list your findings.\n\n' "$PART_NUM"
+                  printf '%s\n' "$BATCH_CONTENT"
+                } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+                echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
+                BATCH_NUM=$(( BATCH_NUM + 1 ))
+              fi
+              BATCH_LINES=0
+              BATCH_CONTENT=""
+            fi
+
+            # Accumulate into current batch (skip if we already hit max batches)
+            if [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
+              BATCH_CONTENT=$(printf '%s\n\n### File: %s\n```diff\n%s\n```\n' \
+                "$BATCH_CONTENT" "$FILE" "$FILE_DIFF")
+              BATCH_LINES=$(( BATCH_LINES + FILE_LINES ))
+            fi
+          done
+
+          # Flush final batch
+          if [ $BATCH_LINES -gt 0 ] && [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
+            PART_NUM=$(( BATCH_NUM - 1 ))
+            {
+              cat /tmp/system-prompt.txt
+              printf '\nThis is diff batch %d. Analyse each file diff completely and list your findings.\n\n' "$PART_NUM"
+              printf '%s\n' "$BATCH_CONTENT"
+            } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+            echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
+          fi
+
+          # ── Ensure prompts 2-6 exist (empty marker if no content) ─────────────
+          for N in 2 3 4 5 6; do
+            if [ ! -f "/tmp/prompts/prompt-${N}.txt" ]; then
+              printf 'No diff content for this batch.\n' > "/tmp/prompts/prompt-${N}.txt"
+            fi
+          done
+
+          echo "=== All prompt sizes ==="
+          for N in 1 2 3 4 5 6; do
+            printf 'prompt-%d.txt: %d bytes\n' "$N" "$(wc -c < /tmp/prompts/prompt-${N}.txt)"
+          done
+
+      - name: Upload prompt artifacts
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-prompts
+          path: /tmp/prompts/
+          retention-days: 1
+
+      # ── AI passes — each gets complete per-file diffs, never a mid-file cut ───
+      - name: AI pass 1 — commits + API surface
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass1
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 3000
+          prompt-file: /tmp/prompts/prompt-1.txt
+
+      - name: AI pass 2 — diff batch 1
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass2
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 3000
+          prompt-file: /tmp/prompts/prompt-2.txt
+
+      - name: AI pass 3 — diff batch 2
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass3
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 3000
+          prompt-file: /tmp/prompts/prompt-3.txt
+
+      - name: AI pass 4 — diff batch 3
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass4
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 3000
+          prompt-file: /tmp/prompts/prompt-4.txt
+
+      - name: AI pass 5 — diff batch 4
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass5
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 3000
+          prompt-file: /tmp/prompts/prompt-5.txt
+
+      - name: AI pass 6 — diff batch 5
+        if: steps.tag_check.outputs.exists == 'false'
+        id: ai_pass6
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o
+          max-tokens: 8000
+          max-completion-tokens: 3000
+          prompt-file: /tmp/prompts/prompt-6.txt
+
+      - name: Build merge prompt
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          # all printf — no heredoc to avoid YAML indent issues
+          printf '%s\n' \
+            'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+            'Below are analysis findings from multiple passes over the release diff.' \
+            'Merge them into a single, clean, non-redundant GitHub release document.' \
+            'Deduplicate findings that appear in multiple passes. Prefer the most detailed description.' \
+            '' \
+            'Use these sections (include only those with content):' \
             '### What is New' \
             '### Improvements' \
             '### Bug Fixes' \
@@ -209,55 +363,59 @@ jobs:
             '- PleasantUI.ToolKit' \
             '' \
             '---' \
-            > /tmp/release-notes-prompt.txt
+            > /tmp/prompt-merge.txt
 
-          # ── Append dynamic data with printf (safe — no shell eval of content) ──
           {
-            printf 'Version: v%s  |  Pre-release: %s\n\n' \
-              "${{ steps.version.outputs.version }}" \
-              "${{ steps.version.outputs.prerelease }}"
+            printf '## Pass 1 — Commits, changed files, public API\n'
+            cat "${{ steps.ai_pass1.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 2 — Diff batch 1\n'
+            cat "${{ steps.ai_pass2.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 3 — Diff batch 2\n'
+            cat "${{ steps.ai_pass3.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 4 — Diff batch 3\n'
+            cat "${{ steps.ai_pass4.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 5 — Diff batch 4\n'
+            cat "${{ steps.ai_pass5.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 6 — Diff batch 5\n'
+            cat "${{ steps.ai_pass6.outputs.response-file }}" 2>/dev/null || printf '(no output)\n'
+          } >> /tmp/prompt-merge.txt
 
-            printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
+          echo "Merge prompt size: $(wc -c < /tmp/prompt-merge.txt) bytes"
 
-            printf '## Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
-              "$FILE_LIST" "$STAT_SUMMARY"
-
-            if [ -n "$API_SURFACE" ]; then
-              printf '## New / Modified Public API\n```csharp\n%s\n```\n\n' "$API_SURFACE"
-            fi
-
-            printf '## Source Diff (*.cs + *.axaml, excl. samples/, first 2500 lines)\n```diff\n%s\n```\n' \
-              "$SRC_DIFF"
-          } >> /tmp/release-notes-prompt.txt
-
-          echo "=== Prompt size: $(wc -c < /tmp/release-notes-prompt.txt) bytes ==="
-
-      - name: Generate AI release notes
+      - name: Merge AI findings into final release notes
         if: steps.tag_check.outputs.exists == 'false'
-        id: ai_notes
+        id: ai_merge
         uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o
-          max-tokens: 8000 
-          max-completion-tokens: 8000
-          prompt-file: /tmp/release-notes-prompt.txt
+          max-tokens: 8000
+          max-completion-tokens: 4000
+          prompt-file: /tmp/prompt-merge.txt
 
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'
         id: notes_file
         run: |
-          # Only use response-file — never inline the AI response into shell to avoid injection
-          RESPONSE_FILE="${{ steps.ai_notes.outputs.response-file }}"
+          RESPONSE_FILE="${{ steps.ai_merge.outputs.response-file }}"
 
           if [ -f "$RESPONSE_FILE" ] && [ -s "$RESPONSE_FILE" ]; then
             cp "$RESPONSE_FILE" /tmp/release_notes.md
-            echo "Using AI-generated release notes from response file."
+            echo "Using merged AI-generated release notes."
           else
-            echo "AI response file missing or empty — falling back to commit list."
+            # Fallback: concatenate all pass responses
             {
-              echo "### Changes in v${{ steps.version.outputs.version }}"
-              grep "^-" /tmp/release-notes-prompt.txt || true
+              printf '### Changes in v%s\n\n' "${{ steps.version.outputs.version }}"
+              for RF in \
+                "${{ steps.ai_pass1.outputs.response-file }}" \
+                "${{ steps.ai_pass2.outputs.response-file }}" \
+                "${{ steps.ai_pass3.outputs.response-file }}" \
+                "${{ steps.ai_pass4.outputs.response-file }}" \
+                "${{ steps.ai_pass5.outputs.response-file }}" \
+                "${{ steps.ai_pass6.outputs.response-file }}"; do
+                [ -f "$RF" ] && [ -s "$RF" ] && cat "$RF" && printf '\n'
+              done
             } > /tmp/release_notes.md
+            echo "Used fallback concatenation of pass responses."
           fi
 
           echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
