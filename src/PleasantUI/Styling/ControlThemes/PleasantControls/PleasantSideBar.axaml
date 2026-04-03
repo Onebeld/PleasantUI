@@ -1,0 +1,65 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:PleasantUI.Controls.Docking"
+                    x:ClassModifier="internal">
+
+    <ItemsPanelTemplate x:Key="SideBarButtonItemsPanelTemplate">
+        <StackPanel Spacing="4" />
+    </ItemsPanelTemplate>
+
+    <ControlTheme x:Key="{x:Type controls:SideBar}" TargetType="controls:SideBar">
+        <Setter Property="Padding" Value="6 8" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid Name="PART_Grid" RowDefinitions="Auto,*,Auto">
+
+                        <StackPanel Name="PART_UpperStack"
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    Spacing="0">
+                            <ItemsControl Name="PART_UpperTopTools"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsSource="{TemplateBinding UpperTopToolsSource}" />
+                            <Border Name="PART_UpperDivider"
+                                    Height="1"
+                                    Margin="6 6"
+                                    Background="{DynamicResource PleasantDockingSideBarDividerBrush}" />
+                            <ItemsControl Name="PART_UpperBottomTools"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsSource="{TemplateBinding UpperBottomToolsSource}" />
+                        </StackPanel>
+
+                        <StackPanel Name="PART_LowerStack"
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Center"
+                                    Spacing="0">
+                            <ItemsControl Name="PART_LowerTopTools"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsSource="{TemplateBinding LowerTopToolsSource}" />
+                            <Border Name="PART_LowerDivider"
+                                    Height="1"
+                                    Margin="6 6"
+                                    Background="{DynamicResource PleasantDockingSideBarDividerBrush}" />
+                            <ItemsControl Name="PART_LowerBottomTools"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsSource="{TemplateBinding LowerBottomToolsSource}" />
+                        </StackPanel>
+
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

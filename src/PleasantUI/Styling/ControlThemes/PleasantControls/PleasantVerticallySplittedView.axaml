@@ -1,0 +1,51 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:PleasantUI.Controls.Docking"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <controls:VerticallySplittedView />
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="PleasantVerticalSplittedViewThumb" TargetType="Thumb">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Cursor" Value="SizeNorthSouth" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <Border Height="1"
+                            Margin="0,2"
+                            Background="{DynamicResource PleasantDockingDividerBrush}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type controls:VerticallySplittedView}" TargetType="controls:VerticallySplittedView">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Name="PART_Root" Background="Transparent">
+                    <ContentPresenter Name="PART_TopContentPresenter"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Top"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Content="{TemplateBinding TopContent}"
+                                      ContentTemplate="{TemplateBinding TopContentTemplate}" />
+                    <ContentPresenter Name="PART_BottomContentPresenter"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Top"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Content="{TemplateBinding BottomContent}"
+                                      ContentTemplate="{TemplateBinding BottomContentTemplate}" />
+                    <Thumb Name="PART_Thumb" Theme="{StaticResource PleasantVerticalSplittedViewThumb}" />
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

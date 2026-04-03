@@ -99,6 +99,7 @@
                 <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantDrawer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PopConfirm.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantDockingStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

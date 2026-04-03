@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:PleasantUI.Controls.Docking"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <controls:ReDock />
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:ReDock}" TargetType="controls:ReDock">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid x:Name="PART_Root">
+
+                    <Grid.ColumnDefinitions>
+                        <controls:NamedColumnDefinition x:Name="PART_LeftColumn" Width="0.25*" MinWidth="5" />
+                        <controls:NamedColumnDefinition x:Name="PART_LeftThumbColumn" Width="Auto" />
+                        <controls:NamedColumnDefinition x:Name="PART_CenterColumn" Width="0.5*" />
+                        <controls:NamedColumnDefinition x:Name="PART_RightThumbColumn" Width="Auto" />
+                        <controls:NamedColumnDefinition x:Name="PART_RightColumn" Width="0.25*" MinWidth="5" />
+                    </Grid.ColumnDefinitions>
+
+                    <ContentPresenter Name="PART_LeftContentPresenter"
+                                      Grid.Column="0"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Content="{TemplateBinding LeftContent}"
+                                      ContentTemplate="{TemplateBinding LeftContentTemplate}" />
+
+                    <Thumb Name="PART_LeftThumb"
+                           Grid.Column="1"
+                           Theme="{StaticResource PleasantHorizontalSplittedViewThumb}" />
+
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Grid.Column="2"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                    <Thumb Name="PART_RightThumb"
+                           Grid.Column="3"
+                           Theme="{StaticResource PleasantHorizontalSplittedViewThumb}" />
+
+                    <ContentPresenter Name="PART_RightContentPresenter"
+                                      Grid.Column="4"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      Content="{TemplateBinding RightContent}"
+                                      ContentTemplate="{TemplateBinding RightContentTemplate}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

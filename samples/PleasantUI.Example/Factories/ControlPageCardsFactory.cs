@@ -2,7 +2,8 @@
 using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages.BasicControls;
 using PleasantUI.Example.Pages.PleasantControls;
-using PleasantUI.Example.Pages.Toolkit;using PleasantUI.ToolKit.Services.Interfaces;
+using PleasantUI.Example.Pages.Toolkit;
+using PleasantUI.ToolKit.Services.Interfaces;
 
 namespace PleasantUI.Example.Factories;
 
@@ -53,6 +54,7 @@ public class ControlPageCardsFactory
         return
         [
             new("CardTitle/MessageBox", MaterialIcons.MessageOutline, "Card/MessageBox", new MessageBoxPage(), _eventAggregator),
+            new("CardTitle/Docking",    MaterialIcons.ViewDashboardOutline, "Card/Docking", new DockingPage(), _eventAggregator),
         ];
     }
 }

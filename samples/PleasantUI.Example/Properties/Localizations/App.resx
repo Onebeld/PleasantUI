@@ -506,4 +506,20 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Save file</value></data>
     <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Open multiple files</value></data>
 
+    <!-- Docking page -->
+    <data name="CardTitle/Docking"              xml:space="preserve"><value>Docking</value></data>
+    <data name="Card/Docking"                   xml:space="preserve"><value>A full docking system with resizable sidebars, split views, and drag-and-drop tool panels.</value></data>
+    <data name="Docking/Description"            xml:space="preserve"><value>Drag the sidebar buttons between the left and right bars. Resize panels by dragging the dividers. Right-click a button to move it via the context menu.</value></data>
+    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>EXPLORER</value></data>
+    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>PROPERTIES</value></data>
+    <data name="Docking/EditorArea"             xml:space="preserve"><value>Editor area</value></data>
+    <data name="Docking/DragHint"               xml:space="preserve"><value>Drag sidebar buttons to rearrange panels</value></data>
+    <data name="Docking/PropName"               xml:space="preserve"><value>Name</value></data>
+    <data name="Docking/PropWidth"              xml:space="preserve"><value>Width</value></data>
+    <data name="Docking/PropHeight"             xml:space="preserve"><value>Height</value></data>
+    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Left — Upper</value></data>
+    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Left — Lower</value></data>
+    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Right — Upper</value></data>
+    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Right — Lower</value></data>
+
 </root>
