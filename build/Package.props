@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <PackageVersion>5.1.3-alpha1</PackageVersion>
-        <Authors>Dmitry Zhutkov (Onebeld), Andrey Savich(pieckenst)</Authors>
+        <Authors>Dmitry Zhutkov (Onebeld), Andrey Savich (pieckenst)</Authors>
         <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
         <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface</PackageTags>
         <PackageDescription>PleasantUI is a cross-platform UI theme and control library for Avalonia, inspired by Microsoft Fluent Design and the WinUI/UWP visual language. It provides complete re-styled themes for all standard Avalonia controls — buttons, checkboxes, sliders, text boxes, data grids, calendars, combo boxes, and more — along with a suite of custom Pleasant controls including NavigationView, PleasantTabView, ProgressRing, OptionsDisplayItem, PleasantSnackbar, InformationBlock, ContentDialog, and a full theme editor with custom theme support. Supports light, dark, and multiple accent color themes out of the box, with a reactive localization system and desktop/mobile adaptive layouts.</PackageDescription>
@@ -13,7 +13,7 @@
         <AssemblyVersion>5.1.3</AssemblyVersion>
         <FileVersion>5.1.3</FileVersion>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
-        <RepositoryUrl>https://github.com/ghudulf/PleasantUI</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Description>PleasantUI is a cross-platform UI theme and control library for Avalonia, inspired by Microsoft Fluent Design and the WinUI/UWP visual language. It provides complete re-styled themes for all standard Avalonia controls — buttons, checkboxes, sliders, text boxes, data grids, calendars, combo boxes, and more — along with a suite of custom Pleasant controls including NavigationView, PleasantTabView, ProgressRing, OptionsDisplayItem, PleasantSnackbar, InformationBlock, ContentDialog, and a full theme editor with custom theme support. Supports light, dark, and multiple accent color themes out of the box, with a reactive localization system and desktop/mobile adaptive layouts.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

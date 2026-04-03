@@ -9,7 +9,7 @@
         <IsRoslynComponent>true</IsRoslynComponent>
 
         <RootNamespace>PleasantUI.MaterialIcons.SourceGenerator</RootNamespace>
-        <PackageId>$(PleasantPackageIdPrefix)PleasantUI.MaterialIcons.SourceGenerator</PackageId>
+        <PackageId>PleasantUI.MaterialIcons.SourceGenerator</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

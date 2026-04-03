@@ -3,7 +3,7 @@
 ![Nuget](https://img.shields.io/nuget/dt/PleasantUI?style=flat-square&logo=nuget)
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/onebeld/PleasantUI?style=flat-square)
 
-<img align="center" src="https://github.com/Onebeld/PleasantUI/assets/44552715/c8354beb-5b4b-4ce6-acbb-eb2b5e6a23e1">
+<img align="center" src="https://i.imgur.com/Sr3crB8.png">
 
 # PleasantUI
 
@@ -109,13 +109,13 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 
 **This fork (Avalonia 12, recommended)**
 
-Published under the `pieckenst.Avalonia12.*` prefix on NuGet:
+Published on NuGet:
 
 ```xml
-<PackageReference Include="pieckenst.Avalonia12.PleasantUI" Version="5.1.0-alpha4.2" />
-<PackageReference Include="pieckenst.Avalonia12.PleasantUI.DataGrid" Version="5.1.0-alpha4.2" />
-<PackageReference Include="pieckenst.Avalonia12.PleasantUI.MaterialIcons" Version="5.1.0-alpha4.2" />
-<PackageReference Include="pieckenst.Avalonia12.PleasantUI.ToolKit" Version="5.1.0-alpha4.2" />
+<PackageReference Include="PleasantUI" Version="5.1.0-alpha4.2" />
+<PackageReference Include="PleasantUI.DataGrid" Version="5.1.0-alpha4.2" />
+<PackageReference Include="PleasantUI.MaterialIcons" Version="5.1.0-alpha4.2" />
+<PackageReference Include="PleasantUI.ToolKit" Version="5.1.0-alpha4.2" />
 ```
 
 **Original upstream (Avalonia 11)**
@@ -299,4 +299,4 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 - [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) by ymg2006
 - Built with [JetBrains Rider](https://www.jetbrains.com/rider/)
 
-<img src="https://github.com/Onebeld/PleasantUI/assets/44552715/c6bcf430-4153-4f72-bcca-e97e5cdce491" width="360" align="right"/>
+<img src="https://i.imgur.com/IvbDwuz.png" width="360" align="right"/>

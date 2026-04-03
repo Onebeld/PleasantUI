@@ -657,11 +657,11 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: |
           dotnet nuget add source \
-            --username ghudulf \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --username Onebeld \
+            --password ${{ secrets.NUGET_GITHUB_TOKEN }} \
             --store-password-in-clear-text \
             --name github \
-            "https://nuget.pkg.github.com/ghudulf/index.json" || true
+            "https://nuget.pkg.github.com/Onebeld/index.json" || true
 
           for pkg in \
             src/PleasantUI/bin/Release/*.nupkg \
@@ -670,7 +670,7 @@ jobs:
             src/PleasantUI.ToolKit/bin/Release/*.nupkg; do
             echo "Pushing $pkg"
             dotnet nuget push "$pkg" \
-              --api-key ${{ secrets.GITHUB_TOKEN }} \
+              --api-key ${{ secrets.NUGET_GITHUB_TOKEN }} \
               --source "github" \
               --skip-duplicate
           done
