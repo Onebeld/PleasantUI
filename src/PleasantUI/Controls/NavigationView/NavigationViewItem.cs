@@ -31,6 +31,7 @@ public class NavigationViewItem : TreeViewItem
     private Popup? _popup;
     private SmoothScrollViewer? _popupScrollViewer;
     private NavigationViewSubMenuControl? _subMenuControl;
+    private ItemsPresenter? _inlineItemsPresenter;
     
     /// <summary>
     /// Defines the <see cref="Content" /> property.
@@ -319,6 +320,8 @@ public class NavigationViewItem : TreeViewItem
                     RoutedEventArgs routedEventArgs = new(ClosedEvent);
                     navigationViewItem.RaiseEvent(routedEventArgs);
                 }
+                // Sync inline presenter visibility whenever IsExpanded changes
+                navigationViewItem.SyncInlineItemsPresenterVisibility();
             });
         OpenedEvent.AddClassHandler<NavigationViewItem>((x, e) => x.OnOpened(x, e));
         ClosedEvent.AddClassHandler<NavigationViewItem>((x, e) => x.OnClosed(x, e));
@@ -410,6 +413,7 @@ public class NavigationViewItem : TreeViewItem
         _popup = e.NameScope.Find<Popup>("PART_Popup");
         _popupScrollViewer = e.NameScope.Find<SmoothScrollViewer>("PART_PopupScrollViewer");
         _subMenuControl = e.NameScope.Find<NavigationViewSubMenuControl>("PART_SubMenuControl");
+        _inlineItemsPresenter = e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter");
 
         // Wire up the submenu control to this parent item
         if (_subMenuControl is not null)
@@ -422,6 +426,8 @@ public class NavigationViewItem : TreeViewItem
             _popup.Closed += OnPopupClosed;
         }
 
+        // Sync inline items presenter visibility with current state
+        SyncInlineItemsPresenterVisibility();
         UpdatePseudoClasses();
     }
 
@@ -492,6 +498,9 @@ public class NavigationViewItem : TreeViewItem
                 sender.RaiseEvent(new RoutedEventArgs(ClosedEvent));
                 break;
         }
+
+        // Always sync inline presenter visibility when IsOpen changes
+        sender.SyncInlineItemsPresenterVisibility();
     }
 
     private static void OnIsSubMenuOpenChanged(AvaloniaPropertyChangedEventArgs<bool> e)
@@ -539,6 +548,13 @@ public class NavigationViewItem : TreeViewItem
     _subMenuControl.ItemsSource = null;
 }
 
+private void SyncInlineItemsPresenterVisibility()
+{
+    if (_inlineItemsPresenter is null) return;
+    // Show inline children only when pane is open AND this item is expanded
+    _inlineItemsPresenter.IsVisible = IsOpen && IsExpanded;
+}
+
 private void UpdatePseudoClasses()
 {
     if (IsOpen)
@@ -572,10 +588,9 @@ private void Select()
 
     // If this item is a popup clone (not in the NavigationView logical tree but has NavigationView set),
     // find the original item in the tree by Tag and select that instead so SelectionChanged fires correctly.
-    bool isPopupClone = navigationView is not null && this.GetParentTOfLogical<NavigationView>() is null;
-    if (isPopupClone && Tag is not null)
+    if (navigationView is not null && this.GetParentTOfLogical<NavigationView>() is null && Tag is not null)
     {
-        var original = navigationView!.GetLogicalDescendants()
+        var original = navigationView.GetLogicalDescendants()
             .OfType<NavigationViewItem>()
             .FirstOrDefault(x => Equals(x.Tag, Tag));
         if (original is not null)

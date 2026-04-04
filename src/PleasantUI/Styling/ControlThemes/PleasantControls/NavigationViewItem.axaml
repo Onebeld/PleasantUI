@@ -119,7 +119,7 @@
                                     </Grid>
                                 </RippleEffect>
                             </Border>
-                            <Border Grid.Row="1" Name="PART_BottomBorder">
+                            <Border Grid.Row="1" Name="PART_BottomBorder" ClipToBounds="True">
                                 <ItemsPresenter Name="PART_ItemsPresenter"
                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                             </Border>
