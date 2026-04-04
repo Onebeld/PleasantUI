@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Diagnostics;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
@@ -31,7 +32,6 @@ public class NavigationViewItem : TreeViewItem
     private Popup? _popup;
     private SmoothScrollViewer? _popupScrollViewer;
     private NavigationViewSubMenuControl? _subMenuControl;
-    private ItemsPresenter? _inlineItemsPresenter;
     
     /// <summary>
     /// Defines the <see cref="Content" /> property.
@@ -320,8 +320,6 @@ public class NavigationViewItem : TreeViewItem
                     RoutedEventArgs routedEventArgs = new(ClosedEvent);
                     navigationViewItem.RaiseEvent(routedEventArgs);
                 }
-                // Sync inline presenter visibility whenever IsExpanded changes
-                navigationViewItem.SyncInlineItemsPresenterVisibility();
             });
         OpenedEvent.AddClassHandler<NavigationViewItem>((x, e) => x.OnOpened(x, e));
         ClosedEvent.AddClassHandler<NavigationViewItem>((x, e) => x.OnClosed(x, e));
@@ -357,6 +355,7 @@ public class NavigationViewItem : TreeViewItem
     /// <param name="e">The event arguments.</param>
     protected virtual void OnDeselected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
+        Debug.WriteLine($"[NavItem] OnDeselected header={Header} tag={Tag}");
     }
 
     /// <summary>
@@ -366,11 +365,15 @@ public class NavigationViewItem : TreeViewItem
     /// <param name="e">The event arguments.</param>
     protected virtual void OnSelected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
+        Debug.WriteLine($"[NavItem] OnSelected header={Header} tag={Tag} parentDisplayMode={(Parent as NavigationView)?.DisplayMode}");
         if (Parent is NavigationView
             {
                 DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay
             } navigationView)
+        {
+            Debug.WriteLine($"[NavItem] OnSelected closing pane (CompactOverlay/Overlay) header={Header}");
             navigationView.IsOpen = false;
+        }
     }
 
     /// <summary>
@@ -380,6 +383,7 @@ public class NavigationViewItem : TreeViewItem
     /// <param name="e">The event arguments.</param>
     protected virtual void OnOpened(object sender, RoutedEventArgs e)
     {
+        Debug.WriteLine($"[NavItem] OnOpened header={Header} tag={Tag} IsExpanded={IsExpanded}");
         UpdatePseudoClasses();
     }
 
@@ -390,11 +394,15 @@ public class NavigationViewItem : TreeViewItem
     /// <param name="e">The event arguments.</param>
     protected virtual void OnClosed(object sender, RoutedEventArgs e)
     {
+        Debug.WriteLine($"[NavItem] OnClosed header={Header} tag={Tag} IsExpanded={IsExpanded} SelectOnClose={SelectOnClose}");
         IsExpanded = false;
         UpdatePseudoClasses();
 
         if (SelectOnClose)
+        {
+            Debug.WriteLine($"[NavItem] OnClosed SelectOnClose=true, selecting parent NavigationView item header={Header}");
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
+        }
     }
     
     /// <inheritdoc />
@@ -403,6 +411,7 @@ public class NavigationViewItem : TreeViewItem
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
+        Debug.WriteLine($"[NavItem] OnApplyTemplate header={Header} tag={Tag}");
         base.OnApplyTemplate(e);
 
         if (_popup is not null)
@@ -413,9 +422,9 @@ public class NavigationViewItem : TreeViewItem
         _popup = e.NameScope.Find<Popup>("PART_Popup");
         _popupScrollViewer = e.NameScope.Find<SmoothScrollViewer>("PART_PopupScrollViewer");
         _subMenuControl = e.NameScope.Find<NavigationViewSubMenuControl>("PART_SubMenuControl");
-        _inlineItemsPresenter = e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter");
 
-        // Wire up the submenu control to this parent item
+        Debug.WriteLine($"[NavItem] OnApplyTemplate parts found: popup={_popup is not null} scrollViewer={_popupScrollViewer is not null} subMenuControl={_subMenuControl is not null}");
+
         if (_subMenuControl is not null)
         {
             _subMenuControl.NavigationViewItem = this;
@@ -426,8 +435,6 @@ public class NavigationViewItem : TreeViewItem
             _popup.Closed += OnPopupClosed;
         }
 
-        // Sync inline items presenter visibility with current state
-        SyncInlineItemsPresenterVisibility();
         UpdatePseudoClasses();
     }
 
@@ -436,6 +443,7 @@ public class NavigationViewItem : TreeViewItem
     {
         base.OnAttachedToLogicalTree(e);
         NavigationViewDistance = LogicalExtensions.CalculateDistanceFromLogicalParent<NavigationView>(this) - 1;
+        Debug.WriteLine($"[NavItem] OnAttachedToLogicalTree header={Header} tag={Tag} distance={NavigationViewDistance} parent={Parent?.GetType().Name}");
     }
 
     /// <inheritdoc />
@@ -445,6 +453,7 @@ public class NavigationViewItem : TreeViewItem
 
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
+            Debug.WriteLine($"[NavItem] OnPointerPressed header={Header} tag={Tag} clickMode={ClickMode}");
             e.Handled = true;
 
             if (ClickMode == ClickMode.Press)
@@ -463,19 +472,28 @@ public class NavigationViewItem : TreeViewItem
 
         if (ClickMode == ClickMode.Release &&
             this.GetVisualsAt(e.GetPosition(this)).Any(c => this == c || this.IsVisualAncestorOf(c)))
+        {
+            Debug.WriteLine($"[NavItem] OnPointerReleased triggering Select header={Header} tag={Tag}");
             Select();
+        }
     }
 
     private static void OnPaneSizesChanged(AvaloniaPropertyChangedEventArgs<double> e)
     {
         if (e.Sender is NavigationViewItem navigationViewItem)
+        {
+            var prev = navigationViewItem.ExternalLength;
             navigationViewItem.ExternalLength =
                 navigationViewItem.OpenPaneLength - navigationViewItem.CompactPaneLength;
+            Debug.WriteLine($"[NavItem] OnPaneSizesChanged header={navigationViewItem.Header} openPane={navigationViewItem.OpenPaneLength} compactPane={navigationViewItem.CompactPaneLength} externalLength={prev}→{navigationViewItem.ExternalLength}");
+        }
     }
 
     private static void OnIsOpenChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is not NavigationViewItem sender) return;
+
+        Debug.WriteLine($"[NavItem] OnIsOpenChanged header={sender.Header} tag={sender.Tag} IsOpen={sender.IsOpen} IsExpanded={sender.IsExpanded}");
 
         if (sender is
             {
@@ -484,76 +502,75 @@ public class NavigationViewItem : TreeViewItem
                 {
                     Parent: NavigationView navigationView, SelectOnClose: true
                 } navigationViewItem
-            }) navigationView.SelectSingleItem(navigationViewItem);
+            })
+        {
+            Debug.WriteLine($"[NavItem] OnIsOpenChanged selected child → SelectSingleItem on parent header={navigationViewItem.Header}");
+            navigationView.SelectSingleItem(navigationViewItem);
+        }
 
         switch (sender.IsOpen)
         {
             case true:
+                Debug.WriteLine($"[NavItem] OnIsOpenChanged IsOpen=true → closing popup header={sender.Header}");
                 sender.RaiseEvent(new RoutedEventArgs(OpenedEvent));
-                // Close popup when pane opens
                 sender.IsSubMenuOpen = false;
                 break;
             case false:
-                sender.IsExpanded = false;
+                Debug.WriteLine($"[NavItem] OnIsOpenChanged IsOpen=false → collapsing header={sender.Header}");
                 sender.RaiseEvent(new RoutedEventArgs(ClosedEvent));
                 break;
         }
-
-        // Always sync inline presenter visibility when IsOpen changes
-        sender.SyncInlineItemsPresenterVisibility();
     }
 
     private static void OnIsSubMenuOpenChanged(AvaloniaPropertyChangedEventArgs<bool> e)
     {
         if (e.Sender is not NavigationViewItem item) return;
 
+        Debug.WriteLine($"[NavItem] OnIsSubMenuOpenChanged header={item.Header} tag={item.Tag} IsSubMenuOpen={e.NewValue.GetValueOrDefault()}");
+
         if (e.NewValue.GetValueOrDefault())
         {
-            // Popup opening: add the ItemsPresenter to show children
+            Debug.WriteLine($"[NavItem] OnIsSubMenuOpenChanged opening popup → AddPopupItemsPresenter header={item.Header}");
             item.AddPopupItemsPresenter();
         }
         else
         {
-            // Popup closing: remove the ItemsPresenter to free containers
+            Debug.WriteLine($"[NavItem] OnIsSubMenuOpenChanged closing popup → RemovePopupItemsPresenter header={item.Header}");
             item.RemovePopupItemsPresenter();
         }
     }
 
     private void OnPopupClosed(object? sender, EventArgs e)
     {
+        Debug.WriteLine($"[NavItem] OnPopupClosed header={Header} tag={Tag} → setting IsSubMenuOpen=false");
         IsSubMenuOpen = false;
     }
 
     private void AddPopupItemsPresenter()
     {
+        Debug.WriteLine($"[NavItem] AddPopupItemsPresenter header={Header} subMenuControl={_subMenuControl is not null} scrollViewer={_popupScrollViewer is not null} childCount={LogicalChildren.Count}");
         if (_subMenuControl is null || _popupScrollViewer is null) return;
 
-        // Set the ItemsSource to our logical children
         _subMenuControl.ItemsSource = LogicalChildren;
-        
-        // Ensure it's attached to the scroll viewer
+
         if (!ReferenceEquals(_popupScrollViewer.Content, _subMenuControl))
             _popupScrollViewer.Content = _subMenuControl;
+
+        Debug.WriteLine($"[NavItem] AddPopupItemsPresenter done — itemsSource set childCount={LogicalChildren.Count}");
     }
     
 
     private void RemovePopupItemsPresenter()
     {
+        Debug.WriteLine($"[NavItem] RemovePopupItemsPresenter header={Header} subMenuControl={_subMenuControl is not null}");
         if (_subMenuControl is null) return;
 
-        // Detach from popup scroll viewer and clear items
         if (_popupScrollViewer?.Content == _subMenuControl)
             _popupScrollViewer.Content = null;
-            
-    _subMenuControl.ItemsSource = null;
-}
 
-private void SyncInlineItemsPresenterVisibility()
-{
-    if (_inlineItemsPresenter is null) return;
-    // Show inline children only when pane is open AND this item is expanded
-    _inlineItemsPresenter.IsVisible = IsOpen && IsExpanded;
-}
+        _subMenuControl.ItemsSource = null;
+        Debug.WriteLine($"[NavItem] RemovePopupItemsPresenter done header={Header}");
+    }
 
 private void UpdatePseudoClasses()
 {
@@ -567,32 +584,31 @@ private void UpdatePseudoClasses()
         PseudoClasses.Remove(":opened");
         PseudoClasses.Add(":closed");
     }
+    Debug.WriteLine($"[NavItem] UpdatePseudoClasses header={Header} IsOpen={IsOpen} pseudoClasses=[{string.Join(",", PseudoClasses)}]");
 }
 
 private void Select()
 {
-    // Try to find NavigationView from logical tree first, fall back to stored property
     var navigationView = this.GetParentTOfLogical<NavigationView>() ?? NavigationView;
     var isPaneOpen = navigationView?.IsOpen ?? IsOpen;
-
-    // Check if this item has child navigation items
     var hasChildren = this.LogicalChildren.OfType<NavigationViewItem>().Any();
+    bool isPopupClone = navigationView is not null && this.GetParentTOfLogical<NavigationView>() is null;
 
-    // When pane is closed (compact mode) and item has children, toggle the popup submenu
-    // NOTE: use NavigationView.IsOpen instead of this item's IsOpen because items can override IsOpen locally.
+    Debug.WriteLine($"[NavItem] Select header={Header} tag={Tag} isPaneOpen={isPaneOpen} hasChildren={hasChildren} isPopupClone={isPopupClone} IsSelected={IsSelected}");
+
     if (!isPaneOpen && hasChildren)
     {
+        Debug.WriteLine($"[NavItem] Select compact+hasChildren → toggling IsSubMenuOpen={!IsSubMenuOpen} header={Header}");
         IsSubMenuOpen = !IsSubMenuOpen;
         return;
     }
 
-    // If this item is a popup clone (not in the NavigationView logical tree but has NavigationView set),
-    // find the original item in the tree by Tag and select that instead so SelectionChanged fires correctly.
-    if (navigationView is not null && this.GetParentTOfLogical<NavigationView>() is null && Tag is not null)
+    if (isPopupClone && navigationView is not null && Tag is not null)
     {
         var original = navigationView.GetLogicalDescendants()
             .OfType<NavigationViewItem>()
             .FirstOrDefault(x => Equals(x.Tag, Tag));
+        Debug.WriteLine($"[NavItem] Select popup clone → found original={original?.Header} tag={Tag}");
         if (original is not null)
         {
             navigationView.SelectSingleItem(original);
@@ -601,6 +617,13 @@ private void Select()
     }
 
     if (!IsSelected)
+    {
+        Debug.WriteLine($"[NavItem] Select → calling SelectSingleItem on NavigationView header={Header} tag={Tag}");
         navigationView?.SelectSingleItem(this);
+    }
+    else
+    {
+        Debug.WriteLine($"[NavItem] Select → already selected, skipping header={Header}");
+    }
 }
 }

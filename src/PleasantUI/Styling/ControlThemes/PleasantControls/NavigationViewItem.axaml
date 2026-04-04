@@ -318,6 +318,13 @@
         <Style Selector="^[IsExpanded=False] /template/ :is(Control)#PART_BottomBorder">
             <Setter Property="Height" Value="0" />
         </Style>
+
+        <!-- When pane is closed (compact mode), always collapse inline children regardless of IsExpanded.
+             This selector has higher specificity than [IsExpanded=False] alone, so it wins. -->
+        <Style Selector="^[IsOpen=False] /template/ :is(Control)#PART_BottomBorder">
+            <Setter Property="Height" Value="0" />
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
         
         <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Transitions">
