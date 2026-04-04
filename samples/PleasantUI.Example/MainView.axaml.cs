@@ -83,6 +83,10 @@ public partial class MainView : UserControl
         // stays visible, without going through SelectionChanged again.
         MainNavigationView.SelectionChanged -= OnNavigationSelectionChanged;
         MainNavigationView.SelectedItem = HomeNavItem;
+        // HomeNavItem must not appear highlighted while a leaf page is active.
+        HomeNavItem.IsSelected = false;
+        // Re-highlight the leaf item — SelectSingleItemCore cleared it when we redirected to HomeNavItem.
+        selected.IsSelected = true;
         MainNavigationView.SelectionChanged += OnNavigationSelectionChanged;
     }
 
