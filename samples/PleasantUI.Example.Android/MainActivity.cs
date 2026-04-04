@@ -1,6 +1,4 @@
-﻿using Android.Runtime;
-using Avalonia.Android;
-using PleasantUI.Core;
+﻿using PleasantUI.Core;
 
 namespace PleasantUI.Example.Android;
 

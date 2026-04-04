@@ -26,12 +26,16 @@
                             Background="#3A000000"
                             Opacity="0"
                             IsHitTestVisible="{TemplateBinding CanLightDismiss}" />
+                    
                     <ShadowBorder Name="PART_DrawerPanel"
-                                  BlurRadius="40"
-                                  ShadowColor="#5A000000"
-                                  Offset="-4 0"
+                                  Opacity="0"
+                                  BlurRadius="10"
+                                  ShadowColor="#3A000000"
+                                  Offset="0 0"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Stretch"
+                                  Width="{TemplateBinding PanelWidth}"
+                                  Height="{TemplateBinding PanelHeight}"
                                   MinWidth="{TemplateBinding MinWidth}"
                                   MinHeight="{TemplateBinding MinHeight}">
                         <Border Background="{TemplateBinding Background}"

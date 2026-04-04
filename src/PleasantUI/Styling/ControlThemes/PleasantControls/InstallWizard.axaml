@@ -69,23 +69,46 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="controls:WizardStep">
                                             <Grid ColumnDefinitions="24,*" Margin="0 6">
+                                                <Grid.Styles>
+                                                    <Style Selector="Border.checkmark[IsVisible=True]">
+                                                        <Style.Animations>
+                                                            <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                                                                <KeyFrame Cue="0%">
+                                                                    <Setter Property="ScaleTransform.ScaleX"
+                                                                            Value="0.5" />
+                                                                    <Setter Property="ScaleTransform.ScaleY"
+                                                                            Value="0.5" />
+                                                                    <Setter Property="Opacity" Value="0" />
+                                                                </KeyFrame>
+                                                                <KeyFrame Cue="100%">
+                                                                    <Setter Property="ScaleTransform.ScaleX"
+                                                                            Value="1" />
+                                                                    <Setter Property="ScaleTransform.ScaleY"
+                                                                            Value="1" />
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                </KeyFrame>
+                                                            </Animation>
+                                                        </Style.Animations>
+                                                    </Style>
+                                                </Grid.Styles>
 
-                                                <!-- Pending: accent-coloured number circle -->
+                                                <!-- Pending: accent-colored number circle -->
                                                 <Border Width="22" Height="22"
                                                         CornerRadius="11"
                                                         VerticalAlignment="Center"
                                                         Background="{DynamicResource AccentFillColor1}"
                                                         IsVisible="{Binding !IsCompleted}">
                                                     <TextBlock FontSize="11"
-                                                               FontWeight="SemiBold"
+                                                               FontWeight="Bold"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               Foreground="White"
+                                                               Foreground="{DynamicResource TextFillColor1}"
                                                                Text="{Binding StepNumber}" />
                                                 </Border>
 
                                                 <!-- Completed: green checkmark -->
                                                 <Border Width="22" Height="22"
+                                                        Classes="checkmark"
                                                         CornerRadius="11"
                                                         VerticalAlignment="Center"
                                                         Background="{DynamicResource SystemFillColorSuccess}">
@@ -94,23 +117,23 @@
                                                             <Binding Path="IsCompleted" />
                                                             <Binding Path="CompletionState"
                                                                      Converter="{x:Static ObjectConverters.Equal}"
-                                                                     ConverterParameter="{x:Static controls:WizardStepCompletionState.Success}" />
+                                                                     ConverterParameter="{x:Static controls:WizardStepCompletionState.Error}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
+                                                    
                                                     <!-- Inline checkmark path: no StaticResource needed -->
                                                     <Path Data="M5,12 L10,17 L19,7"
-                                                          Stroke="White"
+                                                          Stroke="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
                                                           StrokeThickness="2"
-                                                          StrokeLineCap="Round"
-                                                          StrokeJoin="Round"
                                                           Stretch="Uniform"
-                                                          Width="12" Height="12"
+                                                          Width="8"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" />
                                                 </Border>
 
                                                 <!-- Completed: amber warning -->
                                                 <Border Width="22" Height="22"
+                                                        Classes="checkmark"
                                                         CornerRadius="11"
                                                         VerticalAlignment="Center"
                                                         Background="{DynamicResource SystemFillColorCaution}">
@@ -122,19 +145,17 @@
                                                                      ConverterParameter="{x:Static controls:WizardStepCompletionState.Warning}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
-                                                    <Path Data="M12,7 L12,13 M12,15.5 L12,16.5 M3,19 L12,4 L21,19 Z"
-                                                          Stroke="White"
-                                                          StrokeThickness="1.8"
-                                                          StrokeLineCap="Round"
-                                                          StrokeJoin="Round"
+                                                    <Path Data="{StaticResource AlertOutline}"
+                                                          Fill="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
                                                           Stretch="Uniform"
-                                                          Width="12" Height="12"
+                                                          Width="14" Height="14"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" />
                                                 </Border>
 
                                                 <!-- Completed: red error X -->
                                                 <Border Width="22" Height="22"
+                                                        Classes="checkmark"
                                                         CornerRadius="11"
                                                         VerticalAlignment="Center"
                                                         Background="{DynamicResource SystemFillColorCritical}">
@@ -143,15 +164,14 @@
                                                             <Binding Path="IsCompleted" />
                                                             <Binding Path="CompletionState"
                                                                      Converter="{x:Static ObjectConverters.Equal}"
-                                                                     ConverterParameter="{x:Static controls:WizardStepCompletionState.Error}" />
+                                                                     ConverterParameter="{x:Static controls:WizardStepCompletionState.Success}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
                                                     <Path Data="M7,7 L17,17 M17,7 L7,17"
-                                                          Stroke="White"
+                                                          Stroke="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
                                                           StrokeThickness="2"
-                                                          StrokeLineCap="Round"
                                                           Stretch="Uniform"
-                                                          Width="12" Height="12"
+                                                          Height="8"
                                                           HorizontalAlignment="Center"
                                                           VerticalAlignment="Center" />
                                                 </Border>
@@ -219,6 +239,7 @@
                             <Border Grid.Row="2"
                                     Padding="32 12"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
+                                    Background="{DynamicResource ControlFillColor1}"
                                     BorderThickness="0 1 0 0">
                                 <Grid ColumnDefinitions="*,Auto,8,Auto,8,Auto">
                                     <Border Grid.Column="0" />

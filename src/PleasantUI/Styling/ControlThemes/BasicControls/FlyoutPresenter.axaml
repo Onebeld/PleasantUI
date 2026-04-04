@@ -29,6 +29,24 @@
                               BlurRadius="5"
                               Offset="0 1"
                               ShadowColor="#3C000000">
+                    <ShadowBorder.Styles>
+                        <Style>
+                            <Style.Animations>
+                                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                                    <KeyFrame Cue="0%">
+                                        <Setter Property="TranslateTransform.Y"
+                                                Value="-100" />
+                                        <Setter Property="Opacity" Value="0" />
+                                    </KeyFrame>
+                                    <KeyFrame Cue="100%">
+                                        <Setter Property="TranslateTransform.Y" Value="0" />
+                                        <Setter Property="Opacity" Value="1" />
+                                    </KeyFrame>
+                                </Animation>
+                            </Style.Animations>
+                        </Style>
+                    </ShadowBorder.Styles>
+                    
                     <Border Name="LayoutRoot"
                             Padding="0"
                             Background="{TemplateBinding Background}"

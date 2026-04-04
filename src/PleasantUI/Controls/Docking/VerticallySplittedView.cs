@@ -10,7 +10,6 @@ using Avalonia.Metadata;
 using Avalonia.Reactive;
 using Avalonia.Xaml.Interactivity;
 using PleasantUI.Core;
-using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls.Docking;
 

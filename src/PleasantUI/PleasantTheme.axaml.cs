@@ -29,7 +29,6 @@ public class PleasantTheme : Styles
     private const int AccentColorCount = 3;
 
     private static ResourceDictionary _mainResourceDictionary = null!;
-    private static CustomTheme? _customTheme;
     private static Action? _customThemeChanged;
 
     private readonly bool _isInitialized;
@@ -72,10 +71,10 @@ public class PleasantTheme : Styles
     /// <value>The selected custom theme.</value>
     public static CustomTheme? SelectedCustomTheme
     {
-        get => _customTheme;
+        get;
         set
         {
-            _customTheme = value;
+            field = value;
 
             if (PleasantSettings.Current is null)
                 throw new NullReferenceException("PleasantSettings.Current is null.");

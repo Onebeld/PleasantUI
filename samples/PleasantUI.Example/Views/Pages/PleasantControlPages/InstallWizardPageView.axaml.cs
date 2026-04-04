@@ -2,8 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using PleasantUI.Controls;
-using PleasantUI.Core.Localization;
-using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
@@ -39,7 +37,7 @@ public partial class InstallWizardPageView : LocalizedUserControl
     private static InstallWizard BuildWizard()
     {
         // Read localized strings at call time so modal/window modes respect the current language
-        var loc = PleasantUI.Core.Localization.Localizer.Instance;
+        var loc = Core.Localization.Localizer.Instance;
         string Tr(string key) => loc.TryGetString(key, out var v) ? v : key;
 
         var wizard = new InstallWizard
@@ -52,7 +50,7 @@ public partial class InstallWizardPageView : LocalizedUserControl
         {
             Header      = Tr("InstallWizard/Step1Header"),
             Description = Tr("InstallWizard/Step1Desc"),
-            ContentTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<object?>((_, _) =>
+            ContentTemplate = new FuncDataTemplate<object?>((_, _) =>
                 new StackPanel
                 {
                     Spacing  = 12,
@@ -100,7 +98,7 @@ public partial class InstallWizardPageView : LocalizedUserControl
         {
             Header      = Tr("InstallWizard/Step3Header"),
             Description = Tr("InstallWizard/Step3Desc"),
-            ContentTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<object?>((_, _) =>
+            ContentTemplate = new FuncDataTemplate<object?>((_, _) =>
                 new StackPanel
                 {
                     Spacing  = 8,
@@ -118,7 +116,7 @@ public partial class InstallWizardPageView : LocalizedUserControl
         {
             Header      = Tr("InstallWizard/Step4Header"),
             Description = Tr("InstallWizard/Step4Desc"),
-            ContentTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<object?>((_, _) =>
+            ContentTemplate = new FuncDataTemplate<object?>((_, _) =>
                 new StackPanel
                 {
                     Spacing  = 12,
@@ -135,7 +133,7 @@ public partial class InstallWizardPageView : LocalizedUserControl
         {
             Header      = Tr("InstallWizard/Step5Header"),
             Description = Tr("InstallWizard/Step5Desc"),
-            ContentTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<object?>((_, _) =>
+            ContentTemplate = new FuncDataTemplate<object?>((_, _) =>
                 new StackPanel
                 {
                     Spacing             = 12,

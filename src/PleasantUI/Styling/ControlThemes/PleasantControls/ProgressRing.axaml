@@ -42,6 +42,19 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ Arc#Fill">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="SweepAngle" Duration="0:0:0.25" Easing="CubicEaseOut" />
+                    <BrushTransition Property="Stroke" Duration="0:0:0.5" />
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^[IsEnabled=False] /template/ Arc#Fill">
+            <Setter Property="Stroke" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^:preserveaspect">
             <Setter Property="MinWidth" Value="32" />

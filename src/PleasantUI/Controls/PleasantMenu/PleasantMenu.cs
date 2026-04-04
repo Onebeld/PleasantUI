@@ -2,8 +2,6 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -283,7 +281,7 @@ public class PleasantMenu : TemplatedControl
     private void CloseFlyout()
     {
         // Walk up to find the hosting Flyout and close it
-        var parent = this.Parent;
+        var parent = Parent;
         while (parent is not null)
         {
             if (parent is Popup popup)

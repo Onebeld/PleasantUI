@@ -80,17 +80,20 @@ public class ShadowBorder : Decorator
     /// <inheritdoc />
     public override void Render(DrawingContext context)
     {
-        Size contentSize = Child?.Bounds.Size ?? Bounds.Size;
-        EnsureShadowBitmap(contentSize);
-
-        if (_shadowBitmap != null)
+        if (Opacity > 0.001)
         {
-            double pad = ComputePad(BlurRadius);
-            Size bmpSize = _shadowBitmap.Size;
-            Rect destRect = new(-pad + Offset.X, -pad + Offset.Y, bmpSize.Width, bmpSize.Height);
-            Rect srcRect = new(0, 0, bmpSize.Width, bmpSize.Height);
+            Size contentSize = Child?.Bounds.Size ?? Bounds.Size;
+            EnsureShadowBitmap(contentSize);
 
-            context.DrawImage(_shadowBitmap, srcRect, destRect);
+            if (_shadowBitmap != null)
+            {
+                double pad = ComputePad(BlurRadius);
+                Size bmpSize = _shadowBitmap.Size;
+                Rect destRect = new(-pad + Offset.X, -pad + Offset.Y, bmpSize.Width, bmpSize.Height);
+                Rect srcRect = new(0, 0, bmpSize.Width, bmpSize.Height);
+                
+                context.DrawImage(_shadowBitmap, srcRect, destRect);
+            }
         }
 
         base.Render(context);
@@ -110,7 +113,8 @@ public class ShadowBorder : Decorator
             return;
 
         _shadowBitmap?.Dispose();
-        _shadowBitmap = CreateShadowBitmap(contentSize, BlurRadius, ShadowColor, CornerRadius);
+        _shadowBitmap = CreateShadowBitmap(contentSize, BlurRadius, ShadowColor, CornerRadius, Opacity);
+        
         _lastContentSize = contentSize;
         _lastBlur = BlurRadius;
         _lastColor = ShadowColor;
@@ -118,7 +122,7 @@ public class ShadowBorder : Decorator
         _lastCorner = CornerRadius;
     }
 
-    private Bitmap? CreateShadowBitmap(Size contentSizeDip, double blurDip, Color color, CornerRadius corner)
+    private Bitmap CreateShadowBitmap(Size contentSizeDip, double blurDip, Color color, CornerRadius corner, double opacity)
     {
         double scale = 1.0;
         if (TopLevel.GetTopLevel(this) is { } topLevel)
@@ -148,7 +152,6 @@ public class ShadowBorder : Decorator
 
             using SKPaint paint = new();
             paint.IsAntialias = true;
-            paint.Color = SKColors.White;
 
             using SKImageFilter? filter = SKImageFilter.CreateDropShadowOnly(
                 0, 0,
@@ -167,26 +170,14 @@ public class ShadowBorder : Decorator
         }
 
         IntPtr pixelsPtr = skBitmap.GetPixels();
-        PixelSize pixelSize = new(skBitmap.Width, skBitmap.Height);
-        Vector dpi = new(96.0 * scale, 96.0 * scale);
-        int stride = skBitmap.RowBytes;
 
-        try
-        {
-            Bitmap avaloniaBitmap = new(
-                PixelFormat.Bgra8888,
-                AlphaFormat.Premul,
-                pixelsPtr,
-                pixelSize,
-                dpi,
-                stride);
-
-            return avaloniaBitmap;
-        }
-        catch
-        {
-            return null;
-        }
+        return new Bitmap(
+            PixelFormat.Bgra8888,
+            AlphaFormat.Premul,
+            pixelsPtr,
+            new PixelSize(skBitmap.Width, skBitmap.Height),
+            new Vector(96.0 * scale, 96.0 * scale),
+            skBitmap.RowBytes);
     }
 
     private static double ComputePad(double blur)

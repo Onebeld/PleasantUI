@@ -95,7 +95,7 @@
                     <!-- Feature Highlights -->
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                         <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource PaletteOutline}"
+                            <PathIcon Grid.Column="0" Data="{x:Static MaterialIcons.Blur}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -112,7 +112,7 @@
                         </Grid>
 
                         <Grid Grid.Column="1" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource ViewDashboardOutline}"
+                            <PathIcon Grid.Column="0" Data="{x:Static MaterialIcons.ViewDashboardOutline}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -129,7 +129,7 @@
                         </Grid>
 
                         <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource ThemeLightDark}"
+                            <PathIcon Grid.Column="0" Data="{StaticResource BrushVariantRegular}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -146,7 +146,7 @@
                         </Grid>
 
                         <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource Translate}"
+                            <PathIcon Grid.Column="0" Data="{x:Static MaterialIcons.Translate}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -201,7 +201,7 @@
 
             <!-- Links Section -->
             <OptionsDisplayItem Header="{Localize Links}"
-                                Icon="{StaticResource LinkVariant}"
+                                Icon="{x:Static MaterialIcons.Link}"
                                 Expands="True"
                                 IsExpanded="True">
                 <OptionsDisplayItem.Content>

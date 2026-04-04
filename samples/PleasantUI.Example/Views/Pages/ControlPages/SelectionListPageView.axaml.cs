@@ -54,7 +54,7 @@ public partial class SelectionListPageView : LocalizedUserControl
                     {
                         Text                = initial,
                         FontSize            = 28,
-                        FontWeight          = Avalonia.Media.FontWeight.Bold,
+                        FontWeight          = FontWeight.Bold,
                         Foreground          = Brushes.White,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment   = VerticalAlignment.Center,

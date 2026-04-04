@@ -284,8 +284,8 @@ public class PopConfirm : ContentControl
 
         if (mode.HasFlag(PopConfirmTriggerMode.Focus))
         {
-            child.AddHandler(InputElement.GotFocusEvent,  OnMainElementGotFocus);
-            child.AddHandler(InputElement.LostFocusEvent, OnMainElementLostFocus);
+            child.AddHandler(GotFocusEvent,  OnMainElementGotFocus);
+            child.AddHandler(LostFocusEvent, OnMainElementLostFocus);
         }
     }
 
@@ -294,8 +294,8 @@ public class PopConfirm : ContentControl
         if (child is null) return;
         child.RemoveHandler(PointerPressedEvent, OnMainElementPressed);
         if (child is Button btn2) btn2.Click -= OnMainButtonClicked;
-        child.RemoveHandler(InputElement.GotFocusEvent,  OnMainElementGotFocus);
-        child.RemoveHandler(InputElement.LostFocusEvent, OnMainElementLostFocus);
+        child.RemoveHandler(GotFocusEvent,  OnMainElementGotFocus);
+        child.RemoveHandler(LostFocusEvent, OnMainElementLostFocus);
     }
 
     private void OnMainButtonClicked(object? sender, RoutedEventArgs e)

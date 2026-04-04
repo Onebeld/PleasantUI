@@ -7,10 +7,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Avalonia.Data;
 using Avalonia.VisualTree;
 
 namespace PleasantUI.Controls.Docking;

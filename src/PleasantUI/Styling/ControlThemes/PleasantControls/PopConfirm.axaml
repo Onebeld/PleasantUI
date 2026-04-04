@@ -29,12 +29,12 @@
                            OverlayInputPassThroughElement="{Binding #PART_ContentPresenter}"
                            Placement="{TemplateBinding Placement}">
                         <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
-                                      BlurRadius="20"
-                                      ShadowColor="#4A000000"
-                                      Offset="0 4">
+                                      Margin="6 4 6 6"
+                                      BlurRadius="5"
+                                      ShadowColor="#3C000000"
+                                      Offset="0 1">
                             <Border MaxWidth="320"
                                     Padding="16"
-                                    Margin="4"
                                     Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{StaticResource ControlBorderThickness}"
@@ -124,6 +124,76 @@
         <Style Selector="^.Information /template/ PathIcon#PART_DefaultIcon">
             <Setter Property="Data"       Value="{StaticResource MoreRegular}" />
             <Setter Property="Foreground" Value="{DynamicResource SystemFillColorNeutral}" />
+        </Style>
+        
+        <!-- Animation -->
+        <Style Selector="^[Placement=Bottom] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=BottomEdgeAlignedLeft] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=BottomEdgeAlignedRight] /template/ Popup[IsOpen=True] > ShadowBorder">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.Y"
+                                Value="-100" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.Y" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^[Placement=Top] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=TopEdgeAlignedLeft] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=TopEdgeAlignedRight] /template/ Popup[IsOpen=True] > ShadowBorder">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.Y"
+                                Value="100" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.Y" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^[Placement=Left] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=LeftEdgeAlignedBottom] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=LeftEdgeAlignedTop] /template/ Popup[IsOpen=True] > ShadowBorder">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.X"
+                                Value="100" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.X" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^[Placement=Right] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=RightEdgeAlignedBottom] /template/ Popup[IsOpen=True] > ShadowBorder,
+                         ^[Placement=RightEdgeAlignedTop] /template/ Popup[IsOpen=True] > ShadowBorder">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="TranslateTransform.X"
+                                Value="-100" />
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="TranslateTransform.X" Value="0" />
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
         </Style>
     </ControlTheme>
 </ResourceDictionary>

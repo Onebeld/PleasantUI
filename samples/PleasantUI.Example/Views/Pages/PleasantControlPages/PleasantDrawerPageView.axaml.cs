@@ -1,8 +1,6 @@
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using PleasantUI.Controls;
 using PleasantUI.Core.Localization;
-using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
@@ -37,10 +35,10 @@ public partial class PleasantDrawerPageView : LocalizedUserControl
 
         var drawer = new PleasantDrawer
         {
-            Title    = Tr("PleasantDrawer/DrawerTitle"),
-            Position = position,
-            Width    = position is DrawerPosition.Left or DrawerPosition.Right ? 320 : double.NaN,
-            Height   = position is DrawerPosition.Top or DrawerPosition.Bottom ? 260 : double.NaN,
+            Title         = Tr("PleasantDrawer/DrawerTitle"),
+            Position      = position,
+            PanelWidth    = position is DrawerPosition.Left or DrawerPosition.Right ? 320 : double.NaN,
+            PanelHeight   = position is DrawerPosition.Top or DrawerPosition.Bottom ? 260 : double.NaN,
             FooterContent = new Button
             {
                 Content             = Tr("PleasantDrawer/FooterClose"),

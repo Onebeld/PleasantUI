@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using PleasantUI.Controls;
+﻿using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;

@@ -10,7 +10,7 @@
                 <controls:PathPicker Title="Save File" Width="350" Mode="SaveFile" />
                 <controls:PathPicker Title="Select Folder" Width="350" Mode="OpenFolder" />
                 <controls:PathPicker Theme="{StaticResource ButtonPathPickerTheme}" Title="Browse Files..." />
-                <controls:PathPicker Theme="{StaticResource CompactPathPickerTheme}" Width="350" />
+                <controls:PathPicker Theme="{StaticResource CompactPathPickerTheme}" Title="Browse..." Width="350" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -81,6 +81,7 @@
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         CornerRadius="{TemplateBinding CornerRadius}"
+                        ToolTip.Tip="{TemplateBinding Title}"
                         Padding="11 5">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Viewbox Width="16" Height="16">
@@ -116,7 +117,8 @@
                         <TextBox.InnerRightContent>
                             <Button x:Name="PART_Button"
                                     Theme="{StaticResource AppBarButtonTheme}"
-                                    Margin="4 0 0 0"
+                                    CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                                    Margin="4 0 3 0"
                                     Padding="6"
                                     VerticalAlignment="Center">
                                 <Viewbox Width="16" Height="16">

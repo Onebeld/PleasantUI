@@ -147,7 +147,9 @@ public class InstallWizard : TemplatedControl
 
         RefreshComputedProperties();
         UpdateButtonStates();
-    }    /// <summary>Zero-based index of the currently visible step.</summary>
+    }    
+    
+    /// <summary>Zero-based index of the currently visible step.</summary>
     public int CurrentStepIndex
     {
         get => GetValue(CurrentStepIndexProperty);
@@ -238,21 +240,18 @@ public class InstallWizard : TemplatedControl
         AvaloniaProperty.RegisterDirect<InstallWizard, WizardStep?>(nameof(CurrentStep),
             o => o.CurrentStep);
 
-    private double _progress;
-    private WizardStep? _currentStep;
-
     /// <summary>Progress value 0–100 based on current step.</summary>
     public double Progress
     {
-        get => _progress;
-        private set => SetAndRaise(ProgressProperty, ref _progress, value);
+        get;
+        private set => SetAndRaise(ProgressProperty, ref field, value);
     }
 
     /// <summary>The currently active step, or null.</summary>
     public WizardStep? CurrentStep
     {
-        get => _currentStep;
-        private set => SetAndRaise(CurrentStepProperty, ref _currentStep, value);
+        get;
+        private set => SetAndRaise(CurrentStepProperty, ref field, value);
     }
 
     private void RefreshComputedProperties()

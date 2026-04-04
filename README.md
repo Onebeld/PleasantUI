@@ -15,9 +15,7 @@ PleasantUI is a cross-platform UI theme and control library for [Avalonia](https
 
 The project has been in active development since 2021, originally as part of the [Regul](https://github.com/Onebeld/Regul) and [Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner) projects.
 
----
-
-## Features
+## ✨ Features
 
 ### Complete Fluent-style control theming
 
@@ -72,8 +70,6 @@ Controls built from scratch that go beyond what Avalonia ships:
 - `Localizer.TrDefault(key, fallback)` for safe lookups that fall back to a raw string instead of an error message
 - `LocalizationChanged` event for view models and code-behind to react to language switches
 
----
-
 ## Packages
 
 | Package | Description |
@@ -83,9 +79,7 @@ Controls built from scratch that go beyond what Avalonia ships:
 | `PleasantUI.MaterialIcons` | Material Design icon geometry library for use with `PathIcon` |
 | `PleasantUI.DataGrid` | Fluent-styled DataGrid extension |
 
----
-
-## Documentation
+## 📖 Documentation
 
 Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 
@@ -106,13 +100,9 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 | [Localization](docs/Localization.md) | `Localizer`, `{Localize}` markup extension |
 | [Theme Engine](docs/ThemeEngine.md) | `PleasantTheme`, custom themes, color tokens |
 
----
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Install
-
-
 
 **Package List (Avalonia 12)**
 
@@ -204,9 +194,7 @@ Key `PleasantWindow` properties:
 | `CaptionButtons` | enum | Which caption buttons to show |
 | `LeftTitleBarContent` | `object` | Content injected left of the title |
 
----
-
-## Localization
+## 🌍 Localization
 
 Register your `.resx` resource managers in your `Application` constructor:
 
@@ -237,9 +225,7 @@ Safe lookup with fallback in code-behind:
 string title = Localizer.TrDefault("DialogTitle", "Confirm");
 ```
 
----
-
-## Button variants
+## 🔲 Button variants
 
 ```xml
 <Button Content="Default" />
@@ -248,9 +234,7 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 <Button Theme="{StaticResource AppBarButtonTheme}" Content="AppBar" />
 ```
 
----
-
-## OptionsDisplayItem
+## 📃 OptionsDisplayItem
 
 ```xml
 <!-- Navigation row -->
@@ -277,9 +261,7 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 </OptionsDisplayItem>
 ```
 
----
-
-## Screenshots
+## 🖼️ Screenshots
 
 [Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner)
 
@@ -289,11 +271,9 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 
 ![image](https://github.com/Onebeld/OlibKey/assets/44552715/c6f78465-0e3a-4757-ba03-903e93ec3e04)
 
----
+## ❤️ Credits
 
-## Credits
-
-- [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia)
+- [Avalonia](https://github.com/AvaloniaUI/Avalonia)
 - Some controls inspired by PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI)
 - [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) by ymg2006
 - Built with [JetBrains Rider](https://www.jetbrains.com/rider/)

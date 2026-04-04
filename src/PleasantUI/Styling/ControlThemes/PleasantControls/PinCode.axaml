@@ -63,6 +63,7 @@
 		<Style Selector="^:focused">
 			<Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
 			<Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
+			<Setter Property="BorderThickness" Value="{StaticResource ControlFocusedBorderThickness}" />
 		</Style>
 
 		<!-- Filled -->

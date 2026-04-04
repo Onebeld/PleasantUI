@@ -6,6 +6,7 @@
     <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
 
     <Thickness x:Key="ControlBorderThickness">0</Thickness>
+    <Thickness x:Key="ControlFocusedBorderThickness">1</Thickness>
 
     <system:Double x:Key="GlobalFontSize">14</system:Double>
 </ResourceDictionary>

@@ -4,7 +4,6 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
-using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls.Docking;
 

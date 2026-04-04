@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Collections;
@@ -7,9 +6,6 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
-using Avalonia.Media;
-using Avalonia.VisualTree;
 using PleasantUI.Core.Helpers;
 
 namespace PleasantUI.Controls;
@@ -91,6 +87,14 @@ public class PleasantDrawer : PleasantPopupElement
     /// <summary>Defines the <see cref="FooterContent"/> property.</summary>
     public static readonly StyledProperty<object?> FooterContentProperty =
         AvaloniaProperty.Register<PleasantDrawer, object?>(nameof(FooterContent));
+    
+    /// <summary>Defines the <see cref="PanelWidth"/> property.</summary>
+    public static readonly StyledProperty<double> PanelWidthProperty =
+        AvaloniaProperty.Register<PleasantDrawer, double>(nameof(PanelWidth));
+    
+    /// <summary>Defines the <see cref="PanelHeight"/> property.</summary>
+    public static readonly StyledProperty<double> PanelHeightProperty =
+        AvaloniaProperty.Register<PleasantDrawer, double>(nameof(PanelHeight));
 
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
@@ -155,6 +159,20 @@ public class PleasantDrawer : PleasantPopupElement
     {
         get => GetValue(FooterContentProperty);
         set => SetValue(FooterContentProperty, value);
+    }
+    
+    /// 
+    public double PanelWidth
+    {
+        get => GetValue(PanelWidthProperty);
+        set => SetValue(PanelWidthProperty, value);
+    }
+    
+    /// 
+    public double PanelHeight
+    {
+        get => GetValue(PanelHeightProperty);
+        set => SetValue(PanelHeightProperty, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -333,7 +351,7 @@ public class PleasantDrawer : PleasantPopupElement
         Host.Content = this;
 
         // Set the Host's alignment based on Position so the OverlayLayer positions correctly
-        SetHostAlignmentFromPosition();
+        //SetHostAlignmentFromPosition();
 
         base.ShowCoreForTopLevel(topLevel);
 
@@ -349,7 +367,7 @@ public class PleasantDrawer : PleasantPopupElement
         return await tcs.Task;
     }
 
-    private void SetHostAlignmentFromPosition()
+    /*private void SetHostAlignmentFromPosition()
     {
         if (Host is null) return;
 
@@ -372,7 +390,7 @@ public class PleasantDrawer : PleasantPopupElement
                 Host.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Bottom;
                 break;
         }
-    }
+    }*/
 
     private async Task CloseDrawerAsync()
     {

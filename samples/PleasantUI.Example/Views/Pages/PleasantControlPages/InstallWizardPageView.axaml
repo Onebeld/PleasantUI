@@ -59,9 +59,7 @@
                                             FooterText="{Localize InstallWizard/FooterText}"
                                             Height="420">
                         <controls:InstallWizard.AppIcon>
-                            <PathIcon Data="{StaticResource AppIconRegular}"
-                                      Width="32" Height="32"
-                                      Foreground="{DynamicResource AccentFillColor1}" />
+                            <Image Source="{StaticResource PleasantUIForeground}" Width="120" />
                         </controls:InstallWizard.AppIcon>
                         <controls:InstallWizard.Steps>
 

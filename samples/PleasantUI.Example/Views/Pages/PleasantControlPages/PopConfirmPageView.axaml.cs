@@ -1,5 +1,3 @@
-using PleasantUI.Example.Views.Pages;
-
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
 public partial class PopConfirmPageView : LocalizedUserControl
