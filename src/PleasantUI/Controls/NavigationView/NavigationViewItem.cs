@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -28,6 +29,8 @@ public class NavigationViewItem : TreeViewItem
     private bool _isSubMenuOpen;
 
     private Popup? _popup;
+    private SmoothScrollViewer? _popupScrollViewer;
+    private NavigationViewSubMenuControl? _subMenuControl;
     
     /// <summary>
     /// Defines the <see cref="Content" /> property.
@@ -78,7 +81,10 @@ public class NavigationViewItem : TreeViewItem
     /// Defines the <see cref="NavigationViewDistance" /> property.
     /// </summary>
     public static readonly DirectProperty<NavigationViewItem, int> NavigationViewDistanceProperty =
-        AvaloniaProperty.RegisterDirect<NavigationViewItem, int>(nameof(NavigationViewDistance), o => o.Level);
+        AvaloniaProperty.RegisterDirect<NavigationViewItem, int>(
+            nameof(NavigationViewDistance),
+            o => o.NavigationViewDistance,
+            (o, v) => o.NavigationViewDistance = v);
 
     /// <summary>
     /// Defines the <see cref="CompactPaneLength" /> property.
@@ -108,6 +114,13 @@ public class NavigationViewItem : TreeViewItem
             nameof(IsSubMenuOpen),
             o => o.IsSubMenuOpen,
             (o, v) => o.IsSubMenuOpen = v);
+
+    /// <summary>
+    /// Defines the <see cref="NavigationView" /> property.
+    /// Reference to the parent NavigationView for popup submenu items that aren't in the logical tree.
+    /// </summary>
+    public static readonly StyledProperty<NavigationView?> NavigationViewProperty =
+        AvaloniaProperty.Register<NavigationViewItem, NavigationView?>(nameof(NavigationView));
 
     /// <summary>
     /// Defines the routed event for when the <see cref="NavigationViewItem" /> is opened.
@@ -260,6 +273,16 @@ public class NavigationViewItem : TreeViewItem
     }
 
     /// <summary>
+    /// Gets or sets the parent NavigationView.
+    /// Used by popup submenu items to navigate when not in the logical tree.
+    /// </summary>
+    public NavigationView? NavigationView
+    {
+        get => GetValue(NavigationViewProperty);
+        set => SetValue(NavigationViewProperty, value);
+    }
+
+    /// <summary>
     /// Occurs when the Opened event is raised.
     /// </summary>
     public event EventHandler<RoutedEventArgs> Opened
@@ -307,6 +330,7 @@ public class NavigationViewItem : TreeViewItem
             else
                 navigationViewItem.OnDeselected(navigationViewItem, e);
         });
+        IsSubMenuOpenProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(OnIsSubMenuOpenChanged));
         IsOpenProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(OnIsOpenChanged));
         OpenPaneLengthProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnPaneSizesChanged));
         CompactPaneLengthProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnPaneSizesChanged));
@@ -384,6 +408,14 @@ public class NavigationViewItem : TreeViewItem
         }
 
         _popup = e.NameScope.Find<Popup>("PART_Popup");
+        _popupScrollViewer = e.NameScope.Find<SmoothScrollViewer>("PART_PopupScrollViewer");
+        _subMenuControl = e.NameScope.Find<NavigationViewSubMenuControl>("PART_SubMenuControl");
+
+        // Wire up the submenu control to this parent item
+        if (_subMenuControl is not null)
+        {
+            _subMenuControl.NavigationViewItem = this;
+        }
 
         if (_popup is not null)
         {
@@ -462,35 +494,98 @@ public class NavigationViewItem : TreeViewItem
         }
     }
 
+    private static void OnIsSubMenuOpenChanged(AvaloniaPropertyChangedEventArgs<bool> e)
+    {
+        if (e.Sender is not NavigationViewItem item) return;
+
+        if (e.NewValue.GetValueOrDefault())
+        {
+            // Popup opening: add the ItemsPresenter to show children
+            item.AddPopupItemsPresenter();
+        }
+        else
+        {
+            // Popup closing: remove the ItemsPresenter to free containers
+            item.RemovePopupItemsPresenter();
+        }
+    }
+
     private void OnPopupClosed(object? sender, EventArgs e)
     {
         IsSubMenuOpen = false;
     }
 
-    private void UpdatePseudoClasses()
+    private void AddPopupItemsPresenter()
     {
-        if (IsOpen)
-        {
-            PseudoClasses.Remove(":closed");
-            PseudoClasses.Add(":opened");
-        }
-        else
-        {
-            PseudoClasses.Remove(":opened");
-            PseudoClasses.Add(":closed");
-        }
+        if (_subMenuControl is null || _popupScrollViewer is null) return;
+
+        // Set the ItemsSource to our logical children
+        _subMenuControl.ItemsSource = LogicalChildren;
+        
+        // Ensure it's attached to the scroll viewer
+        if (!ReferenceEquals(_popupScrollViewer.Content, _subMenuControl))
+            _popupScrollViewer.Content = _subMenuControl;
+    }
+    
+
+    private void RemovePopupItemsPresenter()
+    {
+        if (_subMenuControl is null) return;
+
+        // Detach from popup scroll viewer and clear items
+        if (_popupScrollViewer?.Content == _subMenuControl)
+            _popupScrollViewer.Content = null;
+            
+    _subMenuControl.ItemsSource = null;
+}
+
+private void UpdatePseudoClasses()
+{
+    if (IsOpen)
+    {
+        PseudoClasses.Remove(":closed");
+        PseudoClasses.Add(":opened");
+    }
+    else
+    {
+        PseudoClasses.Remove(":opened");
+        PseudoClasses.Add(":closed");
+    }
+}
+
+private void Select()
+{
+    // Try to find NavigationView from logical tree first, fall back to stored property
+    var navigationView = this.GetParentTOfLogical<NavigationView>() ?? NavigationView;
+    var isPaneOpen = navigationView?.IsOpen ?? IsOpen;
+
+    // Check if this item has child navigation items
+    var hasChildren = this.LogicalChildren.OfType<NavigationViewItem>().Any();
+
+    // When pane is closed (compact mode) and item has children, toggle the popup submenu
+    // NOTE: use NavigationView.IsOpen instead of this item's IsOpen because items can override IsOpen locally.
+    if (!isPaneOpen && hasChildren)
+    {
+        IsSubMenuOpen = !IsSubMenuOpen;
+        return;
     }
 
-    private void Select()
+    // If this item is a popup clone (not in the NavigationView logical tree but has NavigationView set),
+    // find the original item in the tree by Tag and select that instead so SelectionChanged fires correctly.
+    bool isPopupClone = navigationView is not null && this.GetParentTOfLogical<NavigationView>() is null;
+    if (isPopupClone && Tag is not null)
     {
-        // When pane is closed (compact mode) and item has children, toggle the popup submenu
-        if (!IsOpen && ItemCount > 0)
+        var original = navigationView!.GetLogicalDescendants()
+            .OfType<NavigationViewItem>()
+            .FirstOrDefault(x => Equals(x.Tag, Tag));
+        if (original is not null)
         {
-            IsSubMenuOpen = !IsSubMenuOpen;
+            navigationView.SelectSingleItem(original);
             return;
         }
-
-        if (!IsSelected)
-            this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
     }
+
+    if (!IsSelected)
+        navigationView?.SelectSingleItem(this);
+}
 }

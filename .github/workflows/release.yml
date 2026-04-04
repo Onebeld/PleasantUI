@@ -322,7 +322,7 @@ jobs:
           prompt-file: /tmp/prompts/prompt-1.txt
 
       - name: Save pass 1 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass1.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt
           sleep 65
@@ -338,7 +338,7 @@ jobs:
           prompt-file: /tmp/prompts/prompt-2.txt
 
       - name: Save pass 2 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass2.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt
           sleep 65
@@ -354,7 +354,7 @@ jobs:
           prompt-file: /tmp/prompts/prompt-3.txt
 
       - name: Save pass 3 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass3.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt
           sleep 65
@@ -370,7 +370,7 @@ jobs:
           prompt-file: /tmp/prompts/prompt-4.txt
 
       - name: Save pass 4 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass4.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt
           sleep 65
@@ -386,7 +386,7 @@ jobs:
           prompt-file: /tmp/prompts/prompt-5.txt
 
       - name: Save pass 5 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass5.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt
           sleep 65
@@ -402,7 +402,7 @@ jobs:
           prompt-file: /tmp/prompts/prompt-6.txt
 
       - name: Save pass 6 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass6.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt
           sleep 65
@@ -446,7 +446,7 @@ jobs:
           prompt-file: /tmp/prompt-merge-a.txt
 
       - name: Save merge-A response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_a.conclusion == 'success'
         run: |
           cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt
           sleep 65
@@ -479,7 +479,7 @@ jobs:
           prompt-file: /tmp/prompt-compress-a.txt
 
       - name: Save compress-A response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_a.conclusion == 'success'
         run: |
           cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt
           sleep 65
@@ -523,7 +523,7 @@ jobs:
           prompt-file: /tmp/prompt-merge-b.txt
 
       - name: Save merge-B response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_b.conclusion == 'success'
         run: |
           cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt
           sleep 65
@@ -556,7 +556,7 @@ jobs:
           prompt-file: /tmp/prompt-compress-b.txt
 
       - name: Save compress-B response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_b.conclusion == 'success'
         run: |
           cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt
           sleep 65
@@ -641,7 +641,7 @@ jobs:
           prompt-file: /tmp/prompt-final.txt
 
       - name: Save final merge response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge.conclusion == 'success'
         run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'

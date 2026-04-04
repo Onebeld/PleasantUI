@@ -161,12 +161,11 @@
                                     MinWidth="160"
                                     MinHeight="32"
                                     CornerRadius="{StaticResource ControlCornerRadius}">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                <SmoothScrollViewer Name="PART_PopupScrollViewer"
+                                                    HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Auto"
                                                     MaxHeight="400">
-                                    <ItemsPresenter Name="PART_PopupItemsPresenter"
-                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    Margin="0 4 0 4" />
+                                    <NavigationViewSubMenuControl Name="PART_SubMenuControl" />
                                 </SmoothScrollViewer>
                             </Border>
                         </ShadowBorder>
@@ -374,5 +373,16 @@
         <Style Selector="^[IsSubMenuOpen=True][IsOpen=False] /template/ Border#PART_NavDecorator">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
+    </ControlTheme>
+
+    <!-- ControlTheme for NavigationViewSubMenuControl -->
+    <ControlTheme x:Key="{x:Type NavigationViewSubMenuControl}" TargetType="NavigationViewSubMenuControl">
+        <Setter Property="Margin" Value="0 4 0 4" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ItemsPresenter Name="PART_ItemsPresenter" 
+                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+            </ControlTemplate>
+        </Setter>
     </ControlTheme>
 </ResourceDictionary>
