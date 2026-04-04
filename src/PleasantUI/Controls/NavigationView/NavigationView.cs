@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Animation;
@@ -51,6 +52,10 @@ public class NavigationView : TreeView
     private object? _selectedContent;
         
     private ILogical? _logicalSelectedContent;
+
+    // Stores the IsExpanded state of group items before the pane collapses to compact mode,
+    // keyed by the NavigationViewItem instance so each item's state is tracked independently.
+    private readonly Dictionary<NavigationViewItem, bool> _expandedStates = new();
 
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
@@ -380,6 +385,7 @@ public class NavigationView : TreeView
     {
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
+        IsOpenProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnIsOpenChanged(e));
     }
 
     /// <summary>
@@ -397,17 +403,19 @@ public class NavigationView : TreeView
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
+        Debug.WriteLine("[NavigationView] OnApplyTemplate");
         base.OnApplyTemplate(e);
 
         _stackPanelButtons = e.NameScope.Find<StackPanel>("PART_StackPanelButtons");
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
-
         _container = e.NameScope.Find<Border>("PART_Container");
         _mainGrid = e.NameScope.Find<Grid>("PART_SplitViewGrid");
         _dockPanel = e.NameScope.Find<DockPanel>("PART_ItemsPresenterDockPanel");
         _marginPanel = e.NameScope.Find<Border>("PART_MarginPanel");
+
+        Debug.WriteLine($"[NavigationView] OnApplyTemplate parts: headerItem={_headerItem is not null} backButton={_backButton is not null} contentPresenter={_contentPresenter is not null}");
 
         if (_headerItem != null)
         {
@@ -423,7 +431,7 @@ public class NavigationView : TreeView
         if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             titleBarHeight = window.TitleBarHeight;
-
+            Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={titleBarHeight}");
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
         }
@@ -434,12 +442,13 @@ public class NavigationView : TreeView
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
+        Debug.WriteLine($"[NavigationView] OnLoaded itemCount={Items.Count} firstItem={(Items.Count > 0 ? (Items[0] as NavigationViewItem)?.Header : "none")}");
 
-        // Hack. For some reason it does not highlight the first item in the list after running the program
         if (Items.Count > 0)
         {
             if (Items[0] is ISelectable selectableItem)
             {
+                Debug.WriteLine($"[NavigationView] OnLoaded selecting first item header={(selectableItem as NavigationViewItem)?.Header}");
                 SelectSingleItem(selectableItem, false);
             }
         }
@@ -449,15 +458,18 @@ public class NavigationView : TreeView
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         base.OnAttachedToLogicalTree(e);
+        Debug.WriteLine($"[NavigationView] OnAttachedToLogicalTree itemCount={Items.Count}");
 
         if (Items.Count > 0 && Items[0] is ISelectable selectableItem)
         {
+            Debug.WriteLine($"[NavigationView] OnAttachedToLogicalTree selecting first item header={(selectableItem as NavigationViewItem)?.Header}");
             SelectSingleItem(selectableItem);
         }
     }
 
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
     {
+        Debug.WriteLine($"[NavigationView] SelectSingleItem header={(item as NavigationViewItem)?.Header} runAnimation={runAnimation}");
         // Always run deselection of other items, even if this item is already selected
         CloseAllSubMenuPopups();
         SelectSingleItemCore(item, runAnimation);
@@ -498,18 +510,24 @@ public class NavigationView : TreeView
 
     private void UpdateContainerTitleHeight(PleasantWindow window)
     {
-        if (_container == null)
-            return;
+        if (_container == null) return;
 
-        // Determine margin based on custom title bar setting.
         Thickness margin = window.EnableCustomTitleBar ? new Thickness(8, titleBarHeight + 1, 8, 8) : new Thickness(0);
+        Debug.WriteLine($"[NavigationView] UpdateContainerTitleHeight enableCustomTitleBar={window.EnableCustomTitleBar} margin={margin}");
 
         _container.CornerRadius = new CornerRadius(8);
-        
         _container.Margin = margin;
     }
     private void OnBoundsChanged(Rect rect)
     {
+        // Ignore zero-size bounds — this fires during initial layout before the window is rendered.
+        // Acting on it would corrupt the saved expanded state of all items.
+        if (rect.Width <= 0)
+        {
+            Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → ignored (zero width, initial layout)");
+            return;
+        }
+
         if (DynamicDisplayMode)
         {
             bool isLittle = rect.Width <= LittleWidth;
@@ -517,30 +535,30 @@ public class NavigationView : TreeView
 
             if (!isLittle && !isVeryLittle)
             {
+                Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → CompactInline IsOpen stays");
                 UpdatePseudoClasses(false);
                 DisplayMode = SplitViewDisplayMode.CompactInline;
             }
             else if (isLittle && !isVeryLittle)
             {
+                Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → CompactOverlay IsOpen=false");
                 UpdatePseudoClasses(false);
                 DisplayMode = SplitViewDisplayMode.CompactOverlay;
                 IsOpen = false;
-                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants()
-                             .OfType<NavigationViewItem>()) navigationViewItem.IsExpanded = false;
             }
             else if (isLittle && isVeryLittle)
             {
+                Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → Overlay IsOpen=false");
                 UpdatePseudoClasses(true);
                 DisplayMode = SplitViewDisplayMode.Overlay;
                 IsOpen = false;
-                foreach (NavigationViewItem navigationViewItem in this.GetLogicalDescendants()
-                             .OfType<NavigationViewItem>()) navigationViewItem.IsExpanded = false;
             }
         }
     }
 
     private void SelectSingleItemCore(object? item, bool runAnimation = true)
     {
+        Debug.WriteLine($"[NavigationView] SelectSingleItemCore item={(item as NavigationViewItem)?.Header} tag={(item as NavigationViewItem)?.Tag}");
         if (SelectedItem != item && TransitionAnimation is not null && _contentPresenter is not null && runAnimation)
         {
             _cancellationTokenSource?.Cancel();
@@ -563,6 +581,7 @@ public class NavigationView : TreeView
 
     private void UpdatePseudoClasses(bool isCompact)
     {
+        Debug.WriteLine($"[NavigationView] UpdatePseudoClasses isCompact={isCompact}");
         switch (isCompact)
         {
             case true:
@@ -577,14 +596,58 @@ public class NavigationView : TreeView
     private void UpdateTitleAndSelectedContent()
     {
         if (SelectedItem is not NavigationViewItem item) return;
-            
+        Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent selectedItem header={item.Header} hasContent={item.Content is not null}");
         if (item.Content is not null)
             SelectedContent = item.Content;
     }
 
     private void OnSelectedItemChanged()
     {
+        Debug.WriteLine($"[NavigationView] OnSelectedItemChanged → SelectedItem={(SelectedItem as NavigationViewItem)?.Header}");
         UpdateTitleAndSelectedContent();
+    }
+
+    /// <summary>
+    /// Called when the pane IsOpen state changes.
+    /// Saves IsExpanded state of all group items when collapsing to compact mode,
+    /// and restores it when expanding back to full mode.
+    /// </summary>
+    private void OnIsOpenChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        bool isNowOpen = (bool)(e.NewValue ?? false);
+        Debug.WriteLine($"[NavigationView] OnIsOpenChanged isNowOpen={isNowOpen}");
+
+        // Only group items (items that have NavigationViewItem children) participate in expand/collapse
+        var groupItems = this.GetLogicalDescendants()
+            .OfType<NavigationViewItem>()
+            .Where(item => item.Items.OfType<NavigationViewItem>().Any())
+            .ToList();
+
+        if (!isNowOpen)
+        {
+            // Pane collapsing → save IsExpanded for each group item, then collapse it
+            _expandedStates.Clear();
+            foreach (var item in groupItems)
+            {
+                _expandedStates[item] = item.IsExpanded;
+                Debug.WriteLine($"[NavigationView] OnIsOpenChanged saving header={item.Header} IsExpanded={item.IsExpanded}");
+                if (item.IsExpanded)
+                    item.IsExpanded = false;
+            }
+        }
+        else
+        {
+            // Pane opening → restore saved IsExpanded for each group item
+            foreach (var item in groupItems)
+            {
+                if (_expandedStates.TryGetValue(item, out bool wasExpanded))
+                {
+                    Debug.WriteLine($"[NavigationView] OnIsOpenChanged restoring header={item.Header} wasExpanded={wasExpanded}");
+                    item.IsExpanded = wasExpanded;
+                }
+            }
+            _expandedStates.Clear();
+        }
     }
 
     /// <summary>
@@ -596,7 +659,10 @@ public class NavigationView : TreeView
         foreach (var item in this.GetLogicalDescendants().OfType<NavigationViewItem>())
         {
             if (item.IsSubMenuOpen)
+            {
+                Debug.WriteLine($"[NavigationView] CloseAllSubMenuPopups closing popup on header={item.Header}");
                 item.IsSubMenuOpen = false;
+            }
         }
     }
 }
