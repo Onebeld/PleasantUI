@@ -40,7 +40,7 @@
                              Padding="10 5" />
                     <Button x:Name="PART_Button"
                              Grid.Column="1"
-                             Theme="{StaticResource AppBarButtonTheme}"
+                             Theme="{DynamicResource AppBarButtonTheme}"
                              Margin="4 0 0 0"
                              Padding="10 5"
                              VerticalAlignment="Stretch">
@@ -116,7 +116,7 @@
                              Padding="10 5">
                         <TextBox.InnerRightContent>
                             <Button x:Name="PART_Button"
-                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Theme="{DynamicResource AppBarButtonTheme}"
                                     CornerRadius="{StaticResource RoundedControlCornerRadius}"
                                     Margin="4 0 3 0"
                                     Padding="6"

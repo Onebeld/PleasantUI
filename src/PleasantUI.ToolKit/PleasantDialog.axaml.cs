@@ -100,9 +100,30 @@ public sealed partial class PleasantDialog : ContentDialog
 
         if (style == MessageBoxStyle.Danger)
         {
-            headerBorder.Background = Application.Current!.TryFindResource("DangerColor", out object? dc)
-                ? new SolidColorBrush((Color)dc!)
-                : Brushes.Red;
+            bool isVgui = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
+
+            if (isVgui)
+            {
+                headerBorder.Background = new LinearGradientBrush
+                {
+                    StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+                    EndPoint   = new RelativePoint(0, 1, RelativeUnit.Relative),
+                    GradientStops =
+                    {
+                        new GradientStop(Color.Parse("#FFE84030"), 0),
+                        new GradientStop(Color.Parse("#FFB72B1D"), 0.5),
+                        new GradientStop(Color.Parse("#FF8B1A10"), 1),
+                    }
+                };
+                headerBorder.BorderThickness = new Thickness(0, 2, 0, 2);
+                headerBorder.BorderBrush     = new SolidColorBrush(Color.Parse("#FF8B1A10"));
+            }
+            else
+            {
+                headerBorder.Background = Application.Current!.TryFindResource("DangerColor", out object? dc)
+                    ? new SolidColorBrush((Color)dc!)
+                    : Brushes.Red;
+            }
             headerText.Foreground    = Brushes.White;
             subHeaderText.Foreground = Brushes.White;
             headerIcon.Foreground    = Brushes.White;

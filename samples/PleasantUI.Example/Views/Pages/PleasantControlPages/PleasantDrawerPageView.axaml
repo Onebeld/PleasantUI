@@ -33,7 +33,7 @@
                         </WrapPanel.Styles>
                         <Button x:Name="OpenRightButton"
                                 Content="{Localize PleasantDrawer/OpenRight}"
-                                Theme="{StaticResource AccentButtonTheme}" />
+                                Theme="{DynamicResource AccentButtonTheme}" />
                         <Button x:Name="OpenLeftButton"
                                 Content="{Localize PleasantDrawer/OpenLeft}" />
                         <Button x:Name="OpenTopButton"

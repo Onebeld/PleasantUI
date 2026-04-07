@@ -77,7 +77,7 @@
                                 Description="{Localize DangerVariantDesc, Context=MessageBox}">
                 <OptionsDisplayItem.ActionButton>
                     <Button Content="{Localize Show, Context=MessageBox}"
-                            Theme="{StaticResource DangerButtonTheme}"
+                            Theme="{DynamicResource DangerButtonTheme}"
                             Command="{CompiledBinding ShowDanger}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
@@ -121,7 +121,7 @@
                                 Description="{Localize PleasantDialogDangerVariantDesc, Context=MessageBox}">
                 <OptionsDisplayItem.ActionButton>
                     <Button Content="{Localize Show, Context=MessageBox}"
-                            Theme="{StaticResource DangerButtonTheme}"
+                            Theme="{DynamicResource DangerButtonTheme}"
                             Command="{CompiledBinding ShowPleasantDialogDanger}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>

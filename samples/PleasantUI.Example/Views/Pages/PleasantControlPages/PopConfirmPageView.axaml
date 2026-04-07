@@ -41,7 +41,7 @@
                                               PopupHeader="{Localize PopConfirm/SubmitHeader}"
                                               PopupContent="{Localize PopConfirm/SubmitBody}">
                             <Button Content="{Localize PopConfirm/SubmitBtn}"
-                                    Theme="{StaticResource AccentButtonTheme}" />
+                                    Theme="{DynamicResource AccentButtonTheme}" />
                         </controls:PopConfirm>
 
                         <controls:PopConfirm Classes="Error"

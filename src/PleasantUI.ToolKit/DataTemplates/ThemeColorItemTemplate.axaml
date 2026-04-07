@@ -5,7 +5,7 @@
     <DataTemplate x:Key="ThemeColorItemTemplate" DataType="{x:Type models1:ThemeColor}">
         <DockPanel>
             <Button DockPanel.Dock="Right"
-                    Theme="{StaticResource AppBarButtonTheme}"
+                    Theme="{DynamicResource AppBarButtonTheme}"
                     Width="30"
                     Height="30"
                     ToolTip.Tip="{Localize Menu, Default='Menu'}">

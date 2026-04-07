@@ -255,7 +255,7 @@
                                     <Button Name="PART_NextButton"
                                             Grid.Column="5"
                                             Content="{Localize InstallWizard/BtnNext}"
-                                            Theme="{StaticResource AccentButtonTheme}"
+                                            Theme="{DynamicResource AccentButtonTheme}"
                                             MinWidth="80" />
                                 </Grid>
                             </Border>

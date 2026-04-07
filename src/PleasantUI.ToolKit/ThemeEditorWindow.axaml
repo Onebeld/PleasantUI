@@ -225,7 +225,7 @@
                                                     <ItemsControl ItemsSource="{CompiledBinding Themes}">
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate DataType="{x:Type models:Theme}">
-                                                                <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                <Button Theme="{DynamicResource AppBarButtonTheme}"
                                                                         Margin="5"
                                                                         HorizontalContentAlignment="Left"
                                                                         Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromTheme}"
@@ -264,7 +264,7 @@
                                                             ItemsSource="{x:Static PleasantTheme.CustomThemes}">
                                                             <ItemsControl.ItemTemplate>
                                                                 <DataTemplate DataType="{x:Type models:CustomTheme}">
-                                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                                    <Button Theme="{DynamicResource AppBarButtonTheme}"
                                                                             Margin="5"
                                                                             HorizontalContentAlignment="Left"
                                                                             Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext).GetColorsFromTheme}"
@@ -384,7 +384,7 @@
     <ContentDialog.BottomPanelContent>
         <UniformGrid Margin="15 0" Rows="0" Columns="2">
             <Button x:Name="OkButton"
-                    Theme="{StaticResource AccentButtonTheme}"
+                    Theme="{DynamicResource AccentButtonTheme}"
                     Content="{Localize Ok, Default='OK'}"
                     VerticalAlignment="Center"
                     Margin="5" />

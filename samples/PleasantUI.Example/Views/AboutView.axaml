@@ -207,7 +207,7 @@
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="10" Margin="45 0 0 0">
                         <Button x:Name="GitHubButton"
-                                Theme="{StaticResource AppBarButtonTheme}"
+                                Theme="{DynamicResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
                                 Padding="12 6"
                                 Click="GitHubButton_Click">
@@ -220,7 +220,7 @@
                             </StackPanel>
                         </Button>
                         <Button x:Name="PatreonButton"
-                                Theme="{StaticResource AppBarButtonTheme}"
+                                Theme="{DynamicResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
                                 Padding="12 6"
                                 Click="PatreonButton_Click">
@@ -233,7 +233,7 @@
                             </StackPanel>
                         </Button>
                         <Button x:Name="BoostyButton"
-                                Theme="{StaticResource AppBarButtonTheme}"
+                                Theme="{DynamicResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
                                 Padding="12 6"
                                 Click="BoostyButton_Click">

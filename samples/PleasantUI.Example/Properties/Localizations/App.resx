@@ -60,6 +60,9 @@
     <data name="Theme/Lunar" xml:space="preserve">
         <value>Lunar</value>
     </data>
+    <data name="Theme/VGUI" xml:space="preserve">
+        <value>VGUI</value>
+    </data>
     <data name="Theme/Custom" xml:space="preserve">
         <value>Custom</value>
     </data>

@@ -117,7 +117,7 @@
                                 Spacing="5"
                                 Orientation="Vertical">       
                         <Button Name="PART_BackButton"
-                                Theme="{StaticResource AppBarButtonTheme}"
+                                Theme="{DynamicResource AppBarButtonTheme}"
                                 ToolTip.Tip="{Localize Back, Default='Back'}"
                                 Command="{TemplateBinding BackButtonCommand}"
                                 Width="40"
@@ -133,7 +133,7 @@
                                       Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
-                                Theme="{StaticResource AppBarButtonTheme}"
+                                Theme="{DynamicResource AppBarButtonTheme}"
                                 ToolTip.Tip="{Localize Menu, Default='Menu'}"
                                 Width="40"
                                 Height="37"

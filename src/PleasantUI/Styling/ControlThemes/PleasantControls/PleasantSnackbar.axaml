@@ -86,7 +86,7 @@
                                     <!-- Action button (text button or custom control) -->
                                     <Button x:Name="PART_Button"
                                             Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource AppBarButtonTheme}"
                                             Foreground="{DynamicResource AccentLightColor3}"
                                             CornerRadius="99"
                                             VerticalAlignment="Center"
@@ -104,7 +104,7 @@
                                 <!-- Close button (only visible when :closable) -->
                                 <Button x:Name="PART_CloseButton"
                                         Grid.Column="2"
-                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
                                         CornerRadius="99"
                                         Width="28" Height="28"
                                         Padding="6"

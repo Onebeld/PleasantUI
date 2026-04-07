@@ -68,7 +68,7 @@
                                   Margin="12 12 12 8">
                                 <Button Name="PART_BackButton"
                                         Grid.Column="0"
-                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
                                         Width="32" Height="32" Padding="6"
                                         ToolTip.Tip="Back"
                                         IsEnabled="{TemplateBinding CanGoBack}">
@@ -80,7 +80,7 @@
                                 </Button>
                                 <Button Name="PART_ForwardButton"
                                         Grid.Column="1"
-                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
                                         Width="32" Height="32" Padding="6"
                                         ToolTip.Tip="Forward"
                                         IsEnabled="{TemplateBinding CanGoForward}">
@@ -92,7 +92,7 @@
                                 </Button>
                                 <Button Name="PART_UpButton"
                                         Grid.Column="2"
-                                        Theme="{StaticResource AppBarButtonTheme}"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
                                         Width="32" Height="32" Padding="6"
                                         Margin="4 0 8 0"
                                         ToolTip.Tip="Up"
@@ -227,7 +227,7 @@
                                             MinWidth="90" />
                                     <Button Name="PART_OkButton"
                                             Grid.Column="5"
-                                            Theme="{StaticResource AccentButtonTheme}"
+                                            Theme="{DynamicResource AccentButtonTheme}"
                                             Content="{Localize PathPicker/OpenFile}"
                                             MinWidth="90" />
                                 </Grid>

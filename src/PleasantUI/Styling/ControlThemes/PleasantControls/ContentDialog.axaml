@@ -16,7 +16,7 @@
                 </SmoothScrollViewer>
                 <ContentDialog.BottomPanelContent>
                     <UniformGrid Margin="15 0" Rows="0" Columns="2">
-                        <Button Theme="{StaticResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
+                        <Button Theme="{DynamicResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
                                 Margin="5" />
 
                         <Button Content="Cancel" VerticalAlignment="Center" Margin="5" />

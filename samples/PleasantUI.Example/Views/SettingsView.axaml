@@ -106,7 +106,7 @@
                                                             IsVisible="{CompiledBinding $parent[ContentControl].IsPointerOver}"
                                                             Orientation="Horizontal"
                                                             Spacing="5">
-                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                    <Button Theme="{DynamicResource AppBarButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
@@ -114,7 +114,7 @@
                                                         <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
                                                     </Button>
 
-                                                    <Button Theme="{StaticResource DangerButtonTheme}"
+                                                    <Button Theme="{DynamicResource DangerButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             CornerRadius="{StaticResource ControlCornerRadius}"

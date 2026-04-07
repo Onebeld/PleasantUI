@@ -238,7 +238,7 @@
                               ColumnDefinitions="*,*">
                             <Button Grid.Column="0"
                                     Name="PART_AcceptButton"
-                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Theme="{DynamicResource AppBarButtonTheme}"
                                     Margin="2"
                                     Height="40">
                                 <PathIcon Data="{StaticResource CheckmarkRegular}" Width="14" Height="14" />
@@ -246,7 +246,7 @@
 
                             <Button Grid.Column="1"
                                     Name="PART_DismissButton"
-                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Theme="{DynamicResource AppBarButtonTheme}"
                                     Margin="2"
                                     Height="40">
                                 <PathIcon Data="{StaticResource DismissRegular}" Width="12" Height="12" />

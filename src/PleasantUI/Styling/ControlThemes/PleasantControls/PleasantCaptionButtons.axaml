@@ -39,7 +39,7 @@
                         <PathIcon Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_CloseButton"
-                            Theme="{StaticResource CloseButtonTheme}"
+                            Theme="{DynamicResource CloseButtonTheme}"
                             ToolTip.Tip="{Localize Close, Default='Close'}">
                         <PathIcon Data="{StaticResource DismissRegular}" Width="10" Height="10" />
                     </Button>

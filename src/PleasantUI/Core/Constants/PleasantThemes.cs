@@ -46,4 +46,9 @@ public static class PleasantThemes
     /// The Lunar theme variant (Dark).
     /// </summary>
     public static readonly ThemeVariant Lunar = new("Lunar", ThemeVariant.Dark);
+
+    /// <summary>
+    /// The VGUI theme variant (Dark).
+    /// </summary>
+    public static readonly ThemeVariant VGUI = new("VGUI", ThemeVariant.Dark);
 }

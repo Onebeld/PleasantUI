@@ -10,9 +10,9 @@
         <Button>
             <PathIcon Data="{StaticResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
         </Button>
-        <Button Theme="{StaticResource AppBarButtonTheme}" Content="{Localize AppBarButton, Context=ButtonPage}" />
-        <Button Theme="{StaticResource AccentButtonTheme}" Content="{Localize AccentButton, Context=ButtonPage}" />
-        <Button Theme="{StaticResource DangerButtonTheme}" Content="{Localize DangerButton, Context=ButtonPage}" />
+        <Button Theme="{DynamicResource AppBarButtonTheme}" Content="{Localize AppBarButton, Context=ButtonPage}" />
+        <Button Theme="{DynamicResource AccentButtonTheme}" Content="{Localize AccentButton, Context=ButtonPage}" />
+        <Button Theme="{DynamicResource DangerButtonTheme}" Content="{Localize DangerButton, Context=ButtonPage}" />
         <Button IsEnabled="False" Content="{Localize DisabledButton, Context=ButtonPage}" />
         
         <ButtonSpinner Content="{Localize ButtonSpinner, Context=ButtonPage}" />

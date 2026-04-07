@@ -75,7 +75,7 @@
                                     <!-- Close button -->
                                     <Button Name="PART_CloseButton"
                                             Grid.Row="0" Grid.Column="2"
-                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource AppBarButtonTheme}"
                                             Width="24" Height="24"
                                             Padding="5"
                                             Margin="8 0 0 0"
@@ -95,7 +95,7 @@
                                                 CommandParameter="{TemplateBinding CancelCommandParameter}"
                                                 Content="{Localize PopConfirm/Cancel}" />
                                         <Button Name="PART_ConfirmButton"
-                                                Theme="{StaticResource AccentButtonTheme}"
+                                                Theme="{DynamicResource AccentButtonTheme}"
                                                 Command="{TemplateBinding ConfirmCommand}"
                                                 CommandParameter="{TemplateBinding ConfirmCommandParameter}"
                                                 Content="{Localize PopConfirm/Confirm}" />

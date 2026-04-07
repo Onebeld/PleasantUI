@@ -1,0 +1,637 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI">
+
+    <!-- VGUI Button Theme - 3D Bevel Style -->
+    <ControlTheme x:Key="VGUIButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="Padding" Value="8 4" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <!--
+                    True VGUI bevel: 4 explicit 1px border strips at each edge.
+                    Top + Left = light (ControlDarkFillColor1 = #899281 in VGUI theme)
+                    Bottom + Right = dark (ControlDarkFillColor3 = #292d23 in VGUI theme)
+                    Using BorderBrush+BorderThickness instead of Background to avoid
+                    Color→Brush conversion issues with DynamicResource.
+                -->
+                <Panel>
+                    <!-- Top edge: light -->
+                    <Border Name="PART_EdgeTop"
+                            Height="1"
+                            VerticalAlignment="Top"
+                            BorderThickness="0 1 0 0"
+                            BorderBrush="{DynamicResource ControlDarkFillColor1}" />
+                    <!-- Left edge: light -->
+                    <Border Name="PART_EdgeLeft"
+                            Width="1"
+                            HorizontalAlignment="Left"
+                            BorderThickness="1 0 0 0"
+                            BorderBrush="{DynamicResource ControlDarkFillColor1}" />
+                    <!-- Bottom edge: dark -->
+                    <Border Name="PART_EdgeBottom"
+                            Height="1"
+                            VerticalAlignment="Bottom"
+                            BorderThickness="0 0 0 1"
+                            BorderBrush="{DynamicResource ControlDarkFillColor3}" />
+                    <!-- Right edge: dark -->
+                    <Border Name="PART_EdgeRight"
+                            Width="1"
+                            HorizontalAlignment="Right"
+                            BorderThickness="0 0 1 0"
+                            BorderBrush="{DynamicResource ControlDarkFillColor3}" />
+                    <!-- Content area inset by 1px on all sides -->
+                    <Border Name="PART_BevelInner"
+                            Margin="1"
+                            Background="{TemplateBinding Background}">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True" />
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#PART_BevelInner">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <!-- Pressed: invert — top+left become dark, bottom+right become light -->
+        <Style Selector="^:pressed /template/ Border#PART_EdgeTop">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_EdgeLeft">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_EdgeBottom">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_EdgeRight">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_BevelInner">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI Accent Button Theme -->
+    <ControlTheme x:Key="VGUIAccentButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
+        <Setter Property="Background" Value="{DynamicResource AccentColor}" />
+        <Setter Property="Foreground" Value="White" />
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource AccentDarkColor1}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI Danger Button Theme -->
+    <ControlTheme x:Key="VGUIDangerButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
+        <Setter Property="Background" Value="{DynamicResource DangerColor}" />
+        <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
+
+        <Style Selector="^:pointerover /template/ Border#PART_BevelInner">
+            <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#PART_BevelInner">
+            <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI AppBar Button Theme - flat, no bevel, just square hover -->
+    <ControlTheme x:Key="VGUIAppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
+        <Setter Property="Background" Value="Transparent" />
+
+        <!-- Hide all 4 edge strips -->
+        <Style Selector="^ /template/ Border#PART_EdgeTop">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Border#PART_EdgeLeft">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Border#PART_EdgeBottom">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Border#PART_EdgeRight">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ /template/ Border#PART_BevelInner">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#PART_BevelInner">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Override AccentButtonTheme key itself so buttons using it get VGUI bevel + flat accent -->
+    <!-- NOTE: These are also shadowed in VGUIControlStyles.axaml.Styles.Resources (conditional).
+         These copies in PleasantTheme.Resources are always-loaded fallbacks. -->
+    <ControlTheme x:Key="VGUICloseButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIAppBarButtonTheme}">
+        <Style Selector="^:pointerover /template/ Border#PART_BevelInner">
+            <Setter Property="Background" Value="{DynamicResource DangerColor}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#PART_EdgeTop">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#PART_EdgeLeft">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#PART_EdgeBottom">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#PART_EdgeRight">
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        </Style>
+    </ControlTheme>
+    <!-- VGUI CheckBox Theme - 3D Bevel Style -->
+    <!-- Checkbox box is INSET (like a text input): dark top+left, light bottom+right -->
+    <ControlTheme x:Key="VGUICheckBoxTheme" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Setter Property="CornerRadius" Value="0" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_Root"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <Grid ColumnDefinitions="28,*" VerticalAlignment="Center">
+                        <Panel Grid.Column="0" Height="28">
+                            <!-- Outer: dark top+left (inset shadow) -->
+                            <Border Name="PART_BevelOuter"
+                                    UseLayoutRounding="False"
+                                    Height="20"
+                                    Width="20"
+                                    BorderThickness="1 1 0 0"
+                                    BorderBrush="{DynamicResource ControlDarkFillColor3}"
+                                    Background="{DynamicResource ControlFillColor1}"
+                                    CornerRadius="0">
+                                <!-- Inner: light bottom+right (inset highlight) -->
+                                <Border Name="PART_BevelInner"
+                                        BorderThickness="0 0 1 1"
+                                        BorderBrush="{DynamicResource ControlDarkFillColor1}"
+                                        CornerRadius="0" />
+                            </Border>
+
+                            <Path Name="PART_CheckGlyph"
+                                  Stretch="Uniform"
+                                  Data="{StaticResource CheckmarkRegular}"
+                                  Fill="{DynamicResource AccentLightColor2}"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Width="12"
+                                  Height="12" />
+
+                            <Rectangle Name="PART_IndeterminateGlyph"
+                                       Fill="{DynamicResource AccentLightColor2}"
+                                       Width="8"
+                                       Height="2" />
+                        </Panel>
+
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Grid.Column="1"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Margin="8 0 0 0"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Path#PART_CheckGlyph">
+            <Setter Property="RenderTransform" Value="scale(0.7)" />
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BoolTransition Property="IsVisible" Duration="0:0:0.1" />
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="^ /template/ Rectangle#PART_IndeterminateGlyph">
+            <Setter Property="RenderTransform" Value="scale(0.7)" />
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#PART_BevelOuter">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <!-- Pressed: inset deepens — no visual change needed beyond background -->
+        <Style Selector="^:pressed /template/ Border#PART_BevelOuter">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#PART_BevelOuter">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentDarkColor1}" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#PART_BevelInner">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+        </Style>
+        <Style Selector="^:checked /template/ Path#PART_CheckGlyph">
+            <Setter Property="RenderTransform" Value="scale(1)" />
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="^:indeterminate /template/ Border#PART_BevelOuter">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+        </Style>
+        <Style Selector="^:indeterminate /template/ Rectangle#PART_IndeterminateGlyph">
+            <Setter Property="RenderTransform" Value="scale(1)" />
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI RadioButton Theme - inset circle (dark outer stroke, light inner stroke) -->
+    <ControlTheme x:Key="VGUIRadioButtonTheme" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="RadioButton">
+                <Grid ColumnDefinitions="25,*">
+                    <Grid Name="PART_Glyph" Grid.Column="0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <!-- Outer: dark stroke = inset shadow rim -->
+                        <Ellipse Name="PART_OuterEllipse"
+                                 Width="20"
+                                 Height="20"
+                                 Fill="{TemplateBinding Background}"
+                                 Stroke="{DynamicResource ControlDarkFillColor3}"
+                                 StrokeThickness="1"
+                                 UseLayoutRounding="False" />
+                        <!-- Inner: light stroke = inset highlight rim -->
+                        <Ellipse Name="PART_InnerEllipse"
+                                 Width="18"
+                                 Height="18"
+                                 Fill="Transparent"
+                                 Stroke="{DynamicResource ControlDarkFillColor1}"
+                                 StrokeThickness="1"
+                                 UseLayoutRounding="False" />
+
+                        <Ellipse Name="PART_CheckGlyph"
+                                 Width="8"
+                                 Height="8"
+                                 Fill="{DynamicResource AccentLightColor2}"
+                                 UseLayoutRounding="False" />
+                    </Grid>
+
+                    <ContentPresenter Grid.Column="1"
+                                      Name="PART_ContentPresenter"
+                                      Margin="8 0 0 0"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      RecognizesAccessKey="True" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Ellipse#PART_CheckGlyph">
+            <Setter Property="RenderTransform" Value="scale(0.7)" />
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
+        </Style>
+        <Style Selector="^:checked /template/ Ellipse#PART_CheckGlyph">
+            <Setter Property="RenderTransform" Value="scale(1)" />
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI TextBox Theme - 3D Bevel Style -->
+    <ControlTheme x:Key="VGUITextBoxTheme" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="6 4" />
+        <Setter Property="CaretBrush" Value="{DynamicResource AccentColor}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentLightColor3}" />
+        <Setter Property="SelectionForegroundBrush" Value="{DynamicResource TextFillColor1}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="PART_BevelRoot"
+                            BorderThickness="1 1 0 0"
+                            BorderBrush="{DynamicResource ControlDarkFillColor3}"
+                            Background="Transparent"
+                            IsHitTestVisible="False">
+                        <Border Name="PART_BevelInner"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0 0 1 1"
+                                BorderBrush="{DynamicResource ControlDarkFillColor1}" />
+                    </Border>
+
+                    <DataValidationErrors>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
+                            <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}">
+                                <TextBlock Name="PART_FloatingPlaceholder"
+                                           Foreground="{DynamicResource TextFillColor2}"
+                                           FontSize="12"
+                                           IsVisible="False"
+                                           Text="{TemplateBinding PlaceholderText}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           FontWeight="SemiBold"
+                                           DockPanel.Dock="Top" />
+
+                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                                    VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                                    <Panel>
+                                        <TextBlock Name="PART_Placeholder"
+                                                   Text="{TemplateBinding PlaceholderText}"
+                                                   Foreground="{DynamicResource TextFillColor3}"
+                                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                                   IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   IsHitTestVisible="False" />
+                                        <TextPresenter Name="PART_TextPresenter"
+                                                       Text="{TemplateBinding Text, Mode=TwoWay}"
+                                                       CaretIndex="{TemplateBinding CaretIndex}"
+                                                       SelectionStart="{TemplateBinding SelectionStart}"
+                                                       SelectionEnd="{TemplateBinding SelectionEnd}"
+                                                       TextAlignment="{TemplateBinding TextAlignment}"
+                                                       TextWrapping="{TemplateBinding TextWrapping}"
+                                                       PasswordChar="{TemplateBinding PasswordChar}"
+                                                       RevealPassword="{TemplateBinding RevealPassword}"
+                                                       SelectionBrush="{TemplateBinding SelectionBrush}"
+                                                       SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                                       CaretBrush="{TemplateBinding CaretBrush}"
+                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Panel>
+                                </SmoothScrollViewer>
+                            </DockPanel>
+                            <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
+                        </Grid>
+                    </DataValidationErrors>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <Style Selector="^:focus">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Style Selector="^ /template/ Border#PART_BevelRoot">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+            </Style>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI ComboBox Theme - 3D Bevel Style (inset like a text input) -->
+    <ControlTheme x:Key="VGUIComboBoxTheme" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+
+        <!-- Inset bevel on the main background border: dark top+left, light bottom+right -->
+        <Style Selector="^ /template/ Border#Background">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="1 1 0 0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+
+        <!-- Square, no shadow popup -->
+        <Style Selector="^ /template/ ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BlurRadius" Value="0" />
+            <Setter Property="Offset" Value="0 0" />
+        </Style>
+        <Style Selector="^ /template/ Border#PopupBorder">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI ComboBoxItem Theme - 3D Bevel Style -->
+    <ControlTheme x:Key="VGUIComboBoxItemTheme" TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+        <Setter Property="CornerRadius" Value="0" />
+
+        <Style Selector="^ /template/ Border#LayoutRoot">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style Selector="^ /template/ Border#Pill">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^:selected">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+        </Style>
+
+        <Style Selector="^:selected /template/ ContentPresenter#ContentPresenter">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextFillColor1}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI NavigationViewItem Theme -->
+    <!-- Replaces rounded pill indicator and rounded decorator with flat VGUI-style left bar + square highlight -->
+    <ControlTheme x:Key="VGUINavigationViewItemTheme" TargetType="NavigationViewItem" BasedOn="{StaticResource {x:Type NavigationViewItem}}">
+
+        <!-- Square nav decorator -->
+        <Style Selector="^ /template/ Border#PART_NavDecorator">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="1 1 0 0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        </Style>
+
+        <!-- Replace pill with a flat left-edge bar (no rounded ends) -->
+        <Style Selector="^ /template/ Border#PART_SelectionBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Width" Value="3" />
+            <Setter Property="Margin" Value="-2 4 0 4" />
+        </Style>
+
+        <!-- Selected: solid accent background -->
+        <Style Selector="^:selected /template/ Border#PART_NavDecorator">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+
+        <!-- Hover -->
+        <Style Selector="^ /template/ Border:pointerover#PART_NavDecorator">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        </Style>
+
+        <!-- Remove icon scale animation — too fluid for VGUI -->
+        <Style Selector="^:pointerover /template/ PathIcon#PART_PathIcon">
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+        <Style Selector="^:pressed /template/ PathIcon#PART_PathIcon">
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+
+        <!-- Square popup border -->
+        <Style Selector="^ /template/ Popup#PART_Popup ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BlurRadius" Value="0" />
+            <Setter Property="Offset" Value="0 0" />
+        </Style>
+        <Style Selector="^ /template/ Popup#PART_Popup Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI NavigationView Theme -->
+    <!-- Removes rounded content panel and pane overlay rounding -->
+    <ControlTheme x:Key="VGUINavigationViewTheme" TargetType="NavigationView" BasedOn="{StaticResource {x:Type NavigationView}}">
+
+        <!-- Square content area -->
+        <Style Selector="^ /template/ Border#PART_Container">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Margin" Value="0 45 0 0" />
+        </Style>
+
+        <!-- Square overlay pane -->
+        <Style Selector="^[DisplayMode=CompactOverlay][IsOpen=true] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <Style Selector="^[DisplayMode=Overlay][IsOpen=true] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+
+        <!-- Square content for NotMakeOffsetForContentPanel variants -->
+        <Style Selector="^[NotMakeOffsetForContentPanel=True][DisplayMode=Overlay] /template/ Border#PART_Container">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Margin" Value="0 45 0 0" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI OptionsDisplayItem Theme -->
+    <!-- Bevel via two borders: LayoutRoot gets dark border (bottom+right), outer control border provides light top+left -->
+    <ControlTheme x:Key="VGUIOptionsDisplayItemTheme" TargetType="OptionsDisplayItem" BasedOn="{StaticResource {x:Type OptionsDisplayItem}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <!-- Outer light highlight edges (top + left) -->
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        <!-- Offset inward so the inner dark border shows on right+bottom -->
+        <Setter Property="Padding" Value="0 0 1 1" />
+
+        <Style Selector="^ /template/ Border#LayoutRoot">
+            <Setter Property="CornerRadius" Value="0" />
+            <!-- Dark shadow edges (bottom + right) -->
+            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+
+        <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <!-- Hide the separator line — bevel border handles the division -->
+        <Style Selector="^ /template/ Border#Separator">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- Expanded: square content area, continue dark border -->
+        <Style Selector="^:expanded /template/ ContentPresenter#ExpandedContentPresenter">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+        <Style Selector="^:expanded /template/ Border#LayoutRoot">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <Style Selector="^:expanded /template/ Border#Separator">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+    <!-- VGUI SelectionListItem Theme -->
+    <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem" BasedOn="{StaticResource {x:Type controls:SelectionListItem}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+        <Setter Property="Padding" Value="0 0 1 1" />
+
+        <Style Selector="^ /template/ Border#RootBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+
+        <Style Selector="^ /template/ Border#ImageBorder">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Border#RootBorder">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI SelectionList Theme -->
+    <ControlTheme x:Key="{x:Type controls:SelectionList}" TargetType="controls:SelectionList" BasedOn="{StaticResource {x:Type controls:SelectionList}}">
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+    </ControlTheme>
+
+</ResourceDictionary>

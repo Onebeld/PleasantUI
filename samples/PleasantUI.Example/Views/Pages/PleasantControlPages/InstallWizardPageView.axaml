@@ -27,7 +27,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button x:Name="ShowModalButton"
                                 Content="{Localize InstallWizard/ShowModal}"
-                                Theme="{StaticResource AccentButtonTheme}" />
+                                Theme="{DynamicResource AccentButtonTheme}" />
                         <Button x:Name="ShowWindowButton"
                                 Content="{Localize InstallWizard/ShowWindow}" />
                     </StackPanel>

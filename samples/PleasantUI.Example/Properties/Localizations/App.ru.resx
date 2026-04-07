@@ -41,6 +41,9 @@
     <data name="Theme/Lunar" xml:space="preserve">
         <value>Лунная</value>
     </data>
+    <data name="Theme/VGUI" xml:space="preserve">
+        <value>VGUI</value>
+    </data>
     <data name="Theme/Sunny" xml:space="preserve">
         <value>Солнечная</value>
     </data>

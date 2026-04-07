@@ -167,7 +167,7 @@
         <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                    <Button Theme="{DynamicResource AppBarButtonTheme}"
                             Padding="6"
                             Margin="5"
                             CornerRadius="{StaticResource RoundedControlCornerRadius}"
