@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:PleasantUI.Example.ViewModels.Pages"
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
              xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
              xmlns:example="clr-namespace:PleasantUI.Example"
@@ -39,6 +40,21 @@
                                 Description="{Localize FullScreenButtonDescription, Default='Show a full screen toggle button in the title bar'}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch IsChecked="{CompiledBinding IsFullScreenButtonVisible}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <OptionsDisplayItem Header="{Localize NavPosition, Default='Navigation Position'}"
+                                Description="{Localize NavPositionDescription, Default='Choose where the navigation pane is placed'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox MinWidth="150"
+                              ItemsSource="{CompiledBinding NavPositions}"
+                              SelectedItem="{CompiledBinding NavPosition}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type controls:NavigationViewPosition}">
+                                <TextBlock Text="{Localize {CompiledBinding}, Context=NavPosition}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 

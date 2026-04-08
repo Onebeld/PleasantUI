@@ -26,6 +26,19 @@ public partial class SettingsViewModel : ViewModelBase
         }
     }
 
+    public NavigationViewPosition NavPosition
+    {
+        get => PleasantUiExampleApp.NavPosition;
+        set
+        {
+            PleasantUiExampleApp.SetNavPosition(value);
+            RaisePropertyChanged();
+        }
+    }
+
+    public IReadOnlyList<NavigationViewPosition> NavPositions { get; } =
+        Enum.GetValues<NavigationViewPosition>();
+
     public Language SelectedLanguage
     {
         get => PleasantUiExampleApp.Languages.FirstOrDefault(l => l.Key == PleasantUiExampleApp.LanguageKey);

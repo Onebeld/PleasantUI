@@ -152,4 +152,19 @@
     <data name="FullScreenButtonDescription" xml:space="preserve">
         <value>Показать кнопку переключения полного экрана в заголовке окна</value>
     </data>
+    <data name="NavPosition" xml:space="preserve">
+        <value>Позиция навигации</value>
+    </data>
+    <data name="NavPositionDescription" xml:space="preserve">
+        <value>Выберите расположение панели навигации</value>
+    </data>
+    <data name="NavPosition/Left" xml:space="preserve">
+        <value>Слева</value>
+    </data>
+    <data name="NavPosition/Top" xml:space="preserve">
+        <value>Сверху</value>
+    </data>
+    <data name="NavPosition/Bottom" xml:space="preserve">
+        <value>Снизу</value>
+    </data>
 </root>

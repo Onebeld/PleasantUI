@@ -18,6 +18,14 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
         MainNavigationView.SelectionChanged += OnNavigationSelectionChanged;
+        PleasantUiExampleApp.NavPositionChanged += OnNavPositionChanged;
+    }
+
+    private void OnNavPositionChanged(NavigationViewPosition position)
+    {
+        // NavigationView.OnPositionChanged handles proxy creation internally.
+        // We must never move AXAML-declared items — they already have a visual parent.
+        MainNavigationView.Position = position;
     }
 
     private void OnNavigationSelectionChanged(object? sender, SelectionChangedEventArgs e)

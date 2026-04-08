@@ -1,6 +1,7 @@
 using System.Resources;
 using Avalonia;
 using Avalonia.Controls;
+using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
@@ -61,6 +62,16 @@ public class PleasantUiExampleApp : Application
     }
 
     public static string LanguageKey { get; set; } = "en";
+
+    public static NavigationViewPosition NavPosition { get; set; } = NavigationViewPosition.Left;
+
+    public static event Action<NavigationViewPosition>? NavPositionChanged;
+
+    public static void SetNavPosition(NavigationViewPosition position)
+    {
+        NavPosition = position;
+        NavPositionChanged?.Invoke(position);
+    }
 
     public static readonly Language[] Languages =
     [
