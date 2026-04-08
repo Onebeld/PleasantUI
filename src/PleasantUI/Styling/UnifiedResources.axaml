@@ -4,6 +4,7 @@
                     x:ClassModifier="internal">
     <CornerRadius x:Key="RoundedControlCornerRadius">999</CornerRadius>
     <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="PopupCornerRadius">12</CornerRadius>
 
     <Thickness x:Key="ControlBorderThickness">0</Thickness>
     <Thickness x:Key="ControlFocusedBorderThickness">1</Thickness>

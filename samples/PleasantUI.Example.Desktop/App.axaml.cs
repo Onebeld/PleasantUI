@@ -148,12 +148,7 @@ public partial class App : PleasantUiExampleApp
             AppTitle      = "PleasantUI Example",
             StatusText    = "Running",
             StatusColor   = new SolidColorBrush(Color.Parse("#4CAF50")),
-            AppIcon       = new Image
-            {
-                Source = (Avalonia.Media.DrawingImage?)Resources["PleasantUILogo"],
-                Width  = 32,
-                Height = 32,
-            },
+            AppIcon       = Resources["PleasantUILogo"],
             Content       = content,
             FooterContent = footer,
             ShowStatusRow = false,   // no key/value pairs needed for this simple demo

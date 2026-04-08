@@ -18,7 +18,10 @@
             <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUICloseButtonTheme}" />
             <!-- Override ControlCornerRadius to 0 so any DynamicResource binding to it becomes square -->
             <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
-            <CornerRadius x:Key="RoundedControlCornerRadius">0</CornerRadius>        </ResourceDictionary>
+            <CornerRadius x:Key="RoundedControlCornerRadius">0</CornerRadius>
+            <!-- Override PopupCornerRadius to 0 so popup becomes square in VGUI theme -->
+            <CornerRadius x:Key="PopupCornerRadius">0</CornerRadius>       
+        </ResourceDictionary>
     </Styles.Resources>
 
     <Style Selector="Button">

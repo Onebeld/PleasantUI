@@ -7,7 +7,7 @@
         <Setter Property="PopupBackground"      Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="PopupBorderBrush"     Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="PopupBorderThickness" Value="1" />
-        <Setter Property="PopupCornerRadius"    Value="12" />
+        <Setter Property="PopupCornerRadius"    Value="{DynamicResource PopupCornerRadius}" />
         <Setter Property="Width"                Value="300" />
         <Setter Property="FontSize"             Value="13" />
         <Setter Property="Foreground"           Value="{DynamicResource TextFillColor1}" />
