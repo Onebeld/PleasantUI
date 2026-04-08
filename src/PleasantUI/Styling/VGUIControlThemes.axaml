@@ -557,39 +557,46 @@
     </ControlTheme>
 
     <!-- VGUI OptionsDisplayItem Theme -->
-    <!-- Bevel via two borders: LayoutRoot gets dark border (bottom+right), outer control border provides light top+left -->
+    <!-- Full bevel: LayoutRoot has light top+left border and is inset 1px right+bottom.
+         The outer control background provides the dark right+bottom edge via the gap. -->
     <ControlTheme x:Key="VGUIOptionsDisplayItemTheme" TargetType="OptionsDisplayItem" BasedOn="{StaticResource {x:Type OptionsDisplayItem}}">
         <Setter Property="CornerRadius" Value="0" />
-        <!-- Outer light highlight edges (top + left) -->
-        <Setter Property="BorderThickness" Value="1 1 0 0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
-        <!-- Offset inward so the inner dark border shows on right+bottom -->
-        <Setter Property="Padding" Value="0 0 1 1" />
+        <!-- Dark color fills the outer control — shows as right+bottom shadow edge -->
+        <Setter Property="Background" Value="{DynamicResource ControlDarkFillColor3}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
 
         <Style Selector="^ /template/ Border#LayoutRoot">
             <Setter Property="CornerRadius" Value="0" />
-            <!-- Dark shadow edges (bottom + right) -->
-            <Setter Property="BorderThickness" Value="0 0 1 1" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+            <!-- Light top+left bevel edge -->
+            <Setter Property="BorderThickness" Value="1 1 0 0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+            <!-- Inset 1px right+bottom so the dark outer background shows as shadow edge -->
+            <Setter Property="Margin" Value="0 0 1 1" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         </Style>
 
         <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
-        <!-- Hide the separator line — bevel border handles the division -->
+        <!-- Hide the separator — bevel handles visual separation -->
         <Style Selector="^ /template/ Border#Separator">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <!-- Expanded: square content area, continue dark border -->
+        <!-- Expanded: inset content area with darker background for clear differentiation -->
         <Style Selector="^:expanded /template/ ContentPresenter#ExpandedContentPresenter">
             <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor3}" />
+            <Setter Property="BorderThickness" Value="1 0 1 1" />
             <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+            <Setter Property="Margin" Value="0 0 1 1" />
         </Style>
         <Style Selector="^:expanded /template/ Border#LayoutRoot">
             <Setter Property="CornerRadius" Value="0" />
+            <!-- When expanded, remove bottom margin so content connects flush -->
+            <Setter Property="Margin" Value="0 0 1 0" />
         </Style>
         <Style Selector="^:expanded /template/ Border#Separator">
             <Setter Property="IsVisible" Value="False" />
@@ -598,15 +605,16 @@
     <!-- VGUI SelectionListItem Theme -->
     <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem" BasedOn="{StaticResource {x:Type controls:SelectionListItem}}">
         <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="BorderThickness" Value="1 1 0 0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
-        <Setter Property="Padding" Value="0 0 1 1" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
 
         <Style Selector="^ /template/ Border#RootBorder">
             <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="BorderThickness" Value="0 0 1 1" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
-            <Setter Property="Margin" Value="2" />
+            <!-- Light top+left bevel -->
+            <Setter Property="BorderThickness" Value="1 1 0 0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
+            <!-- Inset 1px right+bottom — parent margin provides dark shadow edge -->
+            <Setter Property="Margin" Value="2 2 3 3" />
         </Style>
 
         <Style Selector="^ /template/ Border#ImageBorder">

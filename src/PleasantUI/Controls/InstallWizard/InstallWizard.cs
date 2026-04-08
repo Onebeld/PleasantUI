@@ -424,15 +424,18 @@ public class InstallWizard : TemplatedControl
 
         var window = new PleasantWindow
         {
-            Title                  = wizard.AppName ?? "Setup",
-            Width                  = width,
-            Height                 = height,
-            CanResize              = false,
-            WindowStartupLocation  = owner is not null
-                                        ? WindowStartupLocation.CenterOwner
-                                        : WindowStartupLocation.CenterScreen,
-            Content                = wizard,
-            EnableCustomTitleBar   = true,
+            Title                       = wizard.AppName ?? "Setup",
+            Width                       = width,
+            Height                      = height,
+            MinWidth                    = 500,
+            MinHeight                   = 380,
+            CanResize                   = false,
+            ExtendsContentIntoTitleBar  = false,
+            WindowStartupLocation       = owner is not null
+                                            ? WindowStartupLocation.CenterOwner
+                                            : WindowStartupLocation.CenterScreen,
+            Content                     = wizard,
+            EnableCustomTitleBar        = true,
         };
 
         wizard.Finished  += (_, _) => { tcs.TrySetResult(true);  window.Close(); };
