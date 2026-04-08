@@ -369,7 +369,9 @@ public class PleasantFileChooser : TemplatedControl
         if (_vm is null || _fileList is null) return;
 
         _vm.SelectedItems.Clear();
-        foreach (var obj in _fileList.SelectedItems)
+        var selected = _fileList.SelectedItems;
+        if (selected is null) return;
+        foreach (var obj in selected)
         {
             if (obj is PleasantFileChooserItem item)
                 _vm.SelectedItems.Add(item);
