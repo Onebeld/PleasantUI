@@ -171,7 +171,7 @@ public class NavigationView : TreeView
     /// so it sits flush below the titlebar rather than overlapping it.
     /// </summary>
     public static readonly StyledProperty<bool> ButtonsPanelOffsetProperty =
-        AvaloniaProperty.Register<NavigationView, bool>(nameof(ButtonsPanelOffset), true);
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(ButtonsPanelOffset), false);
 
     /// <summary>
     /// Gets or sets the geometry of the icon.
@@ -466,6 +466,13 @@ public class NavigationView : TreeView
                     titleBarHeight = h;
                     UpdateContainerTitleHeight(window);
                     UpdateMarginPanel();
+                }));
+
+            // Auto-sync ButtonsPanelOffset with TitleBarType — Compact = offset on, others = off
+            window.GetObservable(PleasantWindow.TitleBarTypeProperty)
+                .Subscribe(new AnonymousObserver<PleasantTitleBar.Type>(type =>
+                {
+                    ButtonsPanelOffset = type == PleasantTitleBar.Type.Compact;
                 }));
 
             this.GetObservable(ButtonsPanelOffsetProperty)
