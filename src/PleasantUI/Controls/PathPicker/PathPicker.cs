@@ -309,7 +309,9 @@ public partial class PathPicker : TemplatedControl
                 var filters = ParseFileFilter(FileFilter)?
                     .Select(f => new PleasantFileChooserFilter(
                         f.Name ?? string.Empty,
-                        (IReadOnlyList<string>)(f.Patterns ?? [])))
+                        (IReadOnlyList<string>)(f.Patterns?
+                            .Select(p => p.TrimStart('*'))  // "*.txt" → ".txt"
+                            .ToArray() ?? [])))
                     .ToList()
                     ?? new List<PleasantFileChooserFilter>();
 
