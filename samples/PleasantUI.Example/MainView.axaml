@@ -43,6 +43,7 @@
                     <NavigationViewItem Tag="PleasantDrawer"     Header="{Localize CardTitle/PleasantDrawer}"     Icon="{x:Static MaterialIcons.DrawingBox}" />
                     <NavigationViewItem Tag="PopConfirm"         Header="{Localize CardTitle/PopConfirm}"         Icon="{x:Static MaterialIcons.CheckboxMarkedCircle}" />
                     <NavigationViewItem Tag="PathPicker"         Header="{Localize CardTitle/PathPicker}"         Icon="{x:Static MaterialIcons.FolderOpenOutline}" />
+                    <NavigationViewItem Tag="PleasantMiniWindow" Header="{Localize CardTitle/PleasantMiniWindow}" Icon="{x:Static MaterialIcons.WindowMinimize}" />
                 </NavigationViewItem>
 
                 <NavigationViewItem Header="{Localize ToolKit}"

@@ -550,4 +550,31 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Right — Upper</value></data>
     <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Right — Lower</value></data>
 
+    <!-- PleasantMiniWindow page -->
+    <data name="CardTitle/PleasantMiniWindow"   xml:space="preserve"><value>PleasantMiniWindow</value></data>
+    <data name="Card/PleasantMiniWindow"        xml:space="preserve"><value>A compact floating window with a custom title bar, pin-to-top, and optional blur — inspired by classic Valve VGUI mini panels.</value></data>
+    <data name="MiniWindow/Description"         xml:space="preserve"><value>PleasantMiniWindow is a lightweight floating window with a custom drag handle, pin-to-top toggle, and optional blur. The two demos below recreate the classic Valve Steam 2003 UI — a navigation panel and a games list panel.</value></data>
+    <data name="MiniWindow/LaunchTitle"         xml:space="preserve"><value>Launch demo windows</value></data>
+    <data name="MiniWindow/LaunchDesc"          xml:space="preserve"><value>Opens standalone PleasantMiniWindow instances inspired by the original Steam client UI.</value></data>
+    <data name="MiniWindow/OpenSteam"           xml:space="preserve"><value>Open Steam panel</value></data>
+    <data name="MiniWindow/OpenGames"           xml:space="preserve"><value>Open Games list</value></data>
+    <data name="MiniWindow/GamesTitle"          xml:space="preserve"><value>Games</value></data>
+    <data name="MiniWindow/MyGames"             xml:space="preserve"><value>MY GAMES</value></data>
+    <data name="MiniWindow/Close"               xml:space="preserve"><value>Close</value></data>
+    <data name="MiniWindow/NavGames"            xml:space="preserve"><value>Games</value></data>
+    <data name="MiniWindow/NavGamesDesc"        xml:space="preserve"><value>Choose a game and start playing!</value></data>
+    <data name="MiniWindow/NavFriends"          xml:space="preserve"><value>Friends</value></data>
+    <data name="MiniWindow/NavFriendsDesc"      xml:space="preserve"><value>Find friends, chat, play together</value></data>
+    <data name="MiniWindow/NavServers"          xml:space="preserve"><value>Servers</value></data>
+    <data name="MiniWindow/NavServersDesc"      xml:space="preserve"><value>Browse multiplayer games-in-progress</value></data>
+    <data name="MiniWindow/NavMonitor"          xml:space="preserve"><value>Monitor</value></data>
+    <data name="MiniWindow/NavMonitorDesc"      xml:space="preserve"><value>Monitor Steam network activity</value></data>
+    <data name="MiniWindow/NavSettings"         xml:space="preserve"><value>Settings</value></data>
+    <data name="MiniWindow/NavSettingsDesc"     xml:space="preserve"><value>Change Steam options</value></data>
+    <data name="MiniWindow/PropsTitle"          xml:space="preserve"><value>Key properties</value></data>
+    <data name="MiniWindow/PropEnableCustomTitleBar" xml:space="preserve"><value>Shows the custom drag handle and caption buttons instead of the OS title bar.</value></data>
+    <data name="MiniWindow/PropShowPinButton"   xml:space="preserve"><value>Shows a pin button that toggles always-on-top (Topmost).</value></data>
+    <data name="MiniWindow/PropShowHiddenButton" xml:space="preserve"><value>Shows a minimize button that collapses the window to the taskbar.</value></data>
+    <data name="MiniWindow/PropEnableBlur"      xml:space="preserve"><value>Enables acrylic/blur transparency behind the window background.</value></data>
+
 </root>

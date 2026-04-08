@@ -4,7 +4,6 @@ using PleasantUI.Example.Pages.BasicControls;
 using PleasantUI.Example.Pages.PleasantControls;
 using PleasantUI.Example.Pages.Toolkit;
 using PleasantUI.ToolKit.Services.Interfaces;
-
 namespace PleasantUI.Example.Factories;
 
 public class ControlPageCardsFactory
@@ -47,6 +46,7 @@ public class ControlPageCardsFactory
             new("CardTitle/PleasantDrawer",      MaterialIcons.DrawingBox,    "Card/PleasantDrawer",      new PleasantDrawerPage(),      _eventAggregator),
             new("CardTitle/PopConfirm",          MaterialIcons.CheckboxMarkedCircle,  "Card/PopConfirm",          new PopConfirmPage(),          _eventAggregator),
             new("CardTitle/PathPicker",          MaterialIcons.FolderOpenOutline,     "Card/PathPicker",          new PathPickerPage(),          _eventAggregator),
+            new("CardTitle/PleasantMiniWindow",  MaterialIcons.WindowMinimize,        "Card/PleasantMiniWindow",  new PleasantMiniWindowPage(),  _eventAggregator),
         ];
     }
 

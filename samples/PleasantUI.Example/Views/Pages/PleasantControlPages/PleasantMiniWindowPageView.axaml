@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantMiniWindowPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="760">
+
+            <TextBlock Text="{Localize MiniWindow/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- Launch buttons -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize MiniWindow/LaunchTitle}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize MiniWindow/LaunchDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="OpenSteamButton"
+                                Content="{Localize MiniWindow/OpenSteam}"
+                                Theme="{DynamicResource AccentButtonTheme}" />
+                        <Button x:Name="OpenGamesButton"
+                                Content="{Localize MiniWindow/OpenGames}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Properties reference -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{Localize MiniWindow/PropsTitle}"
+                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="EnableCustomTitleBar" FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Localize MiniWindow/PropEnableCustomTitleBar}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="ShowPinButton" FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Localize MiniWindow/PropShowPinButton}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="ShowHiddenButton" FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Localize MiniWindow/PropShowHiddenButton}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="EnableBlur" FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Localize MiniWindow/PropEnableBlur}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>
