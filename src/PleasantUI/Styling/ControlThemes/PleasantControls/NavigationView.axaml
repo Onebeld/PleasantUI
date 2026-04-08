@@ -104,7 +104,6 @@
                                 Background="{TemplateBinding Background}"
                                 ClipToBounds="True">
                             <ContentPresenter Name="PART_SelectedContentPresenter"
-                                              Content="{TemplateBinding SelectedContent}"
                                               Opacity="1"
                                               Focusable="True"
                                               ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
@@ -147,6 +146,73 @@
                                       Width="16" Height="16" />
                         </Button>
                     </StackPanel>
+
+                    <!-- Top / Bottom horizontal layout (hidden unless :top or :bottom pseudo-class is active) -->
+                    <DockPanel x:Name="PART_TopBottomLayout"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               IsVisible="False"
+                               LastChildFill="True">
+
+                        <!-- Top bar: items from TopItems collection, never from Items -->
+                        <Border x:Name="PART_TopBar"
+                                DockPanel.Dock="Top"
+                                IsVisible="False"
+                                Background="{DynamicResource BackgroundColor1}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 0 1">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl x:Name="PART_TopItemsControl"
+                                              ItemsSource="{TemplateBinding TopItems}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="4 0" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.Styles>
+                                        <Style Selector="NavigationViewItem">
+                                            <Setter Property="Theme" Value="{DynamicResource TopBottomNavigationViewItemTheme}" />
+                                        </Style>
+                                    </ItemsControl.Styles>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+
+                        <!-- Bottom bar: items from BottomItems collection, never from Items -->
+                        <Border x:Name="PART_BottomBar"
+                                DockPanel.Dock="Bottom"
+                                IsVisible="False"
+                                Background="{DynamicResource BackgroundColor1}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 1 0 0">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl x:Name="PART_BottomItemsControl"
+                                              ItemsSource="{TemplateBinding BottomItems}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="4 0" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.Styles>
+                                        <Style Selector="NavigationViewItem">
+                                            <Setter Property="Theme" Value="{DynamicResource TopBottomNavigationViewItemTheme}" />
+                                        </Style>
+                                    </ItemsControl.Styles>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+
+                        <!-- Content area for top/bottom layouts -->
+                        <Border Background="{TemplateBinding Background}"
+                                ClipToBounds="True">
+                            <ContentPresenter x:Name="PART_TopBottomContentPresenter"
+                                              Opacity="1"
+                                              Focusable="True"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                        </Border>
+                    </DockPanel>
                 </Grid>
             </ControlTemplate>
         </Setter>
@@ -192,6 +258,34 @@
         <Style Selector="^[NotMakeOffsetForContentPanel=True][DisplayMode=Overlay] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="Margin" Value="5 45 5 5" />
+        </Style>
+
+        <!-- Top position: hide the side SplitView pane controls, show horizontal top bar -->
+        <Style Selector="^:top /template/ SplitView#split">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:top /template/ StackPanel#PART_StackPanelButtons">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:top /template/ DockPanel#PART_TopBottomLayout">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:top /template/ Border#PART_TopBar">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Bottom position: hide the side SplitView pane controls, show horizontal bottom bar -->
+        <Style Selector="^:bottom /template/ SplitView#split">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:bottom /template/ StackPanel#PART_StackPanelButtons">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:bottom /template/ DockPanel#PART_TopBottomLayout">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:bottom /template/ Border#PART_BottomBar">
+            <Setter Property="IsVisible" Value="True" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

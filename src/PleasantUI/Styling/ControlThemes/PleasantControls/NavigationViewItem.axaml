@@ -392,4 +392,107 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
+
+    <!-- Top/Bottom navigation bar item: icon stacked above label, no expand/collapse, no indent -->
+    <ControlTheme x:Key="TopBottomNavigationViewItemTheme" TargetType="NavigationViewItem">
+        <Setter Property="MinWidth" Value="56" />
+        <Setter Property="MinHeight" Value="56" />
+        <Setter Property="Padding" Value="8 6" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_NavDecorator"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{DynamicResource ControlCornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <RippleEffect x:Name="PART_Ripple">
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Spacing="3">
+                            <!-- Selection indicator bar at top -->
+                            <Border Name="PART_SelectionBorder"
+                                    Height="3"
+                                    Width="20"
+                                    HorizontalAlignment="Center"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource AccentLightColor2}" />
+                            <PathIcon Name="PART_PathIcon"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Width="18"
+                                      Height="18"
+                                      Foreground="{DynamicResource TextFillColor1}"
+                                      Data="{TemplateBinding Icon}" />
+                            <ContentPresenter Name="PART_ContentPresenter"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextElement.FontSize="11" />
+                        </StackPanel>
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Hover -->
+        <Style Selector="^ /template/ Border:pointerover#PART_NavDecorator">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <!-- Selected state -->
+        <Style Selector="^:selected /template/ Border#PART_NavDecorator">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentLightColor2}" />
+        </Style>
+        <Style Selector="^:selected /template/ PathIcon#PART_PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
+        </Style>
+
+        <!-- Selection indicator: hidden when not selected, visible when selected -->
+        <Style Selector="^ /template/ Border#PART_SelectionBorder">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="scaleX(0)" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#PART_SelectionBorder">
+            <Setter Property="RenderTransform" Value="scaleX(1)" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#PART_SelectionBorder">
+            <Setter Property="RenderTransform" Value="scaleX(1.2)" />
+        </Style>
+
+        <!-- Icon scale animations -->
+        <Style Selector="^ /template/ PathIcon#PART_PathIcon">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+                    <BrushTransition Property="Foreground" Duration="0:0:.075" />
+                </Transitions>
+            </Setter>
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+        <Style Selector="^:pointerover /template/ PathIcon#PART_PathIcon">
+            <Setter Property="RenderTransform" Value="scale(1.1)" />
+        </Style>
+        <Style Selector="^:pressed /template/ PathIcon#PART_PathIcon">
+            <Setter Property="RenderTransform" Value="scale(0.9)" />
+        </Style>
+
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+    </ControlTheme>
 </ResourceDictionary>
