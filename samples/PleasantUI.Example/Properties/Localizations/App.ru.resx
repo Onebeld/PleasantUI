@@ -98,6 +98,7 @@
     <data name="InlineCalendar" xml:space="preserve"><value>Встроенный календарь</value></data>
     <data name="DatePicker" xml:space="preserve"><value>Выбор даты</value></data>
     <data name="PickADate" xml:space="preserve"><value>Выберите дату...</value></data>
+    <data name="SpinnerDatePicker" xml:space="preserve"><value>Выбор даты (спиннер)</value></data>
     <!-- Carousel page -->
     <data name="Carousel" xml:space="preserve"><value>Карусель</value></data>
     <data name="Previous" xml:space="preserve"><value>← Назад</value></data>

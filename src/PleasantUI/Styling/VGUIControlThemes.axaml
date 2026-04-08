@@ -609,9 +609,49 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
     </ControlTheme>
 
-    <!-- VGUI DatePickerPresenter Theme — square corners on the picker panel -->
-    <ControlTheme x:Key="VGUIDatePickerPresenterTheme" TargetType="DatePickerPresenter" BasedOn="{StaticResource {x:Type DatePickerPresenter}}">
-        <!-- No additional overrides needed — popup border handles squaring -->
+    <!-- VGUI PleasantDatePicker Theme — inset bevel on PART_ClickArea, square popup -->
+    <ControlTheme x:Key="VGUIPleasantDatePickerTheme" TargetType="controls:PleasantDatePicker" BasedOn="{StaticResource {x:Type controls:PleasantDatePicker}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <!-- Inset bevel: dark top+left (shadow), light bottom+right (highlight) -->
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+
+        <!-- Square, no-shadow popup -->
+        <Style Selector="^ /template/ Popup#PART_Popup ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BlurRadius" Value="0" />
+            <Setter Property="Offset" Value="0 0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^ /template/ Popup#PART_Popup Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI CalendarDatePicker Theme — inset bevel on Background border, square popup -->
+    <ControlTheme x:Key="VGUICalendarDatePickerTheme" TargetType="CalendarDatePicker" BasedOn="{StaticResource {x:Type CalendarDatePicker}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <!-- Inset bevel: dark top+left shadow, light bottom+right highlight -->
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+
+        <!-- The Background border inherits CornerRadius=0 and BorderBrush via TemplateBinding -->
+        <!-- Override the right-side border on Background to complete the bevel -->
+        <Style Selector="^ /template/ Border#Background">
+            <Setter Property="BorderThickness" Value="1 1 0 0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+
+        <!-- Square, no-shadow popup -->
+        <Style Selector="^ /template/ Popup#PART_Popup ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BlurRadius" Value="0" />
+            <Setter Property="Offset" Value="0 0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^ /template/ Border#PopupBorder">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
     </ControlTheme>
 
     <!-- VGUI PinCodeItem — inset bevel like a text input cell -->

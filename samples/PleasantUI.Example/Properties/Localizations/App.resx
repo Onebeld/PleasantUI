@@ -105,6 +105,7 @@
     <data name="InlineCalendar" xml:space="preserve"><value>Inline Calendar</value></data>
     <data name="DatePicker" xml:space="preserve"><value>Date Picker</value></data>
     <data name="PickADate" xml:space="preserve"><value>Pick a date...</value></data>
+    <data name="SpinnerDatePicker" xml:space="preserve"><value>Spinner Date Picker</value></data>
     <!-- Carousel page -->
     <data name="Carousel" xml:space="preserve"><value>Carousel</value></data>
     <data name="Previous" xml:space="preserve"><value>← Previous</value></data>

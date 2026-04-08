@@ -75,6 +75,14 @@
         <Setter Property="Theme" Value="{StaticResource VGUIDatePickerTheme}" />
     </Style>
 
+    <Style Selector="controls|PleasantDatePicker">
+        <Setter Property="Theme" Value="{StaticResource VGUIPleasantDatePickerTheme}" />
+    </Style>
+
+    <Style Selector="CalendarDatePicker">
+        <Setter Property="Theme" Value="{StaticResource VGUICalendarDatePickerTheme}" />
+    </Style>
+
     <!--
         VGUI Danger dialog header — replaces the flat red fill with a bevel-style
         raised panel using a vertical gradient (lighter top → darker bottom)
