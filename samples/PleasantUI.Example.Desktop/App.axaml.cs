@@ -147,13 +147,15 @@ public partial class App : PleasantUiExampleApp
             }
         };
 
+        TryFindResource("PleasantUILogo", out var appIconResource);
+
         var popup = new PleasantTrayPopup
         {
             Width         = 280,
             AppTitle      = "PleasantUI Example",
             StatusText    = "Running",
             StatusColor   = new SolidColorBrush(Color.Parse("#4CAF50")),
-            AppIcon       = Resources["PleasantUILogo"],
+            AppIcon       = appIconResource,
             Content       = content,
             FooterContent = footer,
             ShowStatusRow = false,   // no key/value pairs needed for this simple demo
