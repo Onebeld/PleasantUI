@@ -90,12 +90,25 @@ public sealed partial class MessageBox : ContentDialog
         string titleValue = Localizer.Instance.TryGetString(title, out string rt) ? rt : title;
         string textValue  = Localizer.Instance.TryGetString(text,  out string rx) ? rx : text;
 
+        // VGUI mode: square corners for the dialog
+        if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
+        {
+            messageBox.CornerRadius = new CornerRadius(0);
+        }
+
         // ── Header ────────────────────────────────────────────────────────────
         if (style == MessageBoxStyle.Danger)
         {
-            messageBox.FindControl<Border>("DangerHeader")!.IsVisible    = true;
+            var dangerHeader = messageBox.FindControl<Border>("DangerHeader")!;
+            dangerHeader.IsVisible = true;
             messageBox.FindControl<TextBlock>("DefaultTitle")!.IsVisible = false;
-            messageBox.FindControl<TextBlock>("Title")!.Text             = titleValue;
+            messageBox.FindControl<TextBlock>("Title")!.Text = titleValue;
+
+            // VGUI mode: square corners for danger header
+            if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
+            {
+                dangerHeader.CornerRadius = new CornerRadius(0);
+            }
         }
         else
         {

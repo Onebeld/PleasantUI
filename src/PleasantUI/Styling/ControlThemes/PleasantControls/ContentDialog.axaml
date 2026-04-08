@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:PleasantUI.Converters;assembly=PleasantUI"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0">
@@ -68,7 +69,7 @@
                                         BorderBrush="{DynamicResource ControlBorderColor}"
                                         Background="{DynamicResource BackgroundColor3}"
                                         BorderThickness="0 1 0 0"
-                                        CornerRadius="0 0 8 8"
+                                        CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static converters:CornerRadiusFilterConverters.Bottom}}"
                                         IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Height="80">
                                     <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />

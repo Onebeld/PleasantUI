@@ -104,12 +104,29 @@
         <Setter Property="CornerRadius" Value="0" />
     </Style>
 
+    <!-- VGUI ShadowBorder — square corners (used by ContentDialog shadow) -->
+    <Style Selector="controls|ShadowBorder">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <!-- VGUI ProgressBar — ensure visible with proper height and colors -->
+    <Style Selector="ProgressBar">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColor}" />
+    </Style>
+    <Style Selector="ProgressBar:horizontal">
+        <Setter Property="Height" Value="8" />
+    </Style>
+    <Style Selector="ProgressBar:vertical">
+        <Setter Property="Width" Value="8" />
+    </Style>
+
     <!--
         VGUI Danger dialog header — replaces the flat red fill with a bevel-style
         raised panel using a vertical gradient (lighter top → darker bottom)
         plus a top highlight border and bottom shadow border.
         Applies to MessageBox (DangerHeader set via DynamicResource in XAML).
-        PleasantDialog danger header is handled in code-behind (PleasantDialog.axaml.cs).
     -->
     <Style Selector="ContentDialog Border#DangerHeader">
         <Setter Property="BorderThickness" Value="0 2 0 2" />

@@ -78,17 +78,20 @@
         </SmoothScrollViewer>
 
         <!-- Spacer between body and progress bar -->
-        <Border Grid.Row="3" Height="8" />
+        <Border Grid.Row="3" Height="12" />
 
         <!-- ── Progress bar (hidden by default) ──────────────────────── -->
         <ProgressBar x:Name="ProgressBar"
                      Grid.Row="4"
                      Margin="{DynamicResource PleasantDialogProgressMargin}"
-                     Height="4"
+                     Height="8"
+                     MinHeight="8"
+                     Minimum="0"
+                     Maximum="100"
                      IsVisible="False" />
 
         <!-- Spacer between progress bar / body and footer -->
-        <Border Grid.Row="5" Height="4" />
+        <Border Grid.Row="5" Height="8" />
 
         <!-- ── Footer (expandable) ────────────────────────────────────── -->
         <Border x:Name="FooterBorder"

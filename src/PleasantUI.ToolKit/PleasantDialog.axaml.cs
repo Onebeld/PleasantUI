@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -82,6 +83,13 @@ public sealed partial class PleasantDialog : ContentDialog
 
         headerText.Text = headerValue;
 
+        // VGUI mode: square corners for the dialog
+        if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
+        {
+            dialog.CornerRadius = new CornerRadius(0);
+            headerBorder.CornerRadius = new CornerRadius(0);
+        }
+
         if (!string.IsNullOrWhiteSpace(subHeader))
         {
             subHeaderText.Text      = Localizer.Instance.TryGetString(subHeader, out string rs) ? rs : subHeader;
@@ -117,6 +125,7 @@ public sealed partial class PleasantDialog : ContentDialog
                 };
                 headerBorder.BorderThickness = new Thickness(0, 2, 0, 2);
                 headerBorder.BorderBrush     = new SolidColorBrush(Color.Parse("#FF8B1A10"));
+                headerBorder.CornerRadius   = new CornerRadius(0);
             }
             else
             {
@@ -237,6 +246,12 @@ public sealed partial class PleasantDialog : ContentDialog
 
             footerContent.Content = footer;
             footerBorder.IsVisible = true;
+
+            // VGUI mode: square corners for footer border
+            if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
+            {
+                footerBorder.CornerRadius = new CornerRadius(0);
+            }
 
             if (footerExpandable)
             {
@@ -362,13 +377,20 @@ public sealed partial class PleasantDialog : ContentDialog
         Avalonia.Threading.Dispatcher.UIThread.Post(() =>
         {
             var pb = this.FindControl<ProgressBar>("ProgressBar")!;
-            pb.IsVisible        = true;
-            pb.Value            = value;
-            pb.IsIndeterminate  = isIndeterminate;
+            pb.IsVisible = true;
+            pb.Value = value;
+            pb.IsIndeterminate = isIndeterminate;
+            pb.Minimum = 0;
+            pb.Maximum = 100;
+            // Ensure minimum height is set
+            if (pb.Height < 8)
+                pb.Height = 8;
             // Visual error state via pseudo-class would need a custom style;
             // for now set the foreground directly
             if (isError && Application.Current!.TryFindResource("SystemFillColorCritical", out object? ec))
                 pb.Foreground = new SolidColorBrush((Color)ec!);
+            else
+                pb.Foreground = null; // Reset to theme default
         });
     }
 }
