@@ -86,6 +86,14 @@
         <Setter Property="Theme" Value="{StaticResource VGUICalendarDatePickerTheme}" />
     </Style>
 
+    <!-- VGUI PleasantTrayPopup — square corners, stretch to taskbar -->
+    <Style Selector="controls|PleasantTrayPopup">
+        <Setter Property="PopupCornerRadius" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
     <!--
         VGUI Danger dialog header — replaces the flat red fill with a bevel-style
         raised panel using a vertical gradient (lighter top → darker bottom)

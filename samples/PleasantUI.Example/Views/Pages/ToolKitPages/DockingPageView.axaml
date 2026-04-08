@@ -9,16 +9,14 @@
 
     <Grid RowDefinitions="Auto,*">
 
-        <!-- Description strip -->
-        <Border Grid.Row="0"
-                Padding="16 10"
-                Background="{DynamicResource ControlFillColor1}"
-                BorderBrush="{DynamicResource ControlBorderColor}"
-                BorderThickness="0 0 0 1">
-            <TextBlock Text="{Localize Docking/Description}"
-                       TextWrapping="Wrap"
-                       Foreground="{DynamicResource TextFillColor2}" />
-        </Border>
+        <!-- Description area -->
+        <StackPanel Grid.Row="0" 
+                    Margin="20 16 20 8"
+                    Spacing="8">
+            <TextBlock Foreground="{DynamicResource TextFillColor2}"
+                       FontSize="12"
+                       Text="{Localize Docking/Description}" />
+        </StackPanel>
 
         <!-- Live docking demo -->
         <docking:ReDockHost Grid.Row="1"
