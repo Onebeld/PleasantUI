@@ -94,6 +94,26 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
+    <!-- VGUI PleasantFileChooser — square corners throughout -->
+    <Style Selector="controls|PleasantFileChooser">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|PleasantFileChooser /template/ Border">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|PleasantFileChooser /template/ TextBox">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|PleasantFileChooser /template/ ComboBox">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|PleasantFileChooser /template/ ListBox">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|PleasantFileChooser /template/ Button">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
     <!-- VGUI PleasantWindow — square corners -->
     <Style Selector="controls|PleasantWindow">
         <Setter Property="CornerRadius" Value="0" />
