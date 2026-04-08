@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Avalonia.Threading;
 
@@ -280,6 +281,8 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         FileName = SelectedItems.Count == 1
             ? SelectedItems[0].Name
             : string.Join(" ", SelectedItems.Select(i => $"\"{i.Name}\""));
+
+        Debug.WriteLine($"[FileChooserVM] UpdateFileNameFromSelection → FileName=\"{FileName}\"");
     }
 
     // ── Confirm / Cancel ──────────────────────────────────────────────────────
@@ -291,17 +294,23 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         if (SelectedItems.Count > 0)
         {
             paths.AddRange(SelectedItems.Select(i => i.FullPath));
+            Debug.WriteLine($"[FileChooserVM] Confirm — from SelectedItems: [{string.Join(", ", paths)}]");
         }
         else if (!string.IsNullOrWhiteSpace(FileName))
         {
-            // User typed a name — resolve relative to current directory
             var typed = FileName.Trim();
             paths.Add(Path.IsPathRooted(typed) ? typed : Path.Combine(_currentPath, typed));
+            Debug.WriteLine($"[FileChooserVM] Confirm — from FileName \"{FileName}\": [{string.Join(", ", paths)}]");
+        }
+        else
+        {
+            Debug.WriteLine("[FileChooserVM] Confirm — nothing to confirm (no selection, no filename)");
         }
 
         if (paths.Count == 0) return;
 
         Result = paths;
+        Debug.WriteLine($"[FileChooserVM] Confirm — firing CloseRequested with Result=[{string.Join(", ", Result)}]");
         CloseRequested?.Invoke(this, EventArgs.Empty);
     }
 

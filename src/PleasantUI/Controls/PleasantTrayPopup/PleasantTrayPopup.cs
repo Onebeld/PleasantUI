@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using System.Linq;
@@ -218,7 +219,9 @@ public class PleasantTrayPopup : Window
 
     // ── Template parts ────────────────────────────────────────────────────────
 
-    private Button? _closeButton;
+    private Button?           _closeButton;
+    private Image?            _appIconImage;
+    private ContentPresenter? _appIconPresenter;
 
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantTrayPopup);
@@ -251,10 +254,42 @@ public class PleasantTrayPopup : Window
         if (_closeButton is not null)
             _closeButton.Click -= OnCloseClicked;
 
-        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
+        _closeButton      = e.NameScope.Find<Button>("PART_CloseButton");
+        _appIconImage     = e.NameScope.Find<Image>("PART_AppIconImage");
+        _appIconPresenter = e.NameScope.Find<ContentPresenter>("PART_AppIconPresenter");
 
         if (_closeButton is not null)
             _closeButton.Click += OnCloseClicked;
+
+        ApplyAppIcon(AppIcon);
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == AppIconProperty)
+            ApplyAppIcon(change.NewValue);
+    }
+
+    private void ApplyAppIcon(object? icon)
+    {
+        if (_appIconImage is null || _appIconPresenter is null)
+            return;
+
+        if (icon is Avalonia.Media.IImage imageSource)
+        {
+            _appIconImage.Source      = imageSource;
+            _appIconImage.IsVisible   = true;
+            _appIconPresenter.IsVisible = false;
+        }
+        else
+        {
+            _appIconImage.Source        = null;
+            _appIconImage.IsVisible     = false;
+            _appIconPresenter.IsVisible = icon is not null;
+        }
     }
 
     // ── Public API ────────────────────────────────────────────────────────────

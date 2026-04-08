@@ -31,7 +31,7 @@
                     <TextBox x:Name="PART_TextBox"
                              Grid.Column="0"
                              AcceptsReturn="{TemplateBinding AllowMultiple}"
-                             Text="{TemplateBinding SelectedPathsText, Mode=TwoWay}"
+                             Text="{Binding SelectedPathsText, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                              Background="{TemplateBinding Background}"
                              BorderBrush="{TemplateBinding BorderBrush}"
                              BorderThickness="{TemplateBinding BorderThickness}"
@@ -107,7 +107,7 @@
                 <Grid>
                     <TextBox x:Name="PART_TextBox"
                              AcceptsReturn="{TemplateBinding AllowMultiple}"
-                             Text="{TemplateBinding SelectedPathsText, Mode=TwoWay}"
+                             Text="{Binding SelectedPathsText, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                              Background="{TemplateBinding Background}"
                              BorderBrush="{TemplateBinding BorderBrush}"
                              BorderThickness="{TemplateBinding BorderThickness}"

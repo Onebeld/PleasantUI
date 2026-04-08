@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -316,7 +317,11 @@ public class PleasantFileChooser : TemplatedControl
     private void Attach()
     {
         if (_quickLinks    is not null) _quickLinks.SelectionChanged  += OnQuickLinkSelected;
-        if (_fileList      is not null) _fileList.DoubleTapped        += OnFileListDoubleTapped;
+        if (_fileList      is not null)
+        {
+            _fileList.DoubleTapped      += OnFileListDoubleTapped;
+            _fileList.SelectionChanged  += OnFileListSelectionChanged;
+        }
         if (_locationBox   is not null) _locationBox.KeyDown          += OnLocationKeyDown;
         if (_filterBox     is not null) _filterBox.TextChanged        += OnFilterTextChanged;
         if (_filterCombo   is not null) _filterCombo.SelectionChanged += OnFilterComboChanged;
@@ -330,7 +335,11 @@ public class PleasantFileChooser : TemplatedControl
     private void Detach()
     {
         if (_quickLinks    is not null) _quickLinks.SelectionChanged  -= OnQuickLinkSelected;
-        if (_fileList      is not null) _fileList.DoubleTapped        -= OnFileListDoubleTapped;
+        if (_fileList      is not null)
+        {
+            _fileList.DoubleTapped      -= OnFileListDoubleTapped;
+            _fileList.SelectionChanged  -= OnFileListSelectionChanged;
+        }
         if (_locationBox   is not null) _locationBox.KeyDown          -= OnLocationKeyDown;
         if (_filterBox     is not null) _filterBox.TextChanged        -= OnFilterTextChanged;
         if (_filterCombo   is not null) _filterCombo.SelectionChanged -= OnFilterComboChanged;
@@ -356,6 +365,21 @@ public class PleasantFileChooser : TemplatedControl
         _vm.OpenItem(item);
     }
 
+    private void OnFileListSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (_vm is null || _fileList is null) return;
+
+        _vm.SelectedItems.Clear();
+        var selected = _fileList.SelectedItems;
+        if (selected is null) return;
+        foreach (var obj in selected)
+        {
+            if (obj is PleasantFileChooserItem item)
+                _vm.SelectedItems.Add(item);
+        }
+        Debug.WriteLine($"[FileChooser] SelectionChanged → SelectedItems count={_vm.SelectedItems.Count}, FileName=\"{_vm.FileName}\"");
+    }
+
     private void OnLocationKeyDown(object? sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter && _vm is not null && _locationBox is not null)
@@ -377,7 +401,11 @@ public class PleasantFileChooser : TemplatedControl
             _vm.SelectedFilterIndex = _filterCombo.SelectedIndex;
     }
 
-    private void OnOkClicked(object? sender, RoutedEventArgs e)     => _vm?.Confirm();
+    private void OnOkClicked(object? sender, RoutedEventArgs e)
+    {
+        Debug.WriteLine($"[FileChooser] OkClicked — FileName=\"{_vm?.FileName}\", SelectedItems={_vm?.SelectedItems.Count ?? 0}");
+        _vm?.Confirm();
+    }
     private void OnCancelClicked(object? sender, RoutedEventArgs e)  => _vm?.Cancel();
     private void OnBackClicked(object? sender, RoutedEventArgs e)    => _vm?.GoBack();
     private void OnForwardClicked(object? sender, RoutedEventArgs e) => _vm?.GoForward();
@@ -421,12 +449,14 @@ public class PleasantFileChooser : TemplatedControl
         {
             if (resultSet) return;
             resultSet = true;
-            await dialog.CloseAsync();
+            Debug.WriteLine($"[FileChooser] CloseRequested — Result=[{string.Join(", ", vm.Result ?? [])}]");
+            // Set result BEFORE closing so the ShowAsync continuation's TrySetResult(null) loses the race
             tcs.TrySetResult(vm.Result);
+            await dialog.CloseAsync();
         };
 
         await dialog.ShowAsync(topLevel);
-        tcs.TrySetResult(null);
+        tcs.TrySetResult(null);  // no-op if CloseRequested already set the result
         return await tcs.Task;
     }
 }
