@@ -114,6 +114,17 @@
         <Setter Property="CornerRadius" Value="0" />
     </Style>
 
+    <!-- VGUI ContentDialog — square corners (covers file chooser dialog and all other dialogs) -->
+    <Style Selector="ContentDialog">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="ContentDialog /template/ controls|ShadowBorder">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="ContentDialog /template/ Border">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
     <!-- VGUI PleasantWindow — square corners -->
     <Style Selector="controls|PleasantWindow">
         <Setter Property="CornerRadius" Value="0" />
