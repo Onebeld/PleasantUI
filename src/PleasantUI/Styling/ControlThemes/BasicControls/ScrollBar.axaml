@@ -61,7 +61,7 @@
                 <PathIcon Width="8"
                           Height="8"
                           Margin="3"
-                          Data="{StaticResource FillArrowRegular}"
+                          Data="{DynamicResource FillArrowRegular}"
                           Foreground="{DynamicResource ControlDarkFillColor1}"/>
             </ControlTemplate>
         </Setter>
@@ -103,8 +103,8 @@
                                 <Rectangle Name="TrackRect"
                                            Fill="{DynamicResource ControlFillColor2}"
                                            Opacity="0"
-                                           RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
-                                           RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusX="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusY="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            Grid.RowSpan="3"
                                            Margin="0">
                                     <Rectangle.Transitions>
@@ -116,7 +116,7 @@
 
                                 <RepeatButton Name="PART_LineUpButton"
                                               HorizontalAlignment="Center"
-                                              Theme="{StaticResource ScrollBarLineButton}"
+                                              Theme="{DynamicResource ScrollBarLineButton}"
                                               Grid.Row="0"
                                               Opacity="0"
                                               Focusable="False"
@@ -149,7 +149,7 @@
                                                       Focusable="False"
                                                       Opacity="0" />
                                     </Track.IncreaseButton>
-                                    <Thumb Theme="{StaticResource ScrollBarThumb}"
+                                    <Thumb Theme="{DynamicResource ScrollBarThumb}"
                                            Opacity="1"
                                            Width="6"
                                            MinHeight="30"
@@ -159,7 +159,7 @@
 
                                 <RepeatButton Name="PART_LineDownButton"
                                               HorizontalAlignment="Center"
-                                              Theme="{StaticResource ScrollBarLineButton}"
+                                              Theme="{DynamicResource ScrollBarLineButton}"
                                               RenderTransform="rotate(180deg)"
                                               Grid.Row="2"
                                               Focusable="False"
@@ -190,8 +190,8 @@
                                            Name="TrackRect"
                                            Fill="{DynamicResource ControlFillColor2}"
                                            Opacity="0"
-                                           RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
-                                           RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusY="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusX="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            Grid.ColumnSpan="3"
                                            Margin="0">
                                     <Rectangle.Transitions>
@@ -204,7 +204,7 @@
                                 <RepeatButton Grid.Column="0"
                                               Name="PART_LineUpButton"
                                               HorizontalAlignment="Center"
-                                              Theme="{StaticResource ScrollBarLineButton}"
+                                              Theme="{DynamicResource ScrollBarLineButton}"
                                               RenderTransform="rotate(-90deg)"
                                               Grid.Row="0"
                                               Opacity="0"
@@ -222,18 +222,18 @@
                                     <Track.DecreaseButton>
                                         <RepeatButton Name="PART_PageUpButton"
                                                       Classes="largeChange"
-                                                      Theme="{StaticResource ScrollBarPageButton}"
+                                                      Theme="{DynamicResource ScrollBarPageButton}"
                                                       Focusable="False"
                                                       Opacity="0" />
                                     </Track.DecreaseButton>
                                     <Track.IncreaseButton>
                                         <RepeatButton Name="PART_PageDownButton"
                                                       Classes="largeChange"
-                                                      Theme="{StaticResource ScrollBarPageButton}"
+                                                      Theme="{DynamicResource ScrollBarPageButton}"
                                                       Focusable="False"
                                                       Opacity="0" />
                                     </Track.IncreaseButton>
-                                    <Thumb Theme="{StaticResource ScrollBarThumb}"
+                                    <Thumb Theme="{DynamicResource ScrollBarThumb}"
                                            Opacity="1"
                                            Height="6"
                                            MinWidth="30"
@@ -243,7 +243,7 @@
 
                                 <RepeatButton Name="PART_LineDownButton"
                                               HorizontalAlignment="Center"
-                                              Theme="{StaticResource ScrollBarLineButton}"
+                                              Theme="{DynamicResource ScrollBarLineButton}"
                                               RenderTransform="rotate(90deg)"
                                               Grid.Column="2"
                                               Focusable="False"

@@ -5,12 +5,12 @@ A compact pill-shaped label that combines an icon and a value. Useful for displa
 ## Usage
 
 ```xml
-<InformationBlock Content="42" Icon="{StaticResource StarRegular}" />
+<InformationBlock Content="42" Icon="{DynamicResource StarRegular}" />
 
-<InformationBlock Content="Online" Icon="{StaticResource CheckmarkRegular}" />
+<InformationBlock Content="Online" Icon="{DynamicResource CheckmarkRegular}" />
 
 <InformationBlock Content="{Binding FileCount}"
-                  Icon="{StaticResource FileRegular}" />
+                  Icon="{DynamicResource FileRegular}" />
 ```
 
 ## Properties
@@ -26,7 +26,7 @@ The pill uses `ControlFillColor1` background with a 1px border and `RoundedContr
 
 ```xml
 <InformationBlock Content="Error"
-                  Icon="{StaticResource ErrorCircleRegular}"
+                  Icon="{DynamicResource ErrorCircleRegular}"
                   Background="{DynamicResource SystemFillColorCritical}"
                   Foreground="White" />
 ```

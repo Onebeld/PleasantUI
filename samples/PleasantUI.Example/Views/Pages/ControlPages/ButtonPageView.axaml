@@ -8,7 +8,7 @@
     <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
         <Button Content="{Localize Button, Context=ButtonPage}" x:Name="MessageBoxButton" />
         <Button>
-            <PathIcon Data="{StaticResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
+            <PathIcon Data="{DynamicResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
         </Button>
         <Button Theme="{DynamicResource AppBarButtonTheme}" Content="{Localize AppBarButton, Context=ButtonPage}" />
         <Button Theme="{DynamicResource AccentButtonTheme}" Content="{Localize AccentButton, Context=ButtonPage}" />
@@ -24,8 +24,8 @@
         <RadioButton Content="{Localize RadioButton1, Context=ButtonPage}" GroupName="Group1" />
         <RadioButton Content="{Localize RadioButton2, Context=ButtonPage}" GroupName="Group1" />
 
-        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="{Localize RadioButton1, Context=ButtonPage}" GroupName="Group2" />
-        <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="{Localize RadioButton2, Context=ButtonPage}" GroupName="Group2" />
+        <RadioButton Theme="{DynamicResource ButtonedRadioButton}" Content="{Localize RadioButton1, Context=ButtonPage}" GroupName="Group2" />
+        <RadioButton Theme="{DynamicResource ButtonedRadioButton}" Content="{Localize RadioButton2, Context=ButtonPage}" GroupName="Group2" />
 
             <ListBox Height="200">
                 <ListBoxItem Content="Content 1" />

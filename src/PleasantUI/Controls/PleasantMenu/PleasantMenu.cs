@@ -16,10 +16,10 @@ namespace PleasantUI.Controls;
 /// <code>
 /// &lt;PleasantMenu Title="Menu" Columns="3"&gt;
 ///     &lt;PleasantMenu.Items&gt;
-///         &lt;PleasantMenuItem Label="Open" Icon="{StaticResource OpenRegular}" Command="{Binding OpenCmd}" /&gt;
+///         &lt;PleasantMenuItem Label="Open" Icon="{DynamicResource OpenRegular}" Command="{Binding OpenCmd}" /&gt;
 ///     &lt;/PleasantMenu.Items&gt;
 ///     &lt;PleasantMenu.FooterItems&gt;
-///         &lt;PleasantMenuFooterItem Icon="{StaticResource TuneRegular}" Command="{Binding SettingsCmd}" /&gt;
+///         &lt;PleasantMenuFooterItem Icon="{DynamicResource TuneRegular}" Command="{Binding SettingsCmd}" /&gt;
 ///     &lt;/PleasantMenu.FooterItems&gt;
 /// &lt;/PleasantMenu&gt;
 /// </code>

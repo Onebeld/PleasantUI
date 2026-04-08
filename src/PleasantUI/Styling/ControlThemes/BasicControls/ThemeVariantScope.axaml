@@ -3,6 +3,6 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type ThemeVariantScope}" TargetType="ThemeVariantScope">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="TextElement.FontSize" Value="{StaticResource GlobalFontSize}" />
+        <Setter Property="TextElement.FontSize" Value="{DynamicResource GlobalFontSize}" />
     </ControlTheme>
 </ResourceDictionary>

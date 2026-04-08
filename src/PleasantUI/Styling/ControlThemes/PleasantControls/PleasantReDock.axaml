@@ -31,7 +31,7 @@
 
                     <Thumb Name="PART_LeftThumb"
                            Grid.Column="1"
-                           Theme="{StaticResource PleasantHorizontalSplittedViewThumb}" />
+                           Theme="{DynamicResource PleasantHorizontalSplittedViewThumb}" />
 
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Grid.Column="2"
@@ -44,7 +44,7 @@
 
                     <Thumb Name="PART_RightThumb"
                            Grid.Column="3"
-                           Theme="{StaticResource PleasantHorizontalSplittedViewThumb}" />
+                           Theme="{DynamicResource PleasantHorizontalSplittedViewThumb}" />
 
                     <ContentPresenter Name="PART_RightContentPresenter"
                                       Grid.Column="4"

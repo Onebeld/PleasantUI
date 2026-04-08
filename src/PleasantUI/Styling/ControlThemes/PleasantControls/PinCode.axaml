@@ -18,8 +18,8 @@
 		<Setter Property="Height" Value="44" />
 		<Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-		<Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-		<Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 		<Setter Property="FontSize" Value="18" />
 		<Setter Property="FontWeight" Value="SemiBold" />
 		<Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
@@ -63,7 +63,7 @@
 		<Style Selector="^:focused">
 			<Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
 			<Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
-			<Setter Property="BorderThickness" Value="{StaticResource ControlFocusedBorderThickness}" />
+			<Setter Property="BorderThickness" Value="{DynamicResource ControlFocusedBorderThickness}" />
 		</Style>
 
 		<!-- Filled -->

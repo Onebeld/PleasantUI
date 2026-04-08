@@ -54,7 +54,7 @@
                         TemplatedControl.IsTemplateFocusTarget="True">
                     <RippleEffect x:Name="PART_Ripple">
                         <Panel>
-                            <Border Name="Pill" Theme="{StaticResource ComboBoxItemPillBorder}" />
+                            <Border Name="Pill" Theme="{DynamicResource ComboBoxItemPillBorder}" />
 
                             <ContentPresenter Name="ContentPresenter"
                                               Content="{TemplateBinding Content}"

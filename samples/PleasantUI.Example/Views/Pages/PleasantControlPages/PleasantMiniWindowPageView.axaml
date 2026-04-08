@@ -14,11 +14,11 @@
 
             <!-- Launch buttons -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="12">
                     <TextBlock Text="{Localize MiniWindow/LaunchTitle}"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <TextBlock Text="{Localize MiniWindow/LaunchDesc}"
                                TextWrapping="Wrap" FontSize="12"
                                Foreground="{DynamicResource TextFillColor2}" />
@@ -34,11 +34,11 @@
 
             <!-- Properties reference -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="10">
                     <TextBlock Text="{Localize MiniWindow/PropsTitle}"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="EnableCustomTitleBar" FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Localize MiniWindow/PropEnableCustomTitleBar}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />

@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="{x:Type PleasantBorder}" TargetType="PleasantBorder">
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         
         <Style Selector="^[BackgroundLevel=Level1]">

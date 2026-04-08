@@ -15,11 +15,11 @@
 
             <!-- Mode selector -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="10">
                     <TextBlock Text="{Localize InstallWizard/ModesTitle}"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <TextBlock Text="{Localize InstallWizard/ModesDesc}"
                                TextWrapping="Wrap"
                                FontSize="12"
@@ -36,11 +36,11 @@
 
             <!-- Embedded demo -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="12">
                     <TextBlock Text="{Localize InstallWizard/DemoTitle}"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <TextBlock Text="{Localize InstallWizard/DemoDesc}"
                                TextWrapping="Wrap"
                                FontSize="12"
@@ -59,7 +59,7 @@
                                             FooterText="{Localize InstallWizard/FooterText}"
                                             Height="420">
                         <controls:InstallWizard.AppIcon>
-                            <Image Source="{StaticResource PleasantUIForeground}" Width="120" />
+                            <Image Source="{DynamicResource PleasantUIForeground}" Width="120" />
                         </controls:InstallWizard.AppIcon>
                         <controls:InstallWizard.Steps>
 
@@ -85,7 +85,7 @@
                                     <DataTemplate>
                                         <StackPanel Spacing="12">
                                             <Border Background="{DynamicResource ControlFillColor2}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    CornerRadius="{DynamicResource ControlCornerRadius}"
                                                     Padding="12"
                                                     MinHeight="80"
                                                     MaxHeight="260">
@@ -157,7 +157,7 @@
                                                     CornerRadius="28"
                                                     Background="{DynamicResource SystemFillColorSuccess}"
                                                     HorizontalAlignment="Center">
-                                                <!-- Inline path — no StaticResource, safe in all hosting modes -->
+                                                <!-- Inline path — no DynamicResource, safe in all hosting modes -->
                                                 <Path Data="M10,18 L5,13 L6.4,11.6 L10,15.2 L17.6,7.6 L19,9"
                                                       Stroke="White"
                                                       StrokeThickness="2.5"
@@ -190,11 +190,11 @@
 
             <!-- Properties reference -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="10">
                     <TextBlock Text="{Localize InstallWizard/PropsTitle}"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="AppName"            FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Localize InstallWizard/PropAppName}"    TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />

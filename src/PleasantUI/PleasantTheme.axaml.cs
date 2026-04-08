@@ -365,7 +365,7 @@ public class PleasantTheme : Styles
     /// <summary>
     /// Adds or removes VGUI control styles from this PleasantTheme Styles instance when VGUI theme is
     /// activated/deactivated. Adding to <c>this</c> (rather than Application.Current.Styles) ensures that
-    /// StaticResource lookups inside VGUIControlStyles.axaml can resolve keys from PleasantTheme.Resources.
+    /// DynamicResource lookups inside VGUIControlStyles.axaml can resolve keys from PleasantTheme.Resources.
     /// </summary>
     private void UpdateVGUIStyle(bool isVGUI)
     {

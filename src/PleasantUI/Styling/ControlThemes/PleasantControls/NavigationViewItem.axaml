@@ -113,7 +113,7 @@
                                                           Width="10"
                                                           Height="10"
                                                           Foreground="{DynamicResource TextFillColor1}"
-                                                          Data="{StaticResource ChevronDownRegular}" />
+                                                          Data="{DynamicResource ChevronDownRegular}" />
                                             </ToggleButton>
                                         </Grid>
                                     </Grid>
@@ -150,7 +150,7 @@
                                 </Style.Animations>
                             </Style>
                         </Popup.Styles>
-                        <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                        <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                       Margin="4 4 6 6"
                                       BlurRadius="5"
                                       Offset="0 1"
@@ -160,7 +160,7 @@
                                     BorderThickness="1"
                                     MinWidth="160"
                                     MinHeight="32"
-                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                    CornerRadius="{DynamicResource ControlCornerRadius}">
                                 <SmoothScrollViewer Name="PART_PopupScrollViewer"
                                                     HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Auto"
@@ -175,7 +175,7 @@
         </Setter>
 
         <Style Selector="^ /template/ Border#PART_NavDecorator">
-            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
             <Setter Property="ClipToBounds" Value="True" />
             <Setter Property="Transitions">
                 <Transitions>
@@ -374,7 +374,7 @@
 
         <!-- Show popup submenu indicator chevron (right-pointing) when in compact mode with children -->
         <Style Selector="^[IsOpen=False]:not(:empty) /template/ PathIcon#PART_PathChevronDown">
-            <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
         <!-- Highlight item when its popup submenu is open in compact mode -->
         <Style Selector="^[IsSubMenuOpen=True][IsOpen=False] /template/ Border#PART_NavDecorator">

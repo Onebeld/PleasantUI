@@ -7,7 +7,7 @@
         <Setter Property="Foreground"   Value="{DynamicResource TextFillColor1}" />
         <Setter Property="MinWidth"     Value="320" />
         <Setter Property="MaxWidth"     Value="520" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -23,7 +23,7 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Title}"
-                                       Theme="{StaticResource SubtitleTextBlockTheme}"
+                                       Theme="{DynamicResource SubtitleTextBlockTheme}"
                                        VerticalAlignment="Center" />
 
                             <!-- Badges slot (InformationBlocks, counts, etc.) -->

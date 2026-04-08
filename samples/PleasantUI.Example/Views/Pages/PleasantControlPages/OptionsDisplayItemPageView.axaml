@@ -5,12 +5,12 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.OptionsDisplayItemPageView">
     <StackPanel Spacing="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500">
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Basic}" Margin="0 0 0 4" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Basic}" Margin="0 0 0 4" />
         <OptionsDisplayItem Header="{Localize SimpleItem}" Description="{Localize NoIconNoAction}" />
         <OptionsDisplayItem Header="{Localize WithIcon}" Description="{Localize ShowsIconOnLeft}" Icon="{x:Static MaterialIcons.AccountOutline}" />
         <OptionsDisplayItem Header="{Localize Navigates}" Description="{Localize TapToNavigate}" Icon="{x:Static MaterialIcons.OpenInNew}" Navigates="True" />
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize WithActionControls}" Margin="0 12 0 4" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize WithActionControls}" Margin="0 12 0 4" />
         <OptionsDisplayItem Header="{Localize ToggleSetting}" Description="{Localize EnableOrDisableFeature}" Icon="{x:Static MaterialIcons.CogOutline}">
             <OptionsDisplayItem.ActionButton>
                 <ToggleSwitch />
@@ -26,7 +26,7 @@
             </OptionsDisplayItem.ActionButton>
         </OptionsDisplayItem>
 
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Expandable}" Margin="0 12 0 4" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Expandable}" Margin="0 12 0 4" />
         <OptionsDisplayItem Header="{Localize AdvancedOptions}" Description="{Localize ClickToExpand}" Icon="{x:Static MaterialIcons.TuneVariant}" Expands="True">
             <OptionsDisplayItem.Content>
                 <StackPanel Spacing="8" Margin="4">

@@ -19,7 +19,7 @@
         <StackPanel Margin="25" Spacing="5">
             <TextBlock Text="{Localize Settings}"
                        Margin="0 0 0 10"
-                       Theme="{StaticResource TitleTextBlockTheme}" />
+                       Theme="{DynamicResource TitleTextBlockTheme}" />
             
             <OptionsDisplayItem Header="{Localize Language}">
                 <OptionsDisplayItem.ActionButton>
@@ -43,7 +43,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{Localize Theme}"
-                                Icon="{StaticResource BrushVariantRegular}"
+                                Icon="{DynamicResource BrushVariantRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -68,7 +68,7 @@
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5">
                         <Panel>
-                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
+                            <TextBlock Theme="{DynamicResource BaseTextBlockTheme}"
                                        Text="{Localize CustomThemes}"
                                        VerticalAlignment="Center" />
                             
@@ -81,7 +81,7 @@
                             </Button>
                         </Panel>
 
-                        <Border CornerRadius="{StaticResource ControlCornerRadius}"
+                        <Border CornerRadius="{DynamicResource ControlCornerRadius}"
                                 Background="{DynamicResource BackgroundColor2}"
                                 Height="250">
                             <Panel>
@@ -117,7 +117,7 @@
                                                     <Button Theme="{DynamicResource DangerButtonTheme}"
                                                             Width="30"
                                                             Height="30"
-                                                            CornerRadius="{StaticResource ControlCornerRadius}"
+                                                            CornerRadius="{DynamicResource ControlCornerRadius}"
                                                             BorderThickness="0"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
                                                             CommandParameter="{CompiledBinding}">

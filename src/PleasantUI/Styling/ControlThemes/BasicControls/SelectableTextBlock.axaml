@@ -18,7 +18,7 @@
 
         <Style Selector="^[IsEnabled=True]">
             <Setter Property="Cursor" Value="IBeam" />
-            <Setter Property="ContextFlyout" Value="{StaticResource SelectableTextBlockContextFlyout}" />
+            <Setter Property="ContextFlyout" Value="{DynamicResource SelectableTextBlockContextFlyout}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -5,75 +5,74 @@
     <!--
         VGUI Theme Application Styles.
         Loaded as a child of PleasantTheme (via Add/Remove on the Styles instance),
-        so StaticResource lookups here can resolve keys from PleasantTheme.Resources
+        so DynamicResource lookups here can resolve keys from PleasantTheme.Resources
         (where VGUIControlThemes.axaml is merged).
     -->
 
     <!-- Shadow the named button themes so any button explicitly using them gets VGUI bevel -->
     <Styles.Resources>
         <ResourceDictionary>
-            <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIAccentButtonTheme}" />
-            <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIDangerButtonTheme}" />
-            <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIAppBarButtonTheme}" />
-            <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUICloseButtonTheme}" />
+            <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIAccentButtonTheme}" />
+            <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIDangerButtonTheme}" />
+            <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIAppBarButtonTheme}" />
+            <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUICloseButtonTheme}" />
             <!-- Override ControlCornerRadius to 0 so any DynamicResource binding to it becomes square -->
             <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
-            <CornerRadius x:Key="RoundedControlCornerRadius">0</CornerRadius>
-        </ResourceDictionary>
+            <CornerRadius x:Key="RoundedControlCornerRadius">0</CornerRadius>        </ResourceDictionary>
     </Styles.Resources>
 
     <Style Selector="Button">
-        <Setter Property="Theme" Value="{StaticResource VGUIButtonTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIButtonTheme}" />
     </Style>
 
     <Style Selector="CheckBox">
-        <Setter Property="Theme" Value="{StaticResource VGUICheckBoxTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUICheckBoxTheme}" />
     </Style>
 
     <Style Selector="RadioButton">
-        <Setter Property="Theme" Value="{StaticResource VGUIRadioButtonTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIRadioButtonTheme}" />
     </Style>
 
     <Style Selector="TextBox">
-        <Setter Property="Theme" Value="{StaticResource VGUITextBoxTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUITextBoxTheme}" />
     </Style>
 
     <Style Selector="ComboBox">
-        <Setter Property="Theme" Value="{StaticResource VGUIComboBoxTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIComboBoxTheme}" />
     </Style>
 
     <Style Selector="ComboBoxItem">
-        <Setter Property="Theme" Value="{StaticResource VGUIComboBoxItemTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIComboBoxItemTheme}" />
     </Style>
 
     <Style Selector="NavigationViewItem">
-        <Setter Property="Theme" Value="{StaticResource VGUINavigationViewItemTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUINavigationViewItemTheme}" />
     </Style>
 
     <Style Selector="NavigationView">
-        <Setter Property="Theme" Value="{StaticResource VGUINavigationViewTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUINavigationViewTheme}" />
     </Style>
 
     <Style Selector="OptionsDisplayItem">
-        <Setter Property="Theme" Value="{StaticResource VGUIOptionsDisplayItemTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIOptionsDisplayItemTheme}" />
     </Style>
 
     <Style Selector="controls|SelectionListItem">
-        <Setter Property="Theme" Value="{StaticResource VGUISelectionListItemTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUISelectionListItemTheme}" />
     </Style>
 
     <Style Selector="controls|SelectionList">
-        <Setter Property="Theme" Value="{StaticResource VGUISelectionListTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUISelectionListTheme}" />
     </Style>
 
     <!-- VGUI PinCodeItem — inset bevel, square corners -->
     <Style Selector="PinCodeItem">
-        <Setter Property="Theme" Value="{StaticResource VGUIPinCodeItemTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIPinCodeItemTheme}" />
     </Style>
 
     <!-- VGUI DatePicker — inset bevel, square corners, no shadow popup -->
     <Style Selector="DatePicker">
-        <Setter Property="Theme" Value="{StaticResource VGUIDatePickerTheme}" />
+        <Setter Property="Theme" Value="{DynamicResource VGUIDatePickerTheme}" />
     </Style>
 
     <!--

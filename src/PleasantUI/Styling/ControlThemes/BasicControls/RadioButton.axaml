@@ -7,8 +7,8 @@
                 <RadioButton Content="Content 1" GroupName="Group1" />
                 <RadioButton Content="Content 2" GroupName="Group1" />
 
-                <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="Content 1" GroupName="Group2" />
-                <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="Content 2" GroupName="Group2" />
+                <RadioButton Theme="{DynamicResource ButtonedRadioButton}" Content="Content 1" GroupName="Group2" />
+                <RadioButton Theme="{DynamicResource ButtonedRadioButton}" Content="Content 2" GroupName="Group2" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -17,7 +17,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Transitions">
@@ -102,7 +102,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type Button}}">
+    <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{DynamicResource {x:Type Button}}">
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />

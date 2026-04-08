@@ -17,5 +17,5 @@
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type ContentControl}" TargetType="ContentControl"
-                  BasedOn="{StaticResource PleasantContentControl}" />
+                  BasedOn="{DynamicResource PleasantContentControl}" />
 </ResourceDictionary>

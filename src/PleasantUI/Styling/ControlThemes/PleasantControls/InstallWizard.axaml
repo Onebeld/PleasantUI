@@ -21,7 +21,7 @@
         <Setter Property="Background"      Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius"    Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="FontSize"        Value="14" />
 
         <Setter Property="Template">
@@ -119,7 +119,7 @@
                                                                      ConverterParameter="{x:Static controls:WizardStepCompletionState.Warning}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
-                                                    <Path Data="{StaticResource AlertOutline}"
+                                                    <Path Data="{DynamicResource AlertOutline}"
                                                           Fill="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
                                                           Stretch="Uniform" Width="14" Height="14"
                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />

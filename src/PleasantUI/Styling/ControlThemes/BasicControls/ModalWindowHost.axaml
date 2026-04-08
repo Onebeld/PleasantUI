@@ -4,7 +4,7 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type controls:ModalWindowHost}" TargetType="controls:ModalWindowHost">
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+        <Setter Property="FontSize" Value="{DynamicResource GlobalFontSize}" />
         <Setter Property="FontWeight" Value="400" />
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

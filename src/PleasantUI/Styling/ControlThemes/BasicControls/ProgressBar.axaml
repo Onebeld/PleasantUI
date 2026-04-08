@@ -16,7 +16,7 @@
     <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="VerticalAlignment" Value="Center" />
 
         <Setter Property="Template">

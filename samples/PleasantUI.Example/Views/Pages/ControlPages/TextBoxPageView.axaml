@@ -5,27 +5,27 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.TextBoxPageView">
     <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340">
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize TextBox}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize TextBox}" />
         <TextBox Watermark="{Localize EnterText}" />
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Password}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Password}" />
         <TextBox Watermark="{Localize EnterPassword}" PasswordChar="●" />
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Multiline}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Multiline}" />
         <TextBox Classes="MultilineTextBox"
                  PlaceholderText="{Localize EnterMultipleLines}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  Height="80" />
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize MultilineFlat}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize MultilineFlat}" />
         <TextBox Classes="MultilineTextBoxFlat"
                  PlaceholderText="{Localize EnterMultipleLines}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  Height="80" />
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ReadOnly}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize ReadOnly}" />
         <TextBox Text="{Localize ReadOnlyText}" IsReadOnly="True" />
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize Disabled}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Disabled}" />
         <TextBox Watermark="{Localize DisabledInput}" IsEnabled="False" />
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize NumericUpDown}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize NumericUpDown}" />
         <NumericUpDown Minimum="0" Maximum="100" Value="42" />
     </StackPanel>
 </UserControl>

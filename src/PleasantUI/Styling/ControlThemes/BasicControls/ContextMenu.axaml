@@ -34,17 +34,17 @@
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="MaxWidth" Value="456" />
         <Setter Property="MinHeight" Value="40" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="LayoutRoot"
-                        Theme="{StaticResource FlyoutBorderTheme}"
+                        Theme="{DynamicResource FlyoutBorderTheme}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"

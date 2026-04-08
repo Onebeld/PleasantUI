@@ -9,8 +9,8 @@
                 <controls:PathPicker Title="Open File" Width="350" Mode="OpenFile" FileFilter="[All][Text,*.txt]" />
                 <controls:PathPicker Title="Save File" Width="350" Mode="SaveFile" />
                 <controls:PathPicker Title="Select Folder" Width="350" Mode="OpenFolder" />
-                <controls:PathPicker Theme="{StaticResource ButtonPathPickerTheme}" Title="Browse Files..." />
-                <controls:PathPicker Theme="{StaticResource CompactPathPickerTheme}" Title="Browse..." Width="350" />
+                <controls:PathPicker Theme="{DynamicResource ButtonPathPickerTheme}" Title="Browse Files..." />
+                <controls:PathPicker Theme="{DynamicResource CompactPathPickerTheme}" Title="Browse..." Width="350" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -20,8 +20,8 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
 
@@ -46,7 +46,7 @@
                              VerticalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <Viewbox Width="16" Height="16">
-                                <Path Data="{StaticResource FileImportRegular}"
+                                <Path Data="{DynamicResource FileImportRegular}"
                                       Fill="{DynamicResource TextFillColor1}"
                                       Stretch="Uniform" />
                             </Viewbox>
@@ -74,7 +74,7 @@
     </ControlTheme>
 
     <!-- Button-only PathPicker Theme -->
-    <ControlTheme x:Key="ButtonPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
+    <ControlTheme x:Key="ButtonPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{DynamicResource {x:Type controls:PathPicker}}">
         <Setter Property="Template">
             <ControlTemplate>
                 <Button x:Name="PART_Button"
@@ -85,7 +85,7 @@
                         Padding="11 5">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource FileImportRegular}"
+                            <Path Data="{DynamicResource FileImportRegular}"
                                   Fill="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />
                         </Viewbox>
@@ -101,7 +101,7 @@
     </ControlTheme>
 
     <!-- Compact PathPicker Theme - Small button integrated into textbox -->
-    <ControlTheme x:Key="CompactPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
+    <ControlTheme x:Key="CompactPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{DynamicResource {x:Type controls:PathPicker}}">
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid>
@@ -117,12 +117,12 @@
                         <TextBox.InnerRightContent>
                             <Button x:Name="PART_Button"
                                     Theme="{DynamicResource AppBarButtonTheme}"
-                                    CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                                    CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                     Margin="4 0 3 0"
                                     Padding="6"
                                     VerticalAlignment="Center">
                                 <Viewbox Width="16" Height="16">
-                                    <Path Data="{StaticResource FileImportRegular}"
+                                    <Path Data="{DynamicResource FileImportRegular}"
                                           Fill="{DynamicResource TextFillColor1}"
                                           Stretch="Uniform" />
                                 </Viewbox>

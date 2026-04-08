@@ -27,7 +27,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ContentDialog}" TargetType="ContentDialog">
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="MinWidth" Value="300" />
         <Setter Property="Margin" Value="40" />
@@ -43,7 +43,7 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                               BlurRadius="60"
                               ShadowColor="#6E000000"
                               Offset="0 6">
@@ -54,7 +54,7 @@
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             ClipToBounds="False"
-                            BorderThickness="{StaticResource ControlBorderThickness}">
+                            BorderThickness="{DynamicResource ControlBorderThickness}">
                         <Border ClipToBounds="True"
                                 CornerRadius="{TemplateBinding CornerRadius}">
                             <Grid RowDefinitions="*,Auto">

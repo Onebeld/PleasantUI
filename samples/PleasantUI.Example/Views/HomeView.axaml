@@ -25,7 +25,7 @@
                                               Foreground="{DynamicResource TextFillColor1}" />
                                 </Button>
                                 
-                                <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
+                                <TextBlock Theme="{DynamicResource TitleTextBlockTheme}"
                                            Text="{Binding Title}" />
                             </StackPanel>
                             

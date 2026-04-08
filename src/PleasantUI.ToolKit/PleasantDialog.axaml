@@ -16,21 +16,21 @@
         <!-- ── Header (icon + title + subheader) ──────────────────────── -->
         <Border x:Name="HeaderBorder"
                 Grid.Row="0"
-                Padding="{StaticResource PleasantDialogHeaderPadding}">
+                Padding="{DynamicResource PleasantDialogHeaderPadding}">
             <Grid ColumnDefinitions="Auto,*">
 
                 <PathIcon x:Name="HeaderIcon"
                           Grid.Column="0"
-                          Width="{StaticResource PleasantDialogIconSize}"
-                          Height="{StaticResource PleasantDialogIconSize}"
-                          Margin="{StaticResource PleasantDialogIconMargin}"
+                          Width="{DynamicResource PleasantDialogIconSize}"
+                          Height="{DynamicResource PleasantDialogIconSize}"
+                          Margin="{DynamicResource PleasantDialogIconMargin}"
                           VerticalAlignment="Top"
                           IsVisible="False" />
 
                 <StackPanel Grid.Column="1"
-                            Spacing="{StaticResource PleasantDialogHeaderSpacing}">
+                            Spacing="{DynamicResource PleasantDialogHeaderSpacing}">
                     <TextBlock x:Name="HeaderText"
-                               Theme="{StaticResource SubtitleTextBlockTheme}"
+                               Theme="{DynamicResource SubtitleTextBlockTheme}"
                                TextWrapping="Wrap" />
                     <TextBlock x:Name="SubHeaderText"
                                FontWeight="SemiBold"
@@ -49,8 +49,8 @@
                             HorizontalScrollBarVisibility="Disabled"
                             VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="BodyPanel"
-                        Margin="{StaticResource PleasantDialogContentPadding}"
-                        Spacing="{StaticResource PleasantDialogBodySpacing}">
+                        Margin="{DynamicResource PleasantDialogContentPadding}"
+                        Spacing="{DynamicResource PleasantDialogBodySpacing}">
 
                 <TextBlock x:Name="BodyText"
                            TextWrapping="Wrap"
@@ -65,7 +65,7 @@
                               IsVisible="False">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Spacing="{StaticResource PleasantDialogCommandSpacing}" />
+                            <StackPanel Spacing="{DynamicResource PleasantDialogCommandSpacing}" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -83,7 +83,7 @@
         <!-- ── Progress bar (hidden by default) ──────────────────────── -->
         <ProgressBar x:Name="ProgressBar"
                      Grid.Row="4"
-                     Margin="{StaticResource PleasantDialogProgressMargin}"
+                     Margin="{DynamicResource PleasantDialogProgressMargin}"
                      Height="4"
                      IsVisible="False" />
 
@@ -96,14 +96,14 @@
                 IsVisible="False"
                 BorderBrush="{DynamicResource ControlBorderColor}"
                 BorderThickness="0 1 0 0"
-                Padding="{StaticResource PleasantDialogFooterPadding}">
-            <StackPanel Spacing="{StaticResource PleasantDialogFooterSpacing}">
+                Padding="{DynamicResource PleasantDialogFooterPadding}">
+            <StackPanel Spacing="{DynamicResource PleasantDialogFooterSpacing}">
                 <Button x:Name="FooterToggleButton"
-                        Theme="{StaticResource PleasantDialogFooterToggleTheme}"
+                        Theme="{DynamicResource PleasantDialogFooterToggleTheme}"
                         IsVisible="False">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <PathIcon x:Name="FooterChevron"
-                                  Data="{StaticResource ChevronDownRegular}"
+                                  Data="{DynamicResource ChevronDownRegular}"
                                   Width="12" Height="12"
                                   VerticalAlignment="Center" />
                         <TextBlock x:Name="FooterToggleText"

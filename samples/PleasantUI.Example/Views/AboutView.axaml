@@ -10,27 +10,27 @@
             <!-- Header -->
             <TextBlock Text="{Localize AboutTitle}"
                        Margin="0 0 0 10"
-                       Theme="{StaticResource TitleTextBlockTheme}" />
+                       Theme="{DynamicResource TitleTextBlockTheme}" />
 
             <!-- Hero Section with Logo and Version -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="20">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <!-- Logo -->
                     <Border Grid.Column="0"
                             Background="#B2D3D3"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
                             Width="80"
                             Height="80">
                         <Viewbox Stretch="Uniform" Margin="10">
-                            <Image Source="{StaticResource PleasantUI}" Width="64" Height="64" />
+                            <Image Source="{DynamicResource PleasantUI}" Width="64" Height="64" />
                         </Viewbox>
                     </Border>
 
                     <!-- Title and Version -->
                     <StackPanel Grid.Column="1" Margin="20 0" VerticalAlignment="Center">
-                        <PathIcon Data="{StaticResource PleasantUINoLogo}"
+                        <PathIcon Data="{DynamicResource PleasantUINoLogo}"
                                   Height="35"
                                   Width="NaN"
                                   HorizontalAlignment="Left" />
@@ -49,7 +49,7 @@
 
                     <!-- Author -->
                     <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                        <PathIcon Data="{StaticResource Onebeld}"
+                        <PathIcon Data="{DynamicResource Onebeld}"
                                   Width="120"
                                   Height="NaN"
                                   HorizontalAlignment="Right" />
@@ -64,11 +64,11 @@
 
             <!-- Description Section with Rich Formatting -->
             <Border Background="{DynamicResource ControlFillColor2}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="12">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <PathIcon Data="{StaticResource InformationCircleOutline}"
+                        <PathIcon Data="{DynamicResource InformationCircleOutline}"
                                   Width="20"
                                   Height="20"
                                   Foreground="{DynamicResource AccentTextFillColorPrimary}" />
@@ -79,7 +79,7 @@
 
                     <!-- Multiline description in a styled read-only TextBox -->
                     <Border Background="{DynamicResource ControlFillColor1}"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
                             Padding="12">
                         <TextBox Text="{Localize LibraryDescription}"
                                  TextWrapping="Wrap"
@@ -129,7 +129,7 @@
                         </Grid>
 
                         <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource BrushVariantRegular}"
+                            <PathIcon Grid.Column="0" Data="{DynamicResource BrushVariantRegular}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -163,7 +163,7 @@
                         </Grid>
 
                         <Grid Grid.Column="0" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource FastForward}"
+                            <PathIcon Grid.Column="0" Data="{DynamicResource FastForward}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -180,7 +180,7 @@
                         </Grid>
 
                         <Grid Grid.Column="1" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{StaticResource Laptop}"
+                            <PathIcon Grid.Column="0" Data="{DynamicResource Laptop}"
                                       Width="24"
                                       Height="24"
                                       Margin="0 2 10 0"
@@ -212,11 +212,11 @@
                                 Padding="12 6"
                                 Click="GitHubButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PathIcon Data="{StaticResource Github}"
+                                <PathIcon Data="{DynamicResource Github}"
                                           Width="18"
                                           Height="18" />
                                 <TextBlock Text="{Localize About/GitHubRepo}"
-                                           Foreground="{StaticResource AccentLightColor1}" />
+                                           Foreground="{DynamicResource AccentLightColor1}" />
                             </StackPanel>
                         </Button>
                         <Button x:Name="PatreonButton"
@@ -225,11 +225,11 @@
                                 Padding="12 6"
                                 Click="PatreonButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PathIcon Data="{StaticResource HeartOutline}"
+                                <PathIcon Data="{DynamicResource HeartOutline}"
                                           Width="18"
                                           Height="18" />
                                 <TextBlock Text="{Localize About/PatreonSupport}"
-                                           Foreground="{StaticResource AccentLightColor1}" />
+                                           Foreground="{DynamicResource AccentLightColor1}" />
                             </StackPanel>
                         </Button>
                         <Button x:Name="BoostyButton"
@@ -238,11 +238,11 @@
                                 Padding="12 6"
                                 Click="BoostyButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PathIcon Data="{StaticResource CurrencyUsd}"
+                                <PathIcon Data="{DynamicResource CurrencyUsd}"
                                           Width="18"
                                           Height="18" />
                                 <TextBlock Text="{Localize About/BoostySupport}"
-                                           Foreground="{StaticResource AccentLightColor1}" />
+                                           Foreground="{DynamicResource AccentLightColor1}" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -251,11 +251,11 @@
 
             <!-- Credits Section -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="8">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <PathIcon Data="{StaticResource Heart}"
+                        <PathIcon Data="{DynamicResource Heart}"
                                   Width="18"
                                   Height="18"
                                   Foreground="{DynamicResource SystemErrorTextColor}" />

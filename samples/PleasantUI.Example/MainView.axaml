@@ -85,7 +85,7 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
                             IsHitTestVisible="False">
-                    <Image Source="{StaticResource PleasantUILogo}" Width="16" Height="16" VerticalAlignment="Center" />
+                    <Image Source="{DynamicResource PleasantUILogo}" Width="16" Height="16" VerticalAlignment="Center" />
                     <TextBlock Text="PleasantUI" VerticalAlignment="Center" />
                     <TextBlock Text="Example"
                                VerticalAlignment="Center"

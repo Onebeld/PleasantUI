@@ -42,7 +42,7 @@
                                       VerticalContentAlignment="Stretch"
                                       Content="{TemplateBinding BottomContent}"
                                       ContentTemplate="{TemplateBinding BottomContentTemplate}" />
-                    <Thumb Name="PART_Thumb" Theme="{StaticResource PleasantVerticalSplittedViewThumb}" />
+                    <Thumb Name="PART_Thumb" Theme="{DynamicResource PleasantVerticalSplittedViewThumb}" />
                 </Panel>
             </ControlTemplate>
         </Setter>

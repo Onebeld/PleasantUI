@@ -47,8 +47,8 @@
     <ControlTheme x:Key="FluentExpanderToggleButtonTheme" TargetType="ToggleButton">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="16 15 0 15" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -80,7 +80,7 @@
                                 Width="28"
                                 Height="28"
                                 Margin="20 0 8 0"
-                                CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                                CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                 Background="Transparent">
                             <Viewbox x:Name="ExpandCollapseViewbox"
                                      Width="12"
@@ -146,34 +146,34 @@
     </ControlTheme>
 
     <ControlTheme x:Key="FluentExpanderToggleButtonUpTheme" TargetType="ToggleButton"
-                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{StaticResource ChevronUpRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronUpRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonDownTheme" TargetType="ToggleButton"
-                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{StaticResource ChevronDownRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronDownRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonLeftTheme" TargetType="ToggleButton"
-                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{StaticResource ChevronLeftRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronLeftRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonRightTheme" TargetType="ToggleButton"
-                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
 
@@ -182,7 +182,7 @@
                 <DockPanel MinWidth="{TemplateBinding MinWidth}"
                            MaxWidth="{TemplateBinding MaxWidth}">
                     <ToggleButton x:Name="ExpanderHeader"
-                                  Theme="{StaticResource FluentExpanderToggleButtonTheme}"
+                                  Theme="{DynamicResource FluentExpanderToggleButtonTheme}"
                                   MinHeight="{TemplateBinding MinHeight}"
                                   CornerRadius="{TemplateBinding CornerRadius}"
                                   IsEnabled="{TemplateBinding IsEnabled}"
@@ -326,16 +326,16 @@
         </Style>
 
         <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="Theme" Value="{StaticResource FluentExpanderToggleButtonLeftTheme}" />
+            <Setter Property="Theme" Value="{DynamicResource FluentExpanderToggleButtonLeftTheme}" />
         </Style>
         <Style Selector="^:up /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="Theme" Value="{StaticResource FluentExpanderToggleButtonUpTheme}" />
+            <Setter Property="Theme" Value="{DynamicResource FluentExpanderToggleButtonUpTheme}" />
         </Style>
         <Style Selector="^:right /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="Theme" Value="{StaticResource FluentExpanderToggleButtonRightTheme}" />
+            <Setter Property="Theme" Value="{DynamicResource FluentExpanderToggleButtonRightTheme}" />
         </Style>
         <Style Selector="^:down /template/ ToggleButton#ExpanderHeader">
-            <Setter Property="Theme" Value="{StaticResource FluentExpanderToggleButtonDownTheme}" />
+            <Setter Property="Theme" Value="{DynamicResource FluentExpanderToggleButtonDownTheme}" />
         </Style>
 
         <Style Selector="^:left /template/ Border#ExpanderContent">

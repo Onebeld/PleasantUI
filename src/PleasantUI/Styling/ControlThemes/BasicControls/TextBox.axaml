@@ -27,9 +27,9 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentColor}" />
         <Setter Property="SelectionForegroundBrush" Value="{ForegroundBasedAccent AccentColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="10 5 10 5" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -48,7 +48,7 @@
                     <MenuItem.Icon>
                         <PathIcon Width="16"
                                   Height="16"
-                                  Data="{StaticResource CutRegular}"
+                                  Data="{DynamicResource CutRegular}"
                                   Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
@@ -59,7 +59,7 @@
                     <MenuItem.Icon>
                         <PathIcon Width="16"
                                   Height="16"
-                                  Data="{StaticResource CopyRegular}"
+                                  Data="{DynamicResource CopyRegular}"
                                   Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
@@ -70,7 +70,7 @@
                     <MenuItem.Icon>
                         <PathIcon Width="16"
                                   Height="16"
-                                  Data="{StaticResource PasteRegular}"
+                                  Data="{DynamicResource PasteRegular}"
                                   Foreground="{DynamicResource TextFillColor1}" />
                     </MenuItem.Icon>
                 </MenuItem>
@@ -144,17 +144,17 @@
         <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}"
+                    <ToggleButton Theme="{DynamicResource AppBarToggleButtonTheme}"
                                   Padding="4"
                                   Margin="5"
-                                  CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                                  CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                   IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
                         <ToggleButton.Styles>
                             <Style Selector="ToggleButton > PathIcon">
-                                <Setter Property="Data" Value="{StaticResource PasswordBoxRevealButtonIcon}" />
+                                <Setter Property="Data" Value="{DynamicResource PasswordBoxRevealButtonIcon}" />
                             </Style>
                             <Style Selector="ToggleButton:checked > PathIcon">
-                                <Setter Property="Data" Value="{StaticResource PasswordBoxHideButtonIcon}" />
+                                <Setter Property="Data" Value="{DynamicResource PasswordBoxHideButtonIcon}" />
                             </Style>
                         </ToggleButton.Styles>
 
@@ -170,18 +170,18 @@
                     <Button Theme="{DynamicResource AppBarButtonTheme}"
                             Padding="6"
                             Margin="5"
-                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                            CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Command="{CompiledBinding $parent[TextBox].Clear}">
                         <PathIcon Width="10"
                                   Height="10"
-                                  Data="{StaticResource DismissRegular}" />
+                                  Data="{DynamicResource DismissRegular}" />
                     </Button>
                 </Template>
             </Setter>
         </Style>
 
         <Style Selector="^.TextField">
-            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="AcceptsTab" Value="True" />
@@ -189,7 +189,7 @@
 
         <!-- Multiline variant with rounded corners (ControlCornerRadius = 8) -->
         <Style Selector="^.MultilineTextBox">
-            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="AcceptsTab" Value="True" />

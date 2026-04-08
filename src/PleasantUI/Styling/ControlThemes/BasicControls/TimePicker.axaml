@@ -5,7 +5,7 @@
         <Border Padding="20" Height="500">
             <StackPanel Spacing="20" VerticalAlignment="Center">
                 <TimePicker />
-                <TimePicker CornerRadius="{StaticResource ControlCornerRadius}" />
+                <TimePicker CornerRadius="{DynamicResource ControlCornerRadius}" />
                 <TimePicker IsEnabled="False" />
             </StackPanel>
         </Border>
@@ -14,8 +14,8 @@
     <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -99,15 +99,15 @@
                                 </Style>
                             </Popup.Styles>
                             
-                            <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                            <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                           Margin="6 4 6 6"
                                           BlurRadius="5"
                                           Offset="0 1"
                                           ShadowColor="#3C000000">
                                 <Border Background="{DynamicResource BackgroundColor1}"
                                         BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="{StaticResource ControlBorderThickness}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}">
+                                        BorderThickness="{DynamicResource ControlBorderThickness}"
+                                        CornerRadius="{DynamicResource ControlCornerRadius}">
                                     <TimePickerPresenter Name="PART_PickerPresenter" />
                                 </Border>
                             </ShadowBorder>
@@ -136,7 +136,7 @@
                         <Grid Name="PART_PickerContainer">
                             <Grid.Styles>
                                 <Style Selector="DateTimePickerPanel > ListBoxItem">
-                                    <Setter Property="Theme" Value="{StaticResource DateTimePickerItem}" />
+                                    <Setter Property="Theme" Value="{DynamicResource DateTimePickerItem}" />
                                 </Style>
                             </Grid.Styles>
 
@@ -149,9 +149,9 @@
                                                          ItemHeight="40" />
                                 </SmoothScrollViewer>
 
-                                <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
+                                <RepeatButton Name="PART_HourUpButton" Theme="{DynamicResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_HourDownButton"
-                                              Theme="{StaticResource DateTimePickerDownButton}" />
+                                              Theme="{DynamicResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Panel Name="PART_MinuteHost" Grid.Column="2">
@@ -164,9 +164,9 @@
                                 </SmoothScrollViewer>
 
                                 <RepeatButton Name="PART_MinuteUpButton"
-                                              Theme="{StaticResource DateTimePickerUpButton}" />
+                                              Theme="{DynamicResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_MinuteDownButton"
-                                              Theme="{StaticResource DateTimePickerDownButton}" />
+                                              Theme="{DynamicResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Panel Name="PART_SecondHost" Grid.Column="4">
@@ -179,9 +179,9 @@
                                 </SmoothScrollViewer>
 
                                 <RepeatButton Name="PART_SecondUpButton"
-                                              Theme="{StaticResource DateTimePickerUpButton}" />
+                                              Theme="{DynamicResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_SecondDownButton"
-                                              Theme="{StaticResource DateTimePickerDownButton}" />
+                                              Theme="{DynamicResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Panel Name="PART_PeriodHost" Grid.Column="6">
@@ -194,9 +194,9 @@
                                 </SmoothScrollViewer>
 
                                 <RepeatButton Name="PART_PeriodUpButton"
-                                              Theme="{StaticResource DateTimePickerUpButton}" />
+                                              Theme="{DynamicResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_PeriodDownButton"
-                                              Theme="{StaticResource DateTimePickerDownButton}" />
+                                              Theme="{DynamicResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Rectangle Name="HighlightRect"
@@ -241,7 +241,7 @@
                                     Theme="{DynamicResource AppBarButtonTheme}"
                                     Margin="2"
                                     Height="40">
-                                <PathIcon Data="{StaticResource CheckmarkRegular}" Width="14" Height="14" />
+                                <PathIcon Data="{DynamicResource CheckmarkRegular}" Width="14" Height="14" />
                             </Button>
 
                             <Button Grid.Column="1"
@@ -249,7 +249,7 @@
                                     Theme="{DynamicResource AppBarButtonTheme}"
                                     Margin="2"
                                     Height="40">
-                                <PathIcon Data="{StaticResource DismissRegular}" Width="12" Height="12" />
+                                <PathIcon Data="{DynamicResource DismissRegular}" Width="12" Height="12" />
                             </Button>
                         </Grid>
                     </Grid>

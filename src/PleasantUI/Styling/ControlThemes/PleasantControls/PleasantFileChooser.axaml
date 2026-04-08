@@ -9,7 +9,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate TargetType="controls:PleasantFileChooser">
@@ -45,7 +45,7 @@
                                                 <Viewbox Width="16" Height="16" VerticalAlignment="Center">
                                                     <Path Stretch="Uniform"
                                                           Fill="{DynamicResource AccentFillColor1}"
-                                                          Data="{StaticResource FileImportRegular}" />
+                                                          Data="{DynamicResource FileImportRegular}" />
                                                 </Viewbox>
                                                 <TextBlock Text="{Binding Name}"
                                                            FontSize="13"
@@ -73,7 +73,7 @@
                                         ToolTip.Tip="Back"
                                         IsEnabled="{TemplateBinding CanGoBack}">
                                     <Viewbox Width="14" Height="14">
-                                        <Path Data="{StaticResource ArrowLeftRegular}"
+                                        <Path Data="{DynamicResource ArrowLeftRegular}"
                                               Fill="{DynamicResource TextFillColor1}"
                                               Stretch="Uniform" />
                                     </Viewbox>
@@ -85,7 +85,7 @@
                                         ToolTip.Tip="Forward"
                                         IsEnabled="{TemplateBinding CanGoForward}">
                                     <Viewbox Width="14" Height="14">
-                                        <Path Data="{StaticResource ArrowRightRegular}"
+                                        <Path Data="{DynamicResource ArrowRightRegular}"
                                               Fill="{DynamicResource TextFillColor1}"
                                               Stretch="Uniform" />
                                     </Viewbox>
@@ -98,7 +98,7 @@
                                         ToolTip.Tip="Up"
                                         IsEnabled="{TemplateBinding CanGoUp}">
                                     <Viewbox Width="14" Height="14">
-                                        <Path Data="{StaticResource ChevronUpRegular}"
+                                        <Path Data="{DynamicResource ChevronUpRegular}"
                                               Fill="{DynamicResource TextFillColor1}"
                                               Stretch="Uniform" />
                                     </Viewbox>
@@ -141,7 +141,7 @@
                                     Background="{DynamicResource ControlFillColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="1"
-                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
                                     ClipToBounds="True">
                                 <Grid RowDefinitions="Auto,*">
                                     <!-- Column headers -->
@@ -169,7 +169,7 @@
                                                              VerticalAlignment="Center">
                                                         <Path Stretch="Uniform"
                                                               Fill="{DynamicResource AccentFillColor1}"
-                                                              Data="{StaticResource FileImportRegular}" />
+                                                              Data="{DynamicResource FileImportRegular}" />
                                                     </Viewbox>
                                                     <TextBlock Grid.Column="1"
                                                                Text="{Binding Name}"

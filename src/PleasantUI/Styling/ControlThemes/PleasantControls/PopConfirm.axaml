@@ -28,7 +28,7 @@
                            IsOpen="{Binding IsDropdownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                            OverlayInputPassThroughElement="{Binding #PART_ContentPresenter}"
                            Placement="{TemplateBinding Placement}">
-                        <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                        <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                       Margin="6 4 6 6"
                                       BlurRadius="5"
                                       ShadowColor="#3C000000"
@@ -37,8 +37,8 @@
                                     Padding="16"
                                     Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="{StaticResource ControlBorderThickness}"
-                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                    BorderThickness="{DynamicResource ControlBorderThickness}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}">
                                 <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
 
                                     <!-- Icon area -->
@@ -51,7 +51,7 @@
                                         <!-- Default warning icon when no custom icon -->
                                         <PathIcon Name="PART_DefaultIcon"
                                                   Width="16" Height="16"
-                                                  Data="{StaticResource DeleteRegular}"
+                                                  Data="{DynamicResource DeleteRegular}"
                                                   Foreground="{DynamicResource SystemFillColorCaution}"
                                                   IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNull}}" />
                                     </Panel>
@@ -80,7 +80,7 @@
                                             Padding="5"
                                             Margin="8 0 0 0"
                                             VerticalAlignment="Top">
-                                        <PathIcon Data="{StaticResource DismissRegular}"
+                                        <PathIcon Data="{DynamicResource DismissRegular}"
                                                   Width="9" Height="9" />
                                     </Button>
 
@@ -110,19 +110,19 @@
 
         <!-- Severity variants via style classes -->
         <Style Selector="^.Warning /template/ PathIcon#PART_DefaultIcon">
-            <Setter Property="Data"       Value="{StaticResource DeleteRegular}" />
+            <Setter Property="Data"       Value="{DynamicResource DeleteRegular}" />
             <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCaution}" />
         </Style>
         <Style Selector="^.Error /template/ PathIcon#PART_DefaultIcon">
-            <Setter Property="Data"       Value="{StaticResource CloseCircleRegular}" />
+            <Setter Property="Data"       Value="{DynamicResource CloseCircleRegular}" />
             <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCritical}" />
         </Style>
         <Style Selector="^.Success /template/ PathIcon#PART_DefaultIcon">
-            <Setter Property="Data"       Value="{StaticResource CheckmarkRegular}" />
+            <Setter Property="Data"       Value="{DynamicResource CheckmarkRegular}" />
             <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccess}" />
         </Style>
         <Style Selector="^.Information /template/ PathIcon#PART_DefaultIcon">
-            <Setter Property="Data"       Value="{StaticResource MoreRegular}" />
+            <Setter Property="Data"       Value="{DynamicResource MoreRegular}" />
             <Setter Property="Foreground" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
         

@@ -12,7 +12,7 @@
             <MenuItem.Icon>
                 <PathIcon Width="12"
                           Height="12"
-                          Data="{StaticResource SquareMultipleRegular}"
+                          Data="{DynamicResource SquareMultipleRegular}"
                           FontSize="2" />
             </MenuItem.Icon>
         </MenuItem>
@@ -21,7 +21,7 @@
             <MenuItem.Icon>
                 <PathIcon Width="12"
                           Height="12"
-                          Data="{StaticResource SubtractRegular}" />
+                          Data="{DynamicResource SubtractRegular}" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Name="PART_ExpandMenuItem"
@@ -29,7 +29,7 @@
             <MenuItem.Icon>
                 <PathIcon Width="12"
                           Height="12"
-                          Data="{StaticResource MaximizeRegular}" />
+                          Data="{DynamicResource MaximizeRegular}" />
             </MenuItem.Icon>
         </MenuItem>
 
@@ -43,7 +43,7 @@
             <MenuItem.Icon>
                 <PathIcon Width="12"
                           Height="12"
-                          Data="{StaticResource DismissRegular}" />
+                          Data="{DynamicResource DismissRegular}" />
             </MenuItem.Icon>
         </MenuItem>
     </PleasantMenuFlyout>
@@ -56,7 +56,7 @@
                     <Grid x:Name="PART_TitleBarGrid">
                     <Border x:Name="PART_DragWindow"
                             Background="Transparent"
-                            ContextFlyout="{StaticResource WindowMenuFlyout}" />
+                            ContextFlyout="{DynamicResource WindowMenuFlyout}" />
 
                     <ContentPresenter x:Name="PART_LeftTitleBarContent" />
 
@@ -85,7 +85,7 @@
                         </OnPlatform.Default>
                         <OnPlatform.macOS>
                             <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
-                                                    Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
+                                                    Theme="{DynamicResource PleasantCaptionButtonsMacOSStyle}" />
                         </OnPlatform.macOS>
                     </OnPlatform>
                 </Grid>

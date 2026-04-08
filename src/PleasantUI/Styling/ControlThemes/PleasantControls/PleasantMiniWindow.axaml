@@ -37,11 +37,11 @@
 
                                 <ToggleButton HorizontalAlignment="Left"
                                               Margin="4"
-                                              Theme="{StaticResource AppBarToggleButtonTheme}"
+                                              Theme="{DynamicResource AppBarToggleButtonTheme}"
                                               IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
                                               ToolTip.Tip="{DynamicResource FastenOverTheWindows}">
                                     <Viewbox Width="10" Height="10">
-                                        <Path Data="{StaticResource PinRegular}"
+                                        <Path Data="{DynamicResource PinRegular}"
                                               StrokeThickness="2" />
                                     </Viewbox>
                                 </ToggleButton>
@@ -63,7 +63,7 @@
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Collapse}">
                                         <Viewbox Width="10" Height="10">
-                                            <Path Data="{StaticResource SubtractRegular}"
+                                            <Path Data="{DynamicResource SubtractRegular}"
                                                   StrokeThickness="2" />
                                         </Viewbox>
                                     </Button>
@@ -71,7 +71,7 @@
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             ToolTip.Tip="{DynamicResource Close}">
                                         <Viewbox Width="8" Height="8">
-                                            <Path Data="{StaticResource DismissRegular}" />
+                                            <Path Data="{DynamicResource DismissRegular}" />
                                         </Viewbox>
                                     </Button>
                                 </StackPanel>

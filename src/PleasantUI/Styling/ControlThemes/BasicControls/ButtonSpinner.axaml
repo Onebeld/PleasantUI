@@ -25,7 +25,7 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         <Setter Property="Transitions">
             <Transitions>
@@ -80,9 +80,9 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="10 0" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
 
@@ -114,18 +114,18 @@
                                                 VerticalAlignment="Center"
                                                 Spacing="0">
                                         <RepeatButton Name="PART_IncreaseButton"
-                                                      Theme="{StaticResource ButtonSpinnerRepeatButton}"
+                                                      Theme="{DynamicResource ButtonSpinnerRepeatButton}"
                                                       VerticalContentAlignment="Center"
                                                       Height="14">
-                                            <PathIcon Data="{StaticResource ChevronUpRegular}" Width="10" Height="10" />
+                                            <PathIcon Data="{DynamicResource ChevronUpRegular}" Width="10" Height="10" />
                                         </RepeatButton>
 
                                         <RepeatButton Name="PART_DecreaseButton"
-                                                      Theme="{StaticResource ButtonSpinnerRepeatButton}"
+                                                      Theme="{DynamicResource ButtonSpinnerRepeatButton}"
                                                       VerticalContentAlignment="Center"
                                                       FontSize="18"
                                                       Height="14">
-                                            <PathIcon Data="{StaticResource ChevronDownRegular}" Width="10" Height="10" />
+                                            <PathIcon Data="{DynamicResource ChevronDownRegular}" Width="10" Height="10" />
                                         </RepeatButton>
                                     </StackPanel>
                                 </Grid>

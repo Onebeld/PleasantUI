@@ -24,7 +24,7 @@
                 </Border>
 
                 <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
-                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                    <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
                                Text="{Binding Title}"
                                TextWrapping="Wrap" />
                     <TextBlock Foreground="{DynamicResource TextFillColor2}"

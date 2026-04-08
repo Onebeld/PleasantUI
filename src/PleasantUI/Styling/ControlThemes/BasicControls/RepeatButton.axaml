@@ -5,14 +5,14 @@
         <Border Padding="50">
             <StackPanel Spacing="5">
                 <RepeatButton Content="Button" />
-                <RepeatButton Theme="{StaticResource AppBarRepeatButtonTheme}" Content="App Bar Button" />
+                <RepeatButton Theme="{DynamicResource AppBarRepeatButtonTheme}" Content="App Bar Button" />
                 <RepeatButton Content="Button" IsEnabled="False" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton" BasedOn="{StaticResource {x:Type Button}}" />
+    <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton" BasedOn="{DynamicResource {x:Type Button}}" />
 
     <ControlTheme x:Key="AppBarRepeatButtonTheme" TargetType="RepeatButton"
-                  BasedOn="{StaticResource AppBarButtonTheme}" />
+                  BasedOn="{DynamicResource AppBarButtonTheme}" />
 </ResourceDictionary>

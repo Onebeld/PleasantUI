@@ -15,7 +15,7 @@
 
             <!-- Live demo: button that opens a PleasantMenu in a Flyout -->
             <TextBlock Text="{Localize PleasantMenu/BasicDemo}"
-                       Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                       Theme="{DynamicResource BodyStrongTextBlockTheme}" />
 
             <Button x:Name="MenuTriggerButton"
                     Content="{Localize PleasantMenu/OpenMenu}"
@@ -30,7 +30,7 @@
 
             <!-- Variant: no footer -->
             <TextBlock Text="{Localize PleasantMenu/NoFooterDemo}"
-                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
                        Margin="0 8 0 0" />
 
             <Button x:Name="NoFooterMenuButton"
@@ -47,7 +47,7 @@
 
             <!-- Variant: 2-column layout -->
             <TextBlock Text="{Localize PleasantMenu/TwoColumnDemo}"
-                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
                        Margin="0 8 0 0" />
 
             <Button x:Name="TwoColMenuButton"

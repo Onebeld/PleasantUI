@@ -9,7 +9,7 @@
                         IsFloatingHeader="True">
             <NavigationViewItem Header="Header"
                                 DockPanel.Dock="Top"
-                                Icon="{StaticResource DeleteRegular}"
+                                Icon="{DynamicResource DeleteRegular}"
                                 Title="Item Title"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" IsExpanded="True" Title="SubItem Title" Content="SubItem Content">
@@ -19,7 +19,7 @@
             </NavigationViewItem>
 
             <NavigationViewItem Header="Header" DockPanel.Dock="Top" Title="Item Title"
-                                Icon="{StaticResource DeleteRegular}"
+                                Icon="{DynamicResource DeleteRegular}"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" Title="SubItem Title" Content="SubItem Content">
                     <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
@@ -42,7 +42,7 @@
         <Setter Property="OpenPaneLength" Value="275" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
-        <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
+        <Setter Property="Icon" Value="{DynamicResource MenuRegular}" />
         <Setter Property="SelectionMode" Value="AlwaysSelected" />
 
         <Setter Property="TransitionAnimation">
@@ -129,7 +129,7 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center" 
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <PathIcon Data="{StaticResource ArrowLeftRegular}"
+                            <PathIcon Data="{DynamicResource ArrowLeftRegular}"
                                       Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"

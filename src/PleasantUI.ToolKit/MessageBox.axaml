@@ -18,12 +18,12 @@
                 Background="{DynamicResource DangerColor}"
                 Padding="20 14">
             <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon Data="{StaticResource ErrorCircleRegular}"
+                <PathIcon Data="{DynamicResource ErrorCircleRegular}"
                           Width="20" Height="20"
                           Foreground="White"
                           VerticalAlignment="Center" />
                 <TextBlock x:Name="Title"
-                           Theme="{StaticResource SubtitleTextBlockTheme}"
+                           Theme="{DynamicResource SubtitleTextBlockTheme}"
                            Foreground="White"
                            TextWrapping="Wrap"
                            VerticalAlignment="Center" />
@@ -35,7 +35,7 @@
                 <!-- Default title — hidden when danger header is visible -->
                 <TextBlock Grid.Row="0"
                            x:Name="DefaultTitle"
-                           Theme="{StaticResource SubtitleTextBlockTheme}"
+                           Theme="{DynamicResource SubtitleTextBlockTheme}"
                            TextWrapping="Wrap" />
 
                 <TextBlock Grid.Row="1"
