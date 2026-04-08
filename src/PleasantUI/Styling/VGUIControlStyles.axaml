@@ -66,19 +66,14 @@
         <Setter Property="Theme" Value="{StaticResource VGUISelectionListTheme}" />
     </Style>
 
-    <!-- VGUI DatePicker — inset bevel on the flyout button, square popup -->
-    <Style Selector="DatePicker /template/ Button#PART_FlyoutButton">
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="BorderThickness" Value="1 1 0 0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+    <!-- VGUI PinCodeItem — inset bevel, square corners -->
+    <Style Selector="PinCodeItem">
+        <Setter Property="Theme" Value="{StaticResource VGUIPinCodeItemTheme}" />
     </Style>
-    <Style Selector="DatePicker /template/ Popup#PART_Popup ShadowBorder">
-        <Setter Property="CornerRadius" Value="0" />
-        <Setter Property="BlurRadius" Value="0" />
-        <Setter Property="Offset" Value="0 0" />
-    </Style>
-    <Style Selector="DatePicker /template/ Popup#PART_Popup Border">
-        <Setter Property="CornerRadius" Value="0" />
+
+    <!-- VGUI DatePicker — inset bevel, square corners, no shadow popup -->
+    <Style Selector="DatePicker">
+        <Setter Property="Theme" Value="{StaticResource VGUIDatePickerTheme}" />
     </Style>
 
     <!--

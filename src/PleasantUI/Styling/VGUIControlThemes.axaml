@@ -602,7 +602,44 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
     </ControlTheme>
-    <!-- VGUI SelectionListItem Theme -->
+    <!-- VGUI DatePicker Theme — inset bevel, square corners, no shadow popup -->
+    <ControlTheme x:Key="VGUIDatePickerTheme" TargetType="DatePicker" BasedOn="{StaticResource {x:Type DatePicker}}">
+        <Setter Property="CornerRadius" Value="0" />
+        <!-- Inset bevel: dark top+left, light bottom+right — flows to PART_FlyoutButton via TemplateBinding -->
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+
+        <!-- Square, no-shadow popup -->
+        <Style Selector="^ /template/ Popup#PART_Popup ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BlurRadius" Value="0" />
+            <Setter Property="Offset" Value="0 0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^ /template/ Popup#PART_Popup Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI DatePickerPresenter Theme — square corners on the picker panel -->
+    <ControlTheme x:Key="VGUIDatePickerPresenterTheme" TargetType="DatePickerPresenter" BasedOn="{StaticResource {x:Type DatePickerPresenter}}">
+        <!-- No additional overrides needed — popup border handles squaring -->
+    </ControlTheme>
+
+    <!-- VGUI PinCodeItem — inset bevel like a text input cell -->
+    <ControlTheme x:Key="VGUIPinCodeItemTheme" TargetType="PinCodeItem" BasedOn="{StaticResource {x:Type PinCodeItem}}">        <Setter Property="CornerRadius" Value="0" />
+        <!-- Inset: dark top+left shadow, light bottom+right highlight -->
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+
+        <Style Selector="^:focused">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+            <Setter Property="BorderThickness" Value="1 1 0 0" />
+        </Style>
+        <Style Selector="^:filled:focused">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+        </Style>
+    </ControlTheme>
     <ControlTheme x:Key="VGUISelectionListItemTheme" TargetType="controls:SelectionListItem" BasedOn="{StaticResource {x:Type controls:SelectionListItem}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
