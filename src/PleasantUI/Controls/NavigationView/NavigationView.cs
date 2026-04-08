@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia;
@@ -13,6 +14,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Reactive;
 using Avalonia.Threading;
+using PleasantUI.Controls.Chrome;
 
 namespace PleasantUI.Controls;
 
@@ -164,6 +166,14 @@ public class NavigationView : TreeView
         AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
 
     /// <summary>
+    /// Defines the <see cref="ButtonsPanelOffset" /> property.
+    /// When true, the hamburger/back buttons panel is pushed down by the window titlebar height
+    /// so it sits flush below the titlebar rather than overlapping it.
+    /// </summary>
+    public static readonly StyledProperty<bool> ButtonsPanelOffsetProperty =
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(ButtonsPanelOffset), true);
+
+    /// <summary>
     /// Gets or sets the geometry of the icon.
     /// </summary>
     /// <value>
@@ -288,6 +298,16 @@ public class NavigationView : TreeView
     }
 
     /// <summary>
+    /// Gets or sets whether the hamburger/back buttons panel is pushed down by the titlebar height.
+    /// When true (default), buttons sit flush below the titlebar. When false, original behavior.
+    /// </summary>
+    public bool ButtonsPanelOffset
+    {
+        get => GetValue(ButtonsPanelOffsetProperty);
+        set => SetValue(ButtonsPanelOffsetProperty, value);
+    }
+
+    /// <summary>
     /// Gets or sets the display mode of the SplitView control.
     /// </summary>
     /// <remarks>
@@ -388,6 +408,7 @@ public class NavigationView : TreeView
         IsOpenProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnIsOpenChanged(e));
         ShowBackButtonProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
         DisplayModeProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
+        ButtonsPanelOffsetProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
     }
 
     /// <summary>
@@ -437,6 +458,7 @@ public class NavigationView : TreeView
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
             UpdateMarginPanel();
+            UpdateTitleBarOffset(window);
 
             window.GetObservable(PleasantWindow.TitleBarHeightProperty)
                 .Subscribe(new AnonymousObserver<double>(h =>
@@ -445,6 +467,12 @@ public class NavigationView : TreeView
                     UpdateContainerTitleHeight(window);
                     UpdateMarginPanel();
                 }));
+
+            this.GetObservable(ButtonsPanelOffsetProperty)
+                .Subscribe(new AnonymousObserver<bool>(_ => UpdateTitleBarOffset(window)));
+
+            this.GetObservable(CompactPaneLengthProperty)
+                .Subscribe(new AnonymousObserver<double>(_ => UpdateTitleBarOffset(window)));
         }
 
         UpdateTitleAndSelectedContent();
@@ -530,28 +558,60 @@ public class NavigationView : TreeView
         _container.Margin = margin;
     }
 
+    private void UpdateTitleBarOffset(PleasantWindow window)
+    {
+        if (!window.EnableCustomTitleBar) return;
+
+        // Find the PleasantTitleBar in the window's template
+        var titleBar = window.GetTemplateChildren().OfType<PleasantTitleBar>().FirstOrDefault();
+        if (titleBar == null) return;
+
+        if (ButtonsPanelOffset)
+        {
+            // Hamburger is below the titlebar — remove the inbuilt 40px clearance so logo hugs left
+            titleBar.LeftClearance = 0;
+        }
+        else
+        {
+            // Hamburger overlaps the titlebar — restore the inbuilt clearance so logo clears it
+            titleBar.LeftClearance = 40;
+        }
+    }
+
     private void UpdateMarginPanel()
     {
         if (_marginPanel == null) return;
 
-        // The AXAML template sets PART_MarginPanel height via style setters:
-        //   ShowBackButton=true  → 90px  (designed for 44px ClassicExtended titlebar, delta=46)
-        //   ShowBackButton=false → 60px  (designed for 44px ClassicExtended titlebar, delta=16)
-        //   DisplayMode=Overlay  → 60px  (same)
-        // We replicate those deltas scaled to the actual titleBarHeight.
-        const double baselineTitleBarHeight = 44.0;
         bool noBackButton = !ShowBackButton || DisplayMode == SplitViewDisplayMode.Overlay;
-        double baseHeight = noBackButton ? 60.0 : 90.0;
-        double delta = baseHeight - baselineTitleBarHeight;
-        double result = Math.Max(titleBarHeight + delta, baseHeight);
+
+        double result;
+        if (ButtonsPanelOffset)
+        {
+            // Buttons panel top = titleBarHeight + 5 (margin).
+            // Button heights: back (37, optional) + spacing (5) + hamburger (37) + bottom margin (5).
+            double buttonsHeight = noBackButton
+                ? 37 + 5          // hamburger + bottom margin
+                : 37 + 5 + 37 + 5; // back + spacing + hamburger + bottom margin
+            result = titleBarHeight + 5 + buttonsHeight + 5; // top margin + buttons + gap
+        }
+        else
+        {
+            // Original behavior: fixed heights from the AXAML template scaled to titleBarHeight.
+            const double baselineTitleBarHeight = 44.0;
+            double baseHeight = noBackButton ? 60.0 : 90.0;
+            double delta = baseHeight - baselineTitleBarHeight;
+            result = Math.Max(titleBarHeight + delta, baseHeight);
+        }
 
         _marginPanel.Height = result;
 
-        // Push the buttons panel down so it sits flush below the titlebar.
         if (_stackPanelButtons != null)
-            _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 5, 5, 5);
+        {
+            double topMargin = ButtonsPanelOffset ? titleBarHeight + 5 : 5;
+            _stackPanelButtons.Margin = new Thickness(5, topMargin, 5, 5);
+        }
 
-        Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={titleBarHeight} noBack={noBackButton} → {result}");
+        Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={titleBarHeight} noBack={noBackButton} offset={ButtonsPanelOffset} → {result}");
     }
     
     private void OnBoundsChanged(Rect rect)
