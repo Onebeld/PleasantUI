@@ -316,7 +316,11 @@ public class PleasantFileChooser : TemplatedControl
     private void Attach()
     {
         if (_quickLinks    is not null) _quickLinks.SelectionChanged  += OnQuickLinkSelected;
-        if (_fileList      is not null) _fileList.DoubleTapped        += OnFileListDoubleTapped;
+        if (_fileList      is not null)
+        {
+            _fileList.DoubleTapped      += OnFileListDoubleTapped;
+            _fileList.SelectionChanged  += OnFileListSelectionChanged;
+        }
         if (_locationBox   is not null) _locationBox.KeyDown          += OnLocationKeyDown;
         if (_filterBox     is not null) _filterBox.TextChanged        += OnFilterTextChanged;
         if (_filterCombo   is not null) _filterCombo.SelectionChanged += OnFilterComboChanged;
@@ -330,7 +334,11 @@ public class PleasantFileChooser : TemplatedControl
     private void Detach()
     {
         if (_quickLinks    is not null) _quickLinks.SelectionChanged  -= OnQuickLinkSelected;
-        if (_fileList      is not null) _fileList.DoubleTapped        -= OnFileListDoubleTapped;
+        if (_fileList      is not null)
+        {
+            _fileList.DoubleTapped      -= OnFileListDoubleTapped;
+            _fileList.SelectionChanged  -= OnFileListSelectionChanged;
+        }
         if (_locationBox   is not null) _locationBox.KeyDown          -= OnLocationKeyDown;
         if (_filterBox     is not null) _filterBox.TextChanged        -= OnFilterTextChanged;
         if (_filterCombo   is not null) _filterCombo.SelectionChanged -= OnFilterComboChanged;
@@ -354,6 +362,18 @@ public class PleasantFileChooser : TemplatedControl
     {
         if (_vm is null || _fileList?.SelectedItem is not PleasantFileChooserItem item) return;
         _vm.OpenItem(item);
+    }
+
+    private void OnFileListSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (_vm is null || _fileList is null) return;
+
+        _vm.SelectedItems.Clear();
+        foreach (var obj in _fileList.SelectedItems)
+        {
+            if (obj is PleasantFileChooserItem item)
+                _vm.SelectedItems.Add(item);
+        }
     }
 
     private void OnLocationKeyDown(object? sender, KeyEventArgs e)
