@@ -43,6 +43,7 @@
 
         <!-- ── Scrollable body ────────────────────────────────────────── -->
         <SmoothScrollViewer Grid.Row="1"
+                            Margin="0 8 0 0"
                             HorizontalScrollBarVisibility="Disabled"
                             VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="BodyPanel"
@@ -80,6 +81,7 @@
         <Border x:Name="ProgressBarWrapper"
                 Grid.Row="2"
                 Height="0"
+                Margin="0 4 0 0"
                 ClipToBounds="True"
                 IsHitTestVisible="False">
             <Border.Transitions>
