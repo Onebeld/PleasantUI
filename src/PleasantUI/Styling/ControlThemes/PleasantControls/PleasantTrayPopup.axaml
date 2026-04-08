@@ -38,12 +38,20 @@
                                                 Padding="14 12">
                                             <Grid ColumnDefinitions="Auto,*,Auto">
 
-                                                <!-- App icon -->
-                                                <ContentPresenter Grid.Column="0"
-                                                                  Content="{TemplateBinding AppIcon}"
-                                                                  Width="36" Height="36"
-                                                                  VerticalAlignment="Center"
-                                                                  Margin="0 0 10 0" />
+                                                <!-- App icon: Image for IImage sources, ContentPresenter for everything else -->
+                                                <Panel Grid.Column="0"
+                                                       Width="36" Height="36"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0 0 10 0"
+                                                       Name="PART_AppIconPanel">
+                                                    <Image x:Name="PART_AppIconImage"
+                                                           Width="36" Height="36"
+                                                           Stretch="Uniform" />
+                                                    <ContentPresenter x:Name="PART_AppIconPresenter"
+                                                                      Content="{TemplateBinding AppIcon}"
+                                                                      Width="36" Height="36"
+                                                                      IsVisible="False" />
+                                                </Panel>
 
                                                 <!-- Title + status -->
                                                 <StackPanel Grid.Column="1"
