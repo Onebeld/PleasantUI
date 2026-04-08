@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using PleasantUI.Controls;
+using PleasantUI.Controls.Chrome;
 using PleasantUI.Core;
 
 namespace PleasantUI.Example.Desktop;
@@ -48,6 +49,10 @@ public partial class App : PleasantUiExampleApp
             };
         
         Main = new MainWindow { DataContext = ViewModel };
+
+        // Apply compact titlebar now that Main exists (UpdateVguiExampleStyles ran before Main was created)
+        if (PleasantSettings.Current?.Theme == "VGUI" && Main is PleasantWindow winInit)
+            winInit.TitleBarType = PleasantTitleBar.Type.Compact;
 
         TopLevel = TopLevel.GetTopLevel(Main as PleasantWindow)
                    ?? throw new NullReferenceException("TopLevel is null");
@@ -181,5 +186,10 @@ public partial class App : PleasantUiExampleApp
                 _vguiExampleStyles = null;
             }
         }
+
+        if (Main is PleasantWindow win)
+            win.TitleBarType = isVgui
+                ? PleasantTitleBar.Type.Compact
+                : PleasantTitleBar.Type.ClassicExtended;
     }
 }

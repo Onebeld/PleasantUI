@@ -95,5 +95,15 @@
                 </OnPlatform.macOS>
             </OnPlatform>
         </Style>
+        <Style Selector="^[TitleBarType=Compact]">
+            <OnPlatform>
+                <OnPlatform.Default>
+                    <Setter Property="TitleBarHeight" Value="27" />
+                </OnPlatform.Default>
+                <OnPlatform.macOS>
+                    <Setter Property="TitleBarHeight" Value="23" />
+                </OnPlatform.macOS>
+            </OnPlatform>
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

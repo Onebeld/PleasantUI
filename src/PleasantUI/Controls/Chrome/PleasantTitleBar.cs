@@ -52,7 +52,12 @@ public class PleasantTitleBar : TemplatedControl
         /// <summary>
         /// The title bar is slightly larger than usual
         /// </summary>
-        ClassicExtended = 1
+        ClassicExtended = 1,
+
+        /// <summary>
+        /// A compact title bar that takes up minimal vertical space
+        /// </summary>
+        Compact = 2
     }
 
     private bool isMacOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
