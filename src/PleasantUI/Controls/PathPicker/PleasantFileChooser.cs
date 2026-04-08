@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -376,6 +377,7 @@ public class PleasantFileChooser : TemplatedControl
             if (obj is PleasantFileChooserItem item)
                 _vm.SelectedItems.Add(item);
         }
+        Debug.WriteLine($"[FileChooser] SelectionChanged → SelectedItems count={_vm.SelectedItems.Count}, FileName=\"{_vm.FileName}\"");
     }
 
     private void OnLocationKeyDown(object? sender, KeyEventArgs e)
@@ -399,7 +401,11 @@ public class PleasantFileChooser : TemplatedControl
             _vm.SelectedFilterIndex = _filterCombo.SelectedIndex;
     }
 
-    private void OnOkClicked(object? sender, RoutedEventArgs e)     => _vm?.Confirm();
+    private void OnOkClicked(object? sender, RoutedEventArgs e)
+    {
+        Debug.WriteLine($"[FileChooser] OkClicked — FileName=\"{_vm?.FileName}\", SelectedItems={_vm?.SelectedItems.Count ?? 0}");
+        _vm?.Confirm();
+    }
     private void OnCancelClicked(object? sender, RoutedEventArgs e)  => _vm?.Cancel();
     private void OnBackClicked(object? sender, RoutedEventArgs e)    => _vm?.GoBack();
     private void OnForwardClicked(object? sender, RoutedEventArgs e) => _vm?.GoForward();
@@ -443,12 +449,14 @@ public class PleasantFileChooser : TemplatedControl
         {
             if (resultSet) return;
             resultSet = true;
-            await dialog.CloseAsync();
+            Debug.WriteLine($"[FileChooser] CloseRequested — Result=[{string.Join(", ", vm.Result ?? [])}]");
+            // Set result BEFORE closing so the ShowAsync continuation's TrySetResult(null) loses the race
             tcs.TrySetResult(vm.Result);
+            await dialog.CloseAsync();
         };
 
         await dialog.ShowAsync(topLevel);
-        tcs.TrySetResult(null);
+        tcs.TrySetResult(null);  // no-op if CloseRequested already set the result
         return await tcs.Task;
     }
 }

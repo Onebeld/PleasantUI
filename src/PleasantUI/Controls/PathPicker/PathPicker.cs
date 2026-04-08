@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Avalonia;
@@ -265,6 +266,7 @@ public partial class PathPicker : TemplatedControl
         if (_syncLock) return;
         _syncLock = true;
         SelectedPathsText = string.Join(Environment.NewLine, SelectedPaths);
+        Debug.WriteLine($"[PathPicker] SyncPathsToText → SelectedPathsText=\"{SelectedPathsText}\"");
         _syncLock = false;
         UpdatePseudoClasses();
     }
@@ -279,6 +281,7 @@ public partial class PathPicker : TemplatedControl
             .Select(s => s.Trim())
             .Where(s => s.Length > 0)
             .ToArray()) ?? [];
+        Debug.WriteLine($"[PathPicker] SyncTextToPaths → SelectedPaths count={SelectedPaths.Count}");
         _syncLock = false;
         UpdatePseudoClasses();
     }
@@ -295,7 +298,11 @@ public partial class PathPicker : TemplatedControl
     private async void OnButtonClick(object? sender, RoutedEventArgs e)
     {
         var topLevel = TopLevel.GetTopLevel(this);
-        if (topLevel is null) return;
+        if (topLevel is null)
+        {
+            Debug.WriteLine("[PathPicker] OnButtonClick — TopLevel is null, aborting");
+            return;
+        }
 
         try
         {
@@ -305,12 +312,13 @@ public partial class PathPicker : TemplatedControl
 
             if (UseCustomPicker)
             {
-                // Build filter list for the custom picker
+                Debug.WriteLine($"[PathPicker] Using custom picker, Mode={Mode}");
+
                 var filters = ParseFileFilter(FileFilter)?
                     .Select(f => new PleasantFileChooserFilter(
                         f.Name ?? string.Empty,
                         (IReadOnlyList<string>)(f.Patterns?
-                            .Select(p => p.TrimStart('*'))  // "*.txt" → ".txt"
+                            .Select(p => p.TrimStart('*'))
                             .ToArray() ?? [])))
                     .ToList()
                     ?? new List<PleasantFileChooserFilter>();
@@ -323,11 +331,18 @@ public partial class PathPicker : TemplatedControl
                     InitialDirectory = SuggestedStartPath,
                     Filters          = filters
                 });
+
+                Debug.WriteLine($"[PathPicker] Custom picker returned {picked?.Count ?? 0} path(s): [{(picked is null ? "null" : string.Join(", ", picked))}]");
             }
             else
             {
-                // Platform-native picker
-                if (topLevel.StorageProvider is not { } storage) return;
+                Debug.WriteLine($"[PathPicker] Using platform picker, Mode={Mode}");
+
+                if (topLevel.StorageProvider is not { } storage)
+                {
+                    Debug.WriteLine("[PathPicker] StorageProvider is null");
+                    return;
+                }
 
                 IReadOnlyList<string?> raw = Mode switch
                 {
@@ -338,22 +353,32 @@ public partial class PathPicker : TemplatedControl
                 };
 
                 picked = raw.Where(p => p is not null).Select(p => p!).ToList();
+
+                Debug.WriteLine($"[PathPicker] Platform picker returned {picked.Count} path(s): [{string.Join(", ", picked)}]");
             }
 
             var nonNull = picked?.Where(p => !string.IsNullOrEmpty(p)).ToList()
                           ?? new List<string>();
 
+            Debug.WriteLine($"[PathPicker] nonNull count={nonNull.Count}, IsClearSelectionOnCancel={IsClearSelectionOnCancel}");
+
             if (nonNull.Count > 0)
+            {
+                Debug.WriteLine($"[PathPicker] Setting SelectedPaths → [{string.Join(", ", nonNull)}]");
                 SelectedPaths = nonNull;
+                Debug.WriteLine($"[PathPicker] SelectedPathsText after sync = \"{SelectedPathsText}\"");
+            }
             else if (IsClearSelectionOnCancel)
+            {
                 SelectedPaths = [];
+            }
 
             if (nonNull.Count > 0 || !IsOmitCommandOnCancel)
                 Command?.Execute(SelectedPaths);
         }
         catch (Exception ex)
         {
-            Logger.TryGet(LogEventLevel.Error, "PathPicker")?.Log(this, ex.ToString());
+            Debug.WriteLine($"[PathPicker] Exception: {ex}");
         }
         finally
         {
