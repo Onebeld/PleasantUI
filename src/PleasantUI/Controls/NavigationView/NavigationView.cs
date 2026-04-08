@@ -386,6 +386,8 @@ public class NavigationView : TreeView
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
         IsOpenProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnIsOpenChanged(e));
+        ShowBackButtonProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
+        DisplayModeProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
     }
 
     /// <summary>
@@ -434,6 +436,15 @@ public class NavigationView : TreeView
             Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={titleBarHeight}");
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
+            UpdateMarginPanel();
+
+            window.GetObservable(PleasantWindow.TitleBarHeightProperty)
+                .Subscribe(new AnonymousObserver<double>(h =>
+                {
+                    titleBarHeight = h;
+                    UpdateContainerTitleHeight(window);
+                    UpdateMarginPanel();
+                }));
         }
 
         UpdateTitleAndSelectedContent();
@@ -518,6 +529,26 @@ public class NavigationView : TreeView
         _container.CornerRadius = new CornerRadius(8);
         _container.Margin = margin;
     }
+
+    private void UpdateMarginPanel()
+    {
+        if (_marginPanel == null) return;
+
+        // The AXAML template sets PART_MarginPanel height via style setters:
+        //   ShowBackButton=true  → 90px  (designed for 44px ClassicExtended titlebar, delta=46)
+        //   ShowBackButton=false → 60px  (designed for 44px ClassicExtended titlebar, delta=16)
+        //   DisplayMode=Overlay  → 60px  (same)
+        // We replicate those deltas scaled to the actual titleBarHeight.
+        const double baselineTitleBarHeight = 44.0;
+        bool noBackButton = !ShowBackButton || DisplayMode == SplitViewDisplayMode.Overlay;
+        double baseHeight = noBackButton ? 60.0 : 90.0;
+        double delta = baseHeight - baselineTitleBarHeight;
+        double result = Math.Max(titleBarHeight + delta, baseHeight);
+
+        _marginPanel.Height = result;
+        Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={titleBarHeight} noBack={noBackButton} → {result}");
+    }    
+    
     private void OnBoundsChanged(Rect rect)
     {
         // Ignore zero-size bounds — this fires during initial layout before the window is rendered.

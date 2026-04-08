@@ -192,12 +192,6 @@ public partial class App : PleasantUiExampleApp
             win.TitleBarType = isVgui
                 ? PleasantTitleBar.Type.Compact
                 : PleasantTitleBar.Type.ClassicExtended;
-
-            // Force a full layout refresh so the NavigationView re-measures
-            // against the new TitleBarHeight / window Padding.Top
-            var content = win.Content;
-            win.Content = null;
-            win.Content = content;
         }
     }
 }
