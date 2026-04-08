@@ -13,8 +13,8 @@
     <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="11 5 10 5" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -51,7 +51,7 @@
                                   Height="12"
                                   Width="12"
                                   Margin="0,0,10,0"
-                                  Data="{StaticResource ChevronDownRegular}"
+                                  Data="{DynamicResource ChevronDownRegular}"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
                                   Foreground="{DynamicResource TextFillColor2}" />

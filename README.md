@@ -229,9 +229,9 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 
 ```xml
 <Button Content="Default" />
-<Button Theme="{StaticResource AccentButtonTheme}" Content="Accent" />
-<Button Theme="{StaticResource DangerButtonTheme}" Content="Danger" />
-<Button Theme="{StaticResource AppBarButtonTheme}" Content="AppBar" />
+<Button Theme="{DynamicResource AccentButtonTheme}" Content="Accent" />
+<Button Theme="{DynamicResource DangerButtonTheme}" Content="Danger" />
+<Button Theme="{DynamicResource AppBarButtonTheme}" Content="AppBar" />
 ```
 
 ## 📃 OptionsDisplayItem

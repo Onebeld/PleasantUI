@@ -17,7 +17,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="SliderThumbTheme" TargetType="Thumb">
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="ClipToBounds" Value="False" />
@@ -153,7 +153,7 @@
                                         <Thumb Classes="SliderThumbStyle" Name="thumb"
                                                Margin="0" Padding="0"
                                                DataContext="{TemplateBinding Value}"
-                                               Theme="{StaticResource SliderThumbTheme}"
+                                               Theme="{DynamicResource SliderThumbTheme}"
                                                Height="18"
                                                Width="18" />
                                     </Track>
@@ -242,7 +242,7 @@
                                                 </RepeatButton>
                                             </Track.IncreaseButton>
                                             <Thumb Classes="SliderThumbStyle"
-                                                   Theme="{StaticResource SliderThumbTheme}"
+                                                   Theme="{DynamicResource SliderThumbTheme}"
                                                    Name="SliderThumb" Margin="0"
                                                    Padding="0" DataContext="{TemplateBinding Value}"
                                                    Height="18"

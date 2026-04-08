@@ -13,7 +13,7 @@
 
                 <OptionsDisplayItem Header="Header"
                                     Description="This is a description of whatver this does"
-                                    Icon="{StaticResource CheckmarkRegular}"
+                                    Icon="{DynamicResource CheckmarkRegular}"
                                     Content="Hello World">
                     <OptionsDisplayItem.ActionButton>
                         <ComboBox />
@@ -31,7 +31,7 @@
     <ControlTheme x:Key="{x:Type OptionsDisplayItem}" TargetType="OptionsDisplayItem">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Padding" Value="11 0 11 0" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -59,9 +59,9 @@
                                 <StackPanel Grid.Row="0" Grid.Column="1"
                                             VerticalAlignment="Center"
                                             Margin="6 0 0 0">
-                                    <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
+                                    <TextBlock Theme="{DynamicResource BaseTextBlockTheme}"
                                                Text="{TemplateBinding Header}" />
-                                    <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
+                                    <TextBlock Theme="{DynamicResource CaptionTextBlockTheme}"
                                                Text="{TemplateBinding Description}"
                                                Foreground="{DynamicResource TextFillColor2}"
                                                IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
@@ -145,14 +145,14 @@
             <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^:navigates /template/ Path#Chevron">
-            <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
 
         <Style Selector="^:expands /template/ Viewbox#ChevronHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^:expands /template/ Path#Chevron">
-            <Setter Property="Data" Value="{StaticResource ChevronDownRegular}" />
+            <Setter Property="Data" Value="{DynamicResource ChevronDownRegular}" />
         </Style>
 
         <Style Selector="^:expanded /template/ Viewbox#ChevronHost">

@@ -8,11 +8,11 @@
             <Border Grid.Column="0"
                     Grid.Row="1"
                     CornerRadius="4"
-                    Background="{StaticResource AccentFillColorDefaultBrush}"
+                    Background="{DynamicResource AccentFillColorDefaultBrush}"
                     Margin="5"
                     Padding="50"
                     ToolTip.Tip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
-                <TextBlock Text="Hover Here" Foreground="{StaticResource AccentTextFillColorBrush}" />
+                <TextBlock Text="Hover Here" Foreground="{DynamicResource AccentTextFillColorBrush}" />
             </Border>
             <CheckBox Grid.Column="1"
                       Margin="5"
@@ -23,17 +23,17 @@
                     CornerRadius="4"
                     Grid.Column="1"
                     Grid.Row="1"
-                    Background="{StaticResource AccentFillColorDefaultBrush}"
+                    Background="{DynamicResource AccentFillColorDefaultBrush}"
                     Margin="5"
                     Padding="50"
                     ToolTip.Placement="Bottom">
                 <ToolTip.Tip>
                     <StackPanel>
-                        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="ToolTip" />
+                        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="ToolTip" />
                         <TextBlock Text="A control which pops up a hint when a control is hovered" />
                     </StackPanel>
                 </ToolTip.Tip>
-                <TextBlock Text="ToolTip bottom placement" Foreground="{StaticResource AccentTextFillColorBrush}" />
+                <TextBlock Text="ToolTip bottom placement" Foreground="{DynamicResource AccentTextFillColorBrush}" />
             </Border>
         </Grid>
     </Design.PreviewWith>
@@ -42,7 +42,7 @@
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="8 6" />
         <Setter Property="MaxWidth" Value="450" />

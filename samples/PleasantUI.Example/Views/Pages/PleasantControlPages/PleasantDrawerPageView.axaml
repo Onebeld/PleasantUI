@@ -14,11 +14,11 @@
                        Foreground="{DynamicResource TextFillColor2}" />
 
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="12">
                     <TextBlock Text="{Localize PleasantDrawer/DemoTitle}"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <TextBlock Text="{Localize PleasantDrawer/DemoDesc}"
                                TextWrapping="Wrap"
                                FontSize="12"
@@ -33,7 +33,7 @@
                         </WrapPanel.Styles>
                         <Button x:Name="OpenRightButton"
                                 Content="{Localize PleasantDrawer/OpenRight}"
-                                Theme="{StaticResource AccentButtonTheme}" />
+                                Theme="{DynamicResource AccentButtonTheme}" />
                         <Button x:Name="OpenLeftButton"
                                 Content="{Localize PleasantDrawer/OpenLeft}" />
                         <Button x:Name="OpenTopButton"
@@ -46,11 +46,11 @@
 
             <!-- Properties reference -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="10">
                     <TextBlock Text="Key properties"
-                               Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Position"         FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="Left / Right / Top / Bottom — which edge the drawer slides from." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />

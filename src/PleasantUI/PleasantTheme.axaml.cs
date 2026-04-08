@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
@@ -353,9 +354,41 @@ public class PleasantTheme : Styles
         System.Diagnostics.Debug.WriteLine($"[PleasantTheme] ResolveTheme - resolved to {themeVariant}");
 
         if (Application.Current is not null)
+        {
             Application.Current.RequestedThemeVariant = themeVariant;
+            UpdateVGUIStyle(PleasantSettings.Current.Theme == "VGUI");
+        }
     }
 
+    private StyleInclude? _vguiStyleInclude;
+
+    /// <summary>
+    /// Adds or removes VGUI control styles from this PleasantTheme Styles instance when VGUI theme is
+    /// activated/deactivated. Adding to <c>this</c> (rather than Application.Current.Styles) ensures that
+    /// DynamicResource lookups inside VGUIControlStyles.axaml can resolve keys from PleasantTheme.Resources.
+    /// </summary>
+    private void UpdateVGUIStyle(bool isVGUI)
+    {
+        if (isVGUI)
+        {
+            if (_vguiStyleInclude is null)
+            {
+                _vguiStyleInclude = new StyleInclude(new Uri("avares://PleasantUI/"))
+                {
+                    Source = new Uri("avares://PleasantUI/Styling/VGUIControlStyles.axaml")
+                };
+                Add(_vguiStyleInclude);
+            }
+        }
+        else
+        {
+            if (_vguiStyleInclude is not null)
+            {
+                Remove(_vguiStyleInclude);
+                _vguiStyleInclude = null;
+            }
+        }
+    }
 
     private void ResolveAccentColor(IPlatformSettings platformSettings)
     {

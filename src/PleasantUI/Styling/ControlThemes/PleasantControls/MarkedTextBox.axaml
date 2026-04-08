@@ -21,7 +21,7 @@
         <Setter Property="SelectionForegroundBrush" Value="{DynamicResource ForegroundAccentLightColor1}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="6 5 6 5" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -34,7 +34,7 @@
                           InputGesture="{x:Static TextBox.CutGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource CutRegular}"
+                            <Path Data="{DynamicResource CutRegular}"
                                   Fill="{DynamicResource TextFillColor1}"
                                   Stroke="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />
@@ -47,7 +47,7 @@
                           InputGesture="{x:Static TextBox.CopyGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource CopyRegular}"
+                            <Path Data="{DynamicResource CopyRegular}"
                                   Fill="{DynamicResource TextFillColor1}"
                                   Stroke="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />
@@ -60,7 +60,7 @@
                           InputGesture="{x:Static TextBox.PasteGesture}">
                     <MenuItem.Icon>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource PasteRegular}"
+                            <Path Data="{DynamicResource PasteRegular}"
                                   Fill="{DynamicResource TextFillColor1}"
                                   Stroke="{DynamicResource TextFillColor1}"
                                   Stretch="Uniform" />

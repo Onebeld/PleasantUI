@@ -83,6 +83,7 @@
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantFlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantTrayPopup.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSnackbar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />

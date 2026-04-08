@@ -10,7 +10,7 @@
 
             <!-- Result indicator -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="12 8">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <TextBlock Text="{Localize PinCode/LastValue}"
@@ -26,7 +26,7 @@
             <!-- Default (digits + letters, 4 cells) -->
             <StackPanel Spacing="8">
                 <TextBlock Text="{Localize PinCode/Default}"
-                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PinCode/DefaultDesc}"
                            Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12" />
@@ -36,7 +36,7 @@
             <!-- Digit only -->
             <StackPanel Spacing="8">
                 <TextBlock Text="{Localize PinCode/DigitOnly}"
-                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PinCode/DigitOnlyDesc}"
                            Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12" />
@@ -46,7 +46,7 @@
             <!-- Letter only -->
             <StackPanel Spacing="8">
                 <TextBlock Text="{Localize PinCode/LetterOnly}"
-                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PinCode/LetterOnlyDesc}"
                            Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12" />
@@ -56,7 +56,7 @@
             <!-- Password mask -->
             <StackPanel Spacing="8">
                 <TextBlock Text="{Localize PinCode/PasswordMask}"
-                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PinCode/PasswordMaskDesc}"
                            Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12" />
@@ -66,7 +66,7 @@
             <!-- 6 cells -->
             <StackPanel Spacing="8">
                 <TextBlock Text="{Localize PinCode/SixCells}"
-                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PinCode/SixCellsDesc}"
                            Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12" />

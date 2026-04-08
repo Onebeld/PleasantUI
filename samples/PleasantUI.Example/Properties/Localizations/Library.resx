@@ -159,4 +159,19 @@
     <data name="FullScreenButtonDescription" xml:space="preserve">
         <value>Show a full screen toggle button in the title bar</value>
     </data>
+    <data name="NavPosition" xml:space="preserve">
+        <value>Navigation Position</value>
+    </data>
+    <data name="NavPositionDescription" xml:space="preserve">
+        <value>Choose where the navigation pane is placed</value>
+    </data>
+    <data name="NavPosition/Left" xml:space="preserve">
+        <value>Left</value>
+    </data>
+    <data name="NavPosition/Top" xml:space="preserve">
+        <value>Top</value>
+    </data>
+    <data name="NavPosition/Bottom" xml:space="preserve">
+        <value>Bottom</value>
+    </data>
 </root>

@@ -10,7 +10,7 @@
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                 </ListBox>
-                <ListBox ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
+                <ListBox ItemContainerTheme="{DynamicResource HorizontalListBoxItem}" Width="250" Height="150">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal" />
@@ -28,7 +28,7 @@
     <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="12 0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -65,7 +65,7 @@
                             Width="3"
                             Height="16"
                             Margin="1 0 0 0"
-                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                            CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Background="{DynamicResource AccentLightColor2}" />
                 </Panel>
             </ControlTemplate>
@@ -141,7 +141,7 @@
         </ControlTheme.Animations>
 
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -166,7 +166,7 @@
                             Background="{DynamicResource AccentLightColor2}"
                             Height="3"
                             MinWidth="16"
-                            CornerRadius="{StaticResource RoundedControlCornerRadius}"
+                            CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             VerticalAlignment="Top"
                             Margin="20 1 20 0 " />
                 </Panel>

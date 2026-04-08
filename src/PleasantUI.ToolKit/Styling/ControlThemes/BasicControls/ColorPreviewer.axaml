@@ -20,7 +20,7 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
-                                Background="{StaticResource CheckeredBackgroundBrush}" />
+                                Background="{DynamicResource CheckeredBackgroundBrush}" />
                         <Border x:Name="PART_AccentDecrement2Border"
                                 Grid.Column="0"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Left}}"
@@ -43,7 +43,7 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
-                                Background="{StaticResource CheckeredBackgroundBrush}" />
+                                Background="{DynamicResource CheckeredBackgroundBrush}" />
                         <Border x:Name="PART_AccentIncrement1Border"
                                 Grid.Column="0"
                                 Tag="1"
@@ -62,7 +62,7 @@
                                   Offset="0 0"
                                   BlurRadius="5">
                         <Panel>
-                            <Border Background="{StaticResource CheckeredBackgroundBrush}"
+                            <Border Background="{DynamicResource CheckeredBackgroundBrush}"
                                     CornerRadius="{TemplateBinding CornerRadius}" />
                             <Border x:Name="PreviewBorder"
                                     CornerRadius="{TemplateBinding CornerRadius}"

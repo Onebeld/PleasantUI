@@ -43,7 +43,7 @@ public partial class MainWindow : PleasantWindow
 ```xml
 <PleasantWindow TitleBarType="ClassicExtended"
                 ExtendsContentIntoTitleBar="True"
-                DisplayIcon="{StaticResource MyLogo}"
+                DisplayIcon="{DynamicResource MyLogo}"
                 Subtitle="v2.0">
     <PleasantWindow.TitleContent>
         <TextBox PlaceholderText="Search…" Width="200" />

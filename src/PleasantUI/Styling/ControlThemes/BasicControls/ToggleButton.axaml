@@ -5,7 +5,7 @@
         <Border Padding="70">
             <StackPanel Spacing="5">
                 <ToggleButton Content="Content" />
-                <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}" Content="Content" />
+                <ToggleButton Theme="{DynamicResource AppBarToggleButtonTheme}" Content="Content" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -32,6 +32,6 @@
     <ControlTheme x:Key="AppBarToggleButtonTheme" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
     </ControlTheme>
 </ResourceDictionary>

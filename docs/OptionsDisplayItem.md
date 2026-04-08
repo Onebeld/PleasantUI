@@ -21,14 +21,14 @@ A settings-style row control with a header, optional description, icon, action b
 ```xml
 <OptionsDisplayItem Header="Notifications"
                     Description="Manage notification preferences"
-                    Icon="{StaticResource BellOutline}" />
+                    Icon="{DynamicResource BellOutline}" />
 ```
 
 ## With action control
 
 ```xml
 <OptionsDisplayItem Header="Dark mode"
-                    Icon="{StaticResource WeatherNight}">
+                    Icon="{DynamicResource WeatherNight}">
     <OptionsDisplayItem.ActionButton>
         <ToggleSwitch IsChecked="{Binding IsDarkMode}" />
     </OptionsDisplayItem.ActionButton>
@@ -48,7 +48,7 @@ A settings-style row control with a header, optional description, icon, action b
 ```xml
 <OptionsDisplayItem Header="Account"
                     Description="Manage your account settings"
-                    Icon="{StaticResource AccountOutline}"
+                    Icon="{DynamicResource AccountOutline}"
                     Navigates="True"
                     NavigationCommand="{Binding GoToAccountCommand}" />
 ```

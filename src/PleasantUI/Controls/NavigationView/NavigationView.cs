@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia;
@@ -13,8 +14,23 @@ using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Reactive;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
+using PleasantUI.Controls.Chrome;
 
 namespace PleasantUI.Controls;
+
+/// <summary>
+/// Specifies the position of the navigation pane.
+/// </summary>
+public enum NavigationViewPosition
+{
+    /// <summary>Side pane (default left-side SplitView layout).</summary>
+    Left,
+    /// <summary>Horizontal bar above the content area.</summary>
+    Top,
+    /// <summary>Horizontal bar below the content area.</summary>
+    Bottom
+}
 
 /// <summary>
 /// Represents a navigation view control that displays a tree of items.
@@ -23,7 +39,7 @@ namespace PleasantUI.Controls;
 /// The <c>NavigationView</c> control inherits from the <see cref="TreeView" /> control and adds additional
 /// properties for customizing the appearance and behavior of the navigation view.
 /// </remarks>
-[PseudoClasses(":normal", ":compact")]
+[PseudoClasses(":normal", ":compact", ":left", ":top", ":bottom")]
 [TemplatePart("PART_HeaderItem", typeof(Button))]
 [TemplatePart("PART_BackButton", typeof(Button))]
 [TemplatePart("PART_SelectedContentPresenter", typeof(ContentPresenter))]
@@ -38,20 +54,32 @@ public class NavigationView : TreeView
     private DockPanel? _dockPanel;
     private Border? _marginPanel;
     private StackPanel? _stackPanelButtons;
+    private DockPanel? _topBottomLayout;
 
     private Button? _backButton;
     private ICommand? _backButtonCommand;
 
+    private PleasantWindow? _window;
+
     private CancellationTokenSource? _cancellationTokenSource;
     private ContentPresenter? _contentPresenter;
+    private ContentPresenter? _topBottomContentPresenter;
+
+    // Cache: the last content object routed to a presenter, and which position it was routed for.
+    // Used to re-assign content to fresh presenter instances after a template re-application
+    // (e.g. theme change) without touching the old presenters at all.
+    private object? _cachedContent;
+    private NavigationViewPosition _cachedContentPosition;
 
     private Button? _headerItem;
 
     private IEnumerable<string>? _itemsAsStrings;
 
     private object? _selectedContent;
-        
-    private ILogical? _logicalSelectedContent;
+
+    // Separate item collections for top/bottom nav bar — never shared with the left-pane Items.
+    private readonly Avalonia.Collections.AvaloniaList<NavigationViewItem> _topItems = new();
+    private readonly Avalonia.Collections.AvaloniaList<NavigationViewItem> _bottomItems = new();
 
     // Stores the IsExpanded state of group items before the pane collapses to compact mode,
     // keyed by the NavigationViewItem instance so each item's state is tracked independently.
@@ -162,6 +190,36 @@ public class NavigationView : TreeView
     /// </summary>
     public static readonly StyledProperty<bool> ShowBackButtonProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(ShowBackButton));
+
+    /// <summary>
+    /// Defines the <see cref="ButtonsPanelOffset" /> property.
+    /// When true, the hamburger/back buttons panel is pushed down by the window titlebar height
+    /// so it sits flush below the titlebar rather than overlapping it.
+    /// </summary>
+    public static readonly StyledProperty<bool> ButtonsPanelOffsetProperty =
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(ButtonsPanelOffset), false);
+
+    /// <summary>
+    /// Defines the <see cref="Position" /> property.
+    /// </summary>
+    public static readonly StyledProperty<NavigationViewPosition> PositionProperty =
+        AvaloniaProperty.Register<NavigationView, NavigationViewPosition>(nameof(Position), NavigationViewPosition.Left);
+
+    /// <summary>
+    /// Defines the <see cref="TopItems" /> property.
+    /// Items displayed in the top navigation bar (Position=Top). Completely separate from <see cref="ItemsControl.Items"/>.
+    /// </summary>
+    public static readonly DirectProperty<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>> TopItemsProperty =
+        AvaloniaProperty.RegisterDirect<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>>(
+            nameof(TopItems), o => o.TopItems);
+
+    /// <summary>
+    /// Defines the <see cref="BottomItems" /> property.
+    /// Items displayed in the bottom navigation bar (Position=Bottom). Completely separate from <see cref="ItemsControl.Items"/>.
+    /// </summary>
+    public static readonly DirectProperty<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>> BottomItemsProperty =
+        AvaloniaProperty.RegisterDirect<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>>(
+            nameof(BottomItems), o => o.BottomItems);
 
     /// <summary>
     /// Gets or sets the geometry of the icon.
@@ -288,6 +346,37 @@ public class NavigationView : TreeView
     }
 
     /// <summary>
+    /// Gets or sets whether the hamburger/back buttons panel is pushed down by the titlebar height.
+    /// When true (default), buttons sit flush below the titlebar. When false, original behavior.
+    /// </summary>
+    public bool ButtonsPanelOffset
+    {
+        get => GetValue(ButtonsPanelOffsetProperty);
+        set => SetValue(ButtonsPanelOffsetProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the position of the navigation pane (Left, Top, or Bottom).
+    /// </summary>
+    public NavigationViewPosition Position
+    {
+        get => GetValue(PositionProperty);
+        set => SetValue(PositionProperty, value);
+    }
+
+    /// <summary>
+    /// Gets the items collection for the top navigation bar.
+    /// Populate this instead of <see cref="ItemsControl.Items"/> when using <see cref="NavigationViewPosition.Top"/>.
+    /// </summary>
+    public Avalonia.Collections.AvaloniaList<NavigationViewItem> TopItems => _topItems;
+
+    /// <summary>
+    /// Gets the items collection for the bottom navigation bar.
+    /// Populate this instead of <see cref="ItemsControl.Items"/> when using <see cref="NavigationViewPosition.Bottom"/>.
+    /// </summary>
+    public Avalonia.Collections.AvaloniaList<NavigationViewItem> BottomItems => _bottomItems;
+
+    /// <summary>
     /// Gets or sets the display mode of the SplitView control.
     /// </summary>
     /// <remarks>
@@ -386,14 +475,18 @@ public class NavigationView : TreeView
         SelectionModeProperty.OverrideDefaultValue<NavigationView>(SelectionMode.Single);
         SelectedItemProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnSelectedItemChanged());
         IsOpenProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnIsOpenChanged(e));
+        ShowBackButtonProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
+        DisplayModeProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
+        ButtonsPanelOffsetProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
+        PositionProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnPositionChanged(e));
     }
-
     /// <summary>
     /// Initializes a new instance of the <see cref="NavigationView"/> class.
     /// </summary>
     public NavigationView()
     {
         PseudoClasses.Add(":normal");
+        PseudoClasses.Add(":left");
         this.GetObservable(BoundsProperty).Subscribe(new AnonymousObserver<Rect>(bounds =>
         {
             Dispatcher.UIThread.InvokeAsync(() => OnBoundsChanged(bounds));
@@ -410,12 +503,24 @@ public class NavigationView : TreeView
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
+        _topBottomContentPresenter = e.NameScope.Find<ContentPresenter>("PART_TopBottomContentPresenter");
         _container = e.NameScope.Find<Border>("PART_Container");
         _mainGrid = e.NameScope.Find<Grid>("PART_SplitViewGrid");
         _dockPanel = e.NameScope.Find<DockPanel>("PART_ItemsPresenterDockPanel");
         _marginPanel = e.NameScope.Find<Border>("PART_MarginPanel");
+        _topBottomLayout = e.NameScope.Find<DockPanel>("PART_TopBottomLayout");
+
+        // Wire up top/bottom bar item selection — items are owned by TopItems/BottomItems, not Items.
+        WireTopBottomItemSelection(e.NameScope.Find<ItemsControl>("PART_TopItemsControl"));
+        WireTopBottomItemSelection(e.NameScope.Find<ItemsControl>("PART_BottomItemsControl"));
 
         Debug.WriteLine($"[NavigationView] OnApplyTemplate parts: headerItem={_headerItem is not null} backButton={_backButton is not null} contentPresenter={_contentPresenter is not null}");
+
+        // Template re-application (e.g. theme change) gives us brand-new presenter instances.
+        // The old presenters are being torn down by Avalonia — we must NOT touch them.
+        // Instead, immediately push the cached content into the correct new presenter so the
+        // view is never blank after a theme switch.
+        RestoreCachedContent();
 
         if (_headerItem != null)
         {
@@ -430,10 +535,36 @@ public class NavigationView : TreeView
 
         if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
+            _window = window;
             titleBarHeight = window.TitleBarHeight;
             Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={titleBarHeight}");
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
+            UpdateMarginPanel();
+            UpdateTitleBarOffset(window);
+            UpdateTopBottomLayout(window);
+
+            window.GetObservable(PleasantWindow.TitleBarHeightProperty)
+                .Subscribe(new AnonymousObserver<double>(h =>
+                {
+                    titleBarHeight = h;
+                    UpdateContainerTitleHeight(window);
+                    UpdateMarginPanel();
+                    UpdateTopBottomLayout(window);
+                }));
+
+            // Auto-sync ButtonsPanelOffset with TitleBarType — Compact = offset on, others = off
+            window.GetObservable(PleasantWindow.TitleBarTypeProperty)
+                .Subscribe(new AnonymousObserver<PleasantTitleBar.Type>(type =>
+                {
+                    ButtonsPanelOffset = type == PleasantTitleBar.Type.Compact;
+                }));
+
+            this.GetObservable(ButtonsPanelOffsetProperty)
+                .Subscribe(new AnonymousObserver<bool>(_ => UpdateTitleBarOffset(window)));
+
+            this.GetObservable(CompactPaneLengthProperty)
+                .Subscribe(new AnonymousObserver<double>(_ => UpdateTitleBarOffset(window)));
         }
 
         UpdateTitleAndSelectedContent();
@@ -444,13 +575,19 @@ public class NavigationView : TreeView
         base.OnLoaded(e);
         Debug.WriteLine($"[NavigationView] OnLoaded itemCount={Items.Count} firstItem={(Items.Count > 0 ? (Items[0] as NavigationViewItem)?.Header : "none")}");
 
-        if (Items.Count > 0)
+        if (Position == NavigationViewPosition.Left)
         {
-            if (Items[0] is ISelectable selectableItem)
+            if (Items.Count > 0 && Items[0] is ISelectable selectableItem)
             {
                 Debug.WriteLine($"[NavigationView] OnLoaded selecting first item header={(selectableItem as NavigationViewItem)?.Header}");
                 SelectSingleItem(selectableItem, false);
             }
+        }
+        else
+        {
+            var firstItems = Position == NavigationViewPosition.Top ? _topItems : _bottomItems;
+            if (firstItems.Count > 0)
+                SelectTopBottomItem(firstItems[0]);
         }
     }
 
@@ -460,7 +597,7 @@ public class NavigationView : TreeView
         base.OnAttachedToLogicalTree(e);
         Debug.WriteLine($"[NavigationView] OnAttachedToLogicalTree itemCount={Items.Count}");
 
-        if (Items.Count > 0 && Items[0] is ISelectable selectableItem)
+        if (Position == NavigationViewPosition.Left && Items.Count > 0 && Items[0] is ISelectable selectableItem)
         {
             Debug.WriteLine($"[NavigationView] OnAttachedToLogicalTree selecting first item header={(selectableItem as NavigationViewItem)?.Header}");
             SelectSingleItem(selectableItem);
@@ -518,6 +655,89 @@ public class NavigationView : TreeView
         _container.CornerRadius = new CornerRadius(8);
         _container.Margin = margin;
     }
+
+    private void UpdateTitleBarOffset(PleasantWindow window)
+    {
+        if (!window.EnableCustomTitleBar) return;
+
+        // Find the PleasantTitleBar in the window's template
+        var titleBar = window.GetTemplateChildren().OfType<PleasantTitleBar>().FirstOrDefault();
+        if (titleBar == null) return;
+
+        if (Position != NavigationViewPosition.Left)
+        {
+            // Top/Bottom: no hamburger button at all — title hugs the left edge.
+            titleBar.LeftClearance = 0;
+        }
+        else if (ButtonsPanelOffset)
+        {
+            // Left + hamburger below titlebar — remove clearance so logo hugs left
+            titleBar.LeftClearance = 0;
+        }
+        else
+        {
+            // Left + hamburger overlaps titlebar — restore clearance so logo clears the hamburger
+            titleBar.LeftClearance = 40;
+        }
+    }
+
+    /// <summary>
+    /// Applies the correct top margin to <c>PART_TopBottomLayout</c> so the horizontal nav bar
+    /// sits flush below the custom titlebar (Top position) or the content area is inset correctly
+    /// (Bottom position). For Left position this is a no-op.
+    /// </summary>
+    private void UpdateTopBottomLayout(PleasantWindow window)
+    {
+        if (_topBottomLayout is null) return;
+
+        if (!window.EnableCustomTitleBar || Position == NavigationViewPosition.Left)
+        {
+            _topBottomLayout.Margin = new Thickness(0);
+            return;
+        }
+
+        // For Top: push the entire DockPanel down by titleBarHeight so the bar clears the titlebar.
+        // For Bottom: same — the content area starts below the titlebar, bar docks to the bottom.
+        _topBottomLayout.Margin = new Thickness(0, titleBarHeight, 0, 0);
+        Debug.WriteLine($"[NavigationView] UpdateTopBottomLayout position={Position} titleBarHeight={titleBarHeight} → margin=0,{titleBarHeight},0,0");
+    }
+
+    private void UpdateMarginPanel()
+    {
+        if (_marginPanel == null) return;
+
+        bool noBackButton = !ShowBackButton || DisplayMode == SplitViewDisplayMode.Overlay;
+
+        double result;
+        if (ButtonsPanelOffset)
+        {
+            // Buttons panel top = titleBarHeight + 5 (margin).
+            // Button heights: back (37, optional) + spacing (5) + hamburger (37) + bottom margin (5).
+            double buttonsHeight = noBackButton
+                ? 37 + 5          // hamburger + bottom margin
+                : 37 + 5 + 37 + 5; // back + spacing + hamburger + bottom margin
+            result = titleBarHeight + 5 + buttonsHeight + 5; // top margin + buttons + gap
+        }
+        else
+        {
+            // Original behavior: fixed heights from the AXAML template scaled to titleBarHeight.
+            const double baselineTitleBarHeight = 44.0;
+            double baseHeight = noBackButton ? 60.0 : 90.0;
+            double delta = baseHeight - baselineTitleBarHeight;
+            result = Math.Max(titleBarHeight + delta, baseHeight);
+        }
+
+        _marginPanel.Height = result;
+
+        if (_stackPanelButtons != null)
+        {
+            double topMargin = ButtonsPanelOffset ? titleBarHeight + 5 : 5;
+            _stackPanelButtons.Margin = new Thickness(5, topMargin, 5, 5);
+        }
+
+        Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={titleBarHeight} noBack={noBackButton} offset={ButtonsPanelOffset} → {result}");
+    }
+    
     private void OnBoundsChanged(Rect rect)
     {
         // Ignore zero-size bounds — this fires during initial layout before the window is rendered.
@@ -527,6 +747,9 @@ public class NavigationView : TreeView
             Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → ignored (zero width, initial layout)");
             return;
         }
+
+        // Dynamic display mode only applies to the left-pane layout.
+        if (Position != NavigationViewPosition.Left) return;
 
         if (DynamicDisplayMode)
         {
@@ -559,12 +782,15 @@ public class NavigationView : TreeView
     private void SelectSingleItemCore(object? item, bool runAnimation = true)
     {
         Debug.WriteLine($"[NavigationView] SelectSingleItemCore item={(item as NavigationViewItem)?.Header} tag={(item as NavigationViewItem)?.Tag}");
-        if (SelectedItem != item && TransitionAnimation is not null && _contentPresenter is not null && runAnimation)
+        
+        var activePresenter = Position == NavigationViewPosition.Left ? _contentPresenter : _topBottomContentPresenter;
+        
+        if (SelectedItem != item && TransitionAnimation is not null && activePresenter is not null && runAnimation)
         {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            TransitionAnimation.RunAsync(_contentPresenter, _cancellationTokenSource.Token);
+            TransitionAnimation.RunAsync(activePresenter, _cancellationTokenSource.Token);
         }
 
         // Deselect all previously selected items in the tree before selecting the new one
@@ -593,12 +819,207 @@ public class NavigationView : TreeView
         }
     }
 
+    private void OnPositionChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        var position = (NavigationViewPosition)(e.NewValue ?? NavigationViewPosition.Left);
+        PseudoClasses.Remove(":left");
+        PseudoClasses.Remove(":top");
+        PseudoClasses.Remove(":bottom");
+        switch (position)
+        {
+            case NavigationViewPosition.Top:
+                PseudoClasses.Add(":top");
+                break;
+            case NavigationViewPosition.Bottom:
+                PseudoClasses.Add(":bottom");
+                break;
+            default:
+                PseudoClasses.Add(":left");
+                break;
+        }
+        Debug.WriteLine($"[NavigationView] OnPositionChanged position={position}");
+
+        // Rebuild the Top/Bottom proxy item collections from Items.
+        RebuildTopBottomProxies(position);
+
+        // Update top/bottom layout margins and titlebar clearance for the new position.
+        if (_window is not null)
+        {
+            UpdateTopBottomLayout(_window);
+            UpdateTitleBarOffset(_window);
+        }
+
+        // Re-route the current content to the now-active presenter.
+        UpdateTitleAndSelectedContent();
+    }
+
+    /// <summary>
+    /// Rebuilds <see cref="TopItems"/> or <see cref="BottomItems"/> with proxy clones of the
+    /// top-level items when switching to a horizontal layout, or clears them when
+    /// returning to the Left layout.  Proxies are new instances — they never share visual identity
+    /// with the originals, so Avalonia's single-visual-parent rule is never violated.
+    /// </summary>
+    private void RebuildTopBottomProxies(NavigationViewPosition position)
+    {
+        _topItems.Clear();
+        _bottomItems.Clear();
+
+        if (position == NavigationViewPosition.Left)
+            return;
+
+        var target = position == NavigationViewPosition.Top ? _topItems : _bottomItems;
+
+        foreach (var original in Items.OfType<NavigationViewItem>())
+        {
+            var proxy = CreateProxy(original);
+            target.Add(proxy);
+        }
+    }
+
+    /// <summary>
+    /// Creates a proxy <see cref="NavigationViewItem"/> that mirrors the data of <paramref name="original"/>
+    /// without sharing any visual or logical parent.  Selection on the proxy is forwarded to the original
+    /// so that <see cref="UpdateTitleAndSelectedContent"/> always operates on the real item.
+    /// </summary>
+    private NavigationViewItem CreateProxy(NavigationViewItem original)
+    {
+        var proxy = new NavigationViewItem
+        {
+            Header  = original.Header,
+            Icon    = original.Icon,
+            Tag     = original.Tag,
+            Content = original.Content,
+            // Give the proxy a reference to this NavigationView so its Select() can call back.
+            NavigationView = this,
+        };
+
+        // Forward proxy selection → original selection so content routing works correctly.
+        proxy.GetObservable(NavigationViewItem.IsSelectedProperty)
+            .Subscribe(new AnonymousObserver<bool>(isSelected =>
+            {
+                if (!isSelected) return;
+                // Deselect all other proxies in the same collection.
+                var collection = Position == NavigationViewPosition.Top
+                    ? (IEnumerable<NavigationViewItem>)_topItems
+                    : _bottomItems;
+                foreach (var other in collection)
+                    if (!ReferenceEquals(other, proxy))
+                        other.IsSelected = false;
+
+                // Mirror selection onto the original so UpdateTitleAndSelectedContent
+                // picks up the right Content.
+                if (!original.IsSelected)
+                    original.IsSelected = true;
+
+                // Drive content update directly — SelectedItem won't change because
+                // the proxy is not in Items, so OnSelectedItemChanged won't fire.
+                SelectedContent = original.Content;
+                _cachedContent = original.Content;
+                _cachedContentPosition = Position;
+
+                bool isLeft = Position == NavigationViewPosition.Left;
+                var activeP   = isLeft ? _contentPresenter         : _topBottomContentPresenter;
+                var inactiveP = isLeft ? _topBottomContentPresenter : _contentPresenter;
+
+                if (inactiveP is not null && inactiveP.Content is not null)
+                    inactiveP.Content = null;
+
+                if (activeP is not null && original.Content is Visual cv2)
+                {
+                    var parent = cv2.GetVisualParent();
+                    if (parent is ContentPresenter stale2 && !ReferenceEquals(stale2, activeP))
+                        stale2.Content = null;
+                }
+
+                if (activeP is not null && !ReferenceEquals(activeP.Content, original.Content))
+                    activeP.Content = original.Content;
+            }));
+
+        return proxy;
+    }
+
     private void UpdateTitleAndSelectedContent()
     {
         if (SelectedItem is not NavigationViewItem item) return;
         Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent selectedItem header={item.Header} hasContent={item.Content is not null}");
-        if (item.Content is not null)
-            SelectedContent = item.Content;
+        if (item.Content is null) return;
+
+        SelectedContent = item.Content;
+
+        // Update cache so OnApplyTemplate can restore after a theme change.
+        _cachedContent = item.Content;
+        _cachedContentPosition = Position;
+
+        bool isLeft = Position == NavigationViewPosition.Left;
+        var activePresenter   = isLeft ? _contentPresenter         : _topBottomContentPresenter;
+        var inactivePresenter = isLeft ? _topBottomContentPresenter : _contentPresenter;
+
+        Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent isLeft={isLeft} activePresenter={activePresenter?.Name} inactivePresenter={inactivePresenter?.Name}");
+
+        // Clear inactive presenter — it must not hold the content.
+        if (inactivePresenter is not null && inactivePresenter.Content is not null)
+        {
+            Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent clearing inactive presenter {inactivePresenter.Name}");
+            inactivePresenter.Content = null;
+        }
+
+        if (activePresenter is null)
+        {
+            Debug.WriteLine("[NavigationView] UpdateTitleAndSelectedContent activePresenter is null — skipping assignment");
+            return;
+        }
+
+        // Guard: if the active presenter already holds this exact content, nothing to do.
+        if (ReferenceEquals(activePresenter.Content, item.Content))
+        {
+            Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent already set on {activePresenter.Name} — skipping");
+            return;
+        }
+
+        // If the content is currently parented to a stale presenter (different instance from
+        // activePresenter), clear that stale presenter first. We identify "stale" by checking
+        // the content's visual parent — if it's a ContentPresenter that isn't our active one,
+        // it's a leftover from a previous template application.
+        if (item.Content is Visual contentVisual)
+        {
+            var currentParent = contentVisual.GetVisualParent();
+            if (currentParent is ContentPresenter stalePresenter &&
+                !ReferenceEquals(stalePresenter, activePresenter))
+            {
+                Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent detaching from stale presenter {stalePresenter.Name} → clearing its Content");
+                stalePresenter.Content = null;
+            }
+        }
+
+        Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent assigning content to {activePresenter.Name}");
+        activePresenter.Content = item.Content;
+    }
+
+    /// <summary>
+    /// Restores the cached content to the correct presenter after a template re-application.
+    /// Called from <see cref="OnApplyTemplate"/> immediately after the new presenter fields are set.
+    /// Does NOT touch the old (now-stale) presenter instances — Avalonia tears those down itself.
+    /// </summary>
+    private void RestoreCachedContent()
+    {
+        if (_cachedContent is null) return;
+
+        bool isLeft = _cachedContentPosition == NavigationViewPosition.Left;
+        var activePresenter   = isLeft ? _contentPresenter         : _topBottomContentPresenter;
+        var inactivePresenter = isLeft ? _topBottomContentPresenter : _contentPresenter;
+
+        Debug.WriteLine($"[NavigationView] RestoreCachedContent cachedPosition={_cachedContentPosition} isLeft={isLeft} activePresenter={activePresenter?.Name}");
+
+        // Ensure inactive presenter is empty.
+        if (inactivePresenter is not null)
+            inactivePresenter.Content = null;
+
+        if (activePresenter is null) return;
+
+        // Assign cached content directly — the new presenter has no content yet so there
+        // is no visual-parent conflict. The old presenter is being discarded by Avalonia.
+        activePresenter.Content = _cachedContent;
+        Debug.WriteLine($"[NavigationView] RestoreCachedContent assigned to {activePresenter.Name}");
     }
 
     private void OnSelectedItemChanged()
@@ -663,6 +1084,74 @@ public class NavigationView : TreeView
                 Debug.WriteLine($"[NavigationView] CloseAllSubMenuPopups closing popup on header={item.Header}");
                 item.IsSubMenuOpen = false;
             }
+        }
+    }
+
+    /// <summary>
+    /// Subscribes to pointer-released events on all items inside a top/bottom <see cref="ItemsControl"/>
+    /// so that clicking an item triggers selection and content update.
+    /// Items are owned by <see cref="TopItems"/> or <see cref="BottomItems"/> — never by <see cref="ItemsControl.Items"/>.
+    /// </summary>
+    private void WireTopBottomItemSelection(ItemsControl? control)
+    {
+        if (control is null) return;
+
+        // Use AddHandler with handledEventsToo=false so we catch the bubble from NavigationViewItem children.
+        control.AddHandler(PointerReleasedEvent, (_, args) =>
+        {
+            // Walk up from the original source to find the NavigationViewItem that was clicked.
+            var source = args.Source as Avalonia.Visual;
+            while (source is not null)
+            {
+                if (source is NavigationViewItem navItem && control.Items.Contains(navItem))
+                {
+                    SelectTopBottomItem(navItem);
+                    break;
+                }
+                source = source.GetVisualParent();
+            }
+        }, handledEventsToo: false);
+    }
+
+    private void SelectTopBottomItem(NavigationViewItem item)
+    {
+        Debug.WriteLine($"[NavigationView] SelectTopBottomItem header={item.Header}");
+
+        // Deselect all top+bottom items except the clicked one.
+        foreach (var i in _topItems)
+            i.IsSelected = !ReferenceEquals(i, item) ? false : true;
+        foreach (var i in _bottomItems)
+            i.IsSelected = !ReferenceEquals(i, item) ? false : true;
+
+        if (item.Content is not null)
+        {
+            if (TransitionAnimation is not null && _topBottomContentPresenter is not null)
+            {
+                _cancellationTokenSource?.Cancel();
+                _cancellationTokenSource = new CancellationTokenSource();
+                TransitionAnimation.RunAsync(_topBottomContentPresenter, _cancellationTokenSource.Token);
+            }
+            SelectedContent = item.Content;
+
+            // Update cache.
+            _cachedContent = item.Content;
+            _cachedContentPosition = Position;
+
+            // Detach from any stale visual parent before assigning to the active presenter.
+            if (item.Content is Visual cv)
+            {
+                var currentParent = cv.GetVisualParent();
+                if (currentParent is ContentPresenter stale && !ReferenceEquals(stale, _topBottomContentPresenter))
+                {
+                    Debug.WriteLine($"[NavigationView] SelectTopBottomItem detaching from stale presenter {stale.Name}");
+                    stale.Content = null;
+                }
+            }
+
+            if (_contentPresenter is not null && _contentPresenter.Content is not null)
+                _contentPresenter.Content = null;
+            if (_topBottomContentPresenter is not null && !ReferenceEquals(_topBottomContentPresenter.Content, item.Content))
+                _topBottomContentPresenter.Content = item.Content;
         }
     }
 }

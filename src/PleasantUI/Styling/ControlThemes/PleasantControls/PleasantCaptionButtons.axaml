@@ -16,7 +16,7 @@
                     <StackPanel.Styles>
                         <Style Selector="Button">
                             <Setter Property="Width" Value="45" />
-                            <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
+                            <Setter Property="Theme" Value="{DynamicResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="0" />
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
@@ -33,15 +33,15 @@
                     </Button>
                     <Button Name="PART_MinimizeButton"
                             ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
-                        <PathIcon Data="{StaticResource SubtractRegular}" Width="10" Height="10" />
+                        <PathIcon Data="{DynamicResource SubtractRegular}" Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_MaximizeButton">
                         <PathIcon Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_CloseButton"
-                            Theme="{StaticResource CloseButtonTheme}"
+                            Theme="{DynamicResource CloseButtonTheme}"
                             ToolTip.Tip="{Localize Close, Default='Close'}">
-                        <PathIcon Data="{StaticResource DismissRegular}" Width="10" Height="10" />
+                        <PathIcon Data="{DynamicResource DismissRegular}" Width="10" Height="10" />
                     </Button>
                 </StackPanel>
             </ControlTemplate>
@@ -62,25 +62,25 @@
         <Style Selector="^ /template/ Button#PART_FullScreenButton">
             <Setter Property="ToolTip.Tip" Value="{Localize FullScreen, Default='Full Screen'}" />
             <Style Selector="^ PathIcon">
-                <Setter Property="Data" Value="{StaticResource FullScreenEnterRegular}" />
+                <Setter Property="Data" Value="{DynamicResource FullScreenEnterRegular}" />
             </Style>
         </Style>
         <Style Selector="^:fullscreen /template/ Button#PART_FullScreenButton">
             <Setter Property="ToolTip.Tip" Value="{Localize ExitFullScreen, Default='Exit Full Screen'}" />
             <Style Selector="^ PathIcon">
-                <Setter Property="Data" Value="{StaticResource FullScreenExitRegular}" />
+                <Setter Property="Data" Value="{DynamicResource FullScreenExitRegular}" />
             </Style>
         </Style>
 
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PathIcon">
-                <Setter Property="Data" Value="{StaticResource MaximizeRegular}" />
+                <Setter Property="Data" Value="{DynamicResource MaximizeRegular}" />
             </Style>
         </Style>
 
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PathIcon">
-                <Setter Property="Data" Value="{StaticResource SquareMultipleRegular}" />
+                <Setter Property="Data" Value="{DynamicResource SquareMultipleRegular}" />
                 <Setter Property="FontSize" Value="2" />
             </Style>
         </Style>
@@ -96,7 +96,7 @@
                         <Style Selector="Button">
                             <Setter Property="Width" Value="12" />
                             <Setter Property="Height" Value="12" />
-                            <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
+                            <Setter Property="Theme" Value="{DynamicResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="99" />
                         </Style>
 

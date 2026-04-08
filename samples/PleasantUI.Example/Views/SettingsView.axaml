@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:PleasantUI.Example.ViewModels.Pages"
              xmlns:models="clr-namespace:PleasantUI.Core.Models;assembly=PleasantUI"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
              xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
              xmlns:example="clr-namespace:PleasantUI.Example"
@@ -19,7 +20,7 @@
         <StackPanel Margin="25" Spacing="5">
             <TextBlock Text="{Localize Settings}"
                        Margin="0 0 0 10"
-                       Theme="{StaticResource TitleTextBlockTheme}" />
+                       Theme="{DynamicResource TitleTextBlockTheme}" />
             
             <OptionsDisplayItem Header="{Localize Language}">
                 <OptionsDisplayItem.ActionButton>
@@ -42,8 +43,23 @@
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
+            <OptionsDisplayItem Header="{Localize NavPosition, Default='Navigation Position'}"
+                                Description="{Localize NavPositionDescription, Default='Choose where the navigation pane is placed'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox MinWidth="150"
+                              ItemsSource="{CompiledBinding NavPositions}"
+                              SelectedItem="{CompiledBinding NavPosition}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type controls:NavigationViewPosition}">
+                                <TextBlock Text="{Localize {CompiledBinding}, Context=NavPosition}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
             <OptionsDisplayItem Header="{Localize Theme}"
-                                Icon="{StaticResource BrushVariantRegular}"
+                                Icon="{DynamicResource BrushVariantRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -68,7 +84,7 @@
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5">
                         <Panel>
-                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
+                            <TextBlock Theme="{DynamicResource BaseTextBlockTheme}"
                                        Text="{Localize CustomThemes}"
                                        VerticalAlignment="Center" />
                             
@@ -81,7 +97,7 @@
                             </Button>
                         </Panel>
 
-                        <Border CornerRadius="{StaticResource ControlCornerRadius}"
+                        <Border CornerRadius="{DynamicResource ControlCornerRadius}"
                                 Background="{DynamicResource BackgroundColor2}"
                                 Height="250">
                             <Panel>
@@ -106,7 +122,7 @@
                                                             IsVisible="{CompiledBinding $parent[ContentControl].IsPointerOver}"
                                                             Orientation="Horizontal"
                                                             Spacing="5">
-                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
+                                                    <Button Theme="{DynamicResource AppBarButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
@@ -114,10 +130,10 @@
                                                         <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
                                                     </Button>
 
-                                                    <Button Theme="{StaticResource DangerButtonTheme}"
+                                                    <Button Theme="{DynamicResource DangerButtonTheme}"
                                                             Width="30"
                                                             Height="30"
-                                                            CornerRadius="{StaticResource ControlCornerRadius}"
+                                                            CornerRadius="{DynamicResource ControlCornerRadius}"
                                                             BorderThickness="0"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
                                                             CommandParameter="{CompiledBinding}">

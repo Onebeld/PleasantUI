@@ -30,7 +30,7 @@
                         <!-- App name — fallback when no icon or custom content -->
                         <TextBlock x:Name="AppNameText"
                                    Text="{TemplateBinding AppName}"
-                                   Theme="{StaticResource TitleTextBlockTheme}"
+                                   Theme="{DynamicResource TitleTextBlockTheme}"
                                    HorizontalAlignment="Center"
                                    IsVisible="{TemplateBinding AppName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
 

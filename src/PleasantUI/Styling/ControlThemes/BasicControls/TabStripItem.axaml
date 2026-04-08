@@ -35,7 +35,7 @@
                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
 
                         <Border Name="PART_SelectedPipe"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}"
                                 Background="{DynamicResource AccentLightColor2}"
                                 Width="48"
                                 Height="3"

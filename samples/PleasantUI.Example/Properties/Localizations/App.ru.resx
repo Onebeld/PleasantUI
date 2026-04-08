@@ -41,6 +41,9 @@
     <data name="Theme/Lunar" xml:space="preserve">
         <value>Лунная</value>
     </data>
+    <data name="Theme/VGUI" xml:space="preserve">
+        <value>VGUI</value>
+    </data>
     <data name="Theme/Sunny" xml:space="preserve">
         <value>Солнечная</value>
     </data>
@@ -95,6 +98,7 @@
     <data name="InlineCalendar" xml:space="preserve"><value>Встроенный календарь</value></data>
     <data name="DatePicker" xml:space="preserve"><value>Выбор даты</value></data>
     <data name="PickADate" xml:space="preserve"><value>Выберите дату...</value></data>
+    <data name="SpinnerDatePicker" xml:space="preserve"><value>Выбор даты (спиннер)</value></data>
     <!-- Carousel page -->
     <data name="Carousel" xml:space="preserve"><value>Карусель</value></data>
     <data name="Previous" xml:space="preserve"><value>← Назад</value></data>
@@ -537,5 +541,32 @@
     <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Лево — Низ</value></data>
     <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Право — Верх</value></data>
     <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Право — Низ</value></data>
+
+    <!-- PleasantMiniWindow page -->
+    <data name="CardTitle/PleasantMiniWindow"   xml:space="preserve"><value>PleasantMiniWindow</value></data>
+    <data name="Card/PleasantMiniWindow"        xml:space="preserve"><value>Компактное плавающее окно с настраиваемой строкой заголовка, закреплением поверх других окон и опциональным размытием — вдохновлено классическим интерфейсом Valve VGUI.</value></data>
+    <data name="MiniWindow/Description"         xml:space="preserve"><value>PleasantMiniWindow — лёгкое плавающее окно с настраиваемой ручкой перетаскивания, кнопкой закрепления поверх и опциональным размытием. Две демонстрации ниже воссоздают классический интерфейс Steam 2003 — панель навигации и список игр.</value></data>
+    <data name="MiniWindow/LaunchTitle"         xml:space="preserve"><value>Запустить демонстрационные окна</value></data>
+    <data name="MiniWindow/LaunchDesc"          xml:space="preserve"><value>Открывает отдельные экземпляры PleasantMiniWindow, вдохновлённые оригинальным клиентом Steam.</value></data>
+    <data name="MiniWindow/OpenSteam"           xml:space="preserve"><value>Открыть панель Steam</value></data>
+    <data name="MiniWindow/OpenGames"           xml:space="preserve"><value>Открыть список игр</value></data>
+    <data name="MiniWindow/GamesTitle"          xml:space="preserve"><value>Игры</value></data>
+    <data name="MiniWindow/MyGames"             xml:space="preserve"><value>МОИ ИГРЫ</value></data>
+    <data name="MiniWindow/Close"               xml:space="preserve"><value>Закрыть</value></data>
+    <data name="MiniWindow/NavGames"            xml:space="preserve"><value>Игры</value></data>
+    <data name="MiniWindow/NavGamesDesc"        xml:space="preserve"><value>Выберите игру и начните играть!</value></data>
+    <data name="MiniWindow/NavFriends"          xml:space="preserve"><value>Друзья</value></data>
+    <data name="MiniWindow/NavFriendsDesc"      xml:space="preserve"><value>Найдите друзей, общайтесь, играйте вместе</value></data>
+    <data name="MiniWindow/NavServers"          xml:space="preserve"><value>Серверы</value></data>
+    <data name="MiniWindow/NavServersDesc"      xml:space="preserve"><value>Просмотр многопользовательских игр в процессе</value></data>
+    <data name="MiniWindow/NavMonitor"          xml:space="preserve"><value>Монитор</value></data>
+    <data name="MiniWindow/NavMonitorDesc"      xml:space="preserve"><value>Мониторинг сетевой активности Steam</value></data>
+    <data name="MiniWindow/NavSettings"         xml:space="preserve"><value>Настройки</value></data>
+    <data name="MiniWindow/NavSettingsDesc"     xml:space="preserve"><value>Изменить параметры Steam</value></data>
+    <data name="MiniWindow/PropsTitle"          xml:space="preserve"><value>Ключевые свойства</value></data>
+    <data name="MiniWindow/PropEnableCustomTitleBar" xml:space="preserve"><value>Показывает настраиваемую ручку перетаскивания и кнопки заголовка вместо системной строки заголовка.</value></data>
+    <data name="MiniWindow/PropShowPinButton"   xml:space="preserve"><value>Показывает кнопку закрепления, переключающую режим «поверх всех окон» (Topmost).</value></data>
+    <data name="MiniWindow/PropShowHiddenButton" xml:space="preserve"><value>Показывает кнопку сворачивания, скрывающую окно на панель задач.</value></data>
+    <data name="MiniWindow/PropEnableBlur"      xml:space="preserve"><value>Включает акриловое/размытое прозрачное фоновое покрытие окна.</value></data>
 
 </root>

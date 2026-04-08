@@ -21,7 +21,7 @@
         <Setter Property="Background"      Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius"    Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="FontSize"        Value="14" />
 
         <Setter Property="Template">
@@ -31,41 +31,31 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         ClipToBounds="True">
-                    <Grid ColumnDefinitions="220,*">
+                    <!--
+                        Layout: 3 columns x 2 rows
+                          Col 0 = sidebar (220px), spans both rows
+                          Col 1 = content (*): row 0 = progress bar (3px), row 1 = scroll+footer
+                          Col 2 = right border line (2px), row 1 only — visible below progress bar,
+                                  runs from the rounded top-right corner down to the footer
+                    -->
+                    <Grid ColumnDefinitions="220,*,2" RowDefinitions="3,*">
 
-                        <!-- ── LEFT SIDEBAR ──────────────────────────────── -->
-                        <Border Grid.Column="0"
+                        <!-- ── LEFT SIDEBAR — spans both rows ────────────── -->
+                        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                 Background="{DynamicResource ControlFillColor2}"
                                 BorderBrush="{DynamicResource ControlBorderColor}"
                                 BorderThickness="0 0 1 0">
                             <Grid RowDefinitions="Auto,*,Auto">
 
-                                <!-- App icon + name -->
-                                <StackPanel Grid.Row="0"
-                                            Margin="20 24 20 16"
-                                            Spacing="8"
-                                            HorizontalAlignment="Left">
-                                    <ContentPresenter Content="{TemplateBinding AppIcon}"
-                                                      Width="36" Height="36" />
+                                <StackPanel Grid.Row="0" Margin="20 24 20 16" Spacing="8" HorizontalAlignment="Left">
+                                    <ContentPresenter Content="{TemplateBinding AppIcon}" Width="36" Height="36" />
                                     <TextBlock Text="{TemplateBinding AppName}"
-                                               FontSize="15"
-                                               FontWeight="SemiBold"
+                                               FontSize="15" FontWeight="SemiBold"
                                                Foreground="{DynamicResource TextFillColor1}"
                                                TextWrapping="Wrap" />
                                 </StackPanel>
 
-                                <!--
-                                    Sidebar step list.
-                                    Uses separate Border elements per completion state so the
-                                    background colour changes correctly without converters.
-                                    All icon paths are inline — no StaticResource dependency —
-                                    so they render correctly inside ContentDialog and standalone
-                                    PleasantWindow where the main resource dictionary may not
-                                    be in scope.
-                                -->
-                                <ItemsControl Grid.Row="1"
-                                              Margin="20 8 20 8"
-                                              ItemsSource="{TemplateBinding Steps}">
+                                <ItemsControl Grid.Row="1" Margin="20 8 20 8" ItemsSource="{TemplateBinding Steps}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="controls:WizardStep">
                                             <Grid ColumnDefinitions="24,*" Margin="0 6">
@@ -74,17 +64,13 @@
                                                         <Style.Animations>
                                                             <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
                                                                 <KeyFrame Cue="0%">
-                                                                    <Setter Property="ScaleTransform.ScaleX"
-                                                                            Value="0.5" />
-                                                                    <Setter Property="ScaleTransform.ScaleY"
-                                                                            Value="0.5" />
+                                                                    <Setter Property="ScaleTransform.ScaleX" Value="0.5" />
+                                                                    <Setter Property="ScaleTransform.ScaleY" Value="0.5" />
                                                                     <Setter Property="Opacity" Value="0" />
                                                                 </KeyFrame>
                                                                 <KeyFrame Cue="100%">
-                                                                    <Setter Property="ScaleTransform.ScaleX"
-                                                                            Value="1" />
-                                                                    <Setter Property="ScaleTransform.ScaleY"
-                                                                            Value="1" />
+                                                                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                                                                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
                                                                     <Setter Property="Opacity" Value="1" />
                                                                 </KeyFrame>
                                                             </Animation>
@@ -92,25 +78,20 @@
                                                     </Style>
                                                 </Grid.Styles>
 
-                                                <!-- Pending: accent-colored number circle -->
-                                                <Border Width="22" Height="22"
-                                                        CornerRadius="11"
+                                                <!-- Pending: number circle -->
+                                                <Border Width="22" Height="22" CornerRadius="11"
                                                         VerticalAlignment="Center"
                                                         Background="{DynamicResource AccentFillColor1}"
                                                         IsVisible="{Binding !IsCompleted}">
-                                                    <TextBlock FontSize="11"
-                                                               FontWeight="Bold"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
+                                                    <TextBlock FontSize="11" FontWeight="Bold"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource TextFillColor1}"
                                                                Text="{Binding StepNumber}" />
                                                 </Border>
 
-                                                <!-- Completed: green checkmark -->
-                                                <Border Width="22" Height="22"
-                                                        Classes="checkmark"
-                                                        CornerRadius="11"
-                                                        VerticalAlignment="Center"
+                                                <!-- Completed: success -->
+                                                <Border Width="22" Height="22" Classes="checkmark"
+                                                        CornerRadius="11" VerticalAlignment="Center"
                                                         Background="{DynamicResource SystemFillColorSuccess}">
                                                     <Border.IsVisible>
                                                         <MultiBinding Converter="{x:Static BoolConverters.And}">
@@ -120,22 +101,15 @@
                                                                      ConverterParameter="{x:Static controls:WizardStepCompletionState.Success}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
-                                                    
-                                                    <!-- Inline checkmark path: no StaticResource needed -->
                                                     <Path Data="M5,12 L10,17 L19,7"
                                                           Stroke="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
-                                                          StrokeThickness="2"
-                                                          Stretch="Uniform"
-                                                          Width="8"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center" />
+                                                          StrokeThickness="2" Stretch="Uniform" Width="8"
+                                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Border>
 
-                                                <!-- Completed: amber warning -->
-                                                <Border Width="22" Height="22"
-                                                        Classes="checkmark"
-                                                        CornerRadius="11"
-                                                        VerticalAlignment="Center"
+                                                <!-- Completed: warning -->
+                                                <Border Width="22" Height="22" Classes="checkmark"
+                                                        CornerRadius="11" VerticalAlignment="Center"
                                                         Background="{DynamicResource SystemFillColorCaution}">
                                                     <Border.IsVisible>
                                                         <MultiBinding Converter="{x:Static BoolConverters.And}">
@@ -145,19 +119,15 @@
                                                                      ConverterParameter="{x:Static controls:WizardStepCompletionState.Warning}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
-                                                    <Path Data="{StaticResource AlertOutline}"
+                                                    <Path Data="{DynamicResource AlertOutline}"
                                                           Fill="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
-                                                          Stretch="Uniform"
-                                                          Width="14" Height="14"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center" />
+                                                          Stretch="Uniform" Width="14" Height="14"
+                                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Border>
 
-                                                <!-- Completed: red error X -->
-                                                <Border Width="22" Height="22"
-                                                        Classes="checkmark"
-                                                        CornerRadius="11"
-                                                        VerticalAlignment="Center"
+                                                <!-- Completed: error -->
+                                                <Border Width="22" Height="22" Classes="checkmark"
+                                                        CornerRadius="11" VerticalAlignment="Center"
                                                         Background="{DynamicResource SystemFillColorCritical}">
                                                     <Border.IsVisible>
                                                         <MultiBinding Converter="{x:Static BoolConverters.And}">
@@ -169,19 +139,13 @@
                                                     </Border.IsVisible>
                                                     <Path Data="M7,7 L17,17 M17,7 L7,17"
                                                           Stroke="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
-                                                          StrokeThickness="2"
-                                                          Stretch="Uniform"
-                                                          Height="8"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center" />
+                                                          StrokeThickness="2" Stretch="Uniform" Height="8"
+                                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Border>
 
-                                                <!-- Step label -->
-                                                <TextBlock Grid.Column="1"
-                                                           Margin="10 0 0 0"
+                                                <TextBlock Grid.Column="1" Margin="10 0 0 0"
                                                            VerticalAlignment="Center"
-                                                           Text="{Binding Header}"
-                                                           FontSize="13"
+                                                           Text="{Binding Header}" FontSize="13"
                                                            Foreground="{DynamicResource TextFillColor1}"
                                                            TextWrapping="Wrap" />
                                             </Grid>
@@ -189,38 +153,33 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
 
-                                <TextBlock Grid.Row="2"
-                                           Margin="20 12"
+                                <TextBlock Grid.Row="2" Margin="20 12"
                                            Text="{TemplateBinding FooterText}"
-                                           FontSize="11"
-                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="11" Foreground="{DynamicResource TextFillColor3}"
                                            TextWrapping="Wrap" />
                             </Grid>
                         </Border>
 
-                        <!-- ── RIGHT CONTENT AREA ────────────────────────── -->
-                        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
+                        <!-- ── PROGRESS BAR — row 0, col 1 only ──────────── -->
+                        <ProgressBar Grid.Row="0" Grid.Column="1"
+                                     Height="3" Minimum="0" Maximum="100"
+                                     Value="{TemplateBinding Progress}"
+                                     VerticalAlignment="Stretch"
+                                     CornerRadius="0" />
 
-                            <ProgressBar Grid.Row="0"
-                                         Height="3"
-                                         Minimum="0"
-                                         Maximum="100"
-                                         Value="{TemplateBinding Progress}"
-                                         VerticalAlignment="Top"
-                                         CornerRadius="0" />
+                        <!-- ── RIGHT CONTENT — row 1, col 1 ──────────────── -->
+                        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="*,Auto">
 
-                            <ScrollViewer Grid.Row="1"
+                            <ScrollViewer Grid.Row="0"
                                           Padding="32 24 32 8"
                                           HorizontalScrollBarVisibility="Disabled"
                                           VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{TemplateBinding Steps}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="controls:WizardStep">
-                                            <StackPanel Spacing="6"
-                                                        IsVisible="{Binding IsActive}">
+                                            <StackPanel Spacing="6" IsVisible="{Binding IsActive}">
                                                 <TextBlock Text="{Binding Header}"
-                                                           FontSize="20"
-                                                           FontWeight="SemiBold"
+                                                           FontSize="20" FontWeight="SemiBold"
                                                            Foreground="{DynamicResource TextFillColor1}"
                                                            TextWrapping="Wrap" />
                                                 <TextBlock Text="{Binding Description}"
@@ -236,30 +195,35 @@
                                 </ItemsControl>
                             </ScrollViewer>
 
-                            <Border Grid.Row="2"
+                            <Border Grid.Row="1"
                                     Padding="32 12"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     Background="{DynamicResource ControlFillColor1}"
                                     BorderThickness="0 1 0 0">
                                 <Grid ColumnDefinitions="*,Auto,8,Auto,8,Auto">
                                     <Border Grid.Column="0" />
-                                    <Button Name="PART_CancelButton"
-                                            Grid.Column="1"
+                                    <Button Name="PART_CancelButton" Grid.Column="1"
                                             Content="{Localize InstallWizard/BtnCancel}"
                                             IsVisible="{TemplateBinding ShowCancelButton}"
                                             MinWidth="80" />
-                                    <Button Name="PART_BackButton"
-                                            Grid.Column="3"
+                                    <Button Name="PART_BackButton" Grid.Column="3"
                                             Content="{Localize InstallWizard/BtnBack}"
                                             MinWidth="80" />
-                                    <Button Name="PART_NextButton"
-                                            Grid.Column="5"
+                                    <Button Name="PART_NextButton" Grid.Column="5"
                                             Content="{Localize InstallWizard/BtnNext}"
-                                            Theme="{StaticResource AccentButtonTheme}"
+                                            Theme="{DynamicResource AccentButtonTheme}"
                                             MinWidth="80" />
                                 </Grid>
                             </Border>
                         </Grid>
+
+                        <!-- ── RIGHT BORDER LINE — row 1, col 2 ──────────── -->
+                        <!-- 1px column below the progress bar, full height of content+footer.
+                             Uses BorderBrush so Color resources resolve correctly. -->
+                        <Border Grid.Row="1" Grid.Column="2"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="1 0 0 0" />
+
                     </Grid>
                 </Border>
             </ControlTemplate>

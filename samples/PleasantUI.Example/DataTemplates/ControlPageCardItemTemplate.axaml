@@ -2,17 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:models="clr-namespace:PleasantUI.Example.Models">
     <DataTemplate x:Key="ControlPageCardItemTemplate" DataType="{x:Type models:ControlPageCard}">
-        <Button Command="{CompiledBinding OpenPage}"
+        <Button Classes="card-button"
+                Command="{CompiledBinding OpenPage}"
                 CommandParameter="{CompiledBinding Page}"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
-                CornerRadius="{StaticResource ControlCornerRadius}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
                 Margin="4"
                 Padding="12 10">
             <Grid ColumnDefinitions="Auto,12,*">
                 <Border Grid.Column="0"
+                        Classes="card-icon-border"
                         Width="40" Height="40"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        CornerRadius="{DynamicResource ControlCornerRadius}"
                         Background="{DynamicResource ControlFillColor2}"
                         VerticalAlignment="Top">
                     <PathIcon Data="{CompiledBinding Icon}"
@@ -22,7 +24,7 @@
                 </Border>
 
                 <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
-                    <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                    <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
                                Text="{Binding Title}"
                                TextWrapping="Wrap" />
                     <TextBlock Foreground="{DynamicResource TextFillColor2}"

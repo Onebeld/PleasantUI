@@ -15,7 +15,7 @@
 
             <!-- Result indicator -->
             <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="12 8">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <TextBlock Text="{Localize LastResult, Context=MessageBox}"
@@ -77,7 +77,7 @@
                                 Description="{Localize DangerVariantDesc, Context=MessageBox}">
                 <OptionsDisplayItem.ActionButton>
                     <Button Content="{Localize Show, Context=MessageBox}"
-                            Theme="{StaticResource DangerButtonTheme}"
+                            Theme="{DynamicResource DangerButtonTheme}"
                             Command="{CompiledBinding ShowDanger}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
@@ -95,7 +95,7 @@
             <Separator Margin="0 4" />
 
             <TextBlock Text="{Localize PleasantDialogSection, Context=MessageBox}"
-                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
                        Margin="0 4 0 0" />
 
             <!-- Rich dialog with icon + subheader + commands + footer -->
@@ -121,7 +121,7 @@
                                 Description="{Localize PleasantDialogDangerVariantDesc, Context=MessageBox}">
                 <OptionsDisplayItem.ActionButton>
                     <Button Content="{Localize Show, Context=MessageBox}"
-                            Theme="{StaticResource DangerButtonTheme}"
+                            Theme="{DynamicResource DangerButtonTheme}"
                             Command="{CompiledBinding ShowPleasantDialogDanger}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>

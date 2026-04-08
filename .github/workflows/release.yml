@@ -230,9 +230,9 @@ jobs:
           BATCH_NUM=2
           BATCH_LINES=0
           BATCH_CONTENT=""
-          MAX_BATCH_LINES=500
-          MAX_PROMPT_BYTES=24000
-          MAX_BATCHES=5
+          MAX_BATCH_LINES=300
+          MAX_PROMPT_BYTES=15000
+          MAX_BATCHES=7
 
           for FILE in $CHANGED_SRC; do
             FILE_DIFF=$(git diff "$RANGE" --unified=3 -- "$FILE" 2>/dev/null)
@@ -251,9 +251,9 @@ jobs:
                 } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
                 echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
                 # Check prompt size and truncate if needed (roughly 4 chars per token)
-            PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
+              PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
             if [ "$PROMPT_SIZE" -gt "$MAX_PROMPT_BYTES" ]; then
-              echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating..."
+              echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating to ${MAX_PROMPT_BYTES} bytes..."
               head -c "$MAX_PROMPT_BYTES" "/tmp/prompts/prompt-${BATCH_NUM}.txt" > "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp"
               mv "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp" "/tmp/prompts/prompt-${BATCH_NUM}.txt"
               printf '\n\n[Content truncated due to size limits]\n' >> "/tmp/prompts/prompt-${BATCH_NUM}.txt"
@@ -261,6 +261,7 @@ jobs:
               fi
               BATCH_LINES=0
               BATCH_CONTENT=""
+              BATCH_NUM=$((BATCH_NUM + 1))
             fi
 
             # Accumulate into current batch (skip if we already hit max batches)
@@ -290,15 +291,15 @@ jobs:
             fi
           fi
 
-          # ── Ensure prompts 2-6 exist (empty marker if no content) ─────────────
-          for N in 2 3 4 5 6; do
+          # ── Ensure prompts 2-8 exist (empty marker if no content) ─────────────
+          for N in 2 3 4 5 6 7 8; do
             if [ ! -f "/tmp/prompts/prompt-${N}.txt" ]; then
               printf 'No diff content for this batch.\n' > "/tmp/prompts/prompt-${N}.txt"
             fi
           done
 
           echo "=== All prompt sizes ==="
-          for N in 1 2 3 4 5 6; do
+          for N in 1 2 3 4 5 6 7 8; do
             printf 'prompt-%d.txt: %d bytes\n' "$N" "$(wc -c < /tmp/prompts/prompt-${N}.txt)"
           done
 
@@ -324,7 +325,7 @@ jobs:
       - name: Save pass 1 response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass1.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt
+          cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt || true
           sleep 65
 
       - name: AI pass 2 — diff batch 1
@@ -340,7 +341,7 @@ jobs:
       - name: Save pass 2 response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass2.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt
+          cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt || true
           sleep 65
 
       - name: AI pass 3 — diff batch 2
@@ -356,7 +357,7 @@ jobs:
       - name: Save pass 3 response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass3.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt
+          cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt || true
           sleep 65
 
       - name: AI pass 4 — diff batch 3
@@ -372,7 +373,7 @@ jobs:
       - name: Save pass 4 response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass4.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt
+          cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt || true
           sleep 65
 
       - name: AI pass 5 — diff batch 4
@@ -388,7 +389,7 @@ jobs:
       - name: Save pass 5 response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass5.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt
+          cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt || true
           sleep 65
 
       - name: AI pass 6 — diff batch 5
@@ -404,16 +405,48 @@ jobs:
       - name: Save pass 6 response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass6.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt
+          cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt || true
           sleep 65
 
-      - name: Build merge-A prompt (passes 1-3)
+      - name: AI pass 7 — diff batch 6
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        id: ai_pass7
+        continue-on-error: true
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-7.txt
+
+      - name: Save pass 7 response
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass7.conclusion == 'success'
+        run: |
+          cp "${{ steps.ai_pass7.outputs.response-file }}" /tmp/pass-7.txt || true
+          sleep 65
+
+      - name: AI pass 8 — diff batch 7
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        id: ai_pass8
+        continue-on-error: true
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          max-tokens: 8000
+          prompt-file: /tmp/prompts/prompt-8.txt
+
+      - name: Save pass 8 response
+        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass8.conclusion == 'success'
+        run: |
+          cp "${{ steps.ai_pass8.outputs.response-file }}" /tmp/pass-8.txt || true
+          sleep 65
+
+      - name: Build merge-A prompt (passes 1-4)
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw per-batch findings from analysis passes 1-3 of this release.' \
+            'Below are raw per-batch findings from analysis passes 1-4 of this release.' \
             '' \
             'Your task: produce a LOSSLESS intermediate summary.' \
             '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
@@ -432,10 +465,12 @@ jobs:
             cat /tmp/pass-2.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 3 — Diff batch 2\n'
             cat /tmp/pass-3.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 4 — Diff batch 3\n'
+            cat /tmp/pass-4.txt 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-merge-a.txt
           printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
 
-      - name: AI merge-A (passes 1-3)
+      - name: AI merge-A (passes 1-4)
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge_a
         continue-on-error: true
@@ -448,7 +483,7 @@ jobs:
       - name: Save merge-A response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_a.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt
+          cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt || true
           sleep 65
 
       - name: Compress merge-A output
@@ -481,16 +516,16 @@ jobs:
       - name: Save compress-A response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_a.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt
+          cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt || true
           sleep 65
 
-      - name: Build merge-B prompt (passes 4-6)
+      - name: Build merge-B prompt (passes 5-8)
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         run: |
           # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw per-batch findings from analysis passes 4-6 of this release.' \
+            'Below are raw per-batch findings from analysis passes 5-8 of this release.' \
             '' \
             'Your task: produce a LOSSLESS intermediate summary.' \
             '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
@@ -503,16 +538,18 @@ jobs:
             '---' \
             > /tmp/prompt-merge-b.txt
           {
-            printf '## Pass 4 — Diff batch 3\n'
-            cat /tmp/pass-4.txt 2>/dev/null || printf '(no output)\n'
-            printf '\n## Pass 5 — Diff batch 4\n'
+            printf '## Pass 5 — Diff batch 4\n'
             cat /tmp/pass-5.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 6 — Diff batch 5\n'
             cat /tmp/pass-6.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 7 — Diff batch 6\n'
+            cat /tmp/pass-7.txt 2>/dev/null || printf '(no output)\n'
+            printf '\n## Pass 8 — Diff batch 7\n'
+            cat /tmp/pass-8.txt 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-merge-b.txt
           printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
 
-      - name: AI merge-B (passes 4-6)
+      - name: AI merge-B (passes 5-8)
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge_b
         continue-on-error: true
@@ -525,7 +562,7 @@ jobs:
       - name: Save merge-B response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_b.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt
+          cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt || true
           sleep 65
 
       - name: Compress merge-B output
@@ -558,7 +595,7 @@ jobs:
       - name: Save compress-B response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_b.conclusion == 'success'
         run: |
-          cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt
+          cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt || true
           sleep 65
 
       - name: Build final merge prompt (compress-A + compress-B)
@@ -622,9 +659,9 @@ jobs:
             >> /tmp/prompt-final.txt
 
           {
-            printf '## Compressed list A (passes 1-3: commits, API, diff batches 1-2)\n'
+            printf '## Compressed list A (passes 1-4: commits, API, diff batches 1-3)\n'
             cat /tmp/compress-a.txt 2>/dev/null || printf '(no output)\n'
-            printf '\n## Compressed list B (passes 4-6: diff batches 3-5)\n'
+            printf '\n## Compressed list B (passes 5-8: diff batches 4-7)\n'
             cat /tmp/compress-b.txt 2>/dev/null || printf '(no output)\n'
           } >> /tmp/prompt-final.txt
 
@@ -642,7 +679,7 @@ jobs:
 
       - name: Save final merge response
         if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge.conclusion == 'success'
-        run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt
+        run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt || true
       - name: Write release notes to file
         if: steps.tag_check.outputs.exists == 'false'
         id: notes_file

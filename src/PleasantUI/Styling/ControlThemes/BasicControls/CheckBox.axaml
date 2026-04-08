@@ -16,7 +16,7 @@
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="Padding" Value="8 0 0 0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -34,7 +34,7 @@
 
                             <Path Name="CheckGlyph"
                                   Stretch="Uniform"
-                                  Data="{StaticResource CheckmarkRegular}"
+                                  Data="{DynamicResource CheckmarkRegular}"
                                   Fill="{ForegroundBasedAccent AccentLightColor2}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"

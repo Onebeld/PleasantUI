@@ -53,10 +53,10 @@
                                                Foreground="{DynamicResource TextFillColor1}" />
                                     <Button Name="PART_CloseButton"
                                             Grid.Column="1"
-                                            Theme="{StaticResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource AppBarButtonTheme}"
                                             Width="32" Height="32" Padding="8"
                                             VerticalAlignment="Top">
-                                        <PathIcon Data="{StaticResource DismissRegular}" Width="10" Height="10" />
+                                        <PathIcon Data="{DynamicResource DismissRegular}" Width="10" Height="10" />
                                     </Button>
                                 </Grid>
                                 <Border Grid.Row="0" Height="1" Margin="0 52 0 0"

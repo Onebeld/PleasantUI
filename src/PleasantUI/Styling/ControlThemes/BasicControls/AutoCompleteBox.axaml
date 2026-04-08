@@ -25,8 +25,8 @@
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="10 5 10 5" />
 
         <Setter Property="Template">
@@ -67,7 +67,7 @@
                             </Style>
                         </Popup.Styles>
                         
-                        <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                        <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                       Margin="6 4 6 6"
                                       BlurRadius="5"
                                       Offset="0 1"
@@ -76,8 +76,8 @@
                                     Padding="0"
                                     Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="{StaticResource ControlBorderThickness}"
-                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    BorderThickness="{DynamicResource ControlBorderThickness}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
                                     Opacity="1">
                                 <ListBox Name="PART_SelectingItemsControl"
                                          BorderThickness="0"

@@ -1,0 +1,149 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+                    x:ClassModifier="internal">
+
+    <ControlTheme x:Key="{x:Type PleasantTrayPopup}" TargetType="PleasantTrayPopup">
+        <Setter Property="PopupBackground"      Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="PopupBorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="PopupBorderThickness" Value="1" />
+        <Setter Property="PopupCornerRadius"    Value="{DynamicResource PopupCornerRadius}" />
+        <Setter Property="Width"                Value="300" />
+        <Setter Property="FontSize"             Value="13" />
+        <Setter Property="Foreground"           Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="StatusColor"          Value="{DynamicResource SystemFillColorSuccess}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <VisualLayerManager x:Name="PART_VisualLayerManager">
+                        <!--
+                            Outer card border — owns corner radius, background, border.
+                            ClipToBounds ensures content respects the rounded corners.
+                        -->
+                        <Border CornerRadius="{TemplateBinding PopupCornerRadius}"
+                                Background="{TemplateBinding PopupBackground}"
+                                BorderBrush="{TemplateBinding PopupBorderBrush}"
+                                BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                ClipToBounds="True">
+                            <StackPanel>
+
+                                <!-- ── STRUCTURED LAYOUT ─────────────────────────────── -->
+                                <Panel IsVisible="{TemplateBinding UseStructuredLayout}">
+                                    <StackPanel>
+
+                                        <!-- ── HEADER ──────────────────────────────────── -->
+                                        <Border IsVisible="{TemplateBinding ShowHeader}"
+                                                Background="{DynamicResource ControlFillColor1}"
+                                                Padding="14 12">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                                <!-- App icon -->
+                                                <ContentPresenter Grid.Column="0"
+                                                                  Content="{TemplateBinding AppIcon}"
+                                                                  Width="36" Height="36"
+                                                                  VerticalAlignment="Center"
+                                                                  Margin="0 0 10 0" />
+
+                                                <!-- Title + status -->
+                                                <StackPanel Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            Spacing="3">
+                                                    <TextBlock Text="{TemplateBinding AppTitle}"
+                                                               FontSize="14"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{TemplateBinding Foreground}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                                        <Ellipse Width="7" Height="7"
+                                                                 Fill="{TemplateBinding StatusColor}"
+                                                                 VerticalAlignment="Center" />
+                                                        <TextBlock Text="{TemplateBinding StatusText}"
+                                                                   FontSize="11"
+                                                                   Foreground="{DynamicResource TextFillColor2}"
+                                                                   VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <!-- Close button -->
+                                                <Button Name="PART_CloseButton"
+                                                        Grid.Column="2"
+                                                        IsVisible="{TemplateBinding ShowCloseButton}"
+                                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                                        Width="24" Height="24"
+                                                        Padding="0"
+                                                        VerticalAlignment="Top">
+                                                    <PathIcon Data="{StaticResource DismissRegular}"
+                                                              Width="10" Height="10" />
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- ── STATUS INFO ROW ──────────────────────────── -->
+                                        <Border IsVisible="{TemplateBinding ShowStatusRow}"
+                                                Padding="14 8">
+                                            <ItemsControl ItemsSource="{TemplateBinding StatusItems}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="controls:StatusItem">
+                                                        <Grid ColumnDefinitions="*,Auto" Margin="0 2">
+                                                            <TextBlock Grid.Column="0"
+                                                                       Text="{Binding Label}"
+                                                                       FontSize="11"
+                                                                       Foreground="{DynamicResource TextFillColor3}" />
+                                                            <TextBlock Grid.Column="1"
+                                                                       Text="{Binding Value}"
+                                                                       FontSize="11"
+                                                                       FontWeight="Medium"
+                                                                       Foreground="{DynamicResource TextFillColor2}"
+                                                                       HorizontalAlignment="Right" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Border>
+
+                                        <!-- Divider between status row and content -->
+                                        <Rectangle Height="1"
+                                                   Fill="{DynamicResource ControlBorderColor}"
+                                                   Margin="14 0"
+                                                   IsVisible="{TemplateBinding ShowStatusRow}" />
+
+                                        <!-- ── CONTENT AREA ─────────────────────────────── -->
+                                        <ContentPresenter Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          Margin="{TemplateBinding Padding}"
+                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                                        <!-- Divider above footer -->
+                                        <Rectangle Height="1"
+                                                   Fill="{DynamicResource ControlBorderColor}"
+                                                   Margin="14 4"
+                                                   IsVisible="{TemplateBinding ShowFooter}" />
+
+                                        <!-- ── FOOTER ───────────────────────────────────── -->
+                                        <ContentPresenter IsVisible="{TemplateBinding ShowFooter}"
+                                                          Content="{TemplateBinding FooterContent}"
+                                                          Margin="8 2 8 8"
+                                                          HorizontalContentAlignment="Stretch" />
+
+                                    </StackPanel>
+                                </Panel>
+
+                                <!-- ── CUSTOM LAYOUT (UseStructuredLayout=False) ──────── -->
+                                <ContentPresenter IsVisible="{Binding !UseStructuredLayout, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                            </StackPanel>
+                        </Border>
+                    </VisualLayerManager>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

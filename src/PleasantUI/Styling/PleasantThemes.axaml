@@ -266,5 +266,49 @@
             <Color x:Key="FocusStrokeColorOuter">#B3FFFFFF</Color>
             <Color x:Key="FocusStrokeColorInner">#E4000000</Color>
         </ResourceDictionary>
+
+        <ResourceDictionary x:Key="{x:Static constants:PleasantThemes.VGUI}">
+            <Color x:Key="TextFillColor1">#FFD8DED3</Color>
+            <Color x:Key="TextFillColor2">#FFC4B550</Color>
+            <Color x:Key="TextFillColor3">#FF8FA390</Color>
+
+            <Color x:Key="ControlFillColor1">#FF4C5844</Color>
+            <Color x:Key="ControlFillColor2">#FF5A6A50</Color>
+            <Color x:Key="ControlFillColor3">#FF3E4637</Color>
+
+            <Color x:Key="ControlDarkFillColor1">#FF899281</Color>
+            <Color x:Key="ControlDarkFillColor2">#FF6B8272</Color>
+            <Color x:Key="ControlDarkFillColor3">#FF292D23</Color>
+
+            <Color x:Key="ControlBorderColor">#FF899281</Color>
+
+            <Color x:Key="BackgroundColor1">#FF3E4637</Color>
+            <Color x:Key="BackgroundColor2">#FF4A5942</Color>
+            <Color x:Key="BackgroundColor3">#FF4C5844</Color>
+            <Color x:Key="BackgroundColor4">#FF5A6A50</Color>
+
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
+            <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
+
+            <Color x:Key="DangerColor">#FFD72F1E</Color>
+            <Color x:Key="BorderDangerColor">#FFB72B1D</Color>
+            <Color x:Key="SelectedDangerColor">#B93C22</Color>
+
+            <Color x:Key="FocusStrokeColorOuter">#FF292D23</Color>
+            <Color x:Key="FocusStrokeColorInner">#FF899281</Color>
+
+            <!-- VGUI Accent Colors (Plain Green) - Override system accent -->
+            <Color x:Key="AccentColor">#FF0F7B0F</Color>
+            <Color x:Key="AccentLightColor1">#FF2E8B2E</Color>
+            <Color x:Key="AccentLightColor2">#FF4A9B4A</Color>
+            <Color x:Key="AccentLightColor3">#FF66AB66</Color>
+            <Color x:Key="AccentDarkColor1">#FF0A5A0A</Color>
+            <Color x:Key="AccentDarkColor2">#FF073D07</Color>
+            <Color x:Key="AccentDarkColor3">#FF042104</Color>
+            <Color x:Key="AccentGradientColor1">#FF3A9B3A</Color>
+            <Color x:Key="AccentGradientColor2">#FF1E7B1E</Color>
+        </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

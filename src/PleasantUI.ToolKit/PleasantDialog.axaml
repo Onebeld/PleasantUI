@@ -11,26 +11,26 @@
                MinHeight="160"
                x:Class="PleasantUI.ToolKit.PleasantDialog">
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto,Auto,Auto">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
 
         <!-- ── Header (icon + title + subheader) ──────────────────────── -->
         <Border x:Name="HeaderBorder"
                 Grid.Row="0"
-                Padding="{StaticResource PleasantDialogHeaderPadding}">
+                Padding="{DynamicResource PleasantDialogHeaderPadding}">
             <Grid ColumnDefinitions="Auto,*">
 
                 <PathIcon x:Name="HeaderIcon"
                           Grid.Column="0"
-                          Width="{StaticResource PleasantDialogIconSize}"
-                          Height="{StaticResource PleasantDialogIconSize}"
-                          Margin="{StaticResource PleasantDialogIconMargin}"
+                          Width="{DynamicResource PleasantDialogIconSize}"
+                          Height="{DynamicResource PleasantDialogIconSize}"
+                          Margin="{DynamicResource PleasantDialogIconMargin}"
                           VerticalAlignment="Top"
                           IsVisible="False" />
 
                 <StackPanel Grid.Column="1"
-                            Spacing="{StaticResource PleasantDialogHeaderSpacing}">
+                            Spacing="{DynamicResource PleasantDialogHeaderSpacing}">
                     <TextBlock x:Name="HeaderText"
-                               Theme="{StaticResource SubtitleTextBlockTheme}"
+                               Theme="{DynamicResource SubtitleTextBlockTheme}"
                                TextWrapping="Wrap" />
                     <TextBlock x:Name="SubHeaderText"
                                FontWeight="SemiBold"
@@ -41,31 +41,25 @@
             </Grid>
         </Border>
 
-        <!-- Spacer between header and body -->
-        <Border Grid.Row="1" Height="8" />
-
         <!-- ── Scrollable body ────────────────────────────────────────── -->
-        <SmoothScrollViewer Grid.Row="2"
+        <SmoothScrollViewer Grid.Row="1"
+                            Margin="0 8 0 0"
                             HorizontalScrollBarVisibility="Disabled"
                             VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="BodyPanel"
-                        Margin="{StaticResource PleasantDialogContentPadding}"
-                        Spacing="{StaticResource PleasantDialogBodySpacing}">
+                        Margin="{DynamicResource PleasantDialogContentPadding}"
+                        Spacing="{DynamicResource PleasantDialogBodySpacing}">
 
                 <TextBlock x:Name="BodyText"
                            TextWrapping="Wrap"
                            IsVisible="False" />
-
-                <!-- Spacer between body text and commands -->
-                <Border Height="4"
-                        IsVisible="{Binding ElementName=BodyText, Path=IsVisible}" />
 
                 <!-- Commands: radio buttons, checkboxes, command links -->
                 <ItemsControl x:Name="CommandsHost"
                               IsVisible="False">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Spacing="{StaticResource PleasantDialogCommandSpacing}" />
+                            <StackPanel Spacing="{DynamicResource PleasantDialogCommandSpacing}" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -77,33 +71,47 @@
             </StackPanel>
         </SmoothScrollViewer>
 
-        <!-- Spacer between body and progress bar -->
-        <Border Grid.Row="3" Height="8" />
-
-        <!-- ── Progress bar (hidden by default) ──────────────────────── -->
-        <ProgressBar x:Name="ProgressBar"
-                     Grid.Row="4"
-                     Margin="{StaticResource PleasantDialogProgressMargin}"
-                     Height="4"
-                     IsVisible="False" />
-
-        <!-- Spacer between progress bar / body and footer -->
-        <Border Grid.Row="5" Height="4" />
+        <!-- ── Progress bar wrapper ───────────────────────────────────── -->
+        <!--
+            The wrapper Border animates its Height from 0 to 20 (bar + margins).
+            The ProgressBar itself is always in the visual tree so Bounds.Width
+            is always a real measured value — this is what makes the indicator
+            Width transition animate correctly from the very first SetProgressBarState call.
+        -->
+        <Border x:Name="ProgressBarWrapper"
+                Grid.Row="2"
+                Height="0"
+                Margin="0 4 0 0"
+                ClipToBounds="True"
+                IsHitTestVisible="False">
+            <Border.Transitions>
+                <Transitions>
+                    <DoubleTransition Property="Height" Duration="0:0:0.2" Easing="CubicEaseOut" />
+                </Transitions>
+            </Border.Transitions>
+            <ProgressBar x:Name="ProgressBar"
+                         Margin="{DynamicResource PleasantDialogProgressMargin}"
+                         Height="8"
+                         MinHeight="8"
+                         Minimum="0"
+                         Maximum="100"
+                         Value="0" />
+        </Border>
 
         <!-- ── Footer (expandable) ────────────────────────────────────── -->
         <Border x:Name="FooterBorder"
-                Grid.Row="6"
+                Grid.Row="3"
                 IsVisible="False"
                 BorderBrush="{DynamicResource ControlBorderColor}"
                 BorderThickness="0 1 0 0"
-                Padding="{StaticResource PleasantDialogFooterPadding}">
-            <StackPanel Spacing="{StaticResource PleasantDialogFooterSpacing}">
+                Padding="{DynamicResource PleasantDialogFooterPadding}">
+            <StackPanel Spacing="{DynamicResource PleasantDialogFooterSpacing}">
                 <Button x:Name="FooterToggleButton"
-                        Theme="{StaticResource PleasantDialogFooterToggleTheme}"
+                        Theme="{DynamicResource PleasantDialogFooterToggleTheme}"
                         IsVisible="False">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <PathIcon x:Name="FooterChevron"
-                                  Data="{StaticResource ChevronDownRegular}"
+                                  Data="{DynamicResource ChevronDownRegular}"
                                   Width="12" Height="12"
                                   VerticalAlignment="Center" />
                         <TextBlock x:Name="FooterToggleText"

@@ -5,7 +5,7 @@
     <ControlTheme x:Key="MenuBarItemTheme" TargetType="MenuItem">
         <Setter Property="Padding" Value="10 4 10  4" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="Transitions">
             <Transitions>
@@ -39,19 +39,19 @@
                                    IsLightDismissEnabled="True"
                                    IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
                                    OverlayInputPassThroughElement="{CompiledBinding $parent[Menu]}">
-                                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                               Margin="6 4 6 6"
                                               BlurRadius="5"
                                               Offset="0 1"
                                               ShadowColor="#3C000000">
                                     <Border Background="{DynamicResource BackgroundColor1}"
                                             BorderBrush="{DynamicResource ControlBorderColor}"
-                                            BorderThickness="{StaticResource ControlBorderThickness}"
+                                            BorderThickness="{DynamicResource ControlBorderThickness}"
                                             Opacity="0"
                                             MaxWidth="456"
                                             MinHeight="32"
                                             HorizontalAlignment="Stretch"
-                                            CornerRadius="{StaticResource ControlCornerRadius}">
+                                            CornerRadius="{DynamicResource ControlCornerRadius}">
                                         <SmoothScrollViewer>
                                             <ItemsPresenter Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
@@ -104,7 +104,7 @@
     <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
-        <Setter Property="ItemContainerTheme" Value="{StaticResource MenuBarItemTheme}" />
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource MenuBarItemTheme}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}"

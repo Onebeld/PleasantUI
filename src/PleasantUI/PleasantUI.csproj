@@ -15,5 +15,7 @@
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Styling\VGUIControlStyles.axaml"/>
+        <AvaloniaResource Include="Styling\VGUIControlThemes.axaml"/>
     </ItemGroup>
 </Project>

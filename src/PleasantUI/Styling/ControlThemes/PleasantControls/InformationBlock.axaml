@@ -3,14 +3,14 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="50">
-            <InformationBlock Content="500" Icon="{StaticResource PinRegular}" />
+            <InformationBlock Content="500" Icon="{DynamicResource PinRegular}" />
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type InformationBlock}" TargetType="InformationBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
 
         <Setter Property="Template">

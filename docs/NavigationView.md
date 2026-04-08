@@ -7,12 +7,12 @@ A collapsible side navigation panel backed by a `TreeView`. Supports compact/ove
 ```xml
 <NavigationView>
     <NavigationViewItem Header="Home"
-                        Icon="{StaticResource HomeRegular}"
+                        Icon="{DynamicResource HomeRegular}"
                         Title="Home"
                         Content="{x:Type views:HomeView}" />
 
     <NavigationViewItem Header="Settings"
-                        Icon="{StaticResource TuneRegular}"
+                        Icon="{DynamicResource TuneRegular}"
                         Title="Settings"
                         Content="{x:Type views:SettingsView}" />
 </NavigationView>
@@ -49,7 +49,7 @@ The `Content` of the selected item is displayed in the main content area. `Title
 ## Nested items
 
 ```xml
-<NavigationViewItem Header="Library" Icon="{StaticResource FolderRegular}">
+<NavigationViewItem Header="Library" Icon="{DynamicResource FolderRegular}">
     <NavigationViewItem Header="Music"   Content="{x:Type views:MusicView}" />
     <NavigationViewItem Header="Videos"  Content="{x:Type views:VideosView}" />
     <NavigationViewItem Header="Photos"  Content="{x:Type views:PhotosView}" />

@@ -5,7 +5,7 @@
         <Border Padding="50">
             <StackPanel Spacing="5">
                 <RepeatButton Content="Button" />
-                <RepeatButton Theme="{StaticResource AppBarRepeatButtonTheme}" Content="App Bar Button" />
+                <RepeatButton Theme="{DynamicResource AppBarRepeatButtonTheme}" Content="App Bar Button" />
                 <RepeatButton Content="Button" IsEnabled="False" />
             </StackPanel>
         </Border>

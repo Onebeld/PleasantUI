@@ -6,7 +6,7 @@
     <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="8" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -31,7 +31,7 @@
                         <Border Name="ImageBorder"
                                 Grid.Column="0"
                                 Width="80" Height="80"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}"
                                 ClipToBounds="True"
                                 Margin="0 0 12 0"
                                 Background="{DynamicResource ControlFillColor2}">
@@ -50,7 +50,7 @@
                         <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
                             <TextBlock Name="PART_Title"
                                        Text="{TemplateBinding Title}"
-                                       Theme="{StaticResource BodyStrongTextBlockTheme}"
+                                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
                                        TextTrimming="CharacterEllipsis" />
                             <TextBlock Name="PART_Subtitle"
                                        Text="{TemplateBinding Subtitle}"

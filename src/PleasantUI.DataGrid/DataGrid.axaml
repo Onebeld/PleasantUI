@@ -216,12 +216,12 @@
 
         <Style Selector="^:sortascending /template/ Path#SortIcon">
             <Setter Property="IsVisible" Value="True" />
-            <Setter Property="Data" Value="{StaticResource DataGridSortIconAscendingPath}" />
+            <Setter Property="Data" Value="{DynamicResource DataGridSortIconAscendingPath}" />
         </Style>
 
         <Style Selector="^:sortdescending /template/ Path#SortIcon">
             <Setter Property="IsVisible" Value="True" />
-            <Setter Property="Data" Value="{StaticResource DataGridSortIconDescendingPath}" />
+            <Setter Property="Data" Value="{DynamicResource DataGridSortIconDescendingPath}" />
         </Style>
     </ControlTheme>
 
@@ -375,7 +375,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                     <Path Fill="{TemplateBinding Foreground}"
-                          Data="{StaticResource DismissRegular}"
+                          Data="{DynamicResource DismissRegular}"
                           HorizontalAlignment="Right"
                           VerticalAlignment="Center"
                           Stretch="Uniform" />
@@ -383,7 +383,7 @@
             </ControlTemplate>
         </Setter>
         <Style Selector="^:checked /template/ Path">
-            <Setter Property="Data" Value="{StaticResource DataGridRowGroupHeaderIconOpenedPath}" />
+            <Setter Property="Data" Value="{DynamicResource DataGridRowGroupHeaderIconOpenedPath}" />
         </Style>
     </ControlTheme>
 
@@ -409,7 +409,7 @@
                                   Width="12"
                                   Height="12"
                                   Margin="12,0,0,0"
-                                  Theme="{StaticResource FluentDataGridRowGroupExpanderButtonTheme}"
+                                  Theme="{DynamicResource FluentDataGridRowGroupExpanderButtonTheme}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   Background="{TemplateBinding Background}"
@@ -512,7 +512,7 @@
                           RowDefinitions="Auto,*,Auto,Auto"
                           ClipToBounds="True">
                         <DataGridColumnHeader Grid.Row="0" Grid.Column="0" Name="PART_TopLeftCornerHeader"
-                                              Theme="{StaticResource DataGridTopLeftColumnHeader}" />
+                                              Theme="{DynamicResource DataGridTopLeftColumnHeader}" />
                         <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter"
                                                         Grid.Column="1"
                                                         Grid.Row="0" Grid.ColumnSpan="2" />

@@ -5,18 +5,18 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.ComboBoxPageView">
     <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize ComboBox}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize ComboBox}" />
         <ComboBox PlaceholderText="{Localize SelectAnOption}" HorizontalAlignment="Stretch">
             <ComboBoxItem Content="{Localize Option1, Context=ComboBoxPage}" />
             <ComboBoxItem Content="{Localize Option2, Context=ComboBoxPage}" />
             <ComboBoxItem Content="{Localize Option3, Context=ComboBoxPage}" />
             <ComboBoxItem Content="{Localize Option4, Context=ComboBoxPage}" />
         </ComboBox>
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize DisabledComboBox}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize DisabledComboBox}" />
         <ComboBox PlaceholderText="{Localize Disabled}" IsEnabled="False" HorizontalAlignment="Stretch">
             <ComboBoxItem Content="{Localize Option1, Context=ComboBoxPage}" />
         </ComboBox>
-        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize AutoCompleteBox}" />
+        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize AutoCompleteBox}" />
         <AutoCompleteBox x:Name="FruitAutoComplete" Watermark="{Localize StartTyping}" HorizontalAlignment="Stretch" />
     </StackPanel>
 </UserControl>

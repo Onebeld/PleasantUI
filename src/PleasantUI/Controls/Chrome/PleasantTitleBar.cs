@@ -52,7 +52,12 @@ public class PleasantTitleBar : TemplatedControl
         /// <summary>
         /// The title bar is slightly larger than usual
         /// </summary>
-        ClassicExtended = 1
+        ClassicExtended = 1,
+
+        /// <summary>
+        /// A compact title bar that takes up minimal vertical space
+        /// </summary>
+        Compact = 2
     }
 
     private bool isMacOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
@@ -90,6 +95,23 @@ public class PleasantTitleBar : TemplatedControl
     {
         get => GetValue(IsTitleVisibleProperty);
         set => SetValue(IsTitleVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="LeftClearance"/> property.
+    /// Controls the width of the reserved left column in the titlebar grid (default 40px on Windows).
+    /// Set to 0 to push the logo/title to the far left when no hamburger overlaps the titlebar.
+    /// </summary>
+    public static readonly StyledProperty<double> LeftClearanceProperty =
+        AvaloniaProperty.Register<PleasantTitleBar, double>(nameof(LeftClearance), 40.0);
+
+    /// <summary>
+    /// Gets or sets the width of the left clearance column in the titlebar grid.
+    /// </summary>
+    public double LeftClearance
+    {
+        get => GetValue(LeftClearanceProperty);
+        set => SetValue(LeftClearanceProperty, value);
     }
 
     /// <summary>
@@ -236,6 +258,12 @@ public class PleasantTitleBar : TemplatedControl
                 _captionButtons.IsVisible = enable && usesCustomCaptionsNow;
                 _titlePanel.IsVisible = enable && IsTitleVisible;
                 _leftTitleBarContent.IsVisible = enable;
+            })),
+            this.GetObservable(LeftClearanceProperty).Subscribe(new AnonymousObserver<double>(w =>
+            {
+                // Col 0 is the left clearance column on non-macOS
+                if (!isMacOS && _titleBarGrid is { ColumnDefinitions.Count: > 0 })
+                    _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(w, GridUnitType.Pixel);
             }))
         };
     }
@@ -336,7 +364,7 @@ public class PleasantTitleBar : TemplatedControl
         else
         {
             // Non-macOS layout
-            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40, GridUnitType.Pixel) });
+            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(LeftClearance, GridUnitType.Pixel) });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });

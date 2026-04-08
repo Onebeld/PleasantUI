@@ -31,7 +31,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Width" Value="190" />
         <Setter Property="Transitions">
             <Transitions>
@@ -64,14 +64,14 @@
 
                             <Button Grid.Column="1"
                                     Name="PART_CloseButton"
-                                    Theme="{StaticResource CloseButtonTheme}"
+                                    Theme="{DynamicResource CloseButtonTheme}"
                                     MinWidth="0"
                                     VerticalAlignment="Center"
                                     Padding="5"
                                     Margin="5 0 0 0"
-                                    ToolTip.Tip="{StaticResource Close}">
+                                    ToolTip.Tip="{DynamicResource Close}">
                                 <Viewbox Width="8" Height="8">
-                                    <Path Data="{StaticResource DismissRegular}"
+                                    <Path Data="{DynamicResource DismissRegular}"
                                           StrokeThickness="0.5" />
                                 </Viewbox>
 

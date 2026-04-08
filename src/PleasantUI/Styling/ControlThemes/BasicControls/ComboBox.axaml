@@ -37,7 +37,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="PlaceholderForeground" Value="{DynamicResource TextFillColor3}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
@@ -84,7 +84,7 @@
                         <Border Name="Pill"
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                Theme="{StaticResource ComboBoxItemPillBorder}"
+                                Theme="{DynamicResource ComboBoxItemPillBorder}"
                                 Margin="1 0 0 0" />
 
                         <TextBlock x:Name="PlaceholderTextBlock"
@@ -123,7 +123,7 @@
                                   Margin="20 0 15 0"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
-                                  Data="{StaticResource ChevronDownRegular}" />
+                                  Data="{DynamicResource ChevronDownRegular}" />
 
                         <Popup Name="PART_Popup"
                                Grid.Column="0"
@@ -153,7 +153,7 @@
                                 </Style>
                             </Popup.Styles>
 
-                            <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                            <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                           Margin="6 4 6 6"
                                           BlurRadius="5"
                                           Offset="0 1"
@@ -161,11 +161,11 @@
                                 <Border x:Name="PopupBorder"
                                         Background="{DynamicResource BackgroundColor1}"
                                         BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="{StaticResource ControlBorderThickness}"
+                                        BorderThickness="{DynamicResource ControlBorderThickness}"
                                         Padding="0"
                                         Opacity="1"
                                         HorizontalAlignment="Stretch"
-                                        CornerRadius="{StaticResource ControlCornerRadius}">
+                                        CornerRadius="{DynamicResource ControlCornerRadius}">
                                     <SmoothScrollViewer
                                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">

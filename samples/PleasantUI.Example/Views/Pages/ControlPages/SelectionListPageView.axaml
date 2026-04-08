@@ -12,10 +12,10 @@
 
         <!-- Vertical list with image items -->
         <Border Background="{DynamicResource ControlFillColor1}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
                 Padding="16">
             <StackPanel Spacing="12">
-                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
                            Text="{Localize SelectionList/VerticalWithImages}" />
                 <TextBlock Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12"
@@ -28,10 +28,10 @@
 
         <!-- Horizontal chip list -->
         <Border Background="{DynamicResource ControlFillColor1}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
                 Padding="16">
             <StackPanel Spacing="12">
-                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
                            Text="{Localize SelectionList/HorizontalChips}" />
                 <TextBlock Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12"
@@ -44,10 +44,10 @@
 
         <!-- Empty state demo -->
         <Border Background="{DynamicResource ControlFillColor1}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
                 Padding="16">
             <StackPanel Spacing="12">
-                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
+                <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
                            Text="{Localize SelectionList/EmptyState}" />
                 <controls:SelectionList EmptyMessage="{Localize SelectionList/EmptyMessage}" />
             </StackPanel>

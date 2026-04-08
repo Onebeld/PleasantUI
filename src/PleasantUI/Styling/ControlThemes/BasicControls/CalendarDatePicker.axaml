@@ -14,7 +14,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Margin" Value="0 1 1 1" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -70,8 +70,8 @@
 
     <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{StaticResource RoundedControlCornerRadius}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTodayHighlighted" Value="True" />
@@ -112,7 +112,7 @@
                                        Grid.Column="1" />
 
                             <Button Name="PART_Button"
-                                    Theme="{StaticResource CalendarDatePickerButton}"
+                                    Theme="{DynamicResource CalendarDatePickerButton}"
                                     CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                     Grid.Column="2"
                                     Focusable="False" />
@@ -140,7 +140,7 @@
                                     </Style>
                                 </Popup.Styles>
                                 
-                                <ShadowBorder CornerRadius="{StaticResource ControlCornerRadius}"
+                                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                               Margin="6 4 6 6"
                                               BlurRadius="5"
                                               Offset="0 1"
@@ -148,11 +148,11 @@
                                     <Border x:Name="PopupBorder"
                                             Background="{DynamicResource BackgroundColor1}"
                                             BorderBrush="{DynamicResource ControlBorderColor}"
-                                            BorderThickness="{StaticResource ControlBorderThickness}"
+                                            BorderThickness="{DynamicResource ControlBorderThickness}"
                                             Padding="0"
                                             Opacity="1"
                                             HorizontalAlignment="Stretch"
-                                            CornerRadius="{StaticResource ControlCornerRadius}">
+                                            CornerRadius="{DynamicResource ControlCornerRadius}">
                                         <Calendar Name="PART_Calendar"
                                                   Margin="5"
                                                   FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"

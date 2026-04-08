@@ -10,7 +10,7 @@
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                 </ListBox>
-                <ListBox Classes="Horizontal" ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250"
+                <ListBox Classes="Horizontal" ItemContainerTheme="{DynamicResource HorizontalListBoxItem}" Width="250"
                          Height="150">
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>

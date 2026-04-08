@@ -20,4 +20,11 @@
         <PleasantTheme />
         <StyleInclude Source="avares://PleasantUI.DataGrid/PleasantDataGridTheme.axaml" />
     </Application.Styles>
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon ToolTipText="PleasantUI Example"
+                      Icon="avares://PleasantUI.Example.Desktop/PleasantUIIcon.ico" />
+        </TrayIcons>
+    </TrayIcon.Icons>
 </Application>

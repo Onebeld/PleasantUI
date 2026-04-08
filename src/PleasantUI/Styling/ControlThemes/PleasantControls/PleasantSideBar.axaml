@@ -26,7 +26,7 @@
                                     Spacing="0">
                             <ItemsControl Name="PART_UpperTopTools"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsPanel="{DynamicResource SideBarButtonItemsPanelTemplate}"
                                           ItemsSource="{TemplateBinding UpperTopToolsSource}" />
                             <Border Name="PART_UpperDivider"
                                     Height="1"
@@ -34,7 +34,7 @@
                                     Background="{DynamicResource PleasantDockingSideBarDividerBrush}" />
                             <ItemsControl Name="PART_UpperBottomTools"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsPanel="{DynamicResource SideBarButtonItemsPanelTemplate}"
                                           ItemsSource="{TemplateBinding UpperBottomToolsSource}" />
                         </StackPanel>
 
@@ -44,7 +44,7 @@
                                     Spacing="0">
                             <ItemsControl Name="PART_LowerTopTools"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsPanel="{DynamicResource SideBarButtonItemsPanelTemplate}"
                                           ItemsSource="{TemplateBinding LowerTopToolsSource}" />
                             <Border Name="PART_LowerDivider"
                                     Height="1"
@@ -52,7 +52,7 @@
                                     Background="{DynamicResource PleasantDockingSideBarDividerBrush}" />
                             <ItemsControl Name="PART_LowerBottomTools"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemsPanel="{StaticResource SideBarButtonItemsPanelTemplate}"
+                                          ItemsPanel="{DynamicResource SideBarButtonItemsPanelTemplate}"
                                           ItemsSource="{TemplateBinding LowerBottomToolsSource}" />
                         </StackPanel>
 

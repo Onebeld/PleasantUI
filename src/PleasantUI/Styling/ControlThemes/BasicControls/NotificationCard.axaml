@@ -32,7 +32,7 @@
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
@@ -51,7 +51,7 @@
                                             Height="5"
                                             DockPanel.Dock="Top"
                                             Margin="20 -3 20 0"
-                                            CornerRadius="{StaticResource RoundedControlCornerRadius}" />
+                                            CornerRadius="{DynamicResource RoundedControlCornerRadius}" />
                                     <ContentPresenter Name="PART_Content" Content="{TemplateBinding Content}" />
                                 </DockPanel>
                             </Border>

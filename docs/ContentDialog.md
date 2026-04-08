@@ -16,7 +16,7 @@ A modal overlay dialog that blocks interaction with the rest of the window. Rend
     </SmoothScrollViewer>
     <ContentDialog.BottomPanelContent>
         <UniformGrid Margin="15 0" Rows="0" Columns="2">
-            <Button Theme="{StaticResource AccentButtonTheme}" Content="Confirm" />
+            <Button Theme="{DynamicResource AccentButtonTheme}" Content="Confirm" />
             <Button Content="Cancel" />
         </UniformGrid>
     </ContentDialog.BottomPanelContent>

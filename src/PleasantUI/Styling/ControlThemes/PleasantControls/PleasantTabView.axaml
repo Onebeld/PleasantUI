@@ -21,7 +21,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel Margin="{TemplateBinding Margin}"
@@ -33,7 +33,7 @@
                         <DockPanel>
                             <SmoothScrollViewer Name="PART_ScrollViewer"
                                                 HorizontalAlignment="Left"
-                                                Theme="{StaticResource TabScrollViewerTheme}"
+                                                Theme="{DynamicResource TabScrollViewerTheme}"
                                                 VerticalScrollBarVisibility="Disabled"
                                                 HorizontalScrollBarVisibility="Hidden"
                                                 DockPanel.Dock="Left"
@@ -44,14 +44,14 @@
                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                             </SmoothScrollViewer>
                             <Button Name="PART_AdderButton"
-                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Theme="{DynamicResource AppBarButtonTheme}"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"
                                     Padding="0 4"
                                     Width="24"
                                     Margin="-35 0 0 0">
                                 <Viewbox Width="14" Height="14">
-                                    <Path Data="{StaticResource AddRegular}" />
+                                    <Path Data="{DynamicResource AddRegular}" />
                                 </Viewbox>
                             </Button>
                         </DockPanel>
@@ -94,7 +94,7 @@
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RepeatButton Name="PART_ScrollDecreaseButton"
                                   Grid.Column="0"
-                                  Theme="{StaticResource AppBarRepeatButtonTheme}"
+                                  Theme="{DynamicResource AppBarRepeatButtonTheme}"
                                   Foreground="{DynamicResource TextFillColor2}"
                                   IsVisible="{TemplateBinding HorizontalScrollBarVisibility}"
                                   HorizontalAlignment="Left"
@@ -104,7 +104,7 @@
                                   Margin="0 0 5 0"
                                   Padding="6 10">
                         <Viewbox Width="10" Height="10">
-                            <Path Data="{StaticResource CaretLeftRegular}" />
+                            <Path Data="{DynamicResource CaretLeftRegular}" />
                         </Viewbox>
                     </RepeatButton>
 
@@ -129,7 +129,7 @@
 
                     <RepeatButton Name="PART_ScrollIncreaseButton"
                                   Grid.Column="2"
-                                  Theme="{StaticResource AppBarRepeatButtonTheme}"
+                                  Theme="{DynamicResource AppBarRepeatButtonTheme}"
                                   Foreground="{DynamicResource TextFillColor2}"
                                   IsVisible="{TemplateBinding HorizontalScrollBarVisibility}"
                                   HorizontalAlignment="Right"
@@ -139,7 +139,7 @@
                                   Interval="100"
                                   Padding="6 10">
                         <Viewbox Width="10" Height="10">
-                            <Path Data="{StaticResource CaretLeftRegular}"
+                            <Path Data="{DynamicResource CaretLeftRegular}"
                                   RenderTransform="rotate(180deg)" />
                         </Viewbox>
                     </RepeatButton>
