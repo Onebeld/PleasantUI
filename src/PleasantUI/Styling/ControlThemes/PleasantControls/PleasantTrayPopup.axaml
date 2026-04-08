@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
                     x:ClassModifier="internal">
 
     <ControlTheme x:Key="{x:Type PleasantTrayPopup}" TargetType="PleasantTrayPopup">
@@ -83,14 +84,14 @@
                                                 Padding="14 8">
                                             <ItemsControl ItemsSource="{TemplateBinding StatusItems}">
                                                 <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
+                                                    <DataTemplate DataType="controls:StatusItem">
                                                         <Grid ColumnDefinitions="*,Auto" Margin="0 2">
                                                             <TextBlock Grid.Column="0"
-                                                                       Text="{Binding Item1}"
+                                                                       Text="{Binding Label}"
                                                                        FontSize="11"
                                                                        Foreground="{DynamicResource TextFillColor3}" />
                                                             <TextBlock Grid.Column="1"
-                                                                       Text="{Binding Item2}"
+                                                                       Text="{Binding Value}"
                                                                        FontSize="11"
                                                                        FontWeight="Medium"
                                                                        Foreground="{DynamicResource TextFillColor2}"

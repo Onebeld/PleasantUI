@@ -2,8 +2,24 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+using System.Linq;
 
 namespace PleasantUI.Controls;
+
+/// <summary>
+/// Wrapper class for status items to make them XAML-friendly.
+/// </summary>
+public class StatusItem
+{
+    public string Label { get; set; } = string.Empty;
+    public string Value { get; set; } = string.Empty;
+
+    public StatusItem(string label, string value)
+    {
+        Label = label;
+        Value = value;
+    }
+}
 
 /// <summary>
 /// A generic borderless, transparent, topmost popup window for system-tray panels.
@@ -77,10 +93,10 @@ public class PleasantTrayPopup : Window
 
     /// <summary>
     /// Optional key/value pairs shown in the status info row below the header.
-    /// Each item is a (label, value) tuple.
+    /// Each item is a StatusItem with Label and Value properties.
     /// </summary>
-    public static readonly StyledProperty<IEnumerable<(string Label, string Value)>?> StatusItemsProperty =
-        AvaloniaProperty.Register<PleasantTrayPopup, IEnumerable<(string Label, string Value)>?>(nameof(StatusItems));
+    public static readonly StyledProperty<IEnumerable<StatusItem>?> StatusItemsProperty =
+        AvaloniaProperty.Register<PleasantTrayPopup, IEnumerable<StatusItem>?>(nameof(StatusItems));
 
     /// <summary>Whether the status info row is visible.</summary>
     public static readonly StyledProperty<bool> ShowStatusRowProperty =
@@ -176,7 +192,7 @@ public class PleasantTrayPopup : Window
         set => SetValue(ShowCloseButtonProperty, value);
     }
 
-    public IEnumerable<(string Label, string Value)>? StatusItems
+    public IEnumerable<StatusItem>? StatusItems
     {
         get => GetValue(StatusItemsProperty);
         set => SetValue(StatusItemsProperty, value);
@@ -273,6 +289,14 @@ public class PleasantTrayPopup : Window
     {
         Hide();
         Dismissed?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Creates StatusItems from a collection of tuples for convenience.
+    /// </summary>
+    public static IEnumerable<StatusItem> CreateStatusItems(IEnumerable<(string Label, string Value)> tuples)
+    {
+        return tuples.Select(tuple => new StatusItem(tuple.Label, tuple.Value));
     }
 
     // ── Private ───────────────────────────────────────────────────────────────
