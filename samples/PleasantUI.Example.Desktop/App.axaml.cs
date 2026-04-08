@@ -147,7 +147,7 @@ public partial class App : PleasantUiExampleApp
             }
         };
 
-        TryFindResource("PleasantUILogo", out var appIconResource);
+        ((IResourceHost)this).TryFindResource("PleasantUILogo", out var appIconResource);
 
         var popup = new PleasantTrayPopup
         {
