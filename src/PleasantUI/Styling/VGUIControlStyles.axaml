@@ -94,6 +94,16 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
+    <!-- VGUI PleasantWindow — square corners -->
+    <Style Selector="controls|PleasantWindow">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <!-- VGUI PleasantMiniWindow — square corners -->
+    <Style Selector="controls|PleasantMiniWindow">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
     <!--
         VGUI Danger dialog header — replaces the flat red fill with a bevel-style
         raised panel using a vertical gradient (lighter top → darker bottom)
