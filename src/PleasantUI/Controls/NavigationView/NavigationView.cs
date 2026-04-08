@@ -546,8 +546,13 @@ public class NavigationView : TreeView
         double result = Math.Max(titleBarHeight + delta, baseHeight);
 
         _marginPanel.Height = result;
+
+        // Push the buttons panel down so it sits flush below the titlebar.
+        if (_stackPanelButtons != null)
+            _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 5, 5, 5);
+
         Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={titleBarHeight} noBack={noBackButton} → {result}");
-    }    
+    }
     
     private void OnBoundsChanged(Rect rect)
     {
