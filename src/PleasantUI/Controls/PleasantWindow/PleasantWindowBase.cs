@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Reactive;
 using Avalonia.Platform;
+using Avalonia.Threading;
 using PleasantUI.Core;
 using PleasantUI.Core.Interfaces;
 
@@ -25,19 +28,47 @@ public abstract class PleasantWindowBase : Window, IPleasantWindow
     public AvaloniaList<PleasantPopupElement> ModalWindows { get; } = [];
 
     private INotifyPropertyChanged? _settingsNotify;
+    private IDisposable? _windowStateSub;
+    private IDisposable? _isActiveSub;
 
     protected override void OnOpened(EventArgs e)
     {
         base.OnOpened(e);
 
         HookSettings();
-        UpdateWin11CornerPreference();
+        HookWindowState();
+        UpdateWin11CornerPreferenceDeferred();
     }
 
     protected override void OnClosed(EventArgs e)
     {
         UnhookSettings();
+        UnhookWindowState();
         base.OnClosed(e);
+    }
+
+    private void HookWindowState()
+    {
+        if (_windowStateSub is null)
+        {
+            _windowStateSub = this.GetObservable(WindowStateProperty)
+                .Subscribe(new AnonymousObserver<WindowState>(_ => UpdateWin11CornerPreferenceDeferred()));
+        }
+
+        if (_isActiveSub is null)
+        {
+            _isActiveSub = this.GetObservable(IsActiveProperty)
+                .Subscribe(new AnonymousObserver<bool>(_ => UpdateWin11CornerPreferenceDeferred()));
+        }
+    }
+
+    private void UnhookWindowState()
+    {
+        _windowStateSub?.Dispose();
+        _windowStateSub = null;
+
+        _isActiveSub?.Dispose();
+        _isActiveSub = null;
     }
 
     private void HookSettings()
@@ -64,7 +95,12 @@ public abstract class PleasantWindowBase : Window, IPleasantWindow
     private void OnSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(PleasantSettings.Theme))
-            UpdateWin11CornerPreference();
+            UpdateWin11CornerPreferenceDeferred();
+    }
+
+    private void UpdateWin11CornerPreferenceDeferred()
+    {
+        Dispatcher.UIThread.Post(UpdateWin11CornerPreference, DispatcherPriority.Background);
     }
 
     private void UpdateWin11CornerPreference()
