@@ -52,7 +52,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="DateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{DynamicResource AppBarButtonTheme}">
+    <ControlTheme x:Key="DateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{StaticResource AppBarButtonTheme}">
         <Setter Property="Height" Value="22" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
@@ -88,7 +88,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="DateTimePickerDownButton" TargetType="RepeatButton"
-                  BasedOn="{DynamicResource AppBarButtonTheme}">
+                  BasedOn="{StaticResource AppBarButtonTheme}">
         <Setter Property="Height" Value="22" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />

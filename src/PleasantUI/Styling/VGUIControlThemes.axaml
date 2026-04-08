@@ -3,7 +3,7 @@
                     xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI">
 
     <!-- VGUI Button Theme - 3D Bevel Style -->
-    <ControlTheme x:Key="VGUIButtonTheme" TargetType="Button" BasedOn="{DynamicResource {x:Type Button}}">
+    <ControlTheme x:Key="VGUIButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
@@ -88,7 +88,7 @@
     </ControlTheme>
 
     <!-- VGUI Accent Button Theme -->
-    <ControlTheme x:Key="VGUIAccentButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIButtonTheme}">
+    <ControlTheme x:Key="VGUIAccentButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
         <Setter Property="Background" Value="{DynamicResource AccentColor}" />
         <Setter Property="Foreground" Value="White" />
 
@@ -102,7 +102,7 @@
     </ControlTheme>
 
     <!-- VGUI Danger Button Theme -->
-    <ControlTheme x:Key="VGUIDangerButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIButtonTheme}">
+    <ControlTheme x:Key="VGUIDangerButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
         <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
 
@@ -115,7 +115,7 @@
     </ControlTheme>
 
     <!-- VGUI AppBar Button Theme - flat, no bevel, just square hover -->
-    <ControlTheme x:Key="VGUIAppBarButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIButtonTheme}">
+    <ControlTheme x:Key="VGUIAppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
         <Setter Property="Background" Value="Transparent" />
 
         <!-- Hide all 4 edge strips -->
@@ -143,7 +143,7 @@
     <!-- Override AccentButtonTheme key itself so buttons using it get VGUI bevel + flat accent -->
     <!-- NOTE: These are also shadowed in VGUIControlStyles.axaml.Styles.Resources (conditional).
          These copies in PleasantTheme.Resources are always-loaded fallbacks. -->
-    <ControlTheme x:Key="VGUICloseButtonTheme" TargetType="Button" BasedOn="{DynamicResource VGUIAppBarButtonTheme}">
+    <ControlTheme x:Key="VGUICloseButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIAppBarButtonTheme}">
         <Style Selector="^:pointerover /template/ Border#PART_BevelInner">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
         </Style>
@@ -162,7 +162,7 @@
     </ControlTheme>
     <!-- VGUI CheckBox Theme - 3D Bevel Style -->
     <!-- Checkbox box is INSET (like a text input): dark top+left, light bottom+right -->
-    <ControlTheme x:Key="VGUICheckBoxTheme" TargetType="CheckBox" BasedOn="{DynamicResource {x:Type CheckBox}}">
+    <ControlTheme x:Key="VGUICheckBoxTheme" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
         <Setter Property="CornerRadius" Value="0" />
 
         <Setter Property="Template">
@@ -192,7 +192,7 @@
 
                             <Path Name="PART_CheckGlyph"
                                   Stretch="Uniform"
-                                  Data="{DynamicResource CheckmarkRegular}"
+                                  Data="{StaticResource CheckmarkRegular}"
                                   Fill="{DynamicResource AccentLightColor2}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
@@ -275,7 +275,7 @@
     </ControlTheme>
 
     <!-- VGUI RadioButton Theme - inset circle (dark outer stroke, light inner stroke) -->
-    <ControlTheme x:Key="VGUIRadioButtonTheme" TargetType="RadioButton" BasedOn="{DynamicResource {x:Type RadioButton}}">
+    <ControlTheme x:Key="VGUIRadioButtonTheme" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
         <Setter Property="Template">
             <ControlTemplate TargetType="RadioButton">
                 <Grid ColumnDefinitions="25,*">
@@ -349,7 +349,7 @@
     </ControlTheme>
 
     <!-- VGUI TextBox Theme - 3D Bevel Style -->
-    <ControlTheme x:Key="VGUITextBoxTheme" TargetType="TextBox" BasedOn="{DynamicResource {x:Type TextBox}}">
+    <ControlTheme x:Key="VGUITextBoxTheme" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="6 4" />
@@ -438,7 +438,7 @@
     </ControlTheme>
 
     <!-- VGUI ComboBox Theme - 3D Bevel Style (inset like a text input) -->
-    <ControlTheme x:Key="VGUIComboBoxTheme" TargetType="ComboBox" BasedOn="{DynamicResource {x:Type ComboBox}}">
+    <ControlTheme x:Key="VGUIComboBoxTheme" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
 
@@ -461,7 +461,7 @@
     </ControlTheme>
 
     <!-- VGUI ComboBoxItem Theme - 3D Bevel Style -->
-    <ControlTheme x:Key="VGUIComboBoxItemTheme" TargetType="ComboBoxItem" BasedOn="{DynamicResource {x:Type ComboBoxItem}}">
+    <ControlTheme x:Key="VGUIComboBoxItemTheme" TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
         <Setter Property="CornerRadius" Value="0" />
 
         <Style Selector="^ /template/ Border#LayoutRoot">
@@ -484,7 +484,7 @@
 
     <!-- VGUI NavigationViewItem Theme -->
     <!-- Replaces rounded pill indicator and rounded decorator with flat VGUI-style left bar + square highlight -->
-    <ControlTheme x:Key="VGUINavigationViewItemTheme" TargetType="NavigationViewItem" BasedOn="{DynamicResource {x:Type NavigationViewItem}}">
+    <ControlTheme x:Key="VGUINavigationViewItemTheme" TargetType="NavigationViewItem" BasedOn="{StaticResource {x:Type NavigationViewItem}}">
 
         <!-- Square nav decorator -->
         <Style Selector="^ /template/ Border#PART_NavDecorator">
@@ -533,7 +533,7 @@
 
     <!-- VGUI NavigationView Theme -->
     <!-- Removes rounded content panel and pane overlay rounding -->
-    <ControlTheme x:Key="VGUINavigationViewTheme" TargetType="NavigationView" BasedOn="{DynamicResource {x:Type NavigationView}}">
+    <ControlTheme x:Key="VGUINavigationViewTheme" TargetType="NavigationView" BasedOn="{StaticResource {x:Type NavigationView}}">
 
         <!-- Square content area -->
         <Style Selector="^ /template/ Border#PART_Container">
@@ -559,7 +559,7 @@
     <!-- VGUI OptionsDisplayItem Theme -->
     <!-- Full bevel: LayoutRoot has light top+left border and is inset 1px right+bottom.
          The outer control background provides the dark right+bottom edge via the gap. -->
-    <ControlTheme x:Key="VGUIOptionsDisplayItemTheme" TargetType="OptionsDisplayItem" BasedOn="{DynamicResource {x:Type OptionsDisplayItem}}">
+    <ControlTheme x:Key="VGUIOptionsDisplayItemTheme" TargetType="OptionsDisplayItem" BasedOn="{StaticResource {x:Type OptionsDisplayItem}}">
         <Setter Property="CornerRadius" Value="0" />
         <!-- Dark color fills the outer control — shows as right+bottom shadow edge -->
         <Setter Property="Background" Value="{DynamicResource ControlDarkFillColor3}" />
@@ -603,19 +603,19 @@
         </Style>
     </ControlTheme>
     <!-- VGUI DatePicker Theme — inset bevel, square corners via DynamicResource overrides -->
-    <ControlTheme x:Key="VGUIDatePickerTheme" TargetType="DatePicker" BasedOn="{DynamicResource {x:Type DatePicker}}">
+    <ControlTheme x:Key="VGUIDatePickerTheme" TargetType="DatePicker" BasedOn="{StaticResource {x:Type DatePicker}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="1 1 0 0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
     </ControlTheme>
 
     <!-- VGUI DatePickerPresenter Theme — square corners on the picker panel -->
-    <ControlTheme x:Key="VGUIDatePickerPresenterTheme" TargetType="DatePickerPresenter" BasedOn="{DynamicResource {x:Type DatePickerPresenter}}">
+    <ControlTheme x:Key="VGUIDatePickerPresenterTheme" TargetType="DatePickerPresenter" BasedOn="{StaticResource {x:Type DatePickerPresenter}}">
         <!-- No additional overrides needed — popup border handles squaring -->
     </ControlTheme>
 
     <!-- VGUI PinCodeItem — inset bevel like a text input cell -->
-    <ControlTheme x:Key="VGUIPinCodeItemTheme" TargetType="PinCodeItem" BasedOn="{DynamicResource {x:Type PinCodeItem}}">        <Setter Property="CornerRadius" Value="0" />
+    <ControlTheme x:Key="VGUIPinCodeItemTheme" TargetType="PinCodeItem" BasedOn="{StaticResource {x:Type PinCodeItem}}">        <Setter Property="CornerRadius" Value="0" />
         <!-- Inset: dark top+left shadow, light bottom+right highlight -->
         <Setter Property="BorderThickness" Value="1 1 0 0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
@@ -628,7 +628,7 @@
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         </Style>
     </ControlTheme>
-    <ControlTheme x:Key="VGUISelectionListItemTheme" TargetType="controls:SelectionListItem" BasedOn="{DynamicResource {x:Type controls:SelectionListItem}}">
+    <ControlTheme x:Key="VGUISelectionListItemTheme" TargetType="controls:SelectionListItem" BasedOn="{StaticResource {x:Type controls:SelectionListItem}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
@@ -662,7 +662,7 @@
     </ControlTheme>
 
     <!-- VGUI SelectionList Theme -->
-    <ControlTheme x:Key="VGUISelectionListTheme" TargetType="controls:SelectionList" BasedOn="{DynamicResource {x:Type controls:SelectionList}}">
+    <ControlTheme x:Key="VGUISelectionListTheme" TargetType="controls:SelectionList" BasedOn="{StaticResource {x:Type controls:SelectionList}}">
         <Setter Property="BorderThickness" Value="1 1 0 0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
     </ControlTheme>

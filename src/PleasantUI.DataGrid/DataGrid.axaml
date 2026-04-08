@@ -24,7 +24,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </ControlTheme>
 
-    <ControlTheme x:Key="DataGridCellTextBoxTheme" TargetType="TextBox" BasedOn="{DynamicResource {x:Type TextBox}}">
+    <ControlTheme x:Key="DataGridCellTextBoxTheme" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
@@ -226,7 +226,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="DataGridTopLeftColumnHeader" TargetType="DataGridColumnHeader"
-                  BasedOn="{DynamicResource {x:Type DataGridColumnHeader}}">
+                  BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid x:Name="TopLeftHeaderRoot"

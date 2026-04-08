@@ -74,7 +74,7 @@
     </ControlTheme>
 
     <!-- Button-only PathPicker Theme -->
-    <ControlTheme x:Key="ButtonPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{DynamicResource {x:Type controls:PathPicker}}">
+    <ControlTheme x:Key="ButtonPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
         <Setter Property="Template">
             <ControlTemplate>
                 <Button x:Name="PART_Button"
@@ -101,7 +101,7 @@
     </ControlTheme>
 
     <!-- Compact PathPicker Theme - Small button integrated into textbox -->
-    <ControlTheme x:Key="CompactPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{DynamicResource {x:Type controls:PathPicker}}">
+    <ControlTheme x:Key="CompactPathPickerTheme" TargetType="controls:PathPicker" BasedOn="{StaticResource {x:Type controls:PathPicker}}">
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid>

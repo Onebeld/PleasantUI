@@ -63,13 +63,13 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{DynamicResource {x:Type Button}}">
+    <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="0" />
     </ControlTheme>
 
-    <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{DynamicResource {x:Type Button}}">
+    <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderDangerColor}" />
         <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
@@ -88,7 +88,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{DynamicResource {x:Type Button}}">
+    <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -107,7 +107,7 @@
         </Style>
     </ControlTheme>
     
-    <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{DynamicResource {x:Type Button}}">
+    <ControlTheme x:Key="CloseButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{ColorToTransparent DangerColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />

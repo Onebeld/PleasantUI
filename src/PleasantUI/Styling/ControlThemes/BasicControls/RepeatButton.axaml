@@ -11,8 +11,8 @@
         </Border>
     </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton" BasedOn="{DynamicResource {x:Type Button}}" />
+    <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton" BasedOn="{StaticResource {x:Type Button}}" />
 
     <ControlTheme x:Key="AppBarRepeatButtonTheme" TargetType="RepeatButton"
-                  BasedOn="{DynamicResource AppBarButtonTheme}" />
+                  BasedOn="{StaticResource AppBarButtonTheme}" />
 </ResourceDictionary>

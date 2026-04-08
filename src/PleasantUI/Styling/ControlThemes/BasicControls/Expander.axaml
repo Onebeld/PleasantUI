@@ -146,25 +146,25 @@
     </ControlTheme>
 
     <ControlTheme x:Key="FluentExpanderToggleButtonUpTheme" TargetType="ToggleButton"
-                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{DynamicResource ChevronUpRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonDownTheme" TargetType="ToggleButton"
-                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{DynamicResource ChevronDownRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonLeftTheme" TargetType="ToggleButton"
-                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{DynamicResource ChevronLeftRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonRightTheme" TargetType="ToggleButton"
-                  BasedOn="{DynamicResource FluentExpanderToggleButtonTheme}">
+                  BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
         <Style Selector="^ /template/ Path#ExpandCollapseChevron">
             <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
         </Style>

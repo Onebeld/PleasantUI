@@ -102,7 +102,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{DynamicResource {x:Type Button}}">
+    <ControlTheme x:Key="ButtonedRadioButton" TargetType="RadioButton" BasedOn="{StaticResource {x:Type Button}}">
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
