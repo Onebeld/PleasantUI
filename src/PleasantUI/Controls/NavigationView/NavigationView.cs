@@ -65,6 +65,12 @@ public class NavigationView : TreeView
     private ContentPresenter? _contentPresenter;
     private ContentPresenter? _topBottomContentPresenter;
 
+    // Cache: the last content object routed to a presenter, and which position it was routed for.
+    // Used to re-assign content to fresh presenter instances after a template re-application
+    // (e.g. theme change) without touching the old presenters at all.
+    private object? _cachedContent;
+    private NavigationViewPosition _cachedContentPosition;
+
     private Button? _headerItem;
 
     private IEnumerable<string>? _itemsAsStrings;
@@ -510,6 +516,12 @@ public class NavigationView : TreeView
 
         Debug.WriteLine($"[NavigationView] OnApplyTemplate parts: headerItem={_headerItem is not null} backButton={_backButton is not null} contentPresenter={_contentPresenter is not null}");
 
+        // Template re-application (e.g. theme change) gives us brand-new presenter instances.
+        // The old presenters are being torn down by Avalonia — we must NOT touch them.
+        // Instead, immediately push the cached content into the correct new presenter so the
+        // view is never blank after a theme switch.
+        RestoreCachedContent();
+
         if (_headerItem != null)
         {
             _headerItem.Click += (_, _) => IsOpen = AlwaysOpen || !IsOpen;
@@ -902,21 +914,25 @@ public class NavigationView : TreeView
                 // Drive content update directly — SelectedItem won't change because
                 // the proxy is not in Items, so OnSelectedItemChanged won't fire.
                 SelectedContent = original.Content;
+                _cachedContent = original.Content;
+                _cachedContentPosition = Position;
+
                 bool isLeft = Position == NavigationViewPosition.Left;
-                if (isLeft)
+                var activeP   = isLeft ? _contentPresenter         : _topBottomContentPresenter;
+                var inactiveP = isLeft ? _topBottomContentPresenter : _contentPresenter;
+
+                if (inactiveP is not null && inactiveP.Content is not null)
+                    inactiveP.Content = null;
+
+                if (activeP is not null && original.Content is Visual cv2)
                 {
-                    if (_topBottomContentPresenter is not null)
-                        _topBottomContentPresenter.Content = null;
-                    if (_contentPresenter is not null)
-                        _contentPresenter.Content = original.Content;
+                    var parent = cv2.GetVisualParent();
+                    if (parent is ContentPresenter stale2 && !ReferenceEquals(stale2, activeP))
+                        stale2.Content = null;
                 }
-                else
-                {
-                    if (_contentPresenter is not null)
-                        _contentPresenter.Content = null;
-                    if (_topBottomContentPresenter is not null)
-                        _topBottomContentPresenter.Content = original.Content;
-                }
+
+                if (activeP is not null && !ReferenceEquals(activeP.Content, original.Content))
+                    activeP.Content = original.Content;
             }));
 
         return proxy;
@@ -930,24 +946,80 @@ public class NavigationView : TreeView
 
         SelectedContent = item.Content;
 
-        // Route content to exactly one presenter. CRITICAL: null the inactive presenter FIRST
-        // before assigning to the active one — Avalonia enforces single visual parent and will
-        // throw if the control is still parented elsewhere when we try to add it.
+        // Update cache so OnApplyTemplate can restore after a theme change.
+        _cachedContent = item.Content;
+        _cachedContentPosition = Position;
+
         bool isLeft = Position == NavigationViewPosition.Left;
-        if (isLeft)
+        var activePresenter   = isLeft ? _contentPresenter         : _topBottomContentPresenter;
+        var inactivePresenter = isLeft ? _topBottomContentPresenter : _contentPresenter;
+
+        Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent isLeft={isLeft} activePresenter={activePresenter?.Name} inactivePresenter={inactivePresenter?.Name}");
+
+        // Clear inactive presenter — it must not hold the content.
+        if (inactivePresenter is not null && inactivePresenter.Content is not null)
         {
-            if (_topBottomContentPresenter is not null)
-                _topBottomContentPresenter.Content = null;
-            if (_contentPresenter is not null)
-                _contentPresenter.Content = item.Content;
+            Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent clearing inactive presenter {inactivePresenter.Name}");
+            inactivePresenter.Content = null;
         }
-        else
+
+        if (activePresenter is null)
         {
-            if (_contentPresenter is not null)
-                _contentPresenter.Content = null;
-            if (_topBottomContentPresenter is not null)
-                _topBottomContentPresenter.Content = item.Content;
+            Debug.WriteLine("[NavigationView] UpdateTitleAndSelectedContent activePresenter is null — skipping assignment");
+            return;
         }
+
+        // Guard: if the active presenter already holds this exact content, nothing to do.
+        if (ReferenceEquals(activePresenter.Content, item.Content))
+        {
+            Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent already set on {activePresenter.Name} — skipping");
+            return;
+        }
+
+        // If the content is currently parented to a stale presenter (different instance from
+        // activePresenter), clear that stale presenter first. We identify "stale" by checking
+        // the content's visual parent — if it's a ContentPresenter that isn't our active one,
+        // it's a leftover from a previous template application.
+        if (item.Content is Visual contentVisual)
+        {
+            var currentParent = contentVisual.GetVisualParent();
+            if (currentParent is ContentPresenter stalePresenter &&
+                !ReferenceEquals(stalePresenter, activePresenter))
+            {
+                Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent detaching from stale presenter {stalePresenter.Name} → clearing its Content");
+                stalePresenter.Content = null;
+            }
+        }
+
+        Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent assigning content to {activePresenter.Name}");
+        activePresenter.Content = item.Content;
+    }
+
+    /// <summary>
+    /// Restores the cached content to the correct presenter after a template re-application.
+    /// Called from <see cref="OnApplyTemplate"/> immediately after the new presenter fields are set.
+    /// Does NOT touch the old (now-stale) presenter instances — Avalonia tears those down itself.
+    /// </summary>
+    private void RestoreCachedContent()
+    {
+        if (_cachedContent is null) return;
+
+        bool isLeft = _cachedContentPosition == NavigationViewPosition.Left;
+        var activePresenter   = isLeft ? _contentPresenter         : _topBottomContentPresenter;
+        var inactivePresenter = isLeft ? _topBottomContentPresenter : _contentPresenter;
+
+        Debug.WriteLine($"[NavigationView] RestoreCachedContent cachedPosition={_cachedContentPosition} isLeft={isLeft} activePresenter={activePresenter?.Name}");
+
+        // Ensure inactive presenter is empty.
+        if (inactivePresenter is not null)
+            inactivePresenter.Content = null;
+
+        if (activePresenter is null) return;
+
+        // Assign cached content directly — the new presenter has no content yet so there
+        // is no visual-parent conflict. The old presenter is being discarded by Avalonia.
+        activePresenter.Content = _cachedContent;
+        Debug.WriteLine($"[NavigationView] RestoreCachedContent assigned to {activePresenter.Name}");
     }
 
     private void OnSelectedItemChanged()
@@ -1061,10 +1133,24 @@ public class NavigationView : TreeView
             }
             SelectedContent = item.Content;
 
-            // Clear left presenter first, then set top/bottom presenter.
-            if (_contentPresenter is not null)
+            // Update cache.
+            _cachedContent = item.Content;
+            _cachedContentPosition = Position;
+
+            // Detach from any stale visual parent before assigning to the active presenter.
+            if (item.Content is Visual cv)
+            {
+                var currentParent = cv.GetVisualParent();
+                if (currentParent is ContentPresenter stale && !ReferenceEquals(stale, _topBottomContentPresenter))
+                {
+                    Debug.WriteLine($"[NavigationView] SelectTopBottomItem detaching from stale presenter {stale.Name}");
+                    stale.Content = null;
+                }
+            }
+
+            if (_contentPresenter is not null && _contentPresenter.Content is not null)
                 _contentPresenter.Content = null;
-            if (_topBottomContentPresenter is not null)
+            if (_topBottomContentPresenter is not null && !ReferenceEquals(_topBottomContentPresenter.Content, item.Content))
                 _topBottomContentPresenter.Content = item.Content;
         }
     }
