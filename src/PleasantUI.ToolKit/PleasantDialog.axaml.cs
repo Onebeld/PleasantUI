@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -23,8 +22,12 @@ namespace PleasantUI.ToolKit;
 /// </summary>
 public sealed partial class PleasantDialog : ContentDialog
 {
+    // Height of the progress bar wrapper when visible: 8px bar + 12px bottom margin
+    private const double ProgressBarVisibleHeight = 20.0;
+
     private Button? _defaultButton;
     private object _result = PleasantDialogResult.None;
+    private Action<PleasantDialog>? _onDialogReady;
 
     private PleasantDialog() => InitializeComponent();
 
@@ -33,7 +36,7 @@ public sealed partial class PleasantDialog : ContentDialog
     /// <summary>Raised before the dialog is shown.</summary>
     public event EventHandler? Opening;
 
-    /// <summary>Raised after the dialog is shown and ready.</summary>
+    /// <summary>Raised after the dialog is closed.</summary>
     public event EventHandler? Opened;
 
     /// <summary>
@@ -42,15 +45,48 @@ public sealed partial class PleasantDialog : ContentDialog
     /// </summary>
     public event EventHandler<PleasantDialogClosingEventArgs>? Closing;
 
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    /// <inheritdoc />
+    protected override void OnLoaded(Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+
+        if (_onDialogReady is not null)
+        {
+            var callback = _onDialogReady;
+            _onDialogReady = null;
+            // Post at Loaded priority so layout has completed and Bounds are valid.
+            Avalonia.Threading.Dispatcher.UIThread.Post(
+                () => callback(this),
+                Avalonia.Threading.DispatcherPriority.Loaded);
+        }
+    }
+
     // ── Static factory ────────────────────────────────────────────────────────
 
     /// <summary>
     /// Shows a <see cref="PleasantDialog"/> and returns the result.
     /// </summary>
+    /// <param name="parent">The parent window that hosts the dialog.</param>
+    /// <param name="header">The dialog title text or localization key.</param>
+    /// <param name="body">Optional body text or localization key.</param>
+    /// <param name="buttons">Optional button definitions. Defaults to a single OK button.</param>
+    /// <param name="commands">Optional command items (radio buttons, checkboxes, command links).</param>
+    /// <param name="iconGeometryKey">Optional resource key for a header icon geometry.</param>
+    /// <param name="headerBackground">Optional background brush for the header area.</param>
+    /// <param name="iconForeground">Optional foreground brush for the header icon.</param>
+    /// <param name="subHeader">Optional subheader text or localization key.</param>
+    /// <param name="extraContent">Optional arbitrary control placed in the body.</param>
+    /// <param name="onContentReady">Called with <paramref name="extraContent"/> after it is attached.</param>
     /// <param name="onDialogReady">
-    /// Called with the dialog instance immediately before it is shown.
+    /// Called with the dialog instance after it is fully laid out.
     /// Use this to hold a reference for calling <see cref="SetProgressBarState"/> from a background task.
     /// </param>
+    /// <param name="footer">Optional footer content.</param>
+    /// <param name="footerExpandable">When true the footer is collapsed behind a toggle button.</param>
+    /// <param name="footerToggleText">Label for the footer toggle button.</param>
+    /// <param name="style">Visual style variant (e.g. Danger).</param>
     public static Task<object> Show(
         IPleasantWindow parent,
         string header,
@@ -69,7 +105,7 @@ public sealed partial class PleasantDialog : ContentDialog
         string? footerToggleText = null,
         MessageBoxStyle style = MessageBoxStyle.Default)
     {
-        PleasantDialog dialog = new();
+        var dialog = new PleasantDialog();
 
         dialog.Opening?.Invoke(dialog, EventArgs.Empty);
 
@@ -83,10 +119,9 @@ public sealed partial class PleasantDialog : ContentDialog
 
         headerText.Text = headerValue;
 
-        // VGUI mode: square corners for the dialog
         if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
         {
-            dialog.CornerRadius = new CornerRadius(0);
+            dialog.CornerRadius    = new CornerRadius(0);
             headerBorder.CornerRadius = new CornerRadius(0);
         }
 
@@ -109,7 +144,6 @@ public sealed partial class PleasantDialog : ContentDialog
         if (style == MessageBoxStyle.Danger)
         {
             bool isVgui = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
-
             if (isVgui)
             {
                 headerBorder.Background = new LinearGradientBrush
@@ -125,7 +159,7 @@ public sealed partial class PleasantDialog : ContentDialog
                 };
                 headerBorder.BorderThickness = new Thickness(0, 2, 0, 2);
                 headerBorder.BorderBrush     = new SolidColorBrush(Color.Parse("#FF8B1A10"));
-                headerBorder.CornerRadius   = new CornerRadius(0);
+                headerBorder.CornerRadius    = new CornerRadius(0);
             }
             else
             {
@@ -191,8 +225,9 @@ public sealed partial class PleasantDialog : ContentDialog
                     {
                         var btn = new Button
                         {
-                            Theme     = Application.Current!.TryFindResource("PleasantDialogCommandLinkTheme", out object? t)
-                                        ? t as ControlTheme : null,
+                            Theme = Application.Current!.TryFindResource(
+                                "PleasantDialogCommandLinkTheme", out object? t)
+                                ? t as ControlTheme : null,
                             IsEnabled = cl.IsEnabled,
                             Tag       = cl
                         };
@@ -203,7 +238,8 @@ public sealed partial class PleasantDialog : ContentDialog
                             {
                                 Text       = cl.Description,
                                 FontSize   = 12,
-                                Foreground = Application.Current!.TryFindResource("TextFillColor2", out object? tf)
+                                Foreground = Application.Current!.TryFindResource(
+                                    "TextFillColor2", out object? tf)
                                     ? new SolidColorBrush((Color)tf!)
                                     : Brushes.Gray
                             });
@@ -244,19 +280,16 @@ public sealed partial class PleasantDialog : ContentDialog
             var toggleText    = dialog.FindControl<TextBlock>("FooterToggleText")!;
             var chevron       = dialog.FindControl<PathIcon>("FooterChevron")!;
 
-            footerContent.Content = footer;
+            footerContent.Content  = footer;
             footerBorder.IsVisible = true;
 
-            // VGUI mode: square corners for footer border
             if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
-            {
                 footerBorder.CornerRadius = new CornerRadius(0);
-            }
 
             if (footerExpandable)
             {
-                toggleButton.IsVisible = true;
-                toggleText.Text = footerToggleText ?? "Details";
+                toggleButton.IsVisible  = true;
+                toggleText.Text         = footerToggleText ?? "Details";
                 footerContent.IsVisible = false;
 
                 toggleButton.Click += (_, _) =>
@@ -264,8 +297,7 @@ public sealed partial class PleasantDialog : ContentDialog
                     bool expanded = footerContent.IsVisible = !footerContent.IsVisible;
                     chevron.Data = Application.Current!.TryFindResource(
                         expanded ? "ChevronUpRegular" : "ChevronDownRegular", out object? g)
-                        ? g as Geometry
-                        : null;
+                        ? g as Geometry : null;
                 };
             }
             else
@@ -320,7 +352,12 @@ public sealed partial class PleasantDialog : ContentDialog
         {
             buttonsHost.Columns = 2;
             buttonsHost.Children.Add(new Panel());
-            AddButton(new PleasantDialogButton { Text = Localizer.TrDefault("Ok", "OK"), DialogResult = PleasantDialogResult.OK, IsDefault = true });
+            AddButton(new PleasantDialogButton
+            {
+                Text         = Localizer.TrDefault("Ok", "OK"),
+                DialogResult = PleasantDialogResult.OK,
+                IsDefault    = true
+            });
         }
         else if (buttons.Count == 1)
         {
@@ -335,7 +372,7 @@ public sealed partial class PleasantDialog : ContentDialog
                 AddButton(btn);
         }
 
-        // Enter key triggers default button
+        // Enter / Escape key handling
         dialog.KeyDown += (_, e) =>
         {
             if (e.Key == Key.Enter && dialog._defaultButton is { IsEnabled: true })
@@ -364,33 +401,37 @@ public sealed partial class PleasantDialog : ContentDialog
             tcs.TrySetResult(dialog._result);
         };
 
-        onDialogReady?.Invoke(dialog);
+        dialog._onDialogReady = onDialogReady;
         dialog.ShowAsync(parent);
         return tcs.Task;
     }
 
     /// <summary>
-    /// Updates the progress bar value and state. Safe to call from any thread.
+    /// Shows or updates the progress bar. Safe to call from any thread.
+    /// On first call the wrapper animates open; subsequent calls update value/state.
     /// </summary>
+    /// <param name="value">Progress value (0–100).</param>
+    /// <param name="isIndeterminate">When true the bar shows an indeterminate animation.</param>
+    /// <param name="isError">When true the bar foreground switches to the error color.</param>
     public void SetProgressBarState(double value, bool isIndeterminate = false, bool isError = false)
     {
         Avalonia.Threading.Dispatcher.UIThread.Post(() =>
         {
-            var pb = this.FindControl<ProgressBar>("ProgressBar")!;
-            pb.IsVisible = true;
-            pb.Value = value;
+            var wrapper = this.FindControl<Border>("ProgressBarWrapper")!;
+            var pb      = this.FindControl<ProgressBar>("ProgressBar")!;
+
+            // Animate the wrapper open the first time.
+            if (wrapper.Height < ProgressBarVisibleHeight)
+                wrapper.Height = ProgressBarVisibleHeight;
+
             pb.IsIndeterminate = isIndeterminate;
-            pb.Minimum = 0;
-            pb.Maximum = 100;
-            // Ensure minimum height is set
-            if (pb.Height < 8)
-                pb.Height = 8;
-            // Visual error state via pseudo-class would need a custom style;
-            // for now set the foreground directly
+            pb.Value           = value;
+
             if (isError && Application.Current!.TryFindResource("SystemFillColorCritical", out object? ec))
                 pb.Foreground = new SolidColorBrush((Color)ec!);
             else
-                pb.Foreground = null; // Reset to theme default
-        });
+                pb.ClearValue(ProgressBar.ForegroundProperty);
+
+        }, Avalonia.Threading.DispatcherPriority.Render);
     }
 }

@@ -11,7 +11,7 @@
                MinHeight="160"
                x:Class="PleasantUI.ToolKit.PleasantDialog">
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto,Auto,Auto">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
 
         <!-- ── Header (icon + title + subheader) ──────────────────────── -->
         <Border x:Name="HeaderBorder"
@@ -41,11 +41,8 @@
             </Grid>
         </Border>
 
-        <!-- Spacer between header and body -->
-        <Border Grid.Row="1" Height="8" />
-
         <!-- ── Scrollable body ────────────────────────────────────────── -->
-        <SmoothScrollViewer Grid.Row="2"
+        <SmoothScrollViewer Grid.Row="1"
                             HorizontalScrollBarVisibility="Disabled"
                             VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="BodyPanel"
@@ -55,10 +52,6 @@
                 <TextBlock x:Name="BodyText"
                            TextWrapping="Wrap"
                            IsVisible="False" />
-
-                <!-- Spacer between body text and commands -->
-                <Border Height="4"
-                        IsVisible="{Binding ElementName=BodyText, Path=IsVisible}" />
 
                 <!-- Commands: radio buttons, checkboxes, command links -->
                 <ItemsControl x:Name="CommandsHost"
@@ -77,25 +70,35 @@
             </StackPanel>
         </SmoothScrollViewer>
 
-        <!-- Spacer between body and progress bar -->
-        <Border Grid.Row="3" Height="12" />
-
-        <!-- ── Progress bar (hidden by default) ──────────────────────── -->
-        <ProgressBar x:Name="ProgressBar"
-                     Grid.Row="4"
-                     Margin="{DynamicResource PleasantDialogProgressMargin}"
-                     Height="8"
-                     MinHeight="8"
-                     Minimum="0"
-                     Maximum="100"
-                     IsVisible="False" />
-
-        <!-- Spacer between progress bar / body and footer -->
-        <Border Grid.Row="5" Height="8" />
+        <!-- ── Progress bar wrapper ───────────────────────────────────── -->
+        <!--
+            The wrapper Border animates its Height from 0 to 20 (bar + margins).
+            The ProgressBar itself is always in the visual tree so Bounds.Width
+            is always a real measured value — this is what makes the indicator
+            Width transition animate correctly from the very first SetProgressBarState call.
+        -->
+        <Border x:Name="ProgressBarWrapper"
+                Grid.Row="2"
+                Height="0"
+                ClipToBounds="True"
+                IsHitTestVisible="False">
+            <Border.Transitions>
+                <Transitions>
+                    <DoubleTransition Property="Height" Duration="0:0:0.2" Easing="CubicEaseOut" />
+                </Transitions>
+            </Border.Transitions>
+            <ProgressBar x:Name="ProgressBar"
+                         Margin="{DynamicResource PleasantDialogProgressMargin}"
+                         Height="8"
+                         MinHeight="8"
+                         Minimum="0"
+                         Maximum="100"
+                         Value="0" />
+        </Border>
 
         <!-- ── Footer (expandable) ────────────────────────────────────── -->
         <Border x:Name="FooterBorder"
-                Grid.Row="6"
+                Grid.Row="3"
                 IsVisible="False"
                 BorderBrush="{DynamicResource ControlBorderColor}"
                 BorderThickness="0 1 0 0"
