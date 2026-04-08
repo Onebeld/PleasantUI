@@ -66,6 +66,21 @@
         <Setter Property="Theme" Value="{StaticResource VGUISelectionListTheme}" />
     </Style>
 
+    <!-- VGUI DatePicker — inset bevel on the flyout button, square popup -->
+    <Style Selector="DatePicker /template/ Button#PART_FlyoutButton">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderThickness" Value="1 1 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor3}" />
+    </Style>
+    <Style Selector="DatePicker /template/ Popup#PART_Popup ShadowBorder">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BlurRadius" Value="0" />
+        <Setter Property="Offset" Value="0 0" />
+    </Style>
+    <Style Selector="DatePicker /template/ Popup#PART_Popup Border">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
     <!--
         VGUI Danger dialog header — replaces the flat red fill with a bevel-style
         raised panel using a vertical gradient (lighter top → darker bottom)
