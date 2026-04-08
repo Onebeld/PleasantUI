@@ -603,7 +603,7 @@
         </Style>
     </ControlTheme>
     <!-- VGUI SelectionListItem Theme -->
-    <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem" BasedOn="{StaticResource {x:Type controls:SelectionListItem}}">
+    <ControlTheme x:Key="VGUISelectionListItemTheme" TargetType="controls:SelectionListItem" BasedOn="{StaticResource {x:Type controls:SelectionListItem}}">
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
@@ -637,7 +637,7 @@
     </ControlTheme>
 
     <!-- VGUI SelectionList Theme -->
-    <ControlTheme x:Key="{x:Type controls:SelectionList}" TargetType="controls:SelectionList" BasedOn="{StaticResource {x:Type controls:SelectionList}}">
+    <ControlTheme x:Key="VGUISelectionListTheme" TargetType="controls:SelectionList" BasedOn="{StaticResource {x:Type controls:SelectionList}}">
         <Setter Property="BorderThickness" Value="1 1 0 0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlDarkFillColor1}" />
     </ControlTheme>

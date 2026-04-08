@@ -58,6 +58,14 @@
         <Setter Property="Theme" Value="{StaticResource VGUIOptionsDisplayItemTheme}" />
     </Style>
 
+    <Style Selector="controls|SelectionListItem">
+        <Setter Property="Theme" Value="{StaticResource VGUISelectionListItemTheme}" />
+    </Style>
+
+    <Style Selector="controls|SelectionList">
+        <Setter Property="Theme" Value="{StaticResource VGUISelectionListTheme}" />
+    </Style>
+
     <!--
         VGUI Danger dialog header — replaces the flat red fill with a bevel-style
         raised panel using a vertical gradient (lighter top → darker bottom)
