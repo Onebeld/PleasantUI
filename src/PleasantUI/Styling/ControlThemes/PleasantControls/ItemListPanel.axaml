@@ -38,12 +38,13 @@
                             <Border Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{DynamicResource ControlBorderThickness}"
-                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    Padding="0">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <PathIcon Grid.Column="0"
                                               Data="{DynamicResource SearchRegular}"
-                                              Width="14" Height="14"
-                                              Margin="10 0 6 0"
+                                              Width="16" Height="16"
+                                              Margin="12 0 8 0"
                                               Foreground="{DynamicResource TextFillColor3}"
                                               VerticalAlignment="Center" />
                                     <TextBox Name="PART_SearchBox"
@@ -51,18 +52,18 @@
                                              PlaceholderText="{TemplateBinding SearchWatermark}"
                                              Background="Transparent"
                                              BorderThickness="0"
-                                             Padding="0 8"
+                                             Padding="8 10"
                                              FontSize="13"
                                              VerticalContentAlignment="Center" />
                                     <Button Name="PART_ClearButton"
                                             Grid.Column="2"
                                             Theme="{DynamicResource AppBarButtonTheme}"
-                                            Width="28" Height="28"
-                                            Padding="6"
-                                            Margin="0 0 4 0"
+                                            Width="32" Height="32"
+                                            Padding="8"
+                                            Margin="0 0 6 0"
                                             IsVisible="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
                                         <PathIcon Data="{DynamicResource DismissRegular}"
-                                                  Width="10" Height="10" />
+                                                  Width="12" Height="12" />
                                     </Button>
                                 </Grid>
                             </Border>
@@ -89,6 +90,8 @@
                                 <ListBox.Styles>
                                     <Style Selector="ListBoxItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Background" Value="Transparent" />
                                     </Style>
                                 </ListBox.Styles>
                                 <ListBox.ItemsPanel>
