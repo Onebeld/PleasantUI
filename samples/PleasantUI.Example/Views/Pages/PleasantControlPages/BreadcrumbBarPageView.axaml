@@ -1,0 +1,203 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.BreadcrumbBarPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+
+            <TextBlock Text="{Localize BreadcrumbBar/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- Basic usage -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize BreadcrumbBar/BasicTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize BreadcrumbBar/BasicDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <controls:BreadcrumbBar x:Name="BasicBreadcrumb">
+                        <controls:BreadcrumbBarItem Content="Home" />
+                        <controls:BreadcrumbBarItem Content="Documents" />
+                        <controls:BreadcrumbBarItem Content="Projects" />
+                        <controls:BreadcrumbBarItem Content="PleasantUI" />
+                    </controls:BreadcrumbBar>
+
+                    <!-- Click result indicator -->
+                    <Border Background="{DynamicResource BackgroundColor2}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="10 6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Localize BreadcrumbBar/LastClicked}"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       VerticalAlignment="Center"
+                                       FontSize="12" />
+                            <TextBlock x:Name="BasicClickResult"
+                                       Text="—"
+                                       FontWeight="SemiBold"
+                                       FontSize="12"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Bound to ItemsSource -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize BreadcrumbBar/ItemsSourceTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize BreadcrumbBar/ItemsSourceDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <controls:BreadcrumbBar x:Name="BoundBreadcrumb" />
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="PushButton"
+                                Content="{Localize BreadcrumbBar/Push}" />
+                        <Button x:Name="PopButton"
+                                Content="{Localize BreadcrumbBar/Pop}" />
+                        <Button x:Name="ResetButton"
+                                Content="{Localize BreadcrumbBar/Reset}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Overflow / ellipsis demo -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize BreadcrumbBar/OverflowTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize BreadcrumbBar/OverflowDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <!-- Constrained width to force overflow -->
+                    <Border MaxWidth="300"
+                            HorizontalAlignment="Left"
+                            Background="{DynamicResource BackgroundColor2}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="8 4">
+                        <controls:BreadcrumbBar x:Name="OverflowBreadcrumb">
+                            <controls:BreadcrumbBarItem Content="Root" />
+                            <controls:BreadcrumbBarItem Content="Level 1" />
+                            <controls:BreadcrumbBarItem Content="Level 2" />
+                            <controls:BreadcrumbBarItem Content="Level 3" />
+                            <controls:BreadcrumbBarItem Content="Level 4" />
+                            <controls:BreadcrumbBarItem Content="Current" />
+                        </controls:BreadcrumbBar>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- IsLastItemClickEnabled -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize BreadcrumbBar/ClickableLastTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize BreadcrumbBar/ClickableLastDesc}"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <controls:BreadcrumbBar x:Name="ClickableLastBreadcrumb"
+                                            IsLastItemClickEnabled="True">
+                        <controls:BreadcrumbBarItem Content="Home" />
+                        <controls:BreadcrumbBarItem Content="Settings" />
+                        <controls:BreadcrumbBarItem Content="Profile" />
+                    </controls:BreadcrumbBar>
+
+                    <Border Background="{DynamicResource BackgroundColor2}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="10 6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Localize BreadcrumbBar/LastClicked}"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       VerticalAlignment="Center"
+                                       FontSize="12" />
+                            <TextBlock x:Name="ClickableLastResult"
+                                       Text="—"
+                                       FontWeight="SemiBold"
+                                       FontSize="12"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Key properties reference -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{Localize BreadcrumbBar/PropertiesTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <Grid ColumnDefinitions="Auto,16,*"
+                          RowDefinitions="Auto,Auto,Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="ItemsSource"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="2"
+                                   Text="{Localize BreadcrumbBar/Prop/ItemsSource}"
+                                   TextWrapping="Wrap" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="ItemTemplate"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}"
+                                   VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2"
+                                   Text="{Localize BreadcrumbBar/Prop/ItemTemplate}"
+                                   TextWrapping="Wrap" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   Margin="0 6 0 0" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="IsLastItemClickEnabled"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}"
+                                   VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="2"
+                                   Text="{Localize BreadcrumbBar/Prop/IsLastItemClickEnabled}"
+                                   TextWrapping="Wrap" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   Margin="0 6 0 0" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0"
+                                   Text="ItemClicked"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}"
+                                   VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="2"
+                                   Text="{Localize BreadcrumbBar/Prop/ItemClicked}"
+                                   TextWrapping="Wrap" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   Margin="0 6 0 0" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

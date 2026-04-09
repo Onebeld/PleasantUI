@@ -74,6 +74,8 @@ public partial class MainView : UserControl
             "PopConfirm"         => new PopConfirmPage(),
             "PathPicker"         => new PathPickerPage(),
             "PleasantMiniWindow" => new PleasantMiniWindowPage(),
+            "BreadcrumbBar"      => new BreadcrumbBarPage(),
+            "CommandBar"         => new CommandBarPage(),
             // ToolKit
             "MessageBox" => new MessageBoxPage(),
             "Docking"    => new DockingPage(),

@@ -1,0 +1,273 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.CommandBarPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+            <TextBlock Text="{Localize CommandBar/Description}"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- ── Labels always visible (IsOpen=True) ─────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize CommandBar/LabelBottomTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize CommandBar/LabelBottomDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <!-- IsOpen=True + IsSticky=True keeps labels permanently visible -->
+                    <controls:CommandBar DefaultLabelPosition="Bottom"
+                                         IsOpen="True"
+                                         IsSticky="True"
+                                         OverflowButtonVisibility="Collapsed">
+                        <controls:CommandBarButton Label="{Localize CommandBar/Save}"
+                                                   Icon="{DynamicResource DocumentRegular}" />
+                        <controls:CommandBarButton Label="{Localize CommandBar/Copy}"
+                                                   Icon="{DynamicResource CopyRegular}" />
+                        <controls:CommandBarButton Label="{Localize CommandBar/Edit}"
+                                                   Icon="{DynamicResource EditRegular}" />
+                        <controls:CommandBarSeparator />
+                        <controls:CommandBarToggleButton Label="{Localize CommandBar/Pin}"
+                                                         Icon="{DynamicResource PinRegular}" />
+                    </controls:CommandBar>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Basic: interactive open/close ──────────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize CommandBar/BasicTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize CommandBar/BasicDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <controls:CommandBar x:Name="BasicBar"
+                                         DefaultLabelPosition="Bottom">
+                        <controls:CommandBarButton x:Name="SaveBtn"
+                                                   Label="{Localize CommandBar/Save}"
+                                                   Icon="{DynamicResource DocumentRegular}" />
+                        <controls:CommandBarButton x:Name="CopyBtn"
+                                                   Label="{Localize CommandBar/Copy}"
+                                                   Icon="{DynamicResource CopyRegular}" />
+                        <controls:CommandBarButton x:Name="EditBtn"
+                                                   Label="{Localize CommandBar/Edit}"
+                                                   Icon="{DynamicResource EditRegular}" />
+                        <controls:CommandBarSeparator />
+                        <controls:CommandBarToggleButton x:Name="PinBtn"
+                                                         Label="{Localize CommandBar/Pin}"
+                                                         Icon="{DynamicResource PinRegular}" />
+                        <controls:CommandBar.SecondaryCommands>
+                            <controls:CommandBarButton Label="{Localize CommandBar/Delete}"
+                                                       Icon="{DynamicResource DeleteRegular}"
+                                                       KeyboardAcceleratorText="Del" />
+                            <controls:CommandBarSeparator />
+                            <controls:CommandBarButton Label="{Localize CommandBar/Settings}"
+                                                       Icon="{DynamicResource SettingsRegular}" />
+                        </controls:CommandBar.SecondaryCommands>
+                    </controls:CommandBar>
+
+                    <Border Background="{DynamicResource BackgroundColor2}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="10 6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Localize CommandBar/LastAction}"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       VerticalAlignment="Center" FontSize="12" />
+                            <TextBlock x:Name="BasicActionResult"
+                                       Text="—"
+                                       FontWeight="SemiBold" FontSize="12"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Label right ─────────────────────────────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize CommandBar/LabelRightTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize CommandBar/LabelRightDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <controls:CommandBar DefaultLabelPosition="Right"
+                                         ItemsAlignment="Left">
+                        <controls:CommandBarButton Label="{Localize CommandBar/Search}"
+                                                   Icon="{DynamicResource SearchRegular}" />
+                        <controls:CommandBarButton Label="{Localize CommandBar/Add}"
+                                                   Icon="{DynamicResource AddRegular}" />
+                        <controls:CommandBarButton Label="{Localize CommandBar/Delete}"
+                                                   Icon="{DynamicResource DeleteRegular}" />
+                    </controls:CommandBar>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Closed display modes ────────────────────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize CommandBar/DisplayModeTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize CommandBar/DisplayModeDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <TextBlock Text="Compact (default)" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+                    <controls:CommandBar ClosedDisplayMode="Compact"
+                                         DefaultLabelPosition="Bottom">
+                        <controls:CommandBarButton Label="{Localize CommandBar/Save}"
+                                                   Icon="{DynamicResource DocumentRegular}" />
+                        <controls:CommandBarButton Label="{Localize CommandBar/Copy}"
+                                                   Icon="{DynamicResource CopyRegular}" />
+                        <controls:CommandBar.SecondaryCommands>
+                            <controls:CommandBarButton Label="{Localize CommandBar/Settings}"
+                                                       Icon="{DynamicResource SettingsRegular}" />
+                        </controls:CommandBar.SecondaryCommands>
+                    </controls:CommandBar>
+
+                    <TextBlock Text="Minimal" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" Margin="0 8 0 0" />
+                    <controls:CommandBar ClosedDisplayMode="Minimal"
+                                         DefaultLabelPosition="Bottom">
+                        <controls:CommandBarButton Label="{Localize CommandBar/Save}"
+                                                   Icon="{DynamicResource DocumentRegular}" />
+                        <controls:CommandBarButton Label="{Localize CommandBar/Copy}"
+                                                   Icon="{DynamicResource CopyRegular}" />
+                        <controls:CommandBar.SecondaryCommands>
+                            <controls:CommandBarButton Label="{Localize CommandBar/Settings}"
+                                                       Icon="{DynamicResource SettingsRegular}" />
+                        </controls:CommandBar.SecondaryCommands>
+                    </controls:CommandBar>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Dynamic overflow ────────────────────────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize CommandBar/OverflowTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize CommandBar/OverflowDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <!-- Constrained width forces dynamic overflow -->
+                    <Border MaxWidth="320" HorizontalAlignment="Left">
+                        <controls:CommandBar DefaultLabelPosition="Bottom"
+                                             IsDynamicOverflowEnabled="True">
+                            <controls:CommandBarButton Label="{Localize CommandBar/Save}"
+                                                       Icon="{DynamicResource DocumentRegular}" />
+                            <controls:CommandBarButton Label="{Localize CommandBar/Copy}"
+                                                       Icon="{DynamicResource CopyRegular}" />
+                            <controls:CommandBarButton Label="{Localize CommandBar/Edit}"
+                                                       Icon="{DynamicResource EditRegular}" />
+                            <controls:CommandBarButton Label="{Localize CommandBar/Search}"
+                                                       Icon="{DynamicResource SearchRegular}" />
+                            <controls:CommandBarButton Label="{Localize CommandBar/Delete}"
+                                                       Icon="{DynamicResource DeleteRegular}" />
+                        </controls:CommandBar>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Toggle buttons ──────────────────────────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize CommandBar/ToggleTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize CommandBar/ToggleDesc}"
+                               TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+
+                    <controls:CommandBar DefaultLabelPosition="Right">
+                        <controls:CommandBarToggleButton x:Name="BoldBtn"
+                                                         Label="{Localize CommandBar/Bold}"
+                                                         Icon="{DynamicResource DocumentRegular}" />
+                        <controls:CommandBarToggleButton x:Name="ItalicBtn"
+                                                         Label="{Localize CommandBar/Italic}"
+                                                         Icon="{DynamicResource EditRegular}" />
+                        <controls:CommandBarToggleButton x:Name="PinBtn2"
+                                                         Label="{Localize CommandBar/Pin}"
+                                                         Icon="{DynamicResource PinRegular}" />
+                    </controls:CommandBar>
+
+                    <Border Background="{DynamicResource BackgroundColor2}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="10 6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Localize CommandBar/ToggleState}"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       VerticalAlignment="Center" FontSize="12" />
+                            <TextBlock x:Name="ToggleStateResult"
+                                       Text="—"
+                                       FontWeight="SemiBold" FontSize="12"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Key properties ──────────────────────────────────────── -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{Localize CommandBar/PropertiesTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="DefaultLabelPosition"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Localize CommandBar/Prop/DefaultLabelPosition}"
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="ClosedDisplayMode"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Localize CommandBar/Prop/ClosedDisplayMode}"
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="IsDynamicOverflowEnabled"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Localize CommandBar/Prop/IsDynamicOverflowEnabled}"
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="ItemsAlignment"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Localize CommandBar/Prop/ItemsAlignment}"
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="PrimaryCommands"
+                                   FontFamily="Consolas,Monospace" FontSize="12"
+                                   Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" Text="{Localize CommandBar/Prop/PrimaryCommands}"
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

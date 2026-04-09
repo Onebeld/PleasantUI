@@ -174,4 +174,167 @@
     <data name="NavPosition/Bottom" xml:space="preserve">
         <value>Bottom</value>
     </data>
+
+    <!-- BreadcrumbBar page -->
+    <data name="CardTitle/BreadcrumbBar" xml:space="preserve">
+        <value>BreadcrumbBar</value>
+    </data>
+    <data name="Card/BreadcrumbBar" xml:space="preserve">
+        <value>Shows a path of pages or folders to the current location.</value>
+    </data>
+
+    <!-- CommandBar page -->
+    <data name="CardTitle/CommandBar" xml:space="preserve">
+        <value>CommandBar</value>
+    </data>
+    <data name="Card/CommandBar" xml:space="preserve">
+        <value>A toolbar with primary commands inline and overflow in a popup menu.</value>
+    </data>
+    <data name="CommandBar/Description" xml:space="preserve">
+        <value>CommandBar displays primary commands inline and moves overflow items into a popup. Supports dynamic overflow, label positions, toggle buttons, and separators.</value>
+    </data>
+    <data name="CommandBar/BasicTitle" xml:space="preserve">
+        <value>Basic usage</value>
+    </data>
+    <data name="CommandBar/BasicDesc" xml:space="preserve">
+        <value>Click the … button to open the overflow popup. Secondary commands always appear there. Click any button to see the action below.</value>
+    </data>
+    <data name="CommandBar/LabelBottomTitle" xml:space="preserve">
+        <value>Labels below icon (always open)</value>
+    </data>
+    <data name="CommandBar/LabelBottomDesc" xml:space="preserve">
+        <value>Set IsOpen="True" and IsSticky="True" to keep the bar permanently expanded so labels are always visible below each icon.</value>
+    </data>
+    <data name="CommandBar/LabelRightTitle" xml:space="preserve">
+        <value>Labels on the right</value>
+    </data>
+    <data name="CommandBar/LabelRightDesc" xml:space="preserve">
+        <value>Set DefaultLabelPosition="Right" to show labels beside the icon at all times.</value>
+    </data>
+    <data name="CommandBar/DisplayModeTitle" xml:space="preserve">
+        <value>Closed display modes</value>
+    </data>
+    <data name="CommandBar/DisplayModeDesc" xml:space="preserve">
+        <value>ClosedDisplayMode controls what is visible when the bar is closed: Compact shows icons, Minimal shows only the … button.</value>
+    </data>
+    <data name="CommandBar/OverflowTitle" xml:space="preserve">
+        <value>Dynamic overflow</value>
+    </data>
+    <data name="CommandBar/OverflowDesc" xml:space="preserve">
+        <value>When IsDynamicOverflowEnabled is true, primary commands automatically move to the overflow popup when there is not enough space.</value>
+    </data>
+    <data name="CommandBar/ToggleTitle" xml:space="preserve">
+        <value>Toggle buttons</value>
+    </data>
+    <data name="CommandBar/ToggleDesc" xml:space="preserve">
+        <value>CommandBarToggleButton supports checked/unchecked states with accent styling. The state is reflected below.</value>
+    </data>
+    <data name="CommandBar/PropertiesTitle" xml:space="preserve">
+        <value>Key properties</value>
+    </data>
+    <data name="CommandBar/LastAction" xml:space="preserve">
+        <value>Last action:</value>
+    </data>
+    <data name="CommandBar/ToggleState" xml:space="preserve">
+        <value>Active:</value>
+    </data>
+    <data name="CommandBar/Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="CommandBar/Copy" xml:space="preserve">
+        <value>Copy</value>
+    </data>
+    <data name="CommandBar/Edit" xml:space="preserve">
+        <value>Edit</value>
+    </data>
+    <data name="CommandBar/Pin" xml:space="preserve">
+        <value>Pin</value>
+    </data>
+    <data name="CommandBar/Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="CommandBar/Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="CommandBar/Search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="CommandBar/Add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="CommandBar/Bold" xml:space="preserve">
+        <value>Bold</value>
+    </data>
+    <data name="CommandBar/Italic" xml:space="preserve">
+        <value>Italic</value>
+    </data>
+    <data name="CommandBar/Prop/DefaultLabelPosition" xml:space="preserve">
+        <value>Bottom (default), Right, or Collapsed — controls where labels appear relative to the icon.</value>
+    </data>
+    <data name="CommandBar/Prop/ClosedDisplayMode" xml:space="preserve">
+        <value>Compact, Minimal, or Hidden — controls what is visible when the bar is closed.</value>
+    </data>
+    <data name="CommandBar/Prop/IsDynamicOverflowEnabled" xml:space="preserve">
+        <value>When true, primary commands automatically move to the overflow popup when space is limited.</value>
+    </data>
+    <data name="CommandBar/Prop/ItemsAlignment" xml:space="preserve">
+        <value>Left or Right — controls how primary commands are aligned inside the bar.</value>
+    </data>
+    <data name="CommandBar/Prop/PrimaryCommands" xml:space="preserve">
+        <value>The collection of inline command elements. Also the XAML content property.</value>
+    </data>
+    <data name="BreadcrumbBar/Description" xml:space="preserve">
+        <value>BreadcrumbBar displays the direct path of pages or folders to the current location. Items that overflow the available width are collapsed into an ellipsis flyout.</value>
+    </data>
+    <data name="BreadcrumbBar/BasicTitle" xml:space="preserve">
+        <value>Basic usage</value>
+    </data>
+    <data name="BreadcrumbBar/BasicDesc" xml:space="preserve">
+        <value>Declare BreadcrumbBarItem children directly. Click any item to raise the ItemClicked event.</value>
+    </data>
+    <data name="BreadcrumbBar/LastClicked" xml:space="preserve">
+        <value>Last clicked:</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceTitle" xml:space="preserve">
+        <value>Bound to ItemsSource</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceDesc" xml:space="preserve">
+        <value>Bind an ObservableCollection to ItemsSource. Use Push / Pop / Reset to modify the path at runtime.</value>
+    </data>
+    <data name="BreadcrumbBar/Push" xml:space="preserve">
+        <value>Push</value>
+    </data>
+    <data name="BreadcrumbBar/Pop" xml:space="preserve">
+        <value>Pop</value>
+    </data>
+    <data name="BreadcrumbBar/Reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowTitle" xml:space="preserve">
+        <value>Overflow / ellipsis</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowDesc" xml:space="preserve">
+        <value>When items exceed the available width the control automatically collapses hidden items into an ellipsis button. Click it to see the flyout.</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastTitle" xml:space="preserve">
+        <value>Clickable last item</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastDesc" xml:space="preserve">
+        <value>Set IsLastItemClickEnabled="True" to make the current (last) item interactive instead of rendering it as plain text.</value>
+    </data>
+    <data name="BreadcrumbBar/PropertiesTitle" xml:space="preserve">
+        <value>Key properties</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemsSource" xml:space="preserve">
+        <value>Bound collection used as the data source for the breadcrumb trail.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemTemplate" xml:space="preserve">
+        <value>DataTemplate applied to each item when using ItemsSource.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/IsLastItemClickEnabled" xml:space="preserve">
+        <value>When true the last item is rendered as a clickable button instead of plain text.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemClicked" xml:space="preserve">
+        <value>Raised when any item is clicked. Args expose Index (zero-based) and Item (the data object).</value>
+    </data>
 </root>

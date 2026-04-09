@@ -1,0 +1,621 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="520">
+            <StackPanel Spacing="12">
+                <controls:CommandBar DefaultLabelPosition="Bottom">
+                    <controls:CommandBarButton Label="Save"   Icon="{DynamicResource DocumentRegular}" />
+                    <controls:CommandBarButton Label="Copy"   Icon="{DynamicResource CopyRegular}" />
+                    <controls:CommandBarButton Label="Delete" Icon="{DynamicResource DeleteRegular}" />
+                    <controls:CommandBarSeparator />
+                    <controls:CommandBarToggleButton Label="Pin" Icon="{DynamicResource PinRegular}" />
+                    <controls:CommandBar.SecondaryCommands>
+                        <controls:CommandBarButton Label="Settings" Icon="{DynamicResource SettingsRegular}" KeyboardAcceleratorText="Ctrl+," />
+                        <controls:CommandBarSeparator />
+                        <controls:CommandBarButton Label="Search"   Icon="{DynamicResource SearchRegular}" />
+                    </controls:CommandBar.SecondaryCommands>
+                </controls:CommandBar>
+                <controls:CommandBar DefaultLabelPosition="Right">
+                    <controls:CommandBarButton Label="Save"   Icon="{DynamicResource DocumentRegular}" />
+                    <controls:CommandBarButton Label="Copy"   Icon="{DynamicResource CopyRegular}" />
+                </controls:CommandBar>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── Size tokens ───────────────────────────────────────────────────── -->
+
+    <x:Double  x:Key="CommandBarCompactHeight">40</x:Double>
+    <x:Double  x:Key="CommandBarOpenHeight">64</x:Double>
+    <x:Double  x:Key="CommandBarMinimalHeight">24</x:Double>
+    <x:Double  x:Key="CommandBarMoreButtonWidth">40</x:Double>
+    <x:Double  x:Key="CommandBarButtonIconSize">18</x:Double>
+    <Thickness x:Key="CommandBarPadding">4 0 0 0</Thickness>
+    <Thickness x:Key="CommandBarButtonMargin">2 4</Thickness>
+    <Thickness x:Key="CommandBarOverflowItemPadding">12 9 12 9</Thickness>
+    <Thickness x:Key="CommandBarOverflowPresenterPadding">0 4</Thickness>
+
+    <!-- ── More (…) button ───────────────────────────────────────────────── -->
+    <ControlTheme x:Key="CommandBarMoreButtonTheme" TargetType="Button">
+        <Setter Property="Background"                 Value="Transparent" />
+        <Setter Property="BorderBrush"                Value="Transparent" />
+        <Setter Property="BorderThickness"            Value="0" />
+        <Setter Property="Width"                      Value="{DynamicResource CommandBarMoreButtonWidth}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment"   Value="Center" />
+        <Setter Property="CornerRadius"               Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="Cursor"                     Value="Hand" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Margin="2 4"
+                        ClipToBounds="True">
+                    <RippleEffect Name="PART_Ripple">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── CommandBarButton ──────────────────────────────────────────────── -->
+    <!--
+        Layout strategy:
+        - Inline compact:  icon centred, no label  (height = CommandBarCompactHeight)
+        - Inline open:     icon + label below       (height = CommandBarOpenHeight)
+        - Inline right:    icon + label beside      (height = CommandBarCompactHeight)
+        - Overflow:        label text only (or icon + label when :icons)
+
+        We use a single Panel that stacks two children:
+          1. The "inline" panel  — a StackPanel(Vertical) with icon + optional label
+          2. The "overflow" panel — a Grid with text + accelerator hint
+        Exactly one is visible at a time.
+    -->
+    <ControlTheme x:Key="{x:Type controls:CommandBarButton}" TargetType="controls:CommandBarButton">
+        <Setter Property="Background"                 Value="Transparent" />
+        <Setter Property="BorderBrush"                Value="Transparent" />
+        <Setter Property="BorderThickness"            Value="0" />
+        <Setter Property="Foreground"                 Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="CornerRadius"               Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment"   Value="Center" />
+        <Setter Property="MinWidth"                   Value="{DynamicResource CommandBarCompactHeight}" />
+        <Setter Property="Height"                     Value="{DynamicResource CommandBarCompactHeight}" />
+        <Setter Property="Cursor"                     Value="Hand" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="Root"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True"
+                        Margin="{DynamicResource CommandBarButtonMargin}">
+                    <RippleEffect Name="PART_Ripple">
+                        <Panel>
+
+                            <!-- ── Inline view ──────────────────────────── -->
+                            <StackPanel Name="InlinePanel"
+                                        Orientation="Vertical"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Spacing="0">
+
+                                <!-- Icon -->
+                                <Viewbox Name="IconViewbox"
+                                         Width="{DynamicResource CommandBarButtonIconSize}"
+                                         Height="{DynamicResource CommandBarButtonIconSize}"
+                                         Margin="11 0"
+                                         HorizontalAlignment="Center">
+                                    <PathIcon Data="{TemplateBinding Icon}"
+                                              Foreground="{TemplateBinding Foreground}" />
+                                </Viewbox>
+
+                                <!-- Label below (labelBottom, only when open) -->
+                                <TextBlock Name="PART_Label"
+                                           Text="{TemplateBinding Label}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           FontSize="11"
+                                           TextAlignment="Center"
+                                           TextWrapping="NoWrap"
+                                           Margin="6 3 6 0"
+                                           IsVisible="False" />
+                            </StackPanel>
+
+                            <!-- ── Overflow view ─────────────────────────── -->
+                            <Grid Name="OverflowPanel"
+                                  ColumnDefinitions="Auto,*,Auto"
+                                  IsVisible="False">
+
+                                <!-- Icon (shown when :icons) -->
+                                <Viewbox Name="OverflowIconViewbox"
+                                         Grid.Column="0"
+                                         Width="18" Height="18"
+                                         Margin="12 0 0 0"
+                                         VerticalAlignment="Center"
+                                         IsVisible="False">
+                                    <PathIcon Data="{TemplateBinding Icon}"
+                                              Foreground="{TemplateBinding Foreground}" />
+                                </Viewbox>
+
+                                <!-- Label -->
+                                <TextBlock Name="PART_OverflowLabel"
+                                           Grid.Column="1"
+                                           Text="{TemplateBinding Label}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           FontSize="{DynamicResource GlobalFontSize}"
+                                           TextTrimming="CharacterEllipsis"
+                                           VerticalAlignment="Center"
+                                           Padding="{DynamicResource CommandBarOverflowItemPadding}" />
+
+                                <!-- Keyboard accelerator -->
+                                <TextBlock Name="PART_AcceleratorText"
+                                           Grid.Column="2"
+                                           Text="{TemplateBinding KeyboardAcceleratorText}"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="11"
+                                           VerticalAlignment="Center"
+                                           Margin="0 0 12 0"
+                                           IsVisible="False" />
+                            </Grid>
+
+                        </Panel>
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!-- ── labelBottom: show label when bar is open ──────────────────── -->
+        <Style Selector="^:labelBottom:open">
+            <Setter Property="Height" Value="{DynamicResource CommandBarOpenHeight}" />
+        </Style>
+        <Style Selector="^:labelBottom:open /template/ TextBlock#PART_Label">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- ── labelRight: icon + label side by side, always visible ──────── -->
+        <Style Selector="^:labelRight">
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Height"   Value="{DynamicResource CommandBarCompactHeight}" />
+        </Style>
+        <Style Selector="^:labelRight /template/ StackPanel#InlinePanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="Spacing"     Value="6" />
+        </Style>
+        <Style Selector="^:labelRight /template/ Viewbox#IconViewbox">
+            <Setter Property="Margin" Value="10 0 0 0" />
+        </Style>
+        <Style Selector="^:labelRight /template/ TextBlock#PART_Label">
+            <Setter Property="IsVisible"       Value="True" />
+            <Setter Property="FontSize"        Value="{DynamicResource GlobalFontSize}" />
+            <Setter Property="Margin"          Value="0 0 10 0" />
+            <Setter Property="TextAlignment"   Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!-- ── labelCollapsed: icon only, never show label ──────────────── -->
+        <Style Selector="^:labelCollapsed /template/ TextBlock#PART_Label">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- ── Overflow mode ─────────────────────────────────────────────── -->
+        <Style Selector="^:overflow">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="MinWidth"            Value="0" />
+            <Setter Property="Height"              Value="NaN" />
+        </Style>
+        <Style Selector="^:overflow /template/ Border#Root">
+            <Setter Property="Margin" Value="4 2" />
+        </Style>
+        <Style Selector="^:overflow /template/ StackPanel#InlinePanel">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:overflow /template/ Grid#OverflowPanel">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Overflow with icons: show icon column -->
+        <Style Selector="^:overflow:icons /template/ Viewbox#OverflowIconViewbox">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:overflow:icons /template/ TextBlock#PART_OverflowLabel">
+            <Setter Property="Padding" Value="8 9 12 9" />
+        </Style>
+
+        <!-- Keyboard accelerator hint visible in overflow -->
+        <Style Selector="^:overflow /template/ TextBlock#PART_AcceleratorText">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── CommandBarToggleButton ─────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:CommandBarToggleButton}"
+                  TargetType="controls:CommandBarToggleButton"
+                  BasedOn="{StaticResource {x:Type controls:CommandBarButton}}">
+
+        <!-- Must re-declare height/minwidth because BasedOn doesn't inherit Setter
+             values for properties not on the ToggleButton base type. -->
+        <Setter Property="Height"    Value="{DynamicResource CommandBarCompactHeight}" />
+        <Setter Property="MinWidth"  Value="{DynamicResource CommandBarCompactHeight}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="Root"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True"
+                        Margin="{DynamicResource CommandBarButtonMargin}">
+                    <RippleEffect Name="PART_Ripple">
+                        <Panel>
+
+                            <!-- ── Inline view ──────────────────────────── -->
+                            <StackPanel Name="InlinePanel"
+                                        Orientation="Vertical"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Spacing="0">
+
+                                <!-- Icon -->
+                                <Viewbox Name="IconViewbox"
+                                         Width="{DynamicResource CommandBarButtonIconSize}"
+                                         Height="{DynamicResource CommandBarButtonIconSize}"
+                                         Margin="11 0"
+                                         HorizontalAlignment="Center">
+                                    <PathIcon Data="{TemplateBinding Icon}"
+                                              Foreground="{TemplateBinding Foreground}" />
+                                </Viewbox>
+
+                                <!-- Label below (labelBottom, only when open) -->
+                                <TextBlock Name="PART_Label"
+                                           Text="{TemplateBinding Label}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           FontSize="11"
+                                           TextAlignment="Center"
+                                           TextWrapping="NoWrap"
+                                           Margin="6 3 6 0"
+                                           IsVisible="False" />
+                            </StackPanel>
+
+                            <!-- ── Overflow view ─────────────────────────── -->
+                            <Grid Name="OverflowPanel"
+                                  ColumnDefinitions="Auto,*,Auto"
+                                  IsVisible="False">
+
+                                <!-- Icon (shown when :icons) -->
+                                <Viewbox Name="OverflowIconViewbox"
+                                         Grid.Column="0"
+                                         Width="18" Height="18"
+                                         Margin="12 0 0 0"
+                                         VerticalAlignment="Center"
+                                         IsVisible="False">
+                                    <PathIcon Data="{TemplateBinding Icon}"
+                                              Foreground="{TemplateBinding Foreground}" />
+                                </Viewbox>
+
+                                <!-- Label -->
+                                <TextBlock Name="PART_OverflowLabel"
+                                           Grid.Column="1"
+                                           Text="{TemplateBinding Label}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           FontSize="{DynamicResource GlobalFontSize}"
+                                           TextTrimming="CharacterEllipsis"
+                                           VerticalAlignment="Center"
+                                           Padding="{DynamicResource CommandBarOverflowItemPadding}" />
+
+                                <!-- Keyboard accelerator -->
+                                <TextBlock Name="PART_AcceleratorText"
+                                           Grid.Column="2"
+                                           Text="{TemplateBinding KeyboardAcceleratorText}"
+                                           Foreground="{DynamicResource TextFillColor3}"
+                                           FontSize="11"
+                                           VerticalAlignment="Center"
+                                           Margin="0 0 12 0"
+                                           IsVisible="False" />
+                            </Grid>
+
+                        </Panel>
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
+            <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
+        </Style>
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
+        </Style>
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
+        </Style>
+
+        <!-- labelBottom open: expand height to show label -->
+        <Style Selector="^:labelBottom:open">
+            <Setter Property="Height" Value="{DynamicResource CommandBarOpenHeight}" />
+        </Style>
+
+        <!-- labelRight: compact height, horizontal layout -->
+        <Style Selector="^:labelRight">
+            <Setter Property="Height"   Value="{DynamicResource CommandBarCompactHeight}" />
+            <Setter Property="MinWidth" Value="0" />
+        </Style>
+
+        <!-- Overflow: auto height -->
+        <Style Selector="^:overflow">
+            <Setter Property="Height"   Value="NaN" />
+            <Setter Property="MinWidth" Value="0" />
+        </Style>
+
+        <!-- Overflow checked: show icon as checkmark indicator -->
+        <Style Selector="^:overflow:checked /template/ Viewbox#OverflowIconViewbox">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── CommandBarSeparator ────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:CommandBarSeparator}" TargetType="controls:CommandBarSeparator">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="SeparatorBorder"
+                        Width="1"
+                        Margin="2 8"
+                        Background="{DynamicResource ControlBorderColor}"
+                        CornerRadius="0.5"
+                        VerticalAlignment="Stretch" />
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Horizontal in overflow -->
+        <Style Selector="^:overflow /template/ Border#SeparatorBorder">
+            <Setter Property="Width"               Value="NaN" />
+            <Setter Property="Height"              Value="1" />
+            <Setter Property="Margin"              Value="12 4" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment"   Value="Center" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── CommandBarOverflowPresenter ───────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:CommandBarOverflowPresenter}"
+                  TargetType="controls:CommandBarOverflowPresenter">
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="MinWidth"        Value="180" />
+        <Setter Property="MaxWidth"        Value="360" />
+        <Setter Property="MaxHeight"       Value="480" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"   Value="Auto" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                        <ItemsPresenter Name="PART_ItemsPresenter"
+                                        Margin="{DynamicResource CommandBarOverflowPresenterPadding}" />
+                    </SmoothScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <!-- ── CommandBar ─────────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:CommandBar}" TargetType="controls:CommandBar">
+        <Setter Property="Background"                 Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="BorderBrush"                Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness"            Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="Foreground"                 Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="CornerRadius"               Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="HorizontalAlignment"        Value="Stretch" />
+        <Setter Property="VerticalAlignment"          Value="Top" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment"   Value="Center" />
+        <Setter Property="Padding"                    Value="{DynamicResource CommandBarPadding}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Name="LayoutRoot">
+
+                    <!-- Bar surface -->
+                    <Border Name="ContentRootBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            MinHeight="{DynamicResource CommandBarCompactHeight}"
+                            ClipToBounds="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Content + primary commands -->
+                            <Grid Grid.Column="0" ColumnDefinitions="Auto,*">
+                                <ContentControl Name="PART_ContentControl"
+                                                Grid.Column="0"
+                                                Margin="{TemplateBinding Padding}"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                                <ItemsControl Name="PART_PrimaryItemsControl"
+                                              Grid.Column="1"
+                                              VerticalAlignment="Stretch">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+
+                            <!-- More button -->
+                            <Button Name="PART_MoreButton"
+                                    Grid.Column="1"
+                                    Theme="{StaticResource CommandBarMoreButtonTheme}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    VerticalAlignment="Center"
+                                    Height="{DynamicResource CommandBarCompactHeight}">
+                                <PathIcon Data="{DynamicResource MoreRegular}"
+                                          Width="14" Height="14"
+                                          Foreground="{TemplateBinding Foreground}" />
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <!-- Overflow popup -->
+                    <Popup Name="PART_OverflowPopup"
+                           WindowManagerAddShadowHint="False"
+                           PlacementTarget="{TemplateBinding}"
+                           Placement="AnchorAndGravity"
+                           PlacementAnchor="BottomRight"
+                           PlacementGravity="BottomLeft"
+                           IsOpen="{TemplateBinding IsOpen, Mode=TwoWay}"
+                           IsLightDismissEnabled="{Binding !IsSticky, RelativeSource={RelativeSource TemplatedParent}}">
+                        <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                                      Margin="6 4 6 6"
+                                      BlurRadius="5"
+                                      Offset="0 1"
+                                      ShadowColor="#3C000000">
+                            <ShadowBorder.Styles>
+                                <Style>
+                                    <Style.Animations>
+                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                                            <KeyFrame Cue="0%">
+                                                <Setter Property="TranslateTransform.Y" Value="-60" />
+                                                <Setter Property="Opacity" Value="0" />
+                                            </KeyFrame>
+                                            <KeyFrame Cue="100%">
+                                                <Setter Property="TranslateTransform.Y" Value="0" />
+                                                <Setter Property="Opacity" Value="1" />
+                                            </KeyFrame>
+                                        </Animation>
+                                    </Style.Animations>
+                                </Style>
+                            </ShadowBorder.Styles>
+                            <controls:CommandBarOverflowPresenter Name="PART_SecondaryItemsControl" />
+                        </ShadowBorder>
+                    </Popup>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Open: slightly lighter background -->
+        <Style Selector="^:open /template/ Border#ContentRootBorder">
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        </Style>
+        <Style Selector="^:open /template/ Button#PART_MoreButton">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+
+        <!-- Hidden mode -->
+        <Style Selector="^:hidden">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:hidden:open">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Minimal mode: shrink to just the more button -->
+        <Style Selector="^:minimal">
+            <Setter Property="Height"       Value="{DynamicResource CommandBarMinimalHeight}" />
+            <Setter Property="ClipToBounds" Value="True" />
+        </Style>
+        <Style Selector="^:minimal /template/ Border#ContentRootBorder">
+            <Setter Property="MinHeight" Value="{DynamicResource CommandBarMinimalHeight}" />
+        </Style>
+        <Style Selector="^:minimal /template/ ContentControl#PART_ContentControl">
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="Opacity"          Value="0" />
+        </Style>
+        <Style Selector="^:minimal /template/ ItemsControl#PART_PrimaryItemsControl">
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="Opacity"          Value="0" />
+        </Style>
+        <Style Selector="^:minimal /template/ Button#PART_MoreButton">
+            <Setter Property="Height"            Value="{DynamicResource CommandBarMinimalHeight}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="^:minimal:open">
+            <Setter Property="Height"       Value="NaN" />
+            <Setter Property="ClipToBounds" Value="False" />
+        </Style>
+        <Style Selector="^:minimal:open /template/ Border#ContentRootBorder">
+            <Setter Property="MinHeight" Value="{DynamicResource CommandBarCompactHeight}" />
+        </Style>
+        <Style Selector="^:minimal:open /template/ ContentControl#PART_ContentControl">
+            <Setter Property="IsHitTestVisible" Value="True" />
+            <Setter Property="Opacity"          Value="1" />
+        </Style>
+        <Style Selector="^:minimal:open /template/ ItemsControl#PART_PrimaryItemsControl">
+            <Setter Property="IsHitTestVisible" Value="True" />
+            <Setter Property="Opacity"          Value="1" />
+        </Style>
+        <Style Selector="^:minimal:open /template/ Button#PART_MoreButton">
+            <Setter Property="Height"            Value="{DynamicResource CommandBarCompactHeight}" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+
+        <!-- Items right-aligned -->
+        <Style Selector="^:itemsRight /template/ ItemsControl#PART_PrimaryItemsControl">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

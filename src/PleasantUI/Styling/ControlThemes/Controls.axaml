@@ -71,6 +71,8 @@
                 <MergeResourceInclude Source="BasicControls/WindowNotificationManager.axaml" />
 
                 <!-- Pleasant Controls -->
+                <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
+                <MergeResourceInclude Source="PleasantControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
