@@ -179,8 +179,7 @@ public class PinCode : TemplatedControl
     private async void OnPreviewKeyDown(KeyEventArgs e)
     {
         // Paste
-        var platformSettings = Application.Current is not null ? VisualExtensions.GetPlatformSettings(Application.Current) : null;
-        var pasteKeys = platformSettings?.HotkeyConfiguration.Paste;
+        var pasteKeys = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste;
         if (pasteKeys?.Any(k => k.Matches(e)) == true)
         {
             var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
