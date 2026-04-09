@@ -21,7 +21,6 @@ A panel that hosts a searchable, collapsible tree of `TreeViewSection` items. Pr
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `Sections` | `AvaloniaList<TreeViewSection>` | — | Collection of sections displayed in the panel |
 | `FilterText` | `string?` | — | Text used to filter items across all sections |
 | `FilterWatermark` | `string` | `"Filter..."` | Watermark shown in the filter text box |
 | `SelectedItem` | `object?` | — | Currently selected item (across all sections) |
@@ -30,6 +29,7 @@ A panel that hosts a searchable, collapsible tree of `TreeViewSection` items. Pr
 | `ShowCollapseButton` | `bool` | `true` | Whether the collapse-all button is visible |
 | `ExpandButtonColumnWidth` | `GridLength` | `32` | Width of the expand button column |
 | `CollapseButtonColumnWidth` | `GridLength` | `32` | Width of the collapse button column |
+| `Sections` | `AvaloniaList<TreeViewSection>` | — | Collection of sections displayed in the panel |
 
 ## Events
 
@@ -59,14 +59,42 @@ The filter text box automatically filters items across all sections. When text i
 treeViewPanel.FilterText = "search term";
 ```
 
-## Expand/Collapse buttons
+## Expand/collapse buttons
 
-The panel includes expand-all and collapse-all buttons that can be shown or hidden:
+The expand-all and collapse-all buttons allow users to quickly expand or collapse all sections at once.
+
+```csharp
+treeViewPanel.ExpandAll();
+treeViewPanel.CollapseAll();
+```
+
+Control button visibility:
 
 ```xml
-<TreeViewPanel ShowExpandButton="False"
-                ShowCollapseButton="False" />
+<TreeViewPanel ShowExpandButton="True"
+              ShowCollapseButton="True" />
 ```
+
+```csharp
+treeViewPanel.ShowExpandButton = false;
+treeViewPanel.ShowCollapseButton = false;
+```
+
+## Button column widths
+
+Customize the width of the expand and collapse button columns:
+
+```xml
+<TreeViewPanel ExpandButtonColumnWidth="40"
+              CollapseButtonColumnWidth="40" />
+```
+
+```csharp
+treeViewPanel.ExpandButtonColumnWidth = new GridLength(40);
+treeViewPanel.CollapseButtonColumnWidth = new GridLength(40);
+```
+
+These columns animate when the search box gains/loses focus.
 
 ## Selection handling
 
@@ -80,11 +108,13 @@ treeViewPanel.SelectionChanged += (sender, e) =>
 };
 ```
 
-## Custom column widths
+## Filter changed event
 
-Adjust the width of the expand/collapse button columns:
+Handle filter text changes:
 
-```xml
-<TreeViewPanel ExpandButtonColumnWidth="40"
-                CollapseButtonColumnWidth="40" />
+```csharp
+treeViewPanel.FilterChanged += (sender, text) =>
+{
+    // Respond to filter text changes
+};
 ```

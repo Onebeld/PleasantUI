@@ -14,20 +14,20 @@ A panel that displays a searchable, filterable, multi-selectable list of items w
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `ItemsSource` | `IEnumerable?` | — | Items source for the list |
-| `ItemTemplate` | `IDataTemplate?` | — | Data template for list items |
-| `SelectedItem` | `object?` | — | Currently selected item |
-| `SelectedCount` | `int` | `0` | Number of selected items in multi-select mode (read-only) |
 | `IsLoading` | `bool` | `false` | Whether the loading overlay is shown |
 | `LoadingTitle` | `string` | `"Loading..."` | Title shown in the loading overlay |
 | `LoadingSubtitle` | `string?` | — | Subtitle shown in the loading overlay |
 | `IsMultiSelectMode` | `bool` | `false` | Whether multi-select mode is active |
 | `SearchText` | `string?` | — | Search/filter text |
 | `SearchWatermark` | `string` | `"Search..."` | Watermark shown in the search box |
+| `ItemsSource` | `IEnumerable?` | — | Items source for the list |
+| `ItemTemplate` | `IDataTemplate?` | — | Data template for list items |
+| `SelectedItem` | `object?` | — | Currently selected item |
 | `BulkActionsContent` | `object?` | — | Content shown in the bulk-actions bar (visible in multi-select mode) |
 | `FooterContent` | `object?` | — | Content shown in the footer slot (e.g. pagination) |
 | `EmptyStateTitle` | `string` | `"No items"` | Title shown in the empty state |
 | `EmptyStateSubtitle` | `string?` | — | Subtitle shown in the empty state |
+| `SelectedCount` | `int` | `0` | Number of selected items in multi-select mode (read-only) |
 
 ## Events
 
@@ -101,11 +101,16 @@ itemListPanel.ClearSearch();
 
 ## Empty state
 
-Customize the empty state when no items are available:
+When the list is empty, an empty state is displayed automatically. Customize the title and subtitle:
 
 ```xml
 <ItemListPanel EmptyStateTitle="No results found"
-              EmptyStateSubtitle="Try adjusting your search criteria" />
+              EmptyStateSubtitle="Try a different search term" />
+```
+
+```csharp
+itemListPanel.EmptyStateTitle = "No results found";
+itemListPanel.EmptyStateSubtitle = "Try a different search term";
 ```
 
 ## Footer content
