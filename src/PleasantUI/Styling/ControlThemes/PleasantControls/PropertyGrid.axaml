@@ -1,0 +1,139 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="400">
+            <controls:PropertyGrid>
+                <controls:PropertyRow Label="URL"       Value="https://example.com/file.zip"
+                                      ValueKind="Link"  ToolTipText="https://example.com/file.zip" />
+                <controls:PropertyRow Label="Name"      Value="file.zip" />
+                <controls:PropertyRow Label="Size"      Value="128 MB" />
+                <controls:PropertyRow Label="Speed"     Value="4.2 MB/s" />
+                <controls:PropertyRow Label="Status"    Value="Downloading"
+                                      ValueKind="Status" />
+            </controls:PropertyGrid>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── PropertyRow ───────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:PropertyRow}" TargetType="controls:PropertyRow">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,16,*">
+
+                    <!-- Label -->
+                    <TextBlock Grid.Column="0"
+                               Text="{TemplateBinding Label}"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               FontSize="{DynamicResource GlobalFontSize}"
+                               VerticalAlignment="Center" />
+
+                    <!-- Value: plain text (default) -->
+                    <TextBlock Name="PART_TextValue"
+                               Grid.Column="2"
+                               Text="{TemplateBinding Value, StringFormat='{}{0}'}"
+                               FontSize="{DynamicResource GlobalFontSize}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"
+                               ToolTip.Tip="{TemplateBinding ToolTipText}" />
+
+                    <!-- Value: link button -->
+                    <Button Name="PART_LinkValue"
+                            Grid.Column="2"
+                            Content="{TemplateBinding Value, StringFormat='{}{0}'}"
+                            Command="{TemplateBinding LinkCommand}"
+                            CommandParameter="{TemplateBinding LinkCommandParameter}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="0"
+                            CornerRadius="0"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Cursor="Hand"
+                            IsVisible="False"
+                            ToolTip.Tip="{TemplateBinding ToolTipText}">
+                        <Button.Styles>
+                            <Style Selector="Button /template/ ContentPresenter">
+                                <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis" />
+                                <Setter Property="TextBlock.Foreground"   Value="{DynamicResource TextFillColor1}" />
+                            </Style>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentFillColor1}" />
+                                <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                            </Style>
+                        </Button.Styles>
+                    </Button>
+
+                    <!-- Value: status text (colored) -->
+                    <TextBlock Name="PART_StatusValue"
+                               Grid.Column="2"
+                               Text="{TemplateBinding Value, StringFormat='{}{0}'}"
+                               FontSize="{DynamicResource GlobalFontSize}"
+                               Foreground="{TemplateBinding ValueBrush}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               IsVisible="False"
+                               ToolTip.Tip="{TemplateBinding ToolTipText}" />
+
+                    <!-- Value: custom template -->
+                    <ContentPresenter Name="PART_CustomValue"
+                                      Grid.Column="2"
+                                      Content="{TemplateBinding Value}"
+                                      ContentTemplate="{TemplateBinding ValueTemplate}"
+                                      VerticalAlignment="Center"
+                                      IsVisible="False" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Link kind -->
+        <Style Selector="^:link /template/ TextBlock#PART_TextValue">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:link /template/ Button#PART_LinkValue">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Status kind -->
+        <Style Selector="^:status /template/ TextBlock#PART_TextValue">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:status /template/ TextBlock#PART_StatusValue">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Custom kind -->
+        <Style Selector="^:custom /template/ TextBlock#PART_TextValue">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:custom /template/ ContentPresenter#PART_CustomValue">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:PropertyGrid}" TargetType="controls:PropertyGrid">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="RowSpacing"          Value="10" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                    VerticalScrollBarVisibility="Auto">
+                    <ItemsControl Name="PART_RowsHost">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="{TemplateBinding RowSpacing}" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </SmoothScrollViewer>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

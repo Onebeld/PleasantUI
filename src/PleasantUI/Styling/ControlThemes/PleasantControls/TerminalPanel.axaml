@@ -1,0 +1,143 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="500" Height="320">
+            <controls:TerminalPanel Title="Terminal"
+                                    IsRunning="True"
+                                    StatusText="Running"
+                                    OutputText="$ dotnet run&#x0A;Build succeeded.&#x0A;Hello, World!" />
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:TerminalPanel}" TargetType="controls:TerminalPanel">
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="Auto,*,Auto">
+
+                        <!-- ── Header ──────────────────────────────────── -->
+                        <Border Grid.Row="0"
+                                Background="{DynamicResource BackgroundColor2}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 0 1"
+                                Padding="10 8">
+                            <Grid ColumnDefinitions="*,Auto">
+
+                                <!-- Title + status dot -->
+                                <StackPanel Grid.Column="0"
+                                            Orientation="Horizontal"
+                                            Spacing="8"
+                                            VerticalAlignment="Center">
+                                    <PathIcon Data="{DynamicResource CodeBracesRegular}"
+                                              Width="14" Height="14"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Text="{TemplateBinding Title}"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center" />
+                                    <!-- Status indicator dot -->
+                                    <Ellipse Width="8" Height="8"
+                                             Fill="{TemplateBinding StatusColor}"
+                                             VerticalAlignment="Center"
+                                             ToolTip.Tip="{TemplateBinding StatusText}" />
+                                    <TextBlock Text="{TemplateBinding StatusText}"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               VerticalAlignment="Center"
+                                               IsVisible="{TemplateBinding StatusText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                </StackPanel>
+
+                                <!-- Toolbar buttons -->
+                                <StackPanel Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            Spacing="4">
+                                    <Button Name="PART_ClearButton"
+                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            ToolTip.Tip="Clear output"
+                                            Width="28" Height="28" Padding="6">
+                                        <PathIcon Data="{DynamicResource DeleteRegular}"
+                                                  Width="12" Height="12" />
+                                    </Button>
+                                    <Button Name="PART_CloseButton"
+                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            ToolTip.Tip="Close"
+                                            Width="28" Height="28" Padding="6"
+                                            IsVisible="{TemplateBinding ShowCloseButton}">
+                                        <PathIcon Data="{DynamicResource DismissRegular}"
+                                                  Width="10" Height="10" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- ── Output area ─────────────────────────────── -->
+                        <SmoothScrollViewer Name="PART_ScrollViewer"
+                                            Grid.Row="1"
+                                            VerticalScrollBarVisibility="Auto"
+                                            HorizontalScrollBarVisibility="Auto"
+                                            Padding="10 8">
+                            <TextBox Name="PART_OutputBox"
+                                     Text="{TemplateBinding OutputText}"
+                                     IsReadOnly="True"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     FontFamily="Consolas,Menlo,Monaco,monospace"
+                                     FontSize="12"
+                                     TextWrapping="NoWrap"
+                                     AcceptsReturn="True"
+                                     Foreground="{DynamicResource TextFillColor1}" />
+                        </SmoothScrollViewer>
+
+                        <!-- ── Input line ──────────────────────────────── -->
+                        <Border Grid.Row="2"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 1 0 0"
+                                Background="{DynamicResource BackgroundColor2}"
+                                Padding="10 8">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <TextBlock Grid.Column="0"
+                                           Text="{TemplateBinding Prompt}"
+                                           FontFamily="Consolas,Menlo,Monaco,monospace"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource AccentFillColor1}" />
+                                <TextBox Name="PART_InputBox"
+                                         Grid.Column="1"
+                                         Text="{TemplateBinding InputText, Mode=TwoWay}"
+                                         Watermark="Type a command and press Enter"
+                                         FontFamily="Consolas,Menlo,Monaco,monospace"
+                                         FontSize="12"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Padding="0 4" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Running state: accent status dot -->
+        <Style Selector="^:running /template/ Ellipse">
+            <Setter Property="Fill" Value="{DynamicResource SystemFillColorSuccess}" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

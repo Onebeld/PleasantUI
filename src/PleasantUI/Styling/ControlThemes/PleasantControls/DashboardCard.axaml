@@ -1,0 +1,113 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="400" Height="300">
+            <controls:DashboardCard Header="Revenue" Subtitle="Last 30 days">
+                <controls:DashboardCard.HeaderContent>
+                    <ComboBox Width="100">
+                        <ComboBoxItem Content="7 days" IsSelected="True" />
+                        <ComboBoxItem Content="30 days" />
+                    </ComboBox>
+                </controls:DashboardCard.HeaderContent>
+                <TextBlock Text="Chart goes here" VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource TextFillColor2}" />
+            </controls:DashboardCard>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:DashboardCard}" TargetType="controls:DashboardCard">
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="ContentPadding"  Value="16" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="Auto,*,Auto">
+
+                        <!-- ── Header ──────────────────────────────────── -->
+                        <Border Grid.Row="0"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 0 1"
+                                Padding="16 12">
+                            <Grid ColumnDefinitions="*,Auto">
+
+                                <!-- Title + subtitle -->
+                                <StackPanel Grid.Column="0"
+                                            Spacing="2"
+                                            VerticalAlignment="Center">
+                                    <ContentPresenter Content="{TemplateBinding Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                      FontSize="14"
+                                                      FontWeight="SemiBold"
+                                                      Foreground="{DynamicResource TextFillColor1}" />
+                                    <TextBlock Name="PART_Subtitle"
+                                               Text="{TemplateBinding Subtitle}"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               IsVisible="False" />
+                                </StackPanel>
+
+                                <!-- Right-side header content (e.g. ComboBox, toolbar) -->
+                                <ContentPresenter Grid.Column="1"
+                                                  Content="{TemplateBinding HeaderContent}"
+                                                  ContentTemplate="{TemplateBinding HeaderContentTemplate}"
+                                                  VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!-- ── Content ─────────────────────────────────── -->
+                        <SmoothScrollViewer Grid.Row="1"
+                                            Name="PART_ScrollViewer"
+                                            HorizontalScrollBarVisibility="Disabled"
+                                            VerticalScrollBarVisibility="Auto">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Padding="{TemplateBinding ContentPadding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </SmoothScrollViewer>
+
+                        <!-- ── Footer ──────────────────────────────────── -->
+                        <Border Grid.Row="2"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 1 0 0"
+                                Background="{DynamicResource BackgroundColor3}"
+                                Padding="16 10"
+                                IsVisible="{TemplateBinding FooterContent, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <ContentPresenter Content="{TemplateBinding FooterContent}"
+                                              ContentTemplate="{TemplateBinding FooterContentTemplate}" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Subtitle visible when set -->
+        <Style Selector="^:hasSubtitle /template/ TextBlock#PART_Subtitle">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- No scroll viewer variant -->
+        <Style Selector="^[ShowScrollViewer=False] /template/ SmoothScrollViewer#PART_ScrollViewer">
+            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
