@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.DashboardCardPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+            <TextBlock Text="{Localize DashboardCard/Description}"
+                       TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- Basic card -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize DashboardCard/BasicTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize DashboardCard/BasicDesc}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
+                    <controls:DashboardCard Header="{Localize DashboardCard/Revenue}"
+                                            Subtitle="{Localize DashboardCard/Last30Days}"
+                                            Height="160">
+                        <TextBlock Text="{Localize DashboardCard/ChartPlaceholder}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                    </controls:DashboardCard>
+                </StackPanel>
+            </Border>
+
+            <!-- Card with header content slot -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize DashboardCard/ToolbarTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize DashboardCard/ToolbarDesc}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
+                    <controls:DashboardCard Header="{Localize DashboardCard/Downloads}"
+                                            Subtitle="{Localize DashboardCard/ActiveTransfers}"
+                                            Height="180">
+                        <controls:DashboardCard.HeaderContent>
+                            <ComboBox Width="110" SelectedIndex="0">
+                                <ComboBoxItem Content="{Localize DashboardCard/Today}" />
+                                <ComboBoxItem Content="{Localize DashboardCard/7Days}" />
+                                <ComboBoxItem Content="{Localize DashboardCard/30Days}" />
+                            </ComboBox>
+                        </controls:DashboardCard.HeaderContent>
+                        <StackPanel Spacing="8" Margin="0 4">
+                            <ProgressBar Value="72" Maximum="100" Height="6" />
+                            <ProgressBar Value="45" Maximum="100" Height="6" />
+                            <ProgressBar Value="91" Maximum="100" Height="6" />
+                        </StackPanel>
+                    </controls:DashboardCard>
+                </StackPanel>
+            </Border>
+
+            <!-- Card with footer -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize DashboardCard/FooterTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize DashboardCard/FooterDesc}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
+                    <controls:DashboardCard Header="{Localize DashboardCard/SystemStatus}" Height="160">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="CPU: 34%" FontSize="12" />
+                            <TextBlock Text="Memory: 6.2 GB / 16 GB" FontSize="12" />
+                            <TextBlock Text="Disk: 128 GB free" FontSize="12" />
+                        </StackPanel>
+                        <controls:DashboardCard.FooterContent>
+                            <TextBlock Text="{Localize DashboardCard/UpdatedJustNow}"
+                                       FontSize="11" Foreground="{DynamicResource TextFillColor2}"
+                                       VerticalAlignment="Center" />
+                        </controls:DashboardCard.FooterContent>
+                    </controls:DashboardCard>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

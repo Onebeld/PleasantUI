@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TreeViewPanelPageView">
+
+    <Grid ColumnDefinitions="260,*" Margin="16 8 16 16">
+
+        <controls:TreeViewPanel x:Name="Tree"
+                                Grid.Column="0"
+                                FilterWatermark="{Localize TreeViewPanel/Description, Default='Filter...'}"
+                                Margin="0 0 12 0">
+            <controls:TreeViewSection Header="{Localize TreeViewPanel/Documents}" IsExpanded="True" />
+            <controls:TreeViewSection Header="{Localize TreeViewPanel/Images}"    IsExpanded="True" />
+            <controls:TreeViewSection Header="{Localize TreeViewPanel/Downloads}" IsExpanded="False" />
+        </controls:TreeViewPanel>
+
+        <Border Grid.Column="1"
+                Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
+                Padding="16">
+            <StackPanel Spacing="8" VerticalAlignment="Top">
+                <TextBlock Text="{Localize TreeViewPanel/DetailTitle}"
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize TreeViewPanel/DetailDesc}"
+                           TextWrapping="Wrap" FontSize="12"
+                           Foreground="{DynamicResource TextFillColor2}" />
+                <TextBlock Text="{Localize TreeViewPanel/SelectedItem}"
+                           FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
+                <TextBlock x:Name="SelectedLabel" Text="—" FontWeight="SemiBold" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -330,4 +330,111 @@
     <data name="BreadcrumbBar/Prop/ItemClicked" xml:space="preserve">
         <value>Вызывается при нажатии на любой элемент. Аргументы содержат Index (с нуля) и Item (объект данных).</value>
     </data>
+
+    <!-- ── DashboardCard ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DashboardCard" xml:space="preserve"><value>DashboardCard</value></data>
+    <data name="Card/DashboardCard" xml:space="preserve"><value>Структурированная карточка с заголовком, содержимым и подвалом.</value></data>
+    <data name="DashboardCard/Description" xml:space="preserve"><value>DashboardCard предоставляет структурированный макет карточки с заголовком, подзаголовком, слотом справа в заголовке, прокручиваемой областью содержимого и необязательным подвалом.</value></data>
+    <data name="DashboardCard/BasicTitle" xml:space="preserve"><value>Базовая карточка</value></data>
+    <data name="DashboardCard/BasicDesc" xml:space="preserve"><value>Карточка с заголовком, подзаголовком и произвольным содержимым.</value></data>
+    <data name="DashboardCard/ToolbarTitle" xml:space="preserve"><value>С панелью инструментов в заголовке</value></data>
+    <data name="DashboardCard/ToolbarDesc" xml:space="preserve"><value>Используйте HeaderContent для размещения ComboBox или любого элемента управления в правом слоте заголовка.</value></data>
+    <data name="DashboardCard/FooterTitle" xml:space="preserve"><value>С подвалом</value></data>
+    <data name="DashboardCard/FooterDesc" xml:space="preserve"><value>FooterContent отображает полосу с рамкой в нижней части карточки.</value></data>
+    <data name="DashboardCard/Revenue" xml:space="preserve"><value>Выручка</value></data>
+    <data name="DashboardCard/Last30Days" xml:space="preserve"><value>Последние 30 дней</value></data>
+    <data name="DashboardCard/ChartPlaceholder" xml:space="preserve"><value>Здесь будет график</value></data>
+    <data name="DashboardCard/Downloads" xml:space="preserve"><value>Загрузки</value></data>
+    <data name="DashboardCard/ActiveTransfers" xml:space="preserve"><value>Активные передачи</value></data>
+    <data name="DashboardCard/Today" xml:space="preserve"><value>Сегодня</value></data>
+    <data name="DashboardCard/7Days" xml:space="preserve"><value>7 дней</value></data>
+    <data name="DashboardCard/30Days" xml:space="preserve"><value>30 дней</value></data>
+    <data name="DashboardCard/SystemStatus" xml:space="preserve"><value>Состояние системы</value></data>
+    <data name="DashboardCard/UpdatedJustNow" xml:space="preserve"><value>Обновлено только что</value></data>
+
+    <!-- ── LogViewerPanel ────────────────────────────────────────────────── -->
+    <data name="CardTitle/LogViewerPanel" xml:space="preserve"><value>LogViewerPanel</value></data>
+    <data name="Card/LogViewerPanel" xml:space="preserve"><value>Выдвижная панель с фильтруемыми записями журнала.</value></data>
+    <data name="LogViewerPanel/Description" xml:space="preserve"><value>LogViewerPanel — выдвижная панель с поиском, фильтрами по уровню и источнику, автопрокруткой, копированием и очисткой. Нажмите «Открыть», затем добавляйте записи кнопками.</value></data>
+    <data name="LogViewerPanel/OpenPanel" xml:space="preserve"><value>Открыть журнал</value></data>
+    <data name="LogViewerPanel/AddInfo" xml:space="preserve"><value>Добавить Info</value></data>
+    <data name="LogViewerPanel/AddWarning" xml:space="preserve"><value>Добавить Warning</value></data>
+    <data name="LogViewerPanel/AddError" xml:space="preserve"><value>Добавить Error</value></data>
+    <data name="LogViewerPanel/AddDebug" xml:space="preserve"><value>Добавить Debug</value></data>
+    <data name="LogViewerPanel/Hint" xml:space="preserve"><value>Записи журнала появятся в панели →</value></data>
+
+    <!-- ── TerminalPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TerminalPanel" xml:space="preserve"><value>TerminalPanel</value></data>
+    <data name="Card/TerminalPanel" xml:space="preserve"><value>Терминал с моноширинным выводом и строкой ввода команд.</value></data>
+    <data name="TerminalPanel/Description" xml:space="preserve"><value>TerminalPanel предоставляет моноширинную область вывода и строку ввода команд. Введите команду и нажмите Enter — демо отобразит её обратно.</value></data>
+    <data name="TerminalPanel/SimulateOutput" xml:space="preserve"><value>Симулировать вывод</value></data>
+    <data name="TerminalPanel/Clear" xml:space="preserve"><value>Очистить</value></data>
+    <data name="TerminalPanel/WelcomeMsg" xml:space="preserve"><value>Демо терминала PleasantUI&#x0A;Введите команду и нажмите Enter.&#x0A;</value></data>
+
+    <!-- ── TreeViewPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TreeViewPanel" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="Card/TreeViewPanel" xml:space="preserve"><value>Дерево с поиском, сворачиваемыми секциями и счётчиками.</value></data>
+    <data name="TreeViewPanel/Description" xml:space="preserve"><value>TreeViewPanel содержит сворачиваемые секции TreeViewSection с полем поиска, счётчиками, состоянием загрузки и единым событием SelectionChanged.</value></data>
+    <data name="TreeViewPanel/Documents" xml:space="preserve"><value>Документы</value></data>
+    <data name="TreeViewPanel/Images" xml:space="preserve"><value>Изображения</value></data>
+    <data name="TreeViewPanel/Downloads" xml:space="preserve"><value>Загрузки</value></data>
+    <data name="TreeViewPanel/SelectedItem" xml:space="preserve"><value>Выбранный элемент:</value></data>
+    <data name="TreeViewPanel/DetailTitle" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="TreeViewPanel/DetailDesc" xml:space="preserve"><value>Используйте поле фильтра для поиска по всем секциям. Нажмите на элемент, чтобы выбрать его.</value></data>
+
+    <!-- ── ItemListPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/ItemListPanel" xml:space="preserve"><value>ItemListPanel</value></data>
+    <data name="Card/ItemListPanel" xml:space="preserve"><value>Список с поиском, множественным выбором и оверлеем загрузки.</value></data>
+    <data name="ItemListPanel/Description" xml:space="preserve"><value>ItemListPanel — список с поиском, фильтрацией, режимом множественного выбора, панелью массовых действий, оверлеем загрузки и пустым состоянием.</value></data>
+    <data name="ItemListPanel/MultiSelect" xml:space="preserve"><value>Множественный выбор</value></data>
+    <data name="ItemListPanel/ToggleLoading" xml:space="preserve"><value>Переключить загрузку</value></data>
+    <data name="ItemListPanel/Clear" xml:space="preserve"><value>Очистить</value></data>
+    <data name="ItemListPanel/Reload" xml:space="preserve"><value>Перезагрузить</value></data>
+    <data name="ItemListPanel/SearchWatermark" xml:space="preserve"><value>Поиск файлов...</value></data>
+    <data name="ItemListPanel/EmptyTitle" xml:space="preserve"><value>Нет файлов</value></data>
+    <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Добавьте элементы кнопкой «Перезагрузить».</value></data>
+    <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Загрузка файлов</value></data>
+    <data name="ItemListPanel/LoadingSubtitle" xml:space="preserve"><value>Пожалуйста, подождите...</value></data>
+    <data name="ItemListPanel/DeleteSelected" xml:space="preserve"><value>Удалить выбранные</value></data>
+    <data name="ItemListPanel/Selected" xml:space="preserve"><value>Выбрано:</value></data>
+
+    <!-- ── StepDialog ────────────────────────────────────────────────────── -->
+    <data name="CardTitle/StepDialog" xml:space="preserve"><value>StepDialog</value></data>
+    <data name="Card/StepDialog" xml:space="preserve"><value>Модальный диалог с пронумерованными шагами.</value></data>
+    <data name="StepDialog/Description" xml:space="preserve"><value>StepDialog — модальный оверлей с пронумерованными шагами. Каждый шаг имеет заголовок, описание и произвольное содержимое. Поддерживает основную/вторичную кнопки и строку статуса.</value></data>
+    <data name="StepDialog/BasicTitle" xml:space="preserve"><value>Базовый диалог шагов</value></data>
+    <data name="StepDialog/BasicDesc" xml:space="preserve"><value>Три шага с кнопкой «Отмена» и строкой статуса.</value></data>
+    <data name="StepDialog/OpenBasic" xml:space="preserve"><value>Открыть диалог шагов</value></data>
+    <data name="StepDialog/AuthTitle" xml:space="preserve"><value>Поток аутентификации через код устройства</value></data>
+    <data name="StepDialog/AuthDesc" xml:space="preserve"><value>Имитирует аутентификацию через код устройства с блоком кода и кнопкой-ссылкой.</value></data>
+    <data name="StepDialog/OpenAuth" xml:space="preserve"><value>Открыть диалог аутентификации</value></data>
+    <data name="StepDialog/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+
+    <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
+    <data name="CardTitle/PropertyGrid" xml:space="preserve"><value>PropertyGrid</value></data>
+    <data name="Card/PropertyGrid" xml:space="preserve"><value>Двухколоночная сетка для отображения метаданных.</value></data>
+    <data name="PropertyGrid/Description" xml:space="preserve"><value>PropertyGrid отображает метаданные в двухколоночном макете. Строки поддерживают обычный текст, кликабельные ссылки, цветные статусы и пользовательские шаблоны.</value></data>
+    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Информация о загрузке</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Информация об исключении</value></data>
+
+    <!-- ── DownloadPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DownloadPanel" xml:space="preserve"><value>DownloadPanel</value></data>
+    <data name="Card/DownloadPanel" xml:space="preserve"><value>Визуализация многопоточной загрузки с прогресс-баром и холстом чанков.</value></data>
+    <data name="DownloadPanel/Description" xml:space="preserve"><value>DownloadPanel визуализирует многопоточную загрузку с вкладками, прогресс-баром, холстом чанков и кнопками действий.</value></data>
+    <data name="DownloadPanel/Tick" xml:space="preserve"><value>Шаг прогресса</value></data>
+    <data name="DownloadPanel/PauseResume" xml:space="preserve"><value>Пауза / Продолжить</value></data>
+    <data name="DownloadPanel/ToggleMerge" xml:space="preserve"><value>Переключить слияние</value></data>
+    <data name="DownloadPanel/Reset" xml:space="preserve"><value>Сбросить</value></data>
+
+    <!-- ── CrashReportDialog ─────────────────────────────────────────────── -->
+    <data name="CardTitle/CrashReportDialog" xml:space="preserve"><value>CrashReportDialog</value></data>
+    <data name="Card/CrashReportDialog" xml:space="preserve"><value>Модальный диалог отчёта об ошибке с вкладками и валидацией email.</value></data>
+    <data name="CrashReportDialog/Description" xml:space="preserve"><value>CrashReportDialog — модальный оверлей с тремя вкладками (Общее, Исключение, Скриншот), валидацией email, действиями отправки/сохранения/отмены и встроенной индикацией отправки.</value></data>
+    <data name="CrashReportDialog/BasicTitle" xml:space="preserve"><value>Симуляция отчёта об ошибке</value></data>
+    <data name="CrashReportDialog/BasicDesc" xml:space="preserve"><value>Открывает предзаполненный диалог на основе фиктивного NullReferenceException.</value></data>
+    <data name="CrashReportDialog/OpenBasic" xml:space="preserve"><value>Открыть отчёт об ошибке</value></data>
+    <data name="CrashReportDialog/EmailRequiredTitle" xml:space="preserve"><value>Email обязателен</value></data>
+    <data name="CrashReportDialog/EmailRequiredDesc" xml:space="preserve"><value>IsEmailRequired=True — кнопка «Отправить» заблокирована до ввода корректного email.</value></data>
+    <data name="CrashReportDialog/OpenEmailRequired" xml:space="preserve"><value>Открыть (email обязателен)</value></data>
+    <data name="CrashReportDialog/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
 </root>

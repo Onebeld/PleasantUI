@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TerminalPanelPageView">
+
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+        <TextBlock Text="{Localize TerminalPanel/Description}"
+                   TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+
+        <controls:TerminalPanel x:Name="Terminal"
+                                Title="{Localize CardTitle/TerminalPanel}"
+                                IsRunning="True"
+                                StatusText="Running"
+                                Prompt="$"
+                                Height="320"
+                                ShowCloseButton="False" />
+
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button x:Name="SimulateOutputBtn" Content="{Localize TerminalPanel/SimulateOutput}" />
+            <Button x:Name="ClearBtn"          Content="{Localize TerminalPanel/Clear}" />
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

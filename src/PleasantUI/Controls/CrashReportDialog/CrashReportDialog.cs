@@ -57,7 +57,7 @@ public sealed class SendReportEventArgs : EventArgs
     /// </summary>
     public Action<string>? ReportFailure { get; set; }
 
-    internal SendReportEventArgs(string email, string userMessage, bool includeScreenshot)
+    public SendReportEventArgs(string email, string userMessage, bool includeScreenshot)
     {
         Email             = email;
         UserMessage       = userMessage;
@@ -73,7 +73,7 @@ public sealed class SaveReportEventArgs : EventArgs
     /// <summary>Gets the user-supplied message to embed in the report.</summary>
     public string UserMessage { get; }
 
-    internal SaveReportEventArgs(string userMessage) => UserMessage = userMessage;
+    public SaveReportEventArgs(string userMessage) => UserMessage = userMessage;
 }
 
 /// <summary>

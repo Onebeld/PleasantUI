@@ -91,8 +91,14 @@
                             <ListBox.Styles>
                                 <Style Selector="ListBoxItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="Padding"    Value="0" />
+                                    <Setter Property="Padding"    Value="8 4" />
                                     <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                                <Style Selector="ListBoxItem:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+                                </Style>
+                                <Style Selector="ListBoxItem:selected">
+                                    <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
                                 </Style>
                             </ListBox.Styles>
                             <ListBox.ItemsPanel>

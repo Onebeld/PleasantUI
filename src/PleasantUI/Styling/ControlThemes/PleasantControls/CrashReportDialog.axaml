@@ -357,27 +357,37 @@
                                             Padding="10 7"
                                             Margin="0 0 0 10"
                                             IsVisible="False">
-                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+                                            <!-- Text and icons -->
+                                            <StackPanel Grid.Row="0"
+                                                        Orientation="Horizontal" Spacing="10"
+                                                        HorizontalAlignment="Center">
+                                                <PathIcon Name="PART_SuccessIcon"
+                                                          Data="{DynamicResource CheckmarkRegular}"
+                                                          Width="16" Height="16"
+                                                          Foreground="{DynamicResource SystemFillColorSuccess}"
+                                                          IsVisible="False"
+                                                          VerticalAlignment="Center" />
+                                                <PathIcon Name="PART_FailureIcon"
+                                                          Data="{DynamicResource AlertOutline}"
+                                                          Width="16" Height="16"
+                                                          Foreground="{DynamicResource SystemFillColorCritical}"
+                                                          IsVisible="False"
+                                                          VerticalAlignment="Center" />
+                                                <TextBlock Text="{TemplateBinding StatusMessage}"
+                                                           FontSize="15"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource TextFillColor1}"
+                                                           VerticalAlignment="Center" />
+                                            </StackPanel>
+                                            <!-- Progress bar below -->
                                             <ProgressBar Name="PART_SendingProgress"
+                                                         Grid.Row="1"
                                                          IsIndeterminate="True"
-                                                         Width="80" Height="3"
-                                                         VerticalAlignment="Center"
+                                                         Height="12"
+                                                         HorizontalAlignment="Stretch"
                                                          IsVisible="False" />
-                                            <PathIcon Name="PART_SuccessIcon"
-                                                      Data="{DynamicResource CheckmarkRegular}"
-                                                      Width="14" Height="14"
-                                                      Foreground="{DynamicResource SystemFillColorSuccess}"
-                                                      IsVisible="False" />
-                                            <PathIcon Name="PART_FailureIcon"
-                                                      Data="{DynamicResource AlertOutline}"
-                                                      Width="14" Height="14"
-                                                      Foreground="{DynamicResource SystemFillColorCritical}"
-                                                      IsVisible="False" />
-                                            <TextBlock Text="{TemplateBinding StatusMessage}"
-                                                       FontSize="12"
-                                                       Foreground="{DynamicResource TextFillColor2}"
-                                                       VerticalAlignment="Center" />
-                                        </StackPanel>
+                                        </Grid>
                                     </Border>
 
                                     <!-- Action buttons -->

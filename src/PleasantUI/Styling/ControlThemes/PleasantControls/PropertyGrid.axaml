@@ -35,7 +35,7 @@
                     <!-- Value: plain text (default) -->
                     <TextBlock Name="PART_TextValue"
                                Grid.Column="2"
-                               Text="{TemplateBinding Value, StringFormat='{}{0}'}"
+                               Text="{TemplateBinding Value}"
                                FontSize="{DynamicResource GlobalFontSize}"
                                TextTrimming="CharacterEllipsis"
                                VerticalAlignment="Center"
@@ -44,7 +44,7 @@
                     <!-- Value: link button -->
                     <Button Name="PART_LinkValue"
                             Grid.Column="2"
-                            Content="{TemplateBinding Value, StringFormat='{}{0}'}"
+                            Content="{TemplateBinding Value}"
                             Command="{TemplateBinding LinkCommand}"
                             CommandParameter="{TemplateBinding LinkCommandParameter}"
                             Background="Transparent"
@@ -71,7 +71,7 @@
                     <!-- Value: status text (colored) -->
                     <TextBlock Name="PART_StatusValue"
                                Grid.Column="2"
-                               Text="{TemplateBinding Value, StringFormat='{}{0}'}"
+                               Text="{TemplateBinding Value}"
                                FontSize="{DynamicResource GlobalFontSize}"
                                Foreground="{TemplateBinding ValueBrush}"
                                FontWeight="SemiBold"
@@ -127,7 +127,7 @@
                     <ItemsControl Name="PART_RowsHost">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Spacing="{TemplateBinding RowSpacing}" />
+                                <StackPanel Spacing="{Binding RowSpacing, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>

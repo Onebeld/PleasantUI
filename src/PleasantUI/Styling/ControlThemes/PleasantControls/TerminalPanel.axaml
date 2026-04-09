@@ -98,7 +98,8 @@
                                      FontSize="12"
                                      TextWrapping="NoWrap"
                                      AcceptsReturn="True"
-                                     Foreground="{DynamicResource TextFillColor1}" />
+                                     Foreground="{DynamicResource TextFillColor1}"
+                                     SelectionBrush="{DynamicResource SystemFillColorAttention}" />
                         </SmoothScrollViewer>
 
                         <!-- ── Input line ──────────────────────────────── -->
