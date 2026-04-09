@@ -84,27 +84,33 @@ PleasantUI provides both styled standard controls and custom controls:
 ```
 PleasantUI.Example/
 ├── Assets/                    # Images and resources
-├── DataTemplates/              # Reusable data templates
-├── Factories/                 # Factory classes for creating objects
+├── DataTemplates/              # Reusable data templates (ControlPageCardItemTemplate)
+├── Factories/                 # Factory classes for creating objects (ControlPageCardsFactory)
 ├── Interfaces/                # Shared interfaces (IPage)
 ├── Logging/                   # Serilog configuration
-├── Messages/                  # Event messages for EventAggregator
-├── Models/                    # Data models
-├── Pages/                     # Page implementations
-│   ├── BasicControls/         # Standard Avalonia control demos
-│   ├── PleasantControls/      # PleasantUI custom control demos
-│   └── Toolkit/               # PleasantUI.ToolKit demos
+├── Messages/                  # Event messages for EventAggregator (ChangePageMessage)
+├── Models/                    # Data models (ControlPageCard)
+├── Pages/                     # Page implementations (extend LocalizedPage)
+│   ├── LocalizedPage.cs       # Base class for all pages with localization caching
+│   ├── BasicControls/         # 10 standard Avalonia control demos
+│   ├── PleasantControls/      # 23 PleasantUI custom control demos
+│   └── Toolkit/               # 2 PleasantUI.ToolKit demos
 ├── Properties/
 │   └── Localizations/         # .resx resource files (en, ru)
-├── Structures/                # Helper structures
-├── Styling/                   # Custom styles
+├── Structures/                # Helper structures (Language)
+├── Styling/                   # Custom styles (VGUIExampleStyles)
 ├── ViewModels/                # ViewModels (MVVM pattern)
+│   ├── AppViewModel.cs        # Main navigation ViewModel
+│   └── Pages/                 # Page-specific ViewModels (SettingsViewModel)
 ├── Views/                     # Views (AXAML)
-│   ├── AboutView.axaml
-│   ├── HomeView.axaml
-│   ├── SettingsView.axaml
-│   └── Pages/                 # Page-specific views
-├── MainView.axaml             # Main navigation view
+│   ├── AboutView.axaml        # About page view
+│   ├── HomeView.axaml         # Home page with TransitioningContentControl
+│   ├── SettingsView.axaml     # Settings page view
+│   └── Pages/                 # Page-specific views (separated from page logic)
+│       ├── ControlPages/      # Basic control views
+│       ├── HomePageView.axaml # Home page with card grid layout
+│       └── PleasantControlPages/ # Pleasant control views
+├── MainView.axaml             # Main navigation view with NavigationView
 ├── MainView.axaml.cs
 ├── PleasantUI.Example.csproj
 └── PleasantUiExampleApp.cs    # Application entry point
@@ -112,28 +118,90 @@ PleasantUI.Example/
 
 ### Key Patterns
 
-#### 1. MVVM Pattern
+#### 1. IPage Interface and LocalizedPage Base Class
+All pages implement the `IPage` interface and extend `LocalizedPage` for automatic localization handling:
+
 ```csharp
-// ViewModel (AppViewModel.cs)
-public class AppViewModel : ViewModelBase
+// IPage interface
+public interface IPage : INotifyPropertyChanged
 {
-    private IPage _page = null!;
+    string TitleKey { get; }          // Localization key for title
+    string Title { get; }             // Resolved localized title
+    bool ShowTitle { get; }          // Whether to show the title bar
+    Control Content { get; }         // The page content (cached)
+}
+
+// LocalizedPage base class
+public abstract class LocalizedPage : IPage
+{
+    private Control? _cachedContent;
     
-    public IPage Page
+    // Content is cached and invalidated on language change
+    public Control Content => _cachedContent ??= CreateContent();
+    
+    // Override to create the view
+    protected abstract Control CreateContent();
+    
+    // Automatically invalidates cache on language change
+    private void OnLocalizationChanged(string lang)
     {
-        get => _page;
-        set => SetProperty(ref _page, value);
+        _cachedContent = null;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Content)));
     }
 }
 
-// View (MainView.axaml)
-<UserControl DataContext="{Binding ViewModel}">
-    <ContentControl Content="{Binding Page}" />
-</UserControl>
+// Page implementation
+public class ButtonPage : LocalizedPage
+{
+    public override string TitleKey { get; } = "CardTitle/Button";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new ButtonPageView();
+}
 ```
 
-#### 2. Navigation with NavigationView
-The app uses NavigationView with support for three positions (Left, Top, Bottom):
+#### 2. Navigation with Nested NavigationView
+The app uses NavigationView with nested menu items organized by category:
+
+```xml
+<NavigationView x:Name="MainNavigationView">
+    <!-- Home item with embedded view -->
+    <NavigationViewItem x:Name="HomeNavItem"
+                        Header="{Localize Home}"
+                        Icon="{x:Static MaterialIcons.HomeOutline}"
+                        IsOpen="True"
+                        SelectOnClose="True">
+        <NavigationViewItem.Content>
+            <views:HomeView/>
+        </NavigationViewItem.Content>
+    </NavigationViewItem>
+
+    <!-- Nested items for Basic Controls -->
+    <NavigationViewItem Header="{Localize BasicControls}"
+                        Icon="{x:Static MaterialIcons.ViewGridOutline}">
+        <NavigationViewItem Tag="Button" Header="{Localize CardTitle/Button}" />
+        <NavigationViewItem Tag="Checkbox" Header="{Localize CardTitle/Checkbox}" />
+        <!-- ... more items -->
+    </NavigationViewItem>
+
+    <!-- Nested items for Pleasant Controls -->
+    <NavigationViewItem Header="{Localize PleasantControls}"
+                        Icon="{x:Static MaterialIcons.StarOutline}">
+        <NavigationViewItem Tag="PleasantSnackbar" Header="{Localize CardTitle/PleasantSnackbar}" />
+        <!-- ... more items -->
+    </NavigationViewItem>
+
+    <!-- Footer items (About, Settings) -->
+    <NavigationViewItem x:Name="AboutNavItem"
+                        Header="{Localize About}"
+                        DockPanel.Dock="Bottom">
+        <NavigationViewItem.Content>
+            <views:AboutView/>
+        </NavigationViewItem.Content>
+    </NavigationViewItem>
+</NavigationView>
+```
+
+Navigation position can be changed (Left, Top, Bottom):
 
 ```csharp
 public static NavigationViewPosition NavPosition { get; set; } = NavigationViewPosition.Left;
@@ -145,40 +213,163 @@ public static void SetNavPosition(NavigationViewPosition position)
 }
 ```
 
-#### 3. Event Aggregation
-Components communicate via messages:
+#### 3. Event Aggregation with ChangePageMessage
+Components communicate via the EventAggregator pattern:
 
 ```csharp
-// Subscribe
+// Message definition
+public class ChangePageMessage
+{
+    public IPage Page { get; }
+    public ChangePageMessage(IPage page) => Page = page;
+}
+
+// Publish (from ControlPageCard)
+public void OpenPage() =>
+    _eventAggregator.PublishAsync(new ChangePageMessage(Page));
+
+// Subscribe (in AppViewModel)
 _eventAggregator.Subscribe<ChangePageMessage>(async message =>
 {
     ChangePage(message.Page);
 });
-
-// Publish
-_eventAggregator.Publish(new ChangePageMessage(page));
 ```
 
-#### 4. Localization
+#### 4. Factory Pattern for Control Page Cards
+The `ControlPageCardsFactory` creates `ControlPageCard` instances for navigation:
+
 ```csharp
-// Initialize
+public class ControlPageCardsFactory
+{
+    public AvaloniaList<ControlPageCard> CreateBasicControlPageCards()
+    {
+        return [
+            new("CardTitle/Button", MaterialIcons.ButtonCursor, "Card/Button", new ButtonPage(), _eventAggregator),
+            new("CardTitle/Checkbox", MaterialIcons.CheckboxMarkedOutline, "Card/Checkbox", new CheckBoxPage(), _eventAggregator),
+            // ... more cards
+        ];
+    }
+}
+```
+
+Each `ControlPageCard` has:
+- `TitleKey` - Localization key for the title
+- `DescriptionKey` - Localization key for the description
+- `Icon` - Material icon geometry
+- `Page` - The IPage instance to navigate to
+- Automatic localization updates via `INotifyPropertyChanged`
+
+#### 5. Page Transitions with TransitioningContentControl
+The `HomeView` uses `TransitioningContentControl` with `PleasantPageSlide` animation:
+
+```xml
+<TransitioningContentControl Content="{CompiledBinding Page}">
+    <TransitioningContentControl.PageTransition>
+        <transitions:PleasantPageSlide Orientation="Horizontal" 
+                                         Duration="0:0:0.3" 
+                                         Forward="{CompiledBinding IsForwardAnimation}" />
+    </TransitioningContentControl.PageTransition>
+    <TransitioningContentControl.ContentTemplate>
+        <DataTemplate DataType="interfaces:IPage">
+            <Grid RowDefinitions="Auto,*" Margin="15">
+                <!-- Back button and title -->
+                <StackPanel Grid.Row="0" IsVisible="{Binding ShowTitle}">
+                    <Button Command="{CompiledBinding BackToHomePage}">
+                        <PathIcon Data="{x:Static MaterialIcons.ArrowLeft}" />
+                    </Button>
+                    <TextBlock Text="{Binding Title}" />
+                </StackPanel>
+                <!-- Page content -->
+                <Decorator Grid.Row="1" Child="{Binding Content}" />
+            </Grid>
+        </DataTemplate>
+    </TransitioningContentControl.ContentTemplate>
+</TransitioningContentControl>
+```
+
+#### 6. Localization with Reactive Updates
+Localization is handled through the PleasantUI `Localizer` system with automatic UI updates:
+
+```csharp
+// Initialize in app constructor
 Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.App)));
-Localizer.ChangeLang("en");
+Localizer.AddRes(new ResourceManager(typeof(Properties.Localizations.Library)));
+Localizer.ChangeLang(LanguageKey);
 
 // In AXAML
 <TextBlock Text="{Localize WelcomeMessage}" />
 
-// In code-behind
-string text = Localizer.Tr("WelcomeMessage");
+// In code with automatic updates
+public class ControlPageCard : INotifyPropertyChanged
+{
+    private string _title;
+    
+    public string Title
+    {
+        get => _title;
+        private set
+        {
+            _title = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+        }
+    }
+    
+    private void OnLanguageChanged(string lang)
+    {
+        Title = Resolve(TitleKey);  // Updates automatically
+        Description = Resolve(DescriptionKey);
+    }
+}
 ```
 
-#### 5. Theme System
+#### 7. Theme System with Custom Theme Support
+Themes are managed through `PleasantSettings` with support for built-in and custom themes:
+
 ```csharp
-// PleasantTheme is automatically loaded from App.axaml
-// Theme settings are persisted to disk automatically
-// Access current theme:
-var theme = PleasantSettings.Current?.Theme;
+// Built-in themes
+public Theme? SelectedTheme
+{
+    get => PleasantSettings.Current?.Theme is { } themeName
+        ? PleasantTheme.Themes.FirstOrDefault(theme => theme.Name == themeName)
+        : null;
+    set => PleasantSettings.Current.Theme = value?.Name ?? "System";
+}
+
+// Custom themes
+public CustomTheme? SelectedCustomTheme
+{
+    get => PleasantTheme.SelectedCustomTheme;
+    set => PleasantTheme.SelectedCustomTheme = value;
+}
+
+// Create custom theme
+public async Task CreateThemeAsync()
+{
+    CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, null);
+    if (newCustomTheme is null) return;
+    PleasantTheme.CustomThemes.Add(newCustomTheme);
+}
 ```
+
+#### 8. Card-Based Home Page Layout
+The home page displays control cards in a 2-column grid layout:
+
+```xml
+<ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
+              ItemTemplate="{DynamicResource ControlPageCardItemTemplate}">
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <UniformGrid Columns="2" />
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+</ItemsControl>
+```
+
+Each card shows:
+- Icon in a colored border
+- Title (localized)
+- Description (localized)
+- Click to navigate to the page
 
 ## Converting to a Real Application - Practical Guide
 
@@ -398,57 +589,130 @@ public partial class MainWindow : Window
 
 ### Step 5: Adapt IPage for Business Pages
 
-The `IPage` interface provides a useful abstraction for your pages. Keep it and adapt it for your business needs.
+The `IPage` interface provides a useful abstraction for your pages with built-in localization support. Keep it and adapt it for your business needs.
 
 **Keep `Interfaces/IPage.cs` as-is or extend it:**
 
 ```csharp
+using System.ComponentModel;
+using Avalonia.Controls;
+
 namespace AutoparkERP.Interfaces;
 
-public interface IPage
+public interface IPage : INotifyPropertyChanged
 {
-    // Base interface for all pages - provides type safety and abstraction
-    // You can extend this with additional properties if needed:
-    // string PageTitle { get; }
-    // bool RequiresAuthentication { get; }
+    /// <summary>The localization key used to resolve Title.</summary>
+    string TitleKey { get; }
+
+    /// <summary>Resolved, localized title — updates when the language changes.</summary>
+    string Title { get; }
+
+    bool ShowTitle { get; }
+
+    Control Content { get; }
 }
 ```
 
-**Implement IPage for your business pages:**
+**Keep or adapt the `LocalizedPage` base class for automatic localization handling:**
+
+```csharp
+using System.ComponentModel;
+using Avalonia.Controls;
+using Avalonia.Threading;
+using PleasantUI.Core.Localization;
+using AutoparkERP.Interfaces;
+
+namespace AutoparkERP.Pages;
+
+public abstract class LocalizedPage : IPage
+{
+    private Control? _cachedContent;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public abstract string TitleKey { get; }
+
+    public string Title =>
+        Localizer.Instance.TryGetString(TitleKey, out string value) ? value : TitleKey;
+
+    public abstract bool ShowTitle { get; }
+
+    /// <summary>
+    /// Returns the cached view, creating it fresh if the cache is empty.
+    /// The cache is cleared on every language change so the next access
+    /// creates a new view that reads the current language from scratch.
+    /// </summary>
+    public Control Content => _cachedContent ??= CreateContent();
+
+    /// <summary>
+    /// Override to create the view for this page.
+    /// </summary>
+    protected abstract Control CreateContent();
+
+    protected LocalizedPage()
+    {
+        Localizer.Instance.LocalizationChanged += OnLocalizationChanged;
+    }
+
+    private void OnLocalizationChanged(string lang)
+    {
+        void Notify()
+        {
+            // Drop the cached view — next time Content is accessed (on navigation)
+            // a fresh view is created that reads the new language immediately.
+            _cachedContent = null;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+            // Also notify Content so if the page is currently visible the DataTemplate
+            // re-reads Content and gets the fresh view.
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Content)));
+        }
+
+        if (Dispatcher.UIThread.CheckAccess())
+            Notify();
+        else
+            Dispatcher.UIThread.Post(Notify);
+    }
+}
+```
+
+**Implement IPage for your business pages using LocalizedPage:**
 
 ```csharp
 using Avalonia.Controls;
-using AutoparkERP.Interfaces;
+using AutoparkERP.Pages;
 
 namespace AutoparkERP.Views;
 
-public class DashboardView : UserControl, IPage
+public class DashboardView : LocalizedPage
 {
-    public DashboardView()
-    {
-        InitializeComponent();
-    }
+    public override string TitleKey { get; } = "Dashboard";
+    public override bool ShowTitle { get; } = true;
+    protected override Control CreateContent() => new DashboardContentView();
 }
 
-public class VehiclesView : UserControl, IPage
+public class VehiclesView : LocalizedPage
 {
+    private readonly VehicleService _vehicleService;
+    
     public VehiclesView(VehicleService vehicleService)
     {
-        InitializeComponent();
         _vehicleService = vehicleService;
-        LoadVehiclesAsync();
     }
     
-    private readonly VehicleService _vehicleService;
+    public override string TitleKey { get; } = "Vehicles";
+    public override bool ShowTitle { get; } = true;
+    
+    protected override Control CreateContent() => new VehiclesContentView(_vehicleService);
 }
 ```
 
 **Update MainViewModel to work with IPage:**
 
 ```csharp
-private UserControl _currentPage = null!;
+private IPage _currentPage = null!;
 
-public UserControl CurrentPage
+public IPage CurrentPage
 {
     get => _currentPage;
     set => SetProperty(ref _currentPage, value);
@@ -465,10 +729,12 @@ public void NavigateToVehicles()
 }
 ```
 
-The IPage interface gives you:
+The IPage interface with LocalizedPage gives you:
 - **Type safety** - Ensure all pages follow a common contract
 - **Abstraction** - Work with pages through the interface
-- **Extensibility** - Add common properties/methods to all pages (e.g., PageTitle, OnNavigatedTo, OnNavigatedFrom)
+- **Automatic localization** - Title and content automatically update on language change
+- **Content caching** - Views are cached and recreated only when needed (language change)
+- **Extensibility** - Add common properties/methods to all pages (e.g., RequiresAuthentication, OnNavigatedTo, OnNavigatedFrom)
 - **IntelliSense** - Better IDE support when working with pages
 
 ---
@@ -1149,11 +1415,11 @@ public partial class VehiclesView : UserControl
 | **Entry Point** | `PleasantUiExampleApp.cs` | `AutoparkERPApp.cs` | Renamed, removed demo logic |
 | **Main View** | `MainView.axaml` (demo showcase) | `MainWindow.axaml` + `MainView.axaml` | Split into window and navigation |
 | **ViewModels** | `AppViewModel.cs` (demo cards) | `MainViewModel.cs` (real navigation) | Replaced demo logic with business navigation |
-| **Pages** | 38 demo pages | 5 real pages (Dashboard, Vehicles, Drivers, Maintenance, Reports) | Removed demo, added business pages |
-| **Models** | Demo models | `Vehicle`, `Driver`, `MaintenanceRecord` | Replaced with business models |
-| **Services** | None | `VehicleService`, `DriverService`, `MaintenanceService` | Added business logic layer |
+| **Pages** | 35 demo pages (10 BasicControls, 23 PleasantControls, 2 ToolKit) | 5 real pages (Dashboard, Vehicles, Drivers, Maintenance, Reports) | Removed demo, added business pages |
+| **Models** | `ControlPageCard`, `Language` | `Vehicle`, `Driver`, `MaintenanceRecord` | Replaced with business models |
+| **Services** | `ControlPageCardsFactory` | `VehicleService`, `DriverService`, `MaintenanceService` | Replaced factory with business services |
 | **Localization** | Demo strings | ERP-specific strings | Updated for business context |
-| **Navigation** | Demo control showcase | Business module navigation | Replaced with real navigation |
+| **Navigation** | Demo control showcase with nested NavigationView | Business module navigation | Replaced with real navigation |
 
 ---
 
@@ -1215,27 +1481,30 @@ If you want to use the published packages instead of building from source:
 
 ## Controls Demonstrated
 
-### Basic Controls (Standard Avalonia)
-- Button, CheckBox, RadioButton
-- TextBox, NumericUpDown
-- ComboBox, Calendar
-- DataGrid, ListBox, TreeView
-- ProgressBar, Slider
-- Expander, TabControl
-- Carousel, Separator
+### Basic Controls (Standard Avalonia) - 10 Controls
+- Button
+- CheckBox
+- ProgressBar/Slider
+- Calendar
+- Carousel
+- ComboBox
+- TextBox
+- DataGrid
+- PinCode
+- SelectionList
 
-### Pleasant Controls
-- NavigationView
-- PleasantTabView
-- ContentDialog
-- ProgressRing
-- OptionsDisplayItem
+### Pleasant Controls - 23 Controls
+- PleasantSnackbar
 - InformationBlock
+- OptionsDisplayItem
+- PleasantTabView
+- PleasantMenu
 - Timeline
 - InstallWizard
-- PleasantMenu
-- PathPicker
+- PleasantDrawer
 - PopConfirm
+- PathPicker
+- PleasantMiniWindow
 - BreadcrumbBar
 - CommandBar
 - DashboardCard
@@ -1247,11 +1516,9 @@ If you want to use the published packages instead of building from source:
 - PropertyGrid
 - DownloadPanel
 - CrashReportDialog
-- PleasantDrawer
-- PleasantMiniWindow
-- PleasantSnackbar
+- ProgressRing
 
-### ToolKit
+### ToolKit - 2 Controls
 - MessageBox
 - Docking System
 
