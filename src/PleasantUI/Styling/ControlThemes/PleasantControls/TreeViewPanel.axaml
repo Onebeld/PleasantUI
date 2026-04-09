@@ -155,13 +155,28 @@
                                 BorderBrush="{DynamicResource ControlBorderColor}"
                                 BorderThickness="0 0 0 1"
                                 Padding="16 12">
-                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                            <Grid Name="PART_HeaderGrid" ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <Binding Path="ExpandButtonColumnWidth" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <Binding Path="CollapseButtonColumnWidth" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0"
+                                        Name="PART_SearchBoxBorder"
                                         Background="{DynamicResource BackgroundColor1}"
                                         BorderBrush="{DynamicResource ControlBorderColor}"
                                         BorderThickness="{DynamicResource ControlBorderThickness}"
                                         CornerRadius="{DynamicResource ControlCornerRadius}"
-                                        Padding="0">
+                                        Padding="0"
+                                        HorizontalAlignment="Stretch">
                                     <Grid ColumnDefinitions="Auto,*,Auto">
                                         <PathIcon Grid.Column="0"
                                                   Data="{DynamicResource SearchRegular}"
@@ -197,12 +212,6 @@
                                         Padding="6"
                                         ToolTip.Tip="Expand all"
                                         IsVisible="{TemplateBinding ShowExpandButton}">
-                                    <Button.Transitions>
-                                        <Transitions>
-                                            <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
-                                            <DoubleTransition Property="Width" Duration="0:0:0.2" />
-                                        </Transitions>
-                                    </Button.Transitions>
                                     <PathIcon Data="{DynamicResource ChevronDownRegular}"
                                               Width="12" Height="12" />
                                 </Button>
@@ -215,12 +224,6 @@
                                         Padding="6"
                                         ToolTip.Tip="Collapse all"
                                         IsVisible="{TemplateBinding ShowCollapseButton}">
-                                    <Button.Transitions>
-                                        <Transitions>
-                                            <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
-                                            <DoubleTransition Property="Width" Duration="0:0:0.2" />
-                                        </Transitions>
-                                    </Button.Transitions>
                                     <PathIcon Data="{DynamicResource ChevronUpRegular}"
                                               Width="12" Height="12" />
                                 </Button>
@@ -244,14 +247,6 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^:searchFocused /template/ Button#PART_ExpandButton">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-
-        <Style Selector="^:searchFocused /template/ Button#PART_CollapseButton">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
     </ControlTheme>
 
 </ResourceDictionary>
