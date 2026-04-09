@@ -87,11 +87,15 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 |---|---|
 | [PleasantWindow](docs/PleasantWindow.md) | `PleasantWindow`, `IPleasantSplashScreen` |
 | [PleasantMiniWindow](docs/PleasantMiniWindow.md) | `PleasantMiniWindow` |
+| [PleasantTitleBar](docs/PleasantTitleBar.md) | `PleasantTitleBar` |
+| [PleasantCaptionButtons](docs/PleasantCaptionButtons.md) | `PleasantCaptionButtons` |
 | [NavigationView](docs/NavigationView.md) | `NavigationView`, `NavigationViewItem` |
 | [PleasantTabView](docs/PleasantTabView.md) | `PleasantTabView`, `PleasantTabItem` |
 | [ContentDialog](docs/ContentDialog.md) | `ContentDialog` |
 | [MessageBox](docs/MessageBox.md) | `MessageBox` (ToolKit) |
 | [PleasantDialog](docs/PleasantDialog.md) | `PleasantDialog` (ToolKit) |
+| [CrashReportDialog](docs/CrashReportDialog.md) | `CrashReportDialog` |
+| [StepDialog](docs/StepDialog.md) | `StepDialog` |
 | [PleasantSnackbar](docs/PleasantSnackbar.md) | `PleasantSnackbar` |
 | [ProgressRing](docs/ProgressRing.md) | `ProgressRing` |
 | [OptionsDisplayItem](docs/OptionsDisplayItem.md) | `OptionsDisplayItem` |
@@ -101,14 +105,36 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 | [PathPicker](docs/PathPicker.md) | `PathPicker` |
 | [PopConfirm](docs/PopConfirm.md) | `PopConfirm` |
 | [PleasantMenu](docs/PleasantMenu.md) | `PleasantMenu`, `PleasantMenuItem`, `PleasantMenuFooterItem` |
+| [PleasantMenuFlyout](docs/PleasantMenuFlyout.md) | `PleasantMenuFlyout` |
+| [PleasantFlyout](docs/PleasantFlyout.md) | `PleasantFlyout` |
 | [PinCode](docs/PinCode.md) | `PinCode` |
 | [SelectionList](docs/SelectionList.md) | `SelectionList`, `SelectionListItem` |
 | [RippleEffect](docs/RippleEffect.md) | `RippleEffect` |
 | [SmoothScrollViewer](docs/SmoothScrollViewer.md) | `SmoothScrollViewer` |
 | [MarkedInputs](docs/MarkedInputs.md) | `MarkedTextBox`, `MarkedNumericUpDown` |
+| [MarkedTextBox](docs/MarkedTextBox.md) | `MarkedTextBox` |
+| [MarkedNumericUpDown](docs/MarkedNumericUpDown.md) | `MarkedNumericUpDown` |
+| [PleasantDatePicker](docs/PleasantDatePicker.md) | `PleasantDatePicker` |
 | [PleasantBorder](docs/PleasantBorder.md) | `PleasantBorder` |
+| [BackdropBlurBorder](docs/BackdropBlurBorder.md) | `BackdropBlurBorder` |
+| [ShadowBorder](docs/ShadowBorder.md) | `ShadowBorder` |
 | [PleasantTrayPopup](docs/PleasantTrayPopup.md) | `PleasantTrayPopup`, `StatusItem` |
 | [DataGrid](docs/DataGrid.md) | `PleasantUI.DataGrid` package |
+| [PropertyGrid](docs/PropertyGrid.md) | `PropertyGrid`, `PropertyRow` |
+| [CommandBar](docs/CommandBar.md) | `CommandBar`, `CommandBarButton`, `CommandBarToggleButton` |
+| [BreadcrumbBar](docs/BreadcrumbBar.md) | `BreadcrumbBar`, `BreadcrumbBarItem` |
+| [PleasantDrawer](docs/PleasantDrawer.md) | `PleasantDrawer` |
+| [DashboardCard](docs/DashboardCard.md) | `DashboardCard` |
+| [DownloadPanel](docs/DownloadPanel.md) | `DownloadPanel` |
+| [LogViewerPanel](docs/LogViewerPanel.md) | `LogViewerPanel` |
+| [TerminalPanel](docs/TerminalPanel.md) | `TerminalPanel` |
+| [TreeViewPanel](docs/TreeViewPanel.md) | `TreeViewPanel`, `TreeViewSection` |
+| [ItemListPanel](docs/ItemListPanel.md) | `ItemListPanel` |
+| [VirtualizingWrapPanel](docs/VirtualizingWrapPanel.md) | `VirtualizingWrapPanel` |
+| [PleasantView](docs/PleasantView.md) | `PleasantView` |
+| [PleasantSplashScreen](docs/PleasantSplashScreen.md) | `PleasantSplashScreen` |
+| [ModalWindowHost](docs/ModalWindowHost.md) | `ModalWindowHost` |
+| [ThemePreviewVariantScope](docs/ThemePreviewVariantScope.md) | `ThemePreviewVariantScope` |
 | [Localization](docs/Localization.md) | `Localizer`, `{Localize}` markup extension |
 | [Theme Engine](docs/ThemeEngine.md) | `PleasantTheme`, custom themes, color tokens |
 

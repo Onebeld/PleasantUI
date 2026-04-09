@@ -26,16 +26,22 @@ public partial class MainWindow : PleasantWindow
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `TitleBarType` | `Classic` / `ClassicExtended` | `Classic` | `ClassicExtended` gives a taller title bar with more room for custom content |
+| `TitleBarType` | `PleasantTitleBar.Type` | `Classic` | Type of title bar: `Classic`, `ClassicExtended`, or `Compact` |
 | `EnableCustomTitleBar` | `bool` | `true` | Replaces the OS title bar with the Fluent one |
+| `OverrideMacOSCaption` | `bool` | `true` | Overrides native macOS caption buttons |
 | `ExtendsContentIntoTitleBar` | `bool` | `false` | Lets window content render behind the title bar area |
+| `TitleBarHeight` | `double` | `32` | Height of the title bar (read-only, auto-set) |
 | `Subtitle` | `string` | — | Secondary text shown next to the title |
 | `DisplayIcon` | `object` | — | Custom icon in the title bar (e.g. `DrawingImage`, `PathIcon`) |
 | `DisplayTitle` | `object` | — | Replaces the text title with arbitrary content |
 | `LeftTitleBarContent` | `object` | — | Content injected to the left of the title |
 | `TitleContent` | `object` | — | Content placed in the center of the title bar |
-| `CaptionButtons` | enum | `All` | Which caption buttons to show |
-| `EnableBlur` | `bool` | from settings | Acrylic/blur window background |
+| `CaptionButtons` | `PleasantCaptionButtons.Type` | `All` | Which caption buttons to show |
+| `IsCloseButtonVisible` | `bool` | `true` | Whether the close button is visible |
+| `IsMinimizeButtonVisible` | `bool` | `true` | Whether the minimize button is visible |
+| `IsRestoreButtonVisible` | `bool` | `true` | Whether the restore/maximize button is visible |
+| `IsFullScreenButtonVisible` | `bool` | `false` | Whether the full-screen toggle button is visible |
+| `EnableBlur` | `bool` | `false` | Acrylic/blur window background |
 | `SplashScreen` | `IPleasantSplashScreen` | `null` | Splash screen shown on startup |
 
 ## Extended title bar with custom content
@@ -51,6 +57,29 @@ public partial class MainWindow : PleasantWindow
     <!-- content -->
 </PleasantWindow>
 ```
+
+## macOS caption buttons
+
+Control whether to override native macOS caption buttons:
+
+```xml
+<PleasantWindow OverrideMacOSCaption="True" />
+```
+
+When `true`, the custom caption buttons are used on macOS. When `false`, the system traffic light buttons are shown.
+
+## Button visibility
+
+Control individual caption button visibility:
+
+```xml
+<PleasantWindow IsCloseButtonVisible="True"
+              IsMinimizeButtonVisible="True"
+              IsRestoreButtonVisible="True"
+              IsFullScreenButtonVisible="False" />
+```
+
+These properties provide fine-grained control over which caption buttons are displayed, independent of the `CaptionButtons` property.
 
 ## Splash screen
 
