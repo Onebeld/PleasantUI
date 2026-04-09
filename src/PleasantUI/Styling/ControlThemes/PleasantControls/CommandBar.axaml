@@ -522,7 +522,7 @@
                            Placement="AnchorAndGravity"
                            PlacementAnchor="BottomRight"
                            PlacementGravity="BottomLeft"
-                           IsOpen="{TemplateBinding IsOpen, Mode=TwoWay}"
+                           IsOpen="{TemplateBinding IsOpen, Mode=OneWay}"
                            IsLightDismissEnabled="{Binding !IsSticky, RelativeSource={RelativeSource TemplatedParent}}">
                         <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                       Margin="6 4 6 6"

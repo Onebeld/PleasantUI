@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -17,6 +18,7 @@ namespace PleasantUI.Controls;
 [TemplatePart(PART_ContentControl,        typeof(ContentControl))]
 [TemplatePart(PART_SecondaryItemsControl, typeof(CommandBarOverflowPresenter))]
 [TemplatePart(PART_MoreButton,            typeof(Button))]
+[TemplatePart(PART_OverflowPopup,        typeof(Popup))]
 [PseudoClasses(PC_Open, PC_Compact, PC_Minimal, PC_Hidden,
                PC_LabelBottom, PC_LabelRight, PC_LabelCollapsed,
                PC_PrimaryOnly, PC_SecondaryOnly, PC_ItemsRight)]
@@ -28,6 +30,7 @@ public class CommandBar : ContentControl
     private const string PART_ContentControl        = "PART_ContentControl";
     private const string PART_SecondaryItemsControl = "PART_SecondaryItemsControl";
     private const string PART_MoreButton            = "PART_MoreButton";
+    private const string PART_OverflowPopup         = "PART_OverflowPopup";
 
     // ── Pseudo-class names ────────────────────────────────────────────────────
 
@@ -166,6 +169,7 @@ public class CommandBar : ContentControl
     private ContentControl?              _contentHost;
     private CommandBarOverflowPresenter? _overflowItemsHost;
     private Button?                      _moreButton;
+    private Popup?                       _overflowPopup;
     private CommandBarSeparator?         _overflowSeparator;
 
     // Dynamic overflow tracking
@@ -192,10 +196,18 @@ public class CommandBar : ContentControl
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
+        Debug.WriteLine("[CommandBar] OnApplyTemplate - START");
+        
+        // Save the current IsOpen state before template reapplication
+        bool savedIsOpen = IsOpen;
+        Debug.WriteLine($"[CommandBar] OnApplyTemplate - Saving IsOpen={savedIsOpen}");
+        
         _templateApplied = false;
 
         if (_moreButton is not null)
             _moreButton.Click -= OnMoreButtonClick;
+        if (_overflowPopup is not null)
+            _overflowPopup.Closed -= OnOverflowPopupClosed;
 
         base.OnApplyTemplate(e);
 
@@ -203,19 +215,34 @@ public class CommandBar : ContentControl
         _contentHost       = e.NameScope.Find<ContentControl>(PART_ContentControl);
         _overflowItemsHost = e.NameScope.Find<CommandBarOverflowPresenter>(PART_SecondaryItemsControl);
         _moreButton        = e.NameScope.Find<Button>(PART_MoreButton);
+        _overflowPopup     = e.NameScope.Find<Popup>(PART_OverflowPopup);
+
+        Debug.WriteLine($"[CommandBar] OnApplyTemplate - Parts found: PrimaryItems={_primaryItemsHost != null}, Content={_contentHost != null}, OverflowItems={_overflowItemsHost != null}, MoreButton={_moreButton != null}, OverflowPopup={_overflowPopup != null}");
 
         if (_moreButton is not null)
             _moreButton.Click += OnMoreButtonClick;
+        if (_overflowPopup is not null)
+            _overflowPopup.Closed += OnOverflowPopupClosed;
 
         _templateApplied = true;
         AttachItems();
 
+        // Restore the saved IsOpen state after template reapplication
+        // This preserves the state across theme changes
+        if (savedIsOpen != IsOpen)
+        {
+            Debug.WriteLine($"[CommandBar] OnApplyTemplate - Restoring IsOpen from {IsOpen} to {savedIsOpen}");
+            IsOpen = savedIsOpen;
+        }
+        
         // Re-apply open state now that items exist — IsOpen may have been set
         // before the template was applied (e.g. IsOpen="True" in XAML).
+        Debug.WriteLine($"[CommandBar] OnApplyTemplate - Current IsOpen={IsOpen}, IsSticky={IsSticky}");
         if (IsOpen)
             ApplyOpenStateToItems(true);
 
         UpdateMoreButtonVisibility();
+        Debug.WriteLine("[CommandBar] OnApplyTemplate - END");
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -224,7 +251,9 @@ public class CommandBar : ContentControl
 
         if (change.Property == IsOpenProperty)
         {
-            OnIsOpenChanged(change.GetNewValue<bool>());
+            bool newValue = change.GetNewValue<bool>();
+            Debug.WriteLine($"[CommandBar] OnPropertyChanged - IsOpen changed from {change.GetOldValue<bool>()} to {newValue}");
+            OnIsOpenChanged(newValue);
         }
         else if (change.Property == DefaultLabelPositionProperty)
         {
@@ -337,17 +366,31 @@ public class CommandBar : ContentControl
 
     // ── Open / close ──────────────────────────────────────────────────────────
 
-    protected virtual void OnOpening() => Opening?.Invoke(this, EventArgs.Empty);
-    protected virtual void OnOpened()  => Opened?.Invoke(this, EventArgs.Empty);
-    protected virtual void OnClosing() => Closing?.Invoke(this, EventArgs.Empty);
+    protected virtual void OnOpening() 
+    {
+        Debug.WriteLine("[CommandBar] OnOpening");
+        Opening?.Invoke(this, EventArgs.Empty);
+    }
+    protected virtual void OnOpened() 
+    {
+        Debug.WriteLine("[CommandBar] OnOpened");
+        Opened?.Invoke(this, EventArgs.Empty);
+    }
+    protected virtual void OnClosing() 
+    {
+        Debug.WriteLine("[CommandBar] OnClosing");
+        Closing?.Invoke(this, EventArgs.Empty);
+    }
     protected virtual void OnClosed()
     {
+        Debug.WriteLine("[CommandBar] OnClosed");
         Closed?.Invoke(this, EventArgs.Empty);
         _moreButton?.Focus();
     }
 
     private void OnIsOpenChanged(bool open)
     {
+        Debug.WriteLine($"[CommandBar] OnIsOpenChanged - open={open}");
         if (open)
         {
             OnOpening();
@@ -365,7 +408,19 @@ public class CommandBar : ContentControl
     }
 
     private void OnMoreButtonClick(object? sender, RoutedEventArgs e)
-        => IsOpen = !IsOpen;
+    {
+        Debug.WriteLine($"[CommandBar] OnMoreButtonClick - Toggling IsOpen from {IsOpen} to {!IsOpen}");
+        IsOpen = !IsOpen;
+    }
+
+    private void OnOverflowPopupClosed(object? sender, EventArgs e)
+    {
+        // Don't set IsOpen=false here - the save/restore logic in OnApplyTemplate
+        // will handle preserving the state across template reapplication.
+        // This prevents the state from being reset when the popup closes due to
+        // control unloading or template reapplication.
+        Debug.WriteLine("[CommandBar] OnOverflowPopupClosed - Skipping IsOpen=false (relying on save/restore in OnApplyTemplate)");
+    }
 
     // ── Collection change handlers ────────────────────────────────────────────
 
