@@ -4,6 +4,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
 
@@ -33,6 +34,7 @@ public class TreeViewPanel : TemplatedControl
     // ── Pseudo-class names ────────────────────────────────────────────────────
 
     private const string PC_HasFilter = ":hasFilter";
+    private const string PC_SearchFocused = ":searchFocused";
 
     // ── Styled properties ─────────────────────────────────────────────────────
 
@@ -51,6 +53,14 @@ public class TreeViewPanel : TemplatedControl
     /// <summary>Defines the <see cref="SelectedSection"/> property.</summary>
     public static readonly StyledProperty<TreeViewSection?> SelectedSectionProperty =
         AvaloniaProperty.Register<TreeViewPanel, TreeViewSection?>(nameof(SelectedSection));
+
+    /// <summary>Defines the <see cref="ShowExpandButton"/> property.</summary>
+    public static readonly StyledProperty<bool> ShowExpandButtonProperty =
+        AvaloniaProperty.Register<TreeViewPanel, bool>(nameof(ShowExpandButton), defaultValue: true);
+
+    /// <summary>Defines the <see cref="ShowCollapseButton"/> property.</summary>
+    public static readonly StyledProperty<bool> ShowCollapseButtonProperty =
+        AvaloniaProperty.Register<TreeViewPanel, bool>(nameof(ShowCollapseButton), defaultValue: true);
 
     // ── Direct properties ─────────────────────────────────────────────────────
 
@@ -89,6 +99,20 @@ public class TreeViewPanel : TemplatedControl
         set => SetValue(SelectedSectionProperty, value);
     }
 
+    /// <summary>Gets or sets whether the expand-all button is visible.</summary>
+    public bool ShowExpandButton
+    {
+        get => GetValue(ShowExpandButtonProperty);
+        set => SetValue(ShowExpandButtonProperty, value);
+    }
+
+    /// <summary>Gets or sets whether the collapse-all button is visible.</summary>
+    public bool ShowCollapseButton
+    {
+        get => GetValue(ShowCollapseButtonProperty);
+        set => SetValue(ShowCollapseButtonProperty, value);
+    }
+
     /// <summary>Gets the collection of sections displayed in the panel.</summary>
     [Content]
     public AvaloniaList<TreeViewSection> Sections { get; } = new();
@@ -123,13 +147,14 @@ public class TreeViewPanel : TemplatedControl
         base.OnApplyTemplate(e);
 
         if (_searchBox is not null)
+        {
             _searchBox.TextChanged -= OnSearchTextChanged;
-        if (_collapseButton is not null)
-            _collapseButton.Click -= OnCollapseButtonClick;
-        if (_expandButton is not null)
-            _expandButton.Click -= OnExpandButtonClick;
-        if (_clearButton is not null)
-            _clearButton.Click -= OnClearButtonClick;
+            _searchBox.GotFocus -= OnSearchBoxGotFocus;
+            _searchBox.LostFocus -= OnSearchBoxLostFocus;
+        }
+        if (_collapseButton is not null) _collapseButton.Click -= OnCollapseButtonClick;
+        if (_expandButton is not null) _expandButton.Click -= OnExpandButtonClick;
+        if (_clearButton is not null) _clearButton.Click -= OnClearButtonClick;
 
         _searchBox    = e.NameScope.Find<TextBox>(PART_SearchBox);
         _sectionsHost = e.NameScope.Find<ItemsControl>(PART_SectionsHost);
@@ -138,13 +163,14 @@ public class TreeViewPanel : TemplatedControl
         _clearButton = e.NameScope.Find<Button>(PART_ClearButton);
 
         if (_searchBox is not null)
+        {
             _searchBox.TextChanged += OnSearchTextChanged;
-        if (_collapseButton is not null)
-            _collapseButton.Click += OnCollapseButtonClick;
-        if (_expandButton is not null)
-            _expandButton.Click += OnExpandButtonClick;
-        if (_clearButton is not null)
-            _clearButton.Click += OnClearButtonClick;
+            _searchBox.GotFocus += OnSearchBoxGotFocus;
+            _searchBox.LostFocus += OnSearchBoxLostFocus;
+        }
+        if (_collapseButton is not null) _collapseButton.Click += OnCollapseButtonClick;
+        if (_expandButton is not null) _expandButton.Click += OnExpandButtonClick;
+        if (_clearButton is not null) _clearButton.Click += OnClearButtonClick;
 
         if (_sectionsHost is not null)
             _sectionsHost.ItemsSource = Sections;
@@ -228,6 +254,12 @@ public class TreeViewPanel : TemplatedControl
 
     private void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
         => FilterText = _searchBox?.Text;
+
+    private void OnSearchBoxGotFocus(object? sender, FocusChangedEventArgs e)
+        => PseudoClasses.Set(PC_SearchFocused, true);
+
+    private void OnSearchBoxLostFocus(object? sender, FocusChangedEventArgs e)
+        => PseudoClasses.Set(PC_SearchFocused, false);
 
     private void OnCollapseButtonClick(object? sender, RoutedEventArgs e)
         => CollapseAll();

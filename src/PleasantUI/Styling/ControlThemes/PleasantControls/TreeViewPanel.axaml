@@ -173,8 +173,9 @@
                                                  PlaceholderText="{TemplateBinding FilterWatermark}"
                                                  Background="Transparent"
                                                  BorderThickness="0"
-                                                 Padding="0 6"
-                                                 FontSize="14" />
+                                                 Padding="8 6"
+                                                 FontSize="14"
+                                                 MinWidth="80" />
                                         <Button Name="PART_ClearButton"
                                                 Grid.Column="2"
                                                 Theme="{DynamicResource AppBarButtonTheme}"
@@ -194,7 +195,14 @@
                                         Theme="{DynamicResource AppBarButtonTheme}"
                                         Width="32" Height="32"
                                         Padding="6"
-                                        ToolTip.Tip="Expand all">
+                                        ToolTip.Tip="Expand all"
+                                        IsVisible="{TemplateBinding ShowExpandButton}">
+                                    <Button.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                                            <DoubleTransition Property="Width" Duration="0:0:0.2" />
+                                        </Transitions>
+                                    </Button.Transitions>
                                     <PathIcon Data="{DynamicResource ChevronDownRegular}"
                                               Width="12" Height="12" />
                                 </Button>
@@ -205,7 +213,14 @@
                                         Theme="{DynamicResource AppBarButtonTheme}"
                                         Width="32" Height="32"
                                         Padding="6"
-                                        ToolTip.Tip="Collapse all">
+                                        ToolTip.Tip="Collapse all"
+                                        IsVisible="{TemplateBinding ShowCollapseButton}">
+                                    <Button.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                                            <DoubleTransition Property="Width" Duration="0:0:0.2" />
+                                        </Transitions>
+                                    </Button.Transitions>
                                     <PathIcon Data="{DynamicResource ChevronUpRegular}"
                                               Width="12" Height="12" />
                                 </Button>
@@ -229,6 +244,14 @@
                 </Border>
             </ControlTemplate>
         </Setter>
+
+        <Style Selector="^:searchFocused /template/ Button#PART_ExpandButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^:searchFocused /template/ Button#PART_CollapseButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
     </ControlTheme>
 
 </ResourceDictionary>
