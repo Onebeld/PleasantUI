@@ -147,10 +147,10 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 Published on NuGet:
 
 ```xml
-<PackageReference Include="PleasantUI" Version="5.1.0-alpha4.2" />
-<PackageReference Include="PleasantUI.DataGrid" Version="5.1.0-alpha4.2" />
-<PackageReference Include="PleasantUI.MaterialIcons" Version="5.1.0-alpha4.2" />
-<PackageReference Include="PleasantUI.ToolKit" Version="5.1.0-alpha4.2" />
+<PackageReference Include="PleasantUI" Version="5.2.0" />
+<PackageReference Include="PleasantUI.DataGrid" Version="5.2.0" />
+<PackageReference Include="PleasantUI.MaterialIcons" Version="5.2.0" />
+<PackageReference Include="PleasantUI.ToolKit" Version="5.2.0" />
 ```
 
 
