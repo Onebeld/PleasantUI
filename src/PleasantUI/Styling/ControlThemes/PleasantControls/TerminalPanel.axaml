@@ -118,7 +118,7 @@
                                 <TextBox Name="PART_InputBox"
                                          Grid.Column="1"
                                          Text="{TemplateBinding InputText, Mode=TwoWay}"
-                                         Watermark="Type a command and press Enter"
+                                         PlaceholderText="Type a command and press Enter"
                                          FontFamily="Consolas,Menlo,Monaco,monospace"
                                          FontSize="12"
                                          Background="Transparent"

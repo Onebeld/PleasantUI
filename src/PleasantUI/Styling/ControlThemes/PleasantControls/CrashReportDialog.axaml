@@ -220,7 +220,7 @@
                                                          Height="72"
                                                          AcceptsReturn="True"
                                                          TextWrapping="Wrap"
-                                                         Watermark="Describe what you were doing…"
+                                                         PlaceholderText="Describe what you were doing…"
                                                          FontSize="12" />
                                             </StackPanel>
 
@@ -237,7 +237,7 @@
                                                                IsVisible="False" />
                                                 </StackPanel>
                                                 <TextBox Name="PART_EmailBox"
-                                                         Watermark="you@example.com"
+                                                         PlaceholderText="you@example.com"
                                                          FontSize="12" />
                                                 <TextBlock Name="PART_EmailError"
                                                            Text="Please enter a valid email address."

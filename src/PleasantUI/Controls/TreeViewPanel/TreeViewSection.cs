@@ -1,5 +1,6 @@
 using System.Collections;
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
@@ -60,6 +61,10 @@ public class TreeViewSection : HeaderedItemsControl
     public static readonly StyledProperty<double> MaxListHeightProperty =
         AvaloniaProperty.Register<TreeViewSection, double>(nameof(MaxListHeight), defaultValue: double.PositiveInfinity);
 
+    /// <summary>Defines the <see cref="FilterText"/> property.</summary>
+    public static readonly StyledProperty<string?> FilterTextProperty =
+        AvaloniaProperty.Register<TreeViewSection, string?>(nameof(FilterText));
+
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon geometry shown in the section header.</summary>
@@ -118,6 +123,13 @@ public class TreeViewSection : HeaderedItemsControl
         set => SetValue(MaxListHeightProperty, value);
     }
 
+    /// <summary>Gets or sets the filter text for this section.</summary>
+    public string? FilterText
+    {
+        get => GetValue(FilterTextProperty);
+        set => SetValue(FilterTextProperty, value);
+    }
+
     // ── Events ────────────────────────────────────────────────────────────────
 
     /// <summary>Raised when the user selects an item in this section.</summary>
@@ -126,6 +138,8 @@ public class TreeViewSection : HeaderedItemsControl
     // ── Private state ─────────────────────────────────────────────────────────
 
     private ListBox? _listBox;
+    private IEnumerable? _originalItems;
+    private AvaloniaList<object>? _filteredItems;
 
     // ── Template ──────────────────────────────────────────────────────────────
 
@@ -162,6 +176,10 @@ public class TreeViewSection : HeaderedItemsControl
         {
             _listBox.SelectedItem = change.NewValue;
         }
+        else if (change.Property == FilterTextProperty)
+        {
+            ApplyFilter(change.GetNewValue<string?>());
+        }
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────
@@ -169,8 +187,49 @@ public class TreeViewSection : HeaderedItemsControl
     private void SyncListSource()
     {
         if (_listBox is null) return;
-        _listBox.ItemsSource = ItemsSource as IEnumerable ?? Items;
+        
+        var items = ItemsSource as IEnumerable ?? Items;
+        _originalItems = items;
+        
+        if (string.IsNullOrEmpty(FilterText))
+        {
+            _listBox.ItemsSource = items;
+        }
+        else
+        {
+            ApplyFilter(FilterText);
+        }
+        
         _listBox.ItemTemplate = ItemTemplate;
+    }
+
+    private void ApplyFilter(string? filterText)
+    {
+        if (_listBox is null || _originalItems is null) return;
+
+        if (string.IsNullOrEmpty(filterText))
+        {
+            _listBox.ItemsSource = _originalItems;
+            return;
+        }
+
+        _filteredItems ??= new AvaloniaList<object>();
+        _filteredItems.Clear();
+
+        foreach (var item in _originalItems)
+        {
+            if (item is not null)
+            {
+                var itemString = item.ToString();
+                if (!string.IsNullOrEmpty(itemString) && 
+                    itemString.Contains(filterText, StringComparison.OrdinalIgnoreCase))
+                {
+                    _filteredItems.Add(item);
+                }
+            }
+        }
+
+        _listBox.ItemsSource = _filteredItems;
     }
 
     private void OnListSelectionChanged(object? sender, SelectionChangedEventArgs e)

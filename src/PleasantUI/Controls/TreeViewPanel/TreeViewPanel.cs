@@ -16,6 +16,9 @@ namespace PleasantUI.Controls;
 /// </summary>
 [TemplatePart(PART_SearchBox,    typeof(TextBox))]
 [TemplatePart(PART_SectionsHost, typeof(ItemsControl))]
+[TemplatePart(PART_CollapseButton, typeof(Button))]
+[TemplatePart(PART_ExpandButton, typeof(Button))]
+[TemplatePart(PART_ClearButton, typeof(Button))]
 [PseudoClasses(PC_HasFilter)]
 public class TreeViewPanel : TemplatedControl
 {
@@ -23,6 +26,9 @@ public class TreeViewPanel : TemplatedControl
 
     internal const string PART_SearchBox    = "PART_SearchBox";
     internal const string PART_SectionsHost = "PART_SectionsHost";
+    internal const string PART_CollapseButton = "PART_CollapseButton";
+    internal const string PART_ExpandButton = "PART_ExpandButton";
+    internal const string PART_ClearButton = "PART_ClearButton";
 
     // ── Pseudo-class names ────────────────────────────────────────────────────
 
@@ -99,6 +105,9 @@ public class TreeViewPanel : TemplatedControl
 
     private TextBox?      _searchBox;
     private ItemsControl? _sectionsHost;
+    private Button?       _collapseButton;
+    private Button?       _expandButton;
+    private Button?       _clearButton;
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
@@ -115,12 +124,27 @@ public class TreeViewPanel : TemplatedControl
 
         if (_searchBox is not null)
             _searchBox.TextChanged -= OnSearchTextChanged;
+        if (_collapseButton is not null)
+            _collapseButton.Click -= OnCollapseButtonClick;
+        if (_expandButton is not null)
+            _expandButton.Click -= OnExpandButtonClick;
+        if (_clearButton is not null)
+            _clearButton.Click -= OnClearButtonClick;
 
         _searchBox    = e.NameScope.Find<TextBox>(PART_SearchBox);
         _sectionsHost = e.NameScope.Find<ItemsControl>(PART_SectionsHost);
+        _collapseButton = e.NameScope.Find<Button>(PART_CollapseButton);
+        _expandButton = e.NameScope.Find<Button>(PART_ExpandButton);
+        _clearButton = e.NameScope.Find<Button>(PART_ClearButton);
 
         if (_searchBox is not null)
             _searchBox.TextChanged += OnSearchTextChanged;
+        if (_collapseButton is not null)
+            _collapseButton.Click += OnCollapseButtonClick;
+        if (_expandButton is not null)
+            _expandButton.Click += OnExpandButtonClick;
+        if (_clearButton is not null)
+            _clearButton.Click += OnClearButtonClick;
 
         if (_sectionsHost is not null)
             _sectionsHost.ItemsSource = Sections;
@@ -140,6 +164,11 @@ public class TreeViewPanel : TemplatedControl
         {
             PseudoClasses.Set(PC_HasFilter, !string.IsNullOrEmpty(change.GetNewValue<string?>()));
             FilterChanged?.Invoke(this, change.GetNewValue<string?>());
+            
+            // Propagate filter text to all sections
+            var filterText = change.GetNewValue<string?>();
+            foreach (var section in Sections)
+                section.FilterText = filterText;
         }
     }
 
@@ -199,4 +228,17 @@ public class TreeViewPanel : TemplatedControl
 
     private void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
         => FilterText = _searchBox?.Text;
+
+    private void OnCollapseButtonClick(object? sender, RoutedEventArgs e)
+        => CollapseAll();
+
+    private void OnExpandButtonClick(object? sender, RoutedEventArgs e)
+        => ExpandAll();
+
+    private void OnClearButtonClick(object? sender, RoutedEventArgs e)
+    {
+        FilterText = null;
+        if (_searchBox is not null)
+            _searchBox.Text = string.Empty;
+    }
 }

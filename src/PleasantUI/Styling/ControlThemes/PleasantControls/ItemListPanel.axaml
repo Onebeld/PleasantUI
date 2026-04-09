@@ -48,13 +48,14 @@
                                               VerticalAlignment="Center" />
                                     <TextBox Name="PART_SearchBox"
                                              Grid.Column="1"
-                                             Watermark="{TemplateBinding SearchWatermark}"
+                                             PlaceholderText="{TemplateBinding SearchWatermark}"
                                              Background="Transparent"
                                              BorderThickness="0"
                                              Padding="0 8"
                                              FontSize="13"
                                              VerticalContentAlignment="Center" />
-                                    <Button Grid.Column="2"
+                                    <Button Name="PART_ClearButton"
+                                            Grid.Column="2"
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             Width="28" Height="28"
                                             Padding="6"

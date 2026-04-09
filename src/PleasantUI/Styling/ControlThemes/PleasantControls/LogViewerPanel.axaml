@@ -175,7 +175,7 @@
                                                           Foreground="{DynamicResource TextFillColor3}" />
                                                 <TextBox Name="PART_SearchBox"
                                                          Grid.Column="1"
-                                                         Watermark="Search logs..."
+                                                         PlaceholderText="Search logs..."
                                                          Background="Transparent"
                                                          BorderThickness="0"
                                                          Padding="4 5"
