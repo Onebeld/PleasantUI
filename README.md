@@ -96,6 +96,18 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 | [ProgressRing](docs/ProgressRing.md) | `ProgressRing` |
 | [OptionsDisplayItem](docs/OptionsDisplayItem.md) | `OptionsDisplayItem` |
 | [InformationBlock](docs/InformationBlock.md) | `InformationBlock` |
+| [Timeline](docs/Timeline.md) | `Timeline`, `TimelineItem` |
+| [InstallWizard](docs/InstallWizard.md) | `InstallWizard`, `WizardStep` |
+| [PathPicker](docs/PathPicker.md) | `PathPicker` |
+| [PopConfirm](docs/PopConfirm.md) | `PopConfirm` |
+| [PleasantMenu](docs/PleasantMenu.md) | `PleasantMenu`, `PleasantMenuItem`, `PleasantMenuFooterItem` |
+| [PinCode](docs/PinCode.md) | `PinCode` |
+| [SelectionList](docs/SelectionList.md) | `SelectionList`, `SelectionListItem` |
+| [RippleEffect](docs/RippleEffect.md) | `RippleEffect` |
+| [SmoothScrollViewer](docs/SmoothScrollViewer.md) | `SmoothScrollViewer` |
+| [MarkedInputs](docs/MarkedInputs.md) | `MarkedTextBox`, `MarkedNumericUpDown` |
+| [PleasantBorder](docs/PleasantBorder.md) | `PleasantBorder` |
+| [PleasantTrayPopup](docs/PleasantTrayPopup.md) | `PleasantTrayPopup`, `StatusItem` |
 | [DataGrid](docs/DataGrid.md) | `PleasantUI.DataGrid` package |
 | [Localization](docs/Localization.md) | `Localizer`, `{Localize}` markup extension |
 | [Theme Engine](docs/ThemeEngine.md) | `PleasantTheme`, custom themes, color tokens |
