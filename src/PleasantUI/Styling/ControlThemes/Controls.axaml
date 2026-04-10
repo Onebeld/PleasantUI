@@ -73,20 +73,14 @@
                 <!-- Pleasant Controls -->
                 <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/CommandBar.axaml" />
-                <MergeResourceInclude Source="PleasantControls/CrashReportDialog.axaml" />
                 <MergeResourceInclude Source="PleasantControls/DashboardCard.axaml" />
-                <MergeResourceInclude Source="PleasantControls/DownloadPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ItemListPanel.axaml" />
-                <MergeResourceInclude Source="PleasantControls/LogViewerPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PropertyGrid.axaml" />
-                <MergeResourceInclude Source="PleasantControls/StepDialog.axaml" />
-                <MergeResourceInclude Source="PleasantControls/TerminalPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/TreeViewPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InformationBlock.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationView.axaml" />
                 <MergeResourceInclude Source="PleasantControls/NavigationViewItem.axaml" />
-                <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/OptionsDisplayItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PathPicker.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantFileChooser.axaml" />

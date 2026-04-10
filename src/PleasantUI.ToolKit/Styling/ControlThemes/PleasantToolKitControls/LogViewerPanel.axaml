@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
-                    xmlns:converters="clr-namespace:PleasantUI.Converters"
+                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
                     x:ClassModifier="internal">
 
     <Design.PreviewWith>
@@ -197,22 +197,7 @@
                                                   Width="90"
                                                   Margin="0 0 4 0"
                                                   FontSize="11"
-                                                  SelectedIndex="0">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding ., Converter={x:Static StringConverters.ToString}, ConverterParameter='{}{0}'}">
-                                                        <TextBlock.Style>
-                                                            <Style Selector="TextBlock">
-                                                                <Setter Property="Text" Value="{Binding}" />
-                                                                <Style Selector:if="{Binding ., Converter={x:Static ObjectConverters.IsNull}}">
-                                                                    <Setter Property="Text" Value="All" />
-                                                                </Style>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
+                                                  SelectedIndex="0" />
 
                                         <!-- Source filter -->
                                         <ComboBox Name="PART_SourceFilter"
@@ -220,22 +205,7 @@
                                                   Width="90"
                                                   Margin="0 0 4 0"
                                                   FontSize="11"
-                                                  SelectedIndex="0">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock>
-                                                        <TextBlock.Style>
-                                                            <Style Selector="TextBlock">
-                                                                <Setter Property="Text" Value="{Binding}" />
-                                                                <Style Selector:if="{Binding ., Converter={x:Static ObjectConverters.IsNull}}">
-                                                                    <Setter Property="Text" Value="All" />
-                                                                </Style>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
+                                                  SelectedIndex="0" />
 
                                         <!-- Debug toggle -->
                                         <ToggleButton Name="PART_DebugToggle"
