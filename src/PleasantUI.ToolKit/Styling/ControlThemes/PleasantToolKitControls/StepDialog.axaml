@@ -45,7 +45,7 @@
                             Background="{DynamicResource AccentLinearGradientBrush}"
                             VerticalAlignment="Top">
                         <TextBlock Text="{TemplateBinding StepNumber}"
-                                   Foreground="{DynamicResource TextFillColor2}"
+                                   Foreground="{ForegroundBasedAccent AccentLightColor1}"
                                    FontWeight="SemiBold"
                                    FontSize="12"
                                    HorizontalAlignment="Center"
@@ -158,7 +158,8 @@
                                         Padding="8"
                                         VerticalAlignment="Top">
                                     <PathIcon Data="{DynamicResource DismissRegular}"
-                                              Width="10" Height="10" />
+                                              Width="10" Height="10"
+                                              Foreground="{DynamicResource TextFillColor1}" />
                                 </Button>
                             </Grid>
 
