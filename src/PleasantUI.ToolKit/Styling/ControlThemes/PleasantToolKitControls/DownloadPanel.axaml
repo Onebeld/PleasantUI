@@ -1,0 +1,328 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
+                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
+                    x:ClassModifier="internal">
+
+    <!-- Chunk Item DataTemplate -->
+    <DataTemplate x:Key="ChunkItemTemplate" DataType="controls:ChunkInfo">
+        <Border Padding="12 10"
+                Margin="0 2"
+                CornerRadius="6"
+                Background="{DynamicResource ControlFillColor1}"
+                BorderBrush="{DynamicResource ControlBorderColor}"
+                BorderThickness="1">
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+                <!-- Top row: Chunk number, progress, status -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <!-- Chunk number badge -->
+                    <Border Grid.Column="0"
+                            Width="28" Height="28"
+                            CornerRadius="6"
+                            Background="{DynamicResource AccentFillColorSecondaryBrush}"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Index}"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextFillColor1}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+
+                    <!-- Progress bar and percentage -->
+                    <Grid Grid.Column="1" RowDefinitions="Auto,Auto" RowSpacing="4" VerticalAlignment="Center">
+                        <ProgressBar Grid.Row="0"
+                                     Minimum="0" Maximum="1"
+                                     Value="{Binding Progress}"
+                                     Height="5"
+                                     CornerRadius="2.5" />
+                        <TextBlock Grid.Row="1"
+                                   Text="{Binding Progress, Converter={x:Static converters:ProgressPercentageConverter.Instance}}"
+                                   FontSize="10"
+                                   FontWeight="Medium"
+                                   Foreground="{DynamicResource TextFillColor2}" />
+                    </Grid>
+
+                    <!-- Status badge -->
+                    <Border Grid.Column="2"
+                            Background="{Binding Status, Converter={x:Static converters:ChunkStatusToBrushConverter.Instance}}"
+                            Padding="8 4"
+                            CornerRadius="4"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Info}"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Foreground="White" />
+                    </Border>
+                </Grid>
+
+                <!-- Bottom row: Size info, speed, time -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                    <!-- Size info -->
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock Text="SIZE"
+                                   FontSize="8"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextFillColor3}"
+                                   Opacity="0.7" />
+                        <TextBlock Text="{Binding DownloadedSize}"
+                                   FontSize="11"
+                                   FontWeight="Medium"
+                                   Foreground="{DynamicResource TextFillColor1}" />
+                    </StackPanel>
+
+                    <!-- Speed info -->
+                    <StackPanel Grid.Column="1" Spacing="2">
+                        <TextBlock Text="SPEED"
+                                   FontSize="8"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextFillColor3}"
+                                   Opacity="0.7" />
+                        <TextBlock Text="{Binding Speed}"
+                                   FontSize="11"
+                                   FontWeight="Medium"
+                                   Foreground="{DynamicResource TextFillColor1}" />
+                    </StackPanel>
+
+                    <!-- Time info -->
+                    <StackPanel Grid.Column="2" Spacing="2">
+                        <TextBlock Text="REMAINING"
+                                   FontSize="8"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextFillColor3}"
+                                   Opacity="0.7" />
+                        <TextBlock Text="{Binding TimeRemaining}"
+                                   FontSize="11"
+                                   FontWeight="Medium"
+                                   Foreground="{DynamicResource TextFillColor1}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="600" Height="500">
+            <controls:DownloadPanel Progress="42"
+                                    ShowDetails="True">
+                <controls:DownloadPanel.Chunks>
+                    <controls:ChunkInfo Index="1" Start="0"    End="0.25" Progress="1.0" DownloadedSize="32 MB" Info="Done" />
+                    <controls:ChunkInfo Index="2" Start="0.25" End="0.5"  Progress="0.6" DownloadedSize="19 MB" Info="Downloading" />
+                    <controls:ChunkInfo Index="3" Start="0.5"  End="0.75" Progress="0.2" DownloadedSize="6 MB"  Info="Downloading" />
+                    <controls:ChunkInfo Index="4" Start="0.75" End="1.0"  Progress="0.0" DownloadedSize="0 MB"  Info="Waiting" />
+                </controls:DownloadPanel.Chunks>
+            </controls:DownloadPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── Shared tokens ─────────────────────────────────────────────────── -->
+
+    <x:Double x:Key="DownloadPanelTabHeight">36</x:Double>
+    <x:Double x:Key="DownloadPanelChunkBarHeight">20</x:Double>
+    <x:Double x:Key="DownloadPanelTabFontSize">12</x:Double>
+
+    <!-- ── Tab strip item style ──────────────────────────────────────────── -->
+    <ControlTheme x:Key="DownloadPanelTabItemTheme" TargetType="ListBoxItem">
+        <Setter Property="Background"  Value="Transparent" />
+        <Setter Property="Foreground"  Value="{DynamicResource TextFillColor2}" />
+        <Setter Property="Padding"     Value="14 6" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="Cursor"      Value="Hand" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
+        <Style Selector="^:selected">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── DownloadPanel ─────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:DownloadPanel}" TargetType="controls:DownloadPanel">
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="20"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+
+                        <!-- ── Tab strip ───────────────────────────────── -->
+                        <ListBox Name="PART_TabStrip"
+                                 Grid.Row="0"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Margin="0 0 0 10"
+                                 ItemContainerTheme="{StaticResource DownloadPanelTabItemTheme}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="4" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+
+                        <!-- ── Tab content area ────────────────────────── -->
+                        <Border Grid.Row="1"
+                                Background="{DynamicResource BackgroundColor3}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="{DynamicResource ControlBorderThickness}"
+                                CornerRadius="{DynamicResource ControlCornerRadius}"
+                                Padding="16"
+                                MinHeight="120"
+                                MaxHeight="260"
+                                Margin="0 0 0 10"
+                                ClipToBounds="True">
+                            <ContentPresenter Name="PART_TabContent"
+                                              Content="{TemplateBinding TabContent}" />
+                        </Border>
+
+                        <!-- ── Progress bar ────────────────────────────── -->
+                        <ProgressBar Name="PART_ProgressBar"
+                                     Grid.Row="2"
+                                     Minimum="0" Maximum="100"
+                                     Value="{TemplateBinding Progress}"
+                                     Height="6"
+                                     CornerRadius="{DynamicResource RoundedControlCornerRadius}"
+                                     Margin="0 0 0 10" />
+
+                        <!-- ── Action buttons ──────────────────────────── -->
+                        <Grid Grid.Row="3"
+                              Margin="0 0 0 10">
+                            <!-- Details toggle (left) -->
+                            <Button Name="PART_DetailsToggle"
+                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Padding="10 6">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <PathIcon Name="PART_DetailsChevron"
+                                              Data="{DynamicResource ChevronDownRegular}"
+                                              Width="10" Height="10" />
+                                    <TextBlock Name="PART_DetailsLabel"
+                                               Text="Show details"
+                                               FontSize="12" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Pause/Resume + Cancel (right) -->
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center">
+                                <Button Name="PART_PauseButton"
+                                        Command="{TemplateBinding PauseResumeCommand}"
+                                        IsEnabled="{TemplateBinding IsPauseResumeEnabled}"
+                                        Padding="14 6">
+                                    <TextBlock Name="PART_PauseLabel" Text="Pause" FontSize="12" />
+                                </Button>
+                                <Button Name="PART_CancelButton"
+                                        Command="{TemplateBinding CancelCommand}"
+                                        Theme="{DynamicResource DangerButtonTheme}"
+                                        Content="Cancel"
+                                        Padding="14 6"
+                                        FontSize="12" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- ── Details section ─────────────────────────── -->
+                        <Grid Name="PART_DetailsSection"
+                              Grid.Row="4"
+                              RowDefinitions="Auto,*"
+                              IsVisible="False">
+
+                            <!-- Chunk progress canvas -->
+                            <Border Grid.Row="0"
+                                    Background="{TemplateBinding ChunkBackgroundBrush}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    ClipToBounds="True"
+                                    Margin="0 0 0 10"
+                                    IsVisible="{Binding Chunks.Count, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Canvas Name="PART_ChunkCanvas"
+                                        Height="{DynamicResource DownloadPanelChunkBarHeight}"
+                                        HorizontalAlignment="Stretch" />
+                            </Border>
+
+                            <!-- Chunk list -->
+                            <ListBox Name="PART_ChunkList"
+                                     Grid.Row="1"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ItemTemplate="{StaticResource ChunkItemTemplate}">
+                                <ListBox.Styles>
+                                    <Style Selector="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </ListBox.Styles>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- ── Paused: change pause button label ─────────────────────── -->
+        <Style Selector="^:paused /template/ TextBlock#PART_PauseLabel">
+            <Setter Property="Text" Value="Resume" />
+        </Style>
+        <Style Selector="^:paused /template/ Button#PART_PauseButton">
+            <Setter Property="Theme" Value="{DynamicResource AccentButtonTheme}" />
+        </Style>
+
+        <!-- ── Merging: show merge progress ──────────────────────────── -->
+        <Style Selector="^:merging /template/ ProgressBar#PART_ProgressBar">
+            <Setter Property="Value" Value="{Binding MergeProgress, RelativeSource={RelativeSource TemplatedParent}}" />
+            <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCaution}" />
+        </Style>
+
+        <!-- ── Details visible ───────────────────────────────────────── -->
+        <Style Selector="^:showDetails /template/ Grid#PART_DetailsSection">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:showDetails /template/ TextBlock#PART_DetailsLabel">
+            <Setter Property="Text" Value="Hide details" />
+        </Style>
+        <Style Selector="^:showDetails /template/ PathIcon#PART_DetailsChevron">
+            <Setter Property="RenderTransform" Value="rotate(180deg)" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

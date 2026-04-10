@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PropertyGridPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+            <TextBlock Text="{Localize PropertyGrid/Description}"
+                       TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+
+            <!-- Download info -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize PropertyGrid/DownloadTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <controls:PropertyGrid RowSpacing="10">
+                        <controls:PropertyRow Label="URL"
+                                              Value="https://example.com/release/v2.1.0/setup.exe"
+                                              ValueKind="Link"
+                                              ToolTipText="https://example.com/release/v2.1.0/setup.exe" />
+                        <controls:PropertyRow Label="File name"   Value="setup_v2.1.0.exe" />
+                        <controls:PropertyRow Label="Save to"     Value="C:\Users\User\Downloads"
+                                              ValueKind="Link" />
+                        <controls:PropertyRow Label="Size"        Value="128.4 MB" />
+                        <controls:PropertyRow Label="Downloaded"  Value="54.2 MB  (42%)" />
+                        <controls:PropertyRow Label="Speed"       Value="3.8 MB/s" />
+                        <controls:PropertyRow Label="Elapsed"     Value="00:00:14" />
+                        <controls:PropertyRow Label="Time left"   Value="00:00:19" />
+                        <controls:PropertyRow Label="Resume"
+                                              Value="Yes"
+                                              ValueKind="Status"
+                                              ValueBrush="{DynamicResource SystemFillColorSuccess}" />
+                    </controls:PropertyGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Exception info -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize PropertyGrid/ExceptionTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <controls:PropertyGrid RowSpacing="10">
+                        <controls:PropertyRow Label="Application" Value="MyApp" />
+                        <controls:PropertyRow Label="Version"     Value="2.1.0" />
+                        <controls:PropertyRow Label="Occurred at" Value="2025-04-09 14:32:01" />
+                        <controls:PropertyRow Label="Type"        Value="System.NullReferenceException" />
+                        <controls:PropertyRow Label="Source"      Value="MyApp.Core" />
+                        <controls:PropertyRow Label="Status"
+                                              Value="Unhandled"
+                                              ValueKind="Status"
+                                              ValueBrush="{DynamicResource SystemFillColorCritical}" />
+                    </controls:PropertyGrid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

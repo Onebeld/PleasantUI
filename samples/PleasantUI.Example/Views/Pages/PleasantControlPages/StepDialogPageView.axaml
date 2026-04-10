@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.StepDialogPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+            <TextBlock Text="{Localize StepDialog/Description}"
+                       TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize StepDialog/BasicTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize StepDialog/BasicDesc}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
+                    <Button x:Name="OpenBasicBtn" Content="{Localize StepDialog/OpenBasic}"
+                            Theme="{DynamicResource AccentButtonTheme}" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Localize StepDialog/AuthTitle}"
+                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                    <TextBlock Text="{Localize StepDialog/AuthDesc}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
+                    <Button x:Name="OpenAuthBtn" Content="{Localize StepDialog/OpenAuth}"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="10 6">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Localize StepDialog/LastResult}"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}"
+                               VerticalAlignment="Center" />
+                    <TextBlock x:Name="ResultLabel" Text="—"
+                               FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

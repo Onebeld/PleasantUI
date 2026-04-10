@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.DownloadPanelPageView">
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+            <TextBlock Text="{Localize DownloadPanel/Description}"
+                       TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+
+            <WrapPanel>
+                <WrapPanel.Styles>
+                    <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
+                </WrapPanel.Styles>
+                <Button x:Name="TickBtn"  Content="{Localize DownloadPanel/Tick}"
+                        Theme="{DynamicResource AccentButtonTheme}" />
+                <Button x:Name="PauseBtn" Content="{Localize DownloadPanel/PauseResume}" />
+                <Button x:Name="MergeBtn" Content="{Localize DownloadPanel/ToggleMerge}" />
+                <Button x:Name="ResetBtn" Content="{Localize DownloadPanel/Reset}" />
+            </WrapPanel>
+
+            <controls:DownloadPanel x:Name="DownloadPanelControl" ShowDetails="True">
+                <controls:DownloadPanel.Chunks>
+                    <controls:ChunkInfo Index="1" Start="0"    End="0.25" Progress="0" TotalSizeBytes="33554432" DownloadedBytes="0" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Waiting" />
+                    <controls:ChunkInfo Index="2" Start="0.25" End="0.5"  Progress="0.25" TotalSizeBytes="33554432" DownloadedBytes="8388608" SpeedBytesPerSecond="2097152" TimeRemainingSeconds="12" Status="Downloading" />
+                    <controls:ChunkInfo Index="3" Start="0.5"  End="0.75" Progress="0.5" TotalSizeBytes="33554432" DownloadedBytes="16777216" SpeedBytesPerSecond="3145728" TimeRemainingSeconds="5" Status="Downloading" />
+                    <controls:ChunkInfo Index="4" Start="0.75" End="1.0"  Progress="1.0" TotalSizeBytes="33554432" DownloadedBytes="33554432" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Completed" />
+                </controls:DownloadPanel.Chunks>
+            </controls:DownloadPanel>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>

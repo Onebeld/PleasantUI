@@ -3,8 +3,7 @@ using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages.BasicControls;
 using PleasantUI.Example.Pages.PleasantControls;
 using PleasantUI.Example.Pages.Toolkit;
-using PleasantUI.ToolKit.Services.Interfaces;
-namespace PleasantUI.Example.Factories;
+using PleasantUI.ToolKit.Services.Interfaces;namespace PleasantUI.Example.Factories;
 
 public class ControlPageCardsFactory
 {
@@ -47,6 +46,17 @@ public class ControlPageCardsFactory
             new("CardTitle/PopConfirm",          MaterialIcons.CheckboxMarkedCircle,  "Card/PopConfirm",          new PopConfirmPage(),          _eventAggregator),
             new("CardTitle/PathPicker",          MaterialIcons.FolderOpenOutline,     "Card/PathPicker",          new PathPickerPage(),          _eventAggregator),
             new("CardTitle/PleasantMiniWindow",  MaterialIcons.WindowMinimize,        "Card/PleasantMiniWindow",  new PleasantMiniWindowPage(),  _eventAggregator),
+            new("CardTitle/BreadcrumbBar",       MaterialIcons.PageNextOutline,        "Card/BreadcrumbBar",       new BreadcrumbBarPage(),       _eventAggregator),
+            new("CardTitle/CommandBar",          MaterialIcons.ViewGridOutline,        "Card/CommandBar",          new CommandBarPage(),          _eventAggregator),
+            new("CardTitle/DashboardCard",       MaterialIcons.ViewDashboardOutline,   "Card/DashboardCard",       new DashboardCardPage(),       _eventAggregator),
+            new("CardTitle/LogViewerPanel",      MaterialIcons.TextBoxOutline,         "Card/LogViewerPanel",      new LogViewerPanelPage(),      _eventAggregator),
+            new("CardTitle/TerminalPanel",       MaterialIcons.ConsoleLine,            "Card/TerminalPanel",       new TerminalPanelPage(),       _eventAggregator),
+            new("CardTitle/TreeViewPanel",       MaterialIcons.FileTreeOutline,        "Card/TreeViewPanel",       new TreeViewPanelPage(),       _eventAggregator),
+            new("CardTitle/ItemListPanel",       MaterialIcons.FormatListBulletedType, "Card/ItemListPanel",       new ItemListPanelPage(),       _eventAggregator),
+            new("CardTitle/StepDialog",          MaterialIcons.OrderNumericAscending,  "Card/StepDialog",          new StepDialogPage(),          _eventAggregator),
+            new("CardTitle/PropertyGrid",        MaterialIcons.TableColumnPlusAfter,   "Card/PropertyGrid",        new PropertyGridPage(),        _eventAggregator),
+            new("CardTitle/DownloadPanel",       MaterialIcons.DownloadOutline,        "Card/DownloadPanel",       new DownloadPanelPage(),       _eventAggregator),
+            new("CardTitle/CrashReportDialog",   MaterialIcons.BugOutline,             "Card/CrashReportDialog",   new CrashReportDialogPage(),   _eventAggregator),
         ];
     }
 

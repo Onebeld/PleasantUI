@@ -1,0 +1,198 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Width="500" Height="400" Background="{DynamicResource BackgroundColor1}">
+            <controls:ItemListPanel SearchWatermark="Search messages..."
+                                    LoadingTitle="Loading Messages"
+                                    EmptyStateTitle="No messages"
+                                    EmptyStateSubtitle="Messages will appear here" />
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:ItemListPanel}" TargetType="controls:ItemListPanel">
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+                        <!-- ── Search bar ──────────────────────────────── -->
+                        <Border Grid.Row="0"
+                                Background="{DynamicResource BackgroundColor3}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 0 1"
+                                Padding="12 10">
+                            <Border Background="{DynamicResource BackgroundColor1}"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="{DynamicResource ControlBorderThickness}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    Padding="0">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <PathIcon Grid.Column="0"
+                                              Data="{DynamicResource SearchRegular}"
+                                              Width="16" Height="16"
+                                              Margin="12 0 8 0"
+                                              Foreground="{DynamicResource TextFillColor3}"
+                                              VerticalAlignment="Center" />
+                                    <TextBox Name="PART_SearchBox"
+                                             Grid.Column="1"
+                                             PlaceholderText="{TemplateBinding SearchWatermark}"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             Padding="8 10"
+                                             FontSize="13"
+                                             VerticalContentAlignment="Center" />
+                                    <Button Name="PART_ClearButton"
+                                            Grid.Column="2"
+                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Width="32" Height="32"
+                                            Padding="8"
+                                            Margin="0 0 6 0"
+                                            IsVisible="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                        <PathIcon Data="{DynamicResource DismissRegular}"
+                                                  Width="12" Height="12" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </Border>
+
+                        <!-- ── Bulk actions bar (multi-select mode) ───── -->
+                        <Border Name="PART_BulkActionBar"
+                                Grid.Row="1"
+                                Background="{DynamicResource BackgroundColor3}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 0 1"
+                                Padding="12 8"
+                                IsVisible="False">
+                            <ContentPresenter Content="{TemplateBinding BulkActionsContent}" />
+                        </Border>
+
+                        <!-- ── Items list ──────────────────────────────── -->
+                        <Grid Grid.Row="2">
+                            <ListBox Name="PART_ItemsList"
+                                     Background="Transparent"
+                                     Padding="8"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ItemTemplate="{TemplateBinding ItemTemplate}">
+                                <ListBox.Styles>
+                                    <Style Selector="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Style>
+                                </ListBox.Styles>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+
+                            <!-- Empty state -->
+                            <Border Name="PART_EmptyState"
+                                    IsVisible="False"
+                                    Padding="24"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                                <StackPanel Spacing="8" HorizontalAlignment="Center">
+                                    <PathIcon Data="{DynamicResource ListRegular}"
+                                              Width="28" Height="28"
+                                              HorizontalAlignment="Center"
+                                              Foreground="{DynamicResource TextFillColor3}" />
+                                    <TextBlock Text="{TemplateBinding EmptyStateTitle}"
+                                               FontWeight="SemiBold"
+                                               FontSize="14"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="{TemplateBinding EmptyStateSubtitle}"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               IsVisible="{TemplateBinding EmptyStateSubtitle, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Loading overlay -->
+                            <Border Name="PART_LoadingOverlay"
+                                    Background="#60000000"
+                                    IsVisible="False"
+                                    IsHitTestVisible="True">
+                                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                                              BlurRadius="10"
+                                              ShadowColor="#3C000000"
+                                              Offset="0 4"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center">
+                                    <Border Background="{DynamicResource BackgroundColor1}"
+                                            BorderBrush="{DynamicResource ControlBorderColor}"
+                                            BorderThickness="{DynamicResource ControlBorderThickness}"
+                                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                                            Padding="32 24"
+                                            MinWidth="260">
+                                        <StackPanel Spacing="16" HorizontalAlignment="Center">
+                                            <ProgressBar IsIndeterminate="True"
+                                                         Width="200" Height="4" />
+                                            <StackPanel Spacing="6" HorizontalAlignment="Center">
+                                                <TextBlock Text="{TemplateBinding LoadingTitle}"
+                                                           FontSize="15"
+                                                           FontWeight="SemiBold"
+                                                           HorizontalAlignment="Center" />
+                                                <TextBlock Text="{TemplateBinding LoadingSubtitle}"
+                                                           FontSize="12"
+                                                           HorizontalAlignment="Center"
+                                                           Foreground="{DynamicResource TextFillColor2}"
+                                                           TextAlignment="Center"
+                                                           IsVisible="{TemplateBinding LoadingSubtitle, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </ShadowBorder>
+                            </Border>
+                        </Grid>
+
+                        <!-- ── Footer slot (e.g. pagination) ──────────── -->
+                        <ContentPresenter Name="PART_FooterPresenter"
+                                          Grid.Row="3"
+                                          Content="{TemplateBinding FooterContent}"
+                                          Margin="8 6 8 8"
+                                          IsVisible="{TemplateBinding FooterContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Loading overlay visible -->
+        <Style Selector="^:loading /template/ Border#PART_LoadingOverlay">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Bulk actions bar visible in multi-select mode -->
+        <Style Selector="^:multiSelect /template/ Border#PART_BulkActionBar">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Empty state visible when no items and not loading -->
+        <Style Selector="^:not(:hasItems):not(:loading) /template/ Border#PART_EmptyState">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,246 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Width="500" Height="500" Background="#40000000">
+            <controls:StepDialog Title="Sign in with Azure"
+                                 Description="Browser authentication failed. Please use the device code flow instead."
+                                 StatusMessage="Waiting for authentication to complete..."
+                                 SecondaryButtonText="Cancel"
+                                 MinDialogWidth="420">
+                <controls:StepItem Header="Open the authentication page">
+                    <Button Content="Open microsoft.com/devicelogin"
+                            Theme="{DynamicResource AccentButtonTheme}"
+                            HorizontalAlignment="Left" />
+                </controls:StepItem>
+                <controls:StepItem Header="Enter this code">
+                    <Border Background="{DynamicResource BackgroundColor3}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Padding="12 8">
+                        <TextBlock Text="ABCD-1234"
+                                   FontFamily="Consolas,Menlo,Monaco,monospace"
+                                   FontSize="18"
+                                   FontWeight="Bold" />
+                    </Border>
+                </controls:StepItem>
+                <controls:StepItem Header="Complete sign-in in your browser" />
+            </controls:StepDialog>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── StepItem ──────────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:StepItem}" TargetType="controls:StepItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+
+                    <!-- Step number badge -->
+                    <Border Grid.Column="0"
+                            Width="28" Height="28"
+                            CornerRadius="{DynamicResource RoundedControlCornerRadius}"
+                            Background="{DynamicResource AccentLinearGradientBrush}"
+                            VerticalAlignment="Top">
+                        <TextBlock Text="{TemplateBinding StepNumber}"
+                                   Foreground="{ForegroundBasedAccent AccentLightColor1}"
+                                   FontWeight="SemiBold"
+                                   FontSize="12"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+
+                    <!-- Step content -->
+                    <StackPanel Grid.Column="1" Spacing="8" VerticalAlignment="Top">
+                        <!-- Header -->
+                        <TextBlock Text="{TemplateBinding Header}"
+                                   FontWeight="SemiBold"
+                                   FontSize="13"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center" />
+
+                        <!-- Optional description -->
+                        <TextBlock Text="{TemplateBinding Description}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   TextWrapping="Wrap"
+                                   IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                        <!-- Arbitrary content (e.g. button, code block) -->
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                    </StackPanel>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Completed: accent badge with checkmark -->
+        <Style Selector="^:completed /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccess}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── StepDialog ────────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:StepDialog}" TargetType="controls:StepDialog">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment"   Value="Center" />
+        <Setter Property="Opacity"             Value="0" />
+
+        <Setter Property="OpenAnimation">
+            <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseOut">
+                <KeyFrame Cue="0%">
+                    <Setter Property="ScaleTransform.ScaleX" Value="0.95" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="0.95" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+
+        <Setter Property="CloseAnimation">
+            <Animation Duration="0:0:0.12" FillMode="Both" Easing="CubicEaseIn">
+                <KeyFrame Cue="0%">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="ScaleTransform.ScaleX" Value="0.95" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="0.95" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                              BlurRadius="40"
+                              ShadowColor="#5A000000"
+                              Offset="0 8">
+                    <Border Background="{DynamicResource BackgroundColor1}"
+                            BorderBrush="{DynamicResource ControlBorderColor}"
+                            BorderThickness="{DynamicResource ControlBorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            MinWidth="{TemplateBinding MinDialogWidth}"
+                            ClipToBounds="True">
+                        <Grid RowDefinitions="Auto,*,Auto">
+
+                            <!-- ── Header ──────────────────────────────── -->
+                            <Grid Grid.Row="0"
+                                  ColumnDefinitions="*,Auto"
+                                  Margin="24 20 16 0">
+                                <StackPanel Grid.Column="0" Spacing="4">
+                                    <TextBlock Text="{TemplateBinding Title}"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               TextWrapping="Wrap"
+                                               IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                    <TextBlock Text="{TemplateBinding Description}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               TextWrapping="Wrap"
+                                               IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                </StackPanel>
+
+                                <!-- Close button -->
+                                <Button Name="PART_CloseButton"
+                                        Grid.Column="1"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Width="32" Height="32"
+                                        Padding="8"
+                                        VerticalAlignment="Top">
+                                    <PathIcon Data="{DynamicResource DismissRegular}"
+                                              Width="10" Height="10"
+                                              Foreground="{DynamicResource TextFillColor1}" />
+                                </Button>
+                            </Grid>
+
+                            <!-- ── Steps ───────────────────────────────── -->
+                            <SmoothScrollViewer Grid.Row="1"
+                                                HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Auto"
+                                                MaxHeight="400">
+                                <StackPanel Margin="24 16" Spacing="0">
+                                    <ItemsControl Name="PART_StepsHost">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Spacing="16" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+
+                                    <!-- Status message -->
+                                    <Border Name="PART_StatusRow"
+                                            Background="{DynamicResource BackgroundColor3}"
+                                            BorderBrush="{DynamicResource ControlBorderColor}"
+                                            BorderThickness="{DynamicResource ControlBorderThickness}"
+                                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                                            Padding="12 8"
+                                            Margin="0 16 0 0"
+                                            IsVisible="False">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="ℹ"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource AccentFillColor1}"
+                                                       VerticalAlignment="Center"
+                                                       FontWeight="SemiBold" />
+                                            <TextBlock Text="{TemplateBinding StatusMessage}"
+                                                       FontSize="12"
+                                                       Foreground="{DynamicResource TextFillColor2}"
+                                                       FontStyle="Italic"
+                                                       VerticalAlignment="Center"
+                                                       TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </SmoothScrollViewer>
+
+                            <!-- ── Footer buttons ──────────────────────── -->
+                            <Border Grid.Row="2"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="0 1 0 0"
+                                    Background="{DynamicResource BackgroundColor3}"
+                                    Padding="16 12">
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="8"
+                                            HorizontalAlignment="Right">
+                                    <Button Name="PART_SecondaryButton"
+                                            Content="{TemplateBinding SecondaryButtonText}"
+                                            IsVisible="False" />
+                                    <Button Name="PART_PrimaryButton"
+                                            Content="{TemplateBinding PrimaryButtonText}"
+                                            Theme="{DynamicResource AccentButtonTheme}"
+                                            IsVisible="False" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ShadowBorder>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Status message row -->
+        <Style Selector="^:hasStatus /template/ Border#PART_StatusRow">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Primary button -->
+        <Style Selector="^:hasPrimary /template/ Button#PART_PrimaryButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Secondary button -->
+        <Style Selector="^:hasSecondary /template/ Button#PART_SecondaryButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

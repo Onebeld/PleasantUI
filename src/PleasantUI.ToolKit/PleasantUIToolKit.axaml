@@ -6,5 +6,10 @@
         <MergeResourceInclude Source="/Styling/ControlThemes/BasicControls/ColorSpectrum.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/BasicControls/ColorView.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantDialogStyle.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/TerminalPanel.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/LogViewerPanel.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/StepDialog.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/DownloadPanel.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/CrashReportDialog.axaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

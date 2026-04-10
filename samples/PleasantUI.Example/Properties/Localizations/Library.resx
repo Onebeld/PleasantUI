@@ -174,4 +174,274 @@
     <data name="NavPosition/Bottom" xml:space="preserve">
         <value>Bottom</value>
     </data>
+
+    <!-- BreadcrumbBar page -->
+    <data name="CardTitle/BreadcrumbBar" xml:space="preserve">
+        <value>BreadcrumbBar</value>
+    </data>
+    <data name="Card/BreadcrumbBar" xml:space="preserve">
+        <value>Shows a path of pages or folders to the current location.</value>
+    </data>
+
+    <!-- CommandBar page -->
+    <data name="CardTitle/CommandBar" xml:space="preserve">
+        <value>CommandBar</value>
+    </data>
+    <data name="Card/CommandBar" xml:space="preserve">
+        <value>A toolbar with primary commands inline and overflow in a popup menu.</value>
+    </data>
+    <data name="CommandBar/Description" xml:space="preserve">
+        <value>CommandBar displays primary commands inline and moves overflow items into a popup. Supports dynamic overflow, label positions, toggle buttons, and separators.</value>
+    </data>
+    <data name="CommandBar/BasicTitle" xml:space="preserve">
+        <value>Basic usage</value>
+    </data>
+    <data name="CommandBar/BasicDesc" xml:space="preserve">
+        <value>Click the … button to open the overflow popup. Secondary commands always appear there. Click any button to see the action below.</value>
+    </data>
+    <data name="CommandBar/LabelBottomTitle" xml:space="preserve">
+        <value>Labels below icon (always open)</value>
+    </data>
+    <data name="CommandBar/LabelBottomDesc" xml:space="preserve">
+        <value>Set IsOpen="True" and IsSticky="True" to keep the bar permanently expanded so labels are always visible below each icon.</value>
+    </data>
+    <data name="CommandBar/LabelRightTitle" xml:space="preserve">
+        <value>Labels on the right</value>
+    </data>
+    <data name="CommandBar/LabelRightDesc" xml:space="preserve">
+        <value>Set DefaultLabelPosition="Right" to show labels beside the icon at all times.</value>
+    </data>
+    <data name="CommandBar/DisplayModeTitle" xml:space="preserve">
+        <value>Closed display modes</value>
+    </data>
+    <data name="CommandBar/DisplayModeDesc" xml:space="preserve">
+        <value>ClosedDisplayMode controls what is visible when the bar is closed: Compact shows icons, Minimal shows only the … button.</value>
+    </data>
+    <data name="CommandBar/OverflowTitle" xml:space="preserve">
+        <value>Dynamic overflow</value>
+    </data>
+    <data name="CommandBar/OverflowDesc" xml:space="preserve">
+        <value>When IsDynamicOverflowEnabled is true, primary commands automatically move to the overflow popup when there is not enough space.</value>
+    </data>
+    <data name="CommandBar/ToggleTitle" xml:space="preserve">
+        <value>Toggle buttons</value>
+    </data>
+    <data name="CommandBar/ToggleDesc" xml:space="preserve">
+        <value>CommandBarToggleButton supports checked/unchecked states with accent styling. The state is reflected below.</value>
+    </data>
+    <data name="CommandBar/PropertiesTitle" xml:space="preserve">
+        <value>Key properties</value>
+    </data>
+    <data name="CommandBar/LastAction" xml:space="preserve">
+        <value>Last action:</value>
+    </data>
+    <data name="CommandBar/ToggleState" xml:space="preserve">
+        <value>Active:</value>
+    </data>
+    <data name="CommandBar/Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="CommandBar/Copy" xml:space="preserve">
+        <value>Copy</value>
+    </data>
+    <data name="CommandBar/Edit" xml:space="preserve">
+        <value>Edit</value>
+    </data>
+    <data name="CommandBar/Pin" xml:space="preserve">
+        <value>Pin</value>
+    </data>
+    <data name="CommandBar/Delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="CommandBar/Settings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="CommandBar/Search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="CommandBar/Add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="CommandBar/Bold" xml:space="preserve">
+        <value>Bold</value>
+    </data>
+    <data name="CommandBar/Italic" xml:space="preserve">
+        <value>Italic</value>
+    </data>
+    <data name="CommandBar/Prop/DefaultLabelPosition" xml:space="preserve">
+        <value>Bottom (default), Right, or Collapsed — controls where labels appear relative to the icon.</value>
+    </data>
+    <data name="CommandBar/Prop/ClosedDisplayMode" xml:space="preserve">
+        <value>Compact, Minimal, or Hidden — controls what is visible when the bar is closed.</value>
+    </data>
+    <data name="CommandBar/Prop/IsDynamicOverflowEnabled" xml:space="preserve">
+        <value>When true, primary commands automatically move to the overflow popup when space is limited.</value>
+    </data>
+    <data name="CommandBar/Prop/ItemsAlignment" xml:space="preserve">
+        <value>Left or Right — controls how primary commands are aligned inside the bar.</value>
+    </data>
+    <data name="CommandBar/Prop/PrimaryCommands" xml:space="preserve">
+        <value>The collection of inline command elements. Also the XAML content property.</value>
+    </data>
+    <data name="BreadcrumbBar/Description" xml:space="preserve">
+        <value>BreadcrumbBar displays the direct path of pages or folders to the current location. Items that overflow the available width are collapsed into an ellipsis flyout.</value>
+    </data>
+    <data name="BreadcrumbBar/BasicTitle" xml:space="preserve">
+        <value>Basic usage</value>
+    </data>
+    <data name="BreadcrumbBar/BasicDesc" xml:space="preserve">
+        <value>Declare BreadcrumbBarItem children directly. Click any item to raise the ItemClicked event.</value>
+    </data>
+    <data name="BreadcrumbBar/LastClicked" xml:space="preserve">
+        <value>Last clicked:</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceTitle" xml:space="preserve">
+        <value>Bound to ItemsSource</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceDesc" xml:space="preserve">
+        <value>Bind an ObservableCollection to ItemsSource. Use Push / Pop / Reset to modify the path at runtime.</value>
+    </data>
+    <data name="BreadcrumbBar/Push" xml:space="preserve">
+        <value>Push</value>
+    </data>
+    <data name="BreadcrumbBar/Pop" xml:space="preserve">
+        <value>Pop</value>
+    </data>
+    <data name="BreadcrumbBar/Reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowTitle" xml:space="preserve">
+        <value>Overflow / ellipsis</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowDesc" xml:space="preserve">
+        <value>When items exceed the available width the control automatically collapses hidden items into an ellipsis button. Click it to see the flyout.</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastTitle" xml:space="preserve">
+        <value>Clickable last item</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastDesc" xml:space="preserve">
+        <value>Set IsLastItemClickEnabled="True" to make the current (last) item interactive instead of rendering it as plain text.</value>
+    </data>
+    <data name="BreadcrumbBar/PropertiesTitle" xml:space="preserve">
+        <value>Key properties</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemsSource" xml:space="preserve">
+        <value>Bound collection used as the data source for the breadcrumb trail.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemTemplate" xml:space="preserve">
+        <value>DataTemplate applied to each item when using ItemsSource.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/IsLastItemClickEnabled" xml:space="preserve">
+        <value>When true the last item is rendered as a clickable button instead of plain text.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemClicked" xml:space="preserve">
+        <value>Raised when any item is clicked. Args expose Index (zero-based) and Item (the data object).</value>
+    </data>
+
+    <!-- ── DashboardCard ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DashboardCard" xml:space="preserve"><value>DashboardCard</value></data>
+    <data name="Card/DashboardCard" xml:space="preserve"><value>A structured card with header, content, and footer slots.</value></data>
+    <data name="DashboardCard/Description" xml:space="preserve"><value>DashboardCard provides a structured card layout with a title, optional subtitle, right-side header slot (e.g. a time-range picker), scrollable content area, and an optional footer.</value></data>
+    <data name="DashboardCard/BasicTitle" xml:space="preserve"><value>Basic card</value></data>
+    <data name="DashboardCard/BasicDesc" xml:space="preserve"><value>A card with a title, subtitle, and arbitrary content.</value></data>
+    <data name="DashboardCard/ToolbarTitle" xml:space="preserve"><value>With header toolbar</value></data>
+    <data name="DashboardCard/ToolbarDesc" xml:space="preserve"><value>Use HeaderContent to place a ComboBox or any control in the header's right slot.</value></data>
+    <data name="DashboardCard/FooterTitle" xml:space="preserve"><value>With footer</value></data>
+    <data name="DashboardCard/FooterDesc" xml:space="preserve"><value>FooterContent renders a bordered strip at the bottom of the card.</value></data>
+    <data name="DashboardCard/Revenue" xml:space="preserve"><value>Revenue</value></data>
+    <data name="DashboardCard/Last30Days" xml:space="preserve"><value>Last 30 days</value></data>
+    <data name="DashboardCard/ChartPlaceholder" xml:space="preserve"><value>Chart content goes here</value></data>
+    <data name="DashboardCard/Downloads" xml:space="preserve"><value>Downloads</value></data>
+    <data name="DashboardCard/ActiveTransfers" xml:space="preserve"><value>Active transfers</value></data>
+    <data name="DashboardCard/Today" xml:space="preserve"><value>Today</value></data>
+    <data name="DashboardCard/7Days" xml:space="preserve"><value>7 days</value></data>
+    <data name="DashboardCard/30Days" xml:space="preserve"><value>30 days</value></data>
+    <data name="DashboardCard/SystemStatus" xml:space="preserve"><value>System Status</value></data>
+    <data name="DashboardCard/UpdatedJustNow" xml:space="preserve"><value>Updated just now</value></data>
+
+    <!-- ── LogViewerPanel ────────────────────────────────────────────────── -->
+    <data name="CardTitle/LogViewerPanel" xml:space="preserve"><value>LogViewerPanel</value></data>
+    <data name="Card/LogViewerPanel" xml:space="preserve"><value>A slide-in panel with filterable, searchable log entries.</value></data>
+    <data name="LogViewerPanel/Description" xml:space="preserve"><value>LogViewerPanel is a slide-in panel with search, level/source filters, auto-scroll, copy-all, and clear. Click Open to show it, then add entries with the buttons.</value></data>
+    <data name="LogViewerPanel/OpenPanel" xml:space="preserve"><value>Open Log Panel</value></data>
+    <data name="LogViewerPanel/AddInfo" xml:space="preserve"><value>Add Info</value></data>
+    <data name="LogViewerPanel/AddWarning" xml:space="preserve"><value>Add Warning</value></data>
+    <data name="LogViewerPanel/AddError" xml:space="preserve"><value>Add Error</value></data>
+    <data name="LogViewerPanel/AddDebug" xml:space="preserve"><value>Add Debug</value></data>
+    <data name="LogViewerPanel/Hint" xml:space="preserve"><value>Log entries will appear in the panel →</value></data>
+
+    <!-- ── TerminalPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TerminalPanel" xml:space="preserve"><value>TerminalPanel</value></data>
+    <data name="Card/TerminalPanel" xml:space="preserve"><value>A terminal with monospace output and a command input line.</value></data>
+    <data name="TerminalPanel/Description" xml:space="preserve"><value>TerminalPanel provides a monospace output area and a command input line. Type a command and press Enter — the demo echoes it back.</value></data>
+    <data name="TerminalPanel/SimulateOutput" xml:space="preserve"><value>Simulate output</value></data>
+    <data name="TerminalPanel/Clear" xml:space="preserve"><value>Clear</value></data>
+    <data name="TerminalPanel/WelcomeMsg" xml:space="preserve"><value>PleasantUI Terminal Demo&#x0A;Type a command and press Enter.&#x0A;</value></data>
+
+    <!-- ── TreeViewPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TreeViewPanel" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="Card/TreeViewPanel" xml:space="preserve"><value>A searchable, collapsible tree with section headers and count badges.</value></data>
+    <data name="TreeViewPanel/Description" xml:space="preserve"><value>TreeViewPanel hosts collapsible TreeViewSection groups with a search/filter box, count badges, loading states, and a unified SelectionChanged event.</value></data>
+    <data name="TreeViewPanel/Documents" xml:space="preserve"><value>Documents</value></data>
+    <data name="TreeViewPanel/Images" xml:space="preserve"><value>Images</value></data>
+    <data name="TreeViewPanel/Downloads" xml:space="preserve"><value>Downloads</value></data>
+    <data name="TreeViewPanel/SelectedItem" xml:space="preserve"><value>Selected item:</value></data>
+    <data name="TreeViewPanel/DetailTitle" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="TreeViewPanel/DetailDesc" xml:space="preserve"><value>Use the filter box to search across all sections. Click any item to select it.</value></data>
+
+    <!-- ── ItemListPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/ItemListPanel" xml:space="preserve"><value>ItemListPanel</value></data>
+    <data name="Card/ItemListPanel" xml:space="preserve"><value>A searchable list with multi-select, bulk actions, and loading overlay.</value></data>
+    <data name="ItemListPanel/Description" xml:space="preserve"><value>ItemListPanel is a searchable, filterable list with multi-select mode, a bulk-action toolbar, loading overlay, empty state, and a footer slot for pagination.</value></data>
+    <data name="ItemListPanel/MultiSelect" xml:space="preserve"><value>Multi-select</value></data>
+    <data name="ItemListPanel/ToggleLoading" xml:space="preserve"><value>Toggle loading</value></data>
+    <data name="ItemListPanel/Clear" xml:space="preserve"><value>Clear items</value></data>
+    <data name="ItemListPanel/Reload" xml:space="preserve"><value>Reload items</value></data>
+    <data name="ItemListPanel/SearchWatermark" xml:space="preserve"><value>Search files...</value></data>
+    <data name="ItemListPanel/EmptyTitle" xml:space="preserve"><value>No files</value></data>
+    <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Add items using the Reload button above.</value></data>
+    <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Loading files</value></data>
+    <data name="ItemListPanel/LoadingSubtitle" xml:space="preserve"><value>Please wait...</value></data>
+    <data name="ItemListPanel/DeleteSelected" xml:space="preserve"><value>Delete selected</value></data>
+    <data name="ItemListPanel/Selected" xml:space="preserve"><value>Selected:</value></data>
+
+    <!-- ── StepDialog ────────────────────────────────────────────────────── -->
+    <data name="CardTitle/StepDialog" xml:space="preserve"><value>StepDialog</value></data>
+    <data name="Card/StepDialog" xml:space="preserve"><value>A modal dialog that presents numbered steps with content slots.</value></data>
+    <data name="StepDialog/Description" xml:space="preserve"><value>StepDialog is a modal overlay that presents a sequence of numbered StepItem steps. Each step has a header, optional description, and arbitrary content. Supports primary/secondary buttons and a status message.</value></data>
+    <data name="StepDialog/BasicTitle" xml:space="preserve"><value>Basic step dialog</value></data>
+    <data name="StepDialog/BasicDesc" xml:space="preserve"><value>Three steps with a secondary Cancel button and a status message.</value></data>
+    <data name="StepDialog/OpenBasic" xml:space="preserve"><value>Open step dialog</value></data>
+    <data name="StepDialog/AuthTitle" xml:space="preserve"><value>Device code auth flow</value></data>
+    <data name="StepDialog/AuthDesc" xml:space="preserve"><value>Mimics the device-code authentication pattern with a code block and a link button.</value></data>
+    <data name="StepDialog/OpenAuth" xml:space="preserve"><value>Open auth dialog</value></data>
+    <data name="StepDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
+
+    <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
+    <data name="CardTitle/PropertyGrid" xml:space="preserve"><value>PropertyGrid</value></data>
+    <data name="Card/PropertyGrid" xml:space="preserve"><value>A two-column label/value grid for displaying metadata.</value></data>
+    <data name="PropertyGrid/Description" xml:space="preserve"><value>PropertyGrid displays key-value metadata in a two-column layout. Rows support plain text, clickable links, colored status values, and custom templates.</value></data>
+    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Download info</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Exception info</value></data>
+
+    <!-- ── DownloadPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DownloadPanel" xml:space="preserve"><value>DownloadPanel</value></data>
+    <data name="Card/DownloadPanel" xml:space="preserve"><value>Visualizes a multi-chunk download with progress bar and chunk canvas.</value></data>
+    <data name="DownloadPanel/Description" xml:space="preserve"><value>DownloadPanel visualizes a multi-chunk download with a tab strip, progress bar, chunk canvas, and action buttons. Use the controls below to simulate a download.</value></data>
+    <data name="DownloadPanel/Tick" xml:space="preserve"><value>Tick progress</value></data>
+    <data name="DownloadPanel/PauseResume" xml:space="preserve"><value>Pause / Resume</value></data>
+    <data name="DownloadPanel/ToggleMerge" xml:space="preserve"><value>Toggle merge</value></data>
+    <data name="DownloadPanel/Reset" xml:space="preserve"><value>Reset</value></data>
+
+    <!-- ── CrashReportDialog ─────────────────────────────────────────────── -->
+    <data name="CardTitle/CrashReportDialog" xml:space="preserve"><value>CrashReportDialog</value></data>
+    <data name="Card/CrashReportDialog" xml:space="preserve"><value>A Fluent-styled modal crash report with tabs, email validation, and send/save actions.</value></data>
+    <data name="CrashReportDialog/Description" xml:space="preserve"><value>CrashReportDialog is a modal overlay with three tabs (General, Exception, Screenshot), email validation, send/save/cancel actions, and inline send-progress feedback.</value></data>
+    <data name="CrashReportDialog/BasicTitle" xml:space="preserve"><value>Simulate a crash report</value></data>
+    <data name="CrashReportDialog/BasicDesc" xml:space="preserve"><value>Opens a pre-populated dialog from a fake NullReferenceException.</value></data>
+    <data name="CrashReportDialog/OpenBasic" xml:space="preserve"><value>Open crash report</value></data>
+    <data name="CrashReportDialog/EmailRequiredTitle" xml:space="preserve"><value>Email required</value></data>
+    <data name="CrashReportDialog/EmailRequiredDesc" xml:space="preserve"><value>IsEmailRequired=True — the Send button is blocked until a valid email is entered.</value></data>
+    <data name="CrashReportDialog/OpenEmailRequired" xml:space="preserve"><value>Open (email required)</value></data>
+    <data name="CrashReportDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
 </root>

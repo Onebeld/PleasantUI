@@ -1,0 +1,340 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
+                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Width="500" Height="600" Background="{DynamicResource BackgroundColor1}">
+            <controls:LogViewerPanel IsOpen="True" Title="Activity Log" PanelWidth="420" />
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── Log entry level badge themes ──────────────────────────────────── -->
+
+    <ControlTheme x:Key="LogEntryDebugBadge" TargetType="Border">
+        <Setter Property="Background"  Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+    </ControlTheme>
+    <ControlTheme x:Key="LogEntryInfoBadge" TargetType="Border">
+        <Setter Property="Background"  Value="{DynamicResource AccentFillColorSecondaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorSecondaryBrush}" />
+    </ControlTheme>
+    <ControlTheme x:Key="LogEntryWarningBadge" TargetType="Border">
+        <Setter Property="Background"  Value="{DynamicResource SystemFillColorCaution}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCaution}" />
+    </ControlTheme>
+    <ControlTheme x:Key="LogEntryErrorBadge" TargetType="Border">
+        <Setter Property="Background"  Value="{DynamicResource SystemFillColorCritical}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCritical}" />
+    </ControlTheme>
+
+    <!-- ── LogViewerPanel ────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:LogViewerPanel}" TargetType="controls:LogViewerPanel">
+        <Setter Property="IsVisible"   Value="{Binding IsOpen, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <!-- Dim overlay — click to close -->
+                    <Button Name="PART_Overlay"
+                            Background="#40000000"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            CornerRadius="0"
+                            Padding="0"
+                            Cursor="Arrow">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border Background="{TemplateBinding Background}" />
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Slide-in panel -->
+                    <ShadowBorder Name="PART_Panel"
+                                  Width="{TemplateBinding PanelWidth}"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Stretch"
+                                  BlurRadius="10"
+                                  ShadowColor="#3A000000"
+                                  Offset="-2 0">
+                        <ShadowBorder.Styles>
+                            <Style Selector="ShadowBorder">
+                                <Style.Animations>
+                                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                                        <KeyFrame Cue="0%">
+                                            <Setter Property="TranslateTransform.X" Value="60" />
+                                            <Setter Property="Opacity" Value="0" />
+                                        </KeyFrame>
+                                        <KeyFrame Cue="100%">
+                                            <Setter Property="TranslateTransform.X" Value="0" />
+                                            <Setter Property="Opacity" Value="1" />
+                                        </KeyFrame>
+                                    </Animation>
+                                </Style.Animations>
+                            </Style>
+                        </ShadowBorder.Styles>
+
+                        <Border Background="{DynamicResource BackgroundColor1}"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="1 0 0 0"
+                                ClipToBounds="True">
+                            <Grid RowDefinitions="Auto,Auto,*">
+
+                                <!-- ── Header ──────────────────────────── -->
+                                <Border Grid.Row="0"
+                                        Background="{DynamicResource BackgroundColor2}"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        BorderThickness="0 0 0 1"
+                                        Padding="12 8">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <StackPanel Grid.Column="0"
+                                                    Orientation="Horizontal"
+                                                    Spacing="8"
+                                                    VerticalAlignment="Center">
+                                            
+                                            <TextBlock Text="{TemplateBinding Title}"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Center" />
+                                            <!-- Entry count badge -->
+                                            <Border Background="{DynamicResource ControlFillColor2}"
+                                                    CornerRadius="{DynamicResource RoundedControlCornerRadius}"
+                                                    Padding="6 2">
+                                                <TextBlock Name="PART_CountBadge"
+                                                           FontSize="10"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource TextFillColor2}" />
+                                            </Border>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1"
+                                                    Orientation="Horizontal"
+                                                    Spacing="2">
+                                            <!-- Auto-scroll toggle -->
+                                            <ToggleButton Name="PART_AutoScrollToggle"
+                                                          Theme="{DynamicResource AppBarButtonTheme}"
+                                                          IsChecked="True"
+                                                          ToolTip.Tip="Auto-scroll"
+                                                          Width="28" Height="28" Padding="6">
+                                                <PathIcon Data="{DynamicResource ChevronDownRegular}"
+                                                          Width="10" Height="10" />
+                                            </ToggleButton>
+                                            <!-- Copy all -->
+                                            <Button Name="PART_CopyAllButton"
+                                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                                    ToolTip.Tip="Copy all"
+                                                    Width="28" Height="28" Padding="6">
+                                                <PathIcon Data="{DynamicResource CopyRegular}"
+                                                          Width="10" Height="10" />
+                                            </Button>
+                                            <!-- Clear -->
+                                            <Button Name="PART_ClearButton"
+                                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                                    ToolTip.Tip="Clear"
+                                                    Width="28" Height="28" Padding="6">
+                                                <PathIcon Data="{DynamicResource DeleteRegular}"
+                                                          Width="10" Height="10" />
+                                            </Button>
+                                            <!-- Close -->
+                                            <Button Name="PART_CloseButton"
+                                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                                    ToolTip.Tip="Close"
+                                                    Width="28" Height="28" Padding="6">
+                                                <PathIcon Data="{DynamicResource DismissRegular}"
+                                                          Width="10" Height="10" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- ── Filter bar ──────────────────────── -->
+                                <Border Grid.Row="1"
+                                        Background="{DynamicResource BackgroundColor2}"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        BorderThickness="0 0 0 1"
+                                        Padding="8 6">
+                                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+
+                                        <!-- Search box -->
+                                        <Border Grid.Column="0"
+                                                Background="{DynamicResource BackgroundColor3}"
+                                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                                BorderThickness="{DynamicResource ControlBorderThickness}"
+                                                CornerRadius="{DynamicResource RoundedControlCornerRadius}"
+                                                Margin="0 0 6 0">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <PathIcon Grid.Column="0"
+                                                          Data="{DynamicResource SearchRegular}"
+                                                          Width="12" Height="12"
+                                                          Margin="8 0 4 0"
+                                                          Foreground="{DynamicResource TextFillColor3}" />
+                                                <TextBox Name="PART_SearchBox"
+                                                         Grid.Column="1"
+                                                         PlaceholderText="Search logs..."
+                                                         Background="Transparent"
+                                                         BorderThickness="0"
+                                                         Padding="4 5"
+                                                         FontSize="11" />
+                                                <Button Grid.Column="2"
+                                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                                        Width="22" Height="22"
+                                                        Padding="4"
+                                                        Margin="0 0 2 0">
+                                                    <PathIcon Data="{DynamicResource DismissRegular}"
+                                                              Width="8" Height="8" />
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- Level filter -->
+                                        <ComboBox Name="PART_LevelFilter"
+                                                  Grid.Column="1"
+                                                  Width="90"
+                                                  Margin="0 0 4 0"
+                                                  FontSize="11"
+                                                  SelectedIndex="0" />
+
+                                        <!-- Source filter -->
+                                        <ComboBox Name="PART_SourceFilter"
+                                                  Grid.Column="2"
+                                                  Width="90"
+                                                  Margin="0 0 4 0"
+                                                  FontSize="11"
+                                                  SelectedIndex="0" />
+
+                                        <!-- Debug toggle -->
+                                        <ToggleButton Name="PART_DebugToggle"
+                                                      Grid.Column="3"
+                                                      Theme="{DynamicResource AppBarToggleButtonTheme}"
+                                                      ToolTip.Tip="Show debug"
+                                                      Width="28" Height="28" Padding="5">
+                                            <PathIcon Data="{DynamicResource CodeBracesRegular}"
+                                                      Width="12" Height="12" />
+                                        </ToggleButton>
+                                    </Grid>
+                                </Border>
+
+                                <!-- ── Log list ────────────────────────── -->
+                                <Grid Grid.Row="2">
+                                    <ListBox Name="PART_LogList"
+                                             Background="Transparent"
+                                             Padding="6 4"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <ListBox.Styles>
+                                            <Style Selector="ListBoxItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="Padding"    Value="0" />
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </Style>
+                                        </ListBox.Styles>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="controls:LogEntry">
+                                                <Border Padding="10 6"
+                                                        Margin="0 2"
+                                                        CornerRadius="6"
+                                                        Background="{DynamicResource ControlFillColor1}">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto"
+                                                          RowDefinitions="Auto,Auto,Auto"
+                                                          ColumnSpacing="8">
+
+                                                        <!-- Timestamp -->
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="{Binding Timestamp, StringFormat='HH:mm:ss.fff'}"
+                                                                   FontSize="9"
+                                                                   Foreground="{DynamicResource TextFillColor3}"
+                                                                   VerticalAlignment="Center"
+                                                                   MinWidth="70" />
+
+                                                        <!-- Source + level -->
+                                                        <StackPanel Grid.Column="1"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="6"
+                                                                    VerticalAlignment="Center">
+                                                            <Border Background="{DynamicResource ControlFillColor2}"
+                                                                    CornerRadius="3"
+                                                                    Padding="5 2"
+                                                                    IsVisible="{Binding Source, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                                                <TextBlock Text="{Binding Source}"
+                                                                           FontSize="8"
+                                                                           FontWeight="SemiBold"
+                                                                           Foreground="{DynamicResource TextFillColor2}" />
+                                                            </Border>
+                                                            <Border CornerRadius="3"
+                                                                    Padding="5 2"
+                                                                    x:Name="PART_LevelBadge"
+                                                                    Background="{Binding Level, Converter={x:Static converters:LogLevelToBrushConverter.LevelToBrush}}">
+                                                                <TextBlock Text="{Binding Level}"
+                                                                           FontSize="8"
+                                                                           FontWeight="SemiBold"
+                                                                           Foreground="White" />
+                                                            </Border>
+                                                        </StackPanel>
+
+                                                        <!-- Message -->
+                                                        <TextBlock Grid.Row="1"
+                                                                   Grid.ColumnSpan="3"
+                                                                   Text="{Binding Message}"
+                                                                   FontSize="11"
+                                                                   Margin="0 3 0 0"
+                                                                   TextWrapping="Wrap" />
+
+                                                        <!-- Details -->
+                                                        <TextBlock Grid.Row="2"
+                                                                   Grid.ColumnSpan="3"
+                                                                   Text="{Binding Details}"
+                                                                   FontSize="10"
+                                                                   Foreground="{DynamicResource TextFillColor2}"
+                                                                   Margin="0 3 0 0"
+                                                                   TextWrapping="Wrap"
+                                                                   IsVisible="{Binding Details, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <!-- Empty state -->
+                                    <Border IsVisible="{Binding !FilteredEntries.Count, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Padding="24">
+                                        <StackPanel HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Spacing="6">
+                                            <PathIcon Data="{DynamicResource ListRegular}"
+                                                      Width="24" Height="24"
+                                                      HorizontalAlignment="Center"
+                                                      Foreground="{DynamicResource TextFillColor3}" />
+                                            <TextBlock Text="No logs"
+                                                       FontWeight="SemiBold"
+                                                       HorizontalAlignment="Center" />
+                                            <TextBlock Text="Activity will appear here"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       Foreground="{DynamicResource TextFillColor2}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </ShadowBorder>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Hidden when not open -->
+        <Style Selector="^:not(:open)">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

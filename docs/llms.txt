@@ -1,0 +1,87 @@
+# PleasantUI Documentation
+
+A cross-platform UI theme and control library for Avalonia, inspired by Microsoft Fluent Design and the WinUI/UWP visual language.
+
+## Getting Started
+
+- [PleasantWindow](PleasantWindow.md): Custom window chrome with Fluent title bar, subtitle, custom icon/title content, optional blur, content-extends-into-titlebar, and macOS caption override
+- [Localization](Localization.md): Localizer singleton, {Localize} markup extension, reactive language switching
+- [Theme Engine](ThemeEngine.md): PleasantTheme, custom themes, color tokens, built-in themes (Light, Dark, Mint, Strawberry, Ice, Sunny, Spruce, Cherry, Cave, Lunar)
+
+## Windows and Chrome
+
+- [PleasantWindow](PleasantWindow.md): Custom window with Fluent title bar, subtitle, custom icon/title content, blur, and splash screen support
+- [PleasantMiniWindow](PleasantMiniWindow.md): Lightweight floating window
+- [PleasantTitleBar](PleasantTitleBar.md): Window title bar with caption buttons, title, subtitle, icon, and drag support
+- [PleasantCaptionButtons](PleasantCaptionButtons.md): Window caption buttons (close, minimize, maximize, fullscreen) with platform-specific visibility
+
+## Navigation and Layout
+
+- [NavigationView](NavigationView.md): Navigation control with three positions (Left, Top, Bottom), compact/overlay/inline display modes, nested items, back button, and animated content transitions
+- [PleasantTabView](PleasantTabView.md): Chromium-style tab strip with add/close buttons and scrollable tab bar
+- [BreadcrumbBar](BreadcrumbBar.md): Navigation breadcrumb trail with overflow handling and item clicked events
+- [CommandBar](CommandBar.md): Toolbar with primary commands inline, overflow popup menu, dynamic overflow, label positions, and open/closed states
+- [PleasantDrawer](PleasantDrawer.md): Slide-in panel from screen edges (Left, Right, Top, Bottom) with overlay and animation
+- [VirtualizingWrapPanel](VirtualizingWrapPanel.md): Virtualizing wrap layout panel for large item collections with orientation and item size properties
+
+## Dialogs and Overlays
+
+- [ContentDialog](ContentDialog.md): Modal overlay dialog with bottom button panel, smooth scroll content area, and open/close animations
+- [MessageBox](MessageBox.md): Pre-built dialog for common message scenarios (ToolKit)
+- [PleasantDialog](PleasantDialog.md): Fluent-styled modal dialog base class (ToolKit)
+- [CrashReportDialog](CrashReportDialog.md): Fluent-styled modal dialog for crash reporting with tabs (General, Exception, Screenshot) and send/save actions
+- [StepDialog](StepDialog.md): Modal dialog presenting numbered steps with title, description, status message, buttons, animations, and step collection
+- [PleasantSnackbar](PleasantSnackbar.md): Temporary non-intrusive notification bar
+- [PopConfirm](PopConfirm.md): Wraps trigger control and shows popup with header, body, and Confirm/Cancel buttons before executing command
+- [PleasantMenu](PleasantMenu.md): Customizable flyout menu with title, optional info badges, grid of large icon buttons, and footer bar with utility buttons
+- [PleasantMenuFlyout](PleasantMenuFlyout.md): Custom menu flyout with PleasantUI styling
+- [PleasantFlyout](PleasantFlyout.md): Custom flyout with PleasantUI styling and custom presenter
+- [ModalWindowHost](ModalWindowHost.md): Host for modal window overlays with content alignment and pointer event handling
+
+## Panels and Lists
+
+- [TreeViewPanel](TreeViewPanel.md): Searchable, collapsible tree of TreeViewSection items with filter text box, collapse-all/expand-all buttons, and unified SelectionChanged event
+- [ItemListPanel](ItemListPanel.md): Searchable, filterable, multi-selectable list with loading overlay, bulk-action toolbar, and pagination footer slot
+- [LogViewerPanel](LogViewerPanel.md): Slide-in panel displaying filterable/searchable log entries with open/close, adding entries, clearing entries, filtering, debug entries, auto-scroll, and copy handling
+- [TerminalPanel](TerminalPanel.md): Terminal-style panel with output area and command input, title, running state, status, prompt, max output lines, and close button
+- [DashboardCard](DashboardCard.md): Card control with header, toolbar, and scrollable content area
+
+## Buttons and Inputs
+
+- [MarkedTextBox](MarkedTextBox.md): TextBox with inline label/unit marker
+- [MarkedNumericUpDown](MarkedNumericUpDown.md): NumericUpDown with inline label/unit marker
+- [MarkedInputs](MarkedInputs.md): Combined documentation for MarkedTextBox and MarkedNumericUpDown
+- [PleasantDatePicker](PleasantDatePicker.md): Styled DatePicker with decoupled visual container and custom click area
+- [PinCode](PinCode.md): PIN code input control
+- [SelectionList](SelectionList.md): Selectable list control with SelectionListItem
+- [PathPicker](PathPicker.md): Combines read-only TextBox with browse button, supports OpenFile, SaveFile, and OpenFolder modes
+
+## Visual Effects
+
+- [BackdropBlurBorder](BackdropBlurBorder.md): Frosted glass blur effect with tint using SkiaSharp
+- [ShadowBorder](ShadowBorder.md): Drop shadow with customizable color, blur radius, offset, and corner radius
+- [RippleEffect](RippleEffect.md): Material-style ripple animation on pointer press
+- [PleasantBorder](PleasantBorder.md): Border with BackgroundLevel property mapping to themed background elevation levels
+
+## Data Display
+
+- [DataGrid](DataGrid.md): Fluent-styled DataGrid extension (PleasantUI.DataGrid package)
+- [PropertyGrid](PropertyGrid.md): Scrollable two-column grid displaying PropertyRow items with label column width and row spacing
+- [Timeline](Timeline.md): Displays events in chronological order along vertical axis with four layout modes, custom icons, and five severity types
+- [InformationBlock](InformationBlock.md): Compact pill-shaped label combining icon and value
+- [ProgressRing](ProgressRing.md): Circular progress indicator with determinate and indeterminate states and animated arc
+- [OptionsDisplayItem](OptionsDisplayItem.md): Settings-style row with header, description, icon, action button slot, navigation chevron, and expandable content
+
+## Utilities
+
+- [SmoothScrollViewer](SmoothScrollViewer.md): ScrollViewer with inertia-based smooth scrolling, configurable easing and duration, and programmatic scroll methods
+- [InstallWizard](InstallWizard.md): Multi-step installation wizard with sidebar step list, progress bar, and Back/Next/Cancel navigation
+- [PleasantTrayPopup](PleasantTrayPopup.md): Tray popup with StatusItem support
+- [PleasantView](PleasantView.md): Main view container for PleasantUI apps with modal windows and snackbar queue manager
+- [PleasantSplashScreen](PleasantSplashScreen.md): Overlay control rendered during startup, populated from IPleasantSplashScreen interface
+- [ThemePreviewVariantScope](ThemePreviewVariantScope.md): Specialized ThemeVariantScope with workaround for correct theme display during template application
+
+## System
+
+- [Localization](Localization.md): Localizer singleton, {Localize} markup extension, reactive language switching
+- [Theme Engine](ThemeEngine.md): PleasantTheme, custom themes, color tokens, built-in themes, accent color system

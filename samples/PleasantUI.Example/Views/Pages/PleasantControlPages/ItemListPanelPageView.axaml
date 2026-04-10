@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.ItemListPanelPageView">
+
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+
+        <TextBlock Text="{Localize ItemListPanel/Description}"
+                   TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+
+        <WrapPanel>
+            <WrapPanel.Styles>
+                <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
+                <Style Selector="ToggleButton"><Setter Property="Margin" Value="0 0 8 8" /></Style>
+            </WrapPanel.Styles>
+            <ToggleButton x:Name="MultiSelectToggle" Content="{Localize ItemListPanel/MultiSelect}" />
+            <Button x:Name="LoadingToggleBtn"        Content="{Localize ItemListPanel/ToggleLoading}" />
+            <Button x:Name="ClearBtn"                Content="{Localize ItemListPanel/Clear}" />
+            <Button x:Name="ReloadBtn"               Content="{Localize ItemListPanel/Reload}" />
+        </WrapPanel>
+
+        <controls:ItemListPanel x:Name="ListPanel"
+                                SearchWatermark="{Localize ItemListPanel/SearchWatermark}"
+                                EmptyStateTitle="{Localize ItemListPanel/EmptyTitle}"
+                                EmptyStateSubtitle="{Localize ItemListPanel/EmptySubtitle}"
+                                LoadingTitle="{Localize ItemListPanel/LoadingTitle}"
+                                LoadingSubtitle="{Localize ItemListPanel/LoadingSubtitle}"
+                                Height="360">
+            <controls:ItemListPanel.BulkActionsContent>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock x:Name="SelectionCountLabel"
+                               Text="0 selected"
+                               VerticalAlignment="Center" FontSize="12"
+                               Foreground="{DynamicResource TextFillColor2}" />
+                    <Button Content="{Localize ItemListPanel/DeleteSelected}"
+                            Theme="{DynamicResource DangerButtonTheme}"
+                            Padding="10 4" FontSize="12" />
+                </StackPanel>
+            </controls:ItemListPanel.BulkActionsContent>
+            <controls:ItemListPanel.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10 8" Margin="0 1"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            Background="{DynamicResource ControlFillColor1}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0" Text="{Binding}"
+                                       FontSize="13" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="file"
+                                       FontSize="11" Foreground="{DynamicResource TextFillColor3}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </controls:ItemListPanel.ItemTemplate>
+        </controls:ItemListPanel>
+
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{DynamicResource ControlCornerRadius}" Padding="10 6">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="{Localize ItemListPanel/Selected}"
+                           FontSize="12" Foreground="{DynamicResource TextFillColor2}"
+                           VerticalAlignment="Center" />
+                <TextBlock x:Name="SelectedLabel" Text="—"
+                           FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+    </StackPanel>
+</UserControl>

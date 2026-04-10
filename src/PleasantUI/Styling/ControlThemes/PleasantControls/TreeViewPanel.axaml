@@ -1,0 +1,252 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Width="260" Height="500" Background="{DynamicResource BackgroundColor1}">
+            <controls:TreeViewPanel FilterWatermark="Filter entities...">
+                <controls:TreeViewSection Header="Queues"
+                                          IsLoading="False">
+                    <controls:TreeViewSection.SectionIcon>
+                        <x:Static Member="controls:TreeViewPanel.SectionIcon" />
+                    </controls:TreeViewSection.SectionIcon>
+                </controls:TreeViewSection>
+            </controls:TreeViewPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── TreeViewSection ───────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:TreeViewSection}" TargetType="controls:TreeViewSection">
+        <Setter Property="Background"      Value="Transparent" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin"          Value="0" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Expander IsExpanded="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                          HorizontalAlignment="Stretch"
+                          Margin="0 8 0 0">
+
+                    <!-- Section header -->
+                    <Expander.Header>
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                            <!-- Icon badge -->
+                            <Border Grid.Column="0"
+                                    Width="20" Height="20"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    Background="{TemplateBinding IconBackground}"
+                                    IsVisible="{TemplateBinding SectionIcon, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <PathIcon Data="{TemplateBinding SectionIcon}"
+                                          Width="11" Height="11"
+                                          Foreground="{TemplateBinding IconForeground}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- Title -->
+                            <TextBlock Grid.Column="1"
+                                       Text="{TemplateBinding Header}"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextFillColor1}" />
+
+                            <!-- Count badge -->
+                            <Border Grid.Column="2"
+                                    Background="{DynamicResource ControlFillColor2}"
+                                    CornerRadius="{DynamicResource RoundedControlCornerRadius}"
+                                    Padding="6 2"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{TemplateBinding ItemCount}"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                            </Border>
+                        </Grid>
+                    </Expander.Header>
+
+                    <!-- Section body -->
+                    <StackPanel Spacing="0" Margin="0 8 0 0">
+                        <!-- Loading indicator -->
+                        <Border Name="PART_LoadingRow"
+                                IsVisible="False"
+                                Padding="0 8">
+                            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                                <ProgressBar IsIndeterminate="True" Width="56" Height="3" />
+                                <TextBlock Text="{TemplateBinding LoadingText}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextFillColor2}"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Items list -->
+                        <ListBox Name="PART_ItemsList"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 MaxHeight="{TemplateBinding MaxListHeight}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ItemTemplate="{TemplateBinding ItemTemplate}">
+                            <ListBox.Styles>
+                                <Style Selector="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding"    Value="8 6" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="FontSize"   Value="14" />
+                                </Style>
+                                <Style Selector="ListBoxItem:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+                                </Style>
+                                <Style Selector="ListBoxItem:selected">
+                                    <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+                                </Style>
+                            </ListBox.Styles>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+
+                        <!-- Empty state -->
+                        <Border Name="PART_EmptyRow"
+                                IsVisible="False"
+                                Padding="0 8">
+                            <TextBlock Text="No items"
+                                       FontSize="14"
+                                       Foreground="{DynamicResource TextFillColor3}"
+                                       HorizontalAlignment="Center" />
+                        </Border>
+                    </StackPanel>
+                </Expander>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:loading /template/ Border#PART_LoadingRow">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^:empty /template/ Border#PART_EmptyRow">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── TreeViewPanel ─────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:TreeViewPanel}" TargetType="controls:TreeViewPanel">
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="Auto,*">
+
+                        <!-- ── Search / filter header ─────────────────────── -->
+                        <Border Grid.Row="0"
+                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                BorderThickness="0 0 0 1"
+                                Padding="16 12">
+                            <Grid Name="PART_HeaderGrid" ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <Binding Path="ExpandButtonColumnWidth" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Width>
+                                            <Binding Path="CollapseButtonColumnWidth" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        </ColumnDefinition.Width>
+                                    </ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0"
+                                        Name="PART_SearchBoxBorder"
+                                        Background="{DynamicResource BackgroundColor1}"
+                                        BorderBrush="{DynamicResource ControlBorderColor}"
+                                        BorderThickness="{DynamicResource ControlBorderThickness}"
+                                        CornerRadius="{DynamicResource ControlCornerRadius}"
+                                        Padding="0"
+                                        HorizontalAlignment="Stretch">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <PathIcon Grid.Column="0"
+                                                  Data="{DynamicResource SearchRegular}"
+                                                  Width="14" Height="14"
+                                                  Margin="10 0 6 0"
+                                                  Foreground="{DynamicResource TextFillColor3}" />
+                                        <TextBox Name="PART_SearchBox"
+                                                 Grid.Column="1"
+                                                 PlaceholderText="{TemplateBinding FilterWatermark}"
+                                                 Background="Transparent"
+                                                 BorderThickness="0"
+                                                 Padding="8 6"
+                                                 FontSize="14"
+                                                 MinWidth="80" />
+                                        <Button Name="PART_ClearButton"
+                                                Grid.Column="2"
+                                                Theme="{DynamicResource AppBarButtonTheme}"
+                                                Width="24" Height="24"
+                                                Padding="4"
+                                                Margin="0 0 4 0"
+                                                IsVisible="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                            <PathIcon Data="{DynamicResource DismissRegular}"
+                                                      Width="9" Height="9" />
+                                        </Button>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Expand-all button -->
+                                <Button Name="PART_ExpandButton"
+                                        Grid.Column="1"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Width="32" Height="32"
+                                        Padding="6"
+                                        ToolTip.Tip="Expand all"
+                                        IsVisible="{TemplateBinding ShowExpandButton}">
+                                    <PathIcon Data="{DynamicResource ChevronDownRegular}"
+                                              Width="12" Height="12" />
+                                </Button>
+
+                                <!-- Collapse-all button -->
+                                <Button Name="PART_CollapseButton"
+                                        Grid.Column="2"
+                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Width="32" Height="32"
+                                        Padding="6"
+                                        ToolTip.Tip="Collapse all"
+                                        IsVisible="{TemplateBinding ShowCollapseButton}">
+                                    <PathIcon Data="{DynamicResource ChevronUpRegular}"
+                                              Width="12" Height="12" />
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <!-- ── Sections content ────────────────────────── -->
+                        <SmoothScrollViewer Grid.Row="1"
+                                            HorizontalScrollBarVisibility="Disabled"
+                                            VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Name="PART_SectionsHost"
+                                          Padding="16 12 16 16">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="4" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </SmoothScrollViewer>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

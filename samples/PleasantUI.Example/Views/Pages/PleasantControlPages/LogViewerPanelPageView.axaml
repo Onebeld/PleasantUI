@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
+             x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.LogViewerPanelPageView">
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" Padding="16 8 16 0">
+            <StackPanel Spacing="12" MaxWidth="680">
+                <TextBlock Text="{Localize LogViewerPanel/Description}"
+                           TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+                <WrapPanel>
+                    <WrapPanel.Styles>
+                        <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
+                    </WrapPanel.Styles>
+                    <Button x:Name="OpenPanelBtn"  Content="{Localize LogViewerPanel/OpenPanel}"
+                            Theme="{DynamicResource AccentButtonTheme}" />
+                    <Button x:Name="AddInfoBtn"    Content="{Localize LogViewerPanel/AddInfo}" />
+                    <Button x:Name="AddWarningBtn" Content="{Localize LogViewerPanel/AddWarning}" />
+                    <Button x:Name="AddErrorBtn"   Content="{Localize LogViewerPanel/AddError}"
+                            Theme="{DynamicResource DangerButtonTheme}" />
+                    <Button x:Name="AddDebugBtn"   Content="{Localize LogViewerPanel/AddDebug}" />
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <Panel Grid.Row="1">
+            <Border Padding="16 8">
+                <TextBlock Text="{Localize LogViewerPanel/Hint}"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Foreground="{DynamicResource TextFillColor3}" />
+            </Border>
+            <controls:LogViewerPanel x:Name="LogPanel"
+                                     Title="{Localize CardTitle/LogViewerPanel}"
+                                     PanelWidth="400"
+                                     IsOpen="False" />
+        </Panel>
+    </Grid>
+</UserControl>
