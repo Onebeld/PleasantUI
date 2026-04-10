@@ -179,6 +179,10 @@ public class CrashReportDialog : PleasantPopupElement
     public static readonly StyledProperty<Animation?> CloseAnimationProperty =
         AvaloniaProperty.Register<CrashReportDialog, Animation?>(nameof(CloseAnimation));
 
+    /// <summary>Defines the <see cref="AutoCloseOnSuccess"/> property.</summary>
+    public static readonly StyledProperty<bool> AutoCloseOnSuccessProperty =
+        AvaloniaProperty.Register<CrashReportDialog, bool>(nameof(AutoCloseOnSuccess), defaultValue: false);
+
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the application name shown in the General tab.</summary>
@@ -277,6 +281,13 @@ public class CrashReportDialog : PleasantPopupElement
     {
         get => GetValue(CloseAnimationProperty);
         set => SetValue(CloseAnimationProperty, value);
+    }
+
+    /// <summary>Gets or sets whether the dialog automatically closes after successful report sending.</summary>
+    public bool AutoCloseOnSuccess
+    {
+        get => GetValue(AutoCloseOnSuccessProperty);
+        set => SetValue(AutoCloseOnSuccessProperty, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -568,13 +579,19 @@ public class CrashReportDialog : PleasantPopupElement
 
         var args = new SendReportEventArgs(email, userMessage, includeScreenshot)
         {
-            ReportSuccess = () => Dispatcher.UIThread.Post(() =>
+            ReportSuccess = () => Dispatcher.UIThread.Post(async () =>
             {
                 PseudoClasses.Set(PC_Sending, false);
                 PseudoClasses.Set(PC_Success, true);
                 StatusMessage = "Report sent successfully. Thank you!";
                 _result = CrashReportResult.Sent;
                 SetButtonsEnabled(true);
+
+                if (AutoCloseOnSuccess)
+                {
+                    await Task.Delay(1500); // Wait briefly to show success message
+                    await CloseAsync();
+                }
             }),
             ReportFailure = msg => Dispatcher.UIThread.Post(() =>
             {
