@@ -62,22 +62,22 @@ public abstract class PleasantPopupElement : ContentControl
         }
     }
 
-    public override void ApplyTemplate()
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
-        base.ApplyTemplate();
+        base.OnApplyTemplate(e);
         
         try
         {
             // Apply VGUI corner radius override when template is applied
             if (IsVGUIActive())
             {
-                System.Diagnostics.Debug.WriteLine("[PleasantPopupElement] ApplyTemplate: VGUI theme active, setting CornerRadius to 0");
+                System.Diagnostics.Debug.WriteLine("[PleasantPopupElement] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
                 CornerRadius = new CornerRadius(0);
             }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[PleasantPopupElement] Error in ApplyTemplate: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[PleasantPopupElement] Error in OnApplyTemplate: {ex.Message}");
         }
     }
 

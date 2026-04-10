@@ -58,22 +58,22 @@ public class PleasantMiniWindow : PleasantWindowBase
         }
     }
 
-    public override void ApplyTemplate()
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
-        base.ApplyTemplate();
+        base.OnApplyTemplate(e);
         
         try
         {
             // Apply VGUI corner radius override when template is applied
             if (IsVGUIActive())
             {
-                System.Diagnostics.Debug.WriteLine("[PleasantMiniWindow] ApplyTemplate: VGUI theme active, setting CornerRadius to 0");
+                System.Diagnostics.Debug.WriteLine("[PleasantMiniWindow] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
                 CornerRadius = new CornerRadius(0);
             }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[PleasantMiniWindow] Error in ApplyTemplate: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[PleasantMiniWindow] Error in OnApplyTemplate: {ex.Message}");
         }
     }
 
