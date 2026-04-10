@@ -259,14 +259,20 @@
                                                                Padding="4 1" />
                                                 </Border>
 
-                                                <!-- Speed indicator -->
-                                                <TextBlock Grid.Column="4"
-                                                           Text="{Binding Status, Converter={x:Static converters:ChunkStatusToSpeedConverter.Instance}}"
-                                                           FontSize="9"
-                                                           Foreground="{DynamicResource TextFillColor3}"
-                                                           VerticalAlignment="Center"
-                                                           MinWidth="50"
-                                                           TextAlignment="Right" />
+                                                <!-- Speed and time -->
+                                                <StackPanel Grid.Column="4"
+                                                            Orientation="Vertical"
+                                                            Spacing="2"
+                                                            VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Speed}"
+                                                               FontSize="9"
+                                                               Foreground="{DynamicResource TextFillColor2}"
+                                                               TextAlignment="Right" />
+                                                    <TextBlock Text="{Binding TimeRemaining}"
+                                                               FontSize="9"
+                                                               Foreground="{DynamicResource TextFillColor3}"
+                                                               TextAlignment="Right" />
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>

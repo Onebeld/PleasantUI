@@ -43,8 +43,12 @@ public partial class DownloadPanelPageView : LocalizedUserControl
         foreach (var chunk in DownloadPanelControl.Chunks)
         {
             chunk.Progress = Math.Min(1.0, chunk.Progress + 0.08);
-            double mb = chunk.Progress * 32;
-            chunk.DownloadedSize = $"{mb:F1} MB";
+            long totalBytes = chunk.TotalSizeBytes > 0 ? chunk.TotalSizeBytes : 33554432; // Default 32MB
+            chunk.DownloadedBytes = (long)(chunk.Progress * totalBytes);
+            chunk.SpeedBytesPerSecond = chunk.Status == ChunkStatus.Downloading ? 2097152 + (chunk.Index * 1048576) : 0; // Simulated speed
+            chunk.TimeRemainingSeconds = chunk.Status == ChunkStatus.Downloading && chunk.Progress < 1.0 && chunk.SpeedBytesPerSecond > 0
+                ? (totalBytes - chunk.DownloadedBytes) / chunk.SpeedBytesPerSecond
+                : 0;
             chunk.Status = chunk.Progress >= 1.0 ? ChunkStatus.Completed : ChunkStatus.Downloading;
         }
 
@@ -77,9 +81,11 @@ public partial class DownloadPanelPageView : LocalizedUserControl
 
         foreach (var chunk in DownloadPanelControl.Chunks)
         {
-            chunk.Progress       = 0;
-            chunk.DownloadedSize = "0 MB";
-            chunk.Status        = ChunkStatus.Waiting;
+            chunk.Progress            = 0;
+            chunk.DownloadedBytes     = 0;
+            chunk.SpeedBytesPerSecond = 0;
+            chunk.TimeRemainingSeconds = 0;
+            chunk.Status             = ChunkStatus.Waiting;
         }
         DownloadPanelControl.RedrawChunkCanvas();
     }

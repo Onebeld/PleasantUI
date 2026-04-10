@@ -25,10 +25,10 @@
 
             <controls:DownloadPanel x:Name="DownloadPanelControl" ShowDetails="True">
                 <controls:DownloadPanel.Chunks>
-                    <controls:ChunkInfo Index="1" Start="0"    End="0.25" Progress="0" DownloadedSize="0 MB" Status="Waiting" />
-                    <controls:ChunkInfo Index="2" Start="0.25" End="0.5"  Progress="0.25" DownloadedSize="12.5 MB" Status="Downloading" />
-                    <controls:ChunkInfo Index="3" Start="0.5"  End="0.75" Progress="0.5" DownloadedSize="25 MB" Status="Downloading" />
-                    <controls:ChunkInfo Index="4" Start="0.75" End="1.0"  Progress="1.0" DownloadedSize="50 MB" Status="Completed" />
+                    <controls:ChunkInfo Index="1" Start="0"    End="0.25" Progress="0" TotalSizeBytes="33554432" DownloadedBytes="0" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Waiting" />
+                    <controls:ChunkInfo Index="2" Start="0.25" End="0.5"  Progress="0.25" TotalSizeBytes="33554432" DownloadedBytes="8388608" SpeedBytesPerSecond="2097152" TimeRemainingSeconds="12" Status="Downloading" />
+                    <controls:ChunkInfo Index="3" Start="0.5"  End="0.75" Progress="0.5" TotalSizeBytes="33554432" DownloadedBytes="16777216" SpeedBytesPerSecond="3145728" TimeRemainingSeconds="5" Status="Downloading" />
+                    <controls:ChunkInfo Index="4" Start="0.75" End="1.0"  Progress="1.0" TotalSizeBytes="33554432" DownloadedBytes="33554432" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Completed" />
                 </controls:DownloadPanel.Chunks>
             </controls:DownloadPanel>
 
