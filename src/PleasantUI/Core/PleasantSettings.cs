@@ -57,6 +57,7 @@ public class PleasantSettings : ViewModelBase
     private string _language = "en";
 
     private WindowSettings _windowSettings;
+    private AppVersionSettings _appVersion;
 
     /// <summary>
     /// Gets the singleton instance of the PleasantSettings class.
@@ -199,6 +200,26 @@ public class PleasantSettings : ViewModelBase
         set => SetProperty(ref _colorPalettes, value);
     }
 
+    // ── App-specific version (separate from PleasantUI library version) ────────
+
+    /// <summary>
+    /// Gets or sets application-specific version information.
+    /// Use this to store and display your app's own version, release channel,
+    /// and version label — independently of the PleasantUI library version.
+    /// </summary>
+    [DataMember]
+    public AppVersionSettings AppVersion
+    {
+        get => _appVersion;
+        set
+        {
+            if (value is null)
+                throw new NullReferenceException("AppVersion is null");
+
+            SetProperty(ref _appVersion, value);
+        }
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PleasantSettings"/> class 
     /// with default window and render settings.
@@ -206,5 +227,6 @@ public class PleasantSettings : ViewModelBase
     public PleasantSettings()
     {
         _windowSettings = new WindowSettings();
+        _appVersion = new AppVersionSettings();
     }
 }
