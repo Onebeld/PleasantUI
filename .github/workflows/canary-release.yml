@@ -855,15 +855,26 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish canary packages to GitHub Packages
+        continue-on-error: true
         run: |
+          PUSH_FAILED=0
           for pkg in src/*/bin/Release/*.nupkg; do
             if [ -f "$pkg" ]; then
               dotnet nuget push "$pkg" \
                 --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
                 --api-key "${{ secrets.GITHUB_TOKEN }}" \
-                --skip-duplicate
+                --skip-duplicate || {
+                EXIT=$?
+                if [ $EXIT -eq 1 ]; then
+                  echo "WARNING: Push failed for $(basename "$pkg") (exit $EXIT) — skipping (likely 403/auth). Artifacts are still available for download."
+                  PUSH_FAILED=1
+                fi
+              }
             fi
           done
+          if [ $PUSH_FAILED -eq 1 ]; then
+            echo "::warning::One or more packages could not be pushed to GitHub Packages (403 Forbidden). This is expected for fork PRs. Download packages from the workflow artifacts instead."
+          fi
 
       - name: Publish canary packages summary
         run: |
