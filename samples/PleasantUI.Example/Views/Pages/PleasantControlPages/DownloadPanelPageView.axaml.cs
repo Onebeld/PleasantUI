@@ -1,5 +1,5 @@
 using Avalonia.Interactivity;
-using PleasantUI.Controls;
+using PleasantUI.ToolKit.Controls;
 using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
@@ -45,7 +45,7 @@ public partial class DownloadPanelPageView : LocalizedUserControl
             chunk.Progress = Math.Min(1.0, chunk.Progress + 0.08);
             double mb = chunk.Progress * 32;
             chunk.DownloadedSize = $"{mb:F1} MB";
-            chunk.Info = chunk.Progress >= 1.0 ? "Done" : "Downloading";
+            chunk.Status = chunk.Progress >= 1.0 ? ChunkStatus.Completed : ChunkStatus.Downloading;
         }
 
         double overall = DownloadPanelControl.Chunks.Average(c => c.Progress) * 100;
@@ -79,7 +79,7 @@ public partial class DownloadPanelPageView : LocalizedUserControl
         {
             chunk.Progress       = 0;
             chunk.DownloadedSize = "0 MB";
-            chunk.Info           = "Waiting";
+            chunk.Status        = ChunkStatus.Waiting;
         }
         DownloadPanelControl.RedrawChunkCanvas();
     }
