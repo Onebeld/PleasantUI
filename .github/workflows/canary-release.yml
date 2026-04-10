@@ -111,10 +111,10 @@ jobs:
       - name: Build single-file example app
         run: |
           # Only build for linux-x64 since cross-OS native compilation is not supported
+          # Use framework-dependent single-file to avoid AOT compilation version mismatch
           dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
             --configuration Release \
             --runtime linux-x64 \
-            --self-contained \
             -p:PublishSingleFile=true \
             -p:IncludeNativeLibrariesForSelfExtract=true \
             -o /tmp/example-app-linux-x64
