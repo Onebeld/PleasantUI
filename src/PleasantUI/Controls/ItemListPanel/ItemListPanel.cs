@@ -95,6 +95,10 @@ public class ItemListPanel : TemplatedControl
     public static readonly StyledProperty<string?> EmptyStateSubtitleProperty =
         AvaloniaProperty.Register<ItemListPanel, string?>(nameof(EmptyStateSubtitle));
 
+    /// <summary>Defines the <see cref="SearchBoxCornerRadius"/> property.</summary>
+    public static readonly StyledProperty<CornerRadius> SearchBoxCornerRadiusProperty =
+        AvaloniaProperty.Register<ItemListPanel, CornerRadius>(nameof(SearchBoxCornerRadius), defaultValue: new CornerRadius(4));
+
     /// <summary>Defines the <see cref="SelectedCount"/> direct property.</summary>
     public static readonly DirectProperty<ItemListPanel, int> SelectedCountProperty =
         AvaloniaProperty.RegisterDirect<ItemListPanel, int>(nameof(SelectedCount), o => o.SelectedCount);
@@ -190,6 +194,13 @@ public class ItemListPanel : TemplatedControl
     {
         get => GetValue(EmptyStateSubtitleProperty);
         set => SetValue(EmptyStateSubtitleProperty, value);
+    }
+
+    /// <summary>Gets or sets the corner radius of the search box border.</summary>
+    public CornerRadius SearchBoxCornerRadius
+    {
+        get => GetValue(SearchBoxCornerRadiusProperty);
+        set => SetValue(SearchBoxCornerRadiusProperty, value);
     }
 
     /// <summary>Gets the number of selected items in multi-select mode.</summary>

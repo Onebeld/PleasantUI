@@ -640,6 +640,8 @@
     <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Очистить вывод</value></data>
     <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Закрыть</value></data>
     <data name="TerminalPanel/InputPlaceholder" xml:space="preserve"><value>Введите команду и нажмите Enter</value></data>
+    <data name="TerminalPanel/StatusText" xml:space="preserve"><value>Работает</value></data>
+    <data name="TerminalPanel/RunningText" xml:space="preserve"><value>Работает</value></data>
 
     <!-- LogViewerPanel -->
     <data name="LogViewerPanel/SearchPlaceholder" xml:space="preserve"><value>Поиск в журнале...</value></data>

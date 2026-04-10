@@ -19,6 +19,7 @@
         <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment"   Value="Stretch" />
+        <Setter Property="SearchBoxCornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -35,10 +36,11 @@
                                 BorderBrush="{DynamicResource ControlBorderColor}"
                                 BorderThickness="0 0 0 1"
                                 Padding="12 10">
-                            <Border Background="{DynamicResource BackgroundColor1}"
+                            <Border Name="PART_SearchBoxBorder"
+                                    Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{DynamicResource ControlBorderThickness}"
-                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    CornerRadius="{TemplateBinding SearchBoxCornerRadius}"
                                     Padding="0">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <PathIcon Grid.Column="0"

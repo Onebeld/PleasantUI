@@ -49,6 +49,10 @@ public class TerminalPanel : TemplatedControl
     public static readonly StyledProperty<string?> StatusTextProperty =
         AvaloniaProperty.Register<TerminalPanel, string?>(nameof(StatusText));
 
+    /// <summary>Defines the <see cref="RunningText"/> property.</summary>
+    public static readonly StyledProperty<string> RunningTextProperty =
+        AvaloniaProperty.Register<TerminalPanel, string>(nameof(RunningText), defaultValue: "Running");
+
     /// <summary>Defines the <see cref="StatusColor"/> property.</summary>
     public static readonly StyledProperty<IBrush?> StatusColorProperty =
         AvaloniaProperty.Register<TerminalPanel, IBrush?>(nameof(StatusColor));
@@ -106,6 +110,13 @@ public class TerminalPanel : TemplatedControl
     {
         get => GetValue(StatusTextProperty);
         set => SetValue(StatusTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text shown when the terminal is running.</summary>
+    public string RunningText
+    {
+        get => GetValue(RunningTextProperty);
+        set => SetValue(RunningTextProperty, value);
     }
 
     /// <summary>Gets or sets the brush used for the status indicator dot.</summary>
@@ -218,7 +229,17 @@ public class TerminalPanel : TemplatedControl
         base.OnPropertyChanged(change);
 
         if (change.Property == IsRunningProperty)
-            PseudoClasses.Set(PC_Running, change.GetNewValue<bool>());
+        {
+            bool isRunning = change.GetNewValue<bool>();
+            PseudoClasses.Set(PC_Running, isRunning);
+            
+            // Automatically set StatusText to RunningText when IsRunning changes
+            // This can be overridden manually for error messages or general status
+            if (isRunning)
+                StatusText = RunningText;
+            else
+                StatusText = null;
+        }
         else if (change.Property == OutputTextProperty)
         {
             if (_outputBox is not null)

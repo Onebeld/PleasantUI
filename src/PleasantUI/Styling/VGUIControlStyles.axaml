@@ -135,6 +135,16 @@
         <Setter Property="CornerRadius" Value="0" />
     </Style>
 
+    <!-- VGUI TreeViewPanel search box — square corners -->
+    <Style Selector="controls|TreeViewPanel">
+        <Setter Property="SearchBoxCornerRadius" Value="0" />
+    </Style>
+
+    <!-- VGUI ItemListPanel search box — square corners -->
+    <Style Selector="controls|ItemListPanel">
+        <Setter Property="SearchBoxCornerRadius" Value="0" />
+    </Style>
+
     <!-- VGUI ShadowBorder — square corners (used by ContentDialog shadow) -->
     <Style Selector="controls|ShadowBorder">
         <Setter Property="CornerRadius" Value="0" />

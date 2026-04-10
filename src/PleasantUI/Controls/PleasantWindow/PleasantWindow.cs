@@ -17,6 +17,7 @@ public class PleasantWindow : PleasantWindowBase
 {
     private PleasantSplashScreen? _splashOverlay;
     private CancellationTokenSource? _splashCts;
+
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
@@ -296,6 +297,7 @@ public class PleasantWindow : PleasantWindowBase
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
+ 
     }
 
     /// <inheritdoc />

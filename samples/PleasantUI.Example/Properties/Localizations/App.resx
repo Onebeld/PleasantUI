@@ -621,6 +621,7 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="PropertyGrid/LabelType" xml:space="preserve"><value>Type</value></data>
     <data name="PropertyGrid/LabelSource" xml:space="preserve"><value>Source</value></data>
     <data name="PropertyGrid/LabelStatus" xml:space="preserve"><value>Status</value></data>
+    <data name="PropertyGrid/RunningText" xml:space="preserve"><value>Running</value></data>
 
     <!-- LogViewerPanel -->
     <data name="LogViewerPanel/AllFilterText" xml:space="preserve"><value>All</value></data>
@@ -629,6 +630,10 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="LogViewerPanel/ClearTooltip" xml:space="preserve"><value>Clear</value></data>
     <data name="LogViewerPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
     <data name="LogViewerPanel/DebugTooltip" xml:space="preserve"><value>Show debug entries</value></data>
+
+    <!-- TerminalPanel -->
+   
+    <data name="TerminalPanel/RunningText" xml:space="preserve"><value>Running</value></data>
 
     <!-- DownloadPanel -->
     <data name="DownloadPanel/SizeLabel" xml:space="preserve"><value>SIZE</value></data>
@@ -646,11 +651,13 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Failed</value></data>
     <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
     <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
+    <data name="DownloadPanel/StatusText" xml:space="preserve"><value>Running</value></data>
 
     <!-- TerminalPanel -->
     <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Clear output</value></data>
     <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
     <data name="TerminalPanel/InputPlaceholder" xml:space="preserve"><value>Type a command and press Enter</value></data>
+    <data name="TerminalPanel/StatusText" xml:space="preserve"><value>Running</value></data>
 
     <!-- LogViewerPanel -->
     <data name="LogViewerPanel/SearchPlaceholder" xml:space="preserve"><value>Search logs...</value></data>

@@ -1,50 +1,34 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
+        xmlns:pleasant="clr-namespace:PleasantUI.Controls;assembly=PleasantUI">
 
-    <!-- VGUI StepItem Theme - square corners -->
-    <ControlTheme x:Key="{x:Type controls:StepItem}" TargetType="controls:StepItem" BasedOn="{StaticResource {x:Type controls:StepItem}}">
-        <Style Selector="^ /template/ Border">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-    </ControlTheme>
+    <Styles.Resources>
+        <!-- Override ControlCornerRadius to 0 so any DynamicResource binding to it becomes square -->
+        <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+        <CornerRadius x:Key="RoundedControlCornerRadius">0</CornerRadius>
+    </Styles.Resources>
 
-    <!-- VGUI CrashReportDialog Theme - square corners -->
-    <ControlTheme x:Key="{x:Type controls:CrashReportDialog}" TargetType="controls:CrashReportDialog" BasedOn="{StaticResource {x:Type controls:CrashReportDialog}}">
-        <!-- Override all corner radius bindings to 0 -->
-        <Style Selector="^ /template/ ShadowBorder">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <Style Selector="^ /template/ Border">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Icon badge -->
-        <Style Selector="^ /template/ Border#PART_BevelOuter">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Tab items -->
-        <Style Selector="^ /template/ ListBoxItem">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Status row -->
-        <Style Selector="^ /template/ Border#PART_StatusRow">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-    </ControlTheme>
+    <!-- VGUI CrashReportDialog — square corners -->
+    <Style Selector="controls|CrashReportDialog">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|CrashReportDialog /template/ pleasant|ShadowBorder">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|CrashReportDialog /template/ Border">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
 
-    <!-- VGUI StepDialog Theme - square corners -->
-    <ControlTheme x:Key="{x:Type controls:StepDialog}" TargetType="controls:StepDialog" BasedOn="{StaticResource {x:Type controls:StepDialog}}">
-        <!-- Override all corner radius bindings to 0 -->
-        <Style Selector="^ /template/ ShadowBorder">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <Style Selector="^ /template/ Border">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Status row -->
-        <Style Selector="^ /template/ Border#PART_StatusRow">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-    </ControlTheme>
+    <!-- VGUI StepDialog — square corners -->
+    <Style Selector="controls|StepDialog">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|StepDialog /template/ pleasant|ShadowBorder">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="controls|StepDialog /template/ Border">
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
 
-</ResourceDictionary>
+</Styles>

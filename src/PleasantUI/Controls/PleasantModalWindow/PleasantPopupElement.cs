@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
+using PleasantUI.Core.Settings.Providers.Interfaces;
 
 namespace PleasantUI.Controls;
 

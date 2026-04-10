@@ -75,6 +75,10 @@ public class TreeViewPanel : TemplatedControl
     public static readonly StyledProperty<GridLength> CollapseButtonColumnWidthProperty =
         AvaloniaProperty.Register<TreeViewPanel, GridLength>(nameof(CollapseButtonColumnWidth), defaultValue: new GridLength(32));
 
+    /// <summary>Defines the <see cref="SearchBoxCornerRadius"/> property.</summary>
+    public static readonly StyledProperty<CornerRadius> SearchBoxCornerRadiusProperty =
+        AvaloniaProperty.Register<TreeViewPanel, CornerRadius>(nameof(SearchBoxCornerRadius), defaultValue: new CornerRadius(4));
+
     // ── Direct properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Sections"/> direct property.</summary>
@@ -138,6 +142,13 @@ public class TreeViewPanel : TemplatedControl
     {
         get => GetValue(CollapseButtonColumnWidthProperty);
         set => SetValue(CollapseButtonColumnWidthProperty, value);
+    }
+
+    /// <summary>Gets or sets the corner radius of the search box border.</summary>
+    public CornerRadius SearchBoxCornerRadius
+    {
+        get => GetValue(SearchBoxCornerRadiusProperty);
+        set => SetValue(SearchBoxCornerRadiusProperty, value);
     }
 
     /// <summary>Gets the collection of sections displayed in the panel.</summary>

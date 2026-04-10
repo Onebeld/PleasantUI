@@ -17,6 +17,28 @@ public class PleasantMiniWindow : PleasantWindowBase
 
     private Button? _hiddenButton;
 
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
+        _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
+        _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
+
+        if (_closeButton is not null)
+            _closeButton.Click += (_, _) => Close();
+        if (_hiddenButton is not null)
+            _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
+
+        ExtendClientAreaToDecorationsHint = PleasantSettings.Current?.WindowSettings.EnableCustomTitleBar ?? false;
+
+        if (_dragWindowPanel is not null)
+            _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
+
+        this.GetObservable(EnableCustomTitleBarProperty)
+            .Subscribe(new AnonymousObserver<bool>(val => { ExtendClientAreaToDecorationsHint = val; }));
+    }
+
     /// <summary>
     /// Defines the <see cref="EnableBlur"/> property.
     /// </summary>
@@ -86,29 +108,6 @@ public class PleasantMiniWindow : PleasantWindowBase
 
     /// <inheritdoc cref="StyleKeyOverride" />
     protected override Type StyleKeyOverride => typeof(PleasantMiniWindow);
-
-    /// <inheritdoc />
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
-        _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
-        _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
-
-        if (_closeButton is not null)
-            _closeButton.Click += (_, _) => Close();
-        if (_hiddenButton is not null)
-            _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
-
-        ExtendClientAreaToDecorationsHint = PleasantSettings.Current?.WindowSettings.EnableCustomTitleBar ?? false;
-
-        if (_dragWindowPanel is not null)
-            _dragWindowPanel.PointerPressed += OnDragWindowBorderOnPointerPressed;
-
-        this.GetObservable(EnableCustomTitleBarProperty)
-            .Subscribe(new AnonymousObserver<bool>(val => { ExtendClientAreaToDecorationsHint = val; }));
-    }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
