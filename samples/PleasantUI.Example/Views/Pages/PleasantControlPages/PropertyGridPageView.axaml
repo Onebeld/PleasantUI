@@ -19,19 +19,19 @@
                     <TextBlock Text="{Localize PropertyGrid/DownloadTitle}"
                                Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <controls:PropertyGrid RowSpacing="10">
-                        <controls:PropertyRow Label="URL"
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelUrl}"
                                               Value="https://example.com/release/v2.1.0/setup.exe"
                                               ValueKind="Link"
                                               ToolTipText="https://example.com/release/v2.1.0/setup.exe" />
-                        <controls:PropertyRow Label="File name"   Value="setup_v2.1.0.exe" />
-                        <controls:PropertyRow Label="Save to"     Value="C:\Users\User\Downloads"
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelFileName}"   Value="setup_v2.1.0.exe" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSaveTo}"     Value="C:\Users\User\Downloads"
                                               ValueKind="Link" />
-                        <controls:PropertyRow Label="Size"        Value="128.4 MB" />
-                        <controls:PropertyRow Label="Downloaded"  Value="54.2 MB  (42%)" />
-                        <controls:PropertyRow Label="Speed"       Value="3.8 MB/s" />
-                        <controls:PropertyRow Label="Elapsed"     Value="00:00:14" />
-                        <controls:PropertyRow Label="Time left"   Value="00:00:19" />
-                        <controls:PropertyRow Label="Resume"
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSize}"        Value="128.4 MB" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelDownloaded}"  Value="54.2 MB  (42%)" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSpeed}"       Value="3.8 MB/s" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelElapsed}"     Value="00:00:14" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelTimeLeft}"   Value="00:00:19" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelResume}"
                                               Value="Yes"
                                               ValueKind="Status"
                                               ValueBrush="{DynamicResource SystemFillColorSuccess}" />
@@ -46,12 +46,12 @@
                     <TextBlock Text="{Localize PropertyGrid/ExceptionTitle}"
                                Theme="{DynamicResource BodyStrongTextBlockTheme}" />
                     <controls:PropertyGrid RowSpacing="10">
-                        <controls:PropertyRow Label="Application" Value="MyApp" />
-                        <controls:PropertyRow Label="Version"     Value="2.1.0" />
-                        <controls:PropertyRow Label="Occurred at" Value="2025-04-09 14:32:01" />
-                        <controls:PropertyRow Label="Type"        Value="System.NullReferenceException" />
-                        <controls:PropertyRow Label="Source"      Value="MyApp.Core" />
-                        <controls:PropertyRow Label="Status"
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelApplication}" Value="MyApp" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelVersion}"     Value="2.1.0" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelOccurredAt}" Value="2025-04-09 14:32:01" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelType}"        Value="System.NullReferenceException" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSource}"      Value="MyApp.Core" />
+                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelStatus}"
                                               Value="Unhandled"
                                               ValueKind="Status"
                                               ValueBrush="{DynamicResource SystemFillColorCritical}" />

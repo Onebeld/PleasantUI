@@ -183,6 +183,82 @@ public class CrashReportDialog : PleasantPopupElement
     public static readonly StyledProperty<bool> AutoCloseOnSuccessProperty =
         AvaloniaProperty.Register<CrashReportDialog, bool>(nameof(AutoCloseOnSuccess), defaultValue: false);
 
+    /// <summary>Defines the <see cref="SendReportLabel"/> property.</summary>
+    public static readonly StyledProperty<string> SendReportLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SendReportLabel), defaultValue: "Send Report");
+
+    /// <summary>Defines the <see cref="SaveReportLabel"/> property.</summary>
+    public static readonly StyledProperty<string> SaveReportLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SaveReportLabel), defaultValue: "Save Report");
+
+    /// <summary>Defines the <see cref="CancelLabel"/> property.</summary>
+    public static readonly StyledProperty<string> CancelLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(CancelLabel), defaultValue: "Cancel");
+
+    /// <summary>Defines the <see cref="EmailLabel"/> property.</summary>
+    public static readonly StyledProperty<string> EmailLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(EmailLabel), defaultValue: "Your email address");
+
+    /// <summary>Defines the <see cref="EmailValidationError"/> property.</summary>
+    public static readonly StyledProperty<string> EmailValidationErrorProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(EmailValidationError), defaultValue: "Please enter a valid email address.");
+
+    /// <summary>Defines the <see cref="IncludeScreenshotLabel"/> property.</summary>
+    public static readonly StyledProperty<string> IncludeScreenshotLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(IncludeScreenshotLabel), defaultValue: "Include screenshot in report");
+
+    /// <summary>Defines the <see cref="MessageLabel"/> property.</summary>
+    public static readonly StyledProperty<string> MessageLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(MessageLabel), defaultValue: "Message");
+
+    /// <summary>Defines the <see cref="GeneralTabLabel"/> property.</summary>
+    public static readonly StyledProperty<string> GeneralTabLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(GeneralTabLabel), defaultValue: "General");
+
+    /// <summary>Defines the <see cref="ExceptionTabLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ExceptionTabLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(ExceptionTabLabel), defaultValue: "Exception");
+
+    /// <summary>Defines the <see cref="ScreenshotTabLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ScreenshotTabLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(ScreenshotTabLabel), defaultValue: "Screenshot");
+
+    /// <summary>Defines the <see cref="SendingMessage"/> property.</summary>
+    public static readonly StyledProperty<string> SendingMessageProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SendingMessage), defaultValue: "Sending report…");
+
+    /// <summary>Defines the <see cref="SuccessMessage"/> property.</summary>
+    public static readonly StyledProperty<string> SuccessMessageProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SuccessMessage), defaultValue: "Report sent successfully. Thank you!");
+
+    /// <summary>Defines the <see cref="FailureMessagePrefix"/> property.</summary>
+    public static readonly StyledProperty<string> FailureMessagePrefixProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(FailureMessagePrefix), defaultValue: "Failed to send report: ");
+
+    /// <summary>Defines the <see cref="CrashedText"/> property.</summary>
+    public static readonly StyledProperty<string> CrashedTextProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(CrashedText), defaultValue: " crashed");
+
+    /// <summary>Defines the <see cref="OccurredAtText"/> property.</summary>
+    public static readonly StyledProperty<string> OccurredAtTextProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(OccurredAtText), defaultValue: "Occurred at");
+
+    /// <summary>Defines the <see cref="WhatWereYouDoingText"/> property.</summary>
+    public static readonly StyledProperty<string> WhatWereYouDoingTextProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(WhatWereYouDoingText), defaultValue: "What were you doing when the crash occurred? (optional)");
+
+    /// <summary>Defines the <see cref="ApplicationLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ApplicationLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(ApplicationLabel), defaultValue: "Application");
+
+    /// <summary>Defines the <see cref="VersionLabel"/> property.</summary>
+    public static readonly StyledProperty<string> VersionLabelProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(VersionLabel), defaultValue: "Version");
+
+    /// <summary>Defines the <see cref="UserMessagePlaceholder"/> property.</summary>
+    public static readonly StyledProperty<string> UserMessagePlaceholderProperty =
+        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(UserMessagePlaceholder), defaultValue: "Describe what you were doing…");
+
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the application name shown in the General tab.</summary>
@@ -288,6 +364,139 @@ public class CrashReportDialog : PleasantPopupElement
     {
         get => GetValue(AutoCloseOnSuccessProperty);
         set => SetValue(AutoCloseOnSuccessProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the Send Report button.</summary>
+    public string SendReportLabel
+    {
+        get => GetValue(SendReportLabelProperty);
+        set => SetValue(SendReportLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the Save Report button.</summary>
+    public string SaveReportLabel
+    {
+        get => GetValue(SaveReportLabelProperty);
+        set => SetValue(SaveReportLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the Cancel button.</summary>
+    public string CancelLabel
+    {
+        get => GetValue(CancelLabelProperty);
+        set => SetValue(CancelLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the email input field.</summary>
+    public string EmailLabel
+    {
+        get => GetValue(EmailLabelProperty);
+        set => SetValue(EmailLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the validation error message for invalid email.</summary>
+    public string EmailValidationError
+    {
+        get => GetValue(EmailValidationErrorProperty);
+        set => SetValue(EmailValidationErrorProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the include screenshot checkbox.</summary>
+    public string IncludeScreenshotLabel
+    {
+        get => GetValue(IncludeScreenshotLabelProperty);
+        set => SetValue(IncludeScreenshotLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the message field.</summary>
+    public string MessageLabel
+    {
+        get => GetValue(MessageLabelProperty);
+        set => SetValue(MessageLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the General tab.</summary>
+    public string GeneralTabLabel
+    {
+        get => GetValue(GeneralTabLabelProperty);
+        set => SetValue(GeneralTabLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the Exception tab.</summary>
+    public string ExceptionTabLabel
+    {
+        get => GetValue(ExceptionTabLabelProperty);
+        set => SetValue(ExceptionTabLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the Screenshot tab.</summary>
+    public string ScreenshotTabLabel
+    {
+        get => GetValue(ScreenshotTabLabelProperty);
+        set => SetValue(ScreenshotTabLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the message shown while sending the report.</summary>
+    public string SendingMessage
+    {
+        get => GetValue(SendingMessageProperty);
+        set => SetValue(SendingMessageProperty, value);
+    }
+
+    /// <summary>Gets or sets the message shown when the report is sent successfully.</summary>
+    public string SuccessMessage
+    {
+        get => GetValue(SuccessMessageProperty);
+        set => SetValue(SuccessMessageProperty, value);
+    }
+
+    /// <summary>Gets or sets the prefix for the failure message.</summary>
+    public string FailureMessagePrefix
+    {
+        get => GetValue(FailureMessagePrefixProperty);
+        set => SetValue(FailureMessagePrefixProperty, value);
+    }
+
+    /// <summary>Gets or sets the text shown after the application name.</summary>
+    public string CrashedText
+    {
+        get => GetValue(CrashedTextProperty);
+        set => SetValue(CrashedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the occurred at field.</summary>
+    public string OccurredAtText
+    {
+        get => GetValue(OccurredAtTextProperty);
+        set => SetValue(OccurredAtTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the user message field.</summary>
+    public string WhatWereYouDoingText
+    {
+        get => GetValue(WhatWereYouDoingTextProperty);
+        set => SetValue(WhatWereYouDoingTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the application field.</summary>
+    public string ApplicationLabel
+    {
+        get => GetValue(ApplicationLabelProperty);
+        set => SetValue(ApplicationLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the version field.</summary>
+    public string VersionLabel
+    {
+        get => GetValue(VersionLabelProperty);
+        set => SetValue(VersionLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the placeholder text for the user message field.</summary>
+    public string UserMessagePlaceholder
+    {
+        get => GetValue(UserMessagePlaceholderProperty);
+        set => SetValue(UserMessagePlaceholderProperty, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -521,10 +730,10 @@ public class CrashReportDialog : PleasantPopupElement
     private void BuildTabs()
     {
         _tabs.Clear();
-        _tabs.Add("General");
-        _tabs.Add("Exception");
+        _tabs.Add(GeneralTabLabel);
+        _tabs.Add(ExceptionTabLabel);
         if (ShowScreenshotTab && Screenshot is not null)
-            _tabs.Add("Screenshot");
+            _tabs.Add(ScreenshotTabLabel);
 
         if (_tabStrip is not null)
         {
@@ -534,7 +743,7 @@ public class CrashReportDialog : PleasantPopupElement
         }
 
         // Sync Tag so styles activate immediately.
-        Tag = _tabs.Count > 0 ? _tabs[0] : "General";
+        Tag = _tabs.Count > 0 ? _tabs[0] : GeneralTabLabel;
     }
 
     private void UpdatePseudoClasses()
@@ -573,7 +782,7 @@ public class CrashReportDialog : PleasantPopupElement
 
         // Transition to sending state.
         PseudoClasses.Set(PC_Sending, true);
-        StatusMessage = "Sending report…";
+        StatusMessage = SendingMessage;
 
         SetButtonsEnabled(false);
 
@@ -583,7 +792,7 @@ public class CrashReportDialog : PleasantPopupElement
             {
                 PseudoClasses.Set(PC_Sending, false);
                 PseudoClasses.Set(PC_Success, true);
-                StatusMessage = "Report sent successfully. Thank you!";
+                StatusMessage = SuccessMessage;
                 _result = CrashReportResult.Sent;
                 SetButtonsEnabled(true);
 
@@ -597,7 +806,7 @@ public class CrashReportDialog : PleasantPopupElement
             {
                 PseudoClasses.Set(PC_Sending, false);
                 PseudoClasses.Set(PC_Failure, true);
-                StatusMessage = $"Failed to send report: {msg}";
+                StatusMessage = $"{FailureMessagePrefix}{msg}";
                 _result = CrashReportResult.Cancelled;
                 SetButtonsEnabled(true);
             })

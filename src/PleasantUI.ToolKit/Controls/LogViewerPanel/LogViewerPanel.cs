@@ -82,7 +82,43 @@ public class LogViewerPanel : TemplatedControl
 
     /// <summary>Defines the <see cref="PanelWidth"/> property.</summary>
     public static readonly StyledProperty<double> PanelWidthProperty =
-        AvaloniaProperty.Register<LogViewerPanel, double>(nameof(PanelWidth), defaultValue: 420);
+        AvaloniaProperty.Register<LogViewerPanel, double>(nameof(PanelWidth), defaultValue: 400);
+
+    /// <summary>Defines the <see cref="AllFilterText"/> property.</summary>
+    public static readonly StyledProperty<string> AllFilterTextProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(AllFilterText), defaultValue: "All");
+
+    /// <summary>Defines the <see cref="AutoScrollTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> AutoScrollTooltipProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(AutoScrollTooltip), defaultValue: "Auto-scroll");
+
+    /// <summary>Defines the <see cref="CopyAllTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> CopyAllTooltipProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(CopyAllTooltip), defaultValue: "Copy all");
+
+    /// <summary>Defines the <see cref="ClearTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> ClearTooltipProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(ClearTooltip), defaultValue: "Clear");
+
+    /// <summary>Defines the <see cref="CloseTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> CloseTooltipProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(CloseTooltip), defaultValue: "Close");
+
+    /// <summary>Defines the <see cref="DebugTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> DebugTooltipProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(DebugTooltip), defaultValue: "Show debug entries");
+
+    /// <summary>Defines the <see cref="SearchPlaceholder"/> property.</summary>
+    public static readonly StyledProperty<string> SearchPlaceholderProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(SearchPlaceholder), defaultValue: "Search logs...");
+
+    /// <summary>Defines the <see cref="EmptyText"/> property.</summary>
+    public static readonly StyledProperty<string> EmptyTextProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(EmptyText), defaultValue: "No logs");
+
+    /// <summary>Defines the <see cref="EmptyDescription"/> property.</summary>
+    public static readonly StyledProperty<string> EmptyDescriptionProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(EmptyDescription), defaultValue: "Activity will appear here");
 
     // ── Direct properties ─────────────────────────────────────────────────────
 
@@ -159,6 +195,69 @@ public class LogViewerPanel : TemplatedControl
     {
         get => GetValue(PanelWidthProperty);
         set => SetValue(PanelWidthProperty, value);
+    }
+
+    /// <summary>Gets or sets the text displayed for the "All" filter option.</summary>
+    public string AllFilterText
+    {
+        get => GetValue(AllFilterTextProperty);
+        set => SetValue(AllFilterTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip text for the auto-scroll toggle.</summary>
+    public string AutoScrollTooltip
+    {
+        get => GetValue(AutoScrollTooltipProperty);
+        set => SetValue(AutoScrollTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip text for the copy all button.</summary>
+    public string CopyAllTooltip
+    {
+        get => GetValue(CopyAllTooltipProperty);
+        set => SetValue(CopyAllTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip text for the clear button.</summary>
+    public string ClearTooltip
+    {
+        get => GetValue(ClearTooltipProperty);
+        set => SetValue(ClearTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip text for the close button.</summary>
+    public string CloseTooltip
+    {
+        get => GetValue(CloseTooltipProperty);
+        set => SetValue(CloseTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip text for the debug toggle.</summary>
+    public string DebugTooltip
+    {
+        get => GetValue(DebugTooltipProperty);
+        set => SetValue(DebugTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the placeholder text for the search box.</summary>
+    public string SearchPlaceholder
+    {
+        get => GetValue(SearchPlaceholderProperty);
+        set => SetValue(SearchPlaceholderProperty, value);
+    }
+
+    /// <summary>Gets or sets the text shown when there are no logs.</summary>
+    public string EmptyText
+    {
+        get => GetValue(EmptyTextProperty);
+        set => SetValue(EmptyTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the description shown when there are no logs.</summary>
+    public string EmptyDescription
+    {
+        get => GetValue(EmptyDescriptionProperty);
+        set => SetValue(EmptyDescriptionProperty, value);
     }
 
     /// <summary>Gets the full collection of log entries.</summary>
@@ -240,7 +339,7 @@ public class LogViewerPanel : TemplatedControl
 
             // Display "All" for null values
             _levelFilter.ItemTemplate = new FuncDataTemplate<LogLevel?>((level, _) =>
-                new TextBlock { Text = level is null ? "All" : level.ToString() });
+                new TextBlock { Text = level is null ? AllFilterText : level.ToString() });
         }
 
         if (_sourceFilter is not null)
@@ -250,7 +349,7 @@ public class LogViewerPanel : TemplatedControl
 
             // Display "All" for null values
             _sourceFilter.ItemTemplate = new FuncDataTemplate<string?>((source, _) =>
-                new TextBlock { Text = source is null ? "All" : source });
+                new TextBlock { Text = source is null ? AllFilterText : source });
         }
 
         RefreshFilter();

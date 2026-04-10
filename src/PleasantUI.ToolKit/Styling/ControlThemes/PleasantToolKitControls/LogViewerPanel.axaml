@@ -119,7 +119,7 @@
                                             <ToggleButton Name="PART_AutoScrollToggle"
                                                           Theme="{DynamicResource AppBarButtonTheme}"
                                                           IsChecked="True"
-                                                          ToolTip.Tip="Auto-scroll"
+                                                          ToolTip.Tip="{TemplateBinding AutoScrollTooltip}"
                                                           Width="28" Height="28" Padding="6">
                                                 <PathIcon Data="{DynamicResource ChevronDownRegular}"
                                                           Width="10" Height="10" />
@@ -127,7 +127,7 @@
                                             <!-- Copy all -->
                                             <Button Name="PART_CopyAllButton"
                                                     Theme="{DynamicResource AppBarButtonTheme}"
-                                                    ToolTip.Tip="Copy all"
+                                                    ToolTip.Tip="{TemplateBinding CopyAllTooltip}"
                                                     Width="28" Height="28" Padding="6">
                                                 <PathIcon Data="{DynamicResource CopyRegular}"
                                                           Width="10" Height="10" />
@@ -135,7 +135,7 @@
                                             <!-- Clear -->
                                             <Button Name="PART_ClearButton"
                                                     Theme="{DynamicResource AppBarButtonTheme}"
-                                                    ToolTip.Tip="Clear"
+                                                    ToolTip.Tip="{TemplateBinding ClearTooltip}"
                                                     Width="28" Height="28" Padding="6">
                                                 <PathIcon Data="{DynamicResource DeleteRegular}"
                                                           Width="10" Height="10" />
@@ -143,7 +143,7 @@
                                             <!-- Close -->
                                             <Button Name="PART_CloseButton"
                                                     Theme="{DynamicResource AppBarButtonTheme}"
-                                                    ToolTip.Tip="Close"
+                                                    ToolTip.Tip="{TemplateBinding CloseTooltip}"
                                                     Width="28" Height="28" Padding="6">
                                                 <PathIcon Data="{DynamicResource DismissRegular}"
                                                           Width="10" Height="10" />
@@ -175,7 +175,7 @@
                                                           Foreground="{DynamicResource TextFillColor3}" />
                                                 <TextBox Name="PART_SearchBox"
                                                          Grid.Column="1"
-                                                         PlaceholderText="Search logs..."
+                                                         PlaceholderText="{TemplateBinding SearchPlaceholder}"
                                                          Background="Transparent"
                                                          BorderThickness="0"
                                                          Padding="4 5"
@@ -211,7 +211,7 @@
                                         <ToggleButton Name="PART_DebugToggle"
                                                       Grid.Column="3"
                                                       Theme="{DynamicResource AppBarToggleButtonTheme}"
-                                                      ToolTip.Tip="Show debug"
+                                                      ToolTip.Tip="{TemplateBinding DebugTooltip}"
                                                       Width="28" Height="28" Padding="5">
                                             <PathIcon Data="{DynamicResource CodeBracesRegular}"
                                                       Width="12" Height="12" />
@@ -313,10 +313,10 @@
                                                       Width="24" Height="24"
                                                       HorizontalAlignment="Center"
                                                       Foreground="{DynamicResource TextFillColor3}" />
-                                            <TextBlock Text="No logs"
+                                            <TextBlock Text="{TemplateBinding EmptyText}"
                                                        FontWeight="SemiBold"
                                                        HorizontalAlignment="Center" />
-                                            <TextBlock Text="Activity will appear here"
+                                            <TextBlock Text="{TemplateBinding EmptyDescription}"
                                                        FontSize="12"
                                                        HorizontalAlignment="Center"
                                                        Foreground="{DynamicResource TextFillColor2}" />

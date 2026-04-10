@@ -37,6 +37,14 @@ public class ChunkInfo : INotifyPropertyChanged
     private double _timeRemainingSeconds;
     private ChunkStatus _status;
 
+    private string _waitingText = "Waiting";
+    private string _queuedText = "Queued";
+    private string _startingText = "Starting";
+    private string _doneText = "Done";
+    private string _failedText = "Failed";
+    private string _pausedText = "Paused";
+    private string _unknownText = "Unknown";
+
     /// <summary>Gets or sets the 1-based chunk index.</summary>
     public int Index
     {
@@ -142,6 +150,55 @@ public class ChunkInfo : INotifyPropertyChanged
     /// <summary>Gets or sets an optional override brush for this chunk's progress bar.</summary>
     public IBrush? ProgressBrush { get; set; }
 
+    /// <summary>Gets or sets the text for Waiting status.</summary>
+    public string WaitingText
+    {
+        get => _waitingText;
+        set { if (SetProperty(ref _waitingText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
+    /// <summary>Gets or sets the text for Queued status.</summary>
+    public string QueuedText
+    {
+        get => _queuedText;
+        set { if (SetProperty(ref _queuedText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
+    /// <summary>Gets or sets the text for Starting status.</summary>
+    public string StartingText
+    {
+        get => _startingText;
+        set { if (SetProperty(ref _startingText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
+    /// <summary>Gets or sets the text for Done status.</summary>
+    public string DoneText
+    {
+        get => _doneText;
+        set { if (SetProperty(ref _doneText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
+    /// <summary>Gets or sets the text for Failed status.</summary>
+    public string FailedText
+    {
+        get => _failedText;
+        set { if (SetProperty(ref _failedText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
+    /// <summary>Gets or sets the text for Paused status.</summary>
+    public string PausedText
+    {
+        get => _pausedText;
+        set { if (SetProperty(ref _pausedText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
+    /// <summary>Gets or sets the text for Unknown status.</summary>
+    public string UnknownText
+    {
+        get => _unknownText;
+        set { if (SetProperty(ref _unknownText, value)) OnPropertyChanged(nameof(Info)); }
+    }
+
     /// <summary>Gets the downloaded size as a formatted string.</summary>
     public string DownloadedSize => FormatBytes(_downloadedBytes);
 
@@ -157,15 +214,15 @@ public class ChunkInfo : INotifyPropertyChanged
     /// <summary>Gets a computed info string based on status and progress.</summary>
     public string Info => _status switch
     {
-        ChunkStatus.Waiting when _progress == 0 => "Waiting",
-        ChunkStatus.Waiting => "Queued",
+        ChunkStatus.Waiting when _progress == 0 => _waitingText,
+        ChunkStatus.Waiting => _queuedText,
         ChunkStatus.Downloading when _progress > 0 => $"{_progress:P0}",
-        ChunkStatus.Downloading => "Starting",
-        ChunkStatus.Completed => "Done",
-        ChunkStatus.Error => "Failed",
+        ChunkStatus.Downloading => _startingText,
+        ChunkStatus.Completed => _doneText,
+        ChunkStatus.Error => _failedText,
         ChunkStatus.Paused when _progress > 0 => $"{_progress:P0}",
-        ChunkStatus.Paused => "Paused",
-        _ => "Unknown"
+        ChunkStatus.Paused => _pausedText,
+        _ => _unknownText
     };
 
     /// <summary>Formats bytes to a human-readable string.</summary>

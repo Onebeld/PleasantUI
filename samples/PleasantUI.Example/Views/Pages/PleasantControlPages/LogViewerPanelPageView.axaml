@@ -35,7 +35,16 @@
             <controls:LogViewerPanel x:Name="LogPanel"
                                      Title="{Localize CardTitle/LogViewerPanel}"
                                      PanelWidth="400"
-                                     IsOpen="False" />
+                                     IsOpen="False"
+                                     AllFilterText="{Localize LogViewerPanel/AllFilterText}"
+                                     AutoScrollTooltip="{Localize LogViewerPanel/AutoScrollTooltip}"
+                                     CopyAllTooltip="{Localize LogViewerPanel/CopyAllTooltip}"
+                                     ClearTooltip="{Localize LogViewerPanel/ClearTooltip}"
+                                     CloseTooltip="{Localize LogViewerPanel/CloseTooltip}"
+                                     DebugTooltip="{Localize LogViewerPanel/DebugTooltip}"
+                                     SearchPlaceholder="{Localize LogViewerPanel/SearchPlaceholder}"
+                                     EmptyText="{Localize LogViewerPanel/EmptyText}"
+                                     EmptyDescription="{Localize LogViewerPanel/EmptyDescription}" />
         </Panel>
     </Grid>
 </UserControl>

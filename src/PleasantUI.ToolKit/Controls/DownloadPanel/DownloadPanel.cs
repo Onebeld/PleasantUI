@@ -106,6 +106,66 @@ public class DownloadPanel : TemplatedControl
     public static readonly StyledProperty<object?> TabContentProperty =
         AvaloniaProperty.Register<DownloadPanel, object?>(nameof(TabContent));
 
+    /// <summary>Defines the <see cref="SizeLabel"/> property.</summary>
+    public static readonly StyledProperty<string> SizeLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(SizeLabel), defaultValue: "SIZE");
+
+    /// <summary>Defines the <see cref="SpeedLabel"/> property.</summary>
+    public static readonly StyledProperty<string> SpeedLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(SpeedLabel), defaultValue: "SPEED");
+
+    /// <summary>Defines the <see cref="RemainingLabel"/> property.</summary>
+    public static readonly StyledProperty<string> RemainingLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(RemainingLabel), defaultValue: "REMAINING");
+
+    /// <summary>Defines the <see cref="ShowDetailsLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ShowDetailsLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ShowDetailsLabel), defaultValue: "Show details");
+
+    /// <summary>Defines the <see cref="HideDetailsLabel"/> property.</summary>
+    public static readonly StyledProperty<string> HideDetailsLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(HideDetailsLabel), defaultValue: "Hide details");
+
+    /// <summary>Defines the <see cref="PauseLabel"/> property.</summary>
+    public static readonly StyledProperty<string> PauseLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(PauseLabel), defaultValue: "Pause");
+
+    /// <summary>Defines the <see cref="ResumeLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ResumeLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ResumeLabel), defaultValue: "Resume");
+
+    /// <summary>Defines the <see cref="CancelLabel"/> property.</summary>
+    public static readonly StyledProperty<string> CancelLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(CancelLabel), defaultValue: "Cancel");
+
+    /// <summary>Defines the <see cref="ChunkWaitingText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkWaitingTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkWaitingText), defaultValue: "Waiting");
+
+    /// <summary>Defines the <see cref="ChunkQueuedText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkQueuedTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkQueuedText), defaultValue: "Queued");
+
+    /// <summary>Defines the <see cref="ChunkStartingText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkStartingTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkStartingText), defaultValue: "Starting");
+
+    /// <summary>Defines the <see cref="ChunkDoneText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkDoneTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkDoneText), defaultValue: "Done");
+
+    /// <summary>Defines the <see cref="ChunkFailedText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkFailedTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkFailedText), defaultValue: "Failed");
+
+    /// <summary>Defines the <see cref="ChunkPausedText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkPausedTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkPausedText), defaultValue: "Paused");
+
+    /// <summary>Defines the <see cref="ChunkUnknownText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkUnknownTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkUnknownText), defaultValue: "Unknown");
+
     // ── Direct properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Tabs"/> direct property.</summary>
@@ -216,6 +276,111 @@ public class DownloadPanel : TemplatedControl
     {
         get => GetValue(TabContentProperty);
         set => SetValue(TabContentProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the size column in chunk info.</summary>
+    public string SizeLabel
+    {
+        get => GetValue(SizeLabelProperty);
+        set => SetValue(SizeLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the speed column in chunk info.</summary>
+    public string SpeedLabel
+    {
+        get => GetValue(SpeedLabelProperty);
+        set => SetValue(SpeedLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the remaining time column in chunk info.</summary>
+    public string RemainingLabel
+    {
+        get => GetValue(RemainingLabelProperty);
+        set => SetValue(RemainingLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the show details button.</summary>
+    public string ShowDetailsLabel
+    {
+        get => GetValue(ShowDetailsLabelProperty);
+        set => SetValue(ShowDetailsLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the hide details button.</summary>
+    public string HideDetailsLabel
+    {
+        get => GetValue(HideDetailsLabelProperty);
+        set => SetValue(HideDetailsLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the pause button.</summary>
+    public string PauseLabel
+    {
+        get => GetValue(PauseLabelProperty);
+        set => SetValue(PauseLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the resume button.</summary>
+    public string ResumeLabel
+    {
+        get => GetValue(ResumeLabelProperty);
+        set => SetValue(ResumeLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the cancel button.</summary>
+    public string CancelLabel
+    {
+        get => GetValue(CancelLabelProperty);
+        set => SetValue(CancelLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Waiting chunk status.</summary>
+    public string ChunkWaitingText
+    {
+        get => GetValue(ChunkWaitingTextProperty);
+        set => SetValue(ChunkWaitingTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Queued chunk status.</summary>
+    public string ChunkQueuedText
+    {
+        get => GetValue(ChunkQueuedTextProperty);
+        set => SetValue(ChunkQueuedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Starting chunk status.</summary>
+    public string ChunkStartingText
+    {
+        get => GetValue(ChunkStartingTextProperty);
+        set => SetValue(ChunkStartingTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Done chunk status.</summary>
+    public string ChunkDoneText
+    {
+        get => GetValue(ChunkDoneTextProperty);
+        set => SetValue(ChunkDoneTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Failed chunk status.</summary>
+    public string ChunkFailedText
+    {
+        get => GetValue(ChunkFailedTextProperty);
+        set => SetValue(ChunkFailedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Paused chunk status.</summary>
+    public string ChunkPausedText
+    {
+        get => GetValue(ChunkPausedTextProperty);
+        set => SetValue(ChunkPausedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Unknown chunk status.</summary>
+    public string ChunkUnknownText
+    {
+        get => GetValue(ChunkUnknownTextProperty);
+        set => SetValue(ChunkUnknownTextProperty, value);
     }
 
     /// <summary>Gets the collection of tab items shown in the tab strip.</summary>
@@ -383,6 +548,21 @@ public class DownloadPanel : TemplatedControl
 
         PseudoClasses.Set(PC_HasChunks, Chunks.Count > 0);
         RedrawChunkCanvas();
+
+        // Apply localized text to new chunks
+        if (e.NewItems is not null)
+        {
+            foreach (ChunkInfo chunk in e.NewItems.OfType<ChunkInfo>())
+            {
+                chunk.WaitingText = ChunkWaitingText;
+                chunk.QueuedText = ChunkQueuedText;
+                chunk.StartingText = ChunkStartingText;
+                chunk.DoneText = ChunkDoneText;
+                chunk.FailedText = ChunkFailedText;
+                chunk.PausedText = ChunkPausedText;
+                chunk.UnknownText = ChunkUnknownText;
+            }
+        }
     }
 
     private void UpdatePseudoClasses()

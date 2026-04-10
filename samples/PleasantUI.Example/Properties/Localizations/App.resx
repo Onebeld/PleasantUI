@@ -578,4 +578,104 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="MiniWindow/PropShowHiddenButton" xml:space="preserve"><value>Shows a minimize button that collapses the window to the taskbar.</value></data>
     <data name="MiniWindow/PropEnableBlur"      xml:space="preserve"><value>Enables acrylic/blur transparency behind the window background.</value></data>
 
+    <!-- StepDialog page -->
+    <data name="StepDialog/SetupWizardTitle" xml:space="preserve"><value>Setup wizard</value></data>
+    <data name="StepDialog/SetupWizardDescription" xml:space="preserve"><value>Follow these steps to complete the setup.</value></data>
+    <data name="StepDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="StepDialog/Finish" xml:space="preserve"><value>Finish</value></data>
+    <data name="StepDialog/WaitingForConfirmation" xml:space="preserve"><value>Waiting for confirmation…</value></data>
+    <data name="StepDialog/AcceptLicenseHeader" xml:space="preserve"><value>Accept the license agreement</value></data>
+    <data name="StepDialog/AcceptLicenseDescription" xml:space="preserve"><value>Read and accept the terms before continuing.</value></data>
+    <data name="StepDialog/ChooseDirectoryHeader" xml:space="preserve"><value>Choose installation directory</value></data>
+    <data name="StepDialog/DefaultDirectoryPath" xml:space="preserve"><value>C:\Program Files\MyApp</value></data>
+    <data name="StepDialog/CompleteInstallationHeader" xml:space="preserve"><value>Complete installation</value></data>
+    <data name="StepDialog/CompleteInstallationDescription" xml:space="preserve"><value>Click Finish to apply the settings.</value></data>
+    <data name="StepDialog/Finished" xml:space="preserve"><value>Finished</value></data>
+    <data name="StepDialog/Cancelled" xml:space="preserve"><value>Cancelled</value></data>
+    <data name="StepDialog/SignInAzureTitle" xml:space="preserve"><value>Sign in with Azure</value></data>
+    <data name="StepDialog/SignInAzureDescription" xml:space="preserve"><value>Browser authentication failed. Use the device code flow instead.</value></data>
+    <data name="StepDialog/WaitingForAuth" xml:space="preserve"><value>Waiting for authentication to complete…</value></data>
+    <data name="StepDialog/OpenAuthPageHeader" xml:space="preserve"><value>Open the authentication page</value></data>
+    <data name="StepDialog/OpenAuthPageButton" xml:space="preserve"><value>Open microsoft.com/devicelogin</value></data>
+    <data name="StepDialog/EnterCodeHeader" xml:space="preserve"><value>Enter this code</value></data>
+    <data name="StepDialog/DeviceCode" xml:space="preserve"><value>ABCD-1234</value></data>
+    <data name="StepDialog/CompleteSignInHeader" xml:space="preserve"><value>Complete sign-in in your browser</value></data>
+    <data name="StepDialog/AuthCancelled" xml:space="preserve"><value>Auth cancelled</value></data>
+    <data name="StepDialog/AuthClosed" xml:space="preserve"><value>Auth closed</value></data>
+
+    <!-- PropertyGrid -->
+    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Download info</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Exception info</value></data>
+    <data name="PropertyGrid/LabelUrl" xml:space="preserve"><value>URL</value></data>
+    <data name="PropertyGrid/LabelFileName" xml:space="preserve"><value>File name</value></data>
+    <data name="PropertyGrid/LabelSaveTo" xml:space="preserve"><value>Save to</value></data>
+    <data name="PropertyGrid/LabelSize" xml:space="preserve"><value>Size</value></data>
+    <data name="PropertyGrid/LabelDownloaded" xml:space="preserve"><value>Downloaded</value></data>
+    <data name="PropertyGrid/LabelSpeed" xml:space="preserve"><value>Speed</value></data>
+    <data name="PropertyGrid/LabelElapsed" xml:space="preserve"><value>Elapsed</value></data>
+    <data name="PropertyGrid/LabelTimeLeft" xml:space="preserve"><value>Time left</value></data>
+    <data name="PropertyGrid/LabelResume" xml:space="preserve"><value>Resume</value></data>
+    <data name="PropertyGrid/LabelApplication" xml:space="preserve"><value>Application</value></data>
+    <data name="PropertyGrid/LabelVersion" xml:space="preserve"><value>Version</value></data>
+    <data name="PropertyGrid/LabelOccurredAt" xml:space="preserve"><value>Occurred at</value></data>
+    <data name="PropertyGrid/LabelType" xml:space="preserve"><value>Type</value></data>
+    <data name="PropertyGrid/LabelSource" xml:space="preserve"><value>Source</value></data>
+    <data name="PropertyGrid/LabelStatus" xml:space="preserve"><value>Status</value></data>
+
+    <!-- LogViewerPanel -->
+    <data name="LogViewerPanel/AllFilterText" xml:space="preserve"><value>All</value></data>
+    <data name="LogViewerPanel/AutoScrollTooltip" xml:space="preserve"><value>Auto-scroll</value></data>
+    <data name="LogViewerPanel/CopyAllTooltip" xml:space="preserve"><value>Copy all</value></data>
+    <data name="LogViewerPanel/ClearTooltip" xml:space="preserve"><value>Clear</value></data>
+    <data name="LogViewerPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
+    <data name="LogViewerPanel/DebugTooltip" xml:space="preserve"><value>Show debug entries</value></data>
+
+    <!-- DownloadPanel -->
+    <data name="DownloadPanel/SizeLabel" xml:space="preserve"><value>SIZE</value></data>
+    <data name="DownloadPanel/SpeedLabel" xml:space="preserve"><value>SPEED</value></data>
+    <data name="DownloadPanel/RemainingLabel" xml:space="preserve"><value>REMAINING</value></data>
+    <data name="DownloadPanel/ShowDetailsLabel" xml:space="preserve"><value>Show details</value></data>
+    <data name="DownloadPanel/HideDetailsLabel" xml:space="preserve"><value>Hide details</value></data>
+    <data name="DownloadPanel/PauseLabel" xml:space="preserve"><value>Pause</value></data>
+    <data name="DownloadPanel/ResumeLabel" xml:space="preserve"><value>Resume</value></data>
+    <data name="DownloadPanel/CancelLabel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="DownloadPanel/ChunkWaitingText" xml:space="preserve"><value>Waiting</value></data>
+    <data name="DownloadPanel/ChunkQueuedText" xml:space="preserve"><value>Queued</value></data>
+    <data name="DownloadPanel/ChunkStartingText" xml:space="preserve"><value>Starting</value></data>
+    <data name="DownloadPanel/ChunkDoneText" xml:space="preserve"><value>Done</value></data>
+    <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Failed</value></data>
+    <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
+    <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
+
+    <!-- TerminalPanel -->
+    <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Clear output</value></data>
+    <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
+    <data name="TerminalPanel/InputPlaceholder" xml:space="preserve"><value>Type a command and press Enter</value></data>
+
+    <!-- LogViewerPanel -->
+    <data name="LogViewerPanel/SearchPlaceholder" xml:space="preserve"><value>Search logs...</value></data>
+    <data name="LogViewerPanel/EmptyText" xml:space="preserve"><value>No logs</value></data>
+    <data name="LogViewerPanel/EmptyDescription" xml:space="preserve"><value>Activity will appear here</value></data>
+
+    <!-- CrashReportDialog -->
+    <data name="CrashReportDialog/SendReportLabel" xml:space="preserve"><value>Send Report</value></data>
+    <data name="CrashReportDialog/SaveReportLabel" xml:space="preserve"><value>Save Report</value></data>
+    <data name="CrashReportDialog/CancelLabel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="CrashReportDialog/EmailLabel" xml:space="preserve"><value>Your email address</value></data>
+    <data name="CrashReportDialog/EmailValidationError" xml:space="preserve"><value>Please enter a valid email address.</value></data>
+    <data name="CrashReportDialog/IncludeScreenshotLabel" xml:space="preserve"><value>Include screenshot in report</value></data>
+    <data name="CrashReportDialog/MessageLabel" xml:space="preserve"><value>Message</value></data>
+    <data name="CrashReportDialog/GeneralTabLabel" xml:space="preserve"><value>General</value></data>
+    <data name="CrashReportDialog/ExceptionTabLabel" xml:space="preserve"><value>Exception</value></data>
+    <data name="CrashReportDialog/ScreenshotTabLabel" xml:space="preserve"><value>Screenshot</value></data>
+    <data name="CrashReportDialog/SendingMessage" xml:space="preserve"><value>Sending report…</value></data>
+    <data name="CrashReportDialog/SuccessMessage" xml:space="preserve"><value>Report sent successfully. Thank you!</value></data>
+    <data name="CrashReportDialog/FailureMessagePrefix" xml:space="preserve"><value>Failed to send report: </value></data>
+    <data name="CrashReportDialog/CrashedText" xml:space="preserve"><value> crashed</value></data>
+    <data name="CrashReportDialog/OccurredAtText" xml:space="preserve"><value>Occurred at</value></data>
+    <data name="CrashReportDialog/WhatWereYouDoingText" xml:space="preserve"><value>What were you doing when the crash occurred? (optional)</value></data>
+    <data name="CrashReportDialog/ApplicationLabel" xml:space="preserve"><value>Application</value></data>
+    <data name="CrashReportDialog/VersionLabel" xml:space="preserve"><value>Version</value></data>
+    <data name="CrashReportDialog/UserMessagePlaceholder" xml:space="preserve"><value>Describe what you were doing…</value></data>
+
 </root>

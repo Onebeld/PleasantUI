@@ -23,7 +23,22 @@
                 <Button x:Name="ResetBtn" Content="{Localize DownloadPanel/Reset}" />
             </WrapPanel>
 
-            <controls:DownloadPanel x:Name="DownloadPanelControl" ShowDetails="True">
+            <controls:DownloadPanel x:Name="DownloadPanelControl" ShowDetails="True"
+                                    SizeLabel="{Localize DownloadPanel/SizeLabel}"
+                                    SpeedLabel="{Localize DownloadPanel/SpeedLabel}"
+                                    RemainingLabel="{Localize DownloadPanel/RemainingLabel}"
+                                    ShowDetailsLabel="{Localize DownloadPanel/ShowDetailsLabel}"
+                                    HideDetailsLabel="{Localize DownloadPanel/HideDetailsLabel}"
+                                    PauseLabel="{Localize DownloadPanel/PauseLabel}"
+                                    ResumeLabel="{Localize DownloadPanel/ResumeLabel}"
+                                    CancelLabel="{Localize DownloadPanel/CancelLabel}"
+                                    ChunkWaitingText="{Localize DownloadPanel/ChunkWaitingText}"
+                                    ChunkQueuedText="{Localize DownloadPanel/ChunkQueuedText}"
+                                    ChunkStartingText="{Localize DownloadPanel/ChunkStartingText}"
+                                    ChunkDoneText="{Localize DownloadPanel/ChunkDoneText}"
+                                    ChunkFailedText="{Localize DownloadPanel/ChunkFailedText}"
+                                    ChunkPausedText="{Localize DownloadPanel/ChunkPausedText}"
+                                    ChunkUnknownText="{Localize DownloadPanel/ChunkUnknownText}">
                 <controls:DownloadPanel.Chunks>
                     <controls:ChunkInfo Index="1" Start="0"    End="0.25" Progress="0" TotalSizeBytes="33554432" DownloadedBytes="0" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Waiting" />
                     <controls:ChunkInfo Index="2" Start="0.25" End="0.5"  Progress="0.25" TotalSizeBytes="33554432" DownloadedBytes="8388608" SpeedBytesPerSecond="2097152" TimeRemainingSeconds="12" Status="Downloading" />

@@ -388,6 +388,20 @@ public class PleasantTheme : Styles
                 _vguiStyleInclude = null;
             }
         }
+
+        // Also update ToolKit VGUI styles via reflection since PleasantUI doesn't reference ToolKit
+        if (Application.Current?.Resources is not null)
+        {
+            foreach (var resource in Application.Current.Resources.MergedDictionaries)
+            {
+                if (resource?.GetType().FullName == "PleasantUI.ToolKit.PleasantUIToolKit")
+                {
+                    var updateMethod = resource.GetType().GetMethod("UpdateVGUIStyle");
+                    updateMethod?.Invoke(resource, new object[] { isVGUI });
+                    break;
+                }
+            }
+        }
     }
 
     private void ResolveAccentColor(IPlatformSettings platformSettings)
