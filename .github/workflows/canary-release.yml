@@ -832,3 +832,20 @@ jobs:
               echo "- $(basename "$pkg")"
             fi
           done
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.canary_version }}
+          name: Canary v${{ steps.version.outputs.canary_version }}
+          prerelease: true
+          body_path: /tmp/canary_notes.md
+          fail_on_unmatched_files: true
+          files: |
+            src/*/bin/Release/*.nupkg
+            /tmp/PleasantUI-Example-linux-x64.zip
+
+      - name: Confirm release created
+        run: |
+          echo "Canary release created: ${{ steps.create_release.outputs.url }}"
