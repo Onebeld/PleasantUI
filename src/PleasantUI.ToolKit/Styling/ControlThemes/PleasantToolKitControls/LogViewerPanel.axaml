@@ -175,7 +175,7 @@
                                                           Foreground="{DynamicResource TextFillColor3}" />
                                                 <TextBox Name="PART_SearchBox"
                                                          Grid.Column="1"
-                                                         PlaceholderText="Search logs..."
+                                                         PlaceholderText="{TemplateBinding SearchPlaceholder}"
                                                          Background="Transparent"
                                                          BorderThickness="0"
                                                          Padding="4 5"
@@ -313,10 +313,10 @@
                                                       Width="24" Height="24"
                                                       HorizontalAlignment="Center"
                                                       Foreground="{DynamicResource TextFillColor3}" />
-                                            <TextBlock Text="No logs"
+                                            <TextBlock Text="{TemplateBinding EmptyText}"
                                                        FontWeight="SemiBold"
                                                        HorizontalAlignment="Center" />
-                                            <TextBlock Text="Activity will appear here"
+                                            <TextBlock Text="{TemplateBinding EmptyDescription}"
                                                        FontSize="12"
                                                        HorizontalAlignment="Center"
                                                        Foreground="{DynamicResource TextFillColor2}" />

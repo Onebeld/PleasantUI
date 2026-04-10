@@ -108,6 +108,18 @@ public class LogViewerPanel : TemplatedControl
     public static readonly StyledProperty<string> DebugTooltipProperty =
         AvaloniaProperty.Register<LogViewerPanel, string>(nameof(DebugTooltip), defaultValue: "Show debug entries");
 
+    /// <summary>Defines the <see cref="SearchPlaceholder"/> property.</summary>
+    public static readonly StyledProperty<string> SearchPlaceholderProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(SearchPlaceholder), defaultValue: "Search logs...");
+
+    /// <summary>Defines the <see cref="EmptyText"/> property.</summary>
+    public static readonly StyledProperty<string> EmptyTextProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(EmptyText), defaultValue: "No logs");
+
+    /// <summary>Defines the <see cref="EmptyDescription"/> property.</summary>
+    public static readonly StyledProperty<string> EmptyDescriptionProperty =
+        AvaloniaProperty.Register<LogViewerPanel, string>(nameof(EmptyDescription), defaultValue: "Activity will appear here");
+
     // ── Direct properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Entries"/> direct property.</summary>
@@ -225,6 +237,27 @@ public class LogViewerPanel : TemplatedControl
     {
         get => GetValue(DebugTooltipProperty);
         set => SetValue(DebugTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the placeholder text for the search box.</summary>
+    public string SearchPlaceholder
+    {
+        get => GetValue(SearchPlaceholderProperty);
+        set => SetValue(SearchPlaceholderProperty, value);
+    }
+
+    /// <summary>Gets or sets the text shown when there are no logs.</summary>
+    public string EmptyText
+    {
+        get => GetValue(EmptyTextProperty);
+        set => SetValue(EmptyTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the description shown when there are no logs.</summary>
+    public string EmptyDescription
+    {
+        get => GetValue(EmptyDescriptionProperty);
+        set => SetValue(EmptyDescriptionProperty, value);
     }
 
     /// <summary>Gets the full collection of log entries.</summary>

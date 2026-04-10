@@ -66,14 +66,14 @@
                                             Spacing="4">
                                     <Button Name="PART_ClearButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
-                                            ToolTip.Tip="Clear output"
+                                            ToolTip.Tip="{TemplateBinding ClearTooltip}"
                                             Width="28" Height="28" Padding="6">
                                         <PathIcon Data="{DynamicResource DeleteRegular}"
                                                   Width="12" Height="12" />
                                     </Button>
                                     <Button Name="PART_CloseButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
-                                            ToolTip.Tip="Close"
+                                            ToolTip.Tip="{TemplateBinding CloseTooltip}"
                                             Width="28" Height="28" Padding="6"
                                             IsVisible="{TemplateBinding ShowCloseButton}">
                                         <PathIcon Data="{DynamicResource DismissRegular}"
@@ -118,7 +118,7 @@
                                 <TextBox Name="PART_InputBox"
                                          Grid.Column="1"
                                          Text="{TemplateBinding InputText, Mode=TwoWay}"
-                                         PlaceholderText="Type a command and press Enter"
+                                         PlaceholderText="{TemplateBinding InputPlaceholder}"
                                          FontFamily="Consolas,Menlo,Monaco,monospace"
                                          FontSize="12"
                                          Background="Transparent"

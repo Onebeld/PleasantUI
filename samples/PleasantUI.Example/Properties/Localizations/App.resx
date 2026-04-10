@@ -628,6 +628,16 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
     <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
 
+    <!-- TerminalPanel -->
+    <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Clear output</value></data>
+    <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
+    <data name="TerminalPanel/InputPlaceholder" xml:space="preserve"><value>Type a command and press Enter</value></data>
+
+    <!-- LogViewerPanel -->
+    <data name="LogViewerPanel/SearchPlaceholder" xml:space="preserve"><value>Search logs...</value></data>
+    <data name="LogViewerPanel/EmptyText" xml:space="preserve"><value>No logs</value></data>
+    <data name="LogViewerPanel/EmptyDescription" xml:space="preserve"><value>Activity will appear here</value></data>
+
     <!-- CrashReportDialog -->
     <data name="CrashReportDialog/SendReportLabel" xml:space="preserve"><value>Send Report</value></data>
     <data name="CrashReportDialog/SaveReportLabel" xml:space="preserve"><value>Save Report</value></data>

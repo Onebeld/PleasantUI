@@ -73,6 +73,18 @@ public class TerminalPanel : TemplatedControl
     public static readonly StyledProperty<bool> ShowCloseButtonProperty =
         AvaloniaProperty.Register<TerminalPanel, bool>(nameof(ShowCloseButton), defaultValue: true);
 
+    /// <summary>Defines the <see cref="ClearTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> ClearTooltipProperty =
+        AvaloniaProperty.Register<TerminalPanel, string>(nameof(ClearTooltip), defaultValue: "Clear output");
+
+    /// <summary>Defines the <see cref="CloseTooltip"/> property.</summary>
+    public static readonly StyledProperty<string> CloseTooltipProperty =
+        AvaloniaProperty.Register<TerminalPanel, string>(nameof(CloseTooltip), defaultValue: "Close");
+
+    /// <summary>Defines the <see cref="InputPlaceholder"/> property.</summary>
+    public static readonly StyledProperty<string> InputPlaceholderProperty =
+        AvaloniaProperty.Register<TerminalPanel, string>(nameof(InputPlaceholder), defaultValue: "Type a command and press Enter");
+
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the panel title shown in the header.</summary>
@@ -136,6 +148,27 @@ public class TerminalPanel : TemplatedControl
     {
         get => GetValue(ShowCloseButtonProperty);
         set => SetValue(ShowCloseButtonProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip for the clear button.</summary>
+    public string ClearTooltip
+    {
+        get => GetValue(ClearTooltipProperty);
+        set => SetValue(ClearTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the tooltip for the close button.</summary>
+    public string CloseTooltip
+    {
+        get => GetValue(CloseTooltipProperty);
+        set => SetValue(CloseTooltipProperty, value);
+    }
+
+    /// <summary>Gets or sets the placeholder text for the input box.</summary>
+    public string InputPlaceholder
+    {
+        get => GetValue(InputPlaceholderProperty);
+        set => SetValue(InputPlaceholderProperty, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────

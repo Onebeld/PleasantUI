@@ -619,6 +619,16 @@
     <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Пауза</value></data>
     <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Неизвестно</value></data>
 
+    <!-- TerminalPanel -->
+    <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Очистить вывод</value></data>
+    <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Закрыть</value></data>
+    <data name="TerminalPanel/InputPlaceholder" xml:space="preserve"><value>Введите команду и нажмите Enter</value></data>
+
+    <!-- LogViewerPanel -->
+    <data name="LogViewerPanel/SearchPlaceholder" xml:space="preserve"><value>Поиск в журнале...</value></data>
+    <data name="LogViewerPanel/EmptyText" xml:space="preserve"><value>Нет записей</value></data>
+    <data name="LogViewerPanel/EmptyDescription" xml:space="preserve"><value>Здесь появится активность</value></data>
+
     <!-- CrashReportDialog -->
     <data name="CrashReportDialog/SendReportLabel" xml:space="preserve"><value>Отправить отчёт</value></data>
     <data name="CrashReportDialog/SaveReportLabel" xml:space="preserve"><value>Сохранить отчёт</value></data>
