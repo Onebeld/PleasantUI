@@ -9,7 +9,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// A slide-in panel that displays a filterable, searchable log of <see cref="LogEntry"/> items.
@@ -167,8 +167,14 @@ public class LogViewerPanel : TemplatedControl
     public AvaloniaList<LogEntry> FilteredEntries { get; } = new();
 
     /// <summary>Gets the available log level filter options (null = All).</summary>
-    public LogLevel?[] LevelFilterOptions { get; } =
-        [null, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error];
+    public AvaloniaList<LogLevel?> LevelFilterOptions { get; } = new()
+    {
+        null,
+        LogLevel.Debug,
+        LogLevel.Information,
+        LogLevel.Warning,
+        LogLevel.Error
+    };
 
     /// <summary>Gets the available source filter options (null = All).</summary>
     public AvaloniaList<string?> SourceFilterOptions { get; } = new() { null };

@@ -8,7 +8,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// A modal dialog that presents a sequence of numbered <see cref="StepItem"/> steps.
@@ -223,6 +223,20 @@ public class StepDialog : PleasantPopupElement
         base.ShowCoreForTopLevel(topLevel);
 
         PseudoClasses.Set(PC_Open, true);
+
+        // Fade in modal background
+        if (_modalBackground is not null)
+        {
+            var bgAnim = new Animation
+            {
+                Duration = TimeSpan.FromMilliseconds(200),
+                FillMode = Avalonia.Animation.FillMode.Forward
+            };
+            var kf = new KeyFrame { Cue = new Cue(1.0) };
+            kf.Setters.Add(new Setter(OpacityProperty, 1.0));
+            bgAnim.Children.Add(kf);
+            await bgAnim.RunAsync(_modalBackground);
+        }
 
         await RunOpenAnimation();
     }

@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Media;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Describes a single download chunk for visualization in a <see cref="DownloadPanel"/>.
@@ -28,4 +28,9 @@ public class ChunkInfo
 
     /// <summary>Gets or sets an optional override brush for this chunk's progress bar.</summary>
     public IBrush? ProgressBrush { get; set; }
+
+    public override string ToString()
+    {
+        return Info ?? DownloadedSize ?? $"Chunk {Index}";
+    }
 }

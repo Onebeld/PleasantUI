@@ -4,7 +4,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Represents a single numbered step inside a <see cref="StepDialog"/>.

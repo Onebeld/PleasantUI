@@ -1,4 +1,4 @@
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Severity level of a <see cref="LogEntry"/>.

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using PleasantUI.Controls;
+using PleasantUI.ToolKit.Controls;
 using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;

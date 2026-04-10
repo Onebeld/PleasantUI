@@ -16,7 +16,7 @@ using Avalonia.Threading;
 using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Interfaces;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// The result returned when a <see cref="CrashReportDialog"/> closes.
