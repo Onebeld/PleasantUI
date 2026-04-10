@@ -226,14 +226,15 @@ jobs:
           COMMITS=$(git log "$RANGE" --pretty=format:"[%h] %s (%an, %ad)" --date=short)
           [ -z "$COMMITS" ] && COMMITS="(no commits in range — possibly initial release)"
 
-          # ── Changed files (excl. samples/) ────────────────────────────────────
-          FILE_LIST=$(git diff --name-only "$RANGE" | grep -v '^samples/' | head -200)
+          # ── Changed files (all paths) ─────────────────────────────────────────
+          FILE_LIST=$(git diff --name-only "$RANGE" | head -200)
           STAT_SUMMARY=$(git diff --shortstat "$RANGE" | tail -1)
 
           # ── Shared system prompt — all printf, no heredoc ──────────────────────
           printf '%s\n' \
             'You are a senior technical writer analysing a PleasantUI canary release diff batch.' \
             'PleasantUI is a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
+            'The diff covers the full repository: library source (src/), example app (samples/), and CI workflows (.github/).' \
             '' \
             '## Your task' \
             'Extract EVERY meaningful change from the diffs below. Output structured bullet points — NOT final release notes.' \
@@ -246,6 +247,8 @@ jobs:
             '- New property/event: name, type, one-line purpose.' \
             '- Bug fix: describe the symptom that was fixed, not just the commit wording.' \
             '- Breaking change: old API → new API, one line each.' \
+            '- Example app changes (samples/): note new demo pages, updated usage patterns, or new showcased features.' \
+            '- CI changes (.github/): note workflow fixes, new steps, or changed behaviour.' \
             '- If a file has no meaningful public-facing change (e.g. only whitespace/comments), skip it.' \
             '- Do NOT invent anything not evidenced by the diff.' \
             '' \
@@ -255,6 +258,8 @@ jobs:
             '**Improvements**' \
             '**Bug Fixes**' \
             '**Breaking Changes**' \
+            '**Example App**' \
+            '**CI / Tooling**' \
             '' \
             'Each bullet: `- [FileName] <one concise sentence>`' \
             '' \
@@ -269,14 +274,13 @@ jobs:
             printf 'Base version: %s\n' "${{ steps.version.outputs.version }}"
             printf 'Release type: CANARY RELEASE (daily build / PR test — may contain incomplete features or breaking changes)\n\n'
             printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
-            printf '## All Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
+            printf '## All Changed Files\n```\n%s\n\nSummary: %s\n```\n\n' \
               "$FILE_LIST" "$STAT_SUMMARY"
           } > /tmp/prompt-1.txt
 
           # ── Split diff per-file into batches of ~700 lines each ───────────────
           CHANGED_SRC=$(git diff --name-only "$RANGE" \
-            | grep -v '^samples/' \
-            | grep -E '\.(cs|axaml)$')
+            | grep -E '\.(cs|axaml|yml)$')$')
 
           mkdir -p /tmp/prompts
           cp /tmp/prompt-1.txt /tmp/prompts/
@@ -496,13 +500,14 @@ jobs:
         run: |
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+            'The diff covers the full repository: library source (src/), example app (samples/), and CI workflows (.github/).' \
             'Below are raw per-batch findings from analysis passes 1-4 of this canary release.' \
             '' \
             'Your task: produce a LOSSLESS intermediate summary.' \
             '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
             '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
             '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
-            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes** | **Example App** | **CI / Tooling**' \
             '- Each bullet: `- [FileName] <concise fact>`' \
             '- This output feeds a final merge step — completeness is critical.' \
             '' \
@@ -573,13 +578,14 @@ jobs:
         run: |
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+            'The diff covers the full repository: library source (src/), example app (samples/), and CI workflows (.github/).' \
             'Below are raw per-batch findings from analysis passes 5-8 of this canary release.' \
             '' \
             'Your task: produce a LOSSLESS intermediate summary.' \
             '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
             '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
             '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
-            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes** | **Example App** | **CI / Tooling**' \
             '- Each bullet: `- [FileName] <concise fact>`' \
             '- This output feeds a final merge step — completeness is critical.' \
             '' \
