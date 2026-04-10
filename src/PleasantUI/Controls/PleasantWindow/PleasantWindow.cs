@@ -18,49 +18,6 @@ public class PleasantWindow : PleasantWindowBase
     private PleasantSplashScreen? _splashOverlay;
     private CancellationTokenSource? _splashCts;
 
-    static PleasantWindow()
-    {
-        CornerRadiusProperty.Changed.AddClassHandler<PleasantWindow>((x, e) => x.OnCornerRadiusChanged(e));
-    }
-
-    private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        try
-        {
-            // Apply VGUI corner radius override if VGUI theme is active
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantWindow] VGUI theme active, setting CornerRadius to 0");
-                SetValue(CornerRadiusProperty, new CornerRadius(0));
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantWindow] Error in OnCornerRadiusChanged: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Checks if the VGUI theme is currently active.
-    /// </summary>
-    /// <returns>True if VGUI theme is active, false otherwise.</returns>
-    protected static bool IsVGUIActive()
-    {
-        try
-        {
-            var isActive = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
-            System.Diagnostics.Debug.WriteLine($"[PleasantWindow] IsVGUIActive: {isActive}");
-            return isActive;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantWindow] Error checking VGUI status: {ex.Message}");
-            return false;
-        }
-    }
-
-  
-
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
@@ -340,20 +297,7 @@ public class PleasantWindow : PleasantWindowBase
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
-
-        try
-        {
-            // Apply VGUI corner radius override when template is applied
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantWindow] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
-                CornerRadius = new CornerRadius(0);
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantWindow] Error in OnApplyTemplate: {ex.Message}");
-        }
+ 
     }
 
     /// <inheritdoc />

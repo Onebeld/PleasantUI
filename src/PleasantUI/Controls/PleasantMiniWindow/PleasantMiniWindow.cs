@@ -17,64 +17,9 @@ public class PleasantMiniWindow : PleasantWindowBase
 
     private Button? _hiddenButton;
 
-    static PleasantMiniWindow()
-    {
-        CornerRadiusProperty.Changed.AddClassHandler<PleasantMiniWindow>((x, e) => x.OnCornerRadiusChanged(e));
-    }
-
-    private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        try
-        {
-            // Apply VGUI corner radius override if VGUI theme is active
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantMiniWindow] VGUI theme active, setting CornerRadius to 0");
-                SetValue(CornerRadiusProperty, new CornerRadius(0));
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantMiniWindow] Error in OnCornerRadiusChanged: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Checks if the VGUI theme is currently active.
-    /// </summary>
-    /// <returns>True if VGUI theme is active, false otherwise.</returns>
-    protected static bool IsVGUIActive()
-    {
-        try
-        {
-            var isActive = PleasantSettings.Current?.Theme == "VGUI";
-            System.Diagnostics.Debug.WriteLine($"[PleasantMiniWindow] IsVGUIActive: {isActive}");
-            return isActive;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantMiniWindow] Error checking VGUI status: {ex.Message}");
-            return false;
-        }
-    }
-
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        
-        try
-        {
-            // Apply VGUI corner radius override when template is applied
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantMiniWindow] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
-                CornerRadius = new CornerRadius(0);
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantMiniWindow] Error in OnApplyTemplate: {ex.Message}");
-        }
 
         _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
         _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");

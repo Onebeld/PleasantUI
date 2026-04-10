@@ -164,48 +164,9 @@ public class StepDialog : PleasantPopupElement
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    static StepDialog()
-    {
-        CornerRadiusProperty.Changed.AddClassHandler<StepDialog>((x, e) => x.OnCornerRadiusChanged(e));
-    }
-
     public StepDialog()
     {
         Steps.CollectionChanged += OnStepsChanged;
-    }
-
-    private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        try
-        {
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[StepDialog] VGUI theme active, setting CornerRadius to 0");
-                SetValue(CornerRadiusProperty, new CornerRadius(0));
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[StepDialog] Error in OnCornerRadiusChanged: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Checks if the VGUI theme is currently active.
-    /// </summary>
-    protected static bool IsVGUIActive()
-    {
-        try
-        {
-            var isActive = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
-            System.Diagnostics.Debug.WriteLine($"[StepDialog] IsVGUIActive: {isActive}");
-            return isActive;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[StepDialog] Error checking VGUI status: {ex.Message}");
-            return false;
-        }
     }
 
     // ── Template ──────────────────────────────────────────────────────────────
@@ -213,19 +174,6 @@ public class StepDialog : PleasantPopupElement
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-
-        try
-        {
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[StepDialog] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
-                CornerRadius = new CornerRadius(0);
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[StepDialog] Error in OnApplyTemplate: {ex.Message}");
-        }
 
         DetachHandlers();
 

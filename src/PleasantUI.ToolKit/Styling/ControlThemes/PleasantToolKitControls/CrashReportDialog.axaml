@@ -57,6 +57,7 @@
         <Setter Property="Opacity"             Value="0" />
         <Setter Property="MinWidth"            Value="560" />
         <Setter Property="MaxWidth"            Value="680" />
+        <Setter Property="CornerRadius"        Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="OpenAnimation">
             <Animation Duration="0:0:0.22" FillMode="Both" Easing="CubicEaseOut">
@@ -90,14 +91,14 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
                               BlurRadius="50"
                               ShadowColor="#6E000000"
                               Offset="0 8">
                     <Border Background="{DynamicResource BackgroundColor1}"
                             BorderBrush="{DynamicResource ControlBorderColor}"
                             BorderThickness="{DynamicResource ControlBorderThickness}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             ClipToBounds="True">
                         <Grid RowDefinitions="Auto,Auto,*,Auto">
 

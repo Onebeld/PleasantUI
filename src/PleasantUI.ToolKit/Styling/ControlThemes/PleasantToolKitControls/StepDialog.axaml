@@ -88,6 +88,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment"   Value="Center" />
         <Setter Property="Opacity"             Value="0" />
+        <Setter Property="CornerRadius"        Value="{DynamicResource ControlCornerRadius}" />
 
         <Setter Property="OpenAnimation">
             <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseOut">
@@ -121,14 +122,14 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
                               BlurRadius="40"
                               ShadowColor="#5A000000"
                               Offset="0 8">
                     <Border Background="{DynamicResource BackgroundColor1}"
                             BorderBrush="{DynamicResource ControlBorderColor}"
                             BorderThickness="{DynamicResource ControlBorderThickness}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
                             MinWidth="{TemplateBinding MinDialogWidth}"
                             ClipToBounds="True">
                         <Grid RowDefinitions="Auto,*,Auto">

@@ -535,45 +535,6 @@ public class CrashReportDialog : PleasantPopupElement
     // Tab items — built once and reused.
     private readonly List<string> _tabs = new();
 
-    static CrashReportDialog()
-    {
-        CornerRadiusProperty.Changed.AddClassHandler<CrashReportDialog>((x, e) => x.OnCornerRadiusChanged(e));
-    }
-
-    private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
-    {
-        try
-        {
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[CrashReportDialog] VGUI theme active, setting CornerRadius to 0");
-                SetValue(CornerRadiusProperty, new CornerRadius(0));
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[CrashReportDialog] Error in OnCornerRadiusChanged: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Checks if the VGUI theme is currently active.
-    /// </summary>
-    protected static bool IsVGUIActive()
-    {
-        try
-        {
-            var isActive = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
-            System.Diagnostics.Debug.WriteLine($"[CrashReportDialog] IsVGUIActive: {isActive}");
-            return isActive;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[CrashReportDialog] Error checking VGUI status: {ex.Message}");
-            return false;
-        }
-    }
-
     // ── Convenience factory ───────────────────────────────────────────────────
 
     /// <summary>
@@ -609,19 +570,6 @@ public class CrashReportDialog : PleasantPopupElement
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-
-        try
-        {
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[CrashReportDialog] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
-                CornerRadius = new CornerRadius(0);
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[CrashReportDialog] Error in OnApplyTemplate: {ex.Message}");
-        }
 
         DetachHandlers();
 

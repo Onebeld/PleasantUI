@@ -361,6 +361,7 @@ public class PleasantTheme : Styles
     }
 
     private StyleInclude? _vguiStyleInclude;
+    private StyleInclude? _vguiToolKitStyleInclude;
 
     /// <summary>
     /// Adds or removes VGUI control styles from this PleasantTheme Styles instance when VGUI theme is
@@ -387,6 +388,21 @@ public class PleasantTheme : Styles
             {
                 System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml already loaded");
             }
+
+            if (_vguiToolKitStyleInclude is null)
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Adding VGUIControlThemes.axaml (ToolKit)");
+                _vguiToolKitStyleInclude = new StyleInclude(new Uri("avares://PleasantUI.ToolKit/"))
+                {
+                    Source = new Uri("avares://PleasantUI.ToolKit/Styling/VGUIControlThemes.axaml")
+                };
+                Add(_vguiToolKitStyleInclude);
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml added successfully");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml already loaded");
+            }
         }
         else
         {
@@ -401,56 +417,18 @@ public class PleasantTheme : Styles
             {
                 System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml not loaded");
             }
-        }
 
-        // Also update ToolKit VGUI styles via reflection since PleasantUI doesn't reference ToolKit
-        if (Application.Current?.Resources is not null)
-        {
-            System.Diagnostics.Debug.WriteLine("[PleasantTheme] Looking for PleasantUIToolKit in Application.Resources");
-            System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Application.Current.Resources.MergedDictionaries count: {Application.Current.Resources.MergedDictionaries.Count}");
-            
-            bool foundToolKit = false;
-            int resourceIndex = 0;
-            foreach (var resource in Application.Current.Resources.MergedDictionaries)
+            if (_vguiToolKitStyleInclude is not null)
             {
-                string resourceInfo = resource?.GetType().FullName ?? "null";
-                
-                // Try to get Source URI if it's a ResourceInclude
-                if (resource is Avalonia.Markup.Xaml.Styling.ResourceInclude resourceInclude)
-                {
-                    resourceInfo += $" (Source: {resourceInclude.Source})";
-                }
-                
-                System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Resource [{resourceIndex}]: {resourceInfo}");
-                
-                // Check by type name or by checking if it's a PleasantUIToolKit instance
-                if (resource?.GetType().FullName == "PleasantUI.ToolKit.PleasantUIToolKit" ||
-                    resource?.GetType().Name == "PleasantUIToolKit")
-                {
-                    System.Diagnostics.Debug.WriteLine("[PleasantTheme] Found PleasantUIToolKit, calling UpdateVGUIStyle");
-                    try
-                    {
-                        var updateMethod = resource.GetType().GetMethod("UpdateVGUIStyle");
-                        updateMethod?.Invoke(resource, new object[] { isVGUI });
-                        System.Diagnostics.Debug.WriteLine("[PleasantTheme] PleasantUIToolKit.UpdateVGUIStyle called successfully");
-                        foundToolKit = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Error calling PleasantUIToolKit.UpdateVGUIStyle: {ex.Message}");
-                    }
-                    break;
-                }
-                resourceIndex++;
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Removing VGUIControlThemes.axaml (ToolKit)");
+                Remove(_vguiToolKitStyleInclude);
+                _vguiToolKitStyleInclude = null;
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml removed successfully");
             }
-            if (!foundToolKit)
+            else
             {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] PleasantUIToolKit not found in Application.Resources");
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml not loaded");
             }
-        }
-        else
-        {
-            System.Diagnostics.Debug.WriteLine("[PleasantTheme] Application.Current.Resources is null");
         }
     }
 
