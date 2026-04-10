@@ -1,0 +1,304 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
+                    x:ClassModifier="internal">
+
+    <Design.PreviewWith>
+        <Border Width="800" Height="500" Background="#40000000">
+            <controls:SidebarWizard AppName="Setup Wizard"
+                                      SystemInfo="System: MyApp&#x0a;Version: 1.0.0&#x0a;Build: 2024.04.10"
+                                      NextButtonText="Next"
+                                      BackButtonText="Back"
+                                      CancelButtonText="Cancel"
+                                      StatusMessage="Initializing...">
+                <controls:SidebarWizardStep Header="Welcome">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Welcome to the setup wizard."
+                                   FontSize="14"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Text="This wizard will guide you through the installation process."
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </controls:SidebarWizardStep>
+                <controls:SidebarWizardStep Header="Configuration">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Configure your settings."
+                                   FontSize="14"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </controls:SidebarWizardStep>
+                <controls:SidebarWizardStep Header="Complete">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Setup complete!"
+                                   FontSize="14"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </controls:SidebarWizardStep>
+            </controls:SidebarWizard>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- ── SidebarWizardStep ───────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:SidebarWizardStep}" TargetType="controls:SidebarWizardStep">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="StepBorder"
+                        Padding="12 8"
+                        Margin="0 2"
+                        Background="Transparent"
+                        CornerRadius="{DynamicResource ControlCornerRadius}">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <!-- Step number badge -->
+                        <Border Grid.Column="0"
+                                Width="28" Height="28"
+                                CornerRadius="{DynamicResource RoundedControlCornerRadius}"
+                                Background="{DynamicResource BackgroundColor3}"
+                                VerticalAlignment="Top">
+                            <TextBlock Name="StepNumberBadge"
+                                       Text="{TemplateBinding StepNumber}"
+                                       Foreground="{DynamicResource TextFillColor1}"
+                                       FontWeight="SemiBold"
+                                       FontSize="12"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Border>
+
+                        <!-- Step content -->
+                        <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Top">
+                            <TextBlock Name="StepHeaderText"
+                                       Text="{TemplateBinding Header}"
+                                       FontWeight="SemiBold"
+                                       FontSize="13"
+                                       TextWrapping="Wrap" />
+
+                            <TextBlock Text="{TemplateBinding Description}"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       TextWrapping="Wrap"
+                                       IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Active step: accent background for badge -->
+        <Style Selector="^:active /template/ Border#StepBorder">
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor3}" />
+        </Style>
+        <Style Selector="^:active /template/ Border#StepNumberBadge">
+            <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+        </Style>
+        <Style Selector="^:active /template/ TextBlock#StepNumberBadge">
+            <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+        </Style>
+        <Style Selector="^:active /template/ TextBlock#StepHeaderText">
+            <Setter Property="Foreground" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+        </Style>
+
+        <!-- Completed step: green badge with check -->
+        <Style Selector="^:completed /template/ Border#StepNumberBadge">
+            <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccess}" />
+        </Style>
+        <Style Selector="^:completed /template/ TextBlock#StepNumberBadge">
+            <Setter Property="Text" Value="✓" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+    </ControlTheme>
+
+    <!-- ── SidebarWizard ────────────────────────────────────────────────────── -->
+    <ControlTheme x:Key="{x:Type controls:SidebarWizard}" TargetType="controls:SidebarWizard">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <Grid RowDefinitions="*,Auto" ColumnDefinitions="Auto,*">
+                        
+                        <!-- ── Sidebar ─────────────────────────────────────────────── -->
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Width="{TemplateBinding SidebarWidth}"
+                                Background="{DynamicResource BackgroundColor3}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0 0 1 0">
+                            <Grid RowDefinitions="Auto,*,Auto">
+                                
+                                <!-- App header -->
+                                <Border Grid.Row="0"
+                                        Background="{DynamicResource BackgroundColor1}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0 0 0 1"
+                                        Padding="16 12">
+                                    <StackPanel Spacing="8">
+                                        <ContentPresenter Content="{TemplateBinding AppIcon}"
+                                                          IsVisible="{TemplateBinding AppIcon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                          HorizontalAlignment="Left" />
+                                        <TextBlock Text="{TemplateBinding AppName}"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="14"
+                                                   TextWrapping="Wrap"
+                                                   IsVisible="{TemplateBinding AppName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Steps list -->
+                                <SmoothScrollViewer Grid.Row="1"
+                                                    HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Auto"
+                                                    Margin="8 16">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="Steps"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="12"
+                                                   Foreground="{DynamicResource TextFillColor2}"
+                                                   Margin="8 0 8 8" />
+                                        <ItemsControl Name="PART_StepsHost">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Spacing="2" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </SmoothScrollViewer>
+
+                                <!-- System info -->
+                                <Border Grid.Row="2"
+                                        Name="SystemInfoBorder"
+                                        Padding="16 12"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0 1 0 0"
+                                        IsVisible="False">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="System Information"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource TextFillColor2}" />
+                                        <TextBlock Text="{TemplateBinding SystemInfo}"
+                                                   FontSize="10"
+                                                   Foreground="{DynamicResource TextFillColor2}"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+
+                            </Grid>
+                        </Border>
+
+                        <!-- ── Main content area ───────────────────────────────── -->
+                        <Grid Grid.Row="0" Grid.Column="1" RowDefinitions="Auto,*,Auto">
+                            
+                            <!-- Content -->
+                            <SmoothScrollViewer Grid.Row="1"
+                                                Margin="24 20"
+                                                HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Auto">
+                                <ContentPresenter Name="PART_ContentPresenter"
+                                                  Content="{TemplateBinding CurrentStep}"
+                                                  ContentTemplate="{TemplateBinding CurrentStep.ContentTemplate}" />
+                            </SmoothScrollViewer>
+
+                            <!-- Status message -->
+                            <Border Grid.Row="2"
+                                    Name="StatusBorder"
+                                    Background="{DynamicResource BackgroundColor3}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0 1 0 0"
+                                    Padding="16 12"
+                                    Margin="0 0 0 0"
+                                    IsVisible="False">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <PathIcon Grid.Column="0"
+                                              Width="16" Height="16"
+                                              Data="{DynamicResource InfoRegular}"
+                                              Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{TemplateBinding StatusMessage}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               VerticalAlignment="Center"
+                                               TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+
+                        </Grid>
+
+                        <!-- ── Command bar ───────────────────────────────────────── -->
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Background="{DynamicResource BackgroundColor3}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0 1 0 0"
+                                Padding="16 12">
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                                
+                                <!-- Status placeholder -->
+                                <TextBlock Grid.Column="0"
+                                           Text="{TemplateBinding StatusMessage}"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextFillColor2}"
+                                           TextTrimming="CharacterEllipsis"
+                                           IsVisible="False" />
+
+                                <!-- Buttons -->
+                                <Button Grid.Column="1"
+                                        Name="PART_CancelButton"
+                                        Content="{TemplateBinding CancelButtonText}"
+                                        Margin="0 0 8 0"
+                                        IsVisible="False" />
+                                
+                                <Button Grid.Column="2"
+                                        Name="PART_BackButton"
+                                        Content="{TemplateBinding BackButtonText}"
+                                        Margin="0 0 8 0" />
+                                
+                                <Button Grid.Column="3"
+                                        Name="PART_NextButton"
+                                        Content="{TemplateBinding NextButtonText}"
+                                        Theme="{DynamicResource AccentButtonTheme}"
+                                        IsDefault="True" />
+
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- System info visibility -->
+        <Style Selector="^:hasSystemInfo /template/ Border#SystemInfoBorder">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Status message visibility -->
+        <Style Selector="^:hasStatus /template/ Border#StatusBorder">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <!-- Cancel button visibility -->
+        <Style Selector="^[ShowCancelButton=false] /template/ Button#PART_CancelButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^[ShowCancelButton=true] /template/ Button#PART_CancelButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+    </ControlTheme>
+
+</ResourceDictionary>
