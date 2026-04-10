@@ -7,6 +7,8 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
+using Avalonia.Styling;
+using PleasantUI.Controls;
 
 namespace PleasantUI.ToolKit.Controls;
 

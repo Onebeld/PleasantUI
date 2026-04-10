@@ -13,6 +13,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using PleasantUI.Controls;
 using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Interfaces;
 

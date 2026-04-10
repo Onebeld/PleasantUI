@@ -5,6 +5,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -236,12 +237,20 @@ public class LogViewerPanel : TemplatedControl
         {
             _levelFilter.ItemsSource = LevelFilterOptions;
             _levelFilter.SelectedIndex = 0;
+
+            // Display "All" for null values
+            _levelFilter.ItemTemplate = new FuncDataTemplate<LogLevel?>((level, _) =>
+                new TextBlock { Text = level is null ? "All" : level.ToString() });
         }
 
         if (_sourceFilter is not null)
         {
             _sourceFilter.ItemsSource = SourceFilterOptions;
             _sourceFilter.SelectedIndex = 0;
+
+            // Display "All" for null values
+            _sourceFilter.ItemTemplate = new FuncDataTemplate<string?>((source, _) =>
+                new TextBlock { Text = source is null ? "All" : source });
         }
 
         RefreshFilter();
