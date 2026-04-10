@@ -234,6 +234,7 @@ public class TerminalPanel : TemplatedControl
             PseudoClasses.Set(PC_Running, isRunning);
             
             // Automatically set StatusText to RunningText when IsRunning changes
+            // This can be overridden manually for error messages or general status
             if (isRunning)
                 StatusText = RunningText;
             else

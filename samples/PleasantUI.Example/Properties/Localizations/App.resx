@@ -651,11 +651,13 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Failed</value></data>
     <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
     <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
+    <data name="DownloadPanel/StatusText" xml:space="preserve"><value>Running</value></data>
 
     <!-- TerminalPanel -->
     <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Clear output</value></data>
     <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
     <data name="TerminalPanel/InputPlaceholder" xml:space="preserve"><value>Type a command and press Enter</value></data>
+    <data name="TerminalPanel/StatusText" xml:space="preserve"><value>Running</value></data>
 
     <!-- LogViewerPanel -->
     <data name="LogViewerPanel/SearchPlaceholder" xml:space="preserve"><value>Search logs...</value></data>
