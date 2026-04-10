@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
+                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
                     x:ClassModifier="internal">
 
     <Design.PreviewWith>
@@ -192,36 +193,89 @@
                                 <!-- Default chunk item template -->
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="controls:ChunkInfo">
-                                        <Border Padding="10 6"
+                                        <Border Padding="12 8"
                                                 Margin="0 2"
-                                                CornerRadius="4"
-                                                Background="{DynamicResource ControlFillColor1}">
-                                            <Grid ColumnDefinitions="Auto,*,*,Auto" ColumnSpacing="12">
-                                                <TextBlock Grid.Column="0"
-                                                           Text="{Binding Index}"
-                                                           FontSize="11"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="{DynamicResource TextFillColor2}"
+                                                CornerRadius="6"
+                                                Background="{DynamicResource ControlFillColor1}"
+                                                BorderBrush="{DynamicResource ControlBorderColor}"
+                                                BorderThickness="1">
+                                            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="12">
+                                                <!-- Chunk number -->
+                                                <Border Grid.Column="0"
+                                                        Width="24" Height="24"
+                                                        CornerRadius="4"
+                                                        Background="{DynamicResource AccentFillColorSecondaryBrush}"
+                                                        VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Index}"
+                                                               FontSize="11"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="White"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
+                                                </Border>
+
+                                                <!-- Progress bar with percentage -->
+                                                <Grid Grid.Column="1" RowDefinitions="Auto,Auto" RowSpacing="4">
+                                                    <ProgressBar Grid.Row="0"
+                                                                 Minimum="0" Maximum="1"
+                                                                 Value="{Binding Progress}"
+                                                                 Height="4"
+                                                                 CornerRadius="2"
+                                                                 VerticalAlignment="Center" />
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="{Binding Progress, StringFormat='{0:P0}'}"
+                                                               FontSize="9"
+                                                               Foreground="{DynamicResource TextFillColor3}"
+                                                               HorizontalAlignment="Left" />
+                                                </Grid>
+
+                                                <!-- Size info -->
+                                                <StackPanel Grid.Column="2"
+                                                            Orientation="Vertical"
+                                                            Spacing="2"
+                                                            VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding DownloadedSize}"
+                                                               FontSize="10"
+                                                               FontWeight="Medium"
+                                                               Foreground="{DynamicResource TextFillColor1}" />
+                                                    <TextBlock FontSize="9"
+                                                               Foreground="{DynamicResource TextFillColor3}">
+                                                        <Run Text="{Binding Start, StringFormat='{}{0:P0}'}" />
+                                                        <Run Text="-" />
+                                                        <Run Text="{Binding End, StringFormat='{}{0:P0}'}" />
+                                                    </TextBlock>
+                                                </StackPanel>
+
+                                                <!-- Status badge -->
+                                                <Border Grid.Column="3"
+                                                        Padding="6 3"
+                                                        CornerRadius="3"
+                                                        VerticalAlignment="Center">
+                                                    <Border.Style>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="{Binding Status, Converter={x:Static converters:ChunkStatusToBrushConverter.Instance}}" />
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock Text="{Binding Info}"
+                                                               FontSize="9"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="White"
+                                                               Padding="4 1" />
+                                                </Border>
+
+                                                <!-- Speed indicator (placeholder) -->
+                                                <TextBlock Grid.Column="4"
+                                                           FontSize="9"
+                                                           Foreground="{DynamicResource TextFillColor3}"
                                                            VerticalAlignment="Center"
-                                                           MinWidth="24" />
-                                                <ProgressBar Grid.Column="1"
-                                                             Minimum="0" Maximum="1"
-                                                             Value="{Binding Progress}"
-                                                             Height="3"
-                                                             CornerRadius="1.5"
-                                                             VerticalAlignment="Center" />
-                                                <TextBlock Grid.Column="2"
-                                                           Text="{Binding DownloadedSize}"
-                                                           FontSize="11"
-                                                           Foreground="{DynamicResource TextFillColor2}"
-                                                           VerticalAlignment="Center"
-                                                           MinWidth="60" />
-                                                <TextBlock Grid.Column="3"
-                                                           Text="{Binding Info}"
-                                                           FontSize="11"
-                                                           FontWeight="Medium"
-                                                           Foreground="{DynamicResource AccentFillColor1}"
-                                                           VerticalAlignment="Center" />
+                                                           MinWidth="50"
+                                                           TextAlignment="Right">
+                                                    <TextBlock.Style>
+                                                        <Style Selector="TextBlock">
+                                                            <Setter Property="Text" Value="{Binding Status, Converter={x:Static converters:ChunkStatusToSpeedConverter.Instance}}" />
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
