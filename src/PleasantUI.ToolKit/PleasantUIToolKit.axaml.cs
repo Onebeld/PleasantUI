@@ -34,23 +34,51 @@ public class PleasantUIToolKit : ResourceDictionary
     /// <param name="isVGUI">Whether VGUI mode is active</param>
     public void UpdateVGUIStyle(bool isVGUI)
     {
+        System.Diagnostics.Debug.WriteLine($"[PleasantUIToolKit] UpdateVGUIStyle called with isVGUI={isVGUI}");
+
         if (isVGUI)
         {
             if (_vguiStyleInclude is null)
             {
-                _vguiStyleInclude = new StyleInclude(new Uri("avares://PleasantUI.ToolKit/"))
+                System.Diagnostics.Debug.WriteLine("[PleasantUIToolKit] Adding VGUIControlThemes.axaml");
+                try
                 {
-                    Source = new Uri("avares://PleasantUI.ToolKit/Styling/VGUIControlThemes.axaml")
-                };
-                MergedDictionaries.Add(_vguiStyleInclude);
+                    _vguiStyleInclude = new StyleInclude(new Uri("avares://PleasantUI.ToolKit/"))
+                    {
+                        Source = new Uri("avares://PleasantUI.ToolKit/Styling/VGUIControlThemes.axaml")
+                    };
+                    MergedDictionaries.Add(_vguiStyleInclude);
+                    System.Diagnostics.Debug.WriteLine("[PleasantUIToolKit] VGUIControlThemes.axaml added successfully");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[PleasantUIToolKit] Error adding VGUIControlThemes.axaml: {ex.Message}");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantUIToolKit] VGUIControlThemes.axaml already loaded");
             }
         }
         else
         {
             if (_vguiStyleInclude is not null)
             {
-                MergedDictionaries.Remove(_vguiStyleInclude);
-                _vguiStyleInclude = null;
+                System.Diagnostics.Debug.WriteLine("[PleasantUIToolKit] Removing VGUIControlThemes.axaml");
+                try
+                {
+                    MergedDictionaries.Remove(_vguiStyleInclude);
+                    _vguiStyleInclude = null;
+                    System.Diagnostics.Debug.WriteLine("[PleasantUIToolKit] VGUIControlThemes.axaml removed successfully");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[PleasantUIToolKit] Error removing VGUIControlThemes.axaml: {ex.Message}");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantUIToolKit] VGUIControlThemes.axaml not loaded");
             }
         }
     }

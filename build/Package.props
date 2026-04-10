@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
-        <PackageVersion>5.2.1</PackageVersion>
+        <PackageVersion>5.2.1-fix</PackageVersion>
         <Authors>Dmitry Zhutkov (Onebeld), Andrey Savich (pieckenst)</Authors>
         <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
         <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface</PackageTags>

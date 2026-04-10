@@ -369,38 +369,72 @@ public class PleasantTheme : Styles
     /// </summary>
     private void UpdateVGUIStyle(bool isVGUI)
     {
+        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] UpdateVGUIStyle called with isVGUI={isVGUI}");
+
         if (isVGUI)
         {
             if (_vguiStyleInclude is null)
             {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Adding VGUIControlStyles.axaml");
                 _vguiStyleInclude = new StyleInclude(new Uri("avares://PleasantUI/"))
                 {
                     Source = new Uri("avares://PleasantUI/Styling/VGUIControlStyles.axaml")
                 };
                 Add(_vguiStyleInclude);
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml added successfully");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml already loaded");
             }
         }
         else
         {
             if (_vguiStyleInclude is not null)
             {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Removing VGUIControlStyles.axaml");
                 Remove(_vguiStyleInclude);
                 _vguiStyleInclude = null;
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml removed successfully");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml not loaded");
             }
         }
 
         // Also update ToolKit VGUI styles via reflection since PleasantUI doesn't reference ToolKit
         if (Application.Current?.Resources is not null)
         {
+            System.Diagnostics.Debug.WriteLine("[PleasantTheme] Looking for PleasantUIToolKit in Application.Resources");
+            bool foundToolKit = false;
             foreach (var resource in Application.Current.Resources.MergedDictionaries)
             {
                 if (resource?.GetType().FullName == "PleasantUI.ToolKit.PleasantUIToolKit")
                 {
-                    var updateMethod = resource.GetType().GetMethod("UpdateVGUIStyle");
-                    updateMethod?.Invoke(resource, new object[] { isVGUI });
+                    System.Diagnostics.Debug.WriteLine("[PleasantTheme] Found PleasantUIToolKit, calling UpdateVGUIStyle");
+                    try
+                    {
+                        var updateMethod = resource.GetType().GetMethod("UpdateVGUIStyle");
+                        updateMethod?.Invoke(resource, new object[] { isVGUI });
+                        System.Diagnostics.Debug.WriteLine("[PleasantTheme] PleasantUIToolKit.UpdateVGUIStyle called successfully");
+                        foundToolKit = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Error calling PleasantUIToolKit.UpdateVGUIStyle: {ex.Message}");
+                    }
                     break;
                 }
             }
+            if (!foundToolKit)
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantTheme] PleasantUIToolKit not found in Application.Resources");
+            }
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("[PleasantTheme] Application.Current.Resources is null");
         }
     }
 
