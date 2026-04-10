@@ -39,7 +39,7 @@
             <Setter Property="CornerRadius" Value="0" />
         </Style>
         <!-- Step item badge -->
-        <Style Selector="^ /template/ ItemsControl > controls:StepItem /template/ Border">
+        <Style Selector="^ /template/ ItemsControl > StepItem /template/ Border">
             <Setter Property="CornerRadius" Value="0" />
         </Style>
     </ControlTheme>
