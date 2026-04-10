@@ -413,9 +413,19 @@ public class PleasantTheme : Styles
             int resourceIndex = 0;
             foreach (var resource in Application.Current.Resources.MergedDictionaries)
             {
-                System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Resource [{resourceIndex}]: {resource?.GetType().FullName}");
+                string resourceInfo = resource?.GetType().FullName ?? "null";
                 
-                if (resource?.GetType().FullName == "PleasantUI.ToolKit.PleasantUIToolKit")
+                // Try to get Source URI if it's a ResourceInclude
+                if (resource is Avalonia.Markup.Xaml.Styling.ResourceInclude resourceInclude)
+                {
+                    resourceInfo += $" (Source: {resourceInclude.Source})";
+                }
+                
+                System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Resource [{resourceIndex}]: {resourceInfo}");
+                
+                // Check by type name or by checking if it's a PleasantUIToolKit instance
+                if (resource?.GetType().FullName == "PleasantUI.ToolKit.PleasantUIToolKit" ||
+                    resource?.GetType().Name == "PleasantUIToolKit")
                 {
                     System.Diagnostics.Debug.WriteLine("[PleasantTheme] Found PleasantUIToolKit, calling UpdateVGUIStyle");
                     try
