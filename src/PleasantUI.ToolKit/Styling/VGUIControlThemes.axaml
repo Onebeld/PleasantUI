@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls">
+
+    <!-- VGUI CrashReportDialog Theme - square corners -->
+    <ControlTheme x:Key="{x:Type controls:CrashReportDialog}" TargetType="controls:CrashReportDialog" BasedOn="{StaticResource {x:Type controls:CrashReportDialog}}">
+        <!-- Override all corner radius bindings to 0 -->
+        <Style Selector="^ /template/ ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <Style Selector="^ /template/ Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Icon badge -->
+        <Style Selector="^ /template/ Border[Width='44']">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Tab items -->
+        <Style Selector="^ /template/ ListBoxItem">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Exception summary border -->
+        <Style Selector="^ /template/ Border[Background='{DynamicResource BackgroundColor3}']">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Message border in exception tab -->
+        <Style Selector="^ /template/ SmoothScrollViewer#PART_ExceptionTab Border[Background='{DynamicResource BackgroundColor3}']">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Stack trace border -->
+        <Style Selector="^ /template/ SmoothScrollViewer#PART_ExceptionTab Border[MaxHeight='160']">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Screenshot border -->
+        <Style Selector="^ /template/ Grid#PART_ScreenshotTab Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Status row -->
+        <Style Selector="^ /template/ Border#PART_StatusRow">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
+    <!-- VGUI StepDialog Theme - square corners -->
+    <ControlTheme x:Key="{x:Type controls:StepDialog}" TargetType="controls:StepDialog" BasedOn="{StaticResource {x:Type controls:StepDialog}}">
+        <!-- Override all corner radius bindings to 0 -->
+        <Style Selector="^ /template/ ShadowBorder">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <Style Selector="^ /template/ Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Step number badge -->
+        <Style Selector="^ /template/ ItemsControl StepItem /template/ Border[Width='28']">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Status row -->
+        <Style Selector="^ /template/ Border#PART_StatusRow">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
