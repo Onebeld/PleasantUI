@@ -24,7 +24,7 @@
                         <TextBlock Text="{Binding Index}"
                                    FontSize="12"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                                   Foreground="{DynamicResource TextFillColor1}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />
                     </Border>
