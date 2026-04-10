@@ -106,6 +106,38 @@ public class DownloadPanel : TemplatedControl
     public static readonly StyledProperty<object?> TabContentProperty =
         AvaloniaProperty.Register<DownloadPanel, object?>(nameof(TabContent));
 
+    /// <summary>Defines the <see cref="SizeLabel"/> property.</summary>
+    public static readonly StyledProperty<string> SizeLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(SizeLabel), defaultValue: "SIZE");
+
+    /// <summary>Defines the <see cref="SpeedLabel"/> property.</summary>
+    public static readonly StyledProperty<string> SpeedLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(SpeedLabel), defaultValue: "SPEED");
+
+    /// <summary>Defines the <see cref="RemainingLabel"/> property.</summary>
+    public static readonly StyledProperty<string> RemainingLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(RemainingLabel), defaultValue: "REMAINING");
+
+    /// <summary>Defines the <see cref="ShowDetailsLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ShowDetailsLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ShowDetailsLabel), defaultValue: "Show details");
+
+    /// <summary>Defines the <see cref="HideDetailsLabel"/> property.</summary>
+    public static readonly StyledProperty<string> HideDetailsLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(HideDetailsLabel), defaultValue: "Hide details");
+
+    /// <summary>Defines the <see cref="PauseLabel"/> property.</summary>
+    public static readonly StyledProperty<string> PauseLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(PauseLabel), defaultValue: "Pause");
+
+    /// <summary>Defines the <see cref="ResumeLabel"/> property.</summary>
+    public static readonly StyledProperty<string> ResumeLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ResumeLabel), defaultValue: "Resume");
+
+    /// <summary>Defines the <see cref="CancelLabel"/> property.</summary>
+    public static readonly StyledProperty<string> CancelLabelProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(CancelLabel), defaultValue: "Cancel");
+
     // ── Direct properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Tabs"/> direct property.</summary>
@@ -216,6 +248,62 @@ public class DownloadPanel : TemplatedControl
     {
         get => GetValue(TabContentProperty);
         set => SetValue(TabContentProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the size column in chunk info.</summary>
+    public string SizeLabel
+    {
+        get => GetValue(SizeLabelProperty);
+        set => SetValue(SizeLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the speed column in chunk info.</summary>
+    public string SpeedLabel
+    {
+        get => GetValue(SpeedLabelProperty);
+        set => SetValue(SpeedLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the remaining time column in chunk info.</summary>
+    public string RemainingLabel
+    {
+        get => GetValue(RemainingLabelProperty);
+        set => SetValue(RemainingLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the show details button.</summary>
+    public string ShowDetailsLabel
+    {
+        get => GetValue(ShowDetailsLabelProperty);
+        set => SetValue(ShowDetailsLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the hide details button.</summary>
+    public string HideDetailsLabel
+    {
+        get => GetValue(HideDetailsLabelProperty);
+        set => SetValue(HideDetailsLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the pause button.</summary>
+    public string PauseLabel
+    {
+        get => GetValue(PauseLabelProperty);
+        set => SetValue(PauseLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the resume button.</summary>
+    public string ResumeLabel
+    {
+        get => GetValue(ResumeLabelProperty);
+        set => SetValue(ResumeLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the label for the cancel button.</summary>
+    public string CancelLabel
+    {
+        get => GetValue(CancelLabelProperty);
+        set => SetValue(CancelLabelProperty, value);
     }
 
     /// <summary>Gets the collection of tab items shown in the tab strip.</summary>

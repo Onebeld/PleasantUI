@@ -569,4 +569,68 @@
     <data name="MiniWindow/PropShowHiddenButton" xml:space="preserve"><value>Показывает кнопку сворачивания, скрывающую окно на панель задач.</value></data>
     <data name="MiniWindow/PropEnableBlur"      xml:space="preserve"><value>Включает акриловое/размытое прозрачное фоновое покрытие окна.</value></data>
 
+    <!-- StepDialog page -->
+    <data name="StepDialog/SetupWizardTitle" xml:space="preserve"><value>Мастер установки</value></data>
+    <data name="StepDialog/SetupWizardDescription" xml:space="preserve"><value>Следуйте этим шагам для завершения установки.</value></data>
+    <data name="StepDialog/Cancel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="StepDialog/Finish" xml:space="preserve"><value>Готово</value></data>
+    <data name="StepDialog/WaitingForConfirmation" xml:space="preserve"><value>Ожидание подтверждения…</value></data>
+    <data name="StepDialog/AcceptLicenseHeader" xml:space="preserve"><value>Примите лицензионное соглашение</value></data>
+    <data name="StepDialog/AcceptLicenseDescription" xml:space="preserve"><value>Прочитайте и примите условия перед продолжением.</value></data>
+    <data name="StepDialog/ChooseDirectoryHeader" xml:space="preserve"><value>Выберите каталог установки</value></data>
+    <data name="StepDialog/DefaultDirectoryPath" xml:space="preserve"><value>C:\Program Files\MyApp</value></data>
+    <data name="StepDialog/CompleteInstallationHeader" xml:space="preserve"><value>Завершение установки</value></data>
+    <data name="StepDialog/CompleteInstallationDescription" xml:space="preserve"><value>Нажмите Готово для применения настроек.</value></data>
+    <data name="StepDialog/Finished" xml:space="preserve"><value>Завершено</value></data>
+    <data name="StepDialog/Cancelled" xml:space="preserve"><value>Отменено</value></data>
+    <data name="StepDialog/SignInAzureTitle" xml:space="preserve"><value>Вход через Azure</value></data>
+    <data name="StepDialog/SignInAzureDescription" xml:space="preserve"><value>Аутентификация через браузер не удалась. Используйте поток кода устройства.</value></data>
+    <data name="StepDialog/WaitingForAuth" xml:space="preserve"><value>Ожидание завершения аутентификации…</value></data>
+    <data name="StepDialog/OpenAuthPageHeader" xml:space="preserve"><value>Откройте страницу аутентификации</value></data>
+    <data name="StepDialog/OpenAuthPageButton" xml:space="preserve"><value>Открыть microsoft.com/devicelogin</value></data>
+    <data name="StepDialog/EnterCodeHeader" xml:space="preserve"><value>Введите этот код</value></data>
+    <data name="StepDialog/DeviceCode" xml:space="preserve"><value>ABCD-1234</value></data>
+    <data name="StepDialog/CompleteSignInHeader" xml:space="preserve"><value>Завершите вход в браузере</value></data>
+    <data name="StepDialog/AuthCancelled" xml:space="preserve"><value>Вход отменён</value></data>
+    <data name="StepDialog/AuthClosed" xml:space="preserve"><value>Вход закрыт</value></data>
+ 
+    <!-- LogViewerPanel -->
+    <data name="LogViewerPanel/AllFilterText" xml:space="preserve"><value>Все</value></data>
+    <data name="LogViewerPanel/AutoScrollTooltip" xml:space="preserve"><value>Автопрокрутка</value></data>
+    <data name="LogViewerPanel/CopyAllTooltip" xml:space="preserve"><value>Копировать всё</value></data>
+    <data name="LogViewerPanel/ClearTooltip" xml:space="preserve"><value>Очистить</value></data>
+    <data name="LogViewerPanel/CloseTooltip" xml:space="preserve"><value>Закрыть</value></data>
+    <data name="LogViewerPanel/DebugTooltip" xml:space="preserve"><value>Показывать отладочные записи</value></data>
+
+    <!-- DownloadPanel -->
+    <data name="DownloadPanel/SizeLabel" xml:space="preserve"><value>РАЗМЕР</value></data>
+    <data name="DownloadPanel/SpeedLabel" xml:space="preserve"><value>СКОРОСТЬ</value></data>
+    <data name="DownloadPanel/RemainingLabel" xml:space="preserve"><value>ОСТАЛОСЬ</value></data>
+    <data name="DownloadPanel/ShowDetailsLabel" xml:space="preserve"><value>Показать детали</value></data>
+    <data name="DownloadPanel/HideDetailsLabel" xml:space="preserve"><value>Скрыть детали</value></data>
+    <data name="DownloadPanel/PauseLabel" xml:space="preserve"><value>Пауза</value></data>
+    <data name="DownloadPanel/ResumeLabel" xml:space="preserve"><value>Продолжить</value></data>
+    <data name="DownloadPanel/CancelLabel" xml:space="preserve"><value>Отмена</value></data>
+
+    <!-- CrashReportDialog -->
+    <data name="CrashReportDialog/SendReportLabel" xml:space="preserve"><value>Отправить отчёт</value></data>
+    <data name="CrashReportDialog/SaveReportLabel" xml:space="preserve"><value>Сохранить отчёт</value></data>
+    <data name="CrashReportDialog/CancelLabel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="CrashReportDialog/EmailLabel" xml:space="preserve"><value>Ваш адрес электронной почты</value></data>
+    <data name="CrashReportDialog/EmailValidationError" xml:space="preserve"><value>Пожалуйста, введите корректный адрес электронной почты.</value></data>
+    <data name="CrashReportDialog/IncludeScreenshotLabel" xml:space="preserve"><value>Включить скриншот в отчёт</value></data>
+    <data name="CrashReportDialog/MessageLabel" xml:space="preserve"><value>Сообщение</value></data>
+    <data name="CrashReportDialog/GeneralTabLabel" xml:space="preserve"><value>Общие</value></data>
+    <data name="CrashReportDialog/ExceptionTabLabel" xml:space="preserve"><value>Исключение</value></data>
+    <data name="CrashReportDialog/ScreenshotTabLabel" xml:space="preserve"><value>Скриншот</value></data>
+    <data name="CrashReportDialog/SendingMessage" xml:space="preserve"><value>Отправка отчёта…</value></data>
+    <data name="CrashReportDialog/SuccessMessage" xml:space="preserve"><value>Отчёт успешно отправлен. Спасибо!</value></data>
+    <data name="CrashReportDialog/FailureMessagePrefix" xml:space="preserve"><value>Не удалось отправить отчёт: </value></data>
+    <data name="CrashReportDialog/CrashedText" xml:space="preserve"><value> упал</value></data>
+    <data name="CrashReportDialog/OccurredAtText" xml:space="preserve"><value>Произошло в</value></data>
+    <data name="CrashReportDialog/WhatWereYouDoingText" xml:space="preserve"><value>Что вы делали, когда произошёл сбой? (необязательно)</value></data>
+    <data name="CrashReportDialog/ApplicationLabel" xml:space="preserve"><value>Приложение</value></data>
+    <data name="CrashReportDialog/VersionLabel" xml:space="preserve"><value>Версия</value></data>
+    <data name="CrashReportDialog/UserMessagePlaceholder" xml:space="preserve"><value>Опишите, что вы делали…</value></data>
+
 </root>

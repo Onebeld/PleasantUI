@@ -227,7 +227,7 @@
                                               Data="{DynamicResource ChevronDownRegular}"
                                               Width="10" Height="10" />
                                     <TextBlock Name="PART_DetailsLabel"
-                                               Text="Show details"
+                                               Text="{TemplateBinding ShowDetailsLabel}"
                                                FontSize="12" />
                                 </StackPanel>
                             </Button>
@@ -241,12 +241,12 @@
                                         Command="{TemplateBinding PauseResumeCommand}"
                                         IsEnabled="{TemplateBinding IsPauseResumeEnabled}"
                                         Padding="14 6">
-                                    <TextBlock Name="PART_PauseLabel" Text="Pause" FontSize="12" />
+                                    <TextBlock Name="PART_PauseLabel" Text="{TemplateBinding PauseLabel}" FontSize="12" />
                                 </Button>
                                 <Button Name="PART_CancelButton"
                                         Command="{TemplateBinding CancelCommand}"
                                         Theme="{DynamicResource DangerButtonTheme}"
-                                        Content="Cancel"
+                                        Content="{TemplateBinding CancelLabel}"
                                         Padding="14 6"
                                         FontSize="12" />
                             </StackPanel>
@@ -297,7 +297,7 @@
 
         <!-- ── Paused: change pause button label ─────────────────────── -->
         <Style Selector="^:paused /template/ TextBlock#PART_PauseLabel">
-            <Setter Property="Text" Value="Resume" />
+            <Setter Property="Text" Value="{Binding ResumeLabel, RelativeSource={RelativeSource TemplatedParent}}" />
         </Style>
         <Style Selector="^:paused /template/ Button#PART_PauseButton">
             <Setter Property="Theme" Value="{DynamicResource AccentButtonTheme}" />
@@ -314,7 +314,7 @@
             <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^:showDetails /template/ TextBlock#PART_DetailsLabel">
-            <Setter Property="Text" Value="Hide details" />
+            <Setter Property="Text" Value="{Binding HideDetailsLabel, RelativeSource={RelativeSource TemplatedParent}}" />
         </Style>
         <Style Selector="^:showDetails /template/ PathIcon#PART_DetailsChevron">
             <Setter Property="RenderTransform" Value="rotate(180deg)" />

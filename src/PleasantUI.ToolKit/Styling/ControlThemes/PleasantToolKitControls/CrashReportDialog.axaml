@@ -126,7 +126,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="{DynamicResource TextFillColor1}">
                                             <Run Text="{TemplateBinding ApplicationName}" />
-                                            <Run Text=" crashed" />
+                                            <Run Text="{TemplateBinding CrashedText}" />
                                         </TextBlock>
                                         <TextBlock Text="{TemplateBinding ExceptionMessage}"
                                                    FontSize="12"
@@ -171,29 +171,28 @@
                                             <!-- App info row -->
                                             <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
                                                 <TextBlock Grid.Row="0" Grid.Column="0"
-                                                           Text="Application"
+                                                           Text="{TemplateBinding ApplicationLabel}"
                                                            Foreground="{DynamicResource TextFillColor2}"
                                                            VerticalAlignment="Center" FontSize="12" />
-                                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                                <TextBlock Grid.Row="0" Grid.Column="2"
                                                            Text="{TemplateBinding ApplicationName}"
                                                            FontSize="12"
-                                                           TextTrimming="CharacterEllipsis"
                                                            VerticalAlignment="Center" />
 
                                                 <TextBlock Grid.Row="1" Grid.Column="0"
-                                                           Text="Version"
+                                                           Text="{TemplateBinding VersionLabel}"
                                                            Foreground="{DynamicResource TextFillColor2}"
                                                            VerticalAlignment="Center" FontSize="12" />
-                                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                                <TextBlock Grid.Row="1" Grid.Column="2"
                                                            Text="{TemplateBinding ApplicationVersion}"
                                                            FontSize="12"
                                                            VerticalAlignment="Center" />
 
                                                 <TextBlock Grid.Row="2" Grid.Column="0"
-                                                           Text="Occurred at"
+                                                           Text="{TemplateBinding OccurredAtText}"
                                                            Foreground="{DynamicResource TextFillColor2}"
                                                            VerticalAlignment="Center" FontSize="12" />
-                                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                                <TextBlock Grid.Row="2" Grid.Column="2"
                                                            Text="{TemplateBinding OccurredAt}"
                                                            FontSize="12"
                                                            VerticalAlignment="Center" />
@@ -213,21 +212,21 @@
 
                                             <!-- User message -->
                                             <StackPanel Spacing="4">
-                                                <TextBlock Text="What were you doing when the crash occurred? (optional)"
+                                                <TextBlock Text="{TemplateBinding WhatWereYouDoingText}"
                                                            FontSize="11"
                                                            Foreground="{DynamicResource TextFillColor2}" />
                                                 <TextBox Name="PART_UserMessageBox"
                                                          Height="72"
                                                          AcceptsReturn="True"
                                                          TextWrapping="Wrap"
-                                                         PlaceholderText="Describe what you were doing…"
+                                                         PlaceholderText="{TemplateBinding UserMessagePlaceholder}"
                                                          FontSize="12" />
                                             </StackPanel>
 
                                             <!-- Email -->
                                             <StackPanel Spacing="4">
                                                 <StackPanel Orientation="Horizontal" Spacing="4">
-                                                    <TextBlock Text="Your email address"
+                                                    <TextBlock Text="{TemplateBinding EmailLabel}"
                                                                FontSize="11"
                                                                Foreground="{DynamicResource TextFillColor2}" />
                                                     <TextBlock Name="PART_EmailRequiredBadge"
@@ -240,7 +239,7 @@
                                                          PlaceholderText="you@example.com"
                                                          FontSize="12" />
                                                 <TextBlock Name="PART_EmailError"
-                                                           Text="Please enter a valid email address."
+                                                           Text="{TemplateBinding EmailValidationError}"
                                                            FontSize="11"
                                                            Foreground="{DynamicResource SystemFillColorCritical}"
                                                            IsVisible="False" />
@@ -279,7 +278,7 @@
                                             </Grid>
 
                                             <StackPanel Spacing="4">
-                                                <TextBlock Text="Message"
+                                                <TextBlock Text="{TemplateBinding MessageLabel}"
                                                            FontSize="11"
                                                            Foreground="{DynamicResource TextFillColor2}" />
                                                 <Border Background="{DynamicResource BackgroundColor3}"
@@ -322,7 +321,7 @@
                                           IsVisible="False">
                                         <CheckBox Name="PART_ScreenshotToggle"
                                                   Grid.Row="0"
-                                                  Content="Include screenshot in report"
+                                                  Content="{TemplateBinding IncludeScreenshotLabel}"
                                                   IsChecked="{TemplateBinding IncludeScreenshot, Mode=TwoWay}"
                                                   Margin="0 0 0 12" />
                                         <Border Grid.Row="1"
@@ -400,7 +399,7 @@
                                             <StackPanel Orientation="Horizontal" Spacing="6">
                                                 <PathIcon Data="{DynamicResource DocumentRegular}"
                                                           Width="12" Height="12" />
-                                                <TextBlock Text="Save Report" />
+                                                <TextBlock Text="{TemplateBinding SaveReportLabel}" />
                                             </StackPanel>
                                         </Button>
 
@@ -413,7 +412,7 @@
                                             <StackPanel Orientation="Horizontal" Spacing="6">
                                                 <PathIcon Data="{DynamicResource ArrowRightRegular}"
                                                           Width="12" Height="12" />
-                                                <TextBlock Text="Send Report" />
+                                                <TextBlock Text="{TemplateBinding SendReportLabel}" />
                                             </StackPanel>
                                         </Button>
 
@@ -421,8 +420,9 @@
                                         <Button Name="PART_CancelButton"
                                                 Grid.Column="4"
                                                 Padding="12 6"
-                                                FontSize="12"
-                                                Content="Cancel" />
+                                                FontSize="12">
+                                            <ContentControl Content="{TemplateBinding CancelLabel}" />
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -434,33 +434,33 @@
 
         <!-- ── Tab switching via ListBox selection ────────────────────── -->
         <!-- General tab (index 0 selected or nothing selected) -->
-        <Style Selector="^[Tag=General] /template/ SmoothScrollViewer#PART_GeneralTab">
+        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_GeneralTab">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-        <Style Selector="^[Tag=General] /template/ SmoothScrollViewer#PART_ExceptionTab">
+        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_ExceptionTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^[Tag=General] /template/ Grid#PART_ScreenshotTab">
+        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ Grid#PART_ScreenshotTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <Style Selector="^[Tag=Exception] /template/ SmoothScrollViewer#PART_GeneralTab">
+        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_GeneralTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^[Tag=Exception] /template/ SmoothScrollViewer#PART_ExceptionTab">
+        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_ExceptionTab">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-        <Style Selector="^[Tag=Exception] /template/ Grid#PART_ScreenshotTab">
+        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ Grid#PART_ScreenshotTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <Style Selector="^[Tag=Screenshot] /template/ SmoothScrollViewer#PART_GeneralTab">
+        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_GeneralTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^[Tag=Screenshot] /template/ SmoothScrollViewer#PART_ExceptionTab">
+        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_ExceptionTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^[Tag=Screenshot] /template/ Grid#PART_ScreenshotTab">
+        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ Grid#PART_ScreenshotTab">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
