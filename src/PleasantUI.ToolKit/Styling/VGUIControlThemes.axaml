@@ -2,6 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls">
 
+    <!-- VGUI StepItem Theme - square corners -->
+    <ControlTheme x:Key="{x:Type controls:StepItem}" TargetType="controls:StepItem" BasedOn="{StaticResource {x:Type controls:StepItem}}">
+        <Style Selector="^ /template/ Border">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </ControlTheme>
+
     <!-- VGUI CrashReportDialog Theme - square corners -->
     <ControlTheme x:Key="{x:Type controls:CrashReportDialog}" TargetType="controls:CrashReportDialog" BasedOn="{StaticResource {x:Type controls:CrashReportDialog}}">
         <!-- Override all corner radius bindings to 0 -->
@@ -36,10 +43,6 @@
         </Style>
         <!-- Status row -->
         <Style Selector="^ /template/ Border#PART_StatusRow">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Step item badge -->
-        <Style Selector="^ /template/ ItemsControl > StepItem /template/ Border">
             <Setter Property="CornerRadius" Value="0" />
         </Style>
     </ControlTheme>
