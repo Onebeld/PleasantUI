@@ -1603,8 +1603,8 @@ PleasantSettings.Current.Theme = "MyCustomTheme";
 
 ## Additional Resources
 
-- [PleasantUI Documentation](../docs/llms.txt) - Complete documentation for all controls
-- [PleasantUI README](../README.md) - Main project README
+- [PleasantUI Documentation](../../docs/) - Complete documentation for all controls
+- [PleasantUI README](../../README.md) - Main project README
 - [Avalonia Documentation](https://docs.avaloniaui.net/) - Avalonia framework documentation
 - [Fluent Design Guidelines](https://learn.microsoft.com/en-us/windows/apps/design/) - Microsoft's design guidelines
 
