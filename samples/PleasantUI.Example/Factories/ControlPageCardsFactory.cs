@@ -64,8 +64,9 @@ public class ControlPageCardsFactory
     {
         return
         [
-            new("CardTitle/MessageBox", MaterialIcons.MessageOutline, "Card/MessageBox", new MessageBoxPage(), _eventAggregator),
-            new("CardTitle/Docking",    MaterialIcons.ViewDashboardOutline, "Card/Docking", new DockingPage(), _eventAggregator),
+            new("CardTitle/MessageBox",    MaterialIcons.MessageOutline,        "Card/MessageBox",    new MessageBoxPage(),    _eventAggregator),
+            new("CardTitle/NoticeDialog",  MaterialIcons.InformationOutline,    "Card/NoticeDialog",  new NoticeDialogPage(),  _eventAggregator),
+            new("CardTitle/Docking",       MaterialIcons.ViewDashboardOutline,   "Card/Docking",       new DockingPage(),       _eventAggregator),
         ];
     }
 }

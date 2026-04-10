@@ -1,9 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
+using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Styling;
 using PleasantUI.Controls;
+using PleasantUI.Core;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -26,23 +30,11 @@ public enum NoticeSeverity
 
 /// <summary>
 /// A modal dialog for displaying notices, warnings, or work-in-progress messages.
-/// Features a header with icon, message body, optional footer text, and customizable action buttons.
+/// Features a severity-based header with icon, message body, optional footer text,
+/// and customizable action buttons. All text properties support localization keys.
 /// </summary>
-[TemplatePart(PART_PrimaryButton, typeof(Button))]
-[TemplatePart(PART_SecondaryButton, typeof(Button))]
-[PseudoClasses(PC_HasSecondary, PC_HasFooter)]
-public class NoticeDialog : PleasantPopupElement
+public partial class NoticeDialog : ContentDialog
 {
-    // ── Template part names ───────────────────────────────────────────────────
-
-    internal const string PART_PrimaryButton = "PART_PrimaryButton";
-    internal const string PART_SecondaryButton = "PART_SecondaryButton";
-
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_HasSecondary = ":hasSecondary";
-    private const string PC_HasFooter = ":hasFooter";
-
     // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Title"/> property.</summary>
@@ -53,9 +45,9 @@ public class NoticeDialog : PleasantPopupElement
     public static readonly StyledProperty<string?> MessageProperty =
         AvaloniaProperty.Register<NoticeDialog, string?>(nameof(Message));
 
-    /// <summary>Defines the <see cref="FooterText"/> property.</summary>
-    public static readonly StyledProperty<string?> FooterTextProperty =
-        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(FooterText));
+    /// <summary>Defines the <see cref="NoticeFooterText"/> property.</summary>
+    public static readonly StyledProperty<string?> NoticeFooterTextProperty =
+        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(NoticeFooterText));
 
     /// <summary>Defines the <see cref="PrimaryButtonText"/> property.</summary>
     public static readonly StyledProperty<string?> PrimaryButtonTextProperty =
@@ -69,45 +61,57 @@ public class NoticeDialog : PleasantPopupElement
     public static readonly StyledProperty<NoticeSeverity> SeverityProperty =
         AvaloniaProperty.Register<NoticeDialog, NoticeSeverity>(nameof(Severity), defaultValue: NoticeSeverity.Info);
 
-    /// <summary>Defines the <see cref="MinDialogWidth"/> property.</summary>
-    public static readonly StyledProperty<double> MinDialogWidthProperty =
-        AvaloniaProperty.Register<NoticeDialog, double>(nameof(MinDialogWidth), defaultValue: 400);
+    /// <summary>Defines the <see cref="Version"/> property.</summary>
+    public static readonly StyledProperty<string?> VersionProperty =
+        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(Version));
 
-    /// <summary>Defines the <see cref="MinDialogHeight"/> property.</summary>
-    public static readonly StyledProperty<double> MinDialogHeightProperty =
-        AvaloniaProperty.Register<NoticeDialog, double>(nameof(MinDialogHeight), defaultValue: 300);
+    /// <summary>Defines the <see cref="VersionType"/> property.</summary>
+    public static readonly StyledProperty<string?> VersionTypeProperty =
+        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(VersionType));
+
+    /// <summary>Defines the <see cref="VersionLabel"/> property.</summary>
+    public static readonly StyledProperty<string?> VersionLabelProperty =
+        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(VersionLabel));
+
+    /// <summary>Defines the <see cref="VersionTypeBadgeBackground"/> property.</summary>
+    public static readonly StyledProperty<IBrush?> VersionTypeBadgeBackgroundProperty =
+        AvaloniaProperty.Register<NoticeDialog, IBrush?>(nameof(VersionTypeBadgeBackground));
+
+    /// <summary>Defines the <see cref="VersionTypeEnum"/> property.</summary>
+    public static readonly StyledProperty<PleasantVersionType?> VersionTypeEnumProperty =
+        AvaloniaProperty.Register<NoticeDialog, PleasantVersionType?>(nameof(VersionTypeEnum));
 
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
-    /// <summary>Gets or sets the dialog title.</summary>
+    /// <summary>Gets or sets the dialog title. Supports localization keys.</summary>
     public string? Title
     {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
-    /// <summary>Gets or sets the main message text.</summary>
+    /// <summary>Gets or sets the main message text. Supports localization keys.</summary>
     public string? Message
     {
         get => GetValue(MessageProperty);
         set => SetValue(MessageProperty, value);
     }
 
-    /// <summary>Gets or sets optional footer text (e.g., attribution or additional info).</summary>
-    public string? FooterText
+    /// <summary>Gets or sets optional footer text (e.g., attribution or additional info). Supports localization keys.</summary>
+    public string? NoticeFooterText
     {
-        get => GetValue(FooterTextProperty);
-        set => SetValue(FooterTextProperty, value);
+        get => GetValue(NoticeFooterTextProperty);
+        set => SetValue(NoticeFooterTextProperty, value);
     }
 
-    /// <summary>Gets or sets the text of the primary action button. Null hides the button.</summary>
+    /// <summary>Gets or sets the text of the primary action button. Null hides the button. Supports localization keys.</summary>
     public string? PrimaryButtonText
     {
         get => GetValue(PrimaryButtonTextProperty);
         set => SetValue(PrimaryButtonTextProperty, value);
     }
 
-    /// <summary>Gets or sets the text of the secondary action button. Null hides the button.</summary>
+    /// <summary>Gets or sets the text of the secondary action button. Null hides the button. Supports localization keys.</summary>
     public string? SecondaryButtonText
     {
         get => GetValue(SecondaryButtonTextProperty);
@@ -121,18 +125,42 @@ public class NoticeDialog : PleasantPopupElement
         set => SetValue(SeverityProperty, value);
     }
 
-    /// <summary>Gets or sets the minimum width of the dialog.</summary>
-    public double MinDialogWidth
+    /// <summary>Gets or sets the version string to display (e.g., "1.0.0").</summary>
+    public string? Version
     {
-        get => GetValue(MinDialogWidthProperty);
-        set => SetValue(MinDialogWidthProperty, value);
+        get => GetValue(VersionProperty);
+        set => SetValue(VersionProperty, value);
     }
 
-    /// <summary>Gets or sets the minimum height of the dialog.</summary>
-    public double MinDialogHeight
+    /// <summary>Gets or sets the version type description (e.g., "Beta", "Alpha").</summary>
+    public string? VersionType
     {
-        get => GetValue(MinDialogHeightProperty);
-        set => SetValue(MinDialogHeightProperty, value);
+        get => GetValue(VersionTypeProperty);
+        set => SetValue(VersionTypeProperty, value);
+    }
+
+    /// <summary>Gets or sets the label text for the version field (e.g., "Version"). Supports localization keys.</summary>
+    public string? VersionLabel
+    {
+        get => GetValue(VersionLabelProperty);
+        set => SetValue(VersionLabelProperty, value);
+    }
+
+    /// <summary>Gets or sets the background brush for the version type badge.</summary>
+    public IBrush? VersionTypeBadgeBackground
+    {
+        get => GetValue(VersionTypeBadgeBackgroundProperty);
+        set => SetValue(VersionTypeBadgeBackgroundProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the strongly-typed version type enum. When set, badge color is resolved
+    /// from the enum directly (same logic as AboutView), bypassing string normalization.
+    /// </summary>
+    public PleasantVersionType? VersionTypeEnum
+    {
+        get => GetValue(VersionTypeEnumProperty);
+        set => SetValue(VersionTypeEnumProperty, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -143,119 +171,53 @@ public class NoticeDialog : PleasantPopupElement
     /// <summary>Raised when the secondary button is clicked.</summary>
     public event EventHandler? SecondaryButtonClicked;
 
-    /// <summary>Raised when the dialog is closed.</summary>
-    public event EventHandler? Closed;
-
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private Button? _primaryButton;
-    private Button? _secondaryButton;
-    private Border? _modalBackground;
-    private Panel? _panel;
-    private bool _isClosing;
-
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    public NoticeDialog()
+    public NoticeDialog() => InitializeComponent();
+
+    // ── Static factory ────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Shows a <see cref="NoticeDialog"/> with the specified parameters.
+    /// </summary>
+    /// <param name="parent">The parent window that hosts the dialog.</param>
+    /// <param name="title">The dialog title text or localization key.</param>
+    /// <param name="message">The main message text or localization key.</param>
+    /// <param name="noticeFooterText">Optional footer text or localization key.</param>
+    /// <param name="primaryButtonText">Primary button text or localization key. Null hides the button.</param>
+    /// <param name="secondaryButtonText">Secondary button text or localization key. Null hides the button.</param>
+    /// <param name="severity">Severity level affecting icon and header color.</param>
+    /// <param name="version">Optional version string to display.</param>
+    /// <param name="versionType">Optional version type description (e.g., "Beta", "Alpha").</param>
+    /// <param name="versionLabel">Optional label for version field (e.g., "Version"). Supports localization keys.</param>
+    public static Task Show(
+        PleasantUI.Core.Interfaces.IPleasantWindow parent,
+        string title,
+        string message,
+        string? noticeFooterText = null,
+        string? primaryButtonText = null,
+        string? secondaryButtonText = null,
+        NoticeSeverity severity = NoticeSeverity.Info,
+        string? version = null,
+        string? versionType = null,
+        string? versionLabel = null)
     {
-    }
-
-    // ── Template ──────────────────────────────────────────────────────────────
-
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        DetachHandlers();
-
-        _primaryButton = e.NameScope.Find<Button>(PART_PrimaryButton);
-        _secondaryButton = e.NameScope.Find<Button>(PART_SecondaryButton);
-
-        AttachHandlers();
-        UpdatePseudoClasses();
-    }
-
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
-
-        if (change.Property == SecondaryButtonTextProperty)
-            PseudoClasses.Set(PC_HasSecondary, change.NewValue is not null);
-        else if (change.Property == FooterTextProperty)
-            PseudoClasses.Set(PC_HasFooter, change.NewValue is not null);
-    }
-
-    // ── Public API ────────────────────────────────────────────────────────────
-
-    /// <summary>Shows the dialog on the specified <see cref="TopLevel"/>.</summary>
-    public async Task ShowAsync(TopLevel? topLevel = null)
-    {
-        _panel = new Panel();
-
-        _modalBackground = new Border
+        var dialog = new NoticeDialog
         {
-            Background = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#3A000000")),
-            Opacity = 0
+            Title = title,
+            Message = message,
+            NoticeFooterText = noticeFooterText,
+            PrimaryButtonText = primaryButtonText,
+            SecondaryButtonText = secondaryButtonText,
+            Severity = severity,
+            Version = version,
+            VersionType = versionType,
+            VersionLabel = versionLabel
         };
 
-        _panel.Children.Add(_modalBackground);
-        _panel.Children.Add(this);
-
-        Host ??= new ModalWindowHost();
-        Host.Content = _panel;
-
-        base.ShowCoreForTopLevel(topLevel);
-
-        PseudoClasses.Set(":open", true);
-
-        // Fade in modal background
-        if (_modalBackground is not null)
-        {
-            var bgAnim = new Animation
-            {
-                Duration = TimeSpan.FromMilliseconds(200),
-                FillMode = Avalonia.Animation.FillMode.Forward
-            };
-            var kf = new KeyFrame { Cue = new Cue(1.0) };
-            kf.Setters.Add(new Setter(OpacityProperty, 1.0));
-            bgAnim.Children.Add(kf);
-            await bgAnim.RunAsync(_modalBackground);
-        }
-    }
-
-    /// <summary>Closes the dialog.</summary>
-    public async Task CloseAsync()
-    {
-        if (_isClosing) return;
-        _isClosing = true;
-
-        PseudoClasses.Set(":open", false);
-        base.DeleteCoreForTopLevel();
-
-        _isClosing = false;
-        Closed?.Invoke(this, EventArgs.Empty);
-    }
-
-    // ── Private helpers ───────────────────────────────────────────────────────
-
-    private void AttachHandlers()
-    {
-        if (_primaryButton is not null) _primaryButton.Click += OnPrimaryClicked;
-        if (_secondaryButton is not null) _secondaryButton.Click += OnSecondaryClicked;
-    }
-
-    private void DetachHandlers()
-    {
-        if (_primaryButton is not null) _primaryButton.Click -= OnPrimaryClicked;
-        if (_secondaryButton is not null) _secondaryButton.Click -= OnSecondaryClicked;
-    }
-
-    private void OnPrimaryClicked(object? s, RoutedEventArgs e) => PrimaryButtonClicked?.Invoke(this, EventArgs.Empty);
-    private void OnSecondaryClicked(object? s, RoutedEventArgs e) => SecondaryButtonClicked?.Invoke(this, EventArgs.Empty);
-
-    private void UpdatePseudoClasses()
-    {
-        PseudoClasses.Set(PC_HasSecondary, SecondaryButtonText is not null);
-        PseudoClasses.Set(PC_HasFooter, FooterText is not null);
+        var tcs = new TaskCompletionSource();
+        dialog.Closed += (_, _) => tcs.TrySetResult();
+        dialog.ShowAsync(parent);
+        return tcs.Task;
     }
 }
