@@ -87,6 +87,20 @@ jobs:
             dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
             dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
 
+      - name: Modify Package.props with canary version
+        run: |
+          CANARY_VERSION="${{ steps.version.outputs.canary_version }}"
+          echo "Modifying build/Package.props to use canary version: $CANARY_VERSION"
+          
+          # Backup original Package.props
+          cp build/Package.props build/Package.props.backup
+          
+          # Replace PackageVersion with canary version
+          sed -i "s/<PackageVersion>.*<\/PackageVersion>/<PackageVersion>$CANARY_VERSION<\/PackageVersion>/" build/Package.props
+          
+          echo "Modified Package.props content:"
+          cat build/Package.props
+
       - name: Build
         run: |
           dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
@@ -96,14 +110,7 @@ jobs:
 
       - name: Build single-file example app
         run: |
-          dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
-            --configuration Release \
-            --runtime win-x64 \
-            --self-contained \
-            -p:PublishSingleFile=true \
-            -p:IncludeNativeLibrariesForSelfExtract=true \
-            -o /tmp/example-app-win-x64
-          
+          # Only build for linux-x64 since cross-OS native compilation is not supported
           dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
             --configuration Release \
             --runtime linux-x64 \
@@ -112,14 +119,11 @@ jobs:
             -p:IncludeNativeLibrariesForSelfExtract=true \
             -o /tmp/example-app-linux-x64
           
-          # Create zip archives
-          cd /tmp/example-app-win-x64
-          zip -r /tmp/PleasantUI-Example-win-x64.zip .
-          
+          # Create zip archive
           cd /tmp/example-app-linux-x64
           zip -r /tmp/PleasantUI-Example-linux-x64.zip .
           
-          echo "Built single-file example apps"
+          echo "Built single-file example app for linux-x64"
 
       - name: Verify packages exist
         run: |
@@ -139,20 +143,6 @@ jobs:
           done
 
           if [ "$FAILED" -eq 1 ]; then exit 1; fi
-
-      - name: Modify Package.props with canary version
-        run: |
-          CANARY_VERSION="${{ steps.version.outputs.canary_version }}"
-          echo "Modifying build/Package.props to use canary version: $CANARY_VERSION"
-          
-          # Backup original Package.props
-          cp build/Package.props build/Package.props.backup
-          
-          # Replace PackageVersion with canary version
-          sed -i "s/<PackageVersion>.*<\/PackageVersion>/<PackageVersion>$CANARY_VERSION<\/PackageVersion>/" build/Package.props
-          
-          echo "Modified Package.props content:"
-          cat build/Package.props
 
       - name: Rename packages with canary version
         run: |
@@ -779,7 +769,6 @@ jobs:
           name: canary-release-artifacts
           path: |
             src/*/bin/Release/*.nupkg
-            /tmp/PleasantUI-Example-win-x64.zip
             /tmp/PleasantUI-Example-linux-x64.zip
           retention-days: 7
 
@@ -794,7 +783,7 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             
-            const body = `## Canary Release Build\n\n${notes}\n\n### Release Artifacts\n\nDownload all canary release artifacts (NuGet packages + example apps) from the workflow run page:\n\n[Download Artifacts](https://github.com/${owner}/${repo}/actions/runs/${runId})\n\nThe "canary-release-artifacts" artifact includes:\n- PleasantUI NuGet packages\n- PleasantUI.DataGrid NuGet packages\n- PleasantUI.MaterialIcons NuGet packages\n- PleasantUI.ToolKit NuGet packages\n- PleasantUI Example app (Windows x64)\n- PleasantUI Example app (Linux x64)`;
+            const body = `## Canary Release Build\n\n${notes}\n\n### Release Artifacts\n\nDownload all canary release artifacts (NuGet packages + example app) from the workflow run page:\n\n[Download Artifacts](https://github.com/${owner}/${repo}/actions/runs/${runId})\n\nThe "canary-release-artifacts" artifact includes:\n- PleasantUI NuGet packages\n- PleasantUI.DataGrid NuGet packages\n- PleasantUI.MaterialIcons NuGet packages\n- PleasantUI.ToolKit NuGet packages\n- PleasantUI Example app (Linux x64)`;
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
