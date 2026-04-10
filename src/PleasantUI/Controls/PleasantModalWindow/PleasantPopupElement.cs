@@ -28,9 +28,19 @@ public abstract class PleasantPopupElement : ContentControl
 
     private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        // Apply VGUI corner radius override if VGUI theme is active
-        if (IsVGUIActive())
-            SetValue(CornerRadiusProperty, new CornerRadius(0));
+        try
+        {
+            // Apply VGUI corner radius override if VGUI theme is active
+            if (IsVGUIActive())
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantPopupElement] VGUI theme active, setting CornerRadius to 0");
+                SetValue(CornerRadiusProperty, new CornerRadius(0));
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[PleasantPopupElement] Error in OnCornerRadiusChanged: {ex.Message}");
+        }
     }
 
     /// <summary>
@@ -41,10 +51,13 @@ public abstract class PleasantPopupElement : ContentControl
     {
         try
         {
-            return PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
+            var isActive = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
+            System.Diagnostics.Debug.WriteLine($"[PleasantPopupElement] IsVGUIActive: {isActive}");
+            return isActive;
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"[PleasantPopupElement] Error checking VGUI status: {ex.Message}");
             return false;
         }
     }
@@ -53,9 +66,19 @@ public abstract class PleasantPopupElement : ContentControl
     {
         base.ApplyTemplate();
         
-        // Apply VGUI corner radius override when template is applied
-        if (IsVGUIActive())
-            CornerRadius = new CornerRadius(0);
+        try
+        {
+            // Apply VGUI corner radius override when template is applied
+            if (IsVGUIActive())
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantPopupElement] ApplyTemplate: VGUI theme active, setting CornerRadius to 0");
+                CornerRadius = new CornerRadius(0);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[PleasantPopupElement] Error in ApplyTemplate: {ex.Message}");
+        }
     }
 
     /// <summary>
