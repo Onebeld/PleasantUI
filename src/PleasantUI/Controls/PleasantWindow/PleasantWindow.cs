@@ -59,24 +59,7 @@ public class PleasantWindow : PleasantWindowBase
         }
     }
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-        
-        try
-        {
-            // Apply VGUI corner radius override when template is applied
-            if (IsVGUIActive())
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantWindow] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
-                CornerRadius = new CornerRadius(0);
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"[PleasantWindow] Error in OnApplyTemplate: {ex.Message}");
-        }
-    }
+  
 
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
@@ -357,6 +340,20 @@ public class PleasantWindow : PleasantWindowBase
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
+
+        try
+        {
+            // Apply VGUI corner radius override when template is applied
+            if (IsVGUIActive())
+            {
+                System.Diagnostics.Debug.WriteLine("[PleasantWindow] OnApplyTemplate: VGUI theme active, setting CornerRadius to 0");
+                CornerRadius = new CornerRadius(0);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[PleasantWindow] Error in OnApplyTemplate: {ex.Message}");
+        }
     }
 
     /// <inheritdoc />
