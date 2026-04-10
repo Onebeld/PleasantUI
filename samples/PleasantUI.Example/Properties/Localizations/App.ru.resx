@@ -611,6 +611,13 @@
     <data name="DownloadPanel/PauseLabel" xml:space="preserve"><value>Пауза</value></data>
     <data name="DownloadPanel/ResumeLabel" xml:space="preserve"><value>Продолжить</value></data>
     <data name="DownloadPanel/CancelLabel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="DownloadPanel/ChunkWaitingText" xml:space="preserve"><value>Ожидание</value></data>
+    <data name="DownloadPanel/ChunkQueuedText" xml:space="preserve"><value>В очереди</value></data>
+    <data name="DownloadPanel/ChunkStartingText" xml:space="preserve"><value>Запуск</value></data>
+    <data name="DownloadPanel/ChunkDoneText" xml:space="preserve"><value>Готово</value></data>
+    <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Пауза</value></data>
+    <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Неизвестно</value></data>
 
     <!-- CrashReportDialog -->
     <data name="CrashReportDialog/SendReportLabel" xml:space="preserve"><value>Отправить отчёт</value></data>

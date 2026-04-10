@@ -60,7 +60,7 @@
                 <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="16">
                     <!-- Size info -->
                     <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock Text="SIZE"
+                        <TextBlock Text="{TemplateBinding SizeLabel}"
                                    FontSize="8"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextFillColor3}"
@@ -73,7 +73,7 @@
 
                     <!-- Speed info -->
                     <StackPanel Grid.Column="1" Spacing="2">
-                        <TextBlock Text="SPEED"
+                        <TextBlock Text="{TemplateBinding SpeedLabel}"
                                    FontSize="8"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextFillColor3}"
@@ -86,7 +86,7 @@
 
                     <!-- Time info -->
                     <StackPanel Grid.Column="2" Spacing="2">
-                        <TextBlock Text="REMAINING"
+                        <TextBlock Text="{TemplateBinding RemainingLabel}"
                                    FontSize="8"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextFillColor3}"

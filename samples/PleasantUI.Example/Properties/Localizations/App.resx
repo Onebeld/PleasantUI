@@ -620,6 +620,13 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="DownloadPanel/PauseLabel" xml:space="preserve"><value>Pause</value></data>
     <data name="DownloadPanel/ResumeLabel" xml:space="preserve"><value>Resume</value></data>
     <data name="DownloadPanel/CancelLabel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="DownloadPanel/ChunkWaitingText" xml:space="preserve"><value>Waiting</value></data>
+    <data name="DownloadPanel/ChunkQueuedText" xml:space="preserve"><value>Queued</value></data>
+    <data name="DownloadPanel/ChunkStartingText" xml:space="preserve"><value>Starting</value></data>
+    <data name="DownloadPanel/ChunkDoneText" xml:space="preserve"><value>Done</value></data>
+    <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Failed</value></data>
+    <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
+    <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
 
     <!-- CrashReportDialog -->
     <data name="CrashReportDialog/SendReportLabel" xml:space="preserve"><value>Send Report</value></data>

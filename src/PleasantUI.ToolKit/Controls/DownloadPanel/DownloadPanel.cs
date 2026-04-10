@@ -138,6 +138,34 @@ public class DownloadPanel : TemplatedControl
     public static readonly StyledProperty<string> CancelLabelProperty =
         AvaloniaProperty.Register<DownloadPanel, string>(nameof(CancelLabel), defaultValue: "Cancel");
 
+    /// <summary>Defines the <see cref="ChunkWaitingText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkWaitingTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkWaitingText), defaultValue: "Waiting");
+
+    /// <summary>Defines the <see cref="ChunkQueuedText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkQueuedTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkQueuedText), defaultValue: "Queued");
+
+    /// <summary>Defines the <see cref="ChunkStartingText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkStartingTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkStartingText), defaultValue: "Starting");
+
+    /// <summary>Defines the <see cref="ChunkDoneText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkDoneTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkDoneText), defaultValue: "Done");
+
+    /// <summary>Defines the <see cref="ChunkFailedText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkFailedTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkFailedText), defaultValue: "Failed");
+
+    /// <summary>Defines the <see cref="ChunkPausedText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkPausedTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkPausedText), defaultValue: "Paused");
+
+    /// <summary>Defines the <see cref="ChunkUnknownText"/> property.</summary>
+    public static readonly StyledProperty<string> ChunkUnknownTextProperty =
+        AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkUnknownText), defaultValue: "Unknown");
+
     // ── Direct properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Tabs"/> direct property.</summary>
@@ -306,6 +334,55 @@ public class DownloadPanel : TemplatedControl
         set => SetValue(CancelLabelProperty, value);
     }
 
+    /// <summary>Gets or sets the text for Waiting chunk status.</summary>
+    public string ChunkWaitingText
+    {
+        get => GetValue(ChunkWaitingTextProperty);
+        set => SetValue(ChunkWaitingTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Queued chunk status.</summary>
+    public string ChunkQueuedText
+    {
+        get => GetValue(ChunkQueuedTextProperty);
+        set => SetValue(ChunkQueuedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Starting chunk status.</summary>
+    public string ChunkStartingText
+    {
+        get => GetValue(ChunkStartingTextProperty);
+        set => SetValue(ChunkStartingTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Done chunk status.</summary>
+    public string ChunkDoneText
+    {
+        get => GetValue(ChunkDoneTextProperty);
+        set => SetValue(ChunkDoneTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Failed chunk status.</summary>
+    public string ChunkFailedText
+    {
+        get => GetValue(ChunkFailedTextProperty);
+        set => SetValue(ChunkFailedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Paused chunk status.</summary>
+    public string ChunkPausedText
+    {
+        get => GetValue(ChunkPausedTextProperty);
+        set => SetValue(ChunkPausedTextProperty, value);
+    }
+
+    /// <summary>Gets or sets the text for Unknown chunk status.</summary>
+    public string ChunkUnknownText
+    {
+        get => GetValue(ChunkUnknownTextProperty);
+        set => SetValue(ChunkUnknownTextProperty, value);
+    }
+
     /// <summary>Gets the collection of tab items shown in the tab strip.</summary>
     public AvaloniaList<object> Tabs { get; } = new();
 
@@ -471,6 +548,21 @@ public class DownloadPanel : TemplatedControl
 
         PseudoClasses.Set(PC_HasChunks, Chunks.Count > 0);
         RedrawChunkCanvas();
+
+        // Apply localized text to new chunks
+        if (e.NewItems is not null)
+        {
+            foreach (ChunkInfo chunk in e.NewItems.OfType<ChunkInfo>())
+            {
+                chunk.WaitingText = ChunkWaitingText;
+                chunk.QueuedText = ChunkQueuedText;
+                chunk.StartingText = ChunkStartingText;
+                chunk.DoneText = ChunkDoneText;
+                chunk.FailedText = ChunkFailedText;
+                chunk.PausedText = ChunkPausedText;
+                chunk.UnknownText = ChunkUnknownText;
+            }
+        }
     }
 
     private void UpdatePseudoClasses()
