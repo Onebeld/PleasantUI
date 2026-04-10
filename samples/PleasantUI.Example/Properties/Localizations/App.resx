@@ -603,6 +603,25 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="StepDialog/AuthCancelled" xml:space="preserve"><value>Auth cancelled</value></data>
     <data name="StepDialog/AuthClosed" xml:space="preserve"><value>Auth closed</value></data>
 
+    <!-- PropertyGrid -->
+    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Download info</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Exception info</value></data>
+    <data name="PropertyGrid/LabelUrl" xml:space="preserve"><value>URL</value></data>
+    <data name="PropertyGrid/LabelFileName" xml:space="preserve"><value>File name</value></data>
+    <data name="PropertyGrid/LabelSaveTo" xml:space="preserve"><value>Save to</value></data>
+    <data name="PropertyGrid/LabelSize" xml:space="preserve"><value>Size</value></data>
+    <data name="PropertyGrid/LabelDownloaded" xml:space="preserve"><value>Downloaded</value></data>
+    <data name="PropertyGrid/LabelSpeed" xml:space="preserve"><value>Speed</value></data>
+    <data name="PropertyGrid/LabelElapsed" xml:space="preserve"><value>Elapsed</value></data>
+    <data name="PropertyGrid/LabelTimeLeft" xml:space="preserve"><value>Time left</value></data>
+    <data name="PropertyGrid/LabelResume" xml:space="preserve"><value>Resume</value></data>
+    <data name="PropertyGrid/LabelApplication" xml:space="preserve"><value>Application</value></data>
+    <data name="PropertyGrid/LabelVersion" xml:space="preserve"><value>Version</value></data>
+    <data name="PropertyGrid/LabelOccurredAt" xml:space="preserve"><value>Occurred at</value></data>
+    <data name="PropertyGrid/LabelType" xml:space="preserve"><value>Type</value></data>
+    <data name="PropertyGrid/LabelSource" xml:space="preserve"><value>Source</value></data>
+    <data name="PropertyGrid/LabelStatus" xml:space="preserve"><value>Status</value></data>
+
     <!-- LogViewerPanel -->
     <data name="LogViewerPanel/AllFilterText" xml:space="preserve"><value>All</value></data>
     <data name="LogViewerPanel/AutoScrollTooltip" xml:space="preserve"><value>Auto-scroll</value></data>

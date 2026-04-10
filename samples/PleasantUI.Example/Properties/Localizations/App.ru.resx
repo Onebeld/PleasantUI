@@ -94,6 +94,23 @@
     <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI — кроссплатформенный UI фреймворк&#x0A;• Aura.UI от PieroCastillo — вдохновение для элементов&#x0A;• FluentAvalonia.ProgressRing от ymg2006&#x0A;• JetBrains Rider — IDE для разработки&#x0A;• Andrey Savich (pieckenst) — вклад в развитие библиотеки (PR #6)</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
+    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Информация о загрузке</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Информация об исключении</value></data>
+    <data name="PropertyGrid/LabelUrl" xml:space="preserve"><value>URL</value></data>
+    <data name="PropertyGrid/LabelFileName" xml:space="preserve"><value>Имя файла</value></data>
+    <data name="PropertyGrid/LabelSaveTo" xml:space="preserve"><value>Сохранить в</value></data>
+    <data name="PropertyGrid/LabelSize" xml:space="preserve"><value>Размер</value></data>
+    <data name="PropertyGrid/LabelDownloaded" xml:space="preserve"><value>Загружено</value></data>
+    <data name="PropertyGrid/LabelSpeed" xml:space="preserve"><value>Скорость</value></data>
+    <data name="PropertyGrid/LabelElapsed" xml:space="preserve"><value>Прошло</value></data>
+    <data name="PropertyGrid/LabelTimeLeft" xml:space="preserve"><value>Осталось</value></data>
+    <data name="PropertyGrid/LabelResume" xml:space="preserve"><value>Возобновить</value></data>
+    <data name="PropertyGrid/LabelApplication" xml:space="preserve"><value>Приложение</value></data>
+    <data name="PropertyGrid/LabelVersion" xml:space="preserve"><value>Версия</value></data>
+    <data name="PropertyGrid/LabelOccurredAt" xml:space="preserve"><value>Произошло в</value></data>
+    <data name="PropertyGrid/LabelType" xml:space="preserve"><value>Тип</value></data>
+    <data name="PropertyGrid/LabelSource" xml:space="preserve"><value>Источник</value></data>
+    <data name="PropertyGrid/LabelStatus" xml:space="preserve"><value>Статус</value></data>
     <!-- Calendar page -->
     <data name="InlineCalendar" xml:space="preserve"><value>Встроенный календарь</value></data>
     <data name="DatePicker" xml:space="preserve"><value>Выбор даты</value></data>
