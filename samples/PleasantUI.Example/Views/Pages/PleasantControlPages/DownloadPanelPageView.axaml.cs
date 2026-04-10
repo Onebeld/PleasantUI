@@ -42,6 +42,8 @@ public partial class DownloadPanelPageView : LocalizedUserControl
 
         foreach (var chunk in DownloadPanelControl.Chunks)
         {
+            if (chunk.Progress >= 1.0) continue;
+            
             chunk.Progress = Math.Min(1.0, chunk.Progress + 0.08);
             long totalBytes = chunk.TotalSizeBytes > 0 ? chunk.TotalSizeBytes : 33554432; // Default 32MB
             chunk.DownloadedBytes = (long)(chunk.Progress * totalBytes);

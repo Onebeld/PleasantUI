@@ -67,6 +67,7 @@ public class ChunkInfo : INotifyPropertyChanged
             if (SetProperty(ref _progress, value))
             {
                 OnPropertyChanged(nameof(DownloadedSize));
+                OnPropertyChanged(nameof(TotalSize));
                 OnPropertyChanged(nameof(Info));
             }
         }
@@ -76,7 +77,13 @@ public class ChunkInfo : INotifyPropertyChanged
     public long TotalSizeBytes
     {
         get => _totalSizeBytes;
-        set => SetProperty(ref _totalSizeBytes, value);
+        set
+        {
+            if (SetProperty(ref _totalSizeBytes, value))
+            {
+                OnPropertyChanged(nameof(TotalSize));
+            }
+        }
     }
 
     /// <summary>Gets or sets the amount downloaded in bytes.</summary>
@@ -88,6 +95,7 @@ public class ChunkInfo : INotifyPropertyChanged
             if (SetProperty(ref _downloadedBytes, value))
             {
                 OnPropertyChanged(nameof(DownloadedSize));
+                OnPropertyChanged(nameof(Info));
             }
         }
     }

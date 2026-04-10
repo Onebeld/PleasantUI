@@ -274,8 +274,7 @@ public class DownloadPanel : TemplatedControl
 
         if (_chunkList is not null)
         {
-            _chunkList.ItemsSource  = Chunks;
-            _chunkList.ItemTemplate = ChunkItemTemplate;
+            _chunkList.ItemsSource = Chunks;
         }
 
         UpdatePseudoClasses();
