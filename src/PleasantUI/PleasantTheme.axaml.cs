@@ -407,9 +407,14 @@ public class PleasantTheme : Styles
         if (Application.Current?.Resources is not null)
         {
             System.Diagnostics.Debug.WriteLine("[PleasantTheme] Looking for PleasantUIToolKit in Application.Resources");
+            System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Application.Current.Resources.MergedDictionaries count: {Application.Current.Resources.MergedDictionaries.Count}");
+            
             bool foundToolKit = false;
+            int resourceIndex = 0;
             foreach (var resource in Application.Current.Resources.MergedDictionaries)
             {
+                System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Resource [{resourceIndex}]: {resource?.GetType().FullName}");
+                
                 if (resource?.GetType().FullName == "PleasantUI.ToolKit.PleasantUIToolKit")
                 {
                     System.Diagnostics.Debug.WriteLine("[PleasantTheme] Found PleasantUIToolKit, calling UpdateVGUIStyle");
@@ -426,6 +431,7 @@ public class PleasantTheme : Styles
                     }
                     break;
                 }
+                resourceIndex++;
             }
             if (!foundToolKit)
             {
