@@ -14,7 +14,7 @@
         <controls:TerminalPanel x:Name="Terminal"
                                 Title="{Localize CardTitle/TerminalPanel}"
                                 IsRunning="True"
-                                StatusText="Running"
+                                RunningText="{Localize TerminalPanel/RunningText}"
                                 Prompt="$"
                                 Height="320"
                                 ShowCloseButton="False"

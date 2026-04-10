@@ -621,6 +621,7 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="PropertyGrid/LabelType" xml:space="preserve"><value>Type</value></data>
     <data name="PropertyGrid/LabelSource" xml:space="preserve"><value>Source</value></data>
     <data name="PropertyGrid/LabelStatus" xml:space="preserve"><value>Status</value></data>
+    <data name="PropertyGrid/RunningText" xml:space="preserve"><value>Running</value></data>
 
     <!-- LogViewerPanel -->
     <data name="LogViewerPanel/AllFilterText" xml:space="preserve"><value>All</value></data>
@@ -629,6 +630,10 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="LogViewerPanel/ClearTooltip" xml:space="preserve"><value>Clear</value></data>
     <data name="LogViewerPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
     <data name="LogViewerPanel/DebugTooltip" xml:space="preserve"><value>Show debug entries</value></data>
+
+    <!-- TerminalPanel -->
+   
+    <data name="TerminalPanel/RunningText" xml:space="preserve"><value>Running</value></data>
 
     <!-- DownloadPanel -->
     <data name="DownloadPanel/SizeLabel" xml:space="preserve"><value>SIZE</value></data>
