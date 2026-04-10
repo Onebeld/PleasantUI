@@ -35,7 +35,8 @@
                                 BorderBrush="{DynamicResource ControlBorderColor}"
                                 BorderThickness="0 0 0 1"
                                 Padding="12 10">
-                            <Border Background="{DynamicResource BackgroundColor1}"
+                            <Border Name="PART_SearchBoxBorder"
+                                    Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{DynamicResource ControlBorderThickness}"
                                     CornerRadius="{DynamicResource ControlCornerRadius}"
