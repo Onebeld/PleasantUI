@@ -107,7 +107,7 @@
                                 BorderBrush="{DynamicResource ControlBorderColor}"
                                 BorderThickness="0 1 0 0"
                                 Background="{DynamicResource BackgroundColor2}"
-                                Padding="10 8">
+                                Padding="14 8">
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                 <TextBlock Grid.Column="0"
                                            Text="{TemplateBinding Prompt}"
@@ -123,7 +123,7 @@
                                          FontSize="12"
                                          Background="Transparent"
                                          BorderThickness="0"
-                                         Padding="0 4" />
+                                         Padding="8 4" />
                             </Grid>
                         </Border>
                     </Grid>
