@@ -1,27 +1,25 @@
-name: Release
+name: Canary Release
 
 on:
-  push:
+  pull_request:
     branches: [ "main", "master" ]
-    paths:
-      - 'build/Package.props'
+    types: [opened, synchronize, reopened]
+  schedule:
+    # Run daily at 23:59 UTC to capture all commits for the day
+    - cron: '59 23 * * *'
   workflow_dispatch:
     inputs:
-      force:
-        description: 'Force release even if tag exists'
-        type: boolean
-        default: false
       skip_ai_notes:
-        description: 'Skip AI-generated release notes (use simple commit list instead)'
+        description: 'Skip AI-generated release notes'
         type: boolean
         default: false
 
 jobs:
-  release:
+  canary:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
-      contents: write
+      contents: read
       models: read
       pull-requests: read
       packages: write
@@ -30,13 +28,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.ref }}
 
       - name: Pull latest changes
         run: |
           git fetch origin
-          git reset --hard origin/${{ github.ref_name }}
-          echo "HEAD is now: $(git log -1 --oneline)"
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            git checkout ${{ github.sha }}
+            echo "Checked out PR commit: $(git log -1 --oneline)"
+          else
+            git reset --hard origin/main
+            echo "HEAD is now: $(git log -1 --oneline)"
+          fi
 
       - name: Extract and validate version
         id: version
@@ -59,44 +61,21 @@ jobs:
             exit 1
           fi
 
+          # Generate canary version: append -canary-YYYYMMDD-HHMMSS
+          CANARY_SUFFIX="-canary-$(date +%Y%m%d-%H%M%S)"
+          CANARY_VERSION="${VERSION}${CANARY_SUFFIX}"
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Detected version: $VERSION"
-
-          # Treat -fix suffix as stable bug fix release, other hyphenated versions as prerelease
-          if [[ "$VERSION" == *-* ]] && [[ "$VERSION" != *-fix ]]; then
-            echo "prerelease=true" >> $GITHUB_OUTPUT
-          else
-            echo "prerelease=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Check if tag already exists
-        id: tag_check
-        run: |
-          git fetch --tags --force
-          TAG="v${{ steps.version.outputs.version }}"
-
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            if [ "${{ github.event.inputs.force }}" == "true" ]; then
-              echo "exists=false" >> $GITHUB_OUTPUT
-              echo "Tag $TAG exists but force=true — deleting and re-creating."
-              git push origin ":refs/tags/$TAG" || true
-            else
-              echo "exists=true" >> $GITHUB_OUTPUT
-              echo "Tag $TAG already exists. Skipping release."
-            fi
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Tag $TAG does not exist — proceeding."
-          fi
+          echo "canary_version=$CANARY_VERSION" >> $GITHUB_OUTPUT
+          echo "Detected base version: $VERSION"
+          echo "Canary version: $CANARY_VERSION"
 
       - name: Setup .NET
-        if: steps.tag_check.outputs.exists == 'false'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
       - name: Restore (with retry)
-        if: steps.tag_check.outputs.exists == 'false'
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 10
@@ -109,15 +88,40 @@ jobs:
             dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
 
       - name: Build
-        if: steps.tag_check.outputs.exists == 'false'
         run: |
           dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
 
+      - name: Build single-file example app
+        run: |
+          dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
+            --configuration Release \
+            --runtime win-x64 \
+            --self-contained \
+            -p:PublishSingleFile=true \
+            -p:IncludeNativeLibrariesForSelfExtract=true \
+            -o /tmp/example-app-win-x64
+          
+          dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
+            --configuration Release \
+            --runtime linux-x64 \
+            --self-contained \
+            -p:PublishSingleFile=true \
+            -p:IncludeNativeLibrariesForSelfExtract=true \
+            -o /tmp/example-app-linux-x64
+          
+          # Create zip archives
+          cd /tmp/example-app-win-x64
+          zip -r /tmp/PleasantUI-Example-win-x64.zip .
+          
+          cd /tmp/example-app-linux-x64
+          zip -r /tmp/PleasantUI-Example-linux-x64.zip .
+          
+          echo "Built single-file example apps"
+
       - name: Verify packages exist
-        if: steps.tag_check.outputs.exists == 'false'
         run: |
           echo "=== Searching for all .nupkg files under src/ ==="
           find src/ -name "*.nupkg" 2>/dev/null | sort
@@ -136,19 +140,72 @@ jobs:
 
           if [ "$FAILED" -eq 1 ]; then exit 1; fi
 
+      - name: Modify Package.props with canary version
+        run: |
+          CANARY_VERSION="${{ steps.version.outputs.canary_version }}"
+          echo "Modifying build/Package.props to use canary version: $CANARY_VERSION"
+          
+          # Backup original Package.props
+          cp build/Package.props build/Package.props.backup
+          
+          # Replace PackageVersion with canary version
+          sed -i "s/<PackageVersion>.*<\/PackageVersion>/<PackageVersion>$CANARY_VERSION<\/PackageVersion>/" build/Package.props
+          
+          echo "Modified Package.props content:"
+          cat build/Package.props
+
+      - name: Rename packages with canary version
+        run: |
+          CANARY_VERSION="${{ steps.version.outputs.canary_version }}"
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+            for pkg in src/$project/bin/Release/*.nupkg; do
+              if [ -f "$pkg" ]; then
+                BASE_NAME=$(basename "$pkg" .nupkg)
+                BASE_VERSION=$(echo "$BASE_NAME" | sed 's/.*\.//')
+                NEW_NAME="${BASE_NAME%.$BASE_VERSION}.${CANARY_VERSION}.nupkg"
+                mv "$pkg" "$(dirname "$pkg")/$NEW_NAME"
+                echo "Renamed: $(basename "$pkg") -> $NEW_NAME"
+              fi
+            done
+          done
+
+      - name: Restore Package.props
+        if: always()
+        run: |
+          if [ -f build/Package.props.backup ]; then
+            mv build/Package.props.backup build/Package.props
+            echo "Restored original Package.props"
+          fi
+
       - name: Collect commits and build context chunks
-        if: steps.tag_check.outputs.exists == 'false'
         id: collect
         run: |
-          # ── Find previous tag ─────────────────────────────────────────────────
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          echo "Previous tag: '${PREV_TAG}'"
-
-          if [ -n "$PREV_TAG" ]; then
-            RANGE="${PREV_TAG}..HEAD"
+          # ── Determine commit range based on trigger type ────────────────────
+          if [ "${{ github.event_name }}" == "schedule" ]; then
+            # Daily run: get commits from last 24 hours
+            echo "Running as scheduled daily build"
+            # Find the commit from 24 hours ago
+            YESTERDAY=$(date -d "yesterday" +%Y-%m-%d)
+            RANGE="${YESTERDAY}..HEAD"
+            echo "Range: commits since $YESTERDAY"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            # PR run: diff against base branch
+            echo "Running as PR build"
+            RANGE="${{ github.event.pull_request.base.sha }}..${{ github.sha }}"
+            echo "Range: PR diff"
           else
-            FIRST=$(git rev-list --max-parents=0 HEAD)
-            RANGE="${FIRST}..HEAD"
+            # Manual run: use previous tag or first commit
+            echo "Running as manual build"
+            PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+            echo "Previous tag: '${PREV_TAG}'"
+
+            if [ -n "$PREV_TAG" ]; then
+              RANGE="${PREV_TAG}..HEAD"
+            else
+              FIRST=$(git rev-list --max-parents=0 HEAD)
+              RANGE="${FIRST}..HEAD"
+            fi
+            echo "Range: $RANGE"
           fi
           echo "range=$RANGE" >> $GITHUB_OUTPUT
           echo "Diff range: $RANGE"
@@ -161,20 +218,9 @@ jobs:
           FILE_LIST=$(git diff --name-only "$RANGE" | grep -v '^samples/' | head -200)
           STAT_SUMMARY=$(git diff --shortstat "$RANGE" | tail -1)
 
-          # ── Public API additions ───────────────────────────────────────────────
-          API_SURFACE=$(git diff "$RANGE" -- '*.cs' \
-            | grep '^+[^+]' \
-            | grep -v '^+.*\/\/' \
-            | grep -E '\s(public|protected)\s' \
-            | grep -E '(class |interface |enum |record |struct |void |bool |int |string |Task|AvaloniaProperty|StyledProperty|DirectProperty|AttachedProperty|RoutedEvent)' \
-            | sed 's/^+//' \
-            | sed 's/^[[:space:]]*//' \
-            | sort -u \
-            | head -200)
-
           # ── Shared system prompt — all printf, no heredoc ──────────────────────
           printf '%s\n' \
-            'You are a senior technical writer analysing a PleasantUI release diff batch.' \
+            'You are a senior technical writer analysing a PleasantUI canary release diff batch.' \
             'PleasantUI is a cross-platform UI theme and control library for Avalonia (.NET), inspired by Microsoft Fluent Design / WinUI.' \
             '' \
             '## Your task' \
@@ -207,20 +253,15 @@ jobs:
           {
             cat /tmp/system-prompt.txt
             printf '\n'
-            printf 'Version: v%s\n' "${{ steps.version.outputs.version }}"
-            printf 'Release type: %s\n\n' \
-              "$( [ '${{ steps.version.outputs.prerelease }}' = 'true' ] && printf 'PRE-RELEASE (alpha/beta/rc — may contain incomplete features and known issues)' || printf 'STABLE RELEASE' )"
+            printf 'Version: %s\n' "${{ steps.version.outputs.canary_version }}"
+            printf 'Base version: %s\n' "${{ steps.version.outputs.version }}"
+            printf 'Release type: CANARY RELEASE (daily build / PR test — may contain incomplete features or breaking changes)\n\n'
             printf '## Commit Log\n```\n%s\n```\n\n' "$COMMITS"
             printf '## All Changed Files (excl. samples/)\n```\n%s\n\nSummary: %s\n```\n\n' \
               "$FILE_LIST" "$STAT_SUMMARY"
-            if [ -n "$API_SURFACE" ]; then
-              printf '## New / Modified Public API\n```csharp\n%s\n```\n' "$API_SURFACE"
-            fi
           } > /tmp/prompt-1.txt
 
           # ── Split diff per-file into batches of ~700 lines each ───────────────
-          # We collect complete per-file diffs so AI always sees a whole file diff,
-          # never a mid-function cut. Max 5 diff batches (prompts 2-6).
           CHANGED_SRC=$(git diff --name-only "$RANGE" \
             | grep -v '^samples/' \
             | grep -E '\.(cs|axaml)$')
@@ -244,21 +285,20 @@ jobs:
             # If adding this file would overflow the batch, flush current batch first
             if [ $BATCH_LINES -gt 0 ] && [ $(( BATCH_LINES + FILE_LINES )) -gt $MAX_BATCH_LINES ]; then
               if [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
-                PART_NUM=$(( BATCH_NUM - 1 ))
+                PART_NUM=$(( BATCH_NUM - 1  ))
                 {
                   cat /tmp/system-prompt.txt
                   printf '\nThis is diff batch %d. Analyse each file diff completely and list your findings.\n\n' "$PART_NUM"
                   printf '%s\n' "$BATCH_CONTENT"
                 } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
                 echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
-                # Check prompt size and truncate if needed (roughly 4 chars per token)
-              PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
-            if [ "$PROMPT_SIZE" -gt "$MAX_PROMPT_BYTES" ]; then
-              echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating to ${MAX_PROMPT_BYTES} bytes..."
-              head -c "$MAX_PROMPT_BYTES" "/tmp/prompts/prompt-${BATCH_NUM}.txt" > "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp"
-              mv "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp" "/tmp/prompts/prompt-${BATCH_NUM}.txt"
-              printf '\n\n[Content truncated due to size limits]\n' >> "/tmp/prompts/prompt-${BATCH_NUM}.txt"
-            fi
+                PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
+                if [ "$PROMPT_SIZE" -gt "$MAX_PROMPT_BYTES" ]; then
+                  echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating to ${MAX_PROMPT_BYTES} bytes..."
+                  head -c "$MAX_PROMPT_BYTES" "/tmp/prompts/prompt-${BATCH_NUM}.txt" > "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp"
+                  mv "/tmp/prompts/prompt-${BATCH_NUM}.txt.tmp" "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+                  printf '\n\n[Content truncated due to size limits]\n' >> "/tmp/prompts/prompt-${BATCH_NUM}.txt"
+                fi
               fi
               BATCH_LINES=0
               BATCH_CONTENT=""
@@ -269,7 +309,7 @@ jobs:
             if [ $BATCH_NUM -le $(( MAX_BATCHES + 1 )) ]; then
               BATCH_CONTENT=$(printf '%s\n\n### File: %s\n```diff\n%s\n```\n' \
                 "$BATCH_CONTENT" "$FILE" "$FILE_DIFF")
-              BATCH_LINES=$(( BATCH_LINES + FILE_LINES ))
+              BATCH_LINES=$(( BATCH_LINES + FILE_LINES  ))
             fi
           done
 
@@ -282,7 +322,6 @@ jobs:
               printf '%s\n' "$BATCH_CONTENT"
             } > "/tmp/prompts/prompt-${BATCH_NUM}.txt"
             echo "Batch ${BATCH_NUM}: ${BATCH_LINES} lines -> /tmp/prompts/prompt-${BATCH_NUM}.txt"
-            # Check prompt size and truncate if needed
             PROMPT_SIZE=$(wc -c < "/tmp/prompts/prompt-${BATCH_NUM}.txt")
             if [ "$PROMPT_SIZE" -gt "$MAX_PROMPT_BYTES" ]; then
               echo "WARNING: Prompt ${BATCH_NUM} too large (${PROMPT_SIZE} bytes), truncating..."
@@ -305,16 +344,15 @@ jobs:
           done
 
       - name: Upload prompt artifacts
-        if: steps.tag_check.outputs.exists == 'false'
         uses: actions/upload-artifact@v4
         with:
-          name: ai-prompts
+          name: canary-ai-prompts
           path: /tmp/prompts/
           retention-days: 1
 
-      # ── AI passes — each gets complete per-file diffs, never a mid-file cut ───
+      # ── AI passes ────────────────────────────────────────────────────────────
       - name: AI pass 1 — commits + API surface
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass1
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -324,13 +362,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-1.txt
 
       - name: Save pass 1 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass1.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass1.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass1.outputs.response-file }}" /tmp/pass-1.txt || true
           sleep 65
 
       - name: AI pass 2 — diff batch 1
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass2
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -340,13 +378,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-2.txt
 
       - name: Save pass 2 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass2.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass2.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass2.outputs.response-file }}" /tmp/pass-2.txt || true
           sleep 65
 
       - name: AI pass 3 — diff batch 2
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass3
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -356,13 +394,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-3.txt
 
       - name: Save pass 3 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass3.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass3.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass3.outputs.response-file }}" /tmp/pass-3.txt || true
           sleep 65
 
       - name: AI pass 4 — diff batch 3
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass4
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -372,13 +410,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-4.txt
 
       - name: Save pass 4 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass4.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass4.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass4.outputs.response-file }}" /tmp/pass-4.txt || true
           sleep 65
 
       - name: AI pass 5 — diff batch 4
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass5
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -388,13 +426,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-5.txt
 
       - name: Save pass 5 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass5.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass5.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass5.outputs.response-file }}" /tmp/pass-5.txt || true
           sleep 65
 
       - name: AI pass 6 — diff batch 5
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass6
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -404,13 +442,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-6.txt
 
       - name: Save pass 6 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass6.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass6.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass6.outputs.response-file }}" /tmp/pass-6.txt || true
           sleep 65
 
       - name: AI pass 7 — diff batch 6
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass7
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -420,13 +458,13 @@ jobs:
           prompt-file: /tmp/prompts/prompt-7.txt
 
       - name: Save pass 7 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass7.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass7.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass7.outputs.response-file }}" /tmp/pass-7.txt || true
           sleep 65
 
       - name: AI pass 8 — diff batch 7
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_pass8
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -436,18 +474,17 @@ jobs:
           prompt-file: /tmp/prompts/prompt-8.txt
 
       - name: Save pass 8 response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass8.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_pass8.conclusion == 'success'
         run: |
           cp "${{ steps.ai_pass8.outputs.response-file }}" /tmp/pass-8.txt || true
           sleep 65
 
       - name: Build merge-A prompt (passes 1-4)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         run: |
-          # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw per-batch findings from analysis passes 1-4 of this release.' \
+            'Below are raw per-batch findings from analysis passes 1-4 of this canary release.' \
             '' \
             'Your task: produce a LOSSLESS intermediate summary.' \
             '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
@@ -460,7 +497,7 @@ jobs:
             '---' \
             > /tmp/prompt-merge-a.txt
           {
-            printf '## Pass 1 — Commits, changed files, public API\n'
+            printf '## Pass 1 — Commits, changed files\n'
             cat /tmp/pass-1.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 2 — Diff batch 1\n'
             cat /tmp/pass-2.txt 2>/dev/null || printf '(no output)\n'
@@ -472,7 +509,7 @@ jobs:
           printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
 
       - name: AI merge-A (passes 1-4)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge_a
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -482,17 +519,16 @@ jobs:
           prompt-file: /tmp/prompt-merge-a.txt
 
       - name: Save merge-A response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_a.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_a.conclusion == 'success'
         run: |
           cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt || true
           sleep 65
 
       - name: Compress merge-A output
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         run: |
-          # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
-            'You are compressing a change-log summary for PleasantUI.' \
+            'You are compressing a change-log summary for PleasantUI canary release.' \
             'Rewrite the input as a TIGHT structured list. Rules:' \
             '- One bullet per distinct change. Max 12 words per bullet.' \
             '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
@@ -505,7 +541,7 @@ jobs:
           printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
 
       - name: AI compress-A
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_compress_a
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -515,18 +551,17 @@ jobs:
           prompt-file: /tmp/prompt-compress-a.txt
 
       - name: Save compress-A response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_a.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_a.conclusion == 'success'
         run: |
           cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt || true
           sleep 65
 
       - name: Build merge-B prompt (passes 5-8)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         run: |
-          # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw per-batch findings from analysis passes 5-8 of this release.' \
+            'Below are raw per-batch findings from analysis passes 5-8 of this canary release.' \
             '' \
             'Your task: produce a LOSSLESS intermediate summary.' \
             '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
@@ -551,7 +586,7 @@ jobs:
           printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
 
       - name: AI merge-B (passes 5-8)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge_b
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -561,17 +596,16 @@ jobs:
           prompt-file: /tmp/prompt-merge-b.txt
 
       - name: Save merge-B response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_b.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_b.conclusion == 'success'
         run: |
           cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt || true
           sleep 65
 
       - name: Compress merge-B output
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         run: |
-          # all printf — no heredoc to avoid YAML indent issues
           printf '%s\n' \
-            'You are compressing a change-log summary for PleasantUI.' \
+            'You are compressing a change-log summary for PleasantUI canary release.' \
             'Rewrite the input as a TIGHT structured list. Rules:' \
             '- One bullet per distinct change. Max 12 words per bullet.' \
             '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
@@ -584,7 +618,7 @@ jobs:
           printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
 
       - name: AI compress-B
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_compress_b
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -594,21 +628,20 @@ jobs:
           prompt-file: /tmp/prompt-compress-b.txt
 
       - name: Save compress-B response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_b.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_b.conclusion == 'success'
         run: |
           cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt || true
           sleep 65
 
       - name: Build final merge prompt (compress-A + compress-B)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         run: |
-          # all printf — no heredoc to avoid YAML indent issues
-          IS_PRERELEASE="${{ steps.version.outputs.prerelease }}"
-          VERSION="v${{ steps.version.outputs.version }}"
+          VERSION="${{ steps.version.outputs.canary_version }}"
+          BASE_VERSION="${{ steps.version.outputs.version }}"
 
           printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are two compressed change lists covering the COMPLETE diff of this release.' \
+            'Below are two compressed change lists covering the COMPLETE diff of this canary release.' \
             'Each line is one distinct change. Together they represent every change in this release.' \
             '' \
             '## Critical rules' \
@@ -621,37 +654,18 @@ jobs:
             '- After writing, mentally verify: does every input bullet appear somewhere in the output?' \
             > /tmp/prompt-final.txt
 
-          if [[ "$VERSION" == *-fix ]]; then
-            printf '%s\n' \
-              '' \
-              '## Release type: BUG FIX RELEASE' \
-              "This is a bug fix release ($VERSION). Adjust the tone accordingly:" \
-              '- Open with a clear statement that this is a bug fix release addressing specific issues.' \
-              '- Focus on the Bug Fixes section — this should be the primary highlight.' \
-              '- Use language like "fixes", "corrects", "resolves", "addresses".' \
-              '- If there are improvements, frame them as refinements or stability improvements.' \
-              '- Emphasize that no breaking changes are included (unless explicitly listed).' \
-              '- This is a stable release suitable for production deployment.' \
-              >> /tmp/prompt-final.txt
-          elif [ "$IS_PRERELEASE" = 'true' ]; then
-            printf '%s\n' \
-              '' \
-              '## Release type: PRE-RELEASE' \
-              "This is a pre-release build ($VERSION). Adjust the tone accordingly:" \
-              '- Open with a short pre-release notice: features may be incomplete, APIs may change.' \
-              '- Mark experimental or in-progress items with *(experimental)* or *(preview)*.' \
-              '- Use language like "introduces", "adds initial support for", "work in progress".' \
-              >> /tmp/prompt-final.txt
-          else
-            printf '%s\n' \
-              '' \
-              '## Release type: STABLE RELEASE' \
-              "This is a stable release ($VERSION). Adjust the tone accordingly:" \
-              '- Write with confidence. Features are production-ready.' \
-              '- Use language like "adds", "improves", "fixes", "introduces".' \
-              '- No experimental caveats unless explicitly noted in the lists.' \
-              >> /tmp/prompt-final.txt
-          fi
+          printf '%s\n' \
+            '' \
+            '## Release type: CANARY RELEASE' \
+            "This is a canary release ($VERSION based on $BASE_VERSION)." \
+            'Adjust the tone accordingly:' \
+            '- Open with a clear statement that this is a canary build for testing purposes.' \
+            '- Note that canary builds may contain incomplete features, breaking changes, or bugs.' \
+            '- Use language like "adds", "improves", "fixes", "introduces" but with appropriate caveats.' \
+            '- Mark experimental or in-progress items with *(experimental)* or *(work in progress)*.' \
+            '- This build is NOT suitable for production deployment.' \
+            '- Emphasize that users should test with caution and report issues.' \
+            >> /tmp/prompt-final.txt
 
           printf '%s\n' \
             '' \
@@ -661,6 +675,7 @@ jobs:
             '### Bug Fixes' \
             '### Breaking Changes' \
             '### Packages' \
+            '### Example App' \
             '' \
             'Always end with a Packages section listing:' \
             '- PleasantUI' \
@@ -668,11 +683,13 @@ jobs:
             '- PleasantUI.MaterialIcons' \
             '- PleasantUI.ToolKit' \
             '' \
+            'Add an Example App section noting that a single-file example application is included in the canary release artifacts for testing the canary build.' \
+            '' \
             '---' \
             >> /tmp/prompt-final.txt
 
           {
-            printf '## Compressed list A (passes 1-4: commits, API, diff batches 1-3)\n'
+            printf '## Compressed list A (passes 1-4: commits, diff batches 1-3)\n'
             cat /tmp/compress-a.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Compressed list B (passes 5-8: diff batches 4-7)\n'
             cat /tmp/compress-b.txt 2>/dev/null || printf '(no output)\n'
@@ -681,7 +698,7 @@ jobs:
           printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
 
       - name: AI final merge — write release notes
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+        if: github.event.inputs.skip_ai_notes != 'true'
         id: ai_merge
         continue-on-error: true
         uses: actions/ai-inference@v1
@@ -691,17 +708,18 @@ jobs:
           prompt-file: /tmp/prompt-final.txt
 
       - name: Save final merge response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge.conclusion == 'success'
+        if: github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge.conclusion == 'success'
         run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt || true
-      - name: Write release notes to file
-        if: steps.tag_check.outputs.exists == 'false'
+
+      - name: Write canary release notes to file
         id: notes_file
         run: |
           AI_FAILED=""
           if [ '${{ github.event.inputs.skip_ai_notes }}' == 'true' ]; then
             # Generate simple release notes from commits
             {
-              printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
+              printf '## Canary Release %s\n\n' '${{ steps.version.outputs.canary_version }}'
+              printf 'This is a canary build based on version %s. It may contain incomplete features or breaking changes.\n\n' '${{ steps.version.outputs.version }}'
               printf '### Commits\n\n'
               git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
               printf '\n### Changed Files\n\n'
@@ -711,74 +729,96 @@ jobs:
               printf '- PleasantUI.DataGrid\n'
               printf '- PleasantUI.MaterialIcons\n'
               printf '- PleasantUI.ToolKit\n'
-            } > /tmp/release_notes.md
-            echo "Using simple commit-based release notes (AI generation skipped)."
-          elif [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
-            cp /tmp/final-merge.txt /tmp/release_notes.md
-            echo "Using final merged AI-generated release notes."
+              printf '\n### Example App\n\n'
+              printf 'A single-file example application is included in the canary release artifacts for this build.\n'
+              printf 'Download it from the workflow run page under the "canary-release-artifacts" artifact.\n'
+            } > /tmp/canary_notes.md
           else
-            AI_FAILED="true"
-            # Fallback: generate simple release notes from commits when AI fails
-            {
-              printf '> **Note:** AI-generated release notes failed. Using commit history instead.\n\n'
-              printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
-              printf '### Commits\n\n'
-              git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
-              printf '\n### Changed Files\n\n'
-              git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || printf '- No files changed\n'
-              printf '\n### Packages\n'
-              printf '- PleasantUI\n'
-              printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.MaterialIcons\n'
-              printf '- PleasantUI.ToolKit\n'
-            } > /tmp/release_notes.md
-            echo "WARNING: AI release notes generation failed. Used commit-based fallback."
+            if [ -f /tmp/final-merge.txt ]; then
+              cp /tmp/final-merge.txt /tmp/canary_notes.md
+              # Append example app section
+              {
+                printf '\n### Example App\n\n'
+                printf 'A single-file example application is included in the canary release artifacts for this build.\n'
+                printf 'Download it from the workflow run page under the "canary-release-artifacts" artifact.\n'
+              } >> /tmp/canary_notes.md
+            else
+              AI_FAILED="true"
+              {
+                printf '## Canary Release %s\n\n' '${{ steps.version.outputs.canary_version }}'
+                printf 'This is a canary build based on version %s. It may contain incomplete features or breaking changes.\n\n' '${{ steps.version.outputs.version }}'
+                printf '### Commits\n\n'
+                git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
+                printf '\n### Changed Files\n\n'
+                git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || printf '- No files changed\n'
+                printf '\n### Packages\n'
+                printf '- PleasantUI\n'
+                printf '- PleasantUI.DataGrid\n'
+                printf '- PleasantUI.MaterialIcons\n'
+                printf '- PleasantUI.ToolKit\n'
+                printf '\n### Example App\n\n'
+                printf 'A single-file example application is included in the canary release artifacts for this build.\n'
+                printf 'Download it from the workflow run page under the "canary-release-artifacts" artifact.\n'
+              } > /tmp/canary_notes.md
+            fi
           fi
 
-          echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
-          if [ -n "$AI_FAILED" ]; then
-            echo "::warning::AI release notes generation failed - using commit-based fallback"
-          fi
+          echo "notes_file=/tmp/canary_notes.md" >> $GITHUB_OUTPUT
+          echo "ai_failed=$AI_FAILED" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release
-        if: steps.tag_check.outputs.exists == 'false'
-        id: create_release
-        uses: softprops/action-gh-release@v2
+      - name: Upload canary release notes
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          name: v${{ steps.version.outputs.version }}
-          prerelease: ${{ steps.version.outputs.prerelease }}
-          body_path: ${{ steps.notes_file.outputs.path }}
-          fail_on_unmatched_files: true
-          files: |
-            src/PleasantUI/bin/Release/*.nupkg
-            src/PleasantUI.DataGrid/bin/Release/*.nupkg
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
-            src/PleasantUI.ToolKit/bin/Release/*.nupkg
+          name: canary-release-notes
+          path: /tmp/canary_notes.md
+          retention-days: 7
 
-      - name: Confirm release created
-        if: steps.tag_check.outputs.exists == 'false'
+      - name: Upload canary release artifacts (packages + example app)
+        uses: actions/upload-artifact@v4
+        with:
+          name: canary-release-artifacts
+          path: |
+            src/*/bin/Release/*.nupkg
+            /tmp/PleasantUI-Example-win-x64.zip
+            /tmp/PleasantUI-Example-linux-x64.zip
+          retention-days: 7
+
+      - name: Comment on PR with canary notes
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const notes = fs.readFileSync('/tmp/canary_notes.md', 'utf8');
+            const runId = context.runId;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            const body = `## Canary Release Build\n\n${notes}\n\n### Release Artifacts\n\nDownload all canary release artifacts (NuGet packages + example apps) from the workflow run page:\n\n[Download Artifacts](https://github.com/${owner}/${repo}/actions/runs/${runId})\n\nThe "canary-release-artifacts" artifact includes:\n- PleasantUI NuGet packages\n- PleasantUI.DataGrid NuGet packages\n- PleasantUI.MaterialIcons NuGet packages\n- PleasantUI.ToolKit NuGet packages\n- PleasantUI Example app (Windows x64)\n- PleasantUI Example app (Linux x64)`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Publish canary packages to GitHub Packages
         run: |
-          echo "Release created: ${{ steps.create_release.outputs.url }}"
+          for pkg in src/*/bin/Release/*.nupkg; do
+            if [ -f "$pkg" ]; then
+              dotnet nuget push "$pkg" \
+                --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+                --api-key "${{ secrets.GITHUB_TOKEN }}" \
+                --skip-duplicate
+            fi
+          done
 
-      - name: Publish to GitHub Packages
-        if: steps.tag_check.outputs.exists == 'false'
+      - name: Publish canary packages summary
         run: |
-          dotnet nuget add source \
-            --username Onebeld \
-            --password ${{ secrets.NUGET_GITHUB_TOKEN }} \
-            --store-password-in-clear-text \
-            --name github \
-            "https://nuget.pkg.github.com/Onebeld/index.json" || true
-
-          for pkg in \
-            src/PleasantUI/bin/Release/*.nupkg \
-            src/PleasantUI.DataGrid/bin/Release/*.nupkg \
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg \
-            src/PleasantUI.ToolKit/bin/Release/*.nupkg; do
-            echo "Pushing $pkg"
-            dotnet nuget push "$pkg" \
-              --api-key ${{ secrets.NUGET_GITHUB_TOKEN }} \
-              --source "github" \
-              --skip-duplicate
+          echo "=== Published Canary Packages ==="
+          for pkg in src/*/bin/Release/*.nupkg; do
+            if [ -f "$pkg" ]; then
+              echo "- $(basename "$pkg")"
+            fi
           done
