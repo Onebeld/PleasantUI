@@ -60,7 +60,7 @@
                 <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="16">
                     <!-- Size info -->
                     <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock Text="{TemplateBinding SizeLabel}"
+                        <TextBlock Text="{Binding SizeLabel, RelativeSource={RelativeSource AncestorType=controls:DownloadPanel}}"
                                    FontSize="8"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextFillColor3}"
@@ -73,7 +73,7 @@
 
                     <!-- Speed info -->
                     <StackPanel Grid.Column="1" Spacing="2">
-                        <TextBlock Text="{TemplateBinding SpeedLabel}"
+                        <TextBlock Text="{Binding SpeedLabel, RelativeSource={RelativeSource AncestorType=controls:DownloadPanel}}"
                                    FontSize="8"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextFillColor3}"
@@ -86,7 +86,7 @@
 
                     <!-- Time info -->
                     <StackPanel Grid.Column="2" Spacing="2">
-                        <TextBlock Text="{TemplateBinding RemainingLabel}"
+                        <TextBlock Text="{Binding RemainingLabel, RelativeSource={RelativeSource AncestorType=controls:DownloadPanel}}"
                                    FontSize="8"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextFillColor3}"
