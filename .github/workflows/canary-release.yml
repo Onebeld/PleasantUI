@@ -280,7 +280,7 @@ jobs:
 
           # ── Split diff per-file into batches of ~700 lines each ───────────────
           CHANGED_SRC=$(git diff --name-only "$RANGE" \
-            | grep -E '\.(cs|axaml|yml)$')$')
+            | grep -E '\.(cs|axaml|yml)$')
 
           mkdir -p /tmp/prompts
           cp /tmp/prompt-1.txt /tmp/prompts/
