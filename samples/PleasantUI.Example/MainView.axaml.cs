@@ -81,13 +81,14 @@ public partial class MainView : UserControl
             "TerminalPanel"      => new TerminalPanelPage(),
             "TreeViewPanel"      => new TreeViewPanelPage(),
             "ItemListPanel"      => new ItemListPanelPage(),
-            "StepDialog"         => new StepDialogPage(),
             "PropertyGrid"       => new PropertyGridPage(),
             "DownloadPanel"      => new DownloadPanelPage(),
             "CrashReportDialog"  => new CrashReportDialogPage(),
             // ToolKit
-            "MessageBox" => new MessageBoxPage(),
-            "Docking"    => new DockingPage(),
+            "MessageBox"   => new MessageBoxPage(),
+            "NoticeDialog" => new NoticeDialogPage(),
+            "StepDialog"   => new StepDialogPage(),
+            "Docking"      => new DockingPage(),
             _            => null
         };
 
