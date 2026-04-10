@@ -223,7 +223,7 @@
                                                                  CornerRadius="2"
                                                                  VerticalAlignment="Center" />
                                                     <TextBlock Grid.Row="1"
-                                                               Text="{Binding Progress, StringFormat='{0:P0}'}"
+                                                               Text="{Binding Progress, Converter={x:Static converters:ProgressPercentageConverter.Instance}}"
                                                                FontSize="9"
                                                                Foreground="{DynamicResource TextFillColor3}"
                                                                HorizontalAlignment="Left" />
@@ -240,22 +240,18 @@
                                                                Foreground="{DynamicResource TextFillColor1}" />
                                                     <TextBlock FontSize="9"
                                                                Foreground="{DynamicResource TextFillColor3}">
-                                                        <Run Text="{Binding Start, StringFormat='{}{0:P0}'}" />
+                                                        <Run Text="{Binding Start, Converter={x:Static converters:ProgressPercentageConverter.Instance}}" />
                                                         <Run Text="-" />
-                                                        <Run Text="{Binding End, StringFormat='{}{0:P0}'}" />
+                                                        <Run Text="{Binding End, Converter={x:Static converters:ProgressPercentageConverter.Instance}}" />
                                                     </TextBlock>
                                                 </StackPanel>
 
                                                 <!-- Status badge -->
                                                 <Border Grid.Column="3"
+                                                        Background="{Binding Status, Converter={x:Static converters:ChunkStatusToBrushConverter.Instance}}"
                                                         Padding="6 3"
                                                         CornerRadius="3"
                                                         VerticalAlignment="Center">
-                                                    <Border.Style>
-                                                        <Style Selector="Border">
-                                                            <Setter Property="Background" Value="{Binding Status, Converter={x:Static converters:ChunkStatusToBrushConverter.Instance}}" />
-                                                        </Style>
-                                                    </Border.Style>
                                                     <TextBlock Text="{Binding Info}"
                                                                FontSize="9"
                                                                FontWeight="SemiBold"
@@ -263,19 +259,14 @@
                                                                Padding="4 1" />
                                                 </Border>
 
-                                                <!-- Speed indicator (placeholder) -->
+                                                <!-- Speed indicator -->
                                                 <TextBlock Grid.Column="4"
+                                                           Text="{Binding Status, Converter={x:Static converters:ChunkStatusToSpeedConverter.Instance}}"
                                                            FontSize="9"
                                                            Foreground="{DynamicResource TextFillColor3}"
                                                            VerticalAlignment="Center"
                                                            MinWidth="50"
-                                                           TextAlignment="Right">
-                                                    <TextBlock.Style>
-                                                        <Style Selector="TextBlock">
-                                                            <Setter Property="Text" Value="{Binding Status, Converter={x:Static converters:ChunkStatusToSpeedConverter.Instance}}" />
-                                                        </Style>
-                                                    </TextBlock.Style>
-                                                </TextBlock>
+                                                           TextAlignment="Right" />
                                             </Grid>
                                         </Border>
                                     </DataTemplate>

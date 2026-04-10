@@ -1,7 +1,18 @@
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using PleasantUI.ToolKit.Controls;
+using System.Globalization;
 
 namespace PleasantUI.ToolKit.Converters;
+
+/// <summary>
+/// Converts a progress value (0-1) to a percentage string.
+/// </summary>
+public static class ProgressPercentageConverter
+{
+    public static readonly IValueConverter Instance = new FuncValueConverter<double, string>(progress => 
+        progress.ToString("P0", CultureInfo.InvariantCulture));
+}
 
 /// <summary>
 /// Converts a ChunkStatus value to an appropriate background brush.
