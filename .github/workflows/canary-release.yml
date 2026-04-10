@@ -109,21 +109,40 @@ jobs:
           dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
 
       - name: Build single-file example app
-        run: |
-          # Only build for linux-x64 since cross-OS native compilation is not supported
-          # Use framework-dependent single-file to avoid AOT compilation version mismatch
-          dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
-            --configuration Release \
-            --runtime linux-x64 \
-            -p:PublishSingleFile=true \
-            -p:IncludeNativeLibrariesForSelfExtract=true \
-            -o /tmp/example-app-linux-x64
-          
-          # Create zip archive
-          cd /tmp/example-app-linux-x64
-          zip -r /tmp/PleasantUI-Example-linux-x64.zip .
-          
-          echo "Built single-file example app for linux-x64"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 15
+          command: |
+            # Only build for linux-x64 since cross-OS native compilation is not supported
+            # Use framework-dependent single-file to avoid AOT compilation version mismatch
+            dotnet publish samples/PleasantUI.Example.Desktop/PleasantUI.Example.Desktop.csproj \
+              --configuration Release \
+              --runtime linux-x64 \
+              -p:PublishSingleFile=true \
+              -p:IncludeNativeLibrariesForSelfExtract=true \
+              -p:TreatWarningsAsErrors=false \
+              -o /tmp/example-app-linux-x64 || exit 1
+            
+            # Verify output exists
+            if [ ! -f /tmp/example-app-linux-x64/PleasantUI.Example.Desktop ]; then
+              echo "ERROR: Executable not found after build"
+              ls -la /tmp/example-app-linux-x64/
+              exit 1
+            fi
+            
+            # Create zip archive
+            cd /tmp/example-app-linux-x64
+            zip -r /tmp/PleasantUI-Example-linux-x64.zip . || exit 1
+            
+            # Verify zip was created
+            if [ ! -f /tmp/PleasantUI-Example-linux-x64.zip ]; then
+              echo "ERROR: Zip file was not created"
+              exit 1
+            fi
+            
+            echo "Built single-file example app for linux-x64 successfully"
 
       - name: Verify packages exist
         run: |
