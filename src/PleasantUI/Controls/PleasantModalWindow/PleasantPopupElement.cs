@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
+using PleasantUI.Core.Settings.Providers.Interfaces;
 
 namespace PleasantUI.Controls;
 
@@ -19,6 +20,43 @@ public abstract class PleasantPopupElement : ContentControl
     /// The top-level parent control where the popup is displayed.
     /// </summary>
     protected TopLevel? TopLevel;
+
+    static PleasantPopupElement()
+    {
+        CornerRadiusProperty.Changed.AddClassHandler<PleasantPopupElement>((x, e) => x.OnCornerRadiusChanged(e));
+    }
+
+    private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        // Apply VGUI corner radius override if VGUI theme is active
+        if (IsVGUIActive())
+            SetValue(CornerRadiusProperty, new CornerRadius(0));
+    }
+
+    /// <summary>
+    /// Checks if the VGUI theme is currently active.
+    /// </summary>
+    /// <returns>True if VGUI theme is active, false otherwise.</returns>
+    protected static bool IsVGUIActive()
+    {
+        try
+        {
+            return PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public override void ApplyTemplate()
+    {
+        base.ApplyTemplate();
+        
+        // Apply VGUI corner radius override when template is applied
+        if (IsVGUIActive())
+            CornerRadius = new CornerRadius(0);
+    }
 
     /// <summary>
     /// Displays the popup in the specified <see cref="TopLevel"/> container.

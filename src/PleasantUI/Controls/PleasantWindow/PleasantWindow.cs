@@ -17,6 +17,44 @@ public class PleasantWindow : PleasantWindowBase
 {
     private PleasantSplashScreen? _splashOverlay;
     private CancellationTokenSource? _splashCts;
+
+    static PleasantWindow()
+    {
+        CornerRadiusProperty.Changed.AddClassHandler<PleasantWindow>((x, e) => x.OnCornerRadiusChanged(e));
+    }
+
+    private void OnCornerRadiusChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        // Apply VGUI corner radius override if VGUI theme is active
+        if (IsVGUIActive())
+            SetValue(CornerRadiusProperty, new CornerRadius(0));
+    }
+
+    /// <summary>
+    /// Checks if the VGUI theme is currently active.
+    /// </summary>
+    /// <returns>True if VGUI theme is active, false otherwise.</returns>
+    protected static bool IsVGUIActive()
+    {
+        try
+        {
+            return PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public override void ApplyTemplate()
+    {
+        base.ApplyTemplate();
+        
+        // Apply VGUI corner radius override when template is applied
+        if (IsVGUIActive())
+            CornerRadius = new CornerRadius(0);
+    }
+
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
     /// </summary>
