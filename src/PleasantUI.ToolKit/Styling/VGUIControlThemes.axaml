@@ -12,27 +12,11 @@
             <Setter Property="CornerRadius" Value="0" />
         </Style>
         <!-- Icon badge -->
-        <Style Selector="^ /template/ Border[Width='44']">
+        <Style Selector="^ /template/ Border#PART_BevelOuter">
             <Setter Property="CornerRadius" Value="0" />
         </Style>
         <!-- Tab items -->
         <Style Selector="^ /template/ ListBoxItem">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Exception summary border -->
-        <Style Selector="^ /template/ Border[Background='{DynamicResource BackgroundColor3}']">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Message border in exception tab -->
-        <Style Selector="^ /template/ SmoothScrollViewer#PART_ExceptionTab Border[Background='{DynamicResource BackgroundColor3}']">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Stack trace border -->
-        <Style Selector="^ /template/ SmoothScrollViewer#PART_ExceptionTab Border[MaxHeight='160']">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
-        <!-- Screenshot border -->
-        <Style Selector="^ /template/ Grid#PART_ScreenshotTab Border">
             <Setter Property="CornerRadius" Value="0" />
         </Style>
         <!-- Status row -->
@@ -50,12 +34,12 @@
         <Style Selector="^ /template/ Border">
             <Setter Property="CornerRadius" Value="0" />
         </Style>
-        <!-- Step number badge -->
-        <Style Selector="^ /template/ ItemsControl StepItem /template/ Border[Width='28']">
-            <Setter Property="CornerRadius" Value="0" />
-        </Style>
         <!-- Status row -->
         <Style Selector="^ /template/ Border#PART_StatusRow">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <!-- Step item badge -->
+        <Style Selector="^ /template/ ItemsControl > controls:StepItem /template/ Border">
             <Setter Property="CornerRadius" Value="0" />
         </Style>
     </ControlTheme>
