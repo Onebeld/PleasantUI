@@ -187,9 +187,11 @@
                                             Margin="0 16 0 0"
                                             IsVisible="False">
                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <PathIcon Data="{DynamicResource InfoRegular}"
-                                                      Width="14" Height="14"
-                                                      Foreground="{DynamicResource AccentFillColor1}" />
+                                            <TextBlock Text="ℹ"
+                                                       FontSize="14"
+                                                       Foreground="{DynamicResource AccentFillColor1}"
+                                                       VerticalAlignment="Center"
+                                                       FontWeight="SemiBold" />
                                             <TextBlock Text="{TemplateBinding StatusMessage}"
                                                        FontSize="12"
                                                        Foreground="{DynamicResource TextFillColor2}"
