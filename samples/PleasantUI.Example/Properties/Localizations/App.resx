@@ -98,7 +98,43 @@
     <data name="About/PatreonSupport" xml:space="preserve"><value>Support on Patreon</value></data>
     <data name="About/BoostySupport" xml:space="preserve"><value>Support on Boosty</value></data>
     <data name="About/CreditsTitle" xml:space="preserve"><value>Credits &amp; Acknowledgments</value></data>
-    <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI - The cross-platform UI framework&#x0A;• Aura.UI by PieroCastillo - Control inspiration&#x0A;• FluentAvalonia.ProgressRing by ymg2006&#x0A;• JetBrains Rider - Development IDE&#x0A;• Andrey Savich (pieckenst) - Library contribution (PR #6)</value></data>
+    <data name="About/CreditsText" xml:space="preserve"><value>This project is made possible by the Avalonia community and contributors who help improve it. Special thanks to the Avalonia team for creating such an amazing framework.</value></data>
+    <!-- NoticeDialog -->
+    <data name="NoticeDialog/InfoTitle" xml:space="preserve"><value>Information</value></data>
+    <data name="NoticeDialog/InfoMessage" xml:space="preserve"><value>Your changes have been saved successfully.</value></data>
+    <data name="NoticeDialog/InfoResult" xml:space="preserve"><value>Info dialog closed</value></data>
+    <data name="NoticeDialog/WarningTitle" xml:space="preserve"><value>Warning</value></data>
+    <data name="NoticeDialog/WarningMessage" xml:space="preserve"><value>The file you are trying to open is larger than 100MB. Opening it may slow down the application.</value></data>
+    <data name="NoticeDialog/WarningResult" xml:space="preserve"><value>Warning dialog closed</value></data>
+    <data name="NoticeDialog/ErrorTitle" xml:space="preserve"><value>Error</value></data>
+    <data name="NoticeDialog/ErrorMessage" xml:space="preserve"><value>An unexpected error occurred while processing your request. Please try again later.</value></data>
+    <data name="NoticeDialog/ErrorResult" xml:space="preserve"><value>Error dialog closed</value></data>
+    <data name="NoticeDialog/SuccessTitle" xml:space="preserve"><value>Success</value></data>
+    <data name="NoticeDialog/SuccessMessage" xml:space="preserve"><value>Your account has been created successfully. You can now log in.</value></data>
+    <data name="NoticeDialog/SuccessResult" xml:space="preserve"><value>Success dialog closed</value></data>
+    <data name="NoticeDialog/WipTitle" xml:space="preserve"><value>Development Version</value></data>
+    <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>This is a stable release of the application. All features are fully tested and ready for production use.</value></data>
+    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>This is a bugfix release containing important fixes for issues found in the stable version.</value></data>
+    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>This is an alpha release. Features may be incomplete and unstable. Use with caution.</value></data>
+    <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>This is a beta release. Features are mostly complete but may still contain bugs.</value></data>
+    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>This is a release candidate. It is close to the final release but may still have issues.</value></data>
+    <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>This is a canary build with the latest changes. It may be unstable and is intended for testing purposes only.</value></data>
+    <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>This version of the application is in active development. Features may change or be removed in future releases.</value></data>
+    <data name="NoticeDialog/CurrentVersion" xml:space="preserve"><value>Current version</value></data>
+    <data name="NoticeDialog/WipFooter" xml:space="preserve"><value>- Development Team</value></data>
+    <data name="NoticeDialog/WipResult" xml:space="preserve"><value>Work in progress dialog shown</value></data>
+    <data name="NoticeDialog/VersionLabel" xml:space="preserve"><value>Version</value></data>
+    <data name="NoticeDialog/Ok" xml:space="preserve"><value>OK</value></data>
+    <data name="NoticeDialog/Continue" xml:space="preserve"><value>Continue</value></data>
+    <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="NoticeDialog/Login" xml:space="preserve"><value>Login</value></data>
+    <data name="NoticeDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
+    <data name="NoticeDialog/InfoDesc" xml:space="preserve"><value>Shows an informational dialog with a single OK button.</value></data>
+    <data name="NoticeDialog/WarningDesc" xml:space="preserve"><value>Shows a warning dialog with Continue and Cancel buttons.</value></data>
+    <data name="NoticeDialog/ErrorDesc" xml:space="preserve"><value>Shows an error dialog with a single OK button.</value></data>
+    <data name="NoticeDialog/SuccessDesc" xml:space="preserve"><value>Shows a success dialog with a Login button.</value></data>
+    <data name="NoticeDialog/WipDesc" xml:space="preserve"><value>Shows a work-in-progress dialog with version information.</value></data>
+    <data name="NoticeDialog/Show" xml:space="preserve"><value>Show</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Custom themes</value></data>
     <!-- Calendar page -->
@@ -361,6 +397,43 @@
     <data name="PleasantMenu/OpenFiles" xml:space="preserve"><value>Open files</value></data>
     <data name="PleasantMenu/Modules" xml:space="preserve"><value>Loaded modules</value></data>
     <data name="Card/MessageBox" xml:space="preserve"><value>A dialog that displays a message and waits for user confirmation.</value></data>
+    <!-- NoticeDialog page -->
+    <data name="CardTitle/NoticeDialog" xml:space="preserve"><value>NoticeDialog</value></data>
+    <data name="Card/NoticeDialog" xml:space="preserve"><value>A modal dialog for displaying notices, warnings, or work-in-progress messages with severity-based styling.</value></data>
+    <data name="NoticeDialog/Show" xml:space="preserve"><value>Show</value></data>
+    <data name="NoticeDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
+    <data name="NoticeDialog/InfoTitle" xml:space="preserve"><value>Information</value></data>
+    <data name="NoticeDialog/InfoDesc" xml:space="preserve"><value>Shows an informational message with a blue icon.</value></data>
+    <data name="NoticeDialog/InfoMessage" xml:space="preserve"><value>Your changes have been saved successfully.</value></data>
+    <data name="NoticeDialog/InfoResult" xml:space="preserve"><value>Info dialog closed</value></data>
+    <data name="NoticeDialog/WarningTitle" xml:space="preserve"><value>Warning</value></data>
+    <data name="NoticeDialog/WarningDesc" xml:space="preserve"><value>Shows a warning message with a yellow icon and secondary action button.</value></data>
+    <data name="NoticeDialog/WarningMessage" xml:space="preserve"><value>The file you are trying to open is larger than 100MB. Opening it may slow down the application.</value></data>
+    <data name="NoticeDialog/WarningResult" xml:space="preserve"><value>Warning dialog closed</value></data>
+    <data name="NoticeDialog/ErrorTitle" xml:space="preserve"><value>Error</value></data>
+    <data name="NoticeDialog/ErrorDesc" xml:space="preserve"><value>Shows an error message with a red icon.</value></data>
+    <data name="NoticeDialog/ErrorMessage" xml:space="preserve"><value>An unexpected error occurred while processing your request. Please try again later.</value></data>
+    <data name="NoticeDialog/ErrorResult" xml:space="preserve"><value>Error dialog closed</value></data>
+    <data name="NoticeDialog/SuccessTitle" xml:space="preserve"><value>Success</value></data>
+    <data name="NoticeDialog/SuccessDesc" xml:space="preserve"><value>Shows a success message with a green icon.</value></data>
+    <data name="NoticeDialog/SuccessMessage" xml:space="preserve"><value>Your account has been created successfully. You can now log in.</value></data>
+    <data name="NoticeDialog/SuccessResult" xml:space="preserve"><value>Success dialog closed</value></data>
+    <data name="NoticeDialog/WipTitle" xml:space="preserve"><value>Work in Progress</value></data>
+    <data name="NoticeDialog/WipDesc" xml:space="preserve"><value>Shows a work-in-progress message with version-aware text based on current build type.</value></data>
+    <data name="NoticeDialog/WipFooter" xml:space="preserve"><value>- Development Team</value></data>
+    <data name="NoticeDialog/WipResult" xml:space="preserve"><value>Work in progress dialog shown</value></data>
+    <data name="NoticeDialog/CurrentVersion" xml:space="preserve"><value>Current version</value></data>
+    <data name="NoticeDialog/Ok" xml:space="preserve"><value>OK</value></data>
+    <data name="NoticeDialog/Continue" xml:space="preserve"><value>Continue</value></data>
+    <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="NoticeDialog/Login" xml:space="preserve"><value>Login</value></data>
+    <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>This is a stable release of the application. All features are fully tested and ready for production use.</value></data>
+    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>This is a bugfix release containing important fixes for issues found in the stable version.</value></data>
+    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>This is an alpha release. Features may be incomplete and unstable. Use with caution.</value></data>
+    <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>This is a beta release. Features are mostly complete but may still contain bugs.</value></data>
+    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>This is a release candidate. It is close to the final release but may still have issues.</value></data>
+    <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>This is a canary build with the latest changes. It may be unstable and is intended for testing purposes only.</value></data>
+    <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>This version of the application is in active development. Features may change or be removed in future releases.</value></data>
     <!-- InformationBlock page -->
     <data name="InformationBlock/Account" xml:space="preserve"><value>Account</value></data>
     <!-- Button page -->

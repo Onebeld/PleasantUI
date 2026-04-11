@@ -90,8 +90,44 @@
     <data name="About/GitHubRepo" xml:space="preserve"><value>Репозиторий GitHub</value></data>
     <data name="About/PatreonSupport" xml:space="preserve"><value>Поддержать на Patreon</value></data>
     <data name="About/BoostySupport" xml:space="preserve"><value>Поддержать на Boosty</value></data>
-    <data name="About/CreditsTitle" xml:space="preserve"><value>Благодарности</value></data>
-    <data name="About/CreditsText" xml:space="preserve"><value>• AvaloniaUI — кроссплатформенный UI фреймворк&#x0A;• Aura.UI от PieroCastillo — вдохновение для элементов&#x0A;• FluentAvalonia.ProgressRing от ymg2006&#x0A;• JetBrains Rider — IDE для разработки&#x0A;• Andrey Savich (pieckenst) — вклад в развитие библиотеки (PR #6)</value></data>
+    <data name="About/CreditsTitle" xml:space="preserve"><value>Благодарности и признания</value></data>
+    <data name="About/CreditsText" xml:space="preserve"><value>Этот проект стал возможен благодаря сообществу Avalonia и участникам, которые помогают его улучшать. Особая благодарность команде Avalonia за создание такой замечательной платформы.</value></data>
+    <!-- NoticeDialog -->
+    <data name="NoticeDialog/InfoTitle" xml:space="preserve"><value>Информация</value></data>
+    <data name="NoticeDialog/InfoMessage" xml:space="preserve"><value>Ваши изменения успешно сохранены.</value></data>
+    <data name="NoticeDialog/InfoResult" xml:space="preserve"><value>Информационное диалоговое окно закрыто</value></data>
+    <data name="NoticeDialog/WarningTitle" xml:space="preserve"><value>Предупреждение</value></data>
+    <data name="NoticeDialog/WarningMessage" xml:space="preserve"><value>Файл, который вы пытаетесь открыть, превышает 100 МБ. Открытие может замедлить работу приложения.</value></data>
+    <data name="NoticeDialog/WarningResult" xml:space="preserve"><value>Диалоговое окно предупреждения закрыто</value></data>
+    <data name="NoticeDialog/ErrorTitle" xml:space="preserve"><value>Ошибка</value></data>
+    <data name="NoticeDialog/ErrorMessage" xml:space="preserve"><value>Произошла непредвиденная ошибка при обработке вашего запроса. Пожалуйста, попробуйте позже.</value></data>
+    <data name="NoticeDialog/ErrorResult" xml:space="preserve"><value>Диалоговое окно ошибки закрыто</value></data>
+    <data name="NoticeDialog/SuccessTitle" xml:space="preserve"><value>Успех</value></data>
+    <data name="NoticeDialog/SuccessMessage" xml:space="preserve"><value>Ваша учетная запись успешно создана. Теперь вы можете войти.</value></data>
+    <data name="NoticeDialog/SuccessResult" xml:space="preserve"><value>Диалоговое окно успеха закрыто</value></data>
+    <data name="NoticeDialog/WipTitle" xml:space="preserve"><value>Версия в разработке</value></data>
+    <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>Это стабильный выпуск приложения. Все функции полностью протестированы и готовы к использованию в продакшене.</value></data>
+    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>Это выпуск с исправлениями ошибок, содержащий важные исправления проблем, найденных в стабильной версии.</value></data>
+    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>Это альфа-версия. Функции могут быть неполными и нестабильными. Используйте с осторожностью.</value></data>
+    <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>Это бета-версия. Функции в основном завершены, но могут содержать ошибки.</value></data>
+    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>Это кандидат на выпуск. Он близок к финальной версии, но все еще может иметь проблемы.</value></data>
+    <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>Это сборка canary с последними изменениями. Она может быть нестабильной и предназначена только для тестирования.</value></data>
+    <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>Эта версия приложения находится в активной разработке. Функции могут измениться или быть удалены в будущих выпусках.</value></data>
+    <data name="NoticeDialog/CurrentVersion" xml:space="preserve"><value>Текущая версия</value></data>
+    <data name="NoticeDialog/WipFooter" xml:space="preserve"><value>- Команда разработки</value></data>
+    <data name="NoticeDialog/WipResult" xml:space="preserve"><value>Диалоговое окно в разработке показано</value></data>
+    <data name="NoticeDialog/VersionLabel" xml:space="preserve"><value>Версия</value></data>
+    <data name="NoticeDialog/Ok" xml:space="preserve"><value>ОК</value></data>
+    <data name="NoticeDialog/Continue" xml:space="preserve"><value>Продолжить</value></data>
+    <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Отмена</value></data>
+    <data name="NoticeDialog/Login" xml:space="preserve"><value>Войти</value></data>
+    <data name="NoticeDialog/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+    <data name="NoticeDialog/InfoDesc" xml:space="preserve"><value>Показывает информационное диалоговое окно с одной кнопкой ОК.</value></data>
+    <data name="NoticeDialog/WarningDesc" xml:space="preserve"><value>Показывает диалоговое окно предупреждения с кнопками Продолжить и Отмена.</value></data>
+    <data name="NoticeDialog/ErrorDesc" xml:space="preserve"><value>Показывает диалоговое окно ошибки с одной кнопкой ОК.</value></data>
+    <data name="NoticeDialog/SuccessDesc" xml:space="preserve"><value>Показывает диалоговое окно успеха с кнопкой Войти.</value></data>
+    <data name="NoticeDialog/WipDesc" xml:space="preserve"><value>Показывает диалоговое окно в разработке с информацией о версии.</value></data>
+    <data name="NoticeDialog/Show" xml:space="preserve"><value>Показать</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
     <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Информация о загрузке</value></data>
@@ -313,6 +349,7 @@
     <data name="Card/TextBox" xml:space="preserve"><value>Прямоугольная область для ввода и редактирования текста.</value></data>
     <data name="Card/DataGrid" xml:space="preserve"><value>Сетка для отображения данных в табличном формате.</value></data>
     <data name="Card/PinCode" xml:space="preserve"><value>Элемент ввода PIN / OTP с отдельными ячейками для каждого символа.</value></data>
+    <data name="Card/NoticeDialog" xml:space="preserve"><value>Модальное диалоговое окно для отображения уведомлений, предупреждений или сообщений о работе в процессе с оформлением на основе серьёзности.</value></data>
     <!-- PinCode page -->
     <data name="PinCode/LastValue" xml:space="preserve"><value>Последнее значение:</value></data>
     <data name="PinCode/Default" xml:space="preserve"><value>По умолчанию (буквы + цифры)</value></data>

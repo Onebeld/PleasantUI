@@ -36,6 +36,9 @@ public class InstallWizard : TemplatedControl
     public const string PART_NextButton   = "PART_NextButton";
     /// <summary>Template part name for the Cancel button.</summary>
     public const string PART_CancelButton = "PART_CancelButton";
+
+    // ── Private fields ─────────────────────────────────────────────────────────
+
     private Button? _backButton;
     private Button? _nextButton;
     private Button? _cancelButton;
@@ -76,6 +79,18 @@ public class InstallWizard : TemplatedControl
     /// <summary>Defines the <see cref="ShowCancelButton"/> property.</summary>
     public static readonly StyledProperty<bool> ShowCancelButtonProperty =
         AvaloniaProperty.Register<InstallWizard, bool>(nameof(ShowCancelButton), defaultValue: true);
+
+    /// <summary>Defines the <see cref="SystemInfo"/> property.</summary>
+    public static readonly StyledProperty<string?> SystemInfoProperty =
+        AvaloniaProperty.Register<InstallWizard, string?>(nameof(SystemInfo));
+
+    /// <summary>Defines the <see cref="StatusMessage"/> property.</summary>
+    public static readonly StyledProperty<string?> StatusMessageProperty =
+        AvaloniaProperty.Register<InstallWizard, string?>(nameof(StatusMessage));
+
+    /// <summary>Defines the <see cref="ShowProgressBar"/> property.</summary>
+    public static readonly StyledProperty<bool> ShowProgressBarProperty =
+        AvaloniaProperty.Register<InstallWizard, bool>(nameof(ShowProgressBar), defaultValue: true);
 
     // ── Routed events ────────────────────────────────────────────────────────
 
@@ -203,6 +218,27 @@ public class InstallWizard : TemplatedControl
     {
         get => GetValue(ShowCancelButtonProperty);
         set => SetValue(ShowCancelButtonProperty, value);
+    }
+
+    /// <summary>Optional system information shown at the bottom of the sidebar (e.g., system name, version, build info).</summary>
+    public string? SystemInfo
+    {
+        get => GetValue(SystemInfoProperty);
+        set => SetValue(SystemInfoProperty, value);
+    }
+
+    /// <summary>Status message shown below the content area (e.g., "Connecting to server...", "Validating credentials...").</summary>
+    public string? StatusMessage
+    {
+        get => GetValue(StatusMessageProperty);
+        set => SetValue(StatusMessageProperty, value);
+    }
+
+    /// <summary>Whether the progress bar is shown.</summary>
+    public bool ShowProgressBar
+    {
+        get => GetValue(ShowProgressBarProperty);
+        set => SetValue(ShowProgressBarProperty, value);
     }
 
     // ── Events ───────────────────────────────────────────────────────────────

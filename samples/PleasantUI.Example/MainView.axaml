@@ -51,7 +51,6 @@
                     <NavigationViewItem Tag="TerminalPanel"      Header="{Localize CardTitle/TerminalPanel}"      Icon="{x:Static MaterialIcons.ConsoleLine}" />
                     <NavigationViewItem Tag="TreeViewPanel"      Header="{Localize CardTitle/TreeViewPanel}"      Icon="{x:Static MaterialIcons.FileTreeOutline}" />
                     <NavigationViewItem Tag="ItemListPanel"      Header="{Localize CardTitle/ItemListPanel}"      Icon="{x:Static MaterialIcons.FormatListBulletedType}" />
-                    <NavigationViewItem Tag="StepDialog"         Header="{Localize CardTitle/StepDialog}"         Icon="{x:Static MaterialIcons.OrderNumericAscending}" />
                     <NavigationViewItem Tag="PropertyGrid"       Header="{Localize CardTitle/PropertyGrid}"       Icon="{x:Static MaterialIcons.TableColumnPlusAfter}" />
                     <NavigationViewItem Tag="DownloadPanel"      Header="{Localize CardTitle/DownloadPanel}"      Icon="{x:Static MaterialIcons.DownloadOutline}" />
                     <NavigationViewItem Tag="CrashReportDialog"  Header="{Localize CardTitle/CrashReportDialog}"  Icon="{x:Static MaterialIcons.BugOutline}" />
@@ -59,8 +58,10 @@
 
                 <NavigationViewItem Header="{Localize ToolKit}"
                                     Icon="{x:Static MaterialIcons.WrenchOutline}">
-                    <NavigationViewItem Tag="MessageBox" Header="{Localize CardTitle/MessageBox}" Icon="{x:Static MaterialIcons.MessageOutline}" />
-                    <NavigationViewItem Tag="Docking"    Header="{Localize CardTitle/Docking}"    Icon="{x:Static MaterialIcons.ViewDashboardOutline}" />
+                    <NavigationViewItem Tag="MessageBox"  Header="{Localize CardTitle/MessageBox}"  Icon="{x:Static MaterialIcons.MessageOutline}" />
+                    <NavigationViewItem Tag="NoticeDialog" Header="{Localize CardTitle/NoticeDialog}" Icon="{x:Static MaterialIcons.InformationOutline}" />
+                    <NavigationViewItem Tag="StepDialog"  Header="{Localize CardTitle/StepDialog}"  Icon="{x:Static MaterialIcons.OrderNumericAscending}" />
+                    <NavigationViewItem Tag="Docking"     Header="{Localize CardTitle/Docking}"     Icon="{x:Static MaterialIcons.ViewDashboardOutline}" />
                 </NavigationViewItem>
             </NavigationViewItem>
 

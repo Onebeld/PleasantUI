@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PleasantUI.Example.ViewModels.Pages.ToolKitPages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+             x:Class="PleasantUI.Example.Views.Pages.ToolkitPages.NoticeDialogPageView"
+             x:DataType="vm:NoticeDialogViewModel">
+    <UserControl.DataContext>
+        <vm:NoticeDialogViewModel />
+    </UserControl.DataContext>
+
+    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16 8 16 16" Spacing="12" MaxWidth="560">
+
+            <!-- Result indicator -->
+            <Border Background="{DynamicResource ControlFillColor1}"
+                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Padding="12 8">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Localize LastResult, Context=NoticeDialog}"
+                               Foreground="{DynamicResource TextFillColor2}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{CompiledBinding LastResult}"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+            <!-- Info -->
+            <OptionsDisplayItem Header="{Localize InfoTitle, Context=NoticeDialog}"
+                                Description="{Localize InfoDesc, Context=NoticeDialog}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=NoticeDialog}"
+                            Command="{CompiledBinding ShowInfo}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Warning -->
+            <OptionsDisplayItem Header="{Localize WarningTitle, Context=NoticeDialog}"
+                                Description="{Localize WarningDesc, Context=NoticeDialog}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=NoticeDialog}"
+                            Command="{CompiledBinding ShowWarning}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Error -->
+            <OptionsDisplayItem Header="{Localize ErrorTitle, Context=NoticeDialog}"
+                                Description="{Localize ErrorDesc, Context=NoticeDialog}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=NoticeDialog}"
+                            Command="{CompiledBinding ShowError}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Success -->
+            <OptionsDisplayItem Header="{Localize SuccessTitle, Context=NoticeDialog}"
+                                Description="{Localize SuccessDesc, Context=NoticeDialog}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=NoticeDialog}"
+                            Command="{CompiledBinding ShowSuccess}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+            <!-- Work In Progress -->
+            <OptionsDisplayItem Header="{Localize WipTitle, Context=NoticeDialog}"
+                                Description="{Localize WipDesc, Context=NoticeDialog}">
+                <OptionsDisplayItem.ActionButton>
+                    <Button Content="{Localize Show, Context=NoticeDialog}"
+                            Command="{CompiledBinding ShowWorkInProgress}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+
+        </StackPanel>
+    </SmoothScrollViewer>
+</UserControl>
