@@ -19,7 +19,7 @@ public class ControlPageCard : INotifyPropertyChanged
     public string TitleKey { get; }
     public string DescriptionKey { get; }
     public Geometry Icon { get; set; }
-    public IPage Page { get; set; }
+    public Func<IPage> Page { get; set; }
 
     public string Title
     {
@@ -43,7 +43,7 @@ public class ControlPageCard : INotifyPropertyChanged
         }
     }
 
-    public ControlPageCard(string titleKey, Geometry icon, string descriptionKey, IPage page, IEventAggregator eventAggregator)
+    public ControlPageCard(string titleKey, Geometry icon, string descriptionKey, Func<IPage> page, IEventAggregator eventAggregator)
     {
         _eventAggregator = eventAggregator;
         TitleKey = titleKey;
@@ -79,5 +79,5 @@ public class ControlPageCard : INotifyPropertyChanged
         Localizer.Instance.TryGetString(key, out string value) ? value : key;
 
     public void OpenPage() =>
-        _eventAggregator.PublishAsync(new ChangePageMessage(Page));
+        _eventAggregator.PublishAsync(new ChangePageMessage(Page.Invoke()));
 }

@@ -16,13 +16,25 @@
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugType>embedded</DebugType>
         <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
+        <DefineConstants>$(DefineConstants);ENABLE_XAML_HOT_RELOAD</DefineConstants>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <LibrarySourcePath>$(MSBuildProjectDirectory)\..\..\src\PleasantUI</LibrarySourcePath>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- Передаем путь как константу компиляции -->
+        <CompilerVisibleProperty Include="LibrarySourcePath" />
+    </ItemGroup>
     
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.0" />
         <PackageReference Include="Avalonia.Desktop" Version="12.0.0" />
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.0" />
         <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="9.0.8" />
+        <PackageReference Include="HotAvalonia" Version="3.*" PrivateAssets="All" Publish="True" />
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="12.0.0" PrivateAssets="All" />
     </ItemGroup>
     
     <ItemGroup>
