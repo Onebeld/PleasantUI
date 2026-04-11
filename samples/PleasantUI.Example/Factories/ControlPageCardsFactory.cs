@@ -53,7 +53,6 @@ public class ControlPageCardsFactory
             new("CardTitle/TerminalPanel",       MaterialIcons.ConsoleLine,            "Card/TerminalPanel", () =>       new TerminalPanelPage(),       _eventAggregator),
             new("CardTitle/TreeViewPanel",       MaterialIcons.FileTreeOutline,        "Card/TreeViewPanel", () =>       new TreeViewPanelPage(),       _eventAggregator),
             new("CardTitle/ItemListPanel",       MaterialIcons.FormatListBulletedType, "Card/ItemListPanel", () =>       new ItemListPanelPage(),       _eventAggregator),
-            new("CardTitle/StepDialog",          MaterialIcons.OrderNumericAscending,  "Card/StepDialog", () =>          new StepDialogPage(),          _eventAggregator),
             new("CardTitle/PropertyGrid",        MaterialIcons.TableColumnPlusAfter,   "Card/PropertyGrid", () =>        new PropertyGridPage(),        _eventAggregator),
             new("CardTitle/DownloadPanel",       MaterialIcons.DownloadOutline,        "Card/DownloadPanel", () =>       new DownloadPanelPage(),       _eventAggregator),
             new("CardTitle/CrashReportDialog",   MaterialIcons.BugOutline,             "Card/CrashReportDialog", () =>   new CrashReportDialogPage(),   _eventAggregator),
@@ -64,8 +63,10 @@ public class ControlPageCardsFactory
     {
         return
         [
-            new("CardTitle/MessageBox", MaterialIcons.MessageOutline, "Card/MessageBox", () => new MessageBoxPage(), _eventAggregator),
-            new("CardTitle/Docking",    MaterialIcons.ViewDashboardOutline, "Card/Docking", () => new DockingPage(), _eventAggregator),
+            new("CardTitle/MessageBox",    MaterialIcons.MessageOutline,       "Card/MessageBox", () =>    new MessageBoxPage(),    _eventAggregator),
+            new("CardTitle/NoticeDialog",  MaterialIcons.InformationOutline,   "Card/NoticeDialog", () =>  new NoticeDialogPage(),  _eventAggregator),
+            new("CardTitle/StepDialog",    MaterialIcons.OrderNumericAscending, "Card/StepDialog", () =>   new StepDialogPage(),    _eventAggregator),
+            new("CardTitle/Docking",       MaterialIcons.ViewDashboardOutline,  "Card/Docking", () =>      new DockingPage(),       _eventAggregator),
         ];
     }
 }

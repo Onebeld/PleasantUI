@@ -11,5 +11,6 @@
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/StepDialog.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/DownloadPanel.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/CrashReportDialog.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/NoticeDialog.axaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

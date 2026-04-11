@@ -1,0 +1,102 @@
+<ContentDialog xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="420"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="50"
+               MinWidth="420"
+               MinHeight="280"
+               x:Class="PleasantUI.ToolKit.Controls.NoticeDialog"
+               x:Name="RootDialog">
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Severity accent stripe header -->
+        <Border x:Name="HeaderBorder"
+                Grid.Row="0"
+                Padding="16 12"
+                CornerRadius="0">
+            <Grid ColumnDefinitions="Auto,*">
+                <!-- Severity icon in a rounded container -->
+                <Border Grid.Column="0"
+                        Width="36" Height="36"
+                        CornerRadius="18"
+                        Background="#22FFFFFF"
+                        Margin="0 0 12 0"
+                        VerticalAlignment="Center">
+                    <PathIcon x:Name="SeverityIcon"
+                              Width="18" Height="18"
+                              Foreground="White"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center" />
+                </Border>
+                <TextBlock Grid.Column="1"
+                           x:Name="TitleText"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="White"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <!-- Body -->
+        <SmoothScrollViewer Grid.Row="1"
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20 16 20 16" Spacing="12">
+
+                <!-- Main message -->
+                <TextBlock x:Name="MessageText"
+                           Theme="{DynamicResource BodyTextBlockTheme}"
+                           TextWrapping="Wrap" />
+
+                <!-- Version panel: label + version string + badge -->
+                <Border x:Name="VersionPanel"
+                        IsVisible="False"
+                        Background="{DynamicResource ControlFillColor1}"
+                        CornerRadius="{DynamicResource ControlCornerRadius}"
+                        Padding="12 8">
+                    <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                        <TextBlock Grid.Column="0"
+                                   x:Name="VersionLabelText"
+                                   Theme="{DynamicResource CaptionTextBlockTheme}"
+                                   Foreground="{DynamicResource TextFillColor2}"
+                                   VerticalAlignment="Center"
+                                   Margin="0 0 6 0" />
+                        <TextBlock Grid.Column="1"
+                                   x:Name="VersionText"
+                                   Theme="{DynamicResource CaptionTextBlockTheme}"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="0 0 10 0" />
+                        <Border Grid.Column="3"
+                                x:Name="VersionTypeBadge"
+                                CornerRadius="4"
+                                Padding="8 3"
+                                Background="{Binding VersionTypeBadgeBackground, ElementName=RootDialog}">
+                            <TextBlock x:Name="VersionTypeText"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Foreground="White" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Footer / attribution -->
+                <TextBlock x:Name="FooterText"
+                           Theme="{DynamicResource CaptionTextBlockTheme}"
+                           Foreground="{DynamicResource TextFillColor2}"
+                           FontStyle="Italic"
+                           IsVisible="False" />
+
+            </StackPanel>
+        </SmoothScrollViewer>
+    </Grid>
+
+    <ContentDialog.BottomPanelContent>
+        <UniformGrid x:Name="ButtonsHost" Margin="15 0" Rows="0" />
+    </ContentDialog.BottomPanelContent>
+</ContentDialog>

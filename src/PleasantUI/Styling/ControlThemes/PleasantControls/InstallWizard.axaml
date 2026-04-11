@@ -153,22 +153,30 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
 
-                                <TextBlock Grid.Row="2" Margin="20 12"
-                                           Text="{TemplateBinding FooterText}"
-                                           FontSize="11" Foreground="{DynamicResource TextFillColor3}"
-                                           TextWrapping="Wrap" />
+                                <StackPanel Grid.Row="2" Margin="20 12" Spacing="8">
+                                    <TextBlock Text="{TemplateBinding SystemInfo}"
+                                               FontSize="11" Foreground="{DynamicResource TextFillColor3}"
+                                               TextWrapping="Wrap"
+                                               IsVisible="{TemplateBinding SystemInfo, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                    <TextBlock Text="{TemplateBinding FooterText}"
+                                               FontSize="11" Foreground="{DynamicResource TextFillColor3}"
+                                               TextWrapping="Wrap"
+                                               IsVisible="{TemplateBinding FooterText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- ── PROGRESS BAR — row 0, col 1 only ──────────── -->
                         <ProgressBar Grid.Row="0" Grid.Column="1"
+                                     Name="ProgressBar"
                                      Height="3" Minimum="0" Maximum="100"
                                      Value="{TemplateBinding Progress}"
                                      VerticalAlignment="Stretch"
-                                     CornerRadius="0" />
+                                     CornerRadius="0"
+                                     IsVisible="{TemplateBinding ShowProgressBar}" />
 
                         <!-- ── RIGHT CONTENT — row 1, col 1 ──────────────── -->
-                        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="*,Auto">
+                        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="*,Auto,Auto">
 
                             <ScrollViewer Grid.Row="0"
                                           Padding="32 24 32 8"
@@ -195,7 +203,31 @@
                                 </ItemsControl>
                             </ScrollViewer>
 
+                            <!-- Status message area -->
                             <Border Grid.Row="1"
+                                    Name="StatusBorder"
+                                    Padding="32 12"
+                                    BorderBrush="{DynamicResource ControlBorderColor}"
+                                    BorderThickness="0 1 0 0"
+                                    Background="{DynamicResource ControlFillColor2}"
+                                    IsVisible="{TemplateBinding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <PathIcon Grid.Column="0"
+                                              Width="16" Height="16"
+                                              Data="{DynamicResource InfoRegular}"
+                                              Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               Name="StatusText"
+                                               Text="{TemplateBinding StatusMessage}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextFillColor2}"
+                                               VerticalAlignment="Center"
+                                               TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Row="2"
                                     Padding="32 12"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     Background="{DynamicResource ControlFillColor1}"

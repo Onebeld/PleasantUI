@@ -4,14 +4,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
-        <PackageVersion>5.2.1-fix</PackageVersion>
+        <PackageVersion>5.2.2</PackageVersion>
         <Authors>Dmitry Zhutkov (Onebeld), Andrey Savich (pieckenst)</Authors>
         <Copyright>Dmitry Zhutkov (Onebeld)</Copyright>
         <PackageTags>theme, design, xaml, library, ui, gui, control, csharp, styled-components, interface, dotnet, nuget, style, avalonia, controls, user-interface, styles, avaloniaui, pleasant, graphical-user-interface</PackageTags>
         <PackageDescription>PleasantUI is a cross-platform UI theme and control library for Avalonia, inspired by Microsoft Fluent Design and the WinUI/UWP visual language. It provides complete re-styled themes for all standard Avalonia controls — buttons, checkboxes, sliders, text boxes, data grids, calendars, combo boxes, and more — along with a suite of custom Pleasant controls including NavigationView, PleasantTabView, ProgressRing, OptionsDisplayItem, PleasantSnackbar, InformationBlock, ContentDialog, and a full theme editor with custom theme support. Supports light, dark, and multiple accent color themes out of the box, with a reactive localization system and desktop/mobile adaptive layouts.</PackageDescription>
         <Company>Onebeld</Company>
-        <AssemblyVersion>5.2.1</AssemblyVersion>
-        <FileVersion>5.2.1</FileVersion>
+        <AssemblyVersion>5.2.2.0</AssemblyVersion>
+        <FileVersion>5.2.2.0</FileVersion>
+        <InformationalVersion>$(PackageVersion)</InformationalVersion>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
         <RepositoryUrl>https://github.com/Onebeld/PleasantUI</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -21,6 +22,8 @@
         <RepositoryType>Public</RepositoryType>
         <PackageIcon>PleasantUIIcon.png</PackageIcon>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+
         <PackageProjectUrl>https://github.com/Onebeld/PleasantUI</PackageProjectUrl>
     </PropertyGroup>
     
