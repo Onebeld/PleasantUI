@@ -165,10 +165,10 @@ public class NavigationView : TreeView
         AvaloniaProperty.Register<NavigationView, bool>(nameof(DisplayTopIndent), true);
 
     /// <summary>
-    /// Defines the <see cref="NotMakeOffsetForContentPanel" /> property.
+    /// Defines the <see cref="ContentPanelOffsetDisabled" /> property.
     /// </summary>
-    public static readonly StyledProperty<bool> NotMakeOffsetForContentPanelProperty =
-        AvaloniaProperty.Register<NavigationView, bool>(nameof(NotMakeOffsetForContentPanel));
+    public static readonly StyledProperty<bool> ContentPanelOffsetDisabledProperty =
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(ContentPanelOffsetDisabled));
 
     /// <summary>
     /// Defines the <see cref="ItemsAsStrings" /> property.
@@ -333,10 +333,10 @@ public class NavigationView : TreeView
     /// <value>
     /// <c>true</c> if the content panel should not have an offset; otherwise, <c>false</c>.
     /// </value>
-    public bool NotMakeOffsetForContentPanel
+    public bool ContentPanelOffsetDisabled
     {
-        get => GetValue(NotMakeOffsetForContentPanelProperty);
-        set => SetValue(NotMakeOffsetForContentPanelProperty, value);
+        get => GetValue(ContentPanelOffsetDisabledProperty);
+        set => SetValue(ContentPanelOffsetDisabledProperty, value);
     }
 
     /// <summary>

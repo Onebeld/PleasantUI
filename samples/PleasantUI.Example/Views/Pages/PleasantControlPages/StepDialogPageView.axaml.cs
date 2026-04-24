@@ -43,7 +43,7 @@ public partial class StepDialogPageView : LocalizedUserControl
         dialog.Steps.Add(new StepItem { Header = Localizer.Tr("StepDialog/AcceptLicenseHeader"),
             Description = Localizer.Tr("StepDialog/AcceptLicenseDescription") });
         dialog.Steps.Add(new StepItem { Header = Localizer.Tr("StepDialog/ChooseDirectoryHeader"),
-            Content = new TextBox { Watermark = Localizer.Tr("StepDialog/DefaultDirectoryPath"), Width = 280 } });
+            Content = new TextBox { PlaceholderText = Localizer.Tr("StepDialog/DefaultDirectoryPath"), Width = 280 } });
         dialog.Steps.Add(new StepItem { Header = Localizer.Tr("StepDialog/CompleteInstallationHeader"),
             Description = Localizer.Tr("StepDialog/CompleteInstallationDescription") });
 

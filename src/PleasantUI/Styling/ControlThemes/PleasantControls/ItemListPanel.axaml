@@ -5,7 +5,7 @@
 
     <Design.PreviewWith>
         <Border Width="500" Height="400" Background="{DynamicResource BackgroundColor1}">
-            <controls:ItemListPanel SearchWatermark="Search messages..."
+            <controls:ItemListPanel SearchPlaceholderText="Search messages..."
                                     LoadingTitle="Loading Messages"
                                     EmptyStateTitle="No messages"
                                     EmptyStateSubtitle="Messages will appear here" />
@@ -51,7 +51,7 @@
                                               VerticalAlignment="Center" />
                                     <TextBox Name="PART_SearchBox"
                                              Grid.Column="1"
-                                             PlaceholderText="{TemplateBinding SearchWatermark}"
+                                             PlaceholderText="{TemplateBinding SearchPlaceholderText}"
                                              Background="Transparent"
                                              BorderThickness="0"
                                              Padding="8 10"

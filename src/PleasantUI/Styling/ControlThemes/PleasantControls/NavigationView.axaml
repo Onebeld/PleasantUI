@@ -251,11 +251,11 @@
         <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_MarginPanel">
             <Setter Property="Height" Value="60" />
         </Style>
-        <Style Selector="^[NotMakeOffsetForContentPanel=True] /template/ Border#PART_Container">
+        <Style Selector="^[ContentPanelOffsetDisabled=True] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="0 0 0 0" />
             <Setter Property="Margin" Value="0" />
         </Style>
-        <Style Selector="^[NotMakeOffsetForContentPanel=True][DisplayMode=Overlay] /template/ Border#PART_Container">
+        <Style Selector="^[ContentPanelOffsetDisabled=True][DisplayMode=Overlay] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="Margin" Value="5 45 5 5" />
         </Style>

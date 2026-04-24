@@ -8,8 +8,8 @@
             <StackPanel Spacing="5">
                 <TextBox />
                 <TextBox Classes="ClearTextBox" Text="Hello Down there, so loooooooong" />
-                <TextBox PlaceholderText="Watermark" />
-                <TextBox Classes="RevealPasswordTextBox" PlaceholderText="Watermark" PasswordChar="●" Text="Hello" />
+                <TextBox PlaceholderText="PlaceholderText" />
+                <TextBox Classes="RevealPasswordTextBox" PlaceholderText="PlaceholderText" PasswordChar="●" Text="Hello" />
                 <TextBox Text="Disabled Text Box" IsEnabled="False" />
                 <TextBox Text="Sample">
                     <DataValidationErrors.Error>

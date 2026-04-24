@@ -6,7 +6,7 @@
             <StackPanel Spacing="5">
                 <MarkedTextBox Mark="R" />
                 <MarkedTextBox Mark="#" Text="Hello Down there" />
-                <MarkedTextBox Mark="B" PlaceholderText="Watermark" />
+                <MarkedTextBox Mark="B" PlaceholderText="PlaceholderText" />
                 <MarkedTextBox Mark="C" Text="Test" IsEnabled="False" />
             </StackPanel>
         </Border>

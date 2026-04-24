@@ -390,7 +390,7 @@
     <data name="ItemListPanel/ToggleLoading" xml:space="preserve"><value>Переключить загрузку</value></data>
     <data name="ItemListPanel/Clear" xml:space="preserve"><value>Очистить</value></data>
     <data name="ItemListPanel/Reload" xml:space="preserve"><value>Перезагрузить</value></data>
-    <data name="ItemListPanel/SearchWatermark" xml:space="preserve"><value>Поиск файлов...</value></data>
+    <data name="ItemListPanel/SearchPlaceholderText" xml:space="preserve"><value>Поиск файлов...</value></data>
     <data name="ItemListPanel/EmptyTitle" xml:space="preserve"><value>Нет файлов</value></data>
     <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Добавьте элементы кнопкой «Перезагрузить».</value></data>
     <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Загрузка файлов</value></data>

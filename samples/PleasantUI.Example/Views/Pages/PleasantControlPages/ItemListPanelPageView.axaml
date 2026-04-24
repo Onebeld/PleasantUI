@@ -23,7 +23,7 @@
         </WrapPanel>
 
         <controls:ItemListPanel x:Name="ListPanel"
-                                SearchWatermark="{Localize ItemListPanel/SearchWatermark}"
+                                SearchPlaceholderText="{Localize ItemListPanel/SearchPlaceholderText}"
                                 EmptyStateTitle="{Localize ItemListPanel/EmptyTitle}"
                                 EmptyStateSubtitle="{Localize ItemListPanel/EmptySubtitle}"
                                 LoadingTitle="{Localize ItemListPanel/LoadingTitle}"
