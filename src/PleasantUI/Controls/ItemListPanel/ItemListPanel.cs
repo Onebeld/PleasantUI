@@ -63,9 +63,9 @@ public class ItemListPanel : TemplatedControl
     public static readonly StyledProperty<string?> SearchTextProperty =
         AvaloniaProperty.Register<ItemListPanel, string?>(nameof(SearchText));
 
-    /// <summary>Defines the <see cref="SearchWatermark"/> property.</summary>
-    public static readonly StyledProperty<string> SearchWatermarkProperty =
-        AvaloniaProperty.Register<ItemListPanel, string>(nameof(SearchWatermark), defaultValue: "Search...");
+    /// <summary>Defines the <see cref="SearchPlaceholderText"/> property.</summary>
+    public static readonly StyledProperty<string> SearchPlaceholderTextProperty =
+        AvaloniaProperty.Register<ItemListPanel, string>(nameof(SearchPlaceholderText), defaultValue: "Search...");
 
     /// <summary>Defines the <see cref="ItemsSource"/> property.</summary>
     public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty =
@@ -140,11 +140,11 @@ public class ItemListPanel : TemplatedControl
         set => SetValue(SearchTextProperty, value);
     }
 
-    /// <summary>Gets or sets the watermark shown in the search box.</summary>
-    public string SearchWatermark
+    /// <summary>Gets or sets the placeholder text shown in the search box.</summary>
+    public string SearchPlaceholderText
     {
-        get => GetValue(SearchWatermarkProperty);
-        set => SetValue(SearchWatermarkProperty, value);
+        get => GetValue(SearchPlaceholderTextProperty);
+        set => SetValue(SearchPlaceholderTextProperty, value);
     }
 
     /// <summary>Gets or sets the items source for the list.</summary>

@@ -9,7 +9,7 @@
         <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize InlineCalendar}" HorizontalAlignment="Center" />
         <Calendar SelectionMode="SingleDate" />
         <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize DatePicker}" HorizontalAlignment="Center" />
-        <CalendarDatePicker HorizontalAlignment="Center" Watermark="{Localize PickADate}" />
+        <CalendarDatePicker HorizontalAlignment="Center" PlaceholderText="{Localize PickADate}" />
         <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize SpinnerDatePicker}" HorizontalAlignment="Center" />
         <controls:PleasantDatePicker HorizontalAlignment="Center" />
     </StackPanel>

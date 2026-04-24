@@ -397,7 +397,7 @@
     <data name="ItemListPanel/ToggleLoading" xml:space="preserve"><value>Toggle loading</value></data>
     <data name="ItemListPanel/Clear" xml:space="preserve"><value>Clear items</value></data>
     <data name="ItemListPanel/Reload" xml:space="preserve"><value>Reload items</value></data>
-    <data name="ItemListPanel/SearchWatermark" xml:space="preserve"><value>Search files...</value></data>
+    <data name="ItemListPanel/SearchPlaceholderText" xml:space="preserve"><value>Search files...</value></data>
     <data name="ItemListPanel/EmptyTitle" xml:space="preserve"><value>No files</value></data>
     <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Add items using the Reload button above.</value></data>
     <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Loading files</value></data>
