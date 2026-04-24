@@ -549,8 +549,8 @@
             <Setter Property="CornerRadius" Value="0" />
         </Style>
 
-        <!-- Square content for NotMakeOffsetForContentPanel variants -->
-        <Style Selector="^[NotMakeOffsetForContentPanel=True][DisplayMode=Overlay] /template/ Border#PART_Container">
+        <!-- Square content for ContentPanelOffsetDisabled variants -->
+        <Style Selector="^[ContentPanelOffsetDisabled=True][DisplayMode=Overlay] /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="0" />
             <Setter Property="Margin" Value="0 45 0 0" />
         </Style>
