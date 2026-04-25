@@ -55,13 +55,13 @@ public class PleasantMiniWindow : PleasantWindowBase
     /// Defines the <see cref="ShowMinimizeButton"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> ShowMinimizeButtonProperty =
-        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowMinimizeButton));
+        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowMinimizeButton), false);
 
     /// <summary>
     /// Defines the <see cref="ShowCloseButton"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> ShowCloseButtonProperty =
-        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowCloseButton));
+        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowCloseButton), true);
 
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
