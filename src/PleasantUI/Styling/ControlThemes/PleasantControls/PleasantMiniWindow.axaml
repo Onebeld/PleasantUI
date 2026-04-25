@@ -39,10 +39,12 @@
                                               Margin="4"
                                               Theme="{DynamicResource AppBarToggleButtonTheme}"
                                               IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
+                                              IsVisible="{TemplateBinding ShowPinButton}"
                                               ToolTip.Tip="{DynamicResource FastenOverTheWindows}">
                                     <Viewbox Width="10" Height="10">
                                         <Path Data="{DynamicResource PinRegular}"
-                                              StrokeThickness="2" />
+                                              StrokeThickness="2"
+                                              Stroke="{Binding $parent[PleasantMiniWindow].Foreground}" />
                                     </Viewbox>
                                 </ToggleButton>
 
@@ -59,19 +61,24 @@
                                             Orientation="Horizontal"
                                             Margin="4"
                                             IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
-                                    <Button x:Name="PART_HiddenButton"
+                                    <Button x:Name="PART_MinimizeButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
+                                            IsVisible="{TemplateBinding ShowMinimizeButton}"
                                             ToolTip.Tip="{DynamicResource Collapse}">
                                         <Viewbox Width="10" Height="10">
                                             <Path Data="{DynamicResource SubtractRegular}"
-                                                  StrokeThickness="2" />
+                                                  StrokeThickness="2"
+                                                  Stroke="{Binding $parent[PleasantMiniWindow].Foreground}" />
                                         </Viewbox>
                                     </Button>
                                     <Button x:Name="PART_CloseButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
+                                            IsVisible="{TemplateBinding ShowCloseButton}"
                                             ToolTip.Tip="{DynamicResource Close}">
                                         <Viewbox Width="8" Height="8">
-                                            <Path Data="{DynamicResource DismissRegular}" />
+                                            <Path Data="{DynamicResource DismissRegular}"
+                                                  StrokeThickness="2"
+                                                  Stroke="{Binding $parent[PleasantMiniWindow].Foreground}" />
                                         </Viewbox>
                                     </Button>
                                 </StackPanel>

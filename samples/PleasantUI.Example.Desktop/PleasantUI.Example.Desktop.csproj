@@ -12,7 +12,7 @@
         <ApplicationIcon>PleasantUIIcon.ico</ApplicationIcon>
         <IncludeAvaloniaGenerators>true</IncludeAvaloniaGenerators>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugType>embedded</DebugType>
         <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
@@ -23,6 +23,9 @@
         <PackageReference Include="Avalonia.Desktop" Version="12.0.0" />
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.0" />
         <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="9.0.8" />
+        <PackageReference Include="HotAvalonia" Version="3.*" PrivateAssets="All" Publish="True" />
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="12.0.0" PrivateAssets="All" />
     </ItemGroup>
     
     <ItemGroup>
