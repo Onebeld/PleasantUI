@@ -620,7 +620,7 @@
     <data name="MiniWindow/PropsTitle"          xml:space="preserve"><value>Ключевые свойства</value></data>
     <data name="MiniWindow/PropEnableCustomTitleBar" xml:space="preserve"><value>Показывает настраиваемую ручку перетаскивания и кнопки заголовка вместо системной строки заголовка.</value></data>
     <data name="MiniWindow/PropShowPinButton"   xml:space="preserve"><value>Показывает кнопку закрепления, переключающую режим «поверх всех окон» (Topmost).</value></data>
-    <data name="MiniWindow/PropShowHiddenButton" xml:space="preserve"><value>Показывает кнопку сворачивания, скрывающую окно на панель задач.</value></data>
+    <data name="MiniWindow/PropShowMinimizeButton" xml:space="preserve"><value>Показывает кнопку сворачивания, скрывающую окно на панель задач.</value></data>
     <data name="MiniWindow/PropEnableBlur"      xml:space="preserve"><value>Включает акриловое/размытое прозрачное фоновое покрытие окна.</value></data>
 
     <!-- StepDialog page -->

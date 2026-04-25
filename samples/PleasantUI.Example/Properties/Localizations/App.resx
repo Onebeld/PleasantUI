@@ -648,7 +648,7 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="MiniWindow/PropsTitle"          xml:space="preserve"><value>Key properties</value></data>
     <data name="MiniWindow/PropEnableCustomTitleBar" xml:space="preserve"><value>Shows the custom drag handle and caption buttons instead of the OS title bar.</value></data>
     <data name="MiniWindow/PropShowPinButton"   xml:space="preserve"><value>Shows a pin button that toggles always-on-top (Topmost).</value></data>
-    <data name="MiniWindow/PropShowHiddenButton" xml:space="preserve"><value>Shows a minimize button that collapses the window to the taskbar.</value></data>
+    <data name="MiniWindow/PropShowMinimizeButton" xml:space="preserve"><value>Shows a minimize button that collapses the window to the taskbar.</value></data>
     <data name="MiniWindow/PropEnableBlur"      xml:space="preserve"><value>Enables acrylic/blur transparency behind the window background.</value></data>
 
     <!-- StepDialog page -->
