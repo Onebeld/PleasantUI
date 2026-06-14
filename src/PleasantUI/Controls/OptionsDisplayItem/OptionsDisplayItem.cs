@@ -33,8 +33,8 @@ public class OptionsDisplayItem : TemplatedControl
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
     /// </summary>
-    public static readonly StyledProperty<Geometry> IconProperty =
-        AvaloniaProperty.Register<OptionsDisplayItem, Geometry>(nameof(Icon));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<OptionsDisplayItem, object?>(nameof(Icon));
 
     /// <summary>
     /// Defines the <see cref="Navigates" /> property.
@@ -106,7 +106,7 @@ public class OptionsDisplayItem : TemplatedControl
     /// <summary>
     /// Gets or sets the icon geometry.
     /// </summary>
-    public Geometry Icon
+    public object? Icon
     {
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);

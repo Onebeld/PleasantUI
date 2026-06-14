@@ -1,8 +1,7 @@
 using System.Windows.Input;
+using PleasantUI.ToolKit.Enums;
 
-using PleasantUI.Core.Enums;
-
-namespace PleasantUI.Core.Structures;
+namespace PleasantUI.ToolKit.Structures;
 
 /// <summary>
 /// Represents a button in a <see cref="PleasantUI.ToolKit.PleasantDialog"/>.

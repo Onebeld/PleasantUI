@@ -437,4 +437,7 @@
     <data name="CrashReportDialog/EmailRequiredDesc" xml:space="preserve"><value>IsEmailRequired=True — кнопка «Отправить» заблокирована до ввода корректного email.</value></data>
     <data name="CrashReportDialog/OpenEmailRequired" xml:space="preserve"><value>Открыть (email обязателен)</value></data>
     <data name="CrashReportDialog/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+    <data name="AttachOverWindows" xml:space="preserve">
+        <value>Закрепить поверх окон</value>
+    </data>
 </root>

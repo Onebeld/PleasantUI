@@ -1,4 +1,4 @@
-namespace PleasantUI.Core.Enums;
+namespace PleasantUI.ToolKit.Enums;
 
 /// <summary>
 /// Controls the visual style of a <see cref="PleasantUI.ToolKit.MessageBox"/>.

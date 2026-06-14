@@ -62,7 +62,7 @@
                                 </TextBlock>
                             </ToolTip.Tip>
 
-                            <PathIcon Data="{DynamicResource ArrowLeftRegular}" />
+                            <IconControl Icon="{DynamicResource ArrowLeftRegular}" />
                         </Button>
                         <Button Command="{CompiledBinding Redo}"
                                 IsEnabled="{CompiledBinding CanRedo}"
@@ -74,7 +74,7 @@
                                 </TextBlock>
                             </ToolTip.Tip>
 
-                            <PathIcon Data="{DynamicResource ArrowRightRegular}" />
+                            <IconControl Icon="{DynamicResource ArrowRightRegular}" />
                         </Button>
                     </StackPanel>
 
@@ -179,14 +179,14 @@
                                  IsChecked="True"
                                  GroupName="ColorsData"
                                  ToolTip.Tip="{Localize Colors, Default='Colors'}">
-                        <PathIcon Data="{DynamicResource PaletteRegular}" />
+                        <IconControl Icon="{DynamicResource PaletteRegular}" />
                     </RadioButton>
                     <RadioButton x:Name="ButtonJson"
                                  Theme="{DynamicResource ButtonedRadioButton}"
                                  CornerRadius="0 99 99 0"
                                  GroupName="ColorsData"
                                  ToolTip.Tip="JSON">
-                        <PathIcon Data="{DynamicResource CodeBracesRegular}" />
+                        <IconControl Icon="{DynamicResource CodeBracesRegular}" />
                     </RadioButton>
                 </UniformGrid>
 

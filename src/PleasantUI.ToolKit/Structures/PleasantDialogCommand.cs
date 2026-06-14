@@ -1,6 +1,6 @@
-using PleasantUI.Core.Enums;
+using PleasantUI.ToolKit.Enums;
 
-namespace PleasantUI.Core.Structures;
+namespace PleasantUI.ToolKit.Structures;
 
 /// <summary>
 /// Represents a command item (radio button, checkbox, or command link) in a

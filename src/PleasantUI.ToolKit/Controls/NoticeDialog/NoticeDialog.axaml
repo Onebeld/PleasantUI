@@ -25,11 +25,11 @@
                         Background="#22FFFFFF"
                         Margin="0 0 12 0"
                         VerticalAlignment="Center">
-                    <PathIcon x:Name="SeverityIcon"
-                              Width="18" Height="18"
-                              Foreground="White"
-                              VerticalAlignment="Center"
-                              HorizontalAlignment="Center" />
+                    <IconControl x:Name="SeverityIcon"
+                                 Width="18" Height="18"
+                                 Foreground="White"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center" />
                 </Border>
                 <TextBlock Grid.Column="1"
                            x:Name="TitleText"
@@ -91,7 +91,6 @@
                            Foreground="{DynamicResource TextFillColor2}"
                            FontStyle="Italic"
                            IsVisible="False" />
-
             </StackPanel>
         </SmoothScrollViewer>
     </Grid>

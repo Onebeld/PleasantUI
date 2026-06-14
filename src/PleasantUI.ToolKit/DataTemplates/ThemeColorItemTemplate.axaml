@@ -12,26 +12,18 @@
                 <Button.Flyout> 
                     <PleasantMenuFlyout>
                         <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
-                                  Command="{CompiledBinding CopyColorAsync}">
-                            <MenuItem.Icon>
-                                <PathIcon Width="16" Height="16" Data="{DynamicResource CopyRegular}" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                                  Command="{CompiledBinding CopyColorAsync}"
+                                  Icon="{DynamicResource CopyRegular}" />
+                        
                         <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
-                                  Command="{CompiledBinding PasteColorAsync}">
-                            <MenuItem.Icon>
-                                <PathIcon Width="16" Height="16" Data="{DynamicResource PasteRegular}" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                                  Command="{CompiledBinding PasteColorAsync}"
+                                  Icon="{DynamicResource PasteRegular}" />
 
                         <Separator />
 
                         <MenuItem Header="{Localize ChangeMenu, Default='Chan_ge'}"
-                                  Command="{CompiledBinding ChangeColorAsync}">
-                            <MenuItem.Icon>
-                                <PathIcon Width="16" Height="16" Data="{DynamicResource EditRegular}" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                                  Command="{CompiledBinding ChangeColorAsync}"
+                                  Icon="{DynamicResource EditRegular}" />
                     </PleasantMenuFlyout>
                 </Button.Flyout>
 

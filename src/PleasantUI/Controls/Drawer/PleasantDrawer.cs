@@ -55,6 +55,10 @@ public class PleasantDrawer : PleasantPopupElement
     /// <summary>Defines the <see cref="Title"/> property.</summary>
     public static readonly StyledProperty<string?> TitleProperty =
         AvaloniaProperty.Register<PleasantDrawer, string?>(nameof(Title));
+    
+    /// <summary>Defines the <see cref="Icon"/> property.</summary>
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<PleasantDrawer, object?>(nameof(Icon));
 
     /// <summary>Defines the <see cref="Position"/> property.</summary>
     public static readonly StyledProperty<DrawerPosition> PositionProperty =
@@ -103,6 +107,13 @@ public class PleasantDrawer : PleasantPopupElement
     {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
+    }
+    
+    /// <summary></summary>
+    public object? Icon
+    {
+        get => GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
     }
 
     /// <summary>Gets or sets which edge the drawer slides in from.</summary>

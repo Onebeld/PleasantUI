@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
                     x:ClassModifier="internal">
-
     <ControlTheme x:Key="{x:Type PleasantTrayPopup}" TargetType="PleasantTrayPopup">
         <Setter Property="PopupBackground"      Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="PopupBorderBrush"     Value="{DynamicResource ControlBorderColor}" />
@@ -153,5 +152,4 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
-
 </ResourceDictionary>

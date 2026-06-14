@@ -4,30 +4,27 @@
                     x:ClassModifier="internal">
 
     <Design.PreviewWith>
-        <Border Width="260" Height="500" Background="{DynamicResource BackgroundColor1}">
+        <Border Width="500" Height="500" Background="{DynamicResource BackgroundColor1}">
             <controls:TreeViewPanel FilterWatermark="Filter entities...">
                 <controls:TreeViewSection Header="Queues"
-                                          IsLoading="False">
-                    <controls:TreeViewSection.SectionIcon>
-                        <x:Static Member="controls:TreeViewPanel.SectionIcon" />
-                    </controls:TreeViewSection.SectionIcon>
-                </controls:TreeViewSection>
+                                          IsLoading="False"
+                                          SectionIcon="{DynamicResource CutRegular}"/>
             </controls:TreeViewPanel>
         </Border>
     </Design.PreviewWith>
 
     <!-- ── TreeViewSection ───────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:TreeViewSection}" TargetType="controls:TreeViewSection">
-        <Setter Property="Background"      Value="Transparent" />
+        <Setter Property="Background"      Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Margin"          Value="0" />
 
         <Setter Property="Template">
             <ControlTemplate>
                 <Expander IsExpanded="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                          Background="{TemplateBinding Background}"
                           HorizontalAlignment="Stretch"
                           Margin="0 8 0 0">
-
                     <!-- Section header -->
                     <Expander.Header>
                         <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
@@ -37,11 +34,11 @@
                                     CornerRadius="{DynamicResource ControlCornerRadius}"
                                     Background="{TemplateBinding IconBackground}"
                                     IsVisible="{TemplateBinding SectionIcon, Converter={x:Static ObjectConverters.IsNotNull}}">
-                                <PathIcon Data="{TemplateBinding SectionIcon}"
-                                          Width="11" Height="11"
-                                          Foreground="{TemplateBinding IconForeground}"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center" />
+                                <IconControl Icon="{TemplateBinding SectionIcon}"
+                                             Width="14"
+                                             Height="14"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
                             </Border>
 
                             <!-- Title -->
@@ -67,7 +64,7 @@
                     </Expander.Header>
 
                     <!-- Section body -->
-                    <StackPanel Spacing="0" Margin="0 8 0 0">
+                    <StackPanel Spacing="0" Margin="5">
                         <!-- Loading indicator -->
                         <Border Name="PART_LoadingRow"
                                 IsVisible="False"
@@ -111,10 +108,8 @@
                         </ListBox>
 
                         <!-- Empty state -->
-                        <Border Name="PART_EmptyRow"
-                                IsVisible="False"
-                                Padding="0 8">
-                            <TextBlock Text="No items"
+                        <Border Name="PART_EmptyRow" IsVisible="False" Padding="0 15">
+                            <TextBlock Text="{Localize NoItems, Default='No items'}"
                                        FontSize="14"
                                        Foreground="{DynamicResource TextFillColor3}"
                                        HorizontalAlignment="Center" />
@@ -170,41 +165,36 @@
                                         </ColumnDefinition.Width>
                                     </ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0"
-                                        Name="PART_SearchBoxBorder"
-                                        Background="{DynamicResource BackgroundColor1}"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="{DynamicResource ControlBorderThickness}"
-                                        CornerRadius="{TemplateBinding SearchBoxCornerRadius}"
-                                        Padding="0"
-                                        HorizontalAlignment="Stretch">
-                                    <Grid ColumnDefinitions="Auto,*,Auto">
-                                        <PathIcon Grid.Column="0"
-                                                  Data="{DynamicResource SearchRegular}"
-                                                  Width="14" Height="14"
-                                                  Margin="10 0 6 0"
-                                                  Foreground="{DynamicResource TextFillColor3}" />
-                                        <TextBox Name="PART_SearchBox"
-                                                 Grid.Column="1"
-                                                 PlaceholderText="{TemplateBinding FilterWatermark}"
-                                                 Background="Transparent"
-                                                 BorderThickness="0"
-                                                 Padding="8 6"
-                                                 FontSize="14"
-                                                 MinWidth="80" />
-                                        <Button Name="PART_ClearButton"
-                                                Grid.Column="2"
-                                                Theme="{DynamicResource AppBarButtonTheme}"
-                                                Width="24" Height="24"
-                                                Padding="4"
-                                                Margin="0 0 4 0"
-                                                IsVisible="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-                                            <PathIcon Data="{DynamicResource DismissRegular}"
-                                                      Width="9" Height="9" />
-                                        </Button>
-                                    </Grid>
-                                </Border>
-
+                                <Grid Grid.Column="0" ColumnDefinitions="Auto,*,Auto">
+                                    <TextBox Name="PART_SearchBox"
+                                             Grid.Column="1"
+                                             PlaceholderText="{TemplateBinding FilterWatermark}"
+                                             Background="{DynamicResource ControlFillColor1}"
+                                             BorderThickness="0"
+                                             Padding="8 6"
+                                             FontSize="14"
+                                             MinWidth="80">
+                                        <TextBox.InnerLeftContent>
+                                            <IconControl Icon="{DynamicResource SearchRegular}"
+                                                         Width="14"
+                                                         Height="14"
+                                                         Foreground="{DynamicResource TextFillColor3}"
+                                                         Margin="14 0 0 0" />
+                                        </TextBox.InnerLeftContent>
+                                        <TextBox.InnerRightContent>
+                                            <Button Name="PART_ClearButton"
+                                                    Grid.Column="2"
+                                                    Theme="{DynamicResource CloseButtonTheme}"
+                                                    Width="24" Height="24"
+                                                    CornerRadius="99"
+                                                    Margin="0 0 5 0"
+                                                    IsVisible="{Binding $parent[TextBox].Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                                <IconControl Icon="{DynamicResource DismissRegular}"
+                                                             Width="10" Height="10" />
+                                            </Button>
+                                        </TextBox.InnerRightContent>
+                                    </TextBox>
+                                </Grid>
                                 <!-- Expand-all button -->
                                 <Button Name="PART_ExpandButton"
                                         Grid.Column="1"
@@ -213,7 +203,7 @@
                                         Padding="6"
                                         ToolTip.Tip="Expand all"
                                         IsVisible="{TemplateBinding ShowExpandButton}">
-                                    <PathIcon Data="{DynamicResource ChevronDownRegular}"
+                                    <IconControl Icon="{DynamicResource ChevronDownRegular}"
                                               Width="12" Height="12" />
                                 </Button>
 
@@ -225,7 +215,7 @@
                                         Padding="6"
                                         ToolTip.Tip="Collapse all"
                                         IsVisible="{TemplateBinding ShowCollapseButton}">
-                                    <PathIcon Data="{DynamicResource ChevronUpRegular}"
+                                    <IconControl Icon="{DynamicResource ChevronUpRegular}"
                                               Width="12" Height="12" />
                                 </Button>
                             </Grid>
@@ -239,7 +229,7 @@
                                           Padding="16 12 16 16">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Spacing="4" />
+                                        <StackPanel Spacing="5" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
@@ -249,5 +239,4 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
-
 </ResourceDictionary>

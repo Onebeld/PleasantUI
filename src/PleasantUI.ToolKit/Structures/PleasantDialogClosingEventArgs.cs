@@ -1,4 +1,4 @@
-namespace PleasantUI.Core.Structures;
+namespace PleasantUI.ToolKit.Structures;
 
 /// <summary>
 /// Event args for the <see cref="PleasantUI.ToolKit.PleasantDialog.Closing"/> event.

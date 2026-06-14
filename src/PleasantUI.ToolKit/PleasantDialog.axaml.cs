@@ -7,11 +7,11 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using PleasantUI.Controls;
-using PleasantUI.Core.Enums;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
-using PleasantUI.Core.Structures;
+using PleasantUI.ToolKit.Enums;
+using PleasantUI.ToolKit.Structures;
 
 namespace PleasantUI.ToolKit;
 

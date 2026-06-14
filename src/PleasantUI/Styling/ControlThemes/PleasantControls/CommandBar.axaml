@@ -474,9 +474,10 @@
                                     Foreground="{TemplateBinding Foreground}"
                                     VerticalAlignment="Center"
                                     Height="{DynamicResource CommandBarCompactHeight}">
-                                <PathIcon Data="{DynamicResource MoreRegular}"
-                                          Width="14" Height="14"
-                                          Foreground="{TemplateBinding Foreground}" />
+                                <IconControl Icon="{DynamicResource MoreRegular}"
+                                             Width="14"
+                                             Height="14"
+                                             Foreground="{TemplateBinding Foreground}" />
                             </Button>
                         </Grid>
                     </Border>

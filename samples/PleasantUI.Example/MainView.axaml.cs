@@ -33,8 +33,7 @@ public partial class MainView : UserControl
         if (DataContext is not AppViewModel vm) return;
         if (e.AddedItems.Count == 0) return;
 
-        var selected = e.AddedItems[0] as NavigationViewItem;
-        if (selected is null) return;
+        if (e.AddedItems[0] is not NavigationViewItem selected) return;
 
         // Switching to a top-level item (About, Settings, or Home directly) —
         // clear any previously selected leaf so it doesn't stay highlighted.
@@ -49,10 +48,10 @@ public partial class MainView : UserControl
         }
 
         // Leaf item — navigate to the corresponding page
-        var page = selected.Tag as string switch
+        IPage? page = (selected.Tag as string) switch
         {
             // Basic controls
-            "Button"        => (IPage)new ButtonPage(),
+            "Button"        => new ButtonPage(),
             "Checkbox"      => new CheckBoxPage(),
             "Progress"      => new ProgressPage(),
             "Calendar"      => new CalendarPage(),

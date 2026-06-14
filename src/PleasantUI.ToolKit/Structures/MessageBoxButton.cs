@@ -1,4 +1,4 @@
-﻿namespace PleasantUI.Core.Structures;
+﻿namespace PleasantUI.ToolKit.Structures;
 
 /// <summary>
 /// Defines the structure of the button for the message box

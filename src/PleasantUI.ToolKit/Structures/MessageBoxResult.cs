@@ -1,4 +1,4 @@
-namespace PleasantUI.Core.Structures;
+namespace PleasantUI.ToolKit.Structures;
 
 /// <summary>
 /// Result returned by <see cref="PleasantUI.ToolKit.MessageBox.Show{T}"/>.

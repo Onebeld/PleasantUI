@@ -32,28 +32,28 @@ public static class WindowHelper
         if (topLevel is not null)
             return topLevel as IPleasantWindow;
         
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        switch (Application.Current?.ApplicationLifetime)
         {
-            IReadOnlyList<Window> windows = desktopLifetime.Windows;
-
-            for (int i = 0; i < windows.Count; i++)
+            case IClassicDesktopStyleApplicationLifetime desktopLifetime:
             {
-                if (!windows[i].IsActive) continue;
+                IReadOnlyList<Window> windows = desktopLifetime.Windows;
+
+                foreach (Window t in windows)
+                {
+                    if (!t.IsActive) continue;
                     
-                topLevel = windows[i];
-                break;
+                    topLevel = t;
+                    break;
+                }
+
+                topLevel ??= desktopLifetime.MainWindow;
+
+                return topLevel as IPleasantWindow;
             }
-
-            topLevel ??= desktopLifetime.MainWindow;
-
-            return topLevel as IPleasantWindow;
+            case ISingleViewApplicationLifetime singleViewLifetime:
+                return singleViewLifetime.MainView as IPleasantWindow;
+            default:
+                return null;
         }
-
-        if (Application.Current?.ApplicationLifetime is ISingleViewApplicationLifetime singleViewLifetime)
-        {
-            return singleViewLifetime.MainView as IPleasantWindow;
-        }
-
-        return null;
     }
 }

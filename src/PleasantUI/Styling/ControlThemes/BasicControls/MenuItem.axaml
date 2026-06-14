@@ -54,8 +54,8 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="11 4 11 5" />
-        <Setter Property="(IconHelper.Width)" Value="16" />
-        <Setter Property="(IconHelper.Height)" Value="16" />
+        <Setter Property="(IconHelper.Width)" Value="14" />
+        <Setter Property="(IconHelper.Height)" Value="14" />
         <Setter Property="(IconHelper.FontSize)" Value="0" />
         
         <Setter Property="Transitions">

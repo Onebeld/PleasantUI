@@ -444,4 +444,7 @@
     <data name="CrashReportDialog/EmailRequiredDesc" xml:space="preserve"><value>IsEmailRequired=True — the Send button is blocked until a valid email is entered.</value></data>
     <data name="CrashReportDialog/OpenEmailRequired" xml:space="preserve"><value>Open (email required)</value></data>
     <data name="CrashReportDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
+    <data name="AttachOverWindows" xml:space="preserve">
+        <value>Attach over windows</value>
+    </data>
 </root>

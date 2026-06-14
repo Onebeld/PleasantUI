@@ -29,8 +29,8 @@ public class TreeViewSection : HeaderedItemsControl
     // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="SectionIcon"/> property.</summary>
-    public static readonly StyledProperty<Geometry?> SectionIconProperty =
-        AvaloniaProperty.Register<TreeViewSection, Geometry?>(nameof(SectionIcon));
+    public static readonly StyledProperty<object?> SectionIconProperty =
+        AvaloniaProperty.Register<TreeViewSection, object?>(nameof(SectionIcon));
 
     /// <summary>Defines the <see cref="IconBackground"/> property.</summary>
     public static readonly StyledProperty<IBrush?> IconBackgroundProperty =
@@ -68,7 +68,7 @@ public class TreeViewSection : HeaderedItemsControl
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon geometry shown in the section header.</summary>
-    public Geometry? SectionIcon
+    public object? SectionIcon
     {
         get => GetValue(SectionIconProperty);
         set => SetValue(SectionIconProperty, value);

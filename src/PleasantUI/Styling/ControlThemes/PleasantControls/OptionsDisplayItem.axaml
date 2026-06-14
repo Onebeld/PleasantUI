@@ -32,6 +32,8 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Padding" Value="11 0 11 0" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="(IconHelper.Width)" Value="20" />
+        <Setter Property="(IconHelper.Height)" Value="20" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -45,16 +47,13 @@
                             ClipToBounds="True">
                         <RippleEffect x:Name="PART_Ripple" Padding="12 5">
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                                <Viewbox Name="IconHost"
-                                         Grid.Column="0"
-                                         Grid.Row="0"
-                                         Width="20"
-                                         Height="20"
-                                         Margin="8 4 14 4">
-                                    <Path Stretch="Uniform"
-                                          Data="{TemplateBinding Icon}"
-                                          Fill="{DynamicResource TextFillColor1}" />
-                                </Viewbox>
+                                <IconControl Name="IconHost"
+                                             Grid.Column="0"
+                                             Grid.Row="0"
+                                             Width="{TemplateBinding (IconHelper.Width)}"
+                                             Height="{TemplateBinding (IconHelper.Height)}"
+                                             Margin="8 4 14 4"
+                                             Icon="{TemplateBinding Icon}" />
 
                                 <StackPanel Grid.Row="0" Grid.Column="1"
                                             VerticalAlignment="Center"
@@ -109,7 +108,7 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^ /template/ Viewbox#IconHost">
+        <Style Selector="^ /template/ IconControl#IconHost">
             <Setter Property="IsVisible" Value="False" />
         </Style>
         <Style Selector="^ /template/ Viewbox#ChevronHost">
@@ -137,7 +136,7 @@
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
-        <Style Selector="^:icon /template/ Viewbox#IconHost">
+        <Style Selector="^:icon /template/ IconControl#IconHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
@@ -209,7 +208,7 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <Style Selector="^:icon /template/ Viewbox#IconHost">
+        <Style Selector="^:icon /template/ IconControl#IconHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>
     </ControlTheme>

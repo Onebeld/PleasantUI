@@ -7,11 +7,11 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using PleasantUI.Controls;
-using PleasantUI.Core.Enums;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
-using PleasantUI.Core.Structures;
+using PleasantUI.ToolKit.Enums;
+using PleasantUI.ToolKit.Structures;
 
 namespace PleasantUI.ToolKit;
 
@@ -20,7 +20,7 @@ namespace PleasantUI.ToolKit;
 /// </summary>
 public sealed partial class MessageBox : ContentDialog
 {
-    private MessageBox() => InitializeComponent();
+    public MessageBox() => InitializeComponent();
 
     /// <summary>
     /// Displays a message box and returns the clicked button's result string.

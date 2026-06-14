@@ -23,6 +23,8 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="FontSize"        Value="14" />
+        <Setter Property="(IconHelper.Width)" Value="NaN" />
+        <Setter Property="(IconHelper.Height)" Value="36" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -48,7 +50,9 @@
                             <Grid RowDefinitions="Auto,*,Auto">
 
                                 <StackPanel Grid.Row="0" Margin="20 24 20 16" Spacing="8" HorizontalAlignment="Left">
-                                    <ContentPresenter Content="{TemplateBinding AppIcon}" Width="36" Height="36" />
+                                    <IconControl Icon="{TemplateBinding AppIcon}"
+                                                 Width="{TemplateBinding (IconHelper.Width)}"
+                                                 Height="{TemplateBinding (IconHelper.Height)}" />
                                     <TextBlock Text="{TemplateBinding AppName}"
                                                FontSize="15" FontWeight="SemiBold"
                                                Foreground="{DynamicResource TextFillColor1}"

@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
+using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 
@@ -99,7 +100,7 @@ public partial class NoticeDialog
     private void UpdateSeverity()
     {
         var headerBorder = this.FindControl<Border>("HeaderBorder");
-        var severityIcon = this.FindControl<PathIcon>("SeverityIcon");
+        var severityIcon = this.FindControl<IconControl>("SeverityIcon");
         var titleText = this.FindControl<TextBlock>("TitleText");
 
         if (headerBorder is null || severityIcon is null || titleText is null)
@@ -108,7 +109,7 @@ public partial class NoticeDialog
         var severity = Severity;
         headerBorder.Background = GetSeverityHeaderBrush(severity);
 
-        severityIcon.Data = severity switch
+        severityIcon.Icon = severity switch
         {
             NoticeSeverity.Info => InfoIconGeometry,
             NoticeSeverity.Warning => WarningIconGeometry,

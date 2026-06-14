@@ -1,4 +1,4 @@
-namespace PleasantUI.Core.Enums;
+namespace PleasantUI.ToolKit.Enums;
 
 /// <summary>
 /// Standard result values for a <see cref="PleasantUI.ToolKit.PleasantDialog"/>.

@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:PleasantUI.Controls.Docking"
                     x:ClassModifier="internal">
-
     <Design.PreviewWith>
         <controls:ReDock />
     </Design.PreviewWith>

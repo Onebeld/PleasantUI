@@ -93,7 +93,7 @@
                                     Command="{CompiledBinding CreateThemeAsync}"
                                     Width="40"
                                     Height="40">
-                                <PathIcon Data="{x:Static MaterialIcons.Plus}" />
+                                <IconControl Icon="{x:Static MaterialIcons.Plus}" />
                             </Button>
                         </Panel>
 

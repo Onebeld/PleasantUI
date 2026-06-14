@@ -8,6 +8,7 @@
                 <MarkedTextBox Mark="#" Text="Hello Down there" />
                 <MarkedTextBox Mark="B" PlaceholderText="Watermark" />
                 <MarkedTextBox Mark="C" Text="Test" IsEnabled="False" />
+                <MarkedTextBox Mark="{DynamicResource PaletteRegular}" Text="Icon" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -16,57 +17,38 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentLightColor1}" />
         <Setter Property="SelectionForegroundBrush" Value="{DynamicResource ForegroundAccentLightColor1}" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="6 5 6 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="(IconHelper.Width)" Value="16" />
+        <Setter Property="(IconHelper.Height)" Value="16" />
 
         <Setter Property="ContextFlyout">
             <PleasantMenuFlyout Placement="Bottom">
                 <MenuItem Header="{Localize CutMenu, Default='C_ut'}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
-                          InputGesture="{x:Static TextBox.CutGesture}">
-                    <MenuItem.Icon>
-                        <Viewbox Width="16" Height="16">
-                            <Path Data="{DynamicResource CutRegular}"
-                                  Fill="{DynamicResource TextFillColor1}"
-                                  Stroke="{DynamicResource TextFillColor1}"
-                                  Stretch="Uniform" />
-                        </Viewbox>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.CutGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{DynamicResource CutRegular}"/>
+                
                 <MenuItem Header="{Localize Copy, Default='_Copy'}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
-                          InputGesture="{x:Static TextBox.CopyGesture}">
-                    <MenuItem.Icon>
-                        <Viewbox Width="16" Height="16">
-                            <Path Data="{DynamicResource CopyRegular}"
-                                  Fill="{DynamicResource TextFillColor1}"
-                                  Stroke="{DynamicResource TextFillColor1}"
-                                  Stretch="Uniform" />
-                        </Viewbox>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.CopyGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{DynamicResource CopyRegular}" />
+                
                 <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
-                          InputGesture="{x:Static TextBox.PasteGesture}">
-                    <MenuItem.Icon>
-                        <Viewbox Width="16" Height="16">
-                            <Path Data="{DynamicResource PasteRegular}"
-                                  Fill="{DynamicResource TextFillColor1}"
-                                  Stroke="{DynamicResource TextFillColor1}"
-                                  Stretch="Uniform" />
-                        </Viewbox>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.PasteGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{DynamicResource PasteRegular}" />
             </PleasantMenuFlyout>
         </Setter>
 
@@ -82,16 +64,16 @@
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Border x:Name="SymbolBox"
                                         Grid.Column="0"
-                                        Background="{DynamicResource ControlFillColor3}"
-                                        CornerRadius="18 0 0 18"
+                                        Background="{DynamicResource ControlFillColor2}"
                                         Width="35">
-                                    <ContentPresenter x:Name="SymbolTextBlock"
-                                                      Content="{TemplateBinding Mark}"
+                                    <IconControl x:Name="SymbolTextBlock"
+                                                      Icon="{TemplateBinding Mark}"
                                                       TextElement.Foreground="{DynamicResource TextFillColor3}"
                                                       TextElement.FontWeight="SemiBold"
-                                                      VerticalContentAlignment="Center"
-                                                      HorizontalContentAlignment="Center"
-                                                      Margin="14 0 0 0" />
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"
+                                                      Width="{TemplateBinding (IconHelper.Width)}"
+                                                      Height="{TemplateBinding (IconHelper.Height)}" />
                                 </Border>
 
                                 <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />

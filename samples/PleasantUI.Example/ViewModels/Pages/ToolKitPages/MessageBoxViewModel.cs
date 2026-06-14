@@ -1,10 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using PleasantUI.Core;
-using PleasantUI.Core.Enums;
 using PleasantUI.Core.Localization;
-using PleasantUI.Core.Structures;
 using PleasantUI.ToolKit;
+using PleasantUI.ToolKit.Enums;
+using PleasantUI.ToolKit.Structures;
 
 namespace PleasantUI.Example.ViewModels.Pages.ToolKitPages;
 

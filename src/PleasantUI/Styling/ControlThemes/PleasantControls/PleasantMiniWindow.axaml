@@ -1,6 +1,12 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <PleasantMiniWindow />
+        </Border>
+    </Design.PreviewWith>
+    
     <ControlTheme x:Key="{x:Type PleasantMiniWindow}" TargetType="PleasantMiniWindow">
         <Setter Property="EnableCustomTitleBar"
                 Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Current}}" />
@@ -39,11 +45,8 @@
                                               Margin="4"
                                               Theme="{DynamicResource AppBarToggleButtonTheme}"
                                               IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
-                                              ToolTip.Tip="{DynamicResource FastenOverTheWindows}">
-                                    <Viewbox Width="10" Height="10">
-                                        <Path Data="{DynamicResource PinRegular}"
-                                              StrokeThickness="2" />
-                                    </Viewbox>
+                                              ToolTip.Tip="{Localize AttachOverWindows, Default='Attach over windows'}">
+                                    <IconControl Icon="{DynamicResource PinRegular}" Width="12" Height="12" />
                                 </ToggleButton>
 
                                 <Border Background="{DynamicResource TextFillColor3}"
@@ -61,18 +64,15 @@
                                             IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
                                     <Button x:Name="PART_HiddenButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
-                                            ToolTip.Tip="{DynamicResource Collapse}">
-                                        <Viewbox Width="10" Height="10">
-                                            <Path Data="{DynamicResource SubtractRegular}"
-                                                  StrokeThickness="2" />
-                                        </Viewbox>
+                                            ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
+                                        <IconControl Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
                                     </Button>
                                     <Button x:Name="PART_CloseButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
-                                            ToolTip.Tip="{DynamicResource Close}">
-                                        <Viewbox Width="8" Height="8">
-                                            <Path Data="{DynamicResource DismissRegular}" />
-                                        </Viewbox>
+                                            ToolTip.Tip="{Localize Close, Default='Close'}">
+                                        <IconControl Icon="{DynamicResource DismissRegular}"
+                                                     Width="8"
+                                                     Height="8" />
                                     </Button>
                                 </StackPanel>
                             </Panel>

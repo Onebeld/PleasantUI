@@ -44,36 +44,23 @@
                 <MenuItem Header="{Localize CutMenu, Default='C_ut'}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
-                          InputGesture="{x:Static TextBox.CutGesture}">
-                    <MenuItem.Icon>
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  Data="{DynamicResource CutRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.CutGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{DynamicResource CutRegular}" />
+                
                 <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
-                          InputGesture="{x:Static TextBox.CopyGesture}">
-                    <MenuItem.Icon>
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  Data="{DynamicResource CopyRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.CopyGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{DynamicResource CopyRegular}" />
+                
                 <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
-                          InputGesture="{x:Static TextBox.PasteGesture}">
-                    <MenuItem.Icon>
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  Data="{DynamicResource PasteRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.PasteGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{DynamicResource PasteRegular}" />
             </PleasantMenuFlyout>
         </Setter>
 
