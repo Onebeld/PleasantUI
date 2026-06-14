@@ -18,15 +18,7 @@
                     Padding="20">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <!-- Logo -->
-                    <Border Grid.Column="0"
-                            Background="#B2D3D3"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
-                            Width="80"
-                            Height="80">
-                        <Viewbox Stretch="Uniform" Margin="10">
-                            <Image Source="{DynamicResource PleasantUI}" Width="64" Height="64" />
-                        </Viewbox>
-                    </Border>
+                    <IconControl Icon="{DynamicResource PleasantUILogo}" Width="80" Height="80" />
 
                     <!-- Title and Version -->
                     <StackPanel Grid.Column="1" Margin="20 0" VerticalAlignment="Center">

@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="{x:Type IconControl}" TargetType="IconControl">
+        <Setter Property="(IconHelper.FontSize)" Value="0" />
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      ContentTemplate="{TemplateBinding IconTemplate}"
+                                      Content="{TemplateBinding Icon}">
+                        <ContentPresenter.DataTemplates>
+                            <DataTemplate DataType="Geometry">
+                                <PathIcon Data="{Binding}"
+                                          Width="NaN"
+                                          Height="NaN"
+                                          FontSize="{Binding (IconHelper.FontSize), RelativeSource={RelativeSource AncestorType=IconControl}}" 
+                                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=IconControl}}"/>
+                            </DataTemplate>
+                            <DataTemplate DataType="IImage">
+                                <Image Source="{Binding}" Width="NaN" Height="NaN" />
+                            </DataTemplate>
+                        </ContentPresenter.DataTemplates>
+                    </ContentPresenter>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

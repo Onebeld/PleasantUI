@@ -54,6 +54,10 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="11 4 11 5" />
+        <Setter Property="(IconHelper.Width)" Value="16" />
+        <Setter Property="(IconHelper.Height)" Value="16" />
+        <Setter Property="(IconHelper.FontSize)" Value="0" />
+        
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -78,13 +82,14 @@
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
                                 </Grid.ColumnDefinitions>
-                                <ContentPresenter Name="PART_IconPresenter"
-                                                  Content="{TemplateBinding Icon}"
-                                                  Width="16"
-                                                  Height="16"
-                                                  Margin="0 0 12 0"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
+                                <IconControl Name="PART_IconPresenter"
+                                             Icon="{TemplateBinding Icon}"
+                                             Width="{TemplateBinding (IconHelper.Width)}"
+                                             Height="{TemplateBinding (IconHelper.Height)}"
+                                             IconHelper.FontSize="{TemplateBinding (IconHelper.FontSize)}"
+                                             Margin="0 0 12 0"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
 
                                 <ContentPresenter Name="PART_HeaderPresenter"
                                                   Content="{TemplateBinding Header}"

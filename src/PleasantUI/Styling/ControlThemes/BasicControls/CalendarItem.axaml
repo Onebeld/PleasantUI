@@ -82,9 +82,8 @@
                                     Theme="{DynamicResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="Left">
-                                <PathIcon Data="{DynamicResource FillArrowRegular}"
+                                <PathIcon Data="{DynamicResource ChevronDownRegular}"
                                           Foreground="{TemplateBinding Foreground}"
-                                          RenderTransform="rotate(180deg)"
                                           Width="10"
                                           Height="10" />
                             </Button>
@@ -93,7 +92,7 @@
                                     Theme="{DynamicResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="Left">
-                                <PathIcon Data="{DynamicResource FillArrowRegular}"
+                                <PathIcon Data="{DynamicResource ChevronUpRegular}"
                                           Foreground="{TemplateBinding Foreground}"
                                           Width="10"
                                           Height="10" />

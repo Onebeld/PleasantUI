@@ -61,7 +61,7 @@
                 <PathIcon Width="8"
                           Height="8"
                           Margin="3"
-                          Data="{DynamicResource FillArrowRegular}"
+                          Data="{DynamicResource ChevronUpRegular}"
                           Foreground="{DynamicResource ControlDarkFillColor1}"/>
             </ControlTemplate>
         </Setter>
@@ -103,8 +103,8 @@
                                 <Rectangle Name="TrackRect"
                                            Fill="{DynamicResource ControlFillColor2}"
                                            Opacity="0"
-                                           RadiusX="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
-                                           RadiusY="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            Grid.RowSpan="3"
                                            Margin="0">
                                     <Rectangle.Transitions>
@@ -190,8 +190,8 @@
                                            Name="TrackRect"
                                            Fill="{DynamicResource ControlFillColor2}"
                                            Opacity="0"
-                                           RadiusY="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
-                                           RadiusX="{CompiledBinding Source={DynamicResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
+                                           RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            Grid.ColumnSpan="3"
                                            Margin="0">
                                     <Rectangle.Transitions>

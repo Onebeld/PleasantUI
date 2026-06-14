@@ -17,10 +17,11 @@
                         CornerRadius="{DynamicResource ControlCornerRadius}"
                         Background="{DynamicResource ControlFillColor2}"
                         VerticalAlignment="Top">
-                    <PathIcon Data="{CompiledBinding Icon}"
-                              Width="20" Height="20"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center" />
+                    <IconControl Icon="{CompiledBinding Icon}"
+                                 Width="20"
+                                 Height="20"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
                 </Border>
 
                 <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">

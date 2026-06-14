@@ -21,7 +21,7 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
     // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Icon"/> property.</summary>
-    public static readonly StyledProperty<Geometry?> IconProperty =
+    public static readonly StyledProperty<object?> IconProperty =
         CommandBarButton.IconProperty.AddOwner<CommandBarToggleButton>();
 
     /// <summary>Defines the <see cref="Label"/> property.</summary>
@@ -49,7 +49,7 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon geometry displayed on the button.</summary>
-    public Geometry? Icon
+    public object? Icon
     {
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);

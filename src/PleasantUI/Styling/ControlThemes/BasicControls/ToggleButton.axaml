@@ -15,8 +15,6 @@
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
-            <!--<Setter Property="Foreground"
-                    Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />-->
             <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
         </Style>
         <Style Selector="^:checked /template/ RippleEffect#PART_Ripple">

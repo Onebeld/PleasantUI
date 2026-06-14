@@ -16,7 +16,7 @@
         <Setter Property="Template">
             <ControlTemplate TargetType="DataValidationErrors">
                 <DockPanel LastChildFill="True">
-                    <ContentPresenter x:DataType="DataValidationErrors"
+                    <ContentPresenter x:Name="InlineDataValidationContentControl"
                                       Content="{Binding (DataValidationErrors.Errors)}"
                                       ContentTemplate="{TemplateBinding ErrorTemplate}"
                                       DataContext="{TemplateBinding Owner}"

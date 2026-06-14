@@ -30,8 +30,8 @@ public class CommandBarButton : Button, ICommandBarElement
     // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Icon"/> property.</summary>
-    public static readonly StyledProperty<Geometry?> IconProperty =
-        AvaloniaProperty.Register<CommandBarButton, Geometry?>(nameof(Icon));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<CommandBarButton, object?>(nameof(Icon));
 
     /// <summary>Defines the <see cref="Label"/> property.</summary>
     public static readonly StyledProperty<string?> LabelProperty =
@@ -58,7 +58,7 @@ public class CommandBarButton : Button, ICommandBarElement
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon geometry displayed on the button.</summary>
-    public Geometry? Icon
+    public object? Icon
     {
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);

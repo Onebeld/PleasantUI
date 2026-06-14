@@ -64,7 +64,7 @@
             <Template>
                 <PathIcon Width="10"
                           Height="10"
-                          Data="{DynamicResource FillArrowRegular}" />
+                          Data="{DynamicResource ChevronUpRegular}" />
             </Template>
         </Setter>
 
@@ -100,8 +100,7 @@
             <Template>
                 <PathIcon Width="10"
                           Height="10"
-                          Data="{DynamicResource FillArrowRegular}"
-                          RenderTransform="rotate(180deg)" />
+                          Data="{DynamicResource ChevronDownRegular}" />
             </Template>
         </Setter>
 

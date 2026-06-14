@@ -74,6 +74,7 @@
                 <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/DashboardCard.axaml" />
+                <MergeResourceInclude Source="PleasantControls/IconControl.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ItemListPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PropertyGrid.axaml" />
                 <MergeResourceInclude Source="PleasantControls/TreeViewPanel.axaml" />
@@ -112,7 +113,7 @@
     </Styles.Resources>
 
     <Style Selector=":is(Button)">
-        <Style Selector="^ PathIcon">
+        <Style Selector="^ IconControl">
             <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
 
             <Setter Property="Transitions">
@@ -123,11 +124,11 @@
             <Setter Property="RenderTransform" Value="none" />
         </Style>
 
-        <Style Selector="^:pointerover PathIcon">
+        <Style Selector="^:pointerover IconControl">
             <Setter Property="RenderTransform" Value="scale(1.1)" />
         </Style>
 
-        <Style Selector="^:pressed PathIcon">
+        <Style Selector="^:pressed IconControl">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
     </Style>

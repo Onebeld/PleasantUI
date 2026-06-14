@@ -72,8 +72,8 @@ public class PleasantTitleBar : TemplatedControl
     private Border? _dragWindowBorder;
     private MenuItem? _expandMenuItem;
 
-    private Panel? _displayIcon;
-    private Panel? _displayTitle;
+    private IconControl? _displayIcon;
+    private IconControl? _displayTitle;
 
     private ContentPresenter? _leftTitleBarContent;
     private MenuItem? _reestablishMenuItem;
@@ -141,10 +141,10 @@ public class PleasantTitleBar : TemplatedControl
         _collapseMenuItem = e.NameScope.Get<MenuItem>("PART_CollapseMenuItem");
         _reestablishMenuItem = e.NameScope.Get<MenuItem>("PART_ReestablishMenuItem");
 
-        _displayIcon = e.NameScope.Find<Panel>("PART_DisplayIcon");
-        _displayTitle = e.NameScope.Get<Panel>("PART_DisplayTitle");
+        _displayIcon = e.NameScope.Get<IconControl>("PART_DisplayIcon");
+        _displayTitle = e.NameScope.Get<IconControl>("PART_DisplayTitle");
         _subtitle = e.NameScope.Get<TextBlock>("PART_Subtitle");
-        _titleBarGrid = e.NameScope.Find<Grid>("PART_TitleBarGrid");
+        _titleBarGrid = e.NameScope.Get<Grid>("PART_TitleBarGrid");
         _dragWindowBorder = e.NameScope.Get<Border>("PART_DragWindow");
         _titlePanel = e.NameScope.Get<StackPanel>("PART_TitlePanel");
 
@@ -287,48 +287,12 @@ public class PleasantTitleBar : TemplatedControl
         if (_displayIcon is null || obj is WindowIcon)
             return;
 
-        _displayIcon.Children.Clear();
-
-        switch (obj)
-        {
-            case Geometry geometry:
-                _displayIcon.Children.Add(new PathIcon { Data = geometry, Width = 16, Height = 16, [!ForegroundProperty] = _displayIcon[!TextElement.ForegroundProperty] });
-                break;
-            case IImage icon:
-                _displayIcon.Children.Add(new Image { Source = icon, Width = 16, Height = 16 });
-                break;
-            case Control control:
-                _displayIcon.Children.Add(control);
-                break;
-
-            case null when _host?.Icon is not null:
-                _displayIcon.Children.Add(new Image { Source = _host?.Icon.ToBitmap(), Width = 16, Height = 16 });
-                break;
-        }
+        _displayIcon.Icon = obj;
     }
 
     private void SetDisplayTitle(object? obj)
     {
-        if (_displayTitle is null)
-            return;
-
-        _displayTitle.Children.Clear();
-
-        switch (obj)
-        {
-            case Geometry geometry:
-                _displayTitle.Children.Add(new PathIcon { Data = geometry, Height = 8, Width = double.NaN, [!ForegroundProperty] = _displayTitle[!TextElement.ForegroundProperty] });
-                break;
-            case IImage icon:
-                _displayTitle.Children.Add(new Image { Source = icon, Height = 8, Width = double.NaN });
-                break;
-            case Control control:
-                _displayTitle.Children.Add(control);
-                break;
-            case null when _host?.Title is not null:
-                _displayTitle.Children.Add(new TextBlock { Text = _host.Title });
-                break;
-        }
+        _displayTitle?.Icon = obj;
     }
 
     private void PopulateTitleBar()
