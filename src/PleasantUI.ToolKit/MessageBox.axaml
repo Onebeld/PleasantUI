@@ -30,7 +30,7 @@
             </StackPanel>
         </Border>
 
-        <SmoothScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1">
             <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
                 <!-- Default title — hidden when danger header is visible -->
                 <TextBlock Grid.Row="0"
@@ -48,7 +48,7 @@
                                   Grid.Row="2"
                                   Margin="0 10 0 0"
                                   IsVisible="False" />            </Grid>
-        </SmoothScrollViewer>
+        </ScrollViewer>
     </Grid>
 
     <ContentDialog.BottomPanelContent>

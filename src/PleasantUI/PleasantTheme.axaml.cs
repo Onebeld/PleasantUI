@@ -319,8 +319,8 @@ public class PleasantTheme : Styles
     {
         if (_platformSettings is null) return;
 
-        float lightPercent = 0.20f;
-        float darkPercent = -0.20f;
+        float lightPercent = 0.10f;
+        float darkPercent = -0.10f;
 
         List<Color> lightColors = [];
         List<Color> darkColors = [];
@@ -493,9 +493,9 @@ public class PleasantTheme : Styles
         HsvColor hsvAccentColor = lightAccentColors[1].ToHsv();
 
         _accentColorsDictionary.Add("AccentGradientColor1",
-            new HsvColor(hsvAccentColor.A, Math.Min(hsvAccentColor.H + 20, 360), hsvAccentColor.S, hsvAccentColor.V).ToRgb());
+            new HsvColor(hsvAccentColor.A, Math.Min(hsvAccentColor.H + 10, 360), hsvAccentColor.S, hsvAccentColor.V).ToRgb());
         _accentColorsDictionary.Add("AccentGradientColor2",
-            new HsvColor(hsvAccentColor.A, Math.Max(hsvAccentColor.H - 20, 0), hsvAccentColor.S, hsvAccentColor.V).ToRgb());
+            new HsvColor(hsvAccentColor.A, Math.Max(hsvAccentColor.H - 10, 0), hsvAccentColor.S, hsvAccentColor.V).ToRgb());
 
         Resources.MergedDictionaries.Add(_accentColorsDictionary);
     }

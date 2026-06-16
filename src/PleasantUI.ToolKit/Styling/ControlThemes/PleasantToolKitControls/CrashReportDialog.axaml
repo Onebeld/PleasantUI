@@ -164,7 +164,7 @@
                                     ClipToBounds="True">
                                 <Grid>
                                     <!-- General tab -->
-                                    <SmoothScrollViewer Name="PART_GeneralTab"
+                                    <ScrollViewer Name="PART_GeneralTab"
                                                         HorizontalScrollBarVisibility="Disabled"
                                                         VerticalScrollBarVisibility="Auto"
                                                         Padding="20 16">
@@ -246,10 +246,10 @@
                                                            IsVisible="False" />
                                             </StackPanel>
                                         </StackPanel>
-                                    </SmoothScrollViewer>
+                                    </ScrollViewer>
 
                                     <!-- Exception tab -->
-                                    <SmoothScrollViewer Name="PART_ExceptionTab"
+                                    <ScrollViewer Name="PART_ExceptionTab"
                                                         HorizontalScrollBarVisibility="Disabled"
                                                         VerticalScrollBarVisibility="Auto"
                                                         Padding="20 16"
@@ -303,17 +303,17 @@
                                                         CornerRadius="{DynamicResource ControlCornerRadius}"
                                                         Padding="10 8"
                                                         MaxHeight="160">
-                                                    <SmoothScrollViewer HorizontalScrollBarVisibility="Auto"
+                                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                                                         VerticalScrollBarVisibility="Auto">
                                                         <SelectableTextBlock Text="{TemplateBinding StackTrace}"
                                                                              FontSize="11"
                                                                              FontFamily="Consolas,Menlo,Monaco,monospace"
                                                                              TextWrapping="NoWrap" />
-                                                    </SmoothScrollViewer>
+                                                    </ScrollViewer>
                                                 </Border>
                                             </StackPanel>
                                         </StackPanel>
-                                    </SmoothScrollViewer>
+                                    </ScrollViewer>
 
                                     <!-- Screenshot tab -->
                                     <Grid Name="PART_ScreenshotTab"
@@ -435,30 +435,30 @@
 
         <!-- ── Tab switching via ListBox selection ────────────────────── -->
         <!-- General tab (index 0 selected or nothing selected) -->
-        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_GeneralTab">
+        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ ScrollViewer#PART_GeneralTab">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_ExceptionTab">
+        <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ ScrollViewer#PART_ExceptionTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
         <Style Selector="^[Tag={Binding GeneralTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ Grid#PART_ScreenshotTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_GeneralTab">
+        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ ScrollViewer#PART_GeneralTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_ExceptionTab">
+        <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ ScrollViewer#PART_ExceptionTab">
             <Setter Property="IsVisible" Value="True" />
         </Style>
         <Style Selector="^[Tag={Binding ExceptionTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ Grid#PART_ScreenshotTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_GeneralTab">
+        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ ScrollViewer#PART_GeneralTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ SmoothScrollViewer#PART_ExceptionTab">
+        <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ ScrollViewer#PART_ExceptionTab">
             <Setter Property="IsVisible" Value="False" />
         </Style>
         <Style Selector="^[Tag={Binding ScreenshotTabLabel, RelativeSource={RelativeSource TemplatedParent}}] /template/ Grid#PART_ScreenshotTab">

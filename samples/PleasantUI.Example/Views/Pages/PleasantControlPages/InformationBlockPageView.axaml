@@ -2,10 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.InformationBlockPageView">
     <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <InformationBlock Content="8000" Icon="{x:Static MaterialIcons.Album}" />
-        <InformationBlock Content="{Localize Account, Context=InformationBlock}" Icon="{x:Static MaterialIcons.Account}" />
+        <InformationBlock Content="8000" Icon="{materialIcons:MaterialIconExt Kind=Album}" />
+        <InformationBlock Content="{Localize Account, Context=InformationBlock}" Icon="{materialIcons:MaterialIconExt Kind=Account}" />
     </StackPanel>
 </UserControl>

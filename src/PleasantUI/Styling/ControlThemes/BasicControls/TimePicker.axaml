@@ -141,13 +141,13 @@
                             </Grid.Styles>
 
                             <Panel Name="PART_HourHost" Grid.Column="0">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_HourSelector"
                                                          PanelType="Hour"
                                                          ShouldLoop="True"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_HourUpButton" Theme="{DynamicResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_HourDownButton"
@@ -155,13 +155,13 @@
                             </Panel>
 
                             <Panel Name="PART_MinuteHost" Grid.Column="2">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_MinuteSelector"
                                                          PanelType="Minute"
                                                          ShouldLoop="True"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_MinuteUpButton"
                                               Theme="{DynamicResource DateTimePickerUpButton}" />
@@ -170,13 +170,13 @@
                             </Panel>
 
                             <Panel Name="PART_SecondHost" Grid.Column="4">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_SecondSelector"
                                                          PanelType="Minute"
                                                          ShouldLoop="True"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_SecondUpButton"
                                               Theme="{DynamicResource DateTimePickerUpButton}" />
@@ -185,13 +185,13 @@
                             </Panel>
 
                             <Panel Name="PART_PeriodHost" Grid.Column="6">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_PeriodSelector"
                                                          PanelType="TimePeriod"
                                                          ShouldLoop="False"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_PeriodUpButton"
                                               Theme="{DynamicResource DateTimePickerUpButton}" />

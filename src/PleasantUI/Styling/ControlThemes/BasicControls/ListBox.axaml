@@ -31,13 +31,13 @@
                 <Border Name="border"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                    <SmoothScrollViewer Background="{TemplateBinding Background}"
+                    <ScrollViewer Background="{TemplateBinding Background}"
                                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                         VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         ItemsPanel="{TemplateBinding ItemsPanel}"
                                         Margin="{TemplateBinding Padding}" />
-                    </SmoothScrollViewer>
+                    </ScrollViewer>
                 </Border>
             </ControlTemplate>
         </Setter>

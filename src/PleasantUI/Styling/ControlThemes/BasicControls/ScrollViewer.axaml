@@ -20,6 +20,10 @@
 
     <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="(ScrollViewerExtensions.EnableAnimatedScroll)" Value="True" />
+        <Setter Property="(ScrollViewerExtensions.ScrollStepSize)" Value="120" />
+        <Setter Property="(ScrollViewerExtensions.ScrollChangeSize)" Value="Line" />
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">

@@ -52,12 +52,12 @@
                                             MinHeight="32"
                                             HorizontalAlignment="Stretch"
                                             CornerRadius="{DynamicResource ControlCornerRadius}">
-                                        <SmoothScrollViewer>
+                                        <ScrollViewer>
                                             <ItemsPresenter Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
                                                             Margin="0 2 0 2"
                                                             Grid.IsSharedSizeScope="True" />
-                                        </SmoothScrollViewer>
+                                        </ScrollViewer>
                                     </Border>
                                 </ShadowBorder>
                             </Popup>

@@ -13,7 +13,7 @@ namespace PleasantUI.Controls;
 /// <remarks>
 /// Reference: https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabView/AuraTabView.cs
 /// </remarks>
-[TemplatePart("PART_ScrollViewer", typeof(SmoothScrollViewer))]
+[TemplatePart("PART_ScrollViewer", typeof(ScrollViewer))]
 [TemplatePart("PART_AdderButton", typeof(Button))]
 [TemplatePart("PART_InternalGrid", typeof(Grid))]
 public class PleasantTabView : TabControl

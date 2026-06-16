@@ -42,9 +42,9 @@
         </Border>
 
         <!-- Body -->
-        <SmoothScrollViewer Grid.Row="1"
-                            HorizontalScrollBarVisibility="Disabled"
-                            VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20 16 20 16" Spacing="12">
 
                 <!-- Main message -->
@@ -92,7 +92,7 @@
                            FontStyle="Italic"
                            IsVisible="False" />
             </StackPanel>
-        </SmoothScrollViewer>
+        </ScrollViewer>
     </Grid>
 
     <ContentDialog.BottomPanelContent>

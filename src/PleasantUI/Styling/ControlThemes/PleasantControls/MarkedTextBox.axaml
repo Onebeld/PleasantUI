@@ -79,7 +79,7 @@
                                 <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" />
 
                                 <DockPanel Grid.Column="1" Margin="{TemplateBinding Padding}" Cursor="Ibeam">
-                                    <SmoothScrollViewer
+                                    <ScrollViewer
                                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                         VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                         <Panel>
@@ -107,7 +107,7 @@
                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                         </Panel>
-                                    </SmoothScrollViewer>
+                                    </ScrollViewer>
                                 </DockPanel>
                                 <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
                             </Grid>

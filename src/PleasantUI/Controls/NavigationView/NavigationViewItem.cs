@@ -2,12 +2,10 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
-using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
-using Avalonia.Media;
 using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using PleasantUI.Core.Extensions;
@@ -23,14 +21,14 @@ public class NavigationViewItem : TreeViewItem
 {
     private object? _content;
     private double _externalLength;
-    private Geometry? _icon;
+    private object? _icon;
 
     private int _navigationViewDistance;
     private object _title = "Title";
     private bool _isSubMenuOpen;
 
     private Popup? _popup;
-    private SmoothScrollViewer? _popupScrollViewer;
+    private ScrollViewer? _popupScrollViewer;
     private NavigationViewSubMenuControl? _subMenuControl;
     
     /// <summary>
@@ -45,8 +43,8 @@ public class NavigationViewItem : TreeViewItem
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
     /// </summary>
-    public static readonly DirectProperty<NavigationViewItem, Geometry?> IconProperty =
-        AvaloniaProperty.RegisterDirect<NavigationViewItem, Geometry?>(
+    public static readonly DirectProperty<NavigationViewItem, object?> IconProperty =
+        AvaloniaProperty.RegisterDirect<NavigationViewItem, object?>(
             nameof(Icon),
             o => o.Icon,
             (o, v) => o.Icon = v);
@@ -153,7 +151,7 @@ public class NavigationViewItem : TreeViewItem
     /// <value>
     /// The icon geometry value for the property. If no icon is set, the value is null.
     /// </value>
-    public Geometry? Icon
+    public object? Icon
     {
         get => _icon;
         set => SetAndRaise(IconProperty, ref _icon, value);
@@ -420,7 +418,7 @@ public class NavigationViewItem : TreeViewItem
         }
 
         _popup = e.NameScope.Find<Popup>("PART_Popup");
-        _popupScrollViewer = e.NameScope.Find<SmoothScrollViewer>("PART_PopupScrollViewer");
+        _popupScrollViewer = e.NameScope.Find<ScrollViewer>("PART_PopupScrollViewer");
         _subMenuControl = e.NameScope.Find<NavigationViewSubMenuControl>("PART_SubMenuControl");
 
         Debug.WriteLine($"[NavItem] OnApplyTemplate parts found: popup={_popup is not null} scrollViewer={_popupScrollViewer is not null} subMenuControl={_subMenuControl is not null}");

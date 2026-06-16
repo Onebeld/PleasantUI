@@ -90,11 +90,11 @@
                                             Height="90" />
 
                                     <DockPanel x:Name="PART_ItemsPresenterDockPanel" Grid.Row="2">
-                                        <SmoothScrollViewer DockPanel.Dock="Top">
+                                        <ScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter x:Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
                                                             Margin="0 0 0 5" />
-                                        </SmoothScrollViewer>
+                                        </ScrollViewer>
                                     </DockPanel>
                                 </Grid>
                             </Border>

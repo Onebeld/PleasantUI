@@ -165,10 +165,10 @@
                             </Grid>
 
                             <!-- ── Steps ───────────────────────────────── -->
-                            <SmoothScrollViewer Grid.Row="1"
-                                                HorizontalScrollBarVisibility="Disabled"
-                                                VerticalScrollBarVisibility="Auto"
-                                                MaxHeight="400">
+                            <ScrollViewer Grid.Row="1"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Auto"
+                                          MaxHeight="400">
                                 <StackPanel Margin="24 16" Spacing="0">
                                     <ItemsControl Name="PART_StepsHost">
                                         <ItemsControl.ItemsPanel>
@@ -202,7 +202,7 @@
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>
-                            </SmoothScrollViewer>
+                            </ScrollViewer>
 
                             <!-- ── Footer buttons ──────────────────────── -->
                             <Border Grid.Row="2"

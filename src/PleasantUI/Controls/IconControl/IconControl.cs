@@ -8,6 +8,8 @@ namespace PleasantUI.Controls;
 
 public class IconControl : TemplatedControl
 {
+    private DataTemplates? _dataTemplates;
+    
     public static readonly StyledProperty<IDataTemplate?> IconTemplateProperty =
         AvaloniaProperty.Register<IconControl, IDataTemplate?>(
             nameof(IconTemplate));

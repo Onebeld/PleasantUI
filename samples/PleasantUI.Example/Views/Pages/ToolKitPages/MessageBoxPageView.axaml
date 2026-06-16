@@ -10,7 +10,7 @@
         <vm:MessageBoxViewModel />
     </UserControl.DataContext>
 
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="16 8 16 16" Spacing="12" MaxWidth="560">
 
             <!-- Result indicator -->
@@ -127,5 +127,5 @@
             </OptionsDisplayItem>
 
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

@@ -5,8 +5,7 @@
              xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.DownloadPanelPageView">
-
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
 
             <TextBlock Text="{Localize DownloadPanel/Description}"
@@ -48,5 +47,5 @@
             </controls:DownloadPanel>
 
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

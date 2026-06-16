@@ -28,14 +28,14 @@
                 <Border BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <SmoothScrollViewer Background="{TemplateBinding Background}"
+                    <ScrollViewer Background="{TemplateBinding Background}"
                                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                         VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                                         AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         ItemsPanel="{TemplateBinding ItemsPanel}"
                                         Margin="{TemplateBinding Padding}" />
-                    </SmoothScrollViewer>
+                    </ScrollViewer>
                 </Border>
             </ControlTemplate>
         </Setter>

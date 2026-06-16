@@ -52,6 +52,8 @@
                                              Grid.Row="0"
                                              Width="{TemplateBinding (IconHelper.Width)}"
                                              Height="{TemplateBinding (IconHelper.Height)}"
+                                             FontSize="{TemplateBinding (IconHelper.FontSize)}"
+                                             IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
                                              Margin="8 4 14 4"
                                              Icon="{TemplateBinding Icon}" />
 

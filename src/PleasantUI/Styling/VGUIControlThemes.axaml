@@ -384,7 +384,7 @@
                                            FontWeight="SemiBold"
                                            DockPanel.Dock="Top" />
 
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                     <Panel>
                                         <TextBlock Name="PART_Placeholder"
@@ -411,7 +411,7 @@
                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Panel>
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
                             </DockPanel>
                             <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
                         </Grid>

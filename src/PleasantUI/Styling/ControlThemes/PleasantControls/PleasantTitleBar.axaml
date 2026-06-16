@@ -78,11 +78,11 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:isactive /template/ Panel#PART_DisplayTitle">
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor3}" />
+        <Style Selector="^:isactive /template/ IconControl#PART_DisplayTitle">
+            <Setter Property="Opacity" Value="0.7" />
         </Style>
-        <Style Selector="^:isactive /template/ Panel#PART_DisplayIcon">
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor3}" />
+        <Style Selector="^:isactive /template/ IconControl#PART_DisplayIcon">
+            <Setter Property="Opacity" Value="0.7" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

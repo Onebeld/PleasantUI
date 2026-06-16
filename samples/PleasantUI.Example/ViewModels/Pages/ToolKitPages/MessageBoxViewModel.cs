@@ -1,5 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
+using Material.Icons;
+using Material.Icons.Avalonia;
+using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 using PleasantUI.ToolKit;
@@ -138,9 +141,9 @@ public class MessageBoxViewModel : ViewModelBase
                     Spacing = 8,
                     Children =
                     {
-                        new PathIcon
+                        new IconControl()
                         {
-                            Data   = MaterialIcons.InformationOutline,
+                            Icon   = CreateIcon(MaterialIconKind.InformationOutline),
                             Width  = 16,
                             Height = 16,
                         },
@@ -309,5 +312,13 @@ public class MessageBoxViewModel : ViewModelBase
             });
 
         LastResult = result?.ToString() ?? "—";
+    }
+    
+    private MaterialIcon CreateIcon(MaterialIconKind kind)
+    {
+        return new MaterialIcon()
+        {
+            Kind = kind
+        };
     }
 }

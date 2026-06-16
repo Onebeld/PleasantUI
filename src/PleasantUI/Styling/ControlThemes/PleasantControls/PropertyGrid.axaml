@@ -122,7 +122,7 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                     VerticalScrollBarVisibility="Auto">
                     <ItemsControl Name="PART_RowsHost">
                         <ItemsControl.ItemsPanel>
@@ -131,7 +131,7 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
-                </SmoothScrollViewer>
+                </ScrollViewer>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

@@ -75,13 +75,13 @@
                                                     CornerRadius="4"
                                                     Background="{DynamicResource AccentLightColor2}" />
 
-                                            <PathIcon Name="PART_PathIcon"
-                                                      HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"
-                                                      Width="16"
-                                                      Height="16"
-                                                      Foreground="{DynamicResource TextFillColor1}"
-                                                      Data="{TemplateBinding Icon}" />
+                                            <IconControl Name="PART_PathIcon"
+                                                         HorizontalAlignment="Center"
+                                                         VerticalAlignment="Center"
+                                                         Width="16"
+                                                         Height="16"
+                                                         Foreground="{DynamicResource TextFillColor1}"
+                                                         Icon="{TemplateBinding Icon}" />
                                         </Grid>
                                         <Grid Grid.Column="1"
                                               Name="PART_ContainerGrid"
@@ -161,12 +161,12 @@
                                     MinWidth="160"
                                     MinHeight="32"
                                     CornerRadius="{DynamicResource ControlCornerRadius}">
-                                <SmoothScrollViewer Name="PART_PopupScrollViewer"
+                                <ScrollViewer Name="PART_PopupScrollViewer"
                                                     HorizontalScrollBarVisibility="Disabled"
                                                     VerticalScrollBarVisibility="Auto"
                                                     MaxHeight="400">
                                     <NavigationViewSubMenuControl Name="PART_SubMenuControl" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
                             </Border>
                         </ShadowBorder>
                     </Popup>
@@ -343,7 +343,7 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         </Style>
 
-        <Style Selector="^ /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^ /template/ IconControl#PART_PathIcon">
             <Setter Property="Transitions">
                 <Transitions>
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
@@ -352,13 +352,13 @@
             </Setter>
             <Setter Property="RenderTransform" Value="none" />
         </Style>
-        <Style Selector="^:pointerover /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^:pointerover /template/ IconControl#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(1.1)" />
         </Style>
-        <Style Selector="^:pressed /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^:pressed /template/ IconControl#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
-        <Style Selector="^:selected /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^:selected /template/ IconControl#PART_PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
 
@@ -419,13 +419,13 @@
                                     HorizontalAlignment="Center"
                                     CornerRadius="4"
                                     Background="{DynamicResource AccentLightColor2}" />
-                            <PathIcon Name="PART_PathIcon"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Width="18"
-                                      Height="18"
-                                      Foreground="{DynamicResource TextFillColor1}"
-                                      Data="{TemplateBinding Icon}" />
+                            <IconControl Name="PART_PathIcon"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Width="18"
+                                         Height="18"
+                                         Foreground="{DynamicResource TextFillColor1}"
+                                         Icon="{TemplateBinding Icon}" />
                             <ContentPresenter Name="PART_ContentPresenter"
                                               Content="{TemplateBinding Header}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -451,7 +451,7 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="{DynamicResource AccentLightColor2}" />
         </Style>
-        <Style Selector="^:selected /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^:selected /template/ IconControl#PART_PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
 
@@ -472,7 +472,7 @@
         </Style>
 
         <!-- Icon scale animations -->
-        <Style Selector="^ /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^ /template/ IconControl#PART_PathIcon">
             <Setter Property="Transitions">
                 <Transitions>
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
@@ -481,10 +481,10 @@
             </Setter>
             <Setter Property="RenderTransform" Value="none" />
         </Style>
-        <Style Selector="^:pointerover /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^:pointerover /template/ IconControl#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(1.1)" />
         </Style>
-        <Style Selector="^:pressed /template/ PathIcon#PART_PathIcon">
+        <Style Selector="^:pressed /template/ IconControl#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
 

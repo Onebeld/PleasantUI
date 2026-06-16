@@ -222,7 +222,7 @@
                         </Border>
 
                         <!-- ── Sections content ────────────────────────── -->
-                        <SmoothScrollViewer Grid.Row="1"
+                        <ScrollViewer Grid.Row="1"
                                             HorizontalScrollBarVisibility="Disabled"
                                             VerticalScrollBarVisibility="Auto">
                             <ItemsControl Name="PART_SectionsHost"
@@ -233,7 +233,7 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
-                        </SmoothScrollViewer>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
             </ControlTemplate>

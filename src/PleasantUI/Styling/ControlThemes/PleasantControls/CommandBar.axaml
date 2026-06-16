@@ -403,11 +403,11 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                    <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         Margin="{DynamicResource CommandBarOverflowPresenterPadding}" />
-                    </SmoothScrollViewer>
+                    </ScrollViewer>
                 </Border>
             </ControlTemplate>
         </Setter>

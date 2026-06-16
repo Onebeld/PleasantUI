@@ -10,8 +10,8 @@ namespace PleasantUI.Controls;
 public class PleasantMenuItem : AvaloniaObject
 {
     /// <summary>Icon geometry displayed in the button.</summary>
-    public static readonly StyledProperty<Geometry?> IconProperty =
-        AvaloniaProperty.Register<PleasantMenuItem, Geometry?>(nameof(Icon));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<PleasantMenuItem, object?>(nameof(Icon));
 
     /// <summary>Label shown below the icon.</summary>
     public static readonly StyledProperty<string> LabelProperty =
@@ -40,7 +40,7 @@ public class PleasantMenuItem : AvaloniaObject
     public static readonly StyledProperty<ICommand?> SecondaryCommandProperty =
         AvaloniaProperty.Register<PleasantMenuItem, ICommand?>(nameof(SecondaryCommand));
 
-    public Geometry? Icon           { get => GetValue(IconProperty);            set => SetValue(IconProperty, value); }
+    public object? Icon           { get => GetValue(IconProperty);            set => SetValue(IconProperty, value); }
     public string    Label          { get => GetValue(LabelProperty);           set => SetValue(LabelProperty, value); }
     public ICommand? Command        { get => GetValue(CommandProperty);         set => SetValue(CommandProperty, value); }
     public object?   CommandParameter { get => GetValue(CommandParameterProperty); set => SetValue(CommandParameterProperty, value); }

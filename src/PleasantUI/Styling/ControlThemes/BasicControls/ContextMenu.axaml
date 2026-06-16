@@ -52,7 +52,7 @@
                         MaxWidth="{TemplateBinding MaxWidth}"
                         MinHeight="{TemplateBinding MinHeight}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <SmoothScrollViewer
+                    <ScrollViewer
                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                         <ItemsPresenter Name="PART_ItemsPresenter"
@@ -60,7 +60,7 @@
                                         Margin="1 2 1 2"
                                         KeyboardNavigation.TabNavigation="Continue"
                                         Grid.IsSharedSizeScope="True" />
-                    </SmoothScrollViewer>
+                    </ScrollViewer>
                 </Border>
             </ControlTemplate>
         </Setter>

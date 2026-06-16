@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Material.Icons;
 using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Views.Pages.ToolkitPages;
@@ -37,23 +38,23 @@ public partial class DockingPageView : LocalizedUserControl
 
     private void Setup()
     {
-        _explorerItem   = MakeItem("Explorer",       "FolderRegular",      true);
-        _propertiesItem = MakeItem("Properties",     "SettingsRegular",    true);
+        _explorerItem   = MakeItem("Explorer",       MaterialIconKind.Folder,      true);
+        _propertiesItem = MakeItem("Properties",     MaterialIconKind.Settings,    true);
 
         _leftUpperTop = new AvaloniaList<ToolItem>
         {
             _explorerItem,
-            MakeItem("Search",         "SearchRegular"),
-            MakeItem("Source Control", "BranchRegular"),
+            MakeItem("Search",         MaterialIconKind.Search),
+            MakeItem("Source Control", MaterialIconKind.SourceBranch),
         };
         _leftLowerBottom = new AvaloniaList<ToolItem>
         {
-            MakeItem("Extensions", "PuzzlePieceRegular"),
+            MakeItem("Extensions", MaterialIconKind.Puzzle),
         };
         _rightUpperTop = new AvaloniaList<ToolItem>
         {
             _propertiesItem,
-            MakeItem("Outline", "ListRegular"),
+            MakeItem("Outline", MaterialIconKind.ListBox),
         };
         _rightLowerBottom = new AvaloniaList<ToolItem>();
 
@@ -152,14 +153,9 @@ public partial class DockingPageView : LocalizedUserControl
         };
     }
 
-    private static ToolItem MakeItem(string label, string iconKey, bool isVisible = false)
+    private static ToolItem MakeItem(string label, object icon, bool isVisible = false)
     {
-        // Resolve the Geometry from app resources at construction time
-        Geometry? geo = null;
-        if (Application.Current?.TryGetResource(iconKey, null, out var res) == true && res is Geometry g)
-            geo = g;
-
-        return new ToolItem(label, geo, isVisible);
+        return new ToolItem(label, icon, isVisible);
     }
 }
 
@@ -169,7 +165,7 @@ public sealed class ToolItem : INotifyPropertyChanged
     private bool _isVisible;
 
     public string Label { get; }
-    public Geometry? IconData { get; }
+    public object? IconData { get; }
 
     public bool IsVisible
     {
@@ -182,7 +178,7 @@ public sealed class ToolItem : INotifyPropertyChanged
         }
     }
 
-    public ToolItem(string label, Geometry? iconData, bool isVisible = false)
+    public ToolItem(string label, object? iconData, bool isVisible = false)
     {
         Label    = label;
         IconData = iconData;

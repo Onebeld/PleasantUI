@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantMiniWindowPageView">
-
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="760">
 
             <TextBlock Text="{Localize MiniWindow/Description}"
@@ -51,7 +50,6 @@
                     </Grid>
                 </StackPanel>
             </Border>
-
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

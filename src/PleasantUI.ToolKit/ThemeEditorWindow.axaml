@@ -90,7 +90,7 @@
                     <ThemeVariantScope x:Name="ThemeVariantScope"
                                        RequestedThemeVariant="{CompiledBinding CustomTheme.ThemeVariant}">
                         <Border Background="{DynamicResource BackgroundColor1}" CornerRadius="7.5">
-                            <SmoothScrollViewer Focusable="True" KeyboardNavigation.IsTabStop="True">
+                            <ScrollViewer Focusable="True" KeyboardNavigation.IsTabStop="True">
                                 <StackPanel Margin="10" Spacing="5">
                                     <TextBlock Text="TextFillColor1"
                                                Foreground="{DynamicResource TextFillColor1}"
@@ -165,7 +165,7 @@
                                     <Border Background="{DynamicResource SystemFillColorNeutral}" Padding="5"
                                             CornerRadius="{DynamicResource ControlCornerRadius}" />
                                 </StackPanel>
-                            </SmoothScrollViewer>
+                            </ScrollViewer>
                         </Border>
                     </ThemeVariantScope>
                 </PleasantBorder>
@@ -221,7 +221,7 @@
                                             </Panel>
                                             
                                             <PleasantBorder BackgroundLevel="Level3" Height="150">
-                                                <SmoothScrollViewer>
+                                                <ScrollViewer>
                                                     <ItemsControl ItemsSource="{CompiledBinding Themes}">
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate DataType="{x:Type models:Theme}">
@@ -243,7 +243,7 @@
                                                             </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
-                                                </SmoothScrollViewer>
+                                                </ScrollViewer>
                                             </PleasantBorder>
                                             
                                             <Panel>
@@ -259,7 +259,7 @@
                                             
                                             <PleasantBorder BackgroundLevel="Level3" Height="150">
                                                 <Panel>
-                                                    <SmoothScrollViewer>
+                                                    <ScrollViewer>
                                                         <ItemsControl
                                                             ItemsSource="{x:Static PleasantTheme.CustomThemes}">
                                                             <ItemsControl.ItemTemplate>
@@ -283,7 +283,7 @@
                                                                 </DataTemplate>
                                                             </ItemsControl.ItemTemplate>
                                                         </ItemsControl>
-                                                    </SmoothScrollViewer>
+                                                    </ScrollViewer>
 
                                                     <TextBlock Text="{Localize NoCustomThemes, Default='No custom themes'}"
                                                                IsVisible="{CompiledBinding !Count, Source={x:Static PleasantTheme.CustomThemes}}"
@@ -298,11 +298,11 @@
                             </Button>
 
                             <PleasantBorder Grid.Row="1" BackgroundLevel="Level3" Margin="0 5 0 0">
-                                <SmoothScrollViewer>
+                                <ScrollViewer>
                                     <ItemsControl ItemsSource="{CompiledBinding ThemeColors}"
                                                   ItemTemplate="{DynamicResource ThemeColorItemTemplate}"
                                                   Padding="10 5" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
                             </PleasantBorder>
                         </Grid>
 

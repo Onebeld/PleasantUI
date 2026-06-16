@@ -68,7 +68,7 @@
                         </Border>
 
                         <!-- ── Content ─────────────────────────────────── -->
-                        <SmoothScrollViewer Grid.Row="1"
+                        <ScrollViewer Grid.Row="1"
                                             Name="PART_ScrollViewer"
                                             HorizontalScrollBarVisibility="Disabled"
                                             VerticalScrollBarVisibility="Auto">
@@ -77,7 +77,7 @@
                                               Padding="{TemplateBinding ContentPadding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </SmoothScrollViewer>
+                        </ScrollViewer>
 
                         <!-- ── Footer ──────────────────────────────────── -->
                         <Border Grid.Row="2"
@@ -100,7 +100,7 @@
         </Style>
 
         <!-- No scroll viewer variant -->
-        <Style Selector="^[ShowScrollViewer=False] /template/ SmoothScrollViewer#PART_ScrollViewer">
+        <Style Selector="^[ShowScrollViewer=False] /template/ ScrollViewer#PART_ScrollViewer">
             <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
         </Style>
 

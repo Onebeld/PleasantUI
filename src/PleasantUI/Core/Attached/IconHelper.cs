@@ -10,13 +10,16 @@ namespace PleasantUI.Core.Attached;
 public class IconHelper : AvaloniaObject
 {
     public static readonly AttachedProperty<double> WidthProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Width", defaultBindingMode: BindingMode.TwoWay);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Width", defaultBindingMode: BindingMode.TwoWay, inherits: true);
     
     public static readonly AttachedProperty<double> HeightProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Height", defaultBindingMode: BindingMode.TwoWay);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Height", defaultBindingMode: BindingMode.TwoWay, inherits: true);
     
     public static readonly AttachedProperty<double> FontSizeProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("FontSize", 1, defaultBindingMode: BindingMode.TwoWay);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("FontSize", 1, defaultBindingMode: BindingMode.TwoWay, inherits: true);
+    
+    public static readonly AttachedProperty<double> IconSizeProperty =
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("IconSize", 16, defaultBindingMode: BindingMode.TwoWay, inherits: true);
     
     static IconHelper() { }
 
@@ -61,4 +64,18 @@ public class IconHelper : AvaloniaObject
     /// <param name="obj">The current instance of the container class</param>
     /// <param name="value">Icon font size</param>
     public static void SetFontSize(AvaloniaObject obj, double value) => obj.SetValue(FontSizeProperty, value);
+    
+    /// <summary>
+    /// Gets the icon font size for a converted <see cref="PathIcon"/>
+    /// </summary>
+    /// <param name="obj">The current instance of the container class</param>
+    /// <returns></returns>
+    public static double GetIconSize(AvaloniaObject obj) =>  obj.GetValue(IconSizeProperty);
+    
+    /// <summary>
+    /// Sets the icon size for a converted <see cref="PathIcon"/>
+    /// </summary>
+    /// <param name="obj">The current instance of the container class</param>
+    /// <param name="value">Icon size</param>
+    public static void SetIconSize(AvaloniaObject obj, double value) => obj.SetValue(IconSizeProperty, value);
 }

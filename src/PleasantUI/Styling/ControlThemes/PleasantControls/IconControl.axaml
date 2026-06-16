@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dataTemplates="clr-namespace:PleasantUI.Core.DataTemplates"
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type IconControl}" TargetType="IconControl">
         <Setter Property="(IconHelper.FontSize)" Value="0" />
@@ -16,8 +17,8 @@
                                 <PathIcon Data="{Binding}"
                                           Width="NaN"
                                           Height="NaN"
-                                          FontSize="{Binding (IconHelper.FontSize), RelativeSource={RelativeSource AncestorType=IconControl}}" 
-                                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=IconControl}}"/>
+                                          FontSize="{Binding (IconHelper.FontSize), RelativeSource={RelativeSource AncestorType=IconControl}}"
+                                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=IconControl}}" />
                             </DataTemplate>
                             <DataTemplate DataType="IImage">
                                 <Image Source="{Binding}" Width="NaN" Height="NaN" />

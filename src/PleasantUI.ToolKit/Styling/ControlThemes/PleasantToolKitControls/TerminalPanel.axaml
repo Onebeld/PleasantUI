@@ -84,11 +84,11 @@
                         </Border>
 
                         <!-- ── Output area ─────────────────────────────── -->
-                        <SmoothScrollViewer Name="PART_ScrollViewer"
-                                            Grid.Row="1"
-                                            VerticalScrollBarVisibility="Auto"
-                                            HorizontalScrollBarVisibility="Auto"
-                                            Padding="10 8">
+                        <ScrollViewer Name="PART_ScrollViewer"
+                                      Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      Padding="10 8">
                             <TextBox Name="PART_OutputBox"
                                      Text="{TemplateBinding OutputText}"
                                      IsReadOnly="True"
@@ -100,7 +100,7 @@
                                      AcceptsReturn="True"
                                      Foreground="{DynamicResource TextFillColor1}"
                                      SelectionBrush="{DynamicResource SystemFillColorAttention}" />
-                        </SmoothScrollViewer>
+                        </ScrollViewer>
 
                         <!-- ── Input line ──────────────────────────────── -->
                         <Border Grid.Row="2"

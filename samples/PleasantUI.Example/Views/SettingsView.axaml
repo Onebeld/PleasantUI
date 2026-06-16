@@ -9,6 +9,8 @@
              xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
              xmlns:example="clr-namespace:PleasantUI.Example"
              xmlns:structures="clr-namespace:PleasantUI.Example.Structures"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
              x:DataType="pages:SettingsViewModel">
@@ -16,13 +18,20 @@
         <pages:SettingsViewModel />
     </UserControl.DataContext>
 
-    <SmoothScrollViewer>
+    <ScrollViewer>
         <StackPanel Margin="25" Spacing="5">
+            <StackPanel.Styles>
+                <Style Selector="OptionsDisplayItem">
+                    <Setter Property="(IconHelper.IconSize)" Value="22" />
+                </Style>
+            </StackPanel.Styles>
+            
             <TextBlock Text="{Localize Settings}"
                        Margin="0 0 0 10"
                        Theme="{DynamicResource TitleTextBlockTheme}" />
             
-            <OptionsDisplayItem Header="{Localize Language}">
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.Language}"
+                Header="{Localize Language}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
                               ItemsSource="{x:Static example:PleasantUiExampleApp.Languages}"
@@ -36,14 +45,16 @@
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
-            <OptionsDisplayItem Header="{Localize FullScreenButton, Default='Full Screen Button'}"
+            <OptionsDisplayItem Icon="{DynamicResource FullScreenEnterRegular}"
+                                Header="{Localize FullScreenButton, Default='Full Screen Button'}"
                                 Description="{Localize FullScreenButtonDescription, Default='Show a full screen toggle button in the title bar'}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch IsChecked="{CompiledBinding IsFullScreenButtonVisible}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
-            <OptionsDisplayItem Header="{Localize NavPosition, Default='Navigation Position'}"
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.DockWindow}"
+                Header="{Localize NavPosition, Default='Navigation Position'}"
                                 Description="{Localize NavPositionDescription, Default='Choose where the navigation pane is placed'}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -93,7 +104,7 @@
                                     Command="{CompiledBinding CreateThemeAsync}"
                                     Width="40"
                                     Height="40">
-                                <IconControl Icon="{x:Static MaterialIcons.Plus}" />
+                                <IconControl Icon="{x:Static icons:MaterialIconKind.Plus}" />
                             </Button>
                         </Panel>
 
@@ -127,7 +138,8 @@
                                                             Height="30"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
                                                             CommandParameter="{CompiledBinding}">
-                                                        <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
+                                                        <IconControl Icon="{x:Static icons:MaterialIconKind.PencilOutline}"
+                                                                     IconHelper.IconSize="18" />
                                                     </Button>
 
                                                     <Button Theme="{DynamicResource DangerButtonTheme}"
@@ -137,7 +149,8 @@
                                                             BorderThickness="0"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
                                                             CommandParameter="{CompiledBinding}">
-                                                        <PathIcon Data="{x:Static MaterialIcons.DeleteOutline}" />
+                                                        <IconControl Icon="{x:Static icons:MaterialIconKind.DeleteOutline}"
+                                                                     IconHelper.IconSize="18" />
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
@@ -156,5 +169,5 @@
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

@@ -18,7 +18,7 @@ namespace PleasantUI.ToolKit.Controls;
 [TemplatePart(PART_InputBox,     typeof(TextBox))]
 [TemplatePart(PART_ClearButton,  typeof(Button))]
 [TemplatePart(PART_CloseButton,  typeof(Button))]
-[TemplatePart(PART_ScrollViewer, typeof(SmoothScrollViewer))]
+[TemplatePart(PART_ScrollViewer, typeof(ScrollViewer))]
 [PseudoClasses(PC_Running, PC_HasOutput)]
 public class TerminalPanel : TemplatedControl
 {
@@ -196,7 +196,7 @@ public class TerminalPanel : TemplatedControl
     private TextBox?          _inputBox;
     private Button?           _clearButton;
     private Button?           _closeButton;
-    private SmoothScrollViewer? _scrollViewer;
+    private ScrollViewer? _scrollViewer;
 
     private readonly StringBuilder _outputBuffer = new();
     private int _lineCount;
@@ -213,7 +213,7 @@ public class TerminalPanel : TemplatedControl
         _inputBox     = e.NameScope.Find<TextBox>(PART_InputBox);
         _clearButton  = e.NameScope.Find<Button>(PART_ClearButton);
         _closeButton  = e.NameScope.Find<Button>(PART_CloseButton);
-        _scrollViewer = e.NameScope.Find<SmoothScrollViewer>(PART_ScrollViewer);
+        _scrollViewer = e.NameScope.Find<ScrollViewer>(PART_ScrollViewer);
 
         AttachHandlers();
 

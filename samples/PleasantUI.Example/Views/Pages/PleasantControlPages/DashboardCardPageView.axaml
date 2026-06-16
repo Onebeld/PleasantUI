@@ -5,8 +5,7 @@
              xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.DashboardCardPageView">
-
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
 
             <TextBlock Text="{Localize DashboardCard/Description}"
@@ -81,5 +80,5 @@
             </Border>
 
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

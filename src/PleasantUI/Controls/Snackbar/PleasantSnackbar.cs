@@ -41,8 +41,8 @@ public class PleasantSnackbar : PleasantPopupElement
     public static readonly StyledProperty<Animation?> CloseAnimationProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Animation?>(nameof(CloseAnimation));
 
-    public static readonly StyledProperty<Geometry?> IconProperty =
-        AvaloniaProperty.Register<PleasantSnackbar, Geometry?>(nameof(Icon));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<PleasantSnackbar, object?>(nameof(Icon));
 
     public static readonly StyledProperty<NotificationType> NotificationTypeProperty =
         AvaloniaProperty.Register<NotificationCard, NotificationType>(nameof(NotificationType));
@@ -66,7 +66,7 @@ public class PleasantSnackbar : PleasantPopupElement
 
     public Animation? OpenAnimation  { get => GetValue(OpenAnimationProperty);  set => SetValue(OpenAnimationProperty, value); }
     public Animation? CloseAnimation { get => GetValue(CloseAnimationProperty); set => SetValue(CloseAnimationProperty, value); }
-    public Geometry?  Icon           { get => GetValue(IconProperty);           set => SetValue(IconProperty, value); }
+    public object?  Icon           { get => GetValue(IconProperty);           set => SetValue(IconProperty, value); }
     public NotificationType NotificationType { get => GetValue(NotificationTypeProperty); set => SetValue(NotificationTypeProperty, value); }
     public ICommand?  Command        { get => GetValue(CommandProperty);        set => SetValue(CommandProperty, value); }
     public string?    Title          { get => GetValue(TitleProperty);          set => SetValue(TitleProperty, value); }

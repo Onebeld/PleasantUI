@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Material.Icons;
+using Material.Icons.Avalonia;
 using PleasantUI.Controls;
 using PleasantUI.Core.Localization;
 
@@ -23,29 +25,29 @@ public partial class PleasantMenuPageView : LocalizedUserControl
 
         PleasantMenuItem[] items =
         [
-            MakeItem(MaterialIcons.FolderOpenOutline,  labelKey: "Open",   labelDefault: "Open",   tipKey: "OpenTip",   tipDefault: "Open a file"),
-            MakeItem(MaterialIcons.ContentSaveOutline, labelKey: "Save",   labelDefault: "Save",   tipKey: "SaveTip",   tipDefault: "Save current file"),
-            MakeItem(MaterialIcons.PlusCircleOutline,  labelKey: "New",    labelDefault: "New",    tipKey: "NewTip",    tipDefault: "Create new file"),
-            MakeItem(MaterialIcons.WrenchOutline,      labelKey: "Tools",  labelDefault: "Tools",  tipKey: "ToolsTip",  tipDefault: "Open tools"),
-            MakeItem(MaterialIcons.HomeOutline,        labelKey: "Home",   labelDefault: "Home",   tipKey: "HomeTip",   tipDefault: "Go to home screen"),
-            MakeItem(MaterialIcons.DeleteOutline,      labelKey: "Delete", labelDefault: "Delete", tipKey: "DeleteTip", tipDefault: "Delete selected", isEnabled: false)
+            MakeItem(CreateIcon(MaterialIconKind.FolderOpenOutline),  labelKey: "Open",   labelDefault: "Open",   tipKey: "OpenTip",   tipDefault: "Open a file"),
+            MakeItem(CreateIcon(MaterialIconKind.ContentSaveOutline), labelKey: "Save",   labelDefault: "Save",   tipKey: "SaveTip",   tipDefault: "Save current file"),
+            MakeItem(CreateIcon(MaterialIconKind.PlusCircleOutline),  labelKey: "New",    labelDefault: "New",    tipKey: "NewTip",    tipDefault: "Create new file"),
+            MakeItem(CreateIcon(MaterialIconKind.WrenchOutline),      labelKey: "Tools",  labelDefault: "Tools",  tipKey: "ToolsTip",  tipDefault: "Open tools"),
+            MakeItem(CreateIcon(MaterialIconKind.HomeOutline),        labelKey: "Home",   labelDefault: "Home",   tipKey: "HomeTip",   tipDefault: "Go to home screen"),
+            MakeItem(CreateIcon(MaterialIconKind.DeleteOutline),      labelKey: "Delete", labelDefault: "Delete", tipKey: "DeleteTip", tipDefault: "Delete selected", isEnabled: false)
         ];
 
         PleasantMenuFooterItem[] footerItems =
         [
-            MakeFooterItem(MaterialIcons.CogOutline,         tipKey: "Settings", tipDefault: "Settings", alignRight: false),
-            MakeFooterItem(MaterialIcons.InformationOutline, tipKey: "About",    tipDefault: "About",    alignRight: true),
-            MakeFooterItem(MaterialIcons.ExitToApp,          tipKey: "Exit",     tipDefault: "Exit",     alignRight: true)
+            MakeFooterItem(CreateIcon(MaterialIconKind.CogOutline),         tipKey: "Settings", tipDefault: "Settings", alignRight: false),
+            MakeFooterItem(CreateIcon(MaterialIconKind.InformationOutline), tipKey: "About",    tipDefault: "About",    alignRight: true),
+            MakeFooterItem(CreateIcon(MaterialIconKind.ExitToApp),          tipKey: "Exit",     tipDefault: "Exit",     alignRight: true)
         ];
 
-        var badges = new StackPanel
+        StackPanel badges = new()
         {
             Orientation = Avalonia.Layout.Orientation.Horizontal,
             Spacing = 6,
             Children =
             {
-                MakeBadge(MaterialIcons.FolderOutline,        "3", tipKey: "OpenFiles", tipDefault: "Open files"),
-                MakeBadge(MaterialIcons.PackageVariantClosed, "5", tipKey: "Modules",   tipDefault: "Loaded modules")
+                MakeBadge(CreateIcon(MaterialIconKind.FolderOutline),        "3", tipKey: "OpenFiles", tipDefault: "Open files"),
+                MakeBadge(CreateIcon(MaterialIconKind.PackageVariantClosed), "5", tipKey: "Modules",   tipDefault: "Loaded modules")
             }
         };
 
@@ -67,14 +69,14 @@ public partial class PleasantMenuPageView : LocalizedUserControl
     }
 
     private static PleasantMenuItem MakeItem(
-        Avalonia.Media.Geometry? icon,
+        object? icon,
         string labelKey,
         string labelDefault,
         string tipKey,
         string tipDefault,
         bool isEnabled = true)
     {
-        var item = new PleasantMenuItem
+        PleasantMenuItem item = new()
         {
             Icon = icon,
             IsEnabled = isEnabled,
@@ -87,12 +89,12 @@ public partial class PleasantMenuPageView : LocalizedUserControl
     }
 
     private static PleasantMenuFooterItem MakeFooterItem(
-        Avalonia.Media.Geometry? icon,
+        object? icon,
         string tipKey,
         string tipDefault,
         bool alignRight)
     {
-        var item = new PleasantMenuFooterItem
+        PleasantMenuFooterItem item = new()
         {
             Icon = icon,
             AlignRight = alignRight
@@ -102,9 +104,9 @@ public partial class PleasantMenuPageView : LocalizedUserControl
         return item;
     }
 
-    private static InformationBlock MakeBadge(Avalonia.Media.Geometry icon, string content, string tipKey, string tipDefault)
+    private static InformationBlock MakeBadge(object icon, string content, string tipKey, string tipDefault)
     {
-        var badge = new InformationBlock
+        InformationBlock badge = new()
         {
             Icon = icon,
             Content = content
@@ -112,5 +114,13 @@ public partial class PleasantMenuPageView : LocalizedUserControl
 
         badge.Bind(ToolTip.TipProperty, LocalizeBinding.Create(tipKey, context: "PleasantMenu", @default: tipDefault));
         return badge;
+    }
+    
+    private MaterialIcon CreateIcon(MaterialIconKind kind)
+    {
+        return new MaterialIcon()
+        {
+            Kind = kind
+        };
     }
 }

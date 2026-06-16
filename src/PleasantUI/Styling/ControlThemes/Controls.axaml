@@ -100,7 +100,6 @@
                 <MergeResourceInclude Source="PleasantControls/PinCode.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
                 <MergeResourceInclude Source="PleasantControls/RippleEffect.axaml" />
-                <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
                 <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
                 <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />

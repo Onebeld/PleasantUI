@@ -68,10 +68,6 @@
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
-        </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
@@ -117,7 +113,7 @@
                                                       Theme="{DynamicResource ButtonSpinnerRepeatButton}"
                                                       VerticalContentAlignment="Center"
                                                       Height="14">
-                                            <PathIcon Data="{DynamicResource ChevronUpRegular}" Width="10" Height="10" />
+                                            <IconControl Icon="{DynamicResource ChevronUpRegular}" Width="10" Height="10" />
                                         </RepeatButton>
 
                                         <RepeatButton Name="PART_DecreaseButton"
@@ -125,7 +121,7 @@
                                                       VerticalContentAlignment="Center"
                                                       FontSize="18"
                                                       Height="14">
-                                            <PathIcon Data="{DynamicResource ChevronDownRegular}" Width="10" Height="10" />
+                                            <IconControl Icon="{DynamicResource ChevronDownRegular}" Width="10" Height="10" />
                                         </RepeatButton>
                                     </StackPanel>
                                 </Grid>

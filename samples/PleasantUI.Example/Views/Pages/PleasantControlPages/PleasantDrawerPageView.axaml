@@ -2,11 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantDrawerPageView">
-
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
 
             <TextBlock Text="{Localize PleasantDrawer/Description}"
@@ -65,7 +63,6 @@
                     </Grid>
                 </StackPanel>
             </Border>
-
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>
