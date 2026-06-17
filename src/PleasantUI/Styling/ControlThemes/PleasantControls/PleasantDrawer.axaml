@@ -61,7 +61,8 @@
                                             Grid.Column="2"
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             Width="32" Height="32" Padding="8"
-                                            VerticalAlignment="Center">
+                                            VerticalAlignment="Center"
+                                            ToolTip.Tip="{Localize Close, Default='Close'}">
                                         <IconControl Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
                                     </Button>
                                 </Grid>
