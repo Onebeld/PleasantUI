@@ -4,65 +4,83 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantDrawerPageView">
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+        <TextBlock Text="{Localize PleasantDrawer/Description}"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextFillColor2}" />
 
-            <TextBlock Text="{Localize PleasantDrawer/Description}"
-                       TextWrapping="Wrap"
-                       Foreground="{DynamicResource TextFillColor2}" />
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
+                Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Text="{Localize PleasantDrawer/DemoTitle}"
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                <TextBlock Text="{Localize PleasantDrawer/DemoDesc}"
+                           TextWrapping="Wrap"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextFillColor2}" />
 
-            <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
-                    Padding="16">
-                <StackPanel Spacing="12">
-                    <TextBlock Text="{Localize PleasantDrawer/DemoTitle}"
-                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
-                    <TextBlock Text="{Localize PleasantDrawer/DemoDesc}"
-                               TextWrapping="Wrap"
-                               FontSize="12"
-                               Foreground="{DynamicResource TextFillColor2}" />
+                <WrapPanel Orientation="Horizontal">
+                    <WrapPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Margin" Value="0 0 8 8" />
+                            <Setter Property="MinWidth" Value="110" />
+                        </Style>
+                    </WrapPanel.Styles>
+                    <Button x:Name="OpenRightButton"
+                            Content="{Localize PleasantDrawer/OpenRight}"
+                            Theme="{DynamicResource AccentButtonTheme}" />
+                    <Button x:Name="OpenLeftButton"
+                            Content="{Localize PleasantDrawer/OpenLeft}" />
+                    <Button x:Name="OpenTopButton"
+                            Content="{Localize PleasantDrawer/OpenTop}" />
+                    <Button x:Name="OpenBottomButton"
+                            Content="{Localize PleasantDrawer/OpenBottom}" />
+                </WrapPanel>
+            </StackPanel>
+        </Border>
 
-                    <WrapPanel Orientation="Horizontal">
-                        <WrapPanel.Styles>
-                            <Style Selector="Button">
-                                <Setter Property="Margin" Value="0 0 8 8" />
-                                <Setter Property="MinWidth" Value="110" />
-                            </Style>
-                        </WrapPanel.Styles>
-                        <Button x:Name="OpenRightButton"
-                                Content="{Localize PleasantDrawer/OpenRight}"
-                                Theme="{DynamicResource AccentButtonTheme}" />
-                        <Button x:Name="OpenLeftButton"
-                                Content="{Localize PleasantDrawer/OpenLeft}" />
-                        <Button x:Name="OpenTopButton"
-                                Content="{Localize PleasantDrawer/OpenTop}" />
-                        <Button x:Name="OpenBottomButton"
-                                Content="{Localize PleasantDrawer/OpenBottom}" />
-                    </WrapPanel>
-                </StackPanel>
-            </Border>
-
-            <!-- Properties reference -->
-            <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
-                    Padding="16">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Key properties"
-                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
-                    <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Position"         FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Left / Right / Top / Bottom — which edge the drawer slides from." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Title"            FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Optional header text shown above the content with a separator." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="CanLightDismiss" FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="2" Grid.Column="2" Text="When true, clicking the overlay background closes the drawer." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="FooterContent"   FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="3" Grid.Column="2" Text="Optional footer area (e.g. action buttons) with a top border." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="ShowAsync()"     FontFamily="Consolas,Monospace" FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" Margin="0 6 0 0" />
-                        <TextBlock Grid.Row="4" Grid.Column="2" Text="Awaitable show method. Returns a typed result when the drawer closes." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
-                    </Grid>
-                </StackPanel>
-            </Border>
-        </StackPanel>
-    </ScrollViewer>
+        <!-- Properties reference -->
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{DynamicResource ControlCornerRadius}"
+                Padding="16">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Key properties"
+                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Position" FontFamily="Consolas,Monospace"
+                               FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="2"
+                               Text="Left / Right / Top / Bottom — which edge the drawer slides from."
+                               TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Title" FontFamily="Consolas,Monospace" FontSize="12"
+                               Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center"
+                               Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="1" Grid.Column="2"
+                               Text="Optional header text shown above the content with a separator."
+                               TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}"
+                               Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="CanLightDismiss" FontFamily="Consolas,Monospace"
+                               FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center"
+                               Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="2" Grid.Column="2"
+                               Text="When true, clicking the overlay background closes the drawer." TextWrapping="Wrap"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="FooterContent" FontFamily="Consolas,Monospace"
+                               FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center"
+                               Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="3" Grid.Column="2"
+                               Text="Optional footer area (e.g. action buttons) with a top border." TextWrapping="Wrap"
+                               FontSize="12" Foreground="{DynamicResource TextFillColor2}" Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="ShowAsync()" FontFamily="Consolas,Monospace"
+                               FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center"
+                               Margin="0 6 0 0" />
+                    <TextBlock Grid.Row="4" Grid.Column="2"
+                               Text="Awaitable show method. Returns a typed result when the drawer closes."
+                               TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextFillColor2}"
+                               Margin="0 6 0 0" />
+                </Grid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </UserControl>

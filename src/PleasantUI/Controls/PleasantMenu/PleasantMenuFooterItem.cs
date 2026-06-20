@@ -1,6 +1,5 @@
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 

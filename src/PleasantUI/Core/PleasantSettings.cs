@@ -1,45 +1,8 @@
-﻿using System.Reflection;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Avalonia.Collections;
 using PleasantUI.Core.Settings;
 
 namespace PleasantUI.Core;
-
-/// <summary>
-/// Represents the type of PleasantUI version.
-/// </summary>
-public enum PleasantVersionType
-{
-    /// <summary>
-    /// Stable release (e.g., 5.2.1)
-    /// </summary>
-    Stable,
-    
-    /// <summary>
-    /// Bug fix release (e.g., 5.2.1-fix)
-    /// </summary>
-    BugFix,
-    
-    /// <summary>
-    /// Alpha pre-release (e.g., 5.2.1-alpha)
-    /// </summary>
-    Alpha,
-    
-    /// <summary>
-    /// Beta pre-release (e.g., 5.2.1-beta)
-    /// </summary>
-    Beta,
-    
-    /// <summary>
-    /// Release candidate (e.g., 5.2.1-rc)
-    /// </summary>
-    ReleaseCandidate,
-    
-    /// <summary>
-    /// Canary build (e.g., 5.2.1-canary-20260410-161942)
-    /// </summary>
-    Canary
-}
 
 /// <summary>
 /// Represents the settings for the PleasantUI library. This class manages various settings related to themes, windows
@@ -47,17 +10,7 @@ public enum PleasantVersionType
 /// </summary>
 public class PleasantSettings : ViewModelBase
 {
-    private AvaloniaList<uint> _colorPalettes = [];
-
-    private uint _numericalAccentColor;
-    private bool _preferUserAccentColor;
-
-    private string _theme = "System";
-    private Guid? _customThemeId;
-    private string _language = "en";
-
     private WindowSettings _windowSettings;
-    private AppVersionSettings _appVersion;
 
     /// <summary>
     /// Gets the singleton instance of the PleasantSettings class.
@@ -65,64 +18,14 @@ public class PleasantSettings : ViewModelBase
     public static PleasantSettings? Current { get; set; }
 
     /// <summary>
-    /// Gets the version string from the assembly (numeric format).
+    /// Gets or sets whether effects that make the interface more visually appealing are enabled.
     /// </summary>
-    public static string Version => 
-        Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
-
-    /// <summary>
-    /// Gets the informational version from the assembly (includes pre-release tags).
-    /// Uses InformationalVersion which is set from PackageVersion in Package.props.
-    /// </summary>
-    public static string InformationalVersion =>
-        Assembly.GetExecutingAssembly()
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? Version;
-
-    /// <summary>
-    /// Gets the type of the current PleasantUI version based on the version string.
-    /// </summary>
-    public static PleasantVersionType VersionType
+    [DataMember]
+    public bool EnableEffects
     {
-        get
-        {
-            string version = InformationalVersion;
-            
-            if (version.Contains("-canary-"))
-                return PleasantVersionType.Canary;
-            
-            if (version.EndsWith("-fix"))
-                return PleasantVersionType.BugFix;
-            
-            if (version.Contains("-alpha"))
-                return PleasantVersionType.Alpha;
-            
-            if (version.Contains("-beta"))
-                return PleasantVersionType.Beta;
-            
-            if (version.Contains("-rc"))
-                return PleasantVersionType.ReleaseCandidate;
-            
-            // If it contains a hyphen but none of the above, treat as generic pre-release
-            if (version.Contains("-"))
-                return PleasantVersionType.Alpha;
-            
-            return PleasantVersionType.Stable;
-        }
-    }
-
-    /// <summary>
-    /// Gets a display-friendly description of the version type.
-    /// </summary>
-    public static string VersionTypeDescription => VersionType switch
-    {
-        PleasantVersionType.Stable => "Stable Release",
-        PleasantVersionType.BugFix => "Bug Fix Release",
-        PleasantVersionType.Alpha => "Alpha Pre-Release",
-        PleasantVersionType.Beta => "Beta Pre-Release",
-        PleasantVersionType.ReleaseCandidate => "Release Candidate",
-        PleasantVersionType.Canary => "Canary Build",
-        _ => "Unknown"
-    };
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
 
     /// <summary>
     /// Gets or sets the color in numerical form
@@ -130,8 +33,8 @@ public class PleasantSettings : ViewModelBase
     [DataMember]
     public uint NumericalAccentColor
     {
-        get => _numericalAccentColor;
-        set => SetProperty(ref _numericalAccentColor, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     /// <summary>
@@ -140,8 +43,8 @@ public class PleasantSettings : ViewModelBase
     [DataMember]
     public bool PreferUserAccentColor
     {
-        get => _preferUserAccentColor;
-        set => SetProperty(ref _preferUserAccentColor, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     /// <summary>
@@ -150,9 +53,9 @@ public class PleasantSettings : ViewModelBase
     [DataMember]
     public string Theme
     {
-        get => _theme;
-        set => SetProperty(ref _theme, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = "System";
 
     /// <summary>
     /// Gets or sets the ID of the custom theme.
@@ -160,18 +63,8 @@ public class PleasantSettings : ViewModelBase
     [DataMember]
     public Guid? CustomThemeId
     {
-        get => _customThemeId;
-        set => SetProperty(ref _customThemeId, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the current language code (e.g., "en", "ru").
-    /// </summary>
-    [DataMember]
-    public string Language
-    {
-        get => _language;
-        set => SetProperty(ref _language, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     /// <summary>
@@ -196,29 +89,9 @@ public class PleasantSettings : ViewModelBase
     [DataMember]
     public AvaloniaList<uint> ColorPalettes
     {
-        get => _colorPalettes;
-        set => SetProperty(ref _colorPalettes, value);
-    }
-
-    // ── App-specific version (separate from PleasantUI library version) ────────
-
-    /// <summary>
-    /// Gets or sets application-specific version information.
-    /// Use this to store and display your app's own version, release channel,
-    /// and version label — independently of the PleasantUI library version.
-    /// </summary>
-    [DataMember]
-    public AppVersionSettings AppVersion
-    {
-        get => _appVersion;
-        set
-        {
-            if (value is null)
-                throw new NullReferenceException("AppVersion is null");
-
-            SetProperty(ref _appVersion, value);
-        }
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PleasantSettings"/> class 
@@ -227,6 +100,5 @@ public class PleasantSettings : ViewModelBase
     public PleasantSettings()
     {
         _windowSettings = new WindowSettings();
-        _appVersion = new AppVersionSettings();
     }
 }

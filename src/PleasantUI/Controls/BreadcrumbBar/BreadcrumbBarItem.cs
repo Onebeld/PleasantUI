@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Automation;
 using Avalonia.Automation.Peers;

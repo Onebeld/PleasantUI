@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Media;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

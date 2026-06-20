@@ -127,7 +127,7 @@ public partial class App : PleasantUiExampleApp
         // Content: version info
         var content = new StackPanel
         {
-            Margin = new Avalonia.Thickness(14, 8),
+            Margin = new Thickness(14, 8),
             Spacing = 4,
             Children =
             {
@@ -147,9 +147,9 @@ public partial class App : PleasantUiExampleApp
             }
         };
 
-        ((IResourceHost)this).TryFindResource("PleasantUILogo", out var appIconResource);
+        this.TryFindResource("PleasantUILogo", out object? appIconResource);
 
-        var popup = new PleasantTrayPopup
+        PleasantTrayPopup popup = new PleasantTrayPopup
         {
             Width         = 280,
             AppTitle      = "PleasantUI Example",

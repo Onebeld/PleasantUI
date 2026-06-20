@@ -5,9 +5,7 @@
              xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TerminalPanelPageView">
-
     <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
-
         <TextBlock Text="{Localize TerminalPanel/Description}"
                    TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
 
@@ -27,6 +25,5 @@
             <Button x:Name="SimulateOutputBtn" Content="{Localize TerminalPanel/SimulateOutput}" />
             <Button x:Name="ClearBtn"          Content="{Localize TerminalPanel/Clear}" />
         </StackPanel>
-
     </StackPanel>
 </UserControl>

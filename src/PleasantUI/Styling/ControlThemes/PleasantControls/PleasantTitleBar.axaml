@@ -42,7 +42,8 @@
                     <Grid x:Name="PART_TitleBarGrid">
                     <Border x:Name="PART_DragWindow"
                             Background="Transparent"
-                            ContextFlyout="{DynamicResource WindowMenuFlyout}" />
+                            ContextFlyout="{DynamicResource WindowMenuFlyout}"
+                            WindowDecorationProperties.ElementRole="TitleBar" />
 
                     <ContentPresenter x:Name="PART_LeftTitleBarContent" />
 

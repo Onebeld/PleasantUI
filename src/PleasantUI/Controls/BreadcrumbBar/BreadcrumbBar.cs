@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Automation;

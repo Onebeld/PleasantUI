@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Avalonia;

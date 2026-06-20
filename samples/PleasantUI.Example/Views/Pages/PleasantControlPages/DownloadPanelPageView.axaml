@@ -5,47 +5,53 @@
              xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.DownloadPanelPageView">
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+        <TextBlock Text="{Localize DownloadPanel/Description}"
+                   TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
 
-            <TextBlock Text="{Localize DownloadPanel/Description}"
-                       TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
+        <WrapPanel>
+            <WrapPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Margin" Value="0 0 8 8" />
+                </Style>
+            </WrapPanel.Styles>
+            <Button x:Name="TickBtn" Content="{Localize DownloadPanel/Tick}"
+                    Theme="{DynamicResource AccentButtonTheme}" />
+            <Button x:Name="PauseBtn" Content="{Localize DownloadPanel/PauseResume}" />
+            <Button x:Name="MergeBtn" Content="{Localize DownloadPanel/ToggleMerge}" />
+            <Button x:Name="ResetBtn" Content="{Localize DownloadPanel/Reset}" />
+        </WrapPanel>
 
-            <WrapPanel>
-                <WrapPanel.Styles>
-                    <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
-                </WrapPanel.Styles>
-                <Button x:Name="TickBtn"  Content="{Localize DownloadPanel/Tick}"
-                        Theme="{DynamicResource AccentButtonTheme}" />
-                <Button x:Name="PauseBtn" Content="{Localize DownloadPanel/PauseResume}" />
-                <Button x:Name="MergeBtn" Content="{Localize DownloadPanel/ToggleMerge}" />
-                <Button x:Name="ResetBtn" Content="{Localize DownloadPanel/Reset}" />
-            </WrapPanel>
-
-            <controls:DownloadPanel x:Name="DownloadPanelControl" ShowDetails="True"
-                                    SizeLabel="{Localize DownloadPanel/SizeLabel}"
-                                    SpeedLabel="{Localize DownloadPanel/SpeedLabel}"
-                                    RemainingLabel="{Localize DownloadPanel/RemainingLabel}"
-                                    ShowDetailsLabel="{Localize DownloadPanel/ShowDetailsLabel}"
-                                    HideDetailsLabel="{Localize DownloadPanel/HideDetailsLabel}"
-                                    PauseLabel="{Localize DownloadPanel/PauseLabel}"
-                                    ResumeLabel="{Localize DownloadPanel/ResumeLabel}"
-                                    CancelLabel="{Localize DownloadPanel/CancelLabel}"
-                                    ChunkWaitingText="{Localize DownloadPanel/ChunkWaitingText}"
-                                    ChunkQueuedText="{Localize DownloadPanel/ChunkQueuedText}"
-                                    ChunkStartingText="{Localize DownloadPanel/ChunkStartingText}"
-                                    ChunkDoneText="{Localize DownloadPanel/ChunkDoneText}"
-                                    ChunkFailedText="{Localize DownloadPanel/ChunkFailedText}"
-                                    ChunkPausedText="{Localize DownloadPanel/ChunkPausedText}"
-                                    ChunkUnknownText="{Localize DownloadPanel/ChunkUnknownText}">
-                <controls:DownloadPanel.Chunks>
-                    <controls:ChunkInfo Index="1" Start="0"    End="0.25" Progress="0" TotalSizeBytes="33554432" DownloadedBytes="0" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Waiting" />
-                    <controls:ChunkInfo Index="2" Start="0.25" End="0.5"  Progress="0.25" TotalSizeBytes="33554432" DownloadedBytes="8388608" SpeedBytesPerSecond="2097152" TimeRemainingSeconds="12" Status="Downloading" />
-                    <controls:ChunkInfo Index="3" Start="0.5"  End="0.75" Progress="0.5" TotalSizeBytes="33554432" DownloadedBytes="16777216" SpeedBytesPerSecond="3145728" TimeRemainingSeconds="5" Status="Downloading" />
-                    <controls:ChunkInfo Index="4" Start="0.75" End="1.0"  Progress="1.0" TotalSizeBytes="33554432" DownloadedBytes="33554432" SpeedBytesPerSecond="0" TimeRemainingSeconds="0" Status="Completed" />
-                </controls:DownloadPanel.Chunks>
-            </controls:DownloadPanel>
-
-        </StackPanel>
-    </ScrollViewer>
+        <controls:DownloadPanel x:Name="DownloadPanelControl" ShowDetails="True"
+                                SizeLabel="{Localize DownloadPanel/SizeLabel}"
+                                SpeedLabel="{Localize DownloadPanel/SpeedLabel}"
+                                RemainingLabel="{Localize DownloadPanel/RemainingLabel}"
+                                ShowDetailsLabel="{Localize DownloadPanel/ShowDetailsLabel}"
+                                HideDetailsLabel="{Localize DownloadPanel/HideDetailsLabel}"
+                                PauseLabel="{Localize DownloadPanel/PauseLabel}"
+                                ResumeLabel="{Localize DownloadPanel/ResumeLabel}"
+                                CancelLabel="{Localize DownloadPanel/CancelLabel}"
+                                ChunkWaitingText="{Localize DownloadPanel/ChunkWaitingText}"
+                                ChunkQueuedText="{Localize DownloadPanel/ChunkQueuedText}"
+                                ChunkStartingText="{Localize DownloadPanel/ChunkStartingText}"
+                                ChunkDoneText="{Localize DownloadPanel/ChunkDoneText}"
+                                ChunkFailedText="{Localize DownloadPanel/ChunkFailedText}"
+                                ChunkPausedText="{Localize DownloadPanel/ChunkPausedText}"
+                                ChunkUnknownText="{Localize DownloadPanel/ChunkUnknownText}">
+            <controls:DownloadPanel.Chunks>
+                <controls:ChunkInfo Index="1" Start="0" End="0.25" Progress="0" TotalSizeBytes="33554432"
+                                    DownloadedBytes="0" SpeedBytesPerSecond="0" TimeRemainingSeconds="0"
+                                    Status="Waiting" />
+                <controls:ChunkInfo Index="2" Start="0.25" End="0.5" Progress="0.25" TotalSizeBytes="33554432"
+                                    DownloadedBytes="8388608" SpeedBytesPerSecond="2097152" TimeRemainingSeconds="12"
+                                    Status="Downloading" />
+                <controls:ChunkInfo Index="3" Start="0.5" End="0.75" Progress="0.5" TotalSizeBytes="33554432"
+                                    DownloadedBytes="16777216" SpeedBytesPerSecond="3145728" TimeRemainingSeconds="5"
+                                    Status="Downloading" />
+                <controls:ChunkInfo Index="4" Start="0.75" End="1.0" Progress="1.0" TotalSizeBytes="33554432"
+                                    DownloadedBytes="33554432" SpeedBytesPerSecond="0" TimeRemainingSeconds="0"
+                                    Status="Completed" />
+            </controls:DownloadPanel.Chunks>
+        </controls:DownloadPanel>
+    </StackPanel>
 </UserControl>

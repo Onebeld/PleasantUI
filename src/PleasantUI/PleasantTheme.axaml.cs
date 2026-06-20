@@ -304,11 +304,6 @@ public class PleasantTheme : Styles
                 _settingsProvider.Save(PleasantSettings.Current,
                     Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
                 break;
-            case nameof(PleasantSettings.Current.Language):
-                // Persist language changes immediately as well.
-                _settingsProvider.Save(PleasantSettings.Current,
-                    Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
-                break;
             case nameof(PleasantSettings.Current.NumericalAccentColor):
                 UpdateAccentColors(Color.FromUInt32(PleasantSettings.Current.NumericalAccentColor));
                 break;

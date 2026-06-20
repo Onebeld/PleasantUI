@@ -4,7 +4,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
 using PleasantUI.Controls;
-using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 
 namespace PleasantUI.ToolKit.Controls;
@@ -16,8 +15,6 @@ namespace PleasantUI.ToolKit.Controls;
 /// </summary>
 public partial class NoticeDialog
 {
-    private const double ProgressBarVisibleHeight = 20.0;
-
     // ── Severity icon geometries ───────────────────────────────────────────────
 
     private static readonly Geometry InfoIconGeometry = Geometry.Parse("M11 2a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 16a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm1-11h-2v2h2V7zm0 4h-2v4h2v-4z");
@@ -59,22 +56,9 @@ public partial class NoticeDialog
         UpdateLocalization();
         UpdateVersionBadge();
         UpdateButtons();
-        
-        // Ensure version badge background is set after template is applied as failsafe
-        if (!string.IsNullOrEmpty(VersionType))
-        {
-            var versionTypeBadge = this.FindControl<Border>("VersionTypeBadge");
-            if (versionTypeBadge is not null)
-            {
-                var brush = VersionTypeEnum.HasValue
-                    ? GetVersionTypeBrushFromEnum(VersionTypeEnum.Value)
-                    : GetVersionTypeBrushFromString(VersionType);
-                VersionTypeBadgeBackground = brush;
-                versionTypeBadge.Background = brush;
-            }
-        }
     }
 
+    /// <inheritdoc/>
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -83,7 +67,7 @@ public partial class NoticeDialog
             UpdateSeverity();
         else if (change.Property == TitleProperty || change.Property == MessageProperty || change.Property == NoticeFooterTextProperty)
             UpdateLocalization();
-        else if (change.Property == VersionProperty || change.Property == VersionTypeProperty || change.Property == VersionLabelProperty || change.Property == VersionTypeEnumProperty)
+        else if (change.Property == VersionProperty || change.Property == VersionTypeProperty || change.Property == VersionLabelProperty)
             UpdateVersionBadge();
         else if (change.Property == VersionTypeBadgeBackgroundProperty)
         {
@@ -99,9 +83,9 @@ public partial class NoticeDialog
 
     private void UpdateSeverity()
     {
-        var headerBorder = this.FindControl<Border>("HeaderBorder");
-        var severityIcon = this.FindControl<IconControl>("SeverityIcon");
-        var titleText = this.FindControl<TextBlock>("TitleText");
+        Border? headerBorder = this.FindControl<Border>("HeaderBorder");
+        IconControl? severityIcon = this.FindControl<IconControl>("SeverityIcon");
+        TextBlock? titleText = this.FindControl<TextBlock>("TitleText");
 
         if (headerBorder is null || severityIcon is null || titleText is null)
             return;
@@ -170,12 +154,6 @@ public partial class NoticeDialog
             if (!string.IsNullOrEmpty(VersionType))
             {
                 versionTypeText.Text = VersionType;
-                // Prefer strongly-typed enum for accurate color resolution; fall back to string normalization
-                var brush = VersionTypeEnum.HasValue
-                    ? GetVersionTypeBrushFromEnum(VersionTypeEnum.Value)
-                    : GetVersionTypeBrushFromString(VersionType);
-                VersionTypeBadgeBackground = brush;
-                versionTypeBadge.Background = brush;
                 versionTypeBadge.IsVisible = true;
             }
             else
@@ -187,37 +165,6 @@ public partial class NoticeDialog
         {
             versionPanel.IsVisible = false;
         }
-    }
-
-    private static IBrush GetVersionTypeBrushFromEnum(PleasantVersionType versionType)
-    {
-        return versionType switch
-        {
-            PleasantVersionType.Stable => new SolidColorBrush(Color.Parse("#107C10")),
-            PleasantVersionType.BugFix => new SolidColorBrush(Color.Parse("#008272")),
-            PleasantVersionType.Alpha => new SolidColorBrush(Color.Parse("#E81123")),
-            PleasantVersionType.Beta => new SolidColorBrush(Color.Parse("#FF8C00")),
-            PleasantVersionType.ReleaseCandidate => new SolidColorBrush(Color.Parse("#8A2BE2")),
-            PleasantVersionType.Canary => new SolidColorBrush(Color.Parse("#FFB900")),
-            _ => new SolidColorBrush(Color.Parse("#605E5C"))
-        };
-    }
-
-    private static IBrush GetVersionTypeBrushFromString(string versionType)
-    {
-        // Normalize: lowercase, strip spaces and hyphens
-        var normalized = versionType.ToLowerInvariant().Replace(" ", "").Replace("-", "");
-
-        return normalized switch
-        {
-            "stable" or "stablerelease" => new SolidColorBrush(Color.Parse("#107C10")),
-            "bugfix" or "fix" or "bugfixrelease" => new SolidColorBrush(Color.Parse("#008272")),
-            "alpha" or "alphaprerelease" or "alphaprerelease" => new SolidColorBrush(Color.Parse("#E81123")),
-            "beta" or "betaprerelease" => new SolidColorBrush(Color.Parse("#FF8C00")),
-            "rc" or "releasecandidate" => new SolidColorBrush(Color.Parse("#8A2BE2")),
-            "canary" or "canarybuild" => new SolidColorBrush(Color.Parse("#FFB900")),
-            _ => new SolidColorBrush(Color.Parse("#605E5C"))
-        };
     }
 
     private void UpdateButtons()

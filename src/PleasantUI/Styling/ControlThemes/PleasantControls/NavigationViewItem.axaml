@@ -104,16 +104,14 @@
                                             <ToggleButton Grid.Column="3"
                                                           Padding="5" Margin="5"
                                                           BorderThickness="0"
-                                                          Classes="togglenav"
                                                           VerticalAlignment="Center"
                                                           HorizontalAlignment="Right"
                                                           IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                                                           Background="#00000000">
-                                                <PathIcon Name="PART_PathChevronDown"
-                                                          Width="10"
-                                                          Height="10"
-                                                          Foreground="{DynamicResource TextFillColor1}"
-                                                          Data="{DynamicResource ChevronDownRegular}" />
+                                                <IconControl Name="PART_PathChevronDown"
+                                                             Width="10"
+                                                             Height="10"
+                                                             Icon="{DynamicResource ChevronDownRegular}" />
                                             </ToggleButton>
                                         </Grid>
                                     </Grid>
@@ -271,7 +269,7 @@
             </Style>
         </Style>
 
-        <Style Selector="^[IsExpanded=False] /template/ PathIcon#PART_PathChevronDown">
+        <Style Selector="^[IsExpanded=False] /template/ IconControl#PART_PathChevronDown">
             <Style.Animations>
                 <Animation Duration="0:0:0.5" Easing="ExponentialEaseOut" FillMode="Forward">
                     <KeyFrame Cue="0%">
@@ -283,7 +281,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^[IsExpanded=True] /template/ PathIcon#PART_PathChevronDown">
+        <Style Selector="^[IsExpanded=True] /template/ IconControl#PART_PathChevronDown">
             <Style.Animations>
                 <Animation Duration="0:0:0.5" Easing="ExponentialEaseOut" FillMode="Forward">
                     <KeyFrame Cue="0%">
@@ -373,8 +371,8 @@
         </Style>
 
         <!-- Show popup submenu indicator chevron (right-pointing) when in compact mode with children -->
-        <Style Selector="^[IsOpen=False]:not(:empty) /template/ PathIcon#PART_PathChevronDown">
-            <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
+        <Style Selector="^[IsOpen=False]:not(:empty) /template/ IconControl#PART_PathChevronDown">
+            <Setter Property="Icon" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
         <!-- Highlight item when its popup submenu is open in compact mode -->
         <Style Selector="^[IsSubMenuOpen=True][IsOpen=False] /template/ Border#PART_NavDecorator">

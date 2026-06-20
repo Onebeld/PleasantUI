@@ -140,15 +140,13 @@ public class LocalizeExtension : MarkupExtension
 
             // LocalizeKeyObservable fires PropertyChanged on every language change.
             // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources.
-            var observable = new LocalizeKeyObservable(Resolve);
-            var binding = new Binding
-            {
-                Source          = observable,
-                Path            = nameof(LocalizeKeyObservable.Value),
-                Mode            = BindingMode.OneWay,
-                FallbackValue   = resolvedKey,
-                TargetNullValue = resolvedKey
-            };
+            LocalizeKeyObservable observable = new(Resolve);
+            CompiledBinding binding = CompiledBinding.Create(
+                (LocalizeKeyObservable item) => item.Value,
+                observable,
+                mode: BindingMode.OneWay,
+                fallbackValue: resolvedKey,
+                targetNullValue: resolvedKey);
 
             if (_bindings is null || _bindings.Length <= 0)
                 return binding;
@@ -165,13 +163,11 @@ public class LocalizeExtension : MarkupExtension
             // Add a language-change trigger so the MultiBinding re-evaluates on every
             // language switch. Without this the converter only fires when the key binding
             // itself changes, so the UI stays frozen on the original language.
-            var langTrigger = new LocalizeKeyObservable(() => Localizer.Instance.CurrentLanguage ?? string.Empty);
-            var langBinding = new Binding
-            {
-                Source = langTrigger,
-                Path   = nameof(LocalizeKeyObservable.Value),
-                Mode   = BindingMode.OneWay
-            };
+            LocalizeKeyObservable langTrigger = new(() => Localizer.Instance.CurrentLanguage);
+            CompiledBinding langBinding = CompiledBinding.Create(
+                (LocalizeKeyObservable item) => item.Value,
+                langTrigger,
+                mode: BindingMode.OneWay);
 
             BindingBase[] bindingBases = GetBindingsWithLang(binding, langBinding);
             return new MultiBinding

@@ -7,19 +7,21 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.ItemListPanelPageView">
     <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
-
         <TextBlock Text="{Localize ItemListPanel/Description}"
                    TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
-
         <WrapPanel>
             <WrapPanel.Styles>
-                <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
-                <Style Selector="ToggleButton"><Setter Property="Margin" Value="0 0 8 8" /></Style>
+                <Style Selector="Button">
+                    <Setter Property="Margin" Value="0 0 8 8" />
+                </Style>
+                <Style Selector="ToggleButton">
+                    <Setter Property="Margin" Value="0 0 8 8" />
+                </Style>
             </WrapPanel.Styles>
             <ToggleButton x:Name="MultiSelectToggle" Content="{Localize ItemListPanel/MultiSelect}" />
-            <Button x:Name="LoadingToggleBtn"        Content="{Localize ItemListPanel/ToggleLoading}" />
-            <Button x:Name="ClearBtn"                Content="{Localize ItemListPanel/Clear}" />
-            <Button x:Name="ReloadBtn"               Content="{Localize ItemListPanel/Reload}" />
+            <Button x:Name="LoadingToggleBtn" Content="{Localize ItemListPanel/ToggleLoading}" />
+            <Button x:Name="ClearBtn" Content="{Localize ItemListPanel/Clear}" />
+            <Button x:Name="ReloadBtn" Content="{Localize ItemListPanel/Reload}" />
         </WrapPanel>
 
         <controls:ItemListPanel x:Name="ListPanel"

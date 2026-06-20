@@ -1,14 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Documents;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Media;
 using Avalonia.Reactive;
-using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Internal.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
 
@@ -163,9 +160,6 @@ public class PleasantTitleBar : TemplatedControl
             _reestablishMenuItem.Click += (_, _) => window.WindowState = WindowState.Normal;
             _expandMenuItem.Click += (_, _) => window.WindowState = WindowState.Maximized;
             _collapseMenuItem.Click += (_, _) => window.WindowState = WindowState.Minimized;
-
-            _dragWindowBorder.PointerPressed += OnDragWindowBorderOnPointerPressed;
-            _dragWindowBorder.DoubleTapped += OnDragWindowBorderOnDoubleTapped;
 
             Attach(window);
         }

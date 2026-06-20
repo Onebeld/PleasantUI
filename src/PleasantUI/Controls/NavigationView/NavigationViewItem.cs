@@ -1,4 +1,15 @@
-﻿using System.Diagnostics;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2024 PieroCastillo <https://github.com/PieroCastillo>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/Navigation/NavigationView/NavigationViewItemBase.Properties.cs
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/Navigation/NavigationView/NavigationViewItemBase.cs
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/Navigation/NavigationView/NavigationViewItem.cs
+ */
+
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -19,14 +30,6 @@ namespace PleasantUI.Controls;
 [TemplatePart("PART_Popup", typeof(Popup))]
 public class NavigationViewItem : TreeViewItem
 {
-    private object? _content;
-    private double _externalLength;
-    private object? _icon;
-
-    private int _navigationViewDistance;
-    private object _title = "Title";
-    private bool _isSubMenuOpen;
-
     private Popup? _popup;
     private ScrollViewer? _popupScrollViewer;
     private NavigationViewSubMenuControl? _subMenuControl;
@@ -141,8 +144,8 @@ public class NavigationViewItem : TreeViewItem
     /// </value>
     public object? Content
     {
-        get => _content;
-        set => SetAndRaise(ContentProperty, ref _content, value);
+        get;
+        set => SetAndRaise(ContentProperty, ref field, value);
     }
 
     /// <summary>
@@ -153,8 +156,8 @@ public class NavigationViewItem : TreeViewItem
     /// </value>
     public object? Icon
     {
-        get => _icon;
-        set => SetAndRaise(IconProperty, ref _icon, value);
+        get;
+        set => SetAndRaise(IconProperty, ref field, value);
     }
 
     /// <summary>
@@ -169,9 +172,9 @@ public class NavigationViewItem : TreeViewItem
     /// </remarks>
     public object Title
     {
-        get => _title;
-        set => SetAndRaise(TitleProperty, ref _title, value);
-    }
+        get;
+        set => SetAndRaise(TitleProperty, ref field, value);
+    } = "Title";
 
     /// <summary>
     /// Gets or sets a value indicating whether the property is open.
@@ -217,8 +220,8 @@ public class NavigationViewItem : TreeViewItem
     /// </value>
     public int NavigationViewDistance
     {
-        get => _navigationViewDistance;
-        protected set => SetAndRaise(LevelProperty, ref _navigationViewDistance, value);
+        get;
+        protected set => SetAndRaise(LevelProperty, ref field, value);
     }
 
     /// <summary>
@@ -257,8 +260,8 @@ public class NavigationViewItem : TreeViewItem
     /// </value>
     public double ExternalLength
     {
-        get => _externalLength;
-        private set => SetAndRaise(ExternalLengthProperty, ref _externalLength, value);
+        get;
+        private set => SetAndRaise(ExternalLengthProperty, ref field, value);
     }
 
     /// <summary>
@@ -267,8 +270,8 @@ public class NavigationViewItem : TreeViewItem
     /// </summary>
     public bool IsSubMenuOpen
     {
-        get => _isSubMenuOpen;
-        set => SetAndRaise(IsSubMenuOpenProperty, ref _isSubMenuOpen, value);
+        get;
+        set => SetAndRaise(IsSubMenuOpenProperty, ref field, value);
     }
 
     /// <summary>
@@ -563,7 +566,7 @@ public class NavigationViewItem : TreeViewItem
         Debug.WriteLine($"[NavItem] RemovePopupItemsPresenter header={Header} subMenuControl={_subMenuControl is not null}");
         if (_subMenuControl is null) return;
 
-        if (_popupScrollViewer?.Content == _subMenuControl)
+        if (Equals(_popupScrollViewer?.Content, _subMenuControl))
             _popupScrollViewer.Content = null;
 
         _subMenuControl.ItemsSource = null;

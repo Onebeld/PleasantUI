@@ -1,6 +1,5 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 

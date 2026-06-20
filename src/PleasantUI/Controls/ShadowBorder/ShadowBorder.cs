@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using SkiaSharp;
 
 namespace PleasantUI.Controls;
@@ -57,8 +56,13 @@ public class ShadowBorder : Decorator
     {
         base.OnPropertyChanged(change);
 
+        if (change.Property == OffsetProperty)
+        {
+            InvalidateVisual();
+            return;
+        }
+        
         if (change.Property != ShadowColorProperty &&
-            change.Property != BlurRadiusProperty &&
             change.Property != OffsetProperty &&
             change.Property != CornerRadiusProperty)
             return;
@@ -113,7 +117,7 @@ public class ShadowBorder : Decorator
             return;
 
         _shadowBitmap?.Dispose();
-        _shadowBitmap = CreateShadowBitmap(contentSize, BlurRadius, ShadowColor, CornerRadius, Opacity);
+        _shadowBitmap = CreateShadowBitmap(contentSize, BlurRadius, ShadowColor, CornerRadius);
         
         _lastContentSize = contentSize;
         _lastBlur = BlurRadius;
@@ -122,7 +126,7 @@ public class ShadowBorder : Decorator
         _lastCorner = CornerRadius;
     }
 
-    private Bitmap CreateShadowBitmap(Size contentSizeDip, double blurDip, Color color, CornerRadius corner, double opacity)
+    private Bitmap CreateShadowBitmap(Size contentSizeDip, double blurDip, Color color, CornerRadius corner)
     {
         double scale = 1.0;
         if (TopLevel.GetTopLevel(this) is { } topLevel)
@@ -169,15 +173,10 @@ public class ShadowBorder : Decorator
                 canvas.DrawRect(rect, paint);
         }
 
-        IntPtr pixelsPtr = skBitmap.GetPixels();
-
-        return new Bitmap(
-            PixelFormat.Bgra8888,
-            AlphaFormat.Premul,
-            pixelsPtr,
-            new PixelSize(skBitmap.Width, skBitmap.Height),
-            new Vector(96.0 * scale, 96.0 * scale),
-            skBitmap.RowBytes);
+        using SKData data = skBitmap.Encode(SKEncodedImageFormat.Png, 100);
+        using Stream? stream = data.AsStream();
+        
+        return new Bitmap(stream);
     }
 
     private static double ComputePad(double blur)

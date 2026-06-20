@@ -30,20 +30,6 @@
                             <TextBlock Foreground="{DynamicResource TextFillColor3}"
                                        FontSize="13"
                                        Text="{Localize About/License}" />
-                            <TextBlock Foreground="{DynamicResource TextFillColor3}"
-                                       FontSize="13"
-                                       Text="|" />
-                            <TextBlock x:Name="VersionTextBlock"
-                                       FontSize="13"
-                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <Border x:Name="VersionTypeBadge"
-                                    CornerRadius="4"
-                                    Padding="6 3"
-                                    Margin="8 0 0 0">
-                                <TextBlock FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="White" />
-                            </Border>
                         </StackPanel>
                     </StackPanel>
 

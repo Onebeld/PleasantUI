@@ -6,9 +6,7 @@
              xmlns:local="using:PleasantUI.Example.Views.Pages.ToolkitPages"
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.Pages.ToolkitPages.DockingPageView">
-
     <Grid RowDefinitions="Auto,*">
-
         <!-- Description area -->
         <StackPanel Grid.Row="0" 
                     Margin="20 16 20 8"
@@ -103,8 +101,6 @@
                                   SideBar="{Binding #RightBar}"
                                   View="{Binding #MainDock}" />
             </docking:ReDockHost.DockAreas>
-
         </docking:ReDockHost>
     </Grid>
-
 </UserControl>

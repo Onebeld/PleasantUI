@@ -2,8 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Layout;
-using Avalonia.LogicalTree;
 using PleasantUI.Core.Extensions;
 
 namespace PleasantUI.Controls;
@@ -15,8 +13,6 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class NavigationViewSubMenuControl : ItemsControl
 {
-    private ItemsPresenter? _itemsPresenter;
-
     /// <summary>
     /// Defines the <see cref="NavigationViewItem" /> property.
     /// </summary>
@@ -43,10 +39,11 @@ public class NavigationViewSubMenuControl : ItemsControl
         Classes.Add("navigationViewSubMenu");
     }
 
+    /// <inheritdoc/>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        _itemsPresenter = e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter");
+        e.NameScope.Find<ItemsPresenter>("PART_ItemsPresenter");
     }
 
     /// <inheritdoc />

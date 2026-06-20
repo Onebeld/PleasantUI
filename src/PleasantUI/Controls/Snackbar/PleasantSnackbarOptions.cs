@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 

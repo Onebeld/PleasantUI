@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using Avalonia.Media;
 using Material.Icons;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.Interfaces;

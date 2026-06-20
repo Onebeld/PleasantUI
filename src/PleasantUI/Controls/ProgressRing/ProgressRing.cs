@@ -1,4 +1,13 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2023 ymg2006 <f.partonia@gmail.com>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/ymg2006/FluentAvalonia.ProgressRing/blob/main/FluentAvalonia.ProgressRing/UI/Controls/ProgressRing/ProgressRing.cs 
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
@@ -8,9 +17,6 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A control used to indicate the progress of an operation.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/ymg2006/FluentAvalonia.ProgressRing
-/// </remarks>
 [PseudoClasses(":preserveaspect", ":indeterminate")]
 public class ProgressRing : RangeBase
 {
@@ -129,9 +135,9 @@ public class ProgressRing : RangeBase
         base.OnPropertyChanged(change);
 
         if (change.Property == IsIndeterminateProperty)
-            PseudoClasses.Set(":indeterminate", change.NewValue as bool? ?? default);
+            PseudoClasses.Set(":indeterminate", change.NewValue as bool? ?? false);
         else if (change.Property == PreserveAspectProperty)
-            UpdatePseudoClasses(null, change.NewValue as bool? ?? default);
+            UpdatePseudoClasses(null, change.NewValue as bool? ?? false);
     }
 
     private static void OnValuePropertyChanged(ProgressRing sender, AvaloniaPropertyChangedEventArgs e)

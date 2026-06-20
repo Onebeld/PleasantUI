@@ -17,7 +17,7 @@ public partial class SettingsViewModel : ViewModelBase
 
     public bool IsFullScreenButtonVisible
     {
-        get => PleasantUiExampleApp.Main is PleasantWindow w && w.IsFullScreenButtonVisible;
+        get => PleasantUiExampleApp.Main is PleasantWindow { IsFullScreenButtonVisible: true };
         set
         {
             if (PleasantUiExampleApp.Main is PleasantWindow w)
@@ -48,8 +48,8 @@ public partial class SettingsViewModel : ViewModelBase
             PleasantUiExampleApp.LanguageKey = value.Key;
             
             // Persist language to settings
-            if (PleasantSettings.Current is not null)
-                PleasantSettings.Current.Language = value.Key;
+            if (AppSettings.Current is not null)
+                AppSettings.Current.Language = value.Key;
             
             Localizer.ChangeLang(value.Key);
             RaisePropertyChanged();

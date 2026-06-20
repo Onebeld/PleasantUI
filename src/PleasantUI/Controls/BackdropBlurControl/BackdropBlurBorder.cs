@@ -1,4 +1,18 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2024 Dani John (rocksdanister) <awoo.git@gmail.com>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/rocksdanister/weather/blob/main/src/Drizzle.UI.Avalonia/UserControls/BackdropBlurControl.cs
+ *
+ * Changes:
+ * 1. Discontinued from use ExperimentalAcrylicMaterial.
+ * 2. Added the ability to set a normal and rounded border.
+ * 3. Added render refresh timer to fix artifact.
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -9,8 +23,6 @@ using SkiaSharp;
 
 namespace PleasantUI.Controls;
 
-// Reference: https://github.com/rocksdanister/weather/blob/main/src/Drizzle.UI.Avalonia/UserControls/BackdropBlurControl.cs
-
 /// <summary>
 /// A control that blurs the background.
 /// </summary>
@@ -19,6 +31,8 @@ namespace PleasantUI.Controls;
 /// </remarks>
 public class BackdropBlurBorder : Decorator
 {
+    private DispatcherTimer? _refreshTimer;
+    
     /// <summary>
     /// Defines the <see cref="TintOpacity"/> property.
     /// </summary>
@@ -103,6 +117,11 @@ public class BackdropBlurBorder : Decorator
         
         AffectsMeasure<BackdropBlurBorder>(BorderThicknessProperty);
     }
+    
+    public BackdropBlurBorder()
+    {
+        InitializeRefreshTimer();
+    }
 
     /// <inheritdoc />
     public override void Render(DrawingContext context)
@@ -110,10 +129,6 @@ public class BackdropBlurBorder : Decorator
         context.Custom(new BlurBehindRenderOperation(Background, TintOpacity, BlurRadius,
             new Rect(default, Bounds.Size), GetMaxCornerRadius(CornerRadius), GetMaxThickness(BorderThickness),
             BorderBrush));
-
-        // We update every frame because there are artifacts when animating the color of the controls (sharp lines).
-        // This is the best we could find, but expensive
-        Dispatcher.UIThread.InvokeAsync(InvalidateVisual, DispatcherPriority.Background);
     }
 
     /// <summary>
@@ -134,6 +149,39 @@ public class BackdropBlurBorder : Decorator
     protected override Size ArrangeOverride(Size finalSize)
     {
         return LayoutHelper.ArrangeChild(Child, finalSize, Padding, BorderThickness);
+    }
+    
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        StartRefreshTimer();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        StopRefreshTimer();
+    }
+    
+    private void InitializeRefreshTimer()
+    {
+        _refreshTimer = new DispatcherTimer(DispatcherPriority.Render)
+        {
+            Interval = TimeSpan.FromMilliseconds(25)
+        };
+        _refreshTimer.Tick += (s, e) => InvalidateVisual();
+    }
+    
+    private void StartRefreshTimer()
+    {
+        _refreshTimer?.Start();
+    }
+
+    private void StopRefreshTimer()
+    {
+        _refreshTimer?.Stop();
     }
 
     private double GetMaxThickness(Thickness thickness)
@@ -254,6 +302,7 @@ public class BackdropBlurBorder : Decorator
             {
                 blurSnapPaint.Shader = blurSnapShader;
                 blurSnapPaint.IsAntialias = true;
+                
                 lease.SkCanvas.DrawRect(0, 0, width, height, blurSnapPaint);
             }
 

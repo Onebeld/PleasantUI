@@ -185,7 +185,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </summary>
     /// <param name="topLevel">The window to show the dialog on.</param>
     /// <returns>A task that represents the asynchronous show operation.</returns>
-    public Task ShowAsync(TopLevel topLevel) => ShowAsyncCoreForTopLevel<object>(topLevel);
+    public Task ShowAsync(TopLevel? topLevel) => ShowAsyncCoreForTopLevel<object>(topLevel);
     
     /// <summary>
     /// Shows the dialog asynchronously.

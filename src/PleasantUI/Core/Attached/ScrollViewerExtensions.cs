@@ -3,13 +3,16 @@
  * SPDX-FileCopyrightText: 2025 Egolds <https://github.com/Egolds>
  * SPDX-License-Identifier: MIT
  *
- * SPDX-FileComment: A modified version of the VerticalScrollViewerAnimatedBehavior.cs component
- * (original: https://github.com/Egolds/Xaml.Behaviors.Interactions.Animated/blob/master/Xaml.Behaviors.Interactions.Animated/ScrollViewer/VerticalScrollViewerAnimatedBehavior.cs)
+ * Modified from original source:
+ * https://github.com/Egolds/Xaml.Behaviors.Interactions.Animated/blob/master/Xaml.Behaviors.Interactions.Animated/ScrollViewer/VerticalScrollViewerAnimatedBehavior.cs
+ * 
  * Changes:
  * 1. Renamed to ScrollViewerExtensions instead of VerticalScrollViewerAnimatedBehavior.
  * 2. Attached properties were used instead of Xaml.Behaviors.Interactivity.
  * 3. Smooth horizontal scrolling has been implemented.
  * 4. Instead of await Task.Delay(), DispatcherTimer was used.
+ * 5. Turning smooth scrolling on or off.
+ * 6. Possibility of horizontal scrolling using the mouse wheel.
  */
 
 using Avalonia;
@@ -22,7 +25,7 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using PleasantUI.Core.Extensions;
+using PleasantUI.Core.Internal.Extensions;
 
 namespace PleasantUI.Core.Attached;
 
@@ -66,6 +69,12 @@ public class ScrollViewerExtensions : AvaloniaObject
     /// </summary>
     public static readonly AttachedProperty<bool> EnableAnimatedScrollProperty =
         AvaloniaProperty.RegisterAttached<ScrollViewer, bool>("EnableAnimatedScroll", typeof(ScrollViewerExtensions));
+    
+    /// <summary>
+    /// Defines the HandleCustomScroll attached property.
+    /// </summary>
+    public static readonly AttachedProperty<bool> HandleCustomScrollProperty =
+        AvaloniaProperty.RegisterAttached<ScrollViewer, bool>("HandleCustomScroll", typeof(ScrollViewerExtensions));
 
     /// <summary>
     /// Defines the ScrollStepSize attached property.
@@ -104,6 +113,10 @@ public class ScrollViewerExtensions : AvaloniaObject
     /// <param name="obj">Original control</param>
     /// <param name="value">Smooth scrolling is enabled</param>
     public static void SetEnableAnimatedScroll(ScrollViewer obj, bool value) => obj.SetValue(EnableAnimatedScrollProperty, value);
+    
+    public static bool GetHandleCustomScroll(ScrollViewer obj) => obj.GetValue(HandleCustomScrollProperty);
+    
+    public static void SetHandleCustomScroll(ScrollViewer obj, bool value) => obj.SetValue(HandleCustomScrollProperty, value);
 
     /// <summary>
     /// Gets the scroll step size for the <see cref="ChangeSize.Line"/> scroll type.
@@ -149,10 +162,10 @@ public class ScrollViewerExtensions : AvaloniaObject
 
     static ScrollViewerExtensions()
     {
-        EnableAnimatedScrollProperty.Changed.AddClassHandler<ScrollViewer>(OnEnableAnimatedScrollChanged);
+        HandleCustomScrollProperty.Changed.AddClassHandler<ScrollViewer>(OnHandleCustomScrollChanged);
     }
 
-    private static void OnEnableAnimatedScrollChanged(ScrollViewer sender, AvaloniaPropertyChangedEventArgs e)
+    private static void OnHandleCustomScrollChanged(ScrollViewer sender, AvaloniaPropertyChangedEventArgs e)
     {
         if (e.NewValue is true)
         {
@@ -188,47 +201,12 @@ public class ScrollViewerExtensions : AvaloniaObject
 
     private static void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
     {
-        if (sender is not ScrollViewer scrollViewer) return;
+        if (sender is not ScrollViewer currentScrollViewer) return;
         
-        ScrollAnimationState? state = scrollViewer.GetValue(AnimationStateProperty);
-        if (state == null) return;
-
-        state.ScrollContentPresenter ??= scrollViewer.Presenter as ScrollContentPresenter;
-
-        ScrollContentPresenter? scp = state.ScrollContentPresenter;
-        if (scp == null) return;
-
-        object? src = e.Source;
-        while (src != null && !Equals(src, scp))
-        {
-            if (src is ScrollContentPresenter scp2)
-            {
-                if (scp2 == scp) break;
-                
-                bool isAtYMax = e.Delta.Y > 0 ? scp2.Offset.Y == 0 : Math.Abs(scp2.Offset.Y - (scp2.Extent.Height - scp2.Viewport.Height)) < 0.1;
-                bool isAtXMax = e.Delta.X > 0 ? scp2.Offset.X == 0 : Math.Abs(scp2.Offset.X - (scp2.Extent.Width - scp2.Viewport.Width)) < 0.1;
-
-                if (isAtYMax && isAtXMax)
-                    src = scp2.GetVisualParent();
-                else
-                    return;
-            }
-            else if (src is Visual visual)
-            {
-                src = visual.GetVisualParent();
-            }
-        }
-
-        if (!Equals(src, scp))
-        {
-            e.Handled = !(src as ScrollContentPresenter)?.IsScrollChainingEnabled ?? false;
-            return;
-        }
-
         double deltaX = e.Delta.X;
         double deltaY = e.Delta.Y;
-        
-        ScrollOrientation orientation = GetScrollOrientation(scrollViewer);
+    
+        ScrollOrientation orientation = GetScrollOrientation(currentScrollViewer);
         bool isShiftPressed = e.KeyModifiers.HasFlag(KeyModifiers.Shift);
 
         if (orientation == ScrollOrientation.Horizontal)
@@ -250,50 +228,109 @@ public class ScrollViewerExtensions : AvaloniaObject
                 deltaY = 0;
             }
         }
-
-        double maxOffsetY = scp.Extent.Height - scp.Viewport.Height;
-        double maxOffsetX = scp.Extent.Width - scp.Viewport.Width;
         
-        ILogicalScrollable? scrollable = scp.Child as ILogicalScrollable;
+        Vector realDelta = new(deltaX, deltaY);
+        
+        ScrollViewer? activeChildScrollViewer = null;
+        IEnumerable<Visual> descendants = currentScrollViewer.GetVisualDescendants();
+        foreach (Visual visual in descendants)
+        {
+            if (visual is ScrollViewer childScrollViewer && childScrollViewer != currentScrollViewer)
+            {
+                if (childScrollViewer.IsPointerOver && GetHandleCustomScroll(childScrollViewer))
+                {
+                    activeChildScrollViewer = childScrollViewer;
+                    break;
+                }
+            }
+        }
+
+        if (activeChildScrollViewer?.Presenter is ScrollContentPresenter childScp)
+        {
+            if (CanScroll(childScp, realDelta))
+                return;
+        }
+
+        ScrollAnimationState? state = currentScrollViewer.GetValue(AnimationStateProperty);
+        if (state == null) return;
+
+        state.ScrollContentPresenter ??= currentScrollViewer.Presenter as ScrollContentPresenter;
+
+        ScrollContentPresenter? currentScp = state.ScrollContentPresenter;
+        if (currentScp == null) return;
+
+        double maxOffsetY = currentScp.Extent.Height - currentScp.Viewport.Height;
+        double maxOffsetX = currentScp.Extent.Width - currentScp.Viewport.Width;
+        
+        ILogicalScrollable? scrollable = currentScp.Child as ILogicalScrollable;
         bool isLogical = scrollable?.IsLogicalScrollEnabled == true;
 
-        double stepSize = GetScrollStepSize(scrollViewer);
+        double stepSize = GetScrollStepSize(currentScrollViewer);
         double stepX = 0;
         double stepY = 0;
 
-        if (deltaY != 0 && scp.Extent.Height > scp.Viewport.Height)
+        if (realDelta.Y != 0 && currentScp.Extent.Height > currentScp.Viewport.Height)
         {
             double height = isLogical ? scrollable!.ScrollSize.Height : stepSize;
-            double targetY = Math.Clamp(scp.Offset.Y + (-deltaY * height), 0, maxOffsetY);
-            Vector snapped = SnapOffset(scp, new Vector(scp.Offset.X, targetY), new Vector(0, deltaY), true);
-            stepY = snapped.Y - scp.Offset.Y;
+            double targetY = Math.Clamp(currentScp.Offset.Y + (-realDelta.Y * height), 0, maxOffsetY);
+            stepY = targetY - currentScp.Offset.Y;
         }
 
-        if (deltaX != 0 && scp.Extent.Width > scp.Viewport.Width)
+        if (realDelta.X != 0 && currentScp.Extent.Width > currentScp.Viewport.Width)
         {
             double width = isLogical ? scrollable!.ScrollSize.Width : stepSize;
-            double targetX = Math.Clamp(scp.Offset.X + (-deltaX * width), 0, maxOffsetX);
-            Vector snapped = SnapOffset(scp, new Vector(targetX, scp.Offset.Y), new Vector(deltaX, 0), true);
-            stepX = snapped.X - scp.Offset.X;
+            double targetX = Math.Clamp(currentScp.Offset.X + (-realDelta.X * width), 0, maxOffsetX);
+            stepX = targetX - currentScp.Offset.X;
         }
 
         if (stepX != 0 || stepY != 0)
         {
-            ChangeSize changeSize = GetScrollChangeSize(scrollViewer);
+            if (!GetEnableAnimatedScroll(currentScrollViewer) && activeChildScrollViewer != null)
+            {
+                if (activeChildScrollViewer.Presenter is ScrollContentPresenter childScp1 && CanScroll(childScp1, realDelta))
+                    return;
+            }
+            
+            ChangeSize changeSize = GetScrollChangeSize(currentScrollViewer);
             double finalDeltaX = stepX;
             double finalDeltaY = stepY;
 
             if (changeSize == ChangeSize.Page)
             {
-                if (deltaX != 0) finalDeltaX = deltaX > 0 ? -scrollViewer.Bounds.Width : scrollViewer.Bounds.Width;
-                if (deltaY != 0) finalDeltaY = deltaY > 0 ? -scrollViewer.Bounds.Height : scrollViewer.Bounds.Height;
+                if (realDelta.X != 0) finalDeltaX = realDelta.X > 0 ? -currentScrollViewer.Bounds.Width : currentScrollViewer.Bounds.Width;
+                if (realDelta.Y != 0) finalDeltaY = realDelta.Y > 0 ? -currentScrollViewer.Bounds.Height : currentScrollViewer.Bounds.Height;
+            }
+            
+            if (GetEnableAnimatedScroll(currentScrollViewer))
+                state.AnimateScroll(finalDeltaX, finalDeltaY);
+            else
+            {
+                state.Reset();
+                currentScrollViewer.Offset = new Vector(
+                    Math.Clamp(currentScrollViewer.Offset.X + finalDeltaX, 0, maxOffsetX),
+                    Math.Clamp(currentScrollViewer.Offset.Y + finalDeltaY, 0, maxOffsetY)
+                );
             }
 
-            state.AnimateScroll(finalDeltaX, finalDeltaY);
+            e.Handled = true;
         }
+        else
+        {
+            if (!currentScp.IsScrollChainingEnabled) 
+                e.Handled = true;
+        }
+    }
+    
+    private static bool CanScroll(ScrollContentPresenter scp, Vector delta)
+    {
+        const double epsilon = 0.5;
 
-        bool offsetChanged = (stepX != 0 || stepY != 0);
-        e.Handled = !scp.IsScrollChainingEnabled || offsetChanged;
+        if (delta.Y > 0 && scp.Offset.Y > epsilon) return true;
+        if (delta.Y < 0 && scp.Offset.Y < (scp.Extent.Height - scp.Viewport.Height) - epsilon) return true;
+        if (delta.X > 0 && scp.Offset.X > epsilon) return true;
+        if (delta.X < 0 && scp.Offset.X < (scp.Extent.Width - scp.Viewport.Width) - epsilon) return true;
+
+        return false;
     }
 
     private static Vector SnapOffset(ScrollContentPresenter scp, Vector offset, Vector direction = default, bool snapToNext = false)
@@ -433,15 +470,30 @@ public class ScrollViewerExtensions : AvaloniaObject
                 Math.Max(0, _scrollViewer.Extent.Height - _scrollViewer.Bounds.Height)
             );
 
+            if (!_isAnimating)
+            {
+                _startOffset = _scrollViewer.Offset;
+                _targetOffset = _startOffset;
+            }
+
             if (_isAnimating)
             {
-                double elapsedTime = (currentTime - _animationStartTime).TotalMilliseconds;
-                double progress = Math.Min(elapsedTime / AnimationDuration, 1.0);
-
-                SineEaseOut easing = new();
-                double easedProgress = easing.Ease(progress);
-
-                _startOffset += easedProgress * (_targetOffset - _startOffset);
+                Vector currentDirection = _targetOffset - _startOffset;
+                
+                if ((deltaX > 0 && currentDirection.X < 0) || (deltaX < 0 && currentDirection.X > 0) ||
+                    (deltaY > 0 && currentDirection.Y < 0) || (deltaY < 0 && currentDirection.Y > 0))
+                {
+                    _startOffset = _scrollViewer.Offset;
+                    _targetOffset = _startOffset;
+                }
+                else
+                {
+                    double elapsedTime = (currentTime - _animationStartTime).TotalMilliseconds;
+                    double progress = Math.Min(elapsedTime / AnimationDuration, 1.0);
+                    SineEaseOut easing = new();
+                    _startOffset += easing.Ease(progress) * (_targetOffset - _startOffset);
+                }
+        
                 _targetOffset = new Vector(
                     Math.Clamp(_targetOffset.X + deltaX, 0, maxOffset.X),
                     Math.Clamp(_targetOffset.Y + deltaY, 0, maxOffset.Y)

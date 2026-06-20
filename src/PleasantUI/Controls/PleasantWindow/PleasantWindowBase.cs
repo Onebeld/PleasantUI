@@ -4,7 +4,6 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Reactive;
-using Avalonia.Platform;
 using Avalonia.Threading;
 using PleasantUI.Core;
 using PleasantUI.Core.Interfaces;

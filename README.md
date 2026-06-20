@@ -47,7 +47,6 @@ Controls built from scratch that go beyond what Avalonia ships:
 | `InformationBlock`                      | Compact pill-shaped label combining an icon and a value                                                                                                                                       | ![Imgur](https://i.imgur.com/SX0BZ2k.png) |
 | `MarkedTextBox` / `MarkedNumericUpDown` | Input controls with inline label/unit markers                                                                                                                                                 | None                                      |
 | `RippleEffect`                          | Material-style ripple click feedback                                                                                                                                                          | ![Imgur](https://i.imgur.com/2WtIPvj.gif) |
-| `SmoothScrollViewer`                    | ScrollViewer with inertia gesture support                                                                                                                                                     | None                                      |
 | `PleasantMiniWindow`                    | Lightweight floating window                                                                                                                                                                   | None                                      |
 | `Timeline`                              | Displays a list of events in chronological order along a vertical axis. Supports four layout modes, custom icons, and five severity types.                                                    | ![Imgur](https://i.imgur.com/DGP3nDR.png) |
 | `InstallWizard`                         | A multi-step installation wizard with a sidebar step list, progress bar, and Back / Next / Cancel navigation.                                                                                 | ![Imgur](https://i.imgur.com/bbgKH3L.png) |
@@ -311,9 +310,17 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 
 ## ❤️ Credits
 
-- [Avalonia](https://github.com/AvaloniaUI/Avalonia)
-- Some controls inspired by PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI)
-- [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) by ymg2006
+### Main
+- [Avalonia](https://github.com/AvaloniaUI/Avalonia) under license from MIT
 - Built with [JetBrains Rider](https://www.jetbrains.com/rider/)
+
+### Controls and Code
+- [Aura.UI](https://github.com/PieroCastillo/Aura.UI) (PieroCastillo) - NavigationView and AuraTabView under license from MIT
+- [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) (ymg2006) - under license from MIT
+- [RichTextKit](https://github.com/toptensoftware/RichTextKit) (toptensoftware) - implementation of BinarySearch under license from Apache 2.0
+- [weather](https://github.com/rocksdanister/weather) (rocksdanister) - implementation of BackdropBlurBorder under license from MIT
+- [Xaml.Behaviors.Interactions.Animated](https://github.com/Egolds/Xaml.Behaviors.Interactions.Animated) (Egolds) - implementation of VerticalScrollViewerAnimatedBehavior under license from MIT
+- [BilibiliClient](https://github.com/afunc233/BilibiliClient) (afunc233) - implementation of VirtualizingWrapPanel
+- [Material.Avalonia](https://github.com/AvaloniaCommunity/Material.Avalonia) (CommunityAvalonia) - implementation of Ripple Effect under license from MIT
 
 <img src="https://i.imgur.com/IvbDwuz.png" width="360" align="right"/>

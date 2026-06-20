@@ -85,7 +85,7 @@
                 </NavigationViewItem.Content>
             </NavigationViewItem>
         </NavigationView>
-
+        
         <OnFormFactor>
             <OnFormFactor.Default>
                 <Control />

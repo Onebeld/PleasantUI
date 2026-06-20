@@ -1,7 +1,5 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using PleasantUI.Example.Views.Pages;
 using PleasantCB  = PleasantUI.Controls.CommandBarButton;
 using PleasantCTB = PleasantUI.Controls.CommandBarToggleButton;
 

@@ -1,8 +1,6 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using PleasantUI.Example.Views.Pages;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 

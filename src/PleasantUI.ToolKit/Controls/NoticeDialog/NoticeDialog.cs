@@ -1,13 +1,6 @@
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Styling;
 using PleasantUI.Controls;
-using PleasantUI.Core;
-using PleasantUI.Core.Localization;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -76,10 +69,6 @@ public partial class NoticeDialog : ContentDialog
     /// <summary>Defines the <see cref="VersionTypeBadgeBackground"/> property.</summary>
     public static readonly StyledProperty<IBrush?> VersionTypeBadgeBackgroundProperty =
         AvaloniaProperty.Register<NoticeDialog, IBrush?>(nameof(VersionTypeBadgeBackground));
-
-    /// <summary>Defines the <see cref="VersionTypeEnum"/> property.</summary>
-    public static readonly StyledProperty<PleasantVersionType?> VersionTypeEnumProperty =
-        AvaloniaProperty.Register<NoticeDialog, PleasantVersionType?>(nameof(VersionTypeEnum));
 
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
@@ -151,16 +140,6 @@ public partial class NoticeDialog : ContentDialog
     {
         get => GetValue(VersionTypeBadgeBackgroundProperty);
         set => SetValue(VersionTypeBadgeBackgroundProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the strongly-typed version type enum. When set, badge color is resolved
-    /// from the enum directly (same logic as AboutView), bypassing string normalization.
-    /// </summary>
-    public PleasantVersionType? VersionTypeEnum
-    {
-        get => GetValue(VersionTypeEnumProperty);
-        set => SetValue(VersionTypeEnumProperty, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────

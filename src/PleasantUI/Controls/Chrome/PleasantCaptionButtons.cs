@@ -148,7 +148,7 @@ public class PleasantCaptionButtons : TemplatedControl
         if (Host is null || _closeButton is null || _maximizeButton is null || _minimizeButton is null)
             return;
 
-        var state = Host.WindowState;
+        WindowState state = Host.WindowState;
         bool isFullScreen = state == WindowState.FullScreen;
 
         // In fullscreen: only Close and FullScreen button are relevant
@@ -167,25 +167,25 @@ public class PleasantCaptionButtons : TemplatedControl
         {
             case Type.None:
                 _closeButton.IsVisible = _maximizeButton.IsVisible = _minimizeButton.IsVisible = false;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
             case Type.Close:
                 _minimizeButton.IsVisible = false;
                 _maximizeButton.IsVisible = false;
                 _closeButton.IsVisible = Host.IsCloseButtonVisible;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
             case Type.CloseAndCollapse:
                 _maximizeButton.IsVisible = false;
                 _minimizeButton.IsVisible = Host.CanMinimize && Host.IsMinimizeButtonVisible;
                 _closeButton.IsVisible = Host.IsCloseButtonVisible;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
             case Type.CloseAndExpand:
                 _minimizeButton.IsVisible = false;
                 _maximizeButton.IsVisible = Host.CanResize && Host.IsRestoreButtonVisible;
                 _closeButton.IsVisible = Host.IsCloseButtonVisible;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
         }
 
@@ -193,8 +193,7 @@ public class PleasantCaptionButtons : TemplatedControl
         _closeButton.IsVisible = Host.IsCloseButtonVisible;
         _maximizeButton.IsVisible = Host.CanResize && Host.IsRestoreButtonVisible;
         _minimizeButton.IsVisible = Host.CanMinimize && Host.IsMinimizeButtonVisible;
-        if (_fullScreenButton is not null)
-            _fullScreenButton.IsVisible = Host.IsFullScreenButtonVisible;
+        _fullScreenButton?.IsVisible = Host.IsFullScreenButtonVisible;
     }
 
     /// <summary>

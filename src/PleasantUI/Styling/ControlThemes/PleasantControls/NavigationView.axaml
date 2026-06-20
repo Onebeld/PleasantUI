@@ -128,8 +128,8 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center" 
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <PathIcon Data="{DynamicResource ArrowLeftRegular}"
-                                      Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
+                            <IconControl Icon="{DynamicResource ArrowLeftRegular}"
+                                         Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
                                 Theme="{DynamicResource AppBarButtonTheme}"
@@ -141,9 +141,9 @@
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <PathIcon Data="{TemplateBinding Icon}"
-                                      Foreground="{DynamicResource TextFillColor1}"
-                                      Width="16" Height="16" />
+                            <IconControl Icon="{TemplateBinding Icon}"
+                                         Foreground="{DynamicResource TextFillColor1}"
+                                         Width="16" Height="16" />
                         </Button>
                     </StackPanel>
 

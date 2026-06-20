@@ -1,5 +1,14 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2024 PieroCastillo <https://github.com/PieroCastillo>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/Navigation/NavigationView/NavigationView.Properties.cs
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/Navigation/NavigationView/NavigationView.cs
+ */
+
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia;
@@ -47,7 +56,7 @@ public class NavigationView : TreeView
 {
     private const double LittleWidth = 1005;
     private const double VeryLittleWidth = 650;
-    private double titleBarHeight;
+    private double _titleBarHeight;
 
     private Border? _container;
     private Grid? _mainGrid;
@@ -57,7 +66,6 @@ public class NavigationView : TreeView
     private DockPanel? _topBottomLayout;
 
     private Button? _backButton;
-    private ICommand? _backButtonCommand;
 
     private PleasantWindow? _window;
 
@@ -78,10 +86,6 @@ public class NavigationView : TreeView
     private NavigationViewPosition _cachedContentPosition;
 
     private Button? _headerItem;
-
-    private IEnumerable<string>? _itemsAsStrings;
-
-    private object? _selectedContent;
 
     // Separate item collections for top/bottom nav bar — never shared with the left-pane Items.
     private readonly Avalonia.Collections.AvaloniaList<NavigationViewItem> _topItems = new();
@@ -203,13 +207,13 @@ public class NavigationView : TreeView
     /// so it sits flush below the titlebar rather than overlapping it.
     /// </summary>
     public static readonly StyledProperty<bool> ButtonsPanelOffsetProperty =
-        AvaloniaProperty.Register<NavigationView, bool>(nameof(ButtonsPanelOffset), false);
+        AvaloniaProperty.Register<NavigationView, bool>(nameof(ButtonsPanelOffset));
 
     /// <summary>
     /// Defines the <see cref="Position" /> property.
     /// </summary>
     public static readonly StyledProperty<NavigationViewPosition> PositionProperty =
-        AvaloniaProperty.Register<NavigationView, NavigationViewPosition>(nameof(Position), NavigationViewPosition.Left);
+        AvaloniaProperty.Register<NavigationView, NavigationViewPosition>(nameof(Position));
 
     /// <summary>
     /// Defines the <see cref="TopItems" /> property.
@@ -248,8 +252,8 @@ public class NavigationView : TreeView
     /// </remarks>
     public object? SelectedContent
     {
-        get => _selectedContent;
-        private set => SetAndRaise(SelectedContentProperty, ref _selectedContent, value);
+        get;
+        private set => SetAndRaise(SelectedContentProperty, ref field, value);
     }
 
     /// <summary>
@@ -418,8 +422,8 @@ public class NavigationView : TreeView
     /// </value>
     public IEnumerable<string>? ItemsAsStrings
     {
-        get => _itemsAsStrings;
-        private set => SetAndRaise(ItemsAsStringsProperty, ref _itemsAsStrings, value);
+        get;
+        private set => SetAndRaise(ItemsAsStringsProperty, ref field, value);
     }
 
     /// <summary>
@@ -472,8 +476,8 @@ public class NavigationView : TreeView
     /// </summary>
     public ICommand? BackButtonCommand
     {
-        get => _backButtonCommand;
-        set => SetAndRaise(BackButtonCommandProperty, ref _backButtonCommand, value);
+        get;
+        set => SetAndRaise(BackButtonCommandProperty, ref field, value);
     }
 
     static NavigationView()
@@ -552,8 +556,8 @@ public class NavigationView : TreeView
         if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             _window = window;
-            titleBarHeight = window.TitleBarHeight;
-            Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={titleBarHeight}");
+            _titleBarHeight = window.TitleBarHeight;
+            Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={_titleBarHeight}");
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
             UpdateMarginPanel();
@@ -563,7 +567,7 @@ public class NavigationView : TreeView
             window.GetObservable(PleasantWindow.TitleBarHeightProperty)
                 .Subscribe(new AnonymousObserver<double>(h =>
                 {
-                    titleBarHeight = h;
+                    _titleBarHeight = h;
                     UpdateContainerTitleHeight(window);
                     UpdateMarginPanel();
                     UpdateTopBottomLayout(window);
@@ -654,7 +658,7 @@ public class NavigationView : TreeView
                 {
                     _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
                 }
-                _stackPanelButtons.Margin = new Thickness(5, titleBarHeight + 6, 5, 5);
+                _stackPanelButtons.Margin = new Thickness(5, _titleBarHeight + 6, 5, 5);
                 Grid.SetRow(_marginPanel, 2);
                 Grid.SetRow(_dockPanel, 3);
             }
@@ -665,7 +669,7 @@ public class NavigationView : TreeView
     {
         if (_container == null) return;
 
-        Thickness margin = window.EnableCustomTitleBar ? new Thickness(8, titleBarHeight + 1, 8, 8) : new Thickness(0);
+        Thickness margin = window.EnableCustomTitleBar ? new Thickness(8, _titleBarHeight + 1, 8, 8) : new Thickness(0);
         Debug.WriteLine($"[NavigationView] UpdateContainerTitleHeight enableCustomTitleBar={window.EnableCustomTitleBar} margin={margin}");
 
         _container.CornerRadius = new CornerRadius(8);
@@ -714,8 +718,8 @@ public class NavigationView : TreeView
 
         // For Top: push the entire DockPanel down by titleBarHeight so the bar clears the titlebar.
         // For Bottom: same — the content area starts below the titlebar, bar docks to the bottom.
-        _topBottomLayout.Margin = new Thickness(0, titleBarHeight, 0, 0);
-        Debug.WriteLine($"[NavigationView] UpdateTopBottomLayout position={Position} titleBarHeight={titleBarHeight} → margin=0,{titleBarHeight},0,0");
+        _topBottomLayout.Margin = new Thickness(0, _titleBarHeight, 0, 0);
+        Debug.WriteLine($"[NavigationView] UpdateTopBottomLayout position={Position} titleBarHeight={_titleBarHeight} → margin=0,{_titleBarHeight},0,0");
     }
 
     /// <summary>
@@ -763,7 +767,7 @@ public class NavigationView : TreeView
             double buttonsHeight = noBackButton
                 ? 37 + 5          // hamburger + bottom margin
                 : 37 + 5 + 37 + 5; // back + spacing + hamburger + bottom margin
-            result = titleBarHeight + 5 + buttonsHeight + 5; // top margin + buttons + gap
+            result = _titleBarHeight + 5 + buttonsHeight + 5; // top margin + buttons + gap
         }
         else
         {
@@ -771,18 +775,18 @@ public class NavigationView : TreeView
             const double baselineTitleBarHeight = 44.0;
             double baseHeight = noBackButton ? 60.0 : 90.0;
             double delta = baseHeight - baselineTitleBarHeight;
-            result = Math.Max(titleBarHeight + delta, baseHeight);
+            result = Math.Max(_titleBarHeight + delta, baseHeight);
         }
 
         _marginPanel.Height = result;
 
         if (_stackPanelButtons != null)
         {
-            double topMargin = ButtonsPanelOffset ? titleBarHeight + 5 : 5;
+            double topMargin = ButtonsPanelOffset ? _titleBarHeight + 5 : 5;
             _stackPanelButtons.Margin = new Thickness(5, topMargin, 5, 5);
         }
 
-        Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={titleBarHeight} noBack={noBackButton} offset={ButtonsPanelOffset} → {result}");
+        Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={_titleBarHeight} noBack={noBackButton} offset={ButtonsPanelOffset} → {result}");
     }
     
     private void OnBoundsChanged(Rect rect)

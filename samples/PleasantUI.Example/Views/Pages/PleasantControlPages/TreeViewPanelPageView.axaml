@@ -5,9 +5,7 @@
              xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TreeViewPanelPageView">
-
     <Grid ColumnDefinitions="260,*" Margin="16 8 16 16">
-
         <controls:TreeViewPanel x:Name="Tree"
                                 Grid.Column="0"
                                 FilterWatermark="{Localize TreeViewPanel/Description, Default='Filter...'}"

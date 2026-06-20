@@ -4,62 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PleasantMenuPageView">
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="560">
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="560">
+        <!-- Description -->
+        <TextBlock Text="{Localize PleasantMenu/Description}"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextFillColor2}" />
 
-            <!-- Description -->
-            <TextBlock Text="{Localize PleasantMenu/Description}"
-                       TextWrapping="Wrap"
-                       Foreground="{DynamicResource TextFillColor2}" />
+        <!-- Live demo: button that opens a PleasantMenu in a Flyout -->
+        <TextBlock Text="{Localize PleasantMenu/BasicDemo}"
+                   Theme="{DynamicResource BodyStrongTextBlockTheme}" />
 
-            <!-- Live demo: button that opens a PleasantMenu in a Flyout -->
-            <TextBlock Text="{Localize PleasantMenu/BasicDemo}"
-                       Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+        <Button x:Name="MenuTriggerButton"
+                Content="{Localize PleasantMenu/OpenMenu}"
+                HorizontalAlignment="Left">
+            <Button.Flyout>
+                <Flyout Placement="Bottom" ShowMode="Transient">
+                    <PleasantMenu x:Name="DemoMenu"
+                                  Title="{Localize PleasantMenu/MenuTitle}" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
 
-            <Button x:Name="MenuTriggerButton"
-                    Content="{Localize PleasantMenu/OpenMenu}"
-                    HorizontalAlignment="Left">
-                <Button.Flyout>
-                    <Flyout Placement="Bottom" ShowMode="Transient">
-                        <PleasantMenu x:Name="DemoMenu"
-                                      Title="{Localize PleasantMenu/MenuTitle}" />
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+        <!-- Variant: no footer -->
+        <TextBlock Text="{Localize PleasantMenu/NoFooterDemo}"
+                   Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                   Margin="0 8 0 0" />
 
-            <!-- Variant: no footer -->
-            <TextBlock Text="{Localize PleasantMenu/NoFooterDemo}"
-                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
-                       Margin="0 8 0 0" />
+        <Button x:Name="NoFooterMenuButton"
+                Content="{Localize PleasantMenu/OpenMenu}"
+                HorizontalAlignment="Left">
+            <Button.Flyout>
+                <Flyout Placement="Bottom" ShowMode="Transient">
+                    <PleasantMenu x:Name="NoFooterMenu"
+                                  Title="{Localize PleasantMenu/MenuTitle}"
+                                  ShowFooter="False" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
 
-            <Button x:Name="NoFooterMenuButton"
-                    Content="{Localize PleasantMenu/OpenMenu}"
-                    HorizontalAlignment="Left">
-                <Button.Flyout>
-                    <Flyout Placement="Bottom" ShowMode="Transient">
-                        <PleasantMenu x:Name="NoFooterMenu"
-                                      Title="{Localize PleasantMenu/MenuTitle}"
-                                      ShowFooter="False" />
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+        <!-- Variant: 2-column layout -->
+        <TextBlock Text="{Localize PleasantMenu/TwoColumnDemo}"
+                   Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                   Margin="0 8 0 0" />
 
-            <!-- Variant: 2-column layout -->
-            <TextBlock Text="{Localize PleasantMenu/TwoColumnDemo}"
-                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
-                       Margin="0 8 0 0" />
-
-            <Button x:Name="TwoColMenuButton"
-                    Content="{Localize PleasantMenu/OpenMenu}"
-                    HorizontalAlignment="Left">
-                <Button.Flyout>
-                    <Flyout Placement="Bottom" ShowMode="Transient">
-                        <PleasantMenu x:Name="TwoColMenu"
-                                      Title="{Localize PleasantMenu/MenuTitle}"
-                                      Columns="2" />
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </StackPanel>
-    </ScrollViewer>
+        <Button x:Name="TwoColMenuButton"
+                Content="{Localize PleasantMenu/OpenMenu}"
+                HorizontalAlignment="Left">
+            <Button.Flyout>
+                <Flyout Placement="Bottom" ShowMode="Transient">
+                    <PleasantMenu x:Name="TwoColMenu"
+                                  Title="{Localize PleasantMenu/MenuTitle}"
+                                  Columns="2" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </StackPanel>
 </UserControl>

@@ -1,4 +1,13 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2024 PieroCastillo <https://github.com/PieroCastillo>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabItem/AuraTabItem.cs
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
@@ -11,9 +20,6 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// An item in a <see cref="PleasantTabView" />.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabItem/AuraTabItem.cs
-/// </remarks>
 [TemplatePart("PART_CloseButton", typeof(Button))]
 public class PleasantTabItem : TabItem
 {

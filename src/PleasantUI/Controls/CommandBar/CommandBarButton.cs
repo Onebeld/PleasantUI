@@ -1,11 +1,8 @@
 using System.Diagnostics;
-using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
-using Avalonia.Input;
 using Avalonia.LogicalTree;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 

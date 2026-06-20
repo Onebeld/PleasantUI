@@ -8,7 +8,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Logging;
 using Avalonia.Platform.Storage;
 
 namespace PleasantUI.Controls;

@@ -1,6 +1,5 @@
 ﻿using Avalonia.Collections;
 using Material.Icons;
-using Material.Icons.Avalonia;
 using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages.BasicControls;
 using PleasantUI.Example.Pages.PleasantControls;
