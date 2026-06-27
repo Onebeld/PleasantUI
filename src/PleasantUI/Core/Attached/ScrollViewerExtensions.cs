@@ -114,8 +114,18 @@ public class ScrollViewerExtensions : AvaloniaObject
     /// <param name="value">Smooth scrolling is enabled</param>
     public static void SetEnableAnimatedScroll(ScrollViewer obj, bool value) => obj.SetValue(EnableAnimatedScrollProperty, value);
     
+    /// <summary>
+    /// Gets whether custom behavior is enabled for the <see cref="ScrollViewer"/>.
+    /// </summary>
+    /// <param name="obj">Original control</param>
+    /// <returns>Custom behavior is enabled</returns>
     public static bool GetHandleCustomScroll(ScrollViewer obj) => obj.GetValue(HandleCustomScrollProperty);
     
+    /// <summary>
+    /// Sets whether custom behavior is enabled for the <see cref="ScrollViewer"/>.
+    /// </summary>
+    /// <param name="obj">Original control</param>
+    /// <param name="value">Custom behavior is enabled</param>
     public static void SetHandleCustomScroll(ScrollViewer obj, bool value) => obj.SetValue(HandleCustomScrollProperty, value);
 
     /// <summary>
@@ -331,103 +341,6 @@ public class ScrollViewerExtensions : AvaloniaObject
         if (delta.X < 0 && scp.Offset.X < (scp.Extent.Width - scp.Viewport.Width) - epsilon) return true;
 
         return false;
-    }
-
-    private static Vector SnapOffset(ScrollContentPresenter scp, Vector offset, Vector direction = default, bool snapToNext = false)
-    {
-        IScrollSnapPointsInfo? scrollable = GetScrollSnapPointsInfo(scp);
-        if (scrollable == null || scp.VerticalSnapPointsType == SnapPointsType.None)
-            return offset;
-
-        Vector diff = GetAlignmentDiff(scp);
-        bool areVerticalSnapPointsRegular = scrollable.AreVerticalSnapPointsRegular;
-        IReadOnlyList<double>? verticalSnapPoints = null;
-        double verticalSnapPoint = 0;
-        double verticalSnapPointOffset = 0;
-
-        if (!areVerticalSnapPointsRegular)
-            verticalSnapPoints =
-                scrollable.GetIrregularSnapPoints(Orientation.Vertical, scp.VerticalSnapPointsAlignment);
-        else
-            verticalSnapPoint = scrollable.GetRegularSnapPoints(Orientation.Vertical, scp.VerticalSnapPointsAlignment,
-                out verticalSnapPointOffset);
-
-        if ((!areVerticalSnapPointsRegular && (!(verticalSnapPoints?.Count > 0))) || (snapToNext && direction.Y == 0))
-            return offset;
-
-        Vector estimatedOffset = new(offset.X, offset.Y + diff.Y);
-        double previousSnapPoint = 0, nextSnapPoint = 0, midPoint = 0;
-
-        if (areVerticalSnapPointsRegular)
-        {
-            previousSnapPoint = (int)(estimatedOffset.Y / verticalSnapPoint) * verticalSnapPoint +
-                                verticalSnapPointOffset;
-            nextSnapPoint = previousSnapPoint + verticalSnapPoint;
-            midPoint = (previousSnapPoint + nextSnapPoint) / 2;
-        }
-        else if (verticalSnapPoints?.Count > 0)
-        {
-            (previousSnapPoint, nextSnapPoint) = FindNearestSnapPoint(verticalSnapPoints, estimatedOffset.Y);
-            midPoint = (previousSnapPoint + nextSnapPoint) / 2;
-        }
-
-        double nearestSnapPoint = snapToNext
-            ? (direction.Y > 0 ? previousSnapPoint : nextSnapPoint)
-            : estimatedOffset.Y < midPoint
-                ? previousSnapPoint
-                : nextSnapPoint;
-
-        offset = new Vector(offset.X, nearestSnapPoint - diff.Y);
-
-        return offset;
-    }
-
-    private static IScrollSnapPointsInfo? GetScrollSnapPointsInfo(ScrollContentPresenter scp)
-    {
-        object? scrollable = scp.Content switch
-        {
-            ItemsControl itemsControl => itemsControl.Presenter?.Panel,
-            ItemsPresenter itemsPresenter => itemsPresenter.Panel,
-            _ => scp.Content
-        };
-
-        return scrollable as IScrollSnapPointsInfo;
-    }
-
-    private static Vector GetAlignmentDiff(ScrollContentPresenter scp)
-    {
-        Vector vector = default;
-        switch (scp.VerticalSnapPointsAlignment)
-        {
-            case SnapPointsAlignment.Center: vector += new Vector(0, scp.Viewport.Height / 2); break;
-            case SnapPointsAlignment.Far: vector += new Vector(0, scp.Viewport.Height); break;
-        }
-
-        switch (scp.HorizontalSnapPointsAlignment)
-        {
-            case SnapPointsAlignment.Center: vector += new Vector(scp.Viewport.Width / 2, 0); break;
-            case SnapPointsAlignment.Far: vector += new Vector(scp.Viewport.Width, 0); break;
-        }
-
-        return vector;
-    }
-
-    private static (double previous, double next) FindNearestSnapPoint(IReadOnlyList<double> snapPoints, double value)
-    {
-        int point = snapPoints.BinarySearch(value, Comparer<double>.Default);
-        double previousSnapPoint, nextSnapPoint;
-        if (point < 0)
-        {
-            point = ~point;
-            previousSnapPoint = snapPoints[Math.Max(0, point - 1)];
-            nextSnapPoint = point >= snapPoints.Count ? snapPoints[^1] : snapPoints[Math.Max(0, point)];
-        }
-        else
-        {
-            previousSnapPoint = nextSnapPoint = snapPoints[Math.Max(0, point)];
-        }
-
-        return (previousSnapPoint, nextSnapPoint);
     }
 
     private class ScrollAnimationState

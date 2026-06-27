@@ -65,9 +65,7 @@
                 </ItemsControl>
 
                 <!-- Extra content slot for arbitrary controls -->
-                <ContentPresenter x:Name="ExtraContent"
-                                  IsVisible="False" />
-
+                <ContentPresenter x:Name="ExtraContent" IsVisible="False" />
             </StackPanel>
         </ScrollViewer>
 

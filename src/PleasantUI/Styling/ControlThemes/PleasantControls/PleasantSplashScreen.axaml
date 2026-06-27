@@ -31,7 +31,7 @@
                                Width="96" Height="96"
                                Stretch="Uniform"
                                IsVisible="{TemplateBinding AppIcon, Converter={x:Static ObjectConverters.IsNotNull}}" />-->
-                        <IconControl x:Name="AppImageHost"
+                        <PleasantIcon x:Name="AppImageHost"
                                      Icon="{TemplateBinding AppIcon}"
                                      Width="96"
                                      Height="96"

@@ -125,7 +125,7 @@ public class PleasantMenu : TemplatedControl
         if (item.SecondaryCommand is not null)
             return BuildSplitButton(item);
 
-        var icon = new IconControl()
+        var icon = new PleasantIcon()
         {
             Width  = 20,
             Height = 20,
@@ -171,7 +171,7 @@ public class PleasantMenu : TemplatedControl
 
     private Button BuildSplitButton(PleasantMenuItem item)
     {
-        var icon = new IconControl() { Width = 20, Height = 20, Icon = item.Icon };
+        var icon = new PleasantIcon() { Width = 20, Height = 20, Icon = item.Icon };
 
         var mainBtn = new Button
         {
@@ -252,7 +252,7 @@ public class PleasantMenu : TemplatedControl
 
         foreach (var fi in _footerItems)
         {
-            var icon = new IconControl() { Width = 16, Height = 16, Icon = fi.Icon };
+            var icon = new PleasantIcon() { Width = 16, Height = 16, Icon = fi.Icon };
 
             var btn = new Button
             {

@@ -10,7 +10,6 @@
                MinHeight="180"
                x:Class="PleasantUI.ToolKit.MessageBox">
     <Grid RowDefinitions="Auto,*">
-
         <!-- Danger header — hidden by default, shown for MessageBoxStyle.Danger -->
         <Border x:Name="DangerHeader"
                 Grid.Row="0"
@@ -47,7 +46,8 @@
                 <ContentPresenter x:Name="ExtraContent"
                                   Grid.Row="2"
                                   Margin="0 10 0 0"
-                                  IsVisible="False" />            </Grid>
+                                  IsVisible="False" />           
+            </Grid>
         </ScrollViewer>
     </Grid>
 

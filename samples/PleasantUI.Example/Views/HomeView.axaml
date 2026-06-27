@@ -22,7 +22,7 @@
                             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5" IsVisible="{Binding ShowTitle}">
                                 <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
                                         ToolTip.Tip="Back to home page">
-                                    <IconControl Icon="{x:Static icons:MaterialIconKind.ArrowLeft}"
+                                    <PleasantIcon Icon="{x:Static icons:MaterialIconKind.ArrowLeft}"
                                                  Foreground="{DynamicResource TextFillColor1}" />
                                 </Button>
                                 

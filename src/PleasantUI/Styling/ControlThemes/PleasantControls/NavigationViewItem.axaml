@@ -75,7 +75,7 @@
                                                     CornerRadius="4"
                                                     Background="{DynamicResource AccentLightColor2}" />
 
-                                            <IconControl Name="PART_PathIcon"
+                                            <PleasantIcon Name="PART_PathIcon"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
                                                          Width="16"
@@ -108,7 +108,7 @@
                                                           HorizontalAlignment="Right"
                                                           IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                                                           Background="#00000000">
-                                                <IconControl Name="PART_PathChevronDown"
+                                                <PleasantIcon Name="PART_PathChevronDown"
                                                              Width="10"
                                                              Height="10"
                                                              Icon="{DynamicResource ChevronDownRegular}" />
@@ -269,7 +269,7 @@
             </Style>
         </Style>
 
-        <Style Selector="^[IsExpanded=False] /template/ IconControl#PART_PathChevronDown">
+        <Style Selector="^[IsExpanded=False] /template/ PleasantIcon#PART_PathChevronDown">
             <Style.Animations>
                 <Animation Duration="0:0:0.5" Easing="ExponentialEaseOut" FillMode="Forward">
                     <KeyFrame Cue="0%">
@@ -281,7 +281,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^[IsExpanded=True] /template/ IconControl#PART_PathChevronDown">
+        <Style Selector="^[IsExpanded=True] /template/ PleasantIcon#PART_PathChevronDown">
             <Style.Animations>
                 <Animation Duration="0:0:0.5" Easing="ExponentialEaseOut" FillMode="Forward">
                     <KeyFrame Cue="0%">
@@ -341,7 +341,7 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         </Style>
 
-        <Style Selector="^ /template/ IconControl#PART_PathIcon">
+        <Style Selector="^ /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="Transitions">
                 <Transitions>
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
@@ -350,13 +350,13 @@
             </Setter>
             <Setter Property="RenderTransform" Value="none" />
         </Style>
-        <Style Selector="^:pointerover /template/ IconControl#PART_PathIcon">
+        <Style Selector="^:pointerover /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(1.1)" />
         </Style>
-        <Style Selector="^:pressed /template/ IconControl#PART_PathIcon">
+        <Style Selector="^:pressed /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
-        <Style Selector="^:selected /template/ IconControl#PART_PathIcon">
+        <Style Selector="^:selected /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
 
@@ -371,7 +371,7 @@
         </Style>
 
         <!-- Show popup submenu indicator chevron (right-pointing) when in compact mode with children -->
-        <Style Selector="^[IsOpen=False]:not(:empty) /template/ IconControl#PART_PathChevronDown">
+        <Style Selector="^[IsOpen=False]:not(:empty) /template/ PleasantIcon#PART_PathChevronDown">
             <Setter Property="Icon" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
         <!-- Highlight item when its popup submenu is open in compact mode -->
@@ -417,7 +417,7 @@
                                     HorizontalAlignment="Center"
                                     CornerRadius="4"
                                     Background="{DynamicResource AccentLightColor2}" />
-                            <IconControl Name="PART_PathIcon"
+                            <PleasantIcon Name="PART_PathIcon"
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
                                          Width="18"
@@ -449,7 +449,7 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="{DynamicResource AccentLightColor2}" />
         </Style>
-        <Style Selector="^:selected /template/ IconControl#PART_PathIcon">
+        <Style Selector="^:selected /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="Foreground" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
 
@@ -470,7 +470,7 @@
         </Style>
 
         <!-- Icon scale animations -->
-        <Style Selector="^ /template/ IconControl#PART_PathIcon">
+        <Style Selector="^ /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="Transitions">
                 <Transitions>
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
@@ -479,10 +479,10 @@
             </Setter>
             <Setter Property="RenderTransform" Value="none" />
         </Style>
-        <Style Selector="^:pointerover /template/ IconControl#PART_PathIcon">
+        <Style Selector="^:pointerover /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(1.1)" />
         </Style>
-        <Style Selector="^:pressed /template/ IconControl#PART_PathIcon">
+        <Style Selector="^:pressed /template/ PleasantIcon#PART_PathIcon">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
 

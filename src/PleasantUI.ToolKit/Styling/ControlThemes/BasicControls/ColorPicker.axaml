@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:pleasantColorView="clr-namespace:PleasantUI.ToolKit.Controls.PleasantColorView"
+                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <ColorPicker />
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTheme x:Key="{x:Type ColorPicker}" TargetType="ColorPicker">
+        <Setter Property="HexInputAlphaPosition" Value="Trailing" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Width" Value="60" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Content">
+            <Template>
+                <Panel>
+                    <Border Background="{StaticResource CheckeredBackgroundBrush}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="1,1,0,1" />
+                    <Border Background="{TemplateBinding HsvColor, Converter={x:Static converters:ColorPickerConverters.ToBrush}}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="1,1,0,1" />
+                </Panel>
+            </Template>
+        </Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate TargetType="{x:Type ColorPicker}">
+                <DropDownButton Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"
+                                Content="{TemplateBinding Content}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Padding="0,0,10,0"
+                                UseLayoutRounding="False">
+                    <DropDownButton.Flyout>
+                        <PleasantFlyout>
+                            <pleasantColorView:PleasantColorView Color="{TemplateBinding Color, Mode=TwoWay}" />
+                        </PleasantFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

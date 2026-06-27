@@ -82,7 +82,7 @@
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
                                 </Grid.ColumnDefinitions>
-                                <IconControl Name="PART_IconPresenter"
+                                <PleasantIcon Name="PART_IconPresenter"
                                              Icon="{TemplateBinding Icon}"
                                              Width="{TemplateBinding (IconHelper.Width)}"
                                              Height="{TemplateBinding (IconHelper.Height)}"

@@ -25,7 +25,7 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="ShowButtonSpinner" Value="False" />
+        <Setter Property="ShowButtonSpinner" Value="True" />
         <Setter Property="Padding" Value="6 5 6 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
@@ -45,6 +45,7 @@
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <MarkedTextBox Name="PART_TextBox"
+                                   Background="{Binding Background, Converter={x:Static ColorToTransparentConverter.Instance}, RelativeSource={RelativeSource AncestorType=MarkedNumericUpDown}}"
                                    Mark="{TemplateBinding Mark}"
                                    Padding="{TemplateBinding Padding}"
                                    PlaceholderText="{TemplateBinding PlaceholderText}"

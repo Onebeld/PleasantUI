@@ -8,7 +8,7 @@ namespace PleasantUI.Core.Extensions.Markup;
 /// <summary>
 /// A markup extension that provides a foreground-based accent color using a resource key.
 /// </summary>
-public class ForegroundBasedAccentExtension : MarkupExtension
+public class ForegroundBasedExtension : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the resource key used to retrieve the accent color.
@@ -16,17 +16,17 @@ public class ForegroundBasedAccentExtension : MarkupExtension
     public object? ResourceKey { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ForegroundBasedAccentExtension"/> class.
+    /// Initializes a new instance of the <see cref="ForegroundBasedExtension"/> class.
     /// </summary>
-    public ForegroundBasedAccentExtension()
+    public ForegroundBasedExtension()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ForegroundBasedAccentExtension"/> class with a specified resource key.
+    /// Initializes a new instance of the <see cref="ForegroundBasedExtension"/> class with a specified resource key.
     /// </summary>
     /// <param name="resourceKey">The resource key used to retrieve the accent color.</param>
-    public ForegroundBasedAccentExtension(object resourceKey)
+    public ForegroundBasedExtension(object resourceKey)
     {
         ResourceKey = resourceKey ?? throw new ArgumentNullException(nameof(resourceKey), "ResourceKey cannot be null.");
     }
@@ -47,7 +47,7 @@ public class ForegroundBasedAccentExtension : MarkupExtension
         MultiBinding multiBinding = new()
         {
             Bindings = { extension },
-            Converter = new ForegroundBasedAccentConverter()
+            Converter = ForegroundBasedAccentConverter.Instance
         };
 
         return multiBinding;

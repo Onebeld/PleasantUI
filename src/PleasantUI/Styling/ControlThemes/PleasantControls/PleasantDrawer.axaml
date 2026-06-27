@@ -45,7 +45,7 @@
                                 ClipToBounds="True">
                             <Grid RowDefinitions="Auto,*,Auto">
                                 <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="20 0 16 0">
-                                    <IconControl Grid.Column="0"
+                                    <PleasantIcon Grid.Column="0"
                                                  Icon="{TemplateBinding Icon}"
                                                  Width="16"
                                                  Height="16"
@@ -63,7 +63,7 @@
                                             Width="32" Height="32" Padding="8"
                                             VerticalAlignment="Center"
                                             ToolTip.Tip="{Localize Close, Default='Close'}">
-                                        <IconControl Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
+                                        <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
                                     </Button>
                                 </Grid>
                                 <Border Grid.Row="0" Height="1" Margin="0 52 0 0"

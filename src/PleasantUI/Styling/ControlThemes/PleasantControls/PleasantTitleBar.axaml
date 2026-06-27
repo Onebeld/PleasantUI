@@ -39,7 +39,7 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                    <Grid x:Name="PART_TitleBarGrid">
+                <Grid x:Name="PART_TitleBarGrid">
                     <Border x:Name="PART_DragWindow"
                             Background="Transparent"
                             ContextFlyout="{DynamicResource WindowMenuFlyout}"
@@ -53,10 +53,10 @@
                                 Spacing="5"
                                 VerticalAlignment="Center"
                                 IsHitTestVisible="False">
-                        <IconControl x:Name="PART_DisplayIcon" Width="16" Height="16" Margin="10 0 5 0" />
-                        
-                        <IconControl x:Name="PART_DisplayTitle" MaxWidth="75" />
-                        
+                        <PleasantIcon x:Name="PART_DisplayIcon" Width="16" Height="16" Margin="10 0 5 0" />
+
+                        <PleasantIcon x:Name="PART_DisplayTitle" MaxWidth="75" />
+
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"
                                    Margin="3 0 0 0"
@@ -79,10 +79,10 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:isactive /template/ IconControl#PART_DisplayTitle">
+        <Style Selector="^:isactive /template/ PleasantIcon#PART_DisplayTitle">
             <Setter Property="Opacity" Value="0.7" />
         </Style>
-        <Style Selector="^:isactive /template/ IconControl#PART_DisplayIcon">
+        <Style Selector="^:isactive /template/ PleasantIcon#PART_DisplayIcon">
             <Setter Property="Opacity" Value="0.7" />
         </Style>
     </ControlTheme>

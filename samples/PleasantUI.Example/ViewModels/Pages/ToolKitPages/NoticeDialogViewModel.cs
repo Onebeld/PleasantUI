@@ -66,7 +66,7 @@ public class NoticeDialogViewModel : ViewModelBase
 
     public async Task ShowSuccess()
     {
-        NoticeDialog dialog = new NoticeDialog
+        NoticeDialog dialog = new()
         {
             Title = T("SuccessTitle", "Success"),
             Message = T("SuccessMessage", "Your account has been created successfully. You can now log in."),
@@ -86,14 +86,12 @@ public class NoticeDialogViewModel : ViewModelBase
         string message = T("WipStableMessage",
             "This is a stable release of the application. All features are fully tested and ready for production use.");
 
-        NoticeDialog dialog = new NoticeDialog
+        NoticeDialog dialog = new()
         {
             Title = T("WipTitle", "Development Version"),
             Message = message,
             NoticeFooterText = T("WipFooter", "- Development Team"),
-            PrimaryButtonText = T("Ok", "OK"),
-            Severity = NoticeSeverity.WorkInProgress,
-            VersionLabel = T("VersionLabel", "Version")
+            PrimaryButtonText = T("Ok", "OK")
         };
 
         dialog.PrimaryButtonClicked += (_, _) => _ = dialog.CloseAsync();

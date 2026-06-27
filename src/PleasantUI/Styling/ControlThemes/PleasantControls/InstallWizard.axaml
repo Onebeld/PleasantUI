@@ -50,7 +50,7 @@
                             <Grid RowDefinitions="Auto,*,Auto">
 
                                 <StackPanel Grid.Row="0" Margin="20 24 20 16" Spacing="8" HorizontalAlignment="Left">
-                                    <IconControl Icon="{TemplateBinding AppIcon}"
+                                    <PleasantIcon Icon="{TemplateBinding AppIcon}"
                                                  Width="{TemplateBinding (IconHelper.Width)}"
                                                  Height="{TemplateBinding (IconHelper.Height)}" />
                                     <TextBlock Text="{TemplateBinding AppName}"

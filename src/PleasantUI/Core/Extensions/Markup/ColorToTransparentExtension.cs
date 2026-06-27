@@ -46,7 +46,7 @@ public class ColorToTransparentExtension : MarkupExtension
         MultiBinding multiBinding = new()
         {
             Bindings = { extension },
-            Converter = new ColorToTransparentConverter()
+            Converter = ColorToTransparentMultiConverter.Instance
         };
 
         return multiBinding;

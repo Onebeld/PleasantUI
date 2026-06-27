@@ -8,7 +8,7 @@
     <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
         <Button Content="{Localize Button, Context=ButtonPage}" x:Name="MessageBoxButton" />
         <Button>
-            <IconControl Icon="{DynamicResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
+            <PleasantIcon Icon="{DynamicResource CopyRegular}" Foreground="{DynamicResource TextFillColor1}" />
         </Button>
         <Button Theme="{DynamicResource AppBarButtonTheme}" Content="{Localize AppBarButton, Context=ButtonPage}" />
         <Button Theme="{DynamicResource AccentButtonTheme}" Content="{Localize AccentButton, Context=ButtonPage}" />

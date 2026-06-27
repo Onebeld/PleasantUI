@@ -80,7 +80,7 @@
                                             Padding="5"
                                             Margin="8 0 0 0"
                                             VerticalAlignment="Top">
-                                        <IconControl Icon="{DynamicResource DismissRegular}" Width="9" Height="9" />
+                                        <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="9" Height="9" />
                                     </Button>
 
                                     <!-- Action buttons -->

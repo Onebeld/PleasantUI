@@ -25,7 +25,7 @@
                         Background="#22FFFFFF"
                         Margin="0 0 12 0"
                         VerticalAlignment="Center">
-                    <IconControl x:Name="SeverityIcon"
+                    <PleasantIcon x:Name="SeverityIcon"
                                  Width="18" Height="18"
                                  Foreground="White"
                                  VerticalAlignment="Center"
@@ -74,8 +74,7 @@
                         <Border Grid.Column="3"
                                 x:Name="VersionTypeBadge"
                                 CornerRadius="4"
-                                Padding="8 3"
-                                Background="{Binding VersionTypeBadgeBackground, ElementName=RootDialog}">
+                                Padding="8 3">
                             <TextBlock x:Name="VersionTypeText"
                                        FontSize="11"
                                        FontWeight="SemiBold"

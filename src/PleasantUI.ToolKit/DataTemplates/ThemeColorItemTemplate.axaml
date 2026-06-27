@@ -5,6 +5,7 @@
     <DataTemplate x:Key="ThemeColorItemTemplate" DataType="{x:Type models1:ThemeColor}">
         <DockPanel>
             <Button DockPanel.Dock="Right"
+                    Margin="2 0 0 0"
                     Theme="{DynamicResource AppBarButtonTheme}"
                     Width="30"
                     Height="30"
@@ -12,34 +13,23 @@
                 <Button.Flyout> 
                     <PleasantMenuFlyout>
                         <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
-                                  Command="{CompiledBinding CopyColorAsync}"
+                                  Command="{Binding CopyColorAsync}"
                                   Icon="{DynamicResource CopyRegular}" />
                         
                         <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
-                                  Command="{CompiledBinding PasteColorAsync}"
+                                  Command="{Binding PasteColorAsync}"
                                   Icon="{DynamicResource PasteRegular}" />
-
-                        <Separator />
-
-                        <MenuItem Header="{Localize ChangeMenu, Default='Chan_ge'}"
-                                  Command="{CompiledBinding ChangeColorAsync}"
-                                  Icon="{DynamicResource EditRegular}" />
                     </PleasantMenuFlyout>
                 </Button.Flyout>
 
-                <PathIcon Data="{DynamicResource MoreRegular}" />
+                <PleasantIcon Icon="{DynamicResource MoreRegular}" />
             </Button>
-            <Border DockPanel.Dock="Right"
-                    Background="{DynamicResource CheckeredBackgroundBrush}"
-                    Width="40"
-                    Height="25"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
-                    Margin="0 5 5 5"
-                    ToolTip.Tip="{CompiledBinding Color}">
-                <Border CornerRadius="{DynamicResource ControlCornerRadius}" Background="{CompiledBinding Brush}" />
-            </Border>
+            
+            <ColorPicker DockPanel.Dock="Right"
+                         Color="{Binding Color, Mode=TwoWay, Delay=500}"
+                         ToolTip.Tip="{Binding Color, Mode=OneWay}" />
 
-            <TextBlock Text="{CompiledBinding Name}"
+            <TextBlock Text="{Binding Name}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"

@@ -21,8 +21,8 @@
         <dataTemplates:IconTemplateSelector x:Key="IconTemplateSelector">
             <DataTemplate x:Key="MaterialIcon" DataType="icons:MaterialIconKind">
                 <avalonia:MaterialIcon Kind="{Binding}"
-                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=IconControl}}"
-                                       FontSize="{Binding (IconHelper.IconSize), RelativeSource={RelativeSource AncestorType=IconControl}}" />
+                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=PleasantIcon}}"
+                                       FontSize="{Binding (IconHelper.IconSize), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
             </DataTemplate>
         </dataTemplates:IconTemplateSelector>
     </Application.Resources>
@@ -33,7 +33,7 @@
         
         <avalonia:MaterialIconStyles />
         
-        <Style Selector="IconControl">
+        <Style Selector="PleasantIcon">
             <Setter Property="IconTemplate" Value="{StaticResource IconTemplateSelector}" />
             <Setter Property="(IconHelper.IconSize)" Value="20" />
         </Style>

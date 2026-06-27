@@ -141,7 +141,7 @@ public class MessageBoxViewModel : ViewModelBase
                     Spacing = 8,
                     Children =
                     {
-                        new IconControl()
+                        new PleasantIcon()
                         {
                             Icon   = CreateIcon(MaterialIconKind.InformationOutline),
                             Width  = 16,

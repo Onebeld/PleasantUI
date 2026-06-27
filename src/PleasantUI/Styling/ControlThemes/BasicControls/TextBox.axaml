@@ -24,10 +24,10 @@
     <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentColor}" />
-        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBasedAccent AccentColor}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBased AccentColor}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
@@ -137,15 +137,15 @@
                                   CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                   IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
                         <ToggleButton.Styles>
-                            <Style Selector="ToggleButton > PathIcon">
-                                <Setter Property="Data" Value="{DynamicResource PasswordBoxRevealButtonIcon}" />
+                            <Style Selector="ToggleButton > PleasantIcon">
+                                <Setter Property="Icon" Value="{DynamicResource PasswordBoxRevealButtonIcon}" />
                             </Style>
-                            <Style Selector="ToggleButton:checked > PathIcon">
-                                <Setter Property="Data" Value="{DynamicResource PasswordBoxHideButtonIcon}" />
+                            <Style Selector="ToggleButton:checked > PleasantIcon">
+                                <Setter Property="Icon" Value="{DynamicResource PasswordBoxHideButtonIcon}" />
                             </Style>
                         </ToggleButton.Styles>
 
-                        <PathIcon Name="PART_PasswordIcon" Width="14" Height="14" />
+                        <PleasantIcon Name="PART_PasswordIcon" Width="14" Height="14" />
                     </ToggleButton>
                 </Template>
             </Setter>
@@ -159,9 +159,7 @@
                             Margin="5"
                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Command="{CompiledBinding $parent[TextBox].Clear}">
-                        <PathIcon Width="10"
-                                  Height="10"
-                                  Data="{DynamicResource DismissRegular}" />
+                        <PleasantIcon Width="10" Height="10" Icon="{DynamicResource DismissRegular}" />
                     </Button>
                 </Template>
             </Setter>

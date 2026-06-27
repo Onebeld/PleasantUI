@@ -21,7 +21,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="ButtonSpinnerRepeatButton" TargetType="RepeatButton">
-        <Setter Property="MinWidth" Value="26" />
+        <Setter Property="MinWidth" Value="20" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
@@ -50,15 +50,6 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </RippleEffect>
                 </Border>
-                <!--<ContentPresenter Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  TextBlock.Foreground="{TemplateBinding Foreground}"
-                                  Padding="{TemplateBinding Padding}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  Content="{TemplateBinding Content}"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center" />-->
             </ControlTemplate>
         </Setter>
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
@@ -113,7 +104,7 @@
                                                       Theme="{DynamicResource ButtonSpinnerRepeatButton}"
                                                       VerticalContentAlignment="Center"
                                                       Height="14">
-                                            <IconControl Icon="{DynamicResource ChevronUpRegular}" Width="10" Height="10" />
+                                            <PleasantIcon Icon="{DynamicResource ChevronUpRegular}" Width="10" Height="10" />
                                         </RepeatButton>
 
                                         <RepeatButton Name="PART_DecreaseButton"
@@ -121,7 +112,7 @@
                                                       VerticalContentAlignment="Center"
                                                       FontSize="18"
                                                       Height="14">
-                                            <IconControl Icon="{DynamicResource ChevronDownRegular}" Width="10" Height="10" />
+                                            <PleasantIcon Icon="{DynamicResource ChevronDownRegular}" Width="10" Height="10" />
                                         </RepeatButton>
                                     </StackPanel>
                                 </Grid>

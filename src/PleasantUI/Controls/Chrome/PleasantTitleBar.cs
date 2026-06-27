@@ -5,6 +5,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Reactive;
 using PleasantUI.Core.Internal.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
@@ -69,8 +70,8 @@ public class PleasantTitleBar : TemplatedControl
     private Border? _dragWindowBorder;
     private MenuItem? _expandMenuItem;
 
-    private IconControl? _displayIcon;
-    private IconControl? _displayTitle;
+    private PleasantIcon? _displayIcon;
+    private PleasantIcon? _displayTitle;
 
     private ContentPresenter? _leftTitleBarContent;
     private MenuItem? _reestablishMenuItem;
@@ -138,8 +139,8 @@ public class PleasantTitleBar : TemplatedControl
         _collapseMenuItem = e.NameScope.Get<MenuItem>("PART_CollapseMenuItem");
         _reestablishMenuItem = e.NameScope.Get<MenuItem>("PART_ReestablishMenuItem");
 
-        _displayIcon = e.NameScope.Get<IconControl>("PART_DisplayIcon");
-        _displayTitle = e.NameScope.Get<IconControl>("PART_DisplayTitle");
+        _displayIcon = e.NameScope.Get<PleasantIcon>("PART_DisplayIcon");
+        _displayTitle = e.NameScope.Get<PleasantIcon>("PART_DisplayTitle");
         _subtitle = e.NameScope.Get<TextBlock>("PART_Subtitle");
         _titleBarGrid = e.NameScope.Get<Grid>("PART_TitleBarGrid");
         _dragWindowBorder = e.NameScope.Get<Border>("PART_DragWindow");
@@ -260,20 +261,6 @@ public class PleasantTitleBar : TemplatedControl
                     _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(w, GridUnitType.Pixel);
             }))
         };
-    }
-
-    private void OnDragWindowBorderOnPointerPressed(object? _, PointerPressedEventArgs args)
-    {
-        if (args.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-            _host?.BeginMoveDrag(args);
-    }
-
-    private void OnDragWindowBorderOnDoubleTapped(object? o, TappedEventArgs tappedEventArgs)
-    {
-        if (_host is null || !_host.CanResize) return;
-        _host.WindowState = _host.WindowState == WindowState.Maximized
-            ? WindowState.Normal
-            : WindowState.Maximized;
     }
 
     private void SetDisplayIcon(object? obj)

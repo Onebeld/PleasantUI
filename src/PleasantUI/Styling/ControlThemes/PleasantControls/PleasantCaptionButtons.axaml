@@ -22,37 +22,32 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
                         </Style>
 
-                        <Style Selector="Button > PathIcon">
+                        <Style Selector="Button > PleasantIcon">
                             <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
                         </Style>
                     </StackPanel.Styles>
 
                     <Button Name="PART_FullScreenButton"
-                            IsVisible="False">
-                        <IconControl Width="10" Height="10" />
+                            IsVisible="False"
+                            WindowDecorationProperties.ElementRole="FullScreenButton">
+                        <PleasantIcon Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_MinimizeButton"
-                            ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
-                        <IconControl Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
+                            WindowDecorationProperties.ElementRole="MinimizeButton">
+                        <PleasantIcon Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
                     </Button>
-                    <Button Name="PART_MaximizeButton">
-                        <IconControl Width="10" Height="10" />
+                    <Button Name="PART_MaximizeButton"
+                            WindowDecorationProperties.ElementRole="MaximizeButton">
+                        <PleasantIcon Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_CloseButton"
-                            Theme="{DynamicResource CloseButtonTheme}"
-                            ToolTip.Tip="{Localize Close, Default='Close'}">
-                        <IconControl Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
+                            WindowDecorationProperties.ElementRole="CloseButton"
+                            Theme="{DynamicResource CloseButtonTheme}">
+                        <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
                     </Button>
                 </StackPanel>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^ /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{Localize Expand, Default='Expand'}" />
-        </Style>
-        <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
-            <Setter Property="ToolTip.Tip" Value="{Localize Restore, Default='Restore'}" />
-        </Style>
 
         <Style Selector="^:isactive /template/ Button:not(:pointerover):not(:pressed)">
             <Setter Property="Opacity" Value="0.5" />
@@ -60,26 +55,24 @@
         </Style>
 
         <Style Selector="^ /template/ Button#PART_FullScreenButton">
-            <Setter Property="ToolTip.Tip" Value="{Localize FullScreen, Default='Full Screen'}" />
-            <Style Selector="^ IconControl">
+            <Style Selector="^ PleasantIcon">
                 <Setter Property="Icon" Value="{DynamicResource FullScreenEnterRegular}" />
             </Style>
         </Style>
         <Style Selector="^:fullscreen /template/ Button#PART_FullScreenButton">
-            <Setter Property="ToolTip.Tip" Value="{Localize ExitFullScreen, Default='Exit Full Screen'}" />
-            <Style Selector="^ IconControl">
+            <Style Selector="^ PleasantIcon">
                 <Setter Property="Icon" Value="{DynamicResource FullScreenExitRegular}" />
             </Style>
         </Style>
 
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
-            <Style Selector="^ IconControl">
+            <Style Selector="^ PleasantIcon">
                 <Setter Property="Icon" Value="{DynamicResource MaximizeRegular}" />
             </Style>
         </Style>
 
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
-            <Style Selector="^ IconControl">
+            <Style Selector="^ PleasantIcon">
                 <Setter Property="Icon" Value="{DynamicResource SquareMultipleRegular}" />
                 <Setter Property="(IconHelper.FontSize)" Value="2" />
             </Style>

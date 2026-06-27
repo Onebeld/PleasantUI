@@ -9,6 +9,11 @@
                 <MarkedTextBox Mark="B" PlaceholderText="Watermark" />
                 <MarkedTextBox Mark="C" Text="Test" IsEnabled="False" />
                 <MarkedTextBox Mark="{DynamicResource PaletteRegular}" Text="Icon" />
+                <MarkedTextBox Text="Icon">
+                    <MarkedTextBox.Mark>
+                        <TextBlock Text="H" />
+                    </MarkedTextBox.Mark>
+                </MarkedTextBox>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -17,8 +22,10 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource AccentLightColor1}" />
-        <Setter Property="SelectionForegroundBrush" Value="{DynamicResource ForegroundAccentLightColor1}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentColor}" />
+        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBased AccentColor}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="6 5 6 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
@@ -26,6 +33,12 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="(IconHelper.Width)" Value="16" />
         <Setter Property="(IconHelper.Height)" Value="16" />
+        
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions> 
+        </Setter> 
 
         <Setter Property="ContextFlyout">
             <PleasantMenuFlyout Placement="Bottom">
@@ -66,7 +79,7 @@
                                         Grid.Column="0"
                                         Background="{DynamicResource ControlFillColor2}"
                                         Width="35">
-                                    <IconControl x:Name="SymbolTextBlock"
+                                    <PleasantIcon x:Name="SymbolTextBlock"
                                                       Icon="{TemplateBinding Mark}"
                                                       TextElement.Foreground="{DynamicResource TextFillColor3}"
                                                       TextElement.FontWeight="SemiBold"
@@ -107,6 +120,11 @@
                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                         </Panel>
+                                        <ScrollViewer.Styles>
+                                            <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Cursor" Value="IBeam" />
+                                            </Style>
+                                        </ScrollViewer.Styles>
                                     </ScrollViewer>
                                 </DockPanel>
                                 <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
@@ -124,7 +142,6 @@
         <Style Selector="^:focus">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
-            <Setter Property="Transitions" Value="{x:Null}" />
         </Style>
 
         <Style Selector="^:disabled">

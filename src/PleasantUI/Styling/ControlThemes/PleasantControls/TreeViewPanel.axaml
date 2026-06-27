@@ -34,7 +34,7 @@
                                     CornerRadius="{DynamicResource ControlCornerRadius}"
                                     Background="{TemplateBinding IconBackground}"
                                     IsVisible="{TemplateBinding SectionIcon, Converter={x:Static ObjectConverters.IsNotNull}}">
-                                <IconControl Icon="{TemplateBinding SectionIcon}"
+                                <PleasantIcon Icon="{TemplateBinding SectionIcon}"
                                              Width="14"
                                              Height="14"
                                              HorizontalAlignment="Center"
@@ -175,7 +175,7 @@
                                              FontSize="14"
                                              MinWidth="80">
                                         <TextBox.InnerLeftContent>
-                                            <IconControl Icon="{DynamicResource SearchRegular}"
+                                            <PleasantIcon Icon="{DynamicResource SearchRegular}"
                                                          Width="14"
                                                          Height="14"
                                                          Foreground="{DynamicResource TextFillColor3}"
@@ -189,7 +189,7 @@
                                                     CornerRadius="99"
                                                     Margin="0 0 5 0"
                                                     IsVisible="{Binding $parent[TextBox].Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-                                                <IconControl Icon="{DynamicResource DismissRegular}"
+                                                <PleasantIcon Icon="{DynamicResource DismissRegular}"
                                                              Width="10" Height="10" />
                                             </Button>
                                         </TextBox.InnerRightContent>
@@ -203,7 +203,7 @@
                                         Padding="6"
                                         ToolTip.Tip="Expand all"
                                         IsVisible="{TemplateBinding ShowExpandButton}">
-                                    <IconControl Icon="{DynamicResource ChevronDownRegular}"
+                                    <PleasantIcon Icon="{DynamicResource ChevronDownRegular}"
                                               Width="12" Height="12" />
                                 </Button>
 
@@ -215,7 +215,7 @@
                                         Padding="6"
                                         ToolTip.Tip="Collapse all"
                                         IsVisible="{TemplateBinding ShowCollapseButton}">
-                                    <IconControl Icon="{DynamicResource ChevronUpRegular}"
+                                    <PleasantIcon Icon="{DynamicResource ChevronUpRegular}"
                                               Width="12" Height="12" />
                                 </Button>
                             </Grid>

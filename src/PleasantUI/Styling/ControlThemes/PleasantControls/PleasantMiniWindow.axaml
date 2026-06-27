@@ -46,7 +46,7 @@
                                               Theme="{DynamicResource AppBarToggleButtonTheme}"
                                               IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
                                               ToolTip.Tip="{Localize AttachOverWindows, Default='Attach over windows'}">
-                                    <IconControl Icon="{DynamicResource PinRegular}" Width="12" Height="12" />
+                                    <PleasantIcon Icon="{DynamicResource PinRegular}" Width="12" Height="12" />
                                 </ToggleButton>
 
                                 <Border Background="{DynamicResource TextFillColor3}"
@@ -65,12 +65,12 @@
                                     <Button x:Name="PART_HiddenButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
-                                        <IconControl Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
+                                        <PleasantIcon Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
                                     </Button>
                                     <Button x:Name="PART_CloseButton"
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             ToolTip.Tip="{Localize Close, Default='Close'}">
-                                        <IconControl Icon="{DynamicResource DismissRegular}"
+                                        <PleasantIcon Icon="{DynamicResource DismissRegular}"
                                                      Width="8"
                                                      Height="8" />
                                     </Button>

@@ -22,7 +22,7 @@
                         BorderThickness="1"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                        <IconControl Icon="{TemplateBinding Icon}"
+                        <PleasantIcon Icon="{TemplateBinding Icon}"
                                      Width="{TemplateBinding (IconHelper.Width)}"
                                      Height="{TemplateBinding (IconHelper.Height)}" />
 

@@ -72,7 +72,7 @@
     <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderDangerColor}" />
-        <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
+        <Setter Property="Foreground" Value="{ForegroundBased DangerColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
 
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
@@ -92,7 +92,7 @@
         <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
+        <Setter Property="Foreground" Value="{ForegroundBased AccentLightColor2}" />
 
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />
@@ -120,11 +120,11 @@
 
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-            <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
+            <Setter Property="Foreground" Value="{ForegroundBased DangerColor}" />
         </Style>
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-            <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
+            <Setter Property="Foreground" Value="{ForegroundBased DangerColor}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -42,7 +42,7 @@
                         <Ellipse Name="CheckGlyph"
                                  Width="8"
                                  Height="8"
-                                 Fill="{ForegroundBasedAccent AccentLightColor3}"
+                                 Fill="{ForegroundBased AccentLightColor3}"
                                  UseLayoutRounding="False" />
                     </Grid>
 
@@ -106,7 +106,7 @@
         <Style Selector="^:checked">
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
-            <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
+            <Setter Property="Foreground" Value="{ForegroundBased AccentLightColor2}" />
         </Style>
 
         <Style Selector="^:checked /template/ RippleEffect#PART_Ripple">

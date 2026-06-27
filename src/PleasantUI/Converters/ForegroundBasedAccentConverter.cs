@@ -11,6 +11,8 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ForegroundBasedAccentConverter : IMultiValueConverter
 {
+    public static readonly ForegroundBasedAccentConverter Instance = new();
+    
     /// <summary>
     /// Determines an appropriate accent color (black or white) based on the luminance of the input color.
     /// </summary>

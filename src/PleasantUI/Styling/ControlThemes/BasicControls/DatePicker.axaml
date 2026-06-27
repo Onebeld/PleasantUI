@@ -275,11 +275,11 @@
                     <Grid Name="AcceptDismissGrid" Grid.Row="2" ColumnDefinitions="*,*">
                         <Button Grid.Column="0" Name="PART_AcceptButton"
                                 Theme="{DynamicResource AppBarButtonTheme}" Margin="2" Height="40">
-                            <IconControl Icon="{DynamicResource CheckmarkRegular}" Width="14" Height="14" />
+                            <PleasantIcon Icon="{DynamicResource CheckmarkRegular}" Width="14" Height="14" />
                         </Button>
                         <Button Grid.Column="1" Name="PART_DismissButton"
                                 Theme="{DynamicResource AppBarButtonTheme}" Margin="2" Height="40">
-                            <IconControl Icon="{DynamicResource DismissRegular}" Width="12" Height="12" />
+                            <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="12" Height="12" />
                         </Button>
                     </Grid>
                 </Grid>

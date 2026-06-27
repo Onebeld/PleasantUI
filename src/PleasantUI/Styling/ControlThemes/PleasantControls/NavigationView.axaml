@@ -128,7 +128,7 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center" 
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <IconControl Icon="{DynamicResource ArrowLeftRegular}"
+                            <PleasantIcon Icon="{DynamicResource ArrowLeftRegular}"
                                          Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
@@ -141,7 +141,7 @@
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <IconControl Icon="{TemplateBinding Icon}"
+                            <PleasantIcon Icon="{TemplateBinding Icon}"
                                          Foreground="{DynamicResource TextFillColor1}"
                                          Width="16" Height="16" />
                         </Button>

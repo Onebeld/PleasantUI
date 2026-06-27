@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dataTemplates="clr-namespace:PleasantUI.Core.DataTemplates"
+                    x:ClassModifier="internal">
+    <ControlTheme x:Key="{x:Type PleasantIcon}" TargetType="PleasantIcon">
+        <Setter Property="(IconHelper.FontSize)" Value="0" />
+        <Setter Property="IconTemplate">
+            <dataTemplates:IconTemplateSelector />
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  TextAlignment="Center"
+                                  ContentTemplate="{TemplateBinding IconTemplate}"
+                                  Content="{TemplateBinding Icon}">
+                    <ContentPresenter.DataTemplates>
+                        <DataTemplate DataType="Geometry">
+                            <PathIcon Data="{Binding}"
+                                      Width="NaN"
+                                      Height="NaN"
+                                      FontSize="{Binding (IconHelper.FontSize), RelativeSource={RelativeSource AncestorType=PleasantIcon}}"
+                                      Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
+                        </DataTemplate>
+                        <DataTemplate DataType="IImage">
+                            <Image Source="{Binding}" Width="NaN" Height="NaN" />
+                        </DataTemplate>
+                    </ContentPresenter.DataTemplates>
+                </ContentPresenter>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

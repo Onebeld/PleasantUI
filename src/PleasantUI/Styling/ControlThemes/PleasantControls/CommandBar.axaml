@@ -129,7 +129,7 @@
                                          HorizontalAlignment="Center">
                                     <!--<PathIcon Data="{TemplateBinding Icon}"
                                               Foreground="{TemplateBinding Foreground}" />-->
-                                    <IconControl Icon="{TemplateBinding Icon}" />
+                                    <PleasantIcon Icon="{TemplateBinding Icon}" />
                                 </Viewbox>
 
                                 <!-- Label below (labelBottom, only when open) -->
@@ -155,7 +155,7 @@
                                          Margin="12 0 0 0"
                                          VerticalAlignment="Center"
                                          IsVisible="False">
-                                    <IconControl Icon="{TemplateBinding Icon}" />
+                                    <PleasantIcon Icon="{TemplateBinding Icon}" />
                                 </Viewbox>
 
                                 <!-- Label -->
@@ -282,7 +282,7 @@
                                          Height="{DynamicResource CommandBarButtonIconSize}"
                                          Margin="11 0"
                                          HorizontalAlignment="Center">
-                                    <IconControl Icon="{TemplateBinding Icon}" />
+                                    <PleasantIcon Icon="{TemplateBinding Icon}" />
                                 </Viewbox>
 
                                 <!-- Label below (labelBottom, only when open) -->
@@ -308,7 +308,7 @@
                                          Margin="12 0 0 0"
                                          VerticalAlignment="Center"
                                          IsVisible="False">
-                                    <IconControl Icon="{TemplateBinding Icon}" />
+                                    <PleasantIcon Icon="{TemplateBinding Icon}" />
                                 </Viewbox>
 
                                 <!-- Label -->
@@ -474,7 +474,7 @@
                                     Foreground="{TemplateBinding Foreground}"
                                     VerticalAlignment="Center"
                                     Height="{DynamicResource CommandBarCompactHeight}">
-                                <IconControl Icon="{DynamicResource MoreRegular}"
+                                <PleasantIcon Icon="{DynamicResource MoreRegular}"
                                              Width="14"
                                              Height="14"
                                              Foreground="{TemplateBinding Foreground}" />

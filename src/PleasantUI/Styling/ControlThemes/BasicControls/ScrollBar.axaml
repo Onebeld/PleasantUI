@@ -56,32 +56,48 @@
     </ControlTheme>
 
     <ControlTheme x:Key="ScrollBarLineButton" TargetType="RepeatButton">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <PathIcon Width="8"
-                          Height="8"
-                          Margin="3"
-                          Data="{DynamicResource ChevronUpRegular}"
-                          Foreground="{DynamicResource ControlDarkFillColor1}"/>
-            </ControlTemplate>
-        </Setter>
-        <Setter Property="RenderTransform" Value="scale(1)" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
+        <Setter Property="CornerRadius" Value="99" />
         <Setter Property="Transitions">
             <Transitions>
                 <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
                 <TransformOperationsTransition Duration="00:00:00.016"
                                                Property="RenderTransform" />
-            </Transitions>
+            </Transitions> 
+        </Setter> 
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="True">
+                    <RippleEffect Name="PART_Ripple">
+                        <PleasantIcon Width="8"
+                                      Height="8"
+                                      Margin="3"
+                                      Icon="{DynamicResource ChevronUpRegular}"
+                                      Foreground="{DynamicResource ControlDarkFillColor1}"/>
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
         </Setter>
+        <Setter Property="RenderTransform" Value="scale(1)" />
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
-        <Style Selector="^:pointerover /template/ PathIcon">
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ PleasantIcon">
             <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor2}" />
         </Style>
-        <Style Selector="^:pressed /template/ PathIcon">
-            <Setter Property="Foreground" Value="{DynamicResource ControlDarkFillColor3}" />
-        </Style>
         
-        <Style Selector="^:disabled /template/ PathIcon">
+        <Style Selector="^:disabled /template/ PleasantIcon">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
@@ -101,7 +117,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid RowDefinitions="Auto,*,Auto">
                                 <Rectangle Name="TrackRect"
-                                           Fill="{DynamicResource ControlFillColor2}"
+                                           Fill="{DynamicResource ControlFillColor1}"
                                            Opacity="0"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
@@ -134,7 +150,7 @@
                                     <Track.DecreaseButton>
                                         <RepeatButton Name="PART_PageUpButton"
                                                       Classes="largeChange"
-                                                      Background="Transparent"
+                                                      Theme="{StaticResource AppBarRepeatButtonTheme}"
                                                       BorderThickness="0"
                                                       BorderBrush="#00000000"
                                                       Focusable="False"
@@ -143,7 +159,7 @@
                                     <Track.IncreaseButton>
                                         <RepeatButton Name="PART_PageDownButton"
                                                       Classes="largeChange"
-                                                      Background="Transparent"
+                                                      Theme="{StaticResource AppBarRepeatButtonTheme}"
                                                       BorderThickness="0"
                                                       BorderBrush="#00000000"
                                                       Focusable="False"
@@ -188,7 +204,7 @@
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Rectangle Grid.Column="0"
                                            Name="TrackRect"
-                                           Fill="{DynamicResource ControlFillColor2}"
+                                           Fill="{DynamicResource ControlFillColor1}"
                                            Opacity="0"
                                            RadiusY="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                            RadiusX="{CompiledBinding Source={StaticResource ScrollBarCornerRadius}, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
@@ -222,14 +238,14 @@
                                     <Track.DecreaseButton>
                                         <RepeatButton Name="PART_PageUpButton"
                                                       Classes="largeChange"
-                                                      Theme="{DynamicResource ScrollBarPageButton}"
+                                                      Theme="{StaticResource AppBarRepeatButtonTheme}"
                                                       Focusable="False"
                                                       Opacity="0" />
                                     </Track.DecreaseButton>
                                     <Track.IncreaseButton>
                                         <RepeatButton Name="PART_PageDownButton"
                                                       Classes="largeChange"
-                                                      Theme="{DynamicResource ScrollBarPageButton}"
+                                                      Theme="{StaticResource AppBarRepeatButtonTheme}"
                                                       Focusable="False"
                                                       Opacity="0" />
                                     </Track.IncreaseButton>

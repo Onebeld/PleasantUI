@@ -205,6 +205,11 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
         Show(gamesWindow);
     }
 
+    private void OpenSampleWindow()
+    {
+        Window window = new Window();
+    }
+
     private void Show(PleasantMiniWindow w)
     {
         var owner = OwnerWindow;

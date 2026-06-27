@@ -29,7 +29,7 @@
                 </LinearGradientBrush>
             </Border.Background>
             <Viewbox Stretch="Uniform" HorizontalAlignment="Center" Margin="50 15">
-                <IconControl Icon="{DynamicResource PleasantUI}" Width="600" Height="160" />
+                <PleasantIcon Icon="{DynamicResource PleasantUI}" Width="600" Height="160" />
             </Viewbox>
         </Border>
 

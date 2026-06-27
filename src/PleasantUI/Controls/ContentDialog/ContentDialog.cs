@@ -25,10 +25,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     private IInputElement? _lastFocus;
     private Border? _modalBackground;
     private Panel? _panel;
-        
-    private bool _isClosed;
-    private bool _isClosing;
-    
+
     private AvaloniaList<PleasantPopupElement>? _modalWindows;
     
     /// <summary>
@@ -94,7 +91,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         get => GetValue(BottomPanelContentProperty);
         set => SetValue(BottomPanelContentProperty, value);
     }
-    
+
     /// <summary>
     /// Gets or sets a value indicating that the window has been closed.
     /// </summary>
@@ -103,8 +100,8 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </value>
     public bool IsClosed
     {
-        get => _isClosed;
-        set => SetAndRaise(IsClosedProperty, ref _isClosed, value);
+        get;
+        set => SetAndRaise(IsClosedProperty, ref field, value);
     }
 
     /// <summary>
@@ -115,10 +112,10 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </value>
     public bool IsClosing
     {
-        get => _isClosing;
-        set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
+        get;
+        set => SetAndRaise(IsClosingProperty, ref field, value);
     }
-    
+
     /// <summary>
     /// Set the animation when opening a modal window.
     /// </summary>
@@ -297,7 +294,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         base.ShowCoreForTopLevel(topLevel);
 
         _modalWindows?.Add(this);
-        _lastFocus = topLevel?.FocusManager?.GetFocusedElement();
+        _lastFocus = topLevel?.FocusManager.GetFocusedElement();
 
         Closed += (_, _) =>
 {
@@ -373,7 +370,7 @@ protected override async void OnLoaded(RoutedEventArgs e)
     try
     {
         if (ShowBackgroundAnimation is not null && _modalBackground is not null)
-            await ShowBackgroundAnimation.RunAsync(_modalBackground);
+            _ = ShowBackgroundAnimation.RunAsync(_modalBackground);
 
         if (OpenAnimation is not null)
             await OpenAnimation.RunAsync(this);

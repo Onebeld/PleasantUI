@@ -28,6 +28,9 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ContentDialog}" TargetType="ContentDialog">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="MinWidth" Value="300" />
@@ -44,18 +47,18 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
                               BlurRadius="60"
                               ShadowColor="#6E000000"
                               Offset="0 6">
                     <Border CornerRadius="{TemplateBinding CornerRadius}"
-                            Background="{DynamicResource BackgroundColor1}"
-                            BorderBrush="{DynamicResource ControlBorderColor}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             MinWidth="{TemplateBinding MinWidth}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             ClipToBounds="False"
-                            BorderThickness="{DynamicResource ControlBorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Border ClipToBounds="True"
                                 CornerRadius="{TemplateBinding CornerRadius}">
                             <Grid RowDefinitions="*,Auto">

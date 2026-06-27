@@ -155,7 +155,7 @@ public class LocalizeExtension : MarkupExtension
             return new MultiBinding
             {
                 Bindings  = bindingBases,
-                Converter = new TranslateConverter()
+                Converter = TranslateConverter.Instance
             };
         }
         else if (Key is BindingBase binding)

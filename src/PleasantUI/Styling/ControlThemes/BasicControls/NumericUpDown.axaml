@@ -20,7 +20,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
-        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -34,6 +34,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ButtonSpinner Name="PART_Spinner"
+                               Background="{TemplateBinding Background}"
                                Padding="0"
                                HorizontalContentAlignment="Stretch"
                                VerticalContentAlignment="Stretch"
@@ -42,9 +43,8 @@
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <TextBox Name="PART_TextBox"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             BorderThickness="0"
+                             Background="{ColorToTransparent ControlFillColor2}"
+                             BorderThickness="1"
                              Margin="1"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"
@@ -88,9 +88,8 @@
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <TextBox Name="PART_TextBox"
                              Classes="WithoutDataValidation"
-                             Background="#00000000"
-                             BorderBrush="#00000000"
-                             BorderThickness="0"
+                             Background="{ColorToTransparent ControlFillColor2}"
+                             BorderThickness="1"
                              Margin="0"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"

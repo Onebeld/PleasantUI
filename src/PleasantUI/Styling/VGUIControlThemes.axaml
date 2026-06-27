@@ -104,7 +104,7 @@
     <!-- VGUI Danger Button Theme -->
     <ControlTheme x:Key="VGUIDangerButtonTheme" TargetType="Button" BasedOn="{StaticResource VGUIButtonTheme}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-        <Setter Property="Foreground" Value="{ForegroundBasedAccent DangerColor}" />
+        <Setter Property="Foreground" Value="{ForegroundBased DangerColor}" />
 
         <Style Selector="^:pointerover /template/ Border#PART_BevelInner">
             <Setter Property="Background" Value="{DynamicResource SelectedDangerColor}" />

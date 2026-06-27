@@ -26,6 +26,8 @@
                             Theme="{DynamicResource AccentButtonTheme}" />
                     <Button x:Name="OpenGamesButton"
                             Content="{Localize MiniWindow/OpenGames}" />
+                    <Button x:Name="OpenSampleButton"
+                            Content="{Localize MiniWindow/OpenGames}" />
                 </StackPanel>
             </StackPanel>
         </Border>
