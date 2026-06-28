@@ -25,14 +25,14 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
     }
 
     private static string T(string key) =>
-        Localizer.Instance.TryGetString(key, out var v) ? v : key;
+        Localizer.Instance.TryGetString(key, out string v) ? v : key;
 
     private Window? OwnerWindow => TopLevel.GetTopLevel(this) as Window;
 
     // ── Steam main panel ────────────────────────────────────────────────────
     private void OpenSteamPanel()
     {
-        var steamWindow = new PleasantMiniWindow
+        PleasantMiniWindow steamWindow = new()
         {
             Title            = "Steam",
             Width            = 460,
@@ -41,7 +41,7 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
         };
 
         // Nav items: (label, description, opens games list)
-        var navItems = new[]
+        (string, string, bool)[] navItems = new[]
         {
             (T("MiniWindow/NavGames"),    T("MiniWindow/NavGamesDesc"),    true),
             (T("MiniWindow/NavFriends"),  T("MiniWindow/NavFriendsDesc"),  false),
@@ -51,17 +51,17 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
         };
 
         // Left nav column — each row: [Button] [description text] inline
-        var navStack = new StackPanel { Spacing = 8, Margin = new Thickness(12, 12, 12, 12) };
-        foreach (var (label, desc, opensGames) in navItems)
+        StackPanel navStack = new() { Spacing = 8, Margin = new Thickness(12, 12, 12, 12) };
+        foreach ((string label, string desc, bool opensGames) in navItems)
         {
-            var btn = new Button
+            Button btn = new()
             {
                 Content                    = label,
                 Width                      = 110,
                 HorizontalContentAlignment = HorizontalAlignment.Left,
                 Padding                    = new Thickness(8, 4),
             };
-            var descText = new TextBlock
+            TextBlock descText = new()
             {
                 Text              = desc,
                 TextWrapping      = TextWrapping.Wrap,
@@ -71,7 +71,7 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
                 FontSize          = 12,
                 MaxWidth          = 240,
             };
-            var capturedOpens = opensGames;
+            bool capturedOpens = opensGames;
             btn.Click += (_, _) =>
             {
                 if (capturedOpens)
@@ -87,7 +87,7 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
         }
 
         // Main layout: nav rows fill the content area
-        var mainGrid = new Grid
+        Grid mainGrid = new()
         {
             ColumnDefinitions = new ColumnDefinitions("*"),
             RowDefinitions    = new RowDefinitions("*,Auto"),
@@ -95,10 +95,10 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
         mainGrid.Children.Add(navStack);
 
         // Footer: VALVE  ◆ STEAM  [Close]
-        var closeBtn = new Button { Content = T("MiniWindow/Close") };
+        Button closeBtn = new() { Content = T("MiniWindow/Close") };
         closeBtn.Click += (_, _) => steamWindow.Close();
 
-        var footer = new Border
+        Border footer = new()
         {
             BorderBrush     = Brushes.Gray,
             BorderThickness = new Thickness(0, 1, 0, 0),
@@ -138,13 +138,13 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
     // ── Games list panel ────────────────────────────────────────────────────
     private void OpenGamesPanel(PleasantMiniWindow? owner)
     {
-        var games = new[]
+        string[] games = new[]
         {
             "Half-Life", "Counter-Strike", "Team Fortress Classic",
             "Deathmatch Classic", "Opposing Force", "Ricochet", "Dedicated Server",
         };
 
-        var stack = new StackPanel { Margin = new Thickness(0, 4, 0, 0) };
+        StackPanel stack = new() { Margin = new Thickness(0, 4, 0, 0) };
         stack.Children.Add(new TextBlock
         {
             Text       = T("MiniWindow/MyGames"),
@@ -155,9 +155,9 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
         });
 
         Border? selected = null;
-        foreach (var game in games)
+        foreach (string game in games)
         {
-            var row = new Border { Padding = new Thickness(8, 5) };
+            Border row = new() { Padding = new Thickness(8, 5) };
             row.Child = new TextBlock { Text = game, FontSize = 13 };
             row.PointerEntered += (_, _) =>
             {
@@ -178,7 +178,7 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
             stack.Children.Add(row);
         }
 
-        var gamesWindow = new PleasantMiniWindow
+        PleasantMiniWindow gamesWindow = new()
         {
             Title   = T("MiniWindow/GamesTitle"),
             Width   = 240,
@@ -207,12 +207,12 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
 
     private void OpenSampleWindow()
     {
-        Window window = new Window();
+        Window window = new();
     }
 
     private void Show(PleasantMiniWindow w)
     {
-        var owner = OwnerWindow;
+        Window? owner = OwnerWindow;
         if (owner is not null)
             w.ShowDialog(owner);
         else

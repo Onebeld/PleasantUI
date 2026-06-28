@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
@@ -151,7 +152,7 @@ public class SelectionList : ListBox
 
         // Resolve and apply SelectionList control theme
         if (!IsSet(ThemeProperty) &&
-            this.TryFindResource(typeof(SelectionList), ActualThemeVariant, out var listTheme) &&
+            this.TryFindResource(typeof(SelectionList), ActualThemeVariant, out object? listTheme) &&
             listTheme is ControlTheme ct)
         {
             SetCurrentValue(ThemeProperty, ct);
@@ -159,7 +160,7 @@ public class SelectionList : ListBox
 
         // Resolve and apply SelectionListItem container theme
         if (!IsSet(ItemContainerThemeProperty) &&
-            this.TryFindResource(typeof(SelectionListItem), ActualThemeVariant, out var itemTheme) &&
+            this.TryFindResource(typeof(SelectionListItem), ActualThemeVariant, out object? itemTheme) &&
             itemTheme is ControlTheme itemCt)
         {
             SetCurrentValue(ItemContainerThemeProperty, itemCt);
@@ -184,15 +185,15 @@ public class SelectionList : ListBox
         if (container is not SelectionListItem sli) return;
 
         if (ImageMemberBinding is not null)
-            sli.Bind(SelectionListItem.ImageProperty, ImageMemberBinding);
+            sli.Bind(SelectionListItem.IconProperty, ImageMemberBinding);
         if (TitleMemberBinding is not null)
             sli.Bind(SelectionListItem.TitleProperty, TitleMemberBinding);
         if (SubtitleMemberBinding is not null)
             sli.Bind(SelectionListItem.SubtitleProperty, SubtitleMemberBinding);
         if (TimestampMemberBinding is not null)
             sli.Bind(SelectionListItem.TimestampProperty, TimestampMemberBinding);
-        if (ImageTemplate is not null && !sli.IsSet(SelectionListItem.ImageTemplateProperty))
-            sli.SetCurrentValue(SelectionListItem.ImageTemplateProperty, ImageTemplate);
+        if (ImageTemplate is not null && !sli.IsSet(SelectionListItem.IconTemplateProperty))
+            sli.SetCurrentValue(SelectionListItem.IconTemplateProperty, ImageTemplate);
     }
 
     // ── Template ─────────────────────────────────────────────────────────────
@@ -253,7 +254,7 @@ public class SelectionList : ListBox
     private bool HasItems()
     {
         if (ItemsSource is null) return ItemCount > 0;
-        var e = ItemsSource.GetEnumerator();
+        IEnumerator e = ItemsSource.GetEnumerator();
         bool has = e.MoveNext();
         (e as IDisposable)?.Dispose();
         return has;

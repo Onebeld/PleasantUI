@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Generators;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
@@ -689,7 +690,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private Control CreateElementInternal(IReadOnlyList<object?> items, int index)
     {
-        var generator = ItemContainerGenerator!;
+        ItemContainerGenerator generator = ItemContainerGenerator!;
         object? item = items[index];
         Control container = generator.CreateContainer(item, index, null);
         generator.PrepareItemContainer(container, item, index);

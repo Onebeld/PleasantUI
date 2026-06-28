@@ -13,18 +13,11 @@ namespace PleasantUI.Example.ViewModels;
 
 public class AppViewModel : ViewModelBase
 {
-    private readonly IEventAggregator _eventAggregator;
     private readonly ControlPageCardsFactory _factory;
-
-    private IPage _page = null!;
-    private bool _isForwardAnimation = true;
 
     // Localized header strings — updated directly on language change so
     // {CompiledBinding} in HomePageView always gets the correct value.
     private string _welcomeText = string.Empty;
-    private string _basicControlsText = string.Empty;
-    private string _pleasantControlsText = string.Empty;
-    private string _toolKitText = string.Empty;
 
     public AvaloniaList<ControlPageCard> BasicControlPageCards { get; } = [];
     public AvaloniaList<ControlPageCard> PleasantControlPageCards { get; } = [];
@@ -32,15 +25,15 @@ public class AppViewModel : ViewModelBase
 
     public IPage Page
     {
-        get => _page;
-        set => SetProperty(ref _page, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public bool IsForwardAnimation
     {
-        get => _isForwardAnimation;
-        set => SetProperty(ref _isForwardAnimation, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
 
     public string WelcomeText
     {
@@ -50,25 +43,24 @@ public class AppViewModel : ViewModelBase
 
     public string BasicControlsText
     {
-        get => _basicControlsText;
-        private set => SetProperty(ref _basicControlsText, value);
-    }
+        get;
+        private set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public string PleasantControlsText
     {
-        get => _pleasantControlsText;
-        private set => SetProperty(ref _pleasantControlsText, value);
-    }
+        get;
+        private set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public string ToolKitText
     {
-        get => _toolKitText;
-        private set => SetProperty(ref _toolKitText, value);
-    }
+        get;
+        private set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public AppViewModel(IEventAggregator eventAggregator)
     {
-        _eventAggregator = eventAggregator;
         _factory = new ControlPageCardsFactory(eventAggregator);
 
         BasicControlPageCards.AddRange(_factory.CreateBasicControlPageCards());
@@ -77,7 +69,7 @@ public class AppViewModel : ViewModelBase
 
         Page = new HomePage();
 
-        _eventAggregator.Subscribe<ChangePageMessage>(async message =>
+        eventAggregator.Subscribe<ChangePageMessage>(async message =>
         {
             ChangePage(message.Page);
             await Task.CompletedTask;
@@ -103,9 +95,9 @@ public class AppViewModel : ViewModelBase
         RefreshLocalizedTexts();
 
         // Rebuild card collections with fresh instances that read the new language
-        var newBasic    = _factory.CreateBasicControlPageCards().ToList();
-        var newPleasant = _factory.CreatePleasantControlPageCards().ToList();
-        var newToolkit  = _factory.CreateToolkitControlPageCards().ToList();
+        List<ControlPageCard> newBasic    = _factory.CreateBasicControlPageCards().ToList();
+        List<ControlPageCard> newPleasant = _factory.CreatePleasantControlPageCards().ToList();
+        List<ControlPageCard> newToolkit  = _factory.CreateToolkitControlPageCards().ToList();
 
         BasicControlPageCards.Clear();
         PleasantControlPageCards.Clear();

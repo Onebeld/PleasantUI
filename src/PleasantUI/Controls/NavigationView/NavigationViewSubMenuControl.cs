@@ -50,7 +50,7 @@ public class NavigationViewSubMenuControl : ItemsControl
     protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
     {
         // Always create a fresh NavigationViewItem container
-        var container = new NavigationViewItem();
+        NavigationViewItem container = new();
         return container;
     }
 
@@ -88,9 +88,9 @@ public class NavigationViewSubMenuControl : ItemsControl
                 
                 // Clone the children recursively - create NEW NavigationViewItem instances
                 // Do NOT add the original children as they already have visual parents
-                foreach (var child in sourceItem.Items.OfType<NavigationViewItem>())
+                foreach (NavigationViewItem child in sourceItem.Items.OfType<NavigationViewItem>())
                 {
-                    var clonedChild = CloneNavigationViewItem(child);
+                    NavigationViewItem clonedChild = CloneNavigationViewItem(child);
                     navItem.Items.Add(clonedChild);
                 }
             }
@@ -102,7 +102,7 @@ public class NavigationViewSubMenuControl : ItemsControl
             }
 
             // Apply styling from parent NavigationViewItem and propagate NavigationView reference
-            var parent = NavigationViewItem;
+            NavigationViewItem? parent = NavigationViewItem;
             if (parent is not null)
             {
                 navItem.CompactPaneLength = parent.CompactPaneLength;
@@ -138,7 +138,7 @@ public class NavigationViewSubMenuControl : ItemsControl
     /// </summary>
     private static NavigationViewItem CloneNavigationViewItem(NavigationViewItem source)
     {
-        var clone = new NavigationViewItem
+        NavigationViewItem clone = new()
         {
             Header = source.Header,
             HeaderTemplate = source.HeaderTemplate,
@@ -153,9 +153,9 @@ public class NavigationViewSubMenuControl : ItemsControl
         };
 
         // Recursively clone all children using public Items property
-        foreach (var child in source.Items.OfType<NavigationViewItem>())
+        foreach (NavigationViewItem child in source.Items.OfType<NavigationViewItem>())
         {
-            var clonedChild = CloneNavigationViewItem(child);
+            NavigationViewItem clonedChild = CloneNavigationViewItem(child);
             clone.Items.Add(clonedChild);
         }
 

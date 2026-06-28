@@ -42,7 +42,7 @@ public class BindingTranslateConverter : IMultiValueConverter
             key = $"{_context}/{key}";
 
         // Collect format args from values[2..], skipping nulls and UnsetValue
-        var args = new List<object>();
+        List<object> args = new();
         for (int i = 2; i < values.Count; i++)
         {
             object? arg = values[i];

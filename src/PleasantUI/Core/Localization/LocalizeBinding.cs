@@ -31,7 +31,7 @@ public static class LocalizeBinding
             return expression;
         }
 
-        var observable = new LocalizeKeyObservable(Resolve);
+        LocalizeKeyObservable observable = new(Resolve);
         return new Binding
         {
             Source = observable,

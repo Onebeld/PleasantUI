@@ -18,10 +18,10 @@
                 Content="{Localize PleasantMenu/OpenMenu}"
                 HorizontalAlignment="Left">
             <Button.Flyout>
-                <Flyout Placement="Bottom" ShowMode="Transient">
+                <PleasantFlyout Placement="Bottom" ShowMode="Transient">
                     <PleasantMenu x:Name="DemoMenu"
                                   Title="{Localize PleasantMenu/MenuTitle}" />
-                </Flyout>
+                </PleasantFlyout>
             </Button.Flyout>
         </Button>
 
@@ -34,11 +34,11 @@
                 Content="{Localize PleasantMenu/OpenMenu}"
                 HorizontalAlignment="Left">
             <Button.Flyout>
-                <Flyout Placement="Bottom" ShowMode="Transient">
+                <PleasantFlyout Placement="Bottom" ShowMode="Transient">
                     <PleasantMenu x:Name="NoFooterMenu"
                                   Title="{Localize PleasantMenu/MenuTitle}"
                                   ShowFooter="False" />
-                </Flyout>
+                </PleasantFlyout>
             </Button.Flyout>
         </Button>
 
@@ -51,11 +51,11 @@
                 Content="{Localize PleasantMenu/OpenMenu}"
                 HorizontalAlignment="Left">
             <Button.Flyout>
-                <Flyout Placement="Bottom" ShowMode="Transient">
+                <PleasantFlyout Placement="Bottom" ShowMode="Transient">
                     <PleasantMenu x:Name="TwoColMenu"
                                   Title="{Localize PleasantMenu/MenuTitle}"
                                   Columns="2" />
-                </Flyout>
+                </PleasantFlyout>
             </Button.Flyout>
         </Button>
     </StackPanel>

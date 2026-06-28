@@ -227,8 +227,8 @@ public class ReDock : TemplatedControl, IDockAreaView
         if (_rightPresenter.Content == null)
             _rightPresenter.IsVisible = false;
 
-        var leftObs  = _leftPresenter.IsChildVisibleObservable();
-        var rightObs = _rightPresenter.IsChildVisibleObservable();
+        IObservable<bool> leftObs  = _leftPresenter.IsChildVisibleObservable();
+        IObservable<bool> rightObs = _rightPresenter.IsChildVisibleObservable();
 
         _visibilitySubscription = Observable.CombineLatest(leftObs, rightObs, (l, r) => (l, r))
             .Subscribe(new AnonymousObserver<(bool left, bool right)>(_ => UpdateColumnWidths()));
@@ -274,7 +274,7 @@ public class ReDock : TemplatedControl, IDockAreaView
     /// </summary>
     private static NamedColumnDefinition? FindNamedColumn(Grid grid, string name)
     {
-        foreach (var col in grid.ColumnDefinitions)
+        foreach (ColumnDefinition? col in grid.ColumnDefinitions)
         {
             if (col is NamedColumnDefinition ncd && ncd.Name == name)
                 return ncd;
@@ -291,16 +291,16 @@ public class ReDock : TemplatedControl, IDockAreaView
             _leftThumb == null || _rightThumb == null)
             return;
 
-        var leftVisible  = _leftPresenter.IsChildVisible();
-        var rightVisible = _rightPresenter.IsChildVisible();
+        bool leftVisible  = _leftPresenter.IsChildVisible();
+        bool rightVisible = _rightPresenter.IsChildVisible();
 
-        var totalWidth = Bounds.Width;
+        double totalWidth = Bounds.Width;
 
         if (leftVisible)
         {
             // Use pixel width derived from proportion so the side panel has a
             // fixed pixel size and the center column (Star) fills the remainder.
-            var leftPx = totalWidth > 0
+            double leftPx = totalWidth > 0
                 ? Math.Max(totalWidth * LeftWidthProportion, SideMinPx)
                 : SideMinPx;
 
@@ -322,7 +322,7 @@ public class ReDock : TemplatedControl, IDockAreaView
 
         if (rightVisible)
         {
-            var rightPx = totalWidth > 0
+            double rightPx = totalWidth > 0
                 ? Math.Max(totalWidth * RightWidthProportion, SideMinPx)
                 : SideMinPx;
 
@@ -346,15 +346,15 @@ public class ReDock : TemplatedControl, IDockAreaView
     {
         if (_leftPresenter?.IsChildVisible() != true) return;
 
-        var totalWidth = Bounds.Width;
+        double totalWidth = Bounds.Width;
         if (totalWidth <= 0) return;
 
-        var rightVisible = _rightPresenter?.IsChildVisible() == true;
-        var rightPx      = rightVisible ? totalWidth * RightWidthProportion : 0;
-        var maxLeft      = Math.Min(totalWidth * SideMaxRatio, totalWidth - rightPx - CenterMinPx);
+        bool rightVisible = _rightPresenter?.IsChildVisible() == true;
+        double rightPx      = rightVisible ? totalWidth * RightWidthProportion : 0;
+        double maxLeft      = Math.Min(totalWidth * SideMaxRatio, totalWidth - rightPx - CenterMinPx);
 
-        var currentLeftPx = totalWidth * LeftWidthProportion;
-        var newLeftPx     = Math.Clamp(currentLeftPx + e.Vector.X, SideMinPx, Math.Max(maxLeft, SideMinPx));
+        double currentLeftPx = totalWidth * LeftWidthProportion;
+        double newLeftPx     = Math.Clamp(currentLeftPx + e.Vector.X, SideMinPx, Math.Max(maxLeft, SideMinPx));
 
         LeftWidthProportion = newLeftPx / totalWidth;
         UpdateColumnWidths();
@@ -364,15 +364,15 @@ public class ReDock : TemplatedControl, IDockAreaView
     {
         if (_rightPresenter?.IsChildVisible() != true) return;
 
-        var totalWidth = Bounds.Width;
+        double totalWidth = Bounds.Width;
         if (totalWidth <= 0) return;
 
-        var leftVisible = _leftPresenter?.IsChildVisible() == true;
-        var leftPx      = leftVisible ? totalWidth * LeftWidthProportion : 0;
-        var maxRight    = Math.Min(totalWidth * SideMaxRatio, totalWidth - leftPx - CenterMinPx);
+        bool leftVisible = _leftPresenter?.IsChildVisible() == true;
+        double leftPx      = leftVisible ? totalWidth * LeftWidthProportion : 0;
+        double maxRight    = Math.Min(totalWidth * SideMaxRatio, totalWidth - leftPx - CenterMinPx);
 
-        var currentRightPx = totalWidth * RightWidthProportion;
-        var newRightPx     = Math.Clamp(currentRightPx - e.Vector.X, SideMinPx, Math.Max(maxRight, SideMinPx));
+        double currentRightPx = totalWidth * RightWidthProportion;
+        double newRightPx     = Math.Clamp(currentRightPx - e.Vector.X, SideMinPx, Math.Max(maxRight, SideMinPx));
 
         RightWidthProportion = newRightPx / totalWidth;
         UpdateColumnWidths();
@@ -401,7 +401,7 @@ public class ReDock : TemplatedControl, IDockAreaView
 
     private void UpdateIsDragDropEnabled()
     {
-        var list = Interaction.GetBehaviors(this);
+        BehaviorCollection list = Interaction.GetBehaviors(this);
 
         if (_leftDockArea != null || _rightDockArea != null)
         {
@@ -415,7 +415,7 @@ public class ReDock : TemplatedControl, IDockAreaView
         {
             if (!_dragEventSubscribed) return;
             _dragEventSubscribed = false;
-            foreach (var b in list.OfType<DockAreaDragDropBehavior>().ToList())
+            foreach (DockAreaDragDropBehavior b in list.OfType<DockAreaDragDropBehavior>().ToList())
                 list.Remove(b);
         }
     }
@@ -424,11 +424,11 @@ public class ReDock : TemplatedControl, IDockAreaView
     {
         if (!_dragEventSubscribed || (_leftDockArea == null && _rightDockArea == null)) return;
 
-        var list = Interaction.GetBehaviors(this);
-        foreach (var b in list.OfType<DockAreaDragDropBehavior>().ToList())
+        BehaviorCollection list = Interaction.GetBehaviors(this);
+        foreach (DockAreaDragDropBehavior b in list.OfType<DockAreaDragDropBehavior>().ToList())
             list.Remove(b);
 
-        var type = e.NewValue.GetValueOrDefault() ?? typeof(DockAreaDragDropBehavior);
+        Type type = e.NewValue.GetValueOrDefault() ?? typeof(DockAreaDragDropBehavior);
         if (Activator.CreateInstance(type) is DockAreaDragDropBehavior newBehavior)
             list.Add(newBehavior);
     }

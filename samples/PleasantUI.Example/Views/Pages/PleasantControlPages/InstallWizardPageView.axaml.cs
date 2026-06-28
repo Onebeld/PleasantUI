@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using PleasantUI.Controls;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 
@@ -23,24 +24,23 @@ public partial class InstallWizardPageView : LocalizedUserControl
 
     private async void OnShowModal(object? sender, RoutedEventArgs e)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
         if (topLevel is null) return;
         await InstallWizard.ShowAsModalAsync(BuildWizard(), topLevel);
     }
 
     private async void OnShowWindow(object? sender, RoutedEventArgs e)
     {
-        var owner = TopLevel.GetTopLevel(this) as Window;
+        Window? owner = TopLevel.GetTopLevel(this) as Window;
         await InstallWizard.ShowAsWindowAsync(BuildWizard(), owner);
     }
 
     private static InstallWizard BuildWizard()
     {
         // Read localized strings at call time so modal/window modes respect the current language
-        var loc = Core.Localization.Localizer.Instance;
-        string Tr(string key) => loc.TryGetString(key, out var v) ? v : key;
+        Localizer loc = Localizer.Instance;
 
-        var wizard = new InstallWizard
+        InstallWizard wizard = new()
         {
             AppName    = Tr("InstallWizard/AppName"),
             FooterText = Tr("InstallWizard/FooterText"),
@@ -180,5 +180,7 @@ public partial class InstallWizardPageView : LocalizedUserControl
         });
 
         return wizard;
+
+        string Tr(string key) => loc.TryGetString(key, out string v) ? v : key;
     }
 }

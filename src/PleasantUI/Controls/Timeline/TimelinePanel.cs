@@ -34,12 +34,12 @@ public class TimelinePanel : Panel
     {
         double left = 0, icon = 0, right = 0, height = 0;
 
-        foreach (var child in Children)
+        foreach (Control? child in Children)
         {
             child.Measure(availableSize);
             if (child is TimelineItem item)
             {
-                var (l, m, r) = item.GetColumnWidths();
+                (double l, double m, double r) = item.GetColumnWidths();
                 left  = Math.Max(left,  l);
                 icon  = Math.Max(icon,  m);
                 right = Math.Max(right, r);
@@ -55,20 +55,20 @@ public class TimelinePanel : Panel
     {
         double left = 0, icon = 0, right = 0, height = 0;
 
-        foreach (var child in Children)
+        foreach (Control? child in Children)
         {
             if (child is TimelineItem item)
             {
-                var (l, m, r) = item.GetColumnWidths();
+                (double l, double m, double r) = item.GetColumnWidths();
                 left  = Math.Max(left,  l);
                 icon  = Math.Max(icon,  m);
                 right = Math.Max(right, r);
             }
         }
 
-        var rect = new Rect(0, 0, left + icon + right, 0);
+        Rect rect = new(0, 0, left + icon + right, 0);
 
-        foreach (var child in Children)
+        foreach (Control? child in Children)
         {
             if (child is TimelineItem item)
             {

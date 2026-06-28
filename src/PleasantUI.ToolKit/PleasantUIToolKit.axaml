@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
+        <MergeResourceInclude Source="/Assets/IconGeometries.axaml" />
+        
         <MergeResourceInclude Source="/Styling/ControlThemes/BasicControls/ColorPicker.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/BasicControls/ColorPreviewer.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/BasicControls/ColorSlider.axaml" />

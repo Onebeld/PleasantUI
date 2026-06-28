@@ -54,7 +54,7 @@ public sealed partial class PleasantDialog : ContentDialog
 
         if (_onDialogReady is not null)
         {
-            var callback = _onDialogReady;
+            Action<PleasantDialog>? callback = _onDialogReady;
             _onDialogReady = null;
             // Post at Loaded priority so layout has completed and Bounds are valid.
             Avalonia.Threading.Dispatcher.UIThread.Post(
@@ -105,25 +105,19 @@ public sealed partial class PleasantDialog : ContentDialog
         string? footerToggleText = null,
         MessageBoxStyle style = MessageBoxStyle.Default)
     {
-        var dialog = new PleasantDialog();
+        PleasantDialog dialog = new();
 
         dialog.Opening?.Invoke(dialog, EventArgs.Empty);
 
         // ── Header ────────────────────────────────────────────────────────────
         string headerValue = Localizer.Instance.TryGetString(header, out string rh) ? rh : header;
 
-        var headerBorder  = dialog.FindControl<Border>("HeaderBorder")!;
-        var headerText    = dialog.FindControl<TextBlock>("HeaderText")!;
-        var subHeaderText = dialog.FindControl<TextBlock>("SubHeaderText")!;
-        var headerIcon    = dialog.FindControl<PathIcon>("HeaderIcon")!;
+        Border headerBorder = dialog.FindControl<Border>("HeaderBorder")!;
+        TextBlock headerText = dialog.FindControl<TextBlock>("HeaderText")!;
+        TextBlock subHeaderText = dialog.FindControl<TextBlock>("SubHeaderText")!;
+        PathIcon headerIcon = dialog.FindControl<PathIcon>("HeaderIcon")!;
 
         headerText.Text = headerValue;
-
-        if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
-        {
-            dialog.CornerRadius    = new CornerRadius(0);
-            headerBorder.CornerRadius = new CornerRadius(0);
-        }
 
         if (!string.IsNullOrWhiteSpace(subHeader))
         {
@@ -143,30 +137,10 @@ public sealed partial class PleasantDialog : ContentDialog
 
         if (style == MessageBoxStyle.Danger)
         {
-            bool isVgui = PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI";
-            if (isVgui)
-            {
-                headerBorder.Background = new LinearGradientBrush
-                {
-                    StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
-                    EndPoint   = new RelativePoint(0, 1, RelativeUnit.Relative),
-                    GradientStops =
-                    {
-                        new GradientStop(Color.Parse("#FFE84030"), 0),
-                        new GradientStop(Color.Parse("#FFB72B1D"), 0.5),
-                        new GradientStop(Color.Parse("#FF8B1A10"), 1),
-                    }
-                };
-                headerBorder.BorderThickness = new Thickness(0, 2, 0, 2);
-                headerBorder.BorderBrush     = new SolidColorBrush(Color.Parse("#FF8B1A10"));
-                headerBorder.CornerRadius    = new CornerRadius(0);
-            }
-            else
-            {
-                headerBorder.Background = Application.Current!.TryFindResource("DangerColor", out object? dc)
-                    ? new SolidColorBrush((Color)dc!)
-                    : Brushes.Red;
-            }
+            headerBorder.Background = Application.Current!.TryFindResource("DangerColor", out object? dc)
+                ? new SolidColorBrush((Color)dc!)
+                : Brushes.Red;
+            
             headerText.Foreground    = Brushes.White;
             subHeaderText.Foreground = Brushes.White;
             headerIcon.Foreground    = Brushes.White;
@@ -177,7 +151,7 @@ public sealed partial class PleasantDialog : ContentDialog
         }
 
         // ── Body text ─────────────────────────────────────────────────────────
-        var bodyText = dialog.FindControl<TextBlock>("BodyText")!;
+        TextBlock bodyText = dialog.FindControl<TextBlock>("BodyText")!;
         if (!string.IsNullOrWhiteSpace(body))
         {
             bodyText.Text      = Localizer.Instance.TryGetString(body, out string rb) ? rb : body;
@@ -185,11 +159,11 @@ public sealed partial class PleasantDialog : ContentDialog
         }
 
         // ── Commands ──────────────────────────────────────────────────────────
-        var commandsHost = dialog.FindControl<ItemsControl>("CommandsHost")!;
+        ItemsControl commandsHost = dialog.FindControl<ItemsControl>("CommandsHost")!;
         if (commands is { Count: > 0 })
         {
-            var items = new List<Control>();
-            foreach (var cmd in commands)
+            List<Control> items = new();
+            foreach (PleasantDialogCommand cmd in commands)
             {
                 string cmdText = Localizer.Instance.TryGetString(cmd.Text, out string rc) ? rc : cmd.Text;
 
@@ -197,7 +171,7 @@ public sealed partial class PleasantDialog : ContentDialog
                 {
                     case PleasantDialogRadioButton rb:
                     {
-                        var radio = new RadioButton
+                        RadioButton radio = new()
                         {
                             Content   = cmdText,
                             IsChecked = rb.IsChecked,
@@ -210,7 +184,7 @@ public sealed partial class PleasantDialog : ContentDialog
                     }
                     case PleasantDialogCheckBox cb:
                     {
-                        var check = new CheckBox
+                        CheckBox check = new()
                         {
                             Content   = cmdText,
                             IsChecked = cb.IsChecked,
@@ -223,7 +197,7 @@ public sealed partial class PleasantDialog : ContentDialog
                     }
                     case PleasantDialogCommandLink cl:
                     {
-                        var btn = new Button
+                        Button btn = new()
                         {
                             Theme = Application.Current!.TryFindResource(
                                 "PleasantDialogCommandLinkTheme", out object? t)
@@ -231,7 +205,7 @@ public sealed partial class PleasantDialog : ContentDialog
                             IsEnabled = cl.IsEnabled,
                             Tag       = cl
                         };
-                        var panel = new StackPanel { Spacing = 2 };
+                        StackPanel panel = new() { Spacing = 2 };
                         panel.Children.Add(new TextBlock { Text = cmdText, FontWeight = FontWeight.SemiBold });
                         if (!string.IsNullOrWhiteSpace(cl.Description))
                             panel.Children.Add(new TextBlock
@@ -263,7 +237,7 @@ public sealed partial class PleasantDialog : ContentDialog
         }
 
         // ── Extra content ─────────────────────────────────────────────────────
-        var extraSlot = dialog.FindControl<ContentPresenter>("ExtraContent")!;
+        ContentPresenter extraSlot = dialog.FindControl<ContentPresenter>("ExtraContent")!;
         if (extraContent is not null)
         {
             extraSlot.Content   = extraContent;
@@ -274,17 +248,14 @@ public sealed partial class PleasantDialog : ContentDialog
         // ── Footer ────────────────────────────────────────────────────────────
         if (footer is not null)
         {
-            var footerBorder  = dialog.FindControl<Border>("FooterBorder")!;
-            var footerContent = dialog.FindControl<ContentPresenter>("FooterContent")!;
-            var toggleButton  = dialog.FindControl<Button>("FooterToggleButton")!;
-            var toggleText    = dialog.FindControl<TextBlock>("FooterToggleText")!;
-            var chevron       = dialog.FindControl<PathIcon>("FooterChevron")!;
+            Border footerBorder = dialog.FindControl<Border>("FooterBorder")!;
+            ContentPresenter footerContent = dialog.FindControl<ContentPresenter>("FooterContent")!;
+            Button toggleButton = dialog.FindControl<Button>("FooterToggleButton")!;
+            TextBlock toggleText = dialog.FindControl<TextBlock>("FooterToggleText")!;
+            PathIcon chevron = dialog.FindControl<PathIcon>("FooterChevron")!;
 
             footerContent.Content  = footer;
             footerBorder.IsVisible = true;
-
-            if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
-                footerBorder.CornerRadius = new CornerRadius(0);
 
             if (footerExpandable)
             {
@@ -307,13 +278,13 @@ public sealed partial class PleasantDialog : ContentDialog
         }
 
         // ── Buttons ───────────────────────────────────────────────────────────
-        var buttonsHost = dialog.FindControl<UniformGrid>("ButtonsHost")!;
+        UniformGrid buttonsHost = dialog.FindControl<UniformGrid>("ButtonsHost")!;
 
         void AddButton(PleasantDialogButton mb)
         {
             string value = Localizer.Instance.TryGetString(mb.Text, out string rv) ? rv : mb.Text;
 
-            var button = new Button
+            Button button = new()
             {
                 Content           = value,
                 IsEnabled         = mb.IsEnabled,
@@ -326,7 +297,7 @@ public sealed partial class PleasantDialog : ContentDialog
                 mb.RaiseClick();
                 mb.Command?.Execute(mb.CommandParameter);
 
-                var args = new PleasantDialogClosingEventArgs(mb.DialogResult);
+                PleasantDialogClosingEventArgs args = new(mb.DialogResult);
                 dialog.Closing?.Invoke(dialog, args);
                 if (args.Cancel) return;
 
@@ -368,17 +339,17 @@ public sealed partial class PleasantDialog : ContentDialog
         else
         {
             buttonsHost.Columns = buttons.Count;
-            foreach (var btn in buttons)
+            foreach (PleasantDialogButton btn in buttons)
                 AddButton(btn);
         }
 
         // Enter / Escape key handling
-        dialog.KeyDown += (_, e) =>
+        dialog.KeyDown += (sender, e) =>
         {
             if (e.Key == Key.Enter && dialog._defaultButton is { IsEnabled: true })
             {
                 dialog._defaultButton.Focus();
-                var args = new PleasantDialogClosingEventArgs(dialog._result);
+                PleasantDialogClosingEventArgs args = new(dialog._result);
                 dialog.Closing?.Invoke(dialog, args);
                 if (!args.Cancel)
                     _ = dialog.CloseAsync();
@@ -393,7 +364,7 @@ public sealed partial class PleasantDialog : ContentDialog
         };
 
         // ── Show ──────────────────────────────────────────────────────────────
-        var tcs = new TaskCompletionSource<object>();
+        TaskCompletionSource<object> tcs = new();
 
         dialog.Closed += (_, _) =>
         {
@@ -417,8 +388,8 @@ public sealed partial class PleasantDialog : ContentDialog
     {
         Avalonia.Threading.Dispatcher.UIThread.Post(() =>
         {
-            var wrapper = this.FindControl<Border>("ProgressBarWrapper")!;
-            var pb      = this.FindControl<ProgressBar>("ProgressBar")!;
+            Border wrapper = this.FindControl<Border>("ProgressBarWrapper")!;
+            ProgressBar pb = this.FindControl<ProgressBar>("ProgressBar")!;
 
             // Animate the wrapper open the first time.
             if (wrapper.Height < ProgressBarVisibleHeight)
@@ -430,7 +401,7 @@ public sealed partial class PleasantDialog : ContentDialog
             if (isError && Application.Current!.TryFindResource("SystemFillColorCritical", out object? ec))
                 pb.Foreground = new SolidColorBrush((Color)ec!);
             else
-                pb.ClearValue(ProgressBar.ForegroundProperty);
+                pb.ClearValue(ForegroundProperty);
 
         }, Avalonia.Threading.DispatcherPriority.Render);
     }

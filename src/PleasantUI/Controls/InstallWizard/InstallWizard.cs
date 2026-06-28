@@ -113,10 +113,10 @@ public class InstallWizard : TemplatedControl
     {
         get
         {
-            var list = GetValue(StepsProperty);
+            IList<WizardStep>? list = GetValue(StepsProperty);
             if (list is null)
             {
-                var avList = new AvaloniaList<WizardStep>();
+                AvaloniaList<WizardStep> avList = new();
                 avList.CollectionChanged += OnStepsCollectionChanged;
                 SetValue(StepsProperty, avList);
                 return avList;
@@ -143,13 +143,13 @@ public class InstallWizard : TemplatedControl
         // Deduplicate: if the list now contains duplicate headers (reinit scenario),
         // keep only the LAST occurrence of each header — i.e. the freshly-added ones.
         // This fires after each Add, so we check on every addition.
-        var seen = new HashSet<string?>();
-        var toRemove = new List<WizardStep>();
+        HashSet<string?> seen = new();
+        List<WizardStep> toRemove = new();
 
         // Walk backwards — keep the last occurrence of each header
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            var header = list[i].Header;
+            string? header = list[i].Header;
             if (!seen.Add(header))
                 toRemove.Add(list[i]);
         }
@@ -157,7 +157,7 @@ public class InstallWizard : TemplatedControl
         if (toRemove.Count == 0) return;
 
         // Remove duplicates (the earlier/stale ones)
-        foreach (var step in toRemove)
+        foreach (WizardStep step in toRemove)
             list.Remove(step);
 
         RefreshComputedProperties();
@@ -410,8 +410,8 @@ public class InstallWizard : TemplatedControl
         {
             bool isLast = CurrentStepIndex >= Steps.Count - 1;
             _nextButton.Content = isLast
-                ? Localizer.Instance.TryGetString("InstallWizard/BtnFinish", out var finish) ? finish : "Finish"
-                : Localizer.Instance.TryGetString("InstallWizard/BtnNext",   out var next)   ? next   : NextButtonText;
+                ? Localizer.Instance.TryGetString("InstallWizard/BtnFinish", out string finish) ? finish : "Finish"
+                : Localizer.Instance.TryGetString("InstallWizard/BtnNext",   out string next)   ? next   : NextButtonText;
         }
     }
 
@@ -426,9 +426,9 @@ public class InstallWizard : TemplatedControl
     /// <returns>A task that completes when the dialog is closed. Returns <c>true</c> if finished, <c>false</c> if cancelled.</returns>
     public static async Task<bool> ShowAsModalAsync(InstallWizard wizard, TopLevel topLevel)
     {
-        var tcs = new TaskCompletionSource<bool>();
+        TaskCompletionSource<bool> tcs = new();
 
-        var dialog = new ContentDialog
+        ContentDialog dialog = new()
         {
             Content = wizard,
             Padding = new Thickness(0)
@@ -456,9 +456,9 @@ public class InstallWizard : TemplatedControl
         double width = 760,
         double height = 500)
     {
-        var tcs = new TaskCompletionSource<bool>();
+        TaskCompletionSource<bool> tcs = new();
 
-        var window = new PleasantWindow
+        PleasantWindow window = new()
         {
             Title                       = wizard.AppName ?? "Setup",
             Width                       = width,

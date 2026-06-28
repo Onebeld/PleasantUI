@@ -39,7 +39,7 @@ public partial class DownloadPanelPageView : LocalizedUserControl
     {
         if (_paused) return;
 
-        foreach (var chunk in DownloadPanelControl.Chunks)
+        foreach (ChunkInfo? chunk in DownloadPanelControl.Chunks)
         {
             if (chunk.Progress >= 1.0) continue;
             
@@ -80,7 +80,7 @@ public partial class DownloadPanelPageView : LocalizedUserControl
         DownloadPanelControl.Progress      = 0;
         DownloadPanelControl.MergeProgress = 0;
 
-        foreach (var chunk in DownloadPanelControl.Chunks)
+        foreach (ChunkInfo? chunk in DownloadPanelControl.Chunks)
         {
             chunk.Progress            = 0;
             chunk.DownloadedBytes     = 0;

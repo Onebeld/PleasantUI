@@ -50,8 +50,8 @@
                                         BorderThickness="1"
                                         Margin="5"
                                         VerticalAlignment="Center">
-                                    <PathIcon Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
-                                              Data="{TemplateBinding Icon}" />
+                                    <PleasantIcon Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
+                                                  Icon="{TemplateBinding Icon}" />
                                 </Border>
 
                                 <!-- Content area: title + message + action button -->
@@ -104,20 +104,20 @@
                                 <!-- Close button (only visible when :closable) -->
                                 <Button x:Name="PART_CloseButton"
                                         Grid.Column="2"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{DynamicResource CloseButtonTheme}"
                                         CornerRadius="99"
                                         Width="28" Height="28"
                                         Padding="6"
                                         VerticalAlignment="Center"
                                         Margin="0 0 6 0"
                                         IsVisible="False">
-                                    <PathIcon Data="{DynamicResource DismissRegular}"
-                                              Width="10" Height="10" />
+                                    <PleasantIcon Icon="{DynamicResource DismissRegular}"
+                                                  Width="10"
+                                                  Height="10" />
                                 </Button>
 
                                 <!-- Fixed right-edge spacer — always present -->
                                 <Border Grid.Column="3" Width="10" />
-
                             </Grid>
                         </Border>
                     </Border>

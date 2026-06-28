@@ -38,8 +38,8 @@ public class VisibilityChangedBehavior : Behavior<ContentPresenter>
 
     private static VisibilityChangedBehavior GetBehavior(ContentPresenter control)
     {
-        var list = Interaction.GetBehaviors(control);
-        var behavior = list.OfType<VisibilityChangedBehavior>().FirstOrDefault();
+        BehaviorCollection list = Interaction.GetBehaviors(control);
+        VisibilityChangedBehavior? behavior = list.OfType<VisibilityChangedBehavior>().FirstOrDefault();
 
         if (behavior == null)
         {
@@ -83,14 +83,14 @@ public class VisibilityChangedBehavior : Behavior<ContentPresenter>
     {
         if (value || AssociatedObject == null) return;
 
-        var grid = AssociatedObject.FindAncestorOfType<Grid>();
+        Grid? grid = AssociatedObject.FindAncestorOfType<Grid>();
         if (grid == null) return;
 
-        var column = Column ?? Grid.GetColumn(AssociatedObject);
+        int column = Column ?? Grid.GetColumn(AssociatedObject);
         if (column < grid.ColumnDefinitions.Count)
             grid.ColumnDefinitions[column].Width = Value;
 
-        var row = Row ?? Grid.GetRow(AssociatedObject);
+        int row = Row ?? Grid.GetRow(AssociatedObject);
         if (row < grid.RowDefinitions.Count)
             grid.RowDefinitions[row].Height = Value;
     }

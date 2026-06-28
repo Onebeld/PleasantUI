@@ -98,7 +98,6 @@ PleasantUI.Example/
 ├── Properties/
 │   └── Localizations/         # .resx resource files (en, ru)
 ├── Structures/                # Helper structures (Language)
-├── Styling/                   # Custom styles (VGUIExampleStyles)
 ├── ViewModels/                # ViewModels (MVVM pattern)
 │   ├── AppViewModel.cs        # Main navigation ViewModel
 │   └── Pages/                 # Page-specific ViewModels (SettingsViewModel)

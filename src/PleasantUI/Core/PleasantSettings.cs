@@ -1,6 +1,9 @@
 ﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Avalonia.Collections;
+using Avalonia.Media;
 using PleasantUI.Core.Settings;
+using PleasantUI.Core.Settings.Converters;
 
 namespace PleasantUI.Core;
 
@@ -94,11 +97,24 @@ public class PleasantSettings : ViewModelBase
     } = [];
 
     /// <summary>
+    /// Gets or sets the font family in application
+    /// </summary>
+    [DataMember]
+    [JsonConverter(typeof(FontFamilyJsonConverter))]
+    public FontFamily Font
+    {
+        get;
+        set => SetProperty(ref field, value);
+    } = FontManager.Current.DefaultFontFamily;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="PleasantSettings"/> class 
     /// with default window and render settings.
     /// </summary>
     public PleasantSettings()
     {
         _windowSettings = new WindowSettings();
+        
+        FontFamily family = new FontFamily("Arial");
     }
 }

@@ -156,9 +156,9 @@ public class OverflowLayoutView : TemplatedControl
     {
         for (int i = 0; i < _items.Count; i++)
         {
-            var obj = _items[i];
-            var index = _sizeCache.FindIndex(x => x.item.Equals(obj));
-            var control = _itemsControl?.ContainerFromIndex(i);
+            object obj = _items[i];
+            int index = _sizeCache.FindIndex(x => x.item.Equals(obj));
+            Control? control = _itemsControl?.ContainerFromIndex(i);
 
             if (control == null)
             {
@@ -166,7 +166,7 @@ public class OverflowLayoutView : TemplatedControl
                 continue;
             }
 
-            var size = control.DesiredSize;
+            Size size = control.DesiredSize;
             if (index >= 0)
                 _sizeCache[index] = (obj, size);
             else
@@ -235,16 +235,16 @@ public class OverflowLayoutView : TemplatedControl
 
     private void UpdateLayout(Size availableSize)
     {
-        var available = GetSize(availableSize);
-        var buttonSize = GetButtonSize();
+        double available = GetSize(availableSize);
+        double buttonSize = GetButtonSize();
         available -= buttonSize + Spacing;
 
-        var size = GetSize(LayoutHelper.MeasureChild(_itemsControl, Size.Infinity, default));
+        double size = GetSize(LayoutHelper.MeasureChild(_itemsControl, Size.Infinity, default));
         UpdateSizeCache();
 
         if (size >= available)
         {
-            var overflow = size - available;
+            double overflow = size - available;
             int i = _items.Count - 1;
 
             for (; i >= 0; i--)
@@ -261,7 +261,7 @@ public class OverflowLayoutView : TemplatedControl
 
             if (i < _items.Count - 1)
             {
-                var newEllipsisItems = _items.Skip(i + 1).ToArray();
+                object[] newEllipsisItems = _items.Skip(i + 1).ToArray();
                 _items.RemoveRange(i + 1, _items.Count - i - 1);
                 _ellipsisItems.InsertRange(0, newEllipsisItems);
                 if (_buttonPresenter != null)
@@ -270,7 +270,7 @@ public class OverflowLayoutView : TemplatedControl
         }
         else
         {
-            var space = available - size;
+            double space = available - size;
             int i = 0;
 
             for (; i < _ellipsisItems.Count; i++)
@@ -282,7 +282,7 @@ public class OverflowLayoutView : TemplatedControl
 
             if (i > 0)
             {
-                var newItems = _ellipsisItems.Take(i).ToArray();
+                object[] newItems = _ellipsisItems.Take(i).ToArray();
                 _ellipsisItems.RemoveRange(0, i);
                 _items.AddRange(newItems);
                 if (_buttonPresenter != null)

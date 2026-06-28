@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Avalonia;
@@ -237,10 +238,10 @@ public class PleasantFileChooser : TemplatedControl
 
         // Populate collections
         QuickLinks.Clear();
-        foreach (var q in vm.QuickLinks) QuickLinks.Add(q);
+        foreach (PleasantFileChooserItem q in vm.QuickLinks) QuickLinks.Add(q);
 
         Filters.Clear();
-        foreach (var f in vm.Filters) Filters.Add(f);
+        foreach (PleasantFileChooserFilter f in vm.Filters) Filters.Add(f);
 
         // Sync scalar state
         CurrentPath         = vm.CurrentPath;
@@ -288,7 +289,7 @@ public class PleasantFileChooser : TemplatedControl
     {
         Items.Clear();
         if (_vm is null) return;
-        foreach (var item in _vm.Items) Items.Add(item);
+        foreach (PleasantFileChooserItem item in _vm.Items) Items.Add(item);
     }
 
     // ── Template ──────────────────────────────────────────────────────────────
@@ -370,9 +371,9 @@ public class PleasantFileChooser : TemplatedControl
         if (_vm is null || _fileList is null) return;
 
         _vm.SelectedItems.Clear();
-        var selected = _fileList.SelectedItems;
+        IList? selected = _fileList.SelectedItems;
         if (selected is null) return;
-        foreach (var obj in selected)
+        foreach (object? obj in selected)
         {
             if (obj is PleasantFileChooserItem item)
                 _vm.SelectedItems.Add(item);
@@ -421,7 +422,7 @@ public class PleasantFileChooser : TemplatedControl
         TopLevel topLevel,
         PleasantFileChooserOptions options)
     {
-        var vm = new PleasantFileChooserViewModel
+        PleasantFileChooserViewModel vm = new()
         {
             Title         = options.Title ?? "Open",
             AllowMultiple = options.AllowMultiple,
@@ -432,11 +433,11 @@ public class PleasantFileChooser : TemplatedControl
                             ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
         };
 
-        var chooser = new PleasantFileChooser();
+        PleasantFileChooser chooser = new();
         chooser.SetViewModel(vm);
 
-        var tcs    = new TaskCompletionSource<IReadOnlyList<string>?>();
-        var dialog = new ContentDialog
+        TaskCompletionSource<IReadOnlyList<string>?> tcs    = new();
+        ContentDialog dialog = new()
         {
             Content   = chooser,
             Padding   = new Thickness(0),

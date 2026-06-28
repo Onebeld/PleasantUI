@@ -28,7 +28,7 @@ public static class ObservableHelper
 
             void Emit()
             {
-                var newValue = hasContent && childVisible;
+                bool newValue = hasContent && childVisible;
                 if (newValue != lastValue)
                 {
                     lastValue = newValue;
@@ -59,14 +59,14 @@ public static class ObservableHelper
                 Emit();
             }
 
-            var contentDisposable = presenter.GetObservable(ContentPresenter.ContentProperty)
+            IDisposable contentDisposable = presenter.GetObservable(ContentPresenter.ContentProperty)
                 .Subscribe(new AnonymousObserver<object?>(c =>
                 {
                     hasContent = c != null;
                     Emit();
                 }));
 
-            var childWatchDisposable = presenter.GetObservable(ContentPresenter.ChildProperty)
+            IDisposable childWatchDisposable = presenter.GetObservable(ContentPresenter.ChildProperty)
                 .Subscribe(new AnonymousObserver<Control?>(SubscribeToChild));
 
             return new AnonymousDisposable(() =>

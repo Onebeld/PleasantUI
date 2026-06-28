@@ -47,8 +47,8 @@ public class SideBarButton : ToggleButton
     {
         base.OnAttachedToVisualTree(e);
 
-        var itemsControl = this.FindAncestorOfType<ItemsControl>();
-        var location = itemsControl?.Name switch
+        ItemsControl? itemsControl = this.FindAncestorOfType<ItemsControl>();
+        SideBarButtonLocation location = itemsControl?.Name switch
         {
             "PART_UpperTopTools"    => SideBarButtonLocation.UpperTop,
             "PART_UpperBottomTools" => SideBarButtonLocation.UpperBottom,
@@ -57,7 +57,7 @@ public class SideBarButton : ToggleButton
             _                       => default
         };
 
-        var sideBar = this.FindAncestorOfType<SideBar>();
+        SideBar? sideBar = this.FindAncestorOfType<SideBar>();
         if (sideBar != null)
         {
             DockLocation = new DockAreaLocation(location, sideBar.Location);
@@ -89,7 +89,7 @@ public class SideBarButton : ToggleButton
                     return;
                 }
 
-                var host = this.FindAncestorOfType<ReDockHost>();
+                ReDockHost? host = this.FindAncestorOfType<ReDockHost>();
                 if (host != null)
                 {
                     host.HandleButtonToggle(this, isChecked == true);
@@ -109,7 +109,7 @@ public class SideBarButton : ToggleButton
     {
         base.OnPointerPressed(e);
 
-        var pt = e.GetCurrentPoint(this);
+        PointerPoint pt = e.GetCurrentPoint(this);
         Debug.WriteLine($"[SideBarButton] PointerPressed tag={DebugTag} pos={pt.Position:F1} right={pt.Properties.IsRightButtonPressed}");
 
         if (pt.Properties.IsRightButtonPressed)
@@ -138,10 +138,10 @@ public class SideBarButton : ToggleButton
 
         if (!_canDrag || _pressedArgs == null) return;
 
-        var point = e.GetPosition(this);
-        var threshold = Bounds.Height / 4;
-        var dx = Math.Abs(point.X - _startPoint.X);
-        var dy = Math.Abs(point.Y - _startPoint.Y);
+        Point point = e.GetPosition(this);
+        double threshold = Bounds.Height / 4;
+        double dx = Math.Abs(point.X - _startPoint.X);
+        double dy = Math.Abs(point.Y - _startPoint.Y);
 
         if (!(dx > threshold) && !(dy > threshold))
             return;
@@ -149,10 +149,10 @@ public class SideBarButton : ToggleButton
         Debug.WriteLine($"[SideBarButton] DragStart tag={DebugTag} startPt={_startPoint:F1} curPt={point:F1} dx={dx:F1} dy={dy:F1} threshold={threshold:F1} DockLocation={DockLocation?.ButtonLocation}/{DockLocation?.LeftRight}");
 
         _canDrag = false;
-        var pressedArgs = _pressedArgs;
+        PointerPressedEventArgs? pressedArgs = _pressedArgs;
         _pressedArgs = null;
 
-        var sideBar = this.FindAncestorOfType<SideBar>();
+        SideBar? sideBar = this.FindAncestorOfType<SideBar>();
         Debug.WriteLine($"[SideBarButton] DragStart — source SideBar={sideBar?.Location.ToString() ?? "null"}");
         sideBar?.SetGridHitTestVisible(false);
 
@@ -163,8 +163,8 @@ public class SideBarButton : ToggleButton
             Debug.WriteLine($"[SideBarButton] DragStart — hiding button and ContentPresenter parent");
         }
 
-        var item = DataTransferItem.Create(DragFormat, "drag");
-        var data = new DataTransfer();
+        DataTransferItem item = DataTransferItem.Create(DragFormat, "drag");
+        DataTransfer data = new();
         data.Add(item);
 
         CurrentDragButton = this;
@@ -173,7 +173,7 @@ public class SideBarButton : ToggleButton
         // Snapshot the source sidebar BEFORE the drop — after DoDragDropAsync returns
         // the button may have been moved to a different sidebar's ItemsSource, so
         // FindAncestorOfType<SideBar>() would return the new sidebar (or null).
-        var sourceSideBar = this.FindAncestorOfType<SideBar>();
+        SideBar? sourceSideBar = this.FindAncestorOfType<SideBar>();
 
         await DragDrop.DoDragDropAsync(pressedArgs, data, DragDropEffects.Move);
         Debug.WriteLine($"[SideBarButton] DoDragDropAsync completed");
@@ -181,7 +181,7 @@ public class SideBarButton : ToggleButton
 
         sideBar?.SetGridHitTestVisible(true);
 
-        var currentSideBar = this.FindAncestorOfType<SideBar>();
+        SideBar? currentSideBar = this.FindAncestorOfType<SideBar>();
         bool wasDetached = currentSideBar == null;
         bool movedToOtherSideBar = !wasDetached && !ReferenceEquals(currentSideBar, sourceSideBar);
         
@@ -212,7 +212,7 @@ public class SideBarButton : ToggleButton
 
         Debug.WriteLine($"[SideBarButton] Executing pending move from {PendingMove.SourceSideBar?.Location}/{PendingMove.SourceLocation?.ButtonLocation} to {PendingMove.DestinationSideBar?.Location}/{PendingMove.DestinationLocation?.ButtonLocation}[{PendingMove.DestinationIndex}]");
 
-        var oldItemsSource = PendingMove.SourceLocation?.ButtonLocation switch
+        IEnumerable? oldItemsSource = PendingMove.SourceLocation?.ButtonLocation switch
         {
             SideBarButtonLocation.UpperTop    => PendingMove.SourceSideBar?.UpperTopToolsSource,
             SideBarButtonLocation.UpperBottom => PendingMove.SourceSideBar?.UpperBottomToolsSource,
@@ -221,7 +221,7 @@ public class SideBarButton : ToggleButton
             _                                 => null
         };
 
-        var newItemsSource = PendingMove.DestinationLocation?.ButtonLocation switch
+        IEnumerable? newItemsSource = PendingMove.DestinationLocation?.ButtonLocation switch
         {
             SideBarButtonLocation.UpperTop    => PendingMove.DestinationSideBar?.UpperTopToolsSource,
             SideBarButtonLocation.UpperBottom => PendingMove.DestinationSideBar?.UpperBottomToolsSource,
@@ -240,8 +240,8 @@ public class SideBarButton : ToggleButton
                 
                 // Update the button's DockLocation to reflect the new location
                 // This is important for subsequent drag operations
-                var newSideBar = PendingMove.DestinationSideBar;
-                var newLocation = newSideBar?.FindAncestorOfType<ItemsControl>()?.Name switch
+                SideBar? newSideBar = PendingMove.DestinationSideBar;
+                SideBarButtonLocation newLocation = newSideBar?.FindAncestorOfType<ItemsControl>()?.Name switch
                 {
                     "PART_UpperTopTools" => SideBarButtonLocation.UpperTop,
                     "PART_UpperBottomTools" => SideBarButtonLocation.UpperBottom,

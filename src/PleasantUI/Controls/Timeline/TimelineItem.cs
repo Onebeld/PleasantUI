@@ -76,7 +76,6 @@ public class TimelineItem : HeaderedContentControl
         AvaloniaProperty.Register<TimelineItem, string?>(nameof(TimeFormat));
 
     // Direct properties used by TimelinePanel for column-width synchronisation.
-    private double _leftWidth, _iconWidth, _rightWidth;
 
     /// <summary>Defines the <see cref="LeftWidth"/> property.</summary>
     public static readonly DirectProperty<TimelineItem, double> LeftWidthProperty =
@@ -140,22 +139,22 @@ public class TimelineItem : HeaderedContentControl
     /// <summary>Width of the left column (time or content depending on position).</summary>
     public double LeftWidth
     {
-        get => _leftWidth;
-        set => SetAndRaise(LeftWidthProperty, ref _leftWidth, value);
+        get;
+        set => SetAndRaise(LeftWidthProperty, ref field, value);
     }
 
     /// <summary>Width of the centre column (icon node).</summary>
     public double IconWidth
     {
-        get => _iconWidth;
-        set => SetAndRaise(IconWidthProperty, ref _iconWidth, value);
+        get;
+        set => SetAndRaise(IconWidthProperty, ref field, value);
     }
 
     /// <summary>Width of the right column.</summary>
     public double RightWidth
     {
-        get => _rightWidth;
-        set => SetAndRaise(RightWidthProperty, ref _rightWidth, value);
+        get;
+        set => SetAndRaise(RightWidthProperty, ref field, value);
     }
 
     // ── Static constructor ───────────────────────────────────────────────────

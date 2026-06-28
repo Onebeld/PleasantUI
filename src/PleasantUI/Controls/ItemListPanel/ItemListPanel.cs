@@ -205,8 +205,8 @@ public class ItemListPanel : TemplatedControl
     /// <summary>Gets the number of selected items in multi-select mode.</summary>
     public int SelectedCount
     {
-        get => _selectedCount;
-        private set => SetAndRaise(SelectedCountProperty, ref _selectedCount, value);
+        get;
+        private set => SetAndRaise(SelectedCountProperty, ref field, value);
     }
 
     // ── Events ────────────────────────────────────────────────────────────────
@@ -222,7 +222,6 @@ public class ItemListPanel : TemplatedControl
     private TextBox?          _searchBox;
     private ListBox?          _listBox;
     private Button?           _clearButton;
-    private int               _selectedCount;
     private IEnumerable?      _originalItems;
     private AvaloniaList<object>? _filteredItems;
 
@@ -307,7 +306,7 @@ public class ItemListPanel : TemplatedControl
     {
         if (_listBox is null) return;
         
-        var items = ItemsSource;
+        IEnumerable? items = ItemsSource;
         _originalItems = items;
         
         if (string.IsNullOrEmpty(SearchText))
@@ -335,11 +334,11 @@ public class ItemListPanel : TemplatedControl
         _filteredItems ??= new AvaloniaList<object>();
         _filteredItems.Clear();
 
-        foreach (var item in _originalItems)
+        foreach (object? item in _originalItems)
         {
             if (item is not null)
             {
-                var itemString = item.ToString();
+                string? itemString = item.ToString();
                 if (!string.IsNullOrEmpty(itemString) && 
                     itemString.Contains(searchText, StringComparison.OrdinalIgnoreCase))
                 {

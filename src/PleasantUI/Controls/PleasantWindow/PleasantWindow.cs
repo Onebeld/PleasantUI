@@ -350,7 +350,7 @@ public class PleasantWindow : PleasantWindowBase
         _splashLayer.Children.Add(_splashOverlay);
         _splashLayer.IsVisible = true;
 
-        var startTime = Environment.TickCount64;
+        long startTime = Environment.TickCount64;
 
         try
         {
@@ -374,7 +374,7 @@ public class PleasantWindow : PleasantWindowBase
         {
             if (_splashOverlay is null) return;
 
-            var fadeOut = new Animation
+            Animation fadeOut = new()
             {
                 Duration = TimeSpan.FromMilliseconds(350),
                 FillMode = FillMode.Forward,

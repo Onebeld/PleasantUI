@@ -131,7 +131,7 @@ public class DashboardCard : HeaderedContentControl
     {
         base.OnApplyTemplate(e);
 
-        var toolbar = e.NameScope.Find<ItemsControl>(PART_HeaderToolbar);
+        ItemsControl? toolbar = e.NameScope.Find<ItemsControl>(PART_HeaderToolbar);
         if (toolbar is not null)
             toolbar.ItemsSource = ToolbarItems;
 

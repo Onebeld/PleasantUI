@@ -19,7 +19,7 @@ public class NoticeDialogViewModel : ViewModelBase
 
     public async Task ShowInfo()
     {
-        NoticeDialog dialog = new NoticeDialog
+        NoticeDialog dialog = new()
         {
             Title = T("InfoTitle", "Information"),
             Message = T("InfoMessage", "Your changes have been saved successfully."),
@@ -34,7 +34,7 @@ public class NoticeDialogViewModel : ViewModelBase
 
     public async Task ShowWarning()
     {
-        NoticeDialog dialog = new NoticeDialog
+        NoticeDialog dialog = new()
         {
             Title = T("WarningTitle", "Warning"),
             Message = T("WarningMessage", "The file you are trying to open is larger than 100MB. Opening it may slow down the application."),
@@ -51,7 +51,7 @@ public class NoticeDialogViewModel : ViewModelBase
 
     public async Task ShowError()
     {
-        NoticeDialog dialog = new NoticeDialog
+        NoticeDialog dialog = new()
         {
             Title = T("ErrorTitle", "Error"),
             Message = T("ErrorMessage", "An unexpected error occurred while processing your request. Please try again later."),

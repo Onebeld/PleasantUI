@@ -21,10 +21,10 @@ internal class SideBarButtonMenuFlyout : MenuFlyout
     {
         _dockHost = dockHost;
 
-        var list = new List<Control>();
+        List<Control> list = new();
 
         // Move to menu
-        var moveMenu = new MenuItem
+        MenuItem moveMenu = new()
         {
             Header = "Move to",
             ItemsSource = dockHost.DockAreas
@@ -42,7 +42,7 @@ internal class SideBarButtonMenuFlyout : MenuFlyout
         // Display mode menu (if floating is enabled)
         if (dockHost.IsFloatingEnabled)
         {
-            var displayMenu = new MenuItem
+            MenuItem displayMenu = new()
             {
                 Header = "Display mode",
                 ItemsSource = new List<Control>
@@ -64,7 +64,7 @@ internal class SideBarButtonMenuFlyout : MenuFlyout
         if (e.Source is MenuItem { Tag: DockableDisplayMode mode } &&
             Target is SideBarButton button)
         {
-            var args = new SideBarButtonDisplayModeChangedEventArgs(ReDockHost.ButtonDisplayModeChangedEvent, this)
+            SideBarButtonDisplayModeChangedEventArgs args = new(ReDockHost.ButtonDisplayModeChangedEvent, this)
             {
                 DisplayMode = mode,
                 Item = button.DataContext,
@@ -80,17 +80,17 @@ internal class SideBarButtonMenuFlyout : MenuFlyout
         if (e.Source is MenuItem { DataContext: DockArea area } &&
             Target is SideBarButton button)
         {
-            var oldSideBar = button.FindAncestorOfType<SideBar>();
-            var newSideBar = area.SideBar;
+            SideBar? oldSideBar = button.FindAncestorOfType<SideBar>();
+            SideBar? newSideBar = area.SideBar;
 
             if (oldSideBar is null || newSideBar is null) return;
 
-            var oldLocation = button.DockLocation;
-            var newLocation = area.Location;
+            DockAreaLocation? oldLocation = button.DockLocation;
+            DockAreaLocation newLocation = area.Location;
 
             if (oldLocation is null || oldLocation == newLocation) return;
 
-            var args = new SideBarButtonMoveEventArgs(ReDockHost.ButtonMoveEvent, this)
+            SideBarButtonMoveEventArgs args = new(ReDockHost.ButtonMoveEvent, this)
             {
                 Item = button.DataContext,
                 Button = button,

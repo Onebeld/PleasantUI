@@ -59,18 +59,8 @@ public static class Observable
         });
     }
     
-    private sealed class CreateWithDisposableObservable<TSource> : IObservable<TSource>
+    private sealed class CreateWithDisposableObservable<TSource>(Func<IObserver<TSource>, IDisposable> subscribe) : IObservable<TSource>
     {
-        private readonly Func<IObserver<TSource>, IDisposable> _subscribe;
-
-        public CreateWithDisposableObservable(Func<IObserver<TSource>, IDisposable> subscribe)
-        {
-            _subscribe = subscribe;
-        }
-
-        public IDisposable Subscribe(IObserver<TSource> observer)
-        {
-            return _subscribe(observer);
-        }
+        public IDisposable Subscribe(IObserver<TSource> observer) => subscribe(observer);
     }
 }

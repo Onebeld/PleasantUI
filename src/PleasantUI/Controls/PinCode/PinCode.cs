@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 
@@ -46,8 +47,6 @@ public class PinCode : TemplatedControl
     public static readonly StyledProperty<double> SpacingProperty =
         AvaloniaProperty.Register<PinCode, double>(nameof(Spacing), 8);
 
-    private IList<string> _digits = new List<string>(Enumerable.Repeat(string.Empty, 4));
-
     public int         Count           { get => GetValue(CountProperty);           set => SetValue(CountProperty, value); }
     public PinCodeMode Mode            { get => GetValue(ModeProperty);            set => SetValue(ModeProperty, value); }
     public char        PasswordChar    { get => GetValue(PasswordCharProperty);    set => SetValue(PasswordCharProperty, value); }
@@ -57,15 +56,15 @@ public class PinCode : TemplatedControl
     /// <summary>Current entered values — one entry per cell.</summary>
     public IList<string> Digits
     {
-        get => _digits;
+        get;
         private set
         {
-            SetAndRaise(DigitsProperty, ref _digits, value);
+            SetAndRaise(DigitsProperty, ref field, value);
             // Keep ItemsControl in sync whenever the list is replaced
             if (_itemsControl is not null)
-                _itemsControl.ItemsSource = _digits;
+                _itemsControl.ItemsSource = field;
         }
-    }
+    } = new List<string>(Enumerable.Repeat(string.Empty, 4));
 
     // ── Events ────────────────────────────────────────────────────────────────
 
@@ -130,7 +129,7 @@ public class PinCode : TemplatedControl
     {
         if (e.Source is Control t)
         {
-            var item = t.FindLogicalAncestorOfType<PinCodeItem>();
+            PinCodeItem? item = t.FindLogicalAncestorOfType<PinCodeItem>();
             if (item is not null)
             {
                 item.Focus();
@@ -157,7 +156,7 @@ public class PinCode : TemplatedControl
         char c = e.Text[0];
         if (!IsValid(c)) return;
 
-        var cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+        PinCodeItem? cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
         if (cell is null) return;
 
         cell.Text        = e.Text;
@@ -179,10 +178,10 @@ public class PinCode : TemplatedControl
     private async void OnPreviewKeyDown(KeyEventArgs e)
     {
         // Paste
-        var pasteKeys = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste;
+        List<KeyGesture>? pasteKeys = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste;
         if (pasteKeys?.Any(k => k.Matches(e)) == true)
         {
-            var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+            IClipboard? clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
             if (clipboard is null) return;
 
             // IClipboard implements IAsyncDataTransfer in Avalonia 12
@@ -192,7 +191,7 @@ public class PinCode : TemplatedControl
 
             if (text is not null)
             {
-                var chars = text.Where(IsValid).Take(Count).ToArray();
+                char[] chars = text.Where(IsValid).Take(Count).ToArray();
                 for (int i = 0; i < chars.Length; i++)
                 {
                     Digits[i] = chars[i].ToString();
@@ -217,7 +216,7 @@ public class PinCode : TemplatedControl
             case Key.Back:
             {
                 _currentIndex = Clamp(_currentIndex, 0, Count - 1);
-                var cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+                PinCodeItem? cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
                 if (cell is null) break;
 
                 if (!string.IsNullOrEmpty(Digits[_currentIndex]))
@@ -230,7 +229,7 @@ public class PinCode : TemplatedControl
                 {
                     // Move back and clear previous
                     _currentIndex--;
-                    var prev = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+                    PinCodeItem? prev = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
                     if (prev is not null) { prev.Text = string.Empty; Digits[_currentIndex] = string.Empty; }
                     _itemsControl?.ContainerFromIndex(_currentIndex)?.Focus();
                 }
@@ -240,7 +239,7 @@ public class PinCode : TemplatedControl
             case Key.Delete:
             {
                 _currentIndex = Clamp(_currentIndex, 0, Count - 1);
-                var cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+                PinCodeItem? cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
                 if (cell is not null) { cell.Text = string.Empty; Digits[_currentIndex] = string.Empty; }
                 if (_currentIndex < Count - 1)
                 {

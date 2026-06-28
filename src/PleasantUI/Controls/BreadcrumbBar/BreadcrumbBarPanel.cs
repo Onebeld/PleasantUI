@@ -35,7 +35,7 @@ internal sealed class BreadcrumbBarPanel : Panel
         int count = Children.Count;
         for (int i = 0; i < count; i++)
         {
-            var child = Children[i];
+            Control child = Children[i];
             child.Measure(availableSize);
 
             // Index 0 is always the ellipsis item — don't add its width to the total.
@@ -72,7 +72,7 @@ internal sealed class BreadcrumbBarPanel : Panel
         // Ellipsis item (index 0)
         if (count > 0)
         {
-            var ellipsis = Children[0];
+            Control ellipsis = Children[0];
             if (EllipsisIsRendered)
             {
                 ellipsis.Arrange(new Rect(accumX, 0, ellipsis.DesiredSize.Width, maxHeight));
@@ -87,7 +87,7 @@ internal sealed class BreadcrumbBarPanel : Panel
         // Regular items (index 1+)
         for (int i = 1; i < count; i++)
         {
-            var child = Children[i];
+            Control child = Children[i];
             if (i < firstToRender)
             {
                 child.Arrange(default);

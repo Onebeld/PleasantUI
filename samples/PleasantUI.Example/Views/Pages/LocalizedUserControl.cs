@@ -30,7 +30,7 @@ public abstract class LocalizedUserControl : UserControl
 
     protected LocalizedUserControl()
     {
-        var currentLang = Localizer.Instance.CurrentLanguage;
+        string currentLang = Localizer.Instance.CurrentLanguage;
         Debug.WriteLine($"[{GetType().Name}] Constructor START - CurrentLanguage={currentLang}");
 
         Localizer.Instance.LocalizationChanged += OnLanguageChanged;
@@ -90,7 +90,7 @@ public abstract class LocalizedUserControl : UserControl
     {
         try
         {
-            var oldDataContext = DataContext;
+            object? oldDataContext = DataContext;
             DataContext = null;
             Content = null;
 

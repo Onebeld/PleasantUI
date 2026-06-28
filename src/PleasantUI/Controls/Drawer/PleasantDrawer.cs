@@ -298,8 +298,8 @@ public class PleasantDrawer : PleasantPopupElement
         // We check by hit-testing whether the press was inside PART_DrawerPanel.
         if (!CanLightDismiss || _drawerPanel is null) return;
 
-        var pos = e.GetPosition(_drawerPanel);
-        var bounds = new Rect(_drawerPanel.Bounds.Size);
+        Point pos = e.GetPosition(_drawerPanel);
+        Rect bounds = new(_drawerPanel.Bounds.Size);
         if (!bounds.Contains(pos))
         {
             e.Handled = true;
@@ -350,7 +350,7 @@ public class PleasantDrawer : PleasantPopupElement
     {
         _modalWindows = WindowHelper.GetModalWindows(topLevel);
 
-        var tcs = new TaskCompletionSource<T?>();
+        TaskCompletionSource<T?> tcs = new();
 
         // The drawer must stretch to fill the ModalWindowHost (which is full-screen)
         // so its internal Panel covers the entire overlay and the ShadowBorder
@@ -414,7 +414,7 @@ public class PleasantDrawer : PleasantPopupElement
         IsHitTestVisible = false;
 
         // Run hide animations in parallel, wait for both
-        var tasks = new List<Task>();
+        List<Task> tasks = new();
 
         if (_overlay is not null)
         {

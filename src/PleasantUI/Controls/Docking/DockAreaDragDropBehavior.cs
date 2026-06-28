@@ -90,7 +90,7 @@ public class DockAreaDragDropBehavior : Behavior<Control>
 
         if (_anyHidden && notReDock)
         {
-            HoverSplittedView(e, out var postAction, out detectedArea);
+            HoverSplittedView(e, out SystemAction? postAction, out detectedArea);
             postAction?.Invoke();
         }
         else
@@ -109,10 +109,10 @@ public class DockAreaDragDropBehavior : Behavior<Control>
 
         if (detectedArea?.SideBar != null)
         {
-            var oldSideBar = button.FindAncestorOfType<SideBar>();
+            SideBar? oldSideBar = button.FindAncestorOfType<SideBar>();
             if (oldSideBar == null) return;
 
-            var args = new SideBarButtonMoveEventArgs(ReDockHost.ButtonMoveEvent, AssociatedObject)
+            SideBarButtonMoveEventArgs args = new(ReDockHost.ButtonMoveEvent, AssociatedObject)
             {
                 Item = button.DataContext,
                 Button = button,
@@ -200,22 +200,22 @@ public class DockAreaDragDropBehavior : Behavior<Control>
 
         if (Areas == null || Areas.Length < 2) return false;
 
-        var first = Areas[0];
-        var second = Areas[1];
-        var horizontal = AssociatedObject is HorizontallySplittedView;
+        (DockArea, Control) first = Areas[0];
+        (DockArea, Control) second = Areas[1];
+        bool horizontal = AssociatedObject is HorizontallySplittedView;
 
-        var size = horizontal ? AssociatedObject!.Bounds.Width : AssociatedObject!.Bounds.Height;
-        var bounds = new Rect(AssociatedObject.Bounds.Size);
+        double size = horizontal ? AssociatedObject!.Bounds.Width : AssociatedObject!.Bounds.Height;
+        Rect bounds = new(AssociatedObject.Bounds.Size);
 
-        var firstBounds = horizontal ? bounds.WithWidth(size / 3) : bounds.WithHeight(size / 3);
-        var secondBounds = horizontal
+        Rect firstBounds = horizontal ? bounds.WithWidth(size / 3) : bounds.WithHeight(size / 3);
+        Rect secondBounds = horizontal
             ? firstBounds.WithX(size - firstBounds.Width)
             : firstBounds.WithY(size - firstBounds.Height);
-        var ghostBounds = horizontal ? bounds.WithWidth(size / 2) : bounds.WithHeight(size / 2);
+        Rect ghostBounds = horizontal ? bounds.WithWidth(size / 2) : bounds.WithHeight(size / 2);
 
-        var position = e.GetPosition(AssociatedObject);
-        var firstVisible = (first.Item2 as ContentPresenter)?.IsChildVisible() == true;
-        var secondVisible = (second.Item2 as ContentPresenter)?.IsChildVisible() == true;
+        Point position = e.GetPosition(AssociatedObject);
+        bool firstVisible = (first.Item2 as ContentPresenter)?.IsChildVisible() == true;
+        bool secondVisible = (second.Item2 as ContentPresenter)?.IsChildVisible() == true;
 
         if (!firstVisible && firstBounds.Contains(position))
         {
@@ -247,7 +247,7 @@ public class DockAreaDragDropBehavior : Behavior<Control>
         {
             if (DragGhost != null && Layer != null)
             {
-                var ghostPos = horizontal ? new Point(ghostBounds.Width, 0) : new Point(0, ghostBounds.Height);
+                Point ghostPos = horizontal ? new Point(ghostBounds.Width, 0) : new Point(0, ghostBounds.Height);
                 DragGhost.Margin = (AssociatedObject.TranslatePoint(ghostPos, Layer) ?? default).ToThickness();
                 DragGhost.Width = ghostBounds.Width;
                 DragGhost.Height = ghostBounds.Height;
@@ -290,12 +290,12 @@ public class DockAreaDragDropBehavior : Behavior<Control>
     {
         if ((presenter as ContentPresenter)?.IsChildVisible() == false) return false;
 
-        var position = e.GetPosition(presenter);
+        Point position = e.GetPosition(presenter);
         if (!presenter.Bounds.WithX(0).WithY(0).Contains(position)) return false;
 
         if (Layer != null && DragGhost != null)
         {
-            var ghostPos = Layer.PointToClient(presenter.PointToScreen(default));
+            Point ghostPos = Layer.PointToClient(presenter.PointToScreen(default));
             DragGhost.Margin = new Thickness(ghostPos.X, ghostPos.Y, 0, 0);
             DragGhost.Width = presenter.Bounds.Width;
             DragGhost.Height = presenter.Bounds.Height;

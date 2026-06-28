@@ -259,7 +259,7 @@ public class PopConfirm : ContentControl
 
     private void OnTriggerModeChanged(AvaloniaPropertyChangedEventArgs<PopConfirmTriggerMode> args)
     {
-        var child = Presenter?.Child;
+        Control? child = Presenter?.Child;
         TeardownChildEventSubscriptions(child);
         SetupChildEventSubscriptions(child, args.NewValue.Value);
     }
@@ -323,7 +323,7 @@ public class PopConfirm : ContentControl
     private void OnMainElementLostFocus(object? sender, RoutedEventArgs e)
     {
         // Don't close if focus moved inside the popup
-        var newFocus = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
+        IInputElement? newFocus = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
         if (newFocus is Visual v && (_popup?.IsInsidePopup(v) ?? false)) return;
         SetCurrentValue(IsDropdownOpenProperty, false);
     }

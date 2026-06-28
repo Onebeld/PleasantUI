@@ -175,7 +175,6 @@ public class CommandBar : ContentControl
     // Dynamic overflow tracking
     private int  _numInOverflow;
     private int  _hasOrderedOverflow;
-    private Size _availableSize;
     private Dictionary<ICommandBarElement, double>? _widthCache;
     private double _minRecoverWidth;
 
@@ -257,7 +256,7 @@ public class CommandBar : ContentControl
         }
         else if (change.Property == DefaultLabelPositionProperty)
         {
-            var pos = change.GetNewValue<CommandBarDefaultLabelPosition>();
+            CommandBarDefaultLabelPosition pos = change.GetNewValue<CommandBarDefaultLabelPosition>();
             PseudoClasses.Set(PC_LabelBottom,    pos == CommandBarDefaultLabelPosition.Bottom);
             PseudoClasses.Set(PC_LabelRight,     pos == CommandBarDefaultLabelPosition.Right);
             PseudoClasses.Set(PC_LabelCollapsed, pos == CommandBarDefaultLabelPosition.Collapsed);
@@ -265,7 +264,7 @@ public class CommandBar : ContentControl
         }
         else if (change.Property == ClosedDisplayModeProperty)
         {
-            var mode = change.GetNewValue<CommandBarClosedDisplayMode>();
+            CommandBarClosedDisplayMode mode = change.GetNewValue<CommandBarClosedDisplayMode>();
             PseudoClasses.Set(PC_Compact, mode == CommandBarClosedDisplayMode.Compact);
             PseudoClasses.Set(PC_Minimal, mode == CommandBarClosedDisplayMode.Minimal);
             PseudoClasses.Set(PC_Hidden,  mode == CommandBarClosedDisplayMode.Hidden);
@@ -284,10 +283,8 @@ public class CommandBar : ContentControl
         if (!IsDynamicOverflowEnabled || _primaryItems is null || _moreButton is null)
             return base.MeasureOverride(availableSize);
 
-        _availableSize = availableSize;
-
         // First pass: measure everything unconstrained.
-        var sz = base.MeasureOverride(Size.Infinity);
+        Size sz = base.MeasureOverride(Size.Infinity);
 
         if (_primaryCommands.Count == 0)
         {
@@ -307,11 +304,11 @@ public class CommandBar : ContentControl
             double tracked = primaryWidth;
             while (_numInOverflow > 0)
             {
-                var toReturn = GetReturnToPrimaryItems();
+                IList<ICommandBarElement>? toReturn = GetReturnToPrimaryItems();
                 if (toReturn is null) break;
 
                 double groupWidth = 0;
-                foreach (var item in toReturn)
+                foreach (ICommandBarElement item in toReturn)
                 {
                     groupWidth += GetCachedWidth(item);
                     _overflowItems!.Remove(item);
@@ -333,10 +330,10 @@ public class CommandBar : ContentControl
             double tracked = 0;
             while (_primaryItemsHost!.DesiredSize.Width - tracked > available)
             {
-                var toOverflow = GetNextItemsToOverflow();
+                IList<ICommandBarElement>? toOverflow = GetNextItemsToOverflow();
                 if (toOverflow is null) break;
 
-                foreach (var item in toOverflow)
+                foreach (ICommandBarElement item in toOverflow)
                 {
                     double w = (item as Control)?.DesiredSize.Width ?? 0;
                     CacheWidth(item, w);
@@ -440,13 +437,13 @@ public class CommandBar : ContentControl
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add:
-                foreach (var item in e.NewItems!.Cast<ICommandBarElement>())
+                foreach (ICommandBarElement? item in e.NewItems!.Cast<ICommandBarElement>())
                     if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow++;
                 _primaryItems.InsertRange(e.NewStartingIndex, e.NewItems!.Cast<ICommandBarElement>());
                 break;
 
             case NotifyCollectionChangedAction.Remove:
-                foreach (var item in e.OldItems!.Cast<ICommandBarElement>())
+                foreach (ICommandBarElement? item in e.OldItems!.Cast<ICommandBarElement>())
                     if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow--;
                 _primaryItems.RemoveAll(e.OldItems!.Cast<ICommandBarElement>());
                 break;
@@ -457,11 +454,11 @@ public class CommandBar : ContentControl
                 break;
 
             case NotifyCollectionChangedAction.Replace:
-                foreach (var item in e.OldItems!.Cast<ICommandBarElement>())
+                foreach (ICommandBarElement? item in e.OldItems!.Cast<ICommandBarElement>())
                     if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow--;
                 _primaryItems.RemoveRange(e.OldStartingIndex, e.OldItems!.Count);
                 _primaryItems.InsertRange(e.NewStartingIndex, e.NewItems!.Cast<ICommandBarElement>());
-                foreach (var item in e.NewItems!.Cast<ICommandBarElement>())
+                foreach (ICommandBarElement? item in e.NewItems!.Cast<ICommandBarElement>())
                     if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow++;
                 break;
 
@@ -524,14 +521,14 @@ public class CommandBar : ContentControl
 
     private void AttachItems()
     {
-        var labelPos = DefaultLabelPosition;
+        CommandBarDefaultLabelPosition labelPos = DefaultLabelPosition;
 
         if (_primaryCommands.Count > 0)
         {
             _primaryItems = new AvaloniaList<ICommandBarElement>();
             _primaryItems.CollectionChanged += OnPrimaryItemsCollectionChanged;
 
-            foreach (var item in _primaryCommands)
+            foreach (ICommandBarElement? item in _primaryCommands)
             {
                 if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow++;
                 ApplyLabelPositionToItem(item, labelPos);
@@ -564,17 +561,17 @@ public class CommandBar : ContentControl
 
     private void OnPrimaryItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        var pos = DefaultLabelPosition;
+        CommandBarDefaultLabelPosition pos = DefaultLabelPosition;
 
         if (e.Action is NotifyCollectionChangedAction.Add && e.NewItems is not null)
         {
-            foreach (var item in e.NewItems.Cast<ICommandBarElement>())
+            foreach (ICommandBarElement? item in e.NewItems.Cast<ICommandBarElement>())
                 ApplyLabelPositionToItem(item, pos);
         }
         else if (e.Action is NotifyCollectionChangedAction.Remove or NotifyCollectionChangedAction.Reset
                  && e.OldItems is not null)
         {
-            foreach (var item in e.OldItems.Cast<ICommandBarElement>())
+            foreach (ICommandBarElement? item in e.OldItems.Cast<ICommandBarElement>())
                 ClearLabelPositionOnItem(item);
         }
     }
@@ -587,7 +584,7 @@ public class CommandBar : ContentControl
 
         for (int i = _numInOverflow - 1; i >= 0; i--)
         {
-            var item = _overflowItems[i];
+            ICommandBarElement item = _overflowItems[i];
             _overflowItems.RemoveAt(i);
             int origIdx = Math.Min(_primaryItems.Count, _primaryCommands.IndexOf(item));
             _primaryItems.Insert(origIdx, item);
@@ -615,7 +612,7 @@ public class CommandBar : ContentControl
 
             if (found)
             {
-                var group = new List<ICommandBarElement>();
+                List<ICommandBarElement> group = new();
                 for (int i = 0; i < _primaryItems.Count; i++)
                     if (_primaryItems[i].DynamicOverflowOrder == nextOrder)
                         group.Add(_primaryItems[i]);
@@ -630,7 +627,7 @@ public class CommandBar : ContentControl
     {
         if (_overflowItems is null || _numInOverflow == 0) return null;
 
-        var last = _overflowItems[_numInOverflow - 1];
+        ICommandBarElement last = _overflowItems[_numInOverflow - 1];
         if (last.DynamicOverflowOrder == 0)
             return new[] { last };
 
@@ -658,7 +655,7 @@ public class CommandBar : ContentControl
     {
         if (_moreButton is null) return;
 
-        var vis = OverflowButtonVisibility;
+        CommandBarOverflowButtonVisibility vis = OverflowButtonVisibility;
         if (vis == CommandBarOverflowButtonVisibility.Auto)
         {
             bool hasDynamic  = IsDynamicOverflowEnabled && _numInOverflow > 0;
@@ -682,7 +679,7 @@ public class CommandBar : ContentControl
     private void ApplyLabelPositionToItems(CommandBarDefaultLabelPosition pos)
     {
         if (_primaryItems is null) return;
-        foreach (var item in _primaryItems)
+        foreach (ICommandBarElement? item in _primaryItems)
             ApplyLabelPositionToItem(item, pos);
     }
 
@@ -707,7 +704,7 @@ public class CommandBar : ContentControl
     private void ApplyOpenStateToItems(bool open)
     {
         if (_primaryItems is null) return;
-        foreach (var item in _primaryItems)
+        foreach (ICommandBarElement? item in _primaryItems)
         {
             switch (item)
             {

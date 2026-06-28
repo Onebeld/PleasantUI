@@ -9,7 +9,6 @@
              xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
              xmlns:example="clr-namespace:PleasantUI.Example"
              xmlns:structures="clr-namespace:PleasantUI.Example.Structures"
-             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
@@ -19,7 +18,7 @@
     </UserControl.DataContext>
 
     <ScrollViewer>
-        <StackPanel Margin="25" Spacing="5">
+        <StackPanel Margin="25" Spacing="5" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
             <StackPanel.Styles>
                 <Style Selector="OptionsDisplayItem">
                     <Setter Property="(IconHelper.IconSize)" Value="22" />
@@ -44,12 +43,41 @@
                     </ComboBox>
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.FormatFont}"
+                                Header="{Localize Font}">
+                <OptionsDisplayItem.ActionButton>
+                    <ComboBox MinWidth="150"
+                              ItemsSource="{Binding Fonts}"
+                              SelectedItem="{Binding Font, Source={x:Static PleasantSettings.Current}}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="FontFamily">
+                                <TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
 
             <OptionsDisplayItem Icon="{DynamicResource FullScreenEnterRegular}"
                                 Header="{Localize FullScreenButton, Default='Full Screen Button'}"
                                 Description="{Localize FullScreenButtonDescription, Default='Show a full screen toggle button in the title bar'}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch IsChecked="{CompiledBinding IsFullScreenButtonVisible}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.Blur}"
+                                Header="{Localize EnableBlur, Default='Enable blur'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch IsChecked="{Binding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Current}}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.WindowMaximize}"
+                                Header="{Localize EnableCustomTitleBar, Default='Enable custom title bar'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch IsChecked="{Binding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Current}}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 

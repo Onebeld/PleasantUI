@@ -187,7 +187,7 @@ public class TreeViewSection : HeaderedItemsControl
     {
         if (_listBox is null) return;
         
-        var items = ItemsSource as IEnumerable ?? Items;
+        IEnumerable items = ItemsSource as IEnumerable ?? Items;
         _originalItems = items;
         
         if (string.IsNullOrEmpty(FilterText))
@@ -215,11 +215,11 @@ public class TreeViewSection : HeaderedItemsControl
         _filteredItems ??= new AvaloniaList<object>();
         _filteredItems.Clear();
 
-        foreach (var item in _originalItems)
+        foreach (object? item in _originalItems)
         {
             if (item is not null)
             {
-                var itemString = item.ToString();
+                string? itemString = item.ToString();
                 if (!string.IsNullOrEmpty(itemString) && 
                     itemString.Contains(filterText, StringComparison.OrdinalIgnoreCase))
                 {

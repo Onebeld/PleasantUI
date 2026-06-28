@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.AboutView">
     <ScrollViewer>
-        <StackPanel Margin="25" Spacing="16">
+        <StackPanel Margin="25" Spacing="16" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
             <!-- Header -->
             <TextBlock Text="{Localize AboutTitle}"
                        Margin="0 0 0 10"
@@ -158,7 +158,6 @@
             <!-- Links Section -->
             <OptionsDisplayItem Header="{Localize Links}"
                                 Icon="{x:Static icons:MaterialIconKind.Link}"
-                                IconHelper.IconSize="22"
                                 Expands="True"
                                 IsExpanded="True">
                 <OptionsDisplayItem.Content>

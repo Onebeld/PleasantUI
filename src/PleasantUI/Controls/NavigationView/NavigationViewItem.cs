@@ -483,7 +483,7 @@ public class NavigationViewItem : TreeViewItem
     {
         if (e.Sender is NavigationViewItem navigationViewItem)
         {
-            var prev = navigationViewItem.ExternalLength;
+            double prev = navigationViewItem.ExternalLength;
             navigationViewItem.ExternalLength =
                 navigationViewItem.OpenPaneLength - navigationViewItem.CompactPaneLength;
             Debug.WriteLine($"[NavItem] OnPaneSizesChanged header={navigationViewItem.Header} openPane={navigationViewItem.OpenPaneLength} compactPane={navigationViewItem.CompactPaneLength} externalLength={prev}→{navigationViewItem.ExternalLength}");
@@ -590,9 +590,9 @@ private void UpdatePseudoClasses()
 
 private void Select()
 {
-    var navigationView = this.GetParentTOfLogical<NavigationView>() ?? NavigationView;
-    var isPaneOpen = navigationView?.IsOpen ?? IsOpen;
-    var hasChildren = this.LogicalChildren.OfType<NavigationViewItem>().Any();
+    NavigationView? navigationView = this.GetParentTOfLogical<NavigationView>() ?? NavigationView;
+    bool isPaneOpen = navigationView?.IsOpen ?? IsOpen;
+    bool hasChildren = LogicalChildren.OfType<NavigationViewItem>().Any();
     bool isPopupClone = navigationView is not null && this.GetParentTOfLogical<NavigationView>() is null;
 
     Debug.WriteLine($"[NavItem] Select header={Header} tag={Tag} isPaneOpen={isPaneOpen} hasChildren={hasChildren} isPopupClone={isPopupClone} IsSelected={IsSelected}");
@@ -606,7 +606,7 @@ private void Select()
 
     if (isPopupClone && navigationView is not null && Tag is not null)
     {
-        var original = navigationView.GetLogicalDescendants()
+        NavigationViewItem? original = navigationView.GetLogicalDescendants()
             .OfType<NavigationViewItem>()
             .FirstOrDefault(x => Equals(x.Tag, Tag));
         Debug.WriteLine($"[NavItem] Select popup clone → found original={original?.Header} tag={Tag}");

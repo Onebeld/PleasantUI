@@ -56,7 +56,7 @@ public partial class ItemListPanelPageView : LocalizedUserControl
     private void OnReload(object? s, RoutedEventArgs e)
     {
         _items.Clear();
-        foreach (var item in SampleItems) _items.Add(item);
+        foreach (string item in SampleItems) _items.Add(item);
     }
 
     private void OnSelectionChanged(object? s, SelectionChangedEventArgs e)

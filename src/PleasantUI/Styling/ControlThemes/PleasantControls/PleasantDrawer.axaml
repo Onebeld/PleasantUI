@@ -59,7 +59,7 @@
                                                Foreground="{DynamicResource TextFillColor1}" />
                                     <Button Name="PART_CloseButton"
                                             Grid.Column="2"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource CloseButtonTheme}"
                                             Width="32" Height="32" Padding="8"
                                             VerticalAlignment="Center"
                                             ToolTip.Tip="{Localize Close, Default='Close'}">

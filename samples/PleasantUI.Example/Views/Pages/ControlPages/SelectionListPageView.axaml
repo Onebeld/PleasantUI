@@ -8,7 +8,7 @@
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.SelectionListPageView"
              x:DataType="local:SelectionListPageView"
              DataContext="{Binding $self}">
-    <StackPanel Spacing="12" Margin="0 8">
+    <StackPanel Spacing="12" Margin="0 8" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
 
         <!-- Vertical list with image items -->
         <Border Background="{DynamicResource ControlFillColor1}"

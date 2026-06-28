@@ -9,8 +9,6 @@ namespace PleasantUI.Core.Models;
 /// </summary>
 public class CustomTheme : ViewModelBase, ITheme
 {
-    private string _name = null!;
-
     private string NameId => Id + Name;
 
     /// <summary>
@@ -40,17 +38,17 @@ public class CustomTheme : ViewModelBase, ITheme
     /// </summary>
     public string Name
     {
-        get => _name;
+        get;
         set
         {
-            SetProperty(ref _name, value);
+            SetProperty(ref field, value);
 
             ThemeVariant = new ThemeVariant(NameId, ThemeVariant.Light);
 
             RaisePropertyChanged(nameof(ThemeVariant));
         }
-    }
-    
+    } = null!;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="CustomTheme" /> class.
     /// </summary>

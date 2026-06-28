@@ -99,8 +99,6 @@ public class PleasantTabView : TabControl
         AvaloniaProperty.Register<PleasantTabView, ViewMarginType>(nameof(MarginType));
 
     private Grid? _grid;
-    private double _heightRemainingSpace;
-    private double _widthRemainingSpace;
 
     /// <summary>
     /// Gets or sets the reference to the adder button.
@@ -153,8 +151,8 @@ public class PleasantTabView : TabControl
     /// </summary>
     public double HeightRemainingSpace
     {
-        get => _heightRemainingSpace;
-        private set => SetAndRaise(HeightRemainingSpaceProperty, ref _heightRemainingSpace, value);
+        get;
+        private set => SetAndRaise(HeightRemainingSpaceProperty, ref field, value);
     }
 
     /// <summary>
@@ -162,8 +160,8 @@ public class PleasantTabView : TabControl
     /// </summary>
     public double WidthRemainingSpace
     {
-        get => _widthRemainingSpace;
-        private set => SetAndRaise(WidthRemainingSpaceProperty, ref _widthRemainingSpace, value);
+        get;
+        private set => SetAndRaise(WidthRemainingSpaceProperty, ref field, value);
     }
 
     /// <summary>

@@ -41,9 +41,6 @@
     <data name="Theme/Lunar" xml:space="preserve">
         <value>Лунная</value>
     </data>
-    <data name="Theme/VGUI" xml:space="preserve">
-        <value>VGUI</value>
-    </data>
     <data name="Theme/Sunny" xml:space="preserve">
         <value>Солнечная</value>
     </data>
@@ -705,5 +702,13 @@
     <data name="CrashReportDialog/ApplicationLabel" xml:space="preserve"><value>Приложение</value></data>
     <data name="CrashReportDialog/VersionLabel" xml:space="preserve"><value>Версия</value></data>
     <data name="CrashReportDialog/UserMessagePlaceholder" xml:space="preserve"><value>Опишите, что вы делали…</value></data>
-
+    <data name="Font" xml:space="preserve">
+        <value>Шрифт</value>
+    </data>
+    <data name="EnableBlur" xml:space="preserve">
+        <value>Включить размытие</value>
+    </data>
+    <data name="EnableCustomTitleBar" xml:space="preserve">
+        <value>Включить пользовательский панель заголовка</value>
+    </data>
 </root>

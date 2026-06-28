@@ -12,7 +12,7 @@ public partial class DataGridPageView : LocalizedUserControl
     {
         base.OnLoaded(e);
 
-        var grid = this.FindControl<DataGrid>("MainDataGrid");
+        DataGrid? grid = this.FindControl<DataGrid>("MainDataGrid");
         if (grid is null || DataContext is not DataGridViewModel vm) return;
 
         vm.PropertyChanged += (_, args) =>

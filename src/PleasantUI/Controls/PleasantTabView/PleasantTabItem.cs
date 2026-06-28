@@ -24,7 +24,6 @@ namespace PleasantUI.Controls;
 public class PleasantTabItem : TabItem
 {
     private Button? _closeButton;
-    private bool _isClosing;
 
     /// <summary>
     /// Defines the <see cref="ClosingEvent" /> property.
@@ -70,8 +69,8 @@ public class PleasantTabItem : TabItem
     /// </summary>
     public bool IsClosing
     {
-        get => _isClosing;
-        set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
+        get;
+        set => SetAndRaise(IsClosingProperty, ref field, value);
     }
 
     /// <summary>

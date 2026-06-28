@@ -32,6 +32,7 @@
                            Foreground="{DynamicResource TextFillColor3}" />
             </Border>
             <controls:LogViewerPanel x:Name="LogPanel"
+                                     Margin="10"
                                      Title="{Localize CardTitle/LogViewerPanel}"
                                      PanelWidth="400"
                                      IsOpen="False"

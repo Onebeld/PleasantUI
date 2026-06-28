@@ -60,9 +60,6 @@
     <data name="Theme/Lunar" xml:space="preserve">
         <value>Lunar</value>
     </data>
-    <data name="Theme/VGUI" xml:space="preserve">
-        <value>VGUI</value>
-    </data>
     <data name="Theme/Custom" xml:space="preserve">
         <value>Custom</value>
     </data>
@@ -757,5 +754,13 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="CrashReportDialog/ApplicationLabel" xml:space="preserve"><value>Application</value></data>
     <data name="CrashReportDialog/VersionLabel" xml:space="preserve"><value>Version</value></data>
     <data name="CrashReportDialog/UserMessagePlaceholder" xml:space="preserve"><value>Describe what you were doing…</value></data>
-
+    <data name="Font" xml:space="preserve">
+        <value>Font</value>
+    </data>
+    <data name="EnableBlur" xml:space="preserve">
+        <value>Enable blur</value>
+    </data>
+    <data name="EnableCustomTitleBar" xml:space="preserve">
+        <value>Enable custom title bar</value>
+    </data>
 </root>

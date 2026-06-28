@@ -44,7 +44,8 @@
         <Setter Property="IsOpen" Value="{CompiledBinding $parent[NavigationView].IsOpen, Mode=OneWay}" />
         <Setter Property="CompactPaneLength" Value="{CompiledBinding $parent[NavigationView].CompactPaneLength, Mode=OneWay}" />
         <Setter Property="OpenPaneLength" Value="{CompiledBinding $parent[NavigationView].OpenPaneLength, Mode=OneWay}" />
-
+        <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
+        
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Vertical" />

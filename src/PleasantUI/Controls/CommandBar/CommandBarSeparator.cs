@@ -30,11 +30,11 @@ public class CommandBarSeparator : TemplatedControl, ICommandBarElement
     /// <inheritdoc/>
     public bool IsInOverflow
     {
-        get => _isInOverflow;
+        get;
         internal set
         {
             Debug.WriteLine($"[CommandBarSeparator] IsInOverflow set to {value}");
-            if (SetAndRaise(IsInOverflowProperty, ref _isInOverflow, value))
+            if (SetAndRaise(IsInOverflowProperty, ref field, value))
                 PseudoClasses.Set(CommandBarButton.PC_Overflow, value);
         }
     }
@@ -42,11 +42,11 @@ public class CommandBarSeparator : TemplatedControl, ICommandBarElement
     /// <inheritdoc/>
     public int DynamicOverflowOrder
     {
-        get => _dynamicOverflowOrder;
+        get;
         set
         {
             Debug.WriteLine($"[CommandBarSeparator] DynamicOverflowOrder set to {value}");
-            SetAndRaise(DynamicOverflowOrderProperty, ref _dynamicOverflowOrder, value);
+            SetAndRaise(DynamicOverflowOrderProperty, ref field, value);
         }
     }
 
@@ -56,7 +56,4 @@ public class CommandBarSeparator : TemplatedControl, ICommandBarElement
         get => GetValue(IsCompactProperty);
         set => SetValue(IsCompactProperty, value);
     }
-
-    private bool _isInOverflow;
-    private int  _dynamicOverflowOrder;
 }

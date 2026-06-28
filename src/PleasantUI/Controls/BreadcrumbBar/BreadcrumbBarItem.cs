@@ -74,7 +74,7 @@ public class BreadcrumbBarItem : ContentControl
 
         if (_isEllipsisItem)
         {
-            var root = e.NameScope.Find<Grid>(PART_LayoutRoot);
+            Grid? root = e.NameScope.Find<Grid>(PART_LayoutRoot);
             _ellipsisFlyout = root?.Resources[PART_EllipsisFlyoutKey] as AvaloniaFlyout
                 ?? throw new InvalidOperationException(
                     $"BreadcrumbBarItem: PART_LayoutRoot is missing a Flyout resource keyed '{PART_EllipsisFlyoutKey}'.");
@@ -179,7 +179,7 @@ public class BreadcrumbBarItem : ContentControl
     {
         _isEllipsisItem = false;
         _isLastItem     = true;
-        _allowClickOnLastItem = _parentBreadcrumb?.TryGetTarget(out var bar) == true
+        _allowClickOnLastItem = _parentBreadcrumb?.TryGetTarget(out BreadcrumbBar? bar) == true
             && bar.IsLastItemClickEnabled;
         UpdateButtonVisualState();
         UpdateInlineTypeVisualState();
@@ -209,7 +209,7 @@ public class BreadcrumbBarItem : ContentControl
 
     internal void RaiseItemClickedEvent(object? content, int index)
     {
-        if (_parentBreadcrumb?.TryGetTarget(out var bar) == true)
+        if (_parentBreadcrumb?.TryGetTarget(out BreadcrumbBar? bar) == true)
             bar.RaiseItemClickedEvent(content, index);
     }
 
@@ -256,9 +256,9 @@ public class BreadcrumbBarItem : ContentControl
     private void OnEllipsisItemClick(object? sender, RoutedEventArgs? e)
     {
         if (_parentBreadcrumb is null) return;
-        if (!_parentBreadcrumb.TryGetTarget(out var bar)) return;
+        if (!_parentBreadcrumb.TryGetTarget(out BreadcrumbBar? bar)) return;
 
-        var hidden = bar.HiddenElements();
+        IEnumerable<object?>? hidden = bar.HiddenElements();
         if (hidden is null) return;
 
         RebuildFlyoutItems(hidden);
@@ -288,18 +288,18 @@ public class BreadcrumbBarItem : ContentControl
         _flyoutPanel.Children.Clear();
 
         IEnumerable<object?>? source = items;
-        if (source is null && _parentBreadcrumb?.TryGetTarget(out var bar) == true)
+        if (source is null && _parentBreadcrumb?.TryGetTarget(out BreadcrumbBar? bar) == true)
             source = bar.HiddenElements();
 
         if (source is null) return;
 
         // Reverse so the most-recent hidden item appears at the top.
-        var list = source.Reverse().ToList();
+        List<object?> list = source.Reverse().ToList();
         int total = list.Count;
 
         for (int i = 0; i < total; i++)
         {
-            var data = list[i];
+            object? data = list[i];
 
             Control content;
             if (_ellipsisDropDownItemDataTemplate is not null && _ellipsisDropDownItemDataTemplate.Match(data))
@@ -307,7 +307,7 @@ public class BreadcrumbBarItem : ContentControl
             else
                 content = new TextBlock { Text = data?.ToString() };
 
-            var dropDownItem = new BreadcrumbBarItem
+            BreadcrumbBarItem dropDownItem = new()
             {
                 Content = content,
                 DataContext = data

@@ -229,12 +229,12 @@ public class StepDialog : PleasantPopupElement
         // Fade in modal background
         if (_modalBackground is not null)
         {
-            var bgAnim = new Animation
+            Animation bgAnim = new()
             {
                 Duration = TimeSpan.FromMilliseconds(200),
-                FillMode = Avalonia.Animation.FillMode.Forward
+                FillMode = FillMode.Forward
             };
-            var kf = new KeyFrame { Cue = new Cue(1.0) };
+            KeyFrame kf = new() { Cue = new Cue(1.0) };
             kf.Setters.Add(new Setter(OpacityProperty, 1.0));
             bgAnim.Children.Add(kf);
             await bgAnim.RunAsync(_modalBackground);

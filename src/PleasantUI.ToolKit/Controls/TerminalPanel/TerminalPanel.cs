@@ -266,7 +266,7 @@ public class TerminalPanel : TemplatedControl
             _lineCount--;
         }
 
-        var full = _outputBuffer.ToString();
+        string full = _outputBuffer.ToString();
         OutputText = full;
 
         ScrollToEnd();
@@ -306,7 +306,7 @@ public class TerminalPanel : TemplatedControl
     {
         if (e.Key != Key.Enter) return;
 
-        var cmd = InputText?.Trim() ?? string.Empty;
+        string cmd = InputText?.Trim() ?? string.Empty;
         InputText = string.Empty;
 
         if (!string.IsNullOrEmpty(cmd))

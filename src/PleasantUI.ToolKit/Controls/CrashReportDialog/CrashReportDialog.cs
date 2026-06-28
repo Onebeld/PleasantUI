@@ -546,7 +546,7 @@ public class CrashReportDialog : PleasantPopupElement
         string? applicationVersion = null,
         Bitmap? screenshot         = null)
     {
-        var sb = new StringBuilder();
+        StringBuilder sb = new();
         if (ex.InnerException is not null)
             sb.AppendLine(ex.InnerException.ToString());
         sb.Append(ex.StackTrace);
@@ -651,7 +651,7 @@ public class CrashReportDialog : PleasantPopupElement
     {
         _modalWindows = WindowHelper.GetModalWindows(topLevel);
 
-        var tcs = new TaskCompletionSource<CrashReportResult>();
+        TaskCompletionSource<CrashReportResult> tcs = new();
 
         _panel = new Panel();
 
@@ -689,12 +689,12 @@ public class CrashReportDialog : PleasantPopupElement
         {
             if (_modalBackground is not null)
             {
-                var bgAnim = new Animation
+                Animation bgAnim = new()
                 {
                     Duration = TimeSpan.FromMilliseconds(200),
-                    FillMode = Avalonia.Animation.FillMode.Forward
+                    FillMode = FillMode.Forward
                 };
-                var kf = new KeyFrame { Cue = new Cue(1.0) };
+                KeyFrame kf = new() { Cue = new Cue(1.0) };
                 kf.Setters.Add(new Setter(OpacityProperty, 1.0));
                 bgAnim.Children.Add(kf);
                 await bgAnim.RunAsync(_modalBackground);
@@ -756,7 +756,7 @@ public class CrashReportDialog : PleasantPopupElement
 
     private void OnSendClicked(object? s, RoutedEventArgs e)
     {
-        var email = _emailBox?.Text?.Trim() ?? string.Empty;
+        string email = _emailBox?.Text?.Trim() ?? string.Empty;
 
         // Validate email.
         if (string.IsNullOrEmpty(email))
@@ -777,8 +777,8 @@ public class CrashReportDialog : PleasantPopupElement
 
         PseudoClasses.Set(PC_EmailInvalid, false);
 
-        var userMessage       = _userMessageBox?.Text?.Trim() ?? string.Empty;
-        var includeScreenshot = _screenshotToggle?.IsChecked == true;
+        string userMessage       = _userMessageBox?.Text?.Trim() ?? string.Empty;
+        bool includeScreenshot = _screenshotToggle?.IsChecked == true;
 
         // Transition to sending state.
         PseudoClasses.Set(PC_Sending, true);
@@ -786,7 +786,7 @@ public class CrashReportDialog : PleasantPopupElement
 
         SetButtonsEnabled(false);
 
-        var args = new SendReportEventArgs(email, userMessage, includeScreenshot)
+        SendReportEventArgs args = new(email, userMessage, includeScreenshot)
         {
             ReportSuccess = () => Dispatcher.UIThread.Post(async () =>
             {
@@ -817,7 +817,7 @@ public class CrashReportDialog : PleasantPopupElement
 
     private void OnSaveClicked(object? s, RoutedEventArgs e)
     {
-        var userMessage = _userMessageBox?.Text?.Trim() ?? string.Empty;
+        string userMessage = _userMessageBox?.Text?.Trim() ?? string.Empty;
         _result = CrashReportResult.Saved;
         SaveReportRequested?.Invoke(this, new SaveReportEventArgs(userMessage));
     }
@@ -831,7 +831,7 @@ public class CrashReportDialog : PleasantPopupElement
     private void OnTabSelectionChanged(object? s, SelectionChangedEventArgs e)
     {
         // Drive tab visibility via the Tag property so AXAML styles can react.
-        var selected = _tabStrip?.SelectedItem as string ?? "General";
+        string selected = _tabStrip?.SelectedItem as string ?? "General";
         Tag = selected;
     }
 

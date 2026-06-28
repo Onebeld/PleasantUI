@@ -6,7 +6,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Styling;
@@ -351,79 +350,6 @@ public class PleasantTheme : Styles
         if (Application.Current is not null)
         {
             Application.Current.RequestedThemeVariant = themeVariant;
-            UpdateVGUIStyle(PleasantSettings.Current.Theme == "VGUI");
-        }
-    }
-
-    private StyleInclude? _vguiStyleInclude;
-    private StyleInclude? _vguiToolKitStyleInclude;
-
-    /// <summary>
-    /// Adds or removes VGUI control styles from this PleasantTheme Styles instance when VGUI theme is
-    /// activated/deactivated. Adding to <c>this</c> (rather than Application.Current.Styles) ensures that
-    /// DynamicResource lookups inside VGUIControlStyles.axaml can resolve keys from PleasantTheme.Resources.
-    /// </summary>
-    private void UpdateVGUIStyle(bool isVGUI)
-    {
-        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] UpdateVGUIStyle called with isVGUI={isVGUI}");
-
-        if (isVGUI)
-        {
-            if (_vguiStyleInclude is null)
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Adding VGUIControlStyles.axaml");
-                _vguiStyleInclude = new StyleInclude(new Uri("avares://PleasantUI/"))
-                {
-                    Source = new Uri("avares://PleasantUI/Styling/VGUIControlStyles.axaml")
-                };
-                Add(_vguiStyleInclude);
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml added successfully");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml already loaded");
-            }
-
-            if (_vguiToolKitStyleInclude is null)
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Adding VGUIControlThemes.axaml (ToolKit)");
-                _vguiToolKitStyleInclude = new StyleInclude(new Uri("avares://PleasantUI.ToolKit/"))
-                {
-                    Source = new Uri("avares://PleasantUI.ToolKit/Styling/VGUIControlThemes.axaml")
-                };
-                Add(_vguiToolKitStyleInclude);
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml added successfully");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml already loaded");
-            }
-        }
-        else
-        {
-            if (_vguiStyleInclude is not null)
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Removing VGUIControlStyles.axaml");
-                Remove(_vguiStyleInclude);
-                _vguiStyleInclude = null;
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml removed successfully");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlStyles.axaml not loaded");
-            }
-
-            if (_vguiToolKitStyleInclude is not null)
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] Removing VGUIControlThemes.axaml (ToolKit)");
-                Remove(_vguiToolKitStyleInclude);
-                _vguiToolKitStyleInclude = null;
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml removed successfully");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("[PleasantTheme] VGUIControlThemes.axaml not loaded");
-            }
         }
     }
 

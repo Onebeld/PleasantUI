@@ -190,7 +190,7 @@ public class Timeline : ItemsControl
     /// </summary>
     internal void InvalidateContainers()
     {
-        var items = this.GetVisualDescendants().OfType<TimelineItem>().ToList();
+        List<TimelineItem> items = this.GetVisualDescendants().OfType<TimelineItem>().ToList();
         for (int i = 0; i < items.Count; i++)
             items[i].SetEndFlags(i == 0, i == items.Count - 1);
     }
@@ -213,7 +213,7 @@ public class Timeline : ItemsControl
         if (ItemsPanelRoot is not TimelinePanel panel) return;
 
         bool alternate = false;
-        foreach (var item in panel.Children.OfType<TimelineItem>())
+        foreach (TimelineItem item in panel.Children.OfType<TimelineItem>())
         {
             TimelineItemPosition pos = Mode switch
             {

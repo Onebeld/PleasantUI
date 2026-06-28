@@ -27,4 +27,8 @@ public class PleasantIcon : TemplatedControl
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
+
+    public PleasantIcon()
+    {
+    }
 }

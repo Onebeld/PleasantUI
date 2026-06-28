@@ -4,6 +4,7 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type PleasantIcon}" TargetType="PleasantIcon">
         <Setter Property="(IconHelper.FontSize)" Value="0" />
+        <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="IconTemplate">
             <dataTemplates:IconTemplateSelector />
         </Setter>

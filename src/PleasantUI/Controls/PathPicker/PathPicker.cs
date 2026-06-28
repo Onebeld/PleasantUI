@@ -218,19 +218,16 @@ public partial class PathPicker : TemplatedControl
 
     // ── Direct property backing field ─────────────────────────────────────────
 
-    private IReadOnlyList<string> _selectedPaths = [];
-
     /// <summary>Gets the list of selected paths.</summary>
     public IReadOnlyList<string> SelectedPaths
     {
-        get => _selectedPaths;
-        private set => SetAndRaise(SelectedPathsProperty, ref _selectedPaths, value);
-    }
+        get;
+        private set => SetAndRaise(SelectedPathsProperty, ref field, value);
+    } = [];
 
     // ── Private fields ────────────────────────────────────────────────────────
 
     private Button?  _button;
-    private TextBox? _textBox;
     private bool     _syncLock;
 
     // ── Static constructor ────────────────────────────────────────────────────
@@ -251,7 +248,6 @@ public partial class PathPicker : TemplatedControl
         if (_button is not null) _button.Click -= OnButtonClick;
 
         _button  = e.NameScope.Find<Button>(PART_Button);
-        _textBox = e.NameScope.Find<TextBox>(PART_TextBox);
 
         if (_button is not null) _button.Click += OnButtonClick;
 
@@ -296,7 +292,7 @@ public partial class PathPicker : TemplatedControl
 
     private async void OnButtonClick(object? sender, RoutedEventArgs e)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
         if (topLevel is null)
         {
             Debug.WriteLine("[PathPicker] OnButtonClick — TopLevel is null, aborting");
@@ -313,14 +309,14 @@ public partial class PathPicker : TemplatedControl
             {
                 Debug.WriteLine($"[PathPicker] Using custom picker, Mode={Mode}");
 
-                var filters = ParseFileFilter(FileFilter)?
-                    .Select(f => new PleasantFileChooserFilter(
-                        f.Name ?? string.Empty,
-                        (IReadOnlyList<string>)(f.Patterns?
-                            .Select(p => p.TrimStart('*'))
-                            .ToArray() ?? [])))
-                    .ToList()
-                    ?? new List<PleasantFileChooserFilter>();
+                List<PleasantFileChooserFilter> filters = ParseFileFilter(FileFilter)?
+                                                              .Select(f => new PleasantFileChooserFilter(
+                                                                  f.Name,
+                                                                  f.Patterns?
+                                                                      .Select(p => p.TrimStart('*'))
+                                                                      .ToArray() ?? []))
+                                                              .ToList()
+                                                          ?? new List<PleasantFileChooserFilter>();
 
                 picked = await PleasantFileChooser.ShowAsync(topLevel, new PleasantFileChooserOptions
                 {
@@ -356,8 +352,8 @@ public partial class PathPicker : TemplatedControl
                 Debug.WriteLine($"[PathPicker] Platform picker returned {picked.Count} path(s): [{string.Join(", ", picked)}]");
             }
 
-            var nonNull = picked?.Where(p => !string.IsNullOrEmpty(p)).ToList()
-                          ?? new List<string>();
+            List<string> nonNull = picked?.Where(p => !string.IsNullOrEmpty(p)).ToList()
+                                   ?? new List<string>();
 
             Debug.WriteLine($"[PathPicker] nonNull count={nonNull.Count}, IsClearSelectionOnCancel={IsClearSelectionOnCancel}");
 
@@ -387,7 +383,7 @@ public partial class PathPicker : TemplatedControl
 
     private async Task<IReadOnlyList<string?>> PickOpenFileAsync(IStorageProvider storage)
     {
-        var result = await storage.OpenFilePickerAsync(new FilePickerOpenOptions
+        IReadOnlyList<IStorageFile> result = await storage.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title                = Title,
             AllowMultiple        = AllowMultiple,
@@ -399,7 +395,7 @@ public partial class PathPicker : TemplatedControl
 
     private async Task<IReadOnlyList<string?>> PickSaveFileAsync(IStorageProvider storage)
     {
-        var result = await storage.SaveFilePickerAsync(new FilePickerSaveOptions
+        IStorageFile? result = await storage.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title                = Title,
             SuggestedStartLocation = await TryGetFolderAsync(storage, SuggestedStartPath),
@@ -412,7 +408,7 @@ public partial class PathPicker : TemplatedControl
 
     private async Task<IReadOnlyList<string?>> PickOpenFolderAsync(IStorageProvider storage)
     {
-        var result = await storage.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        IReadOnlyList<IStorageFolder> result = await storage.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             Title                = Title,
             AllowMultiple        = AllowMultiple,
@@ -466,7 +462,7 @@ public partial class PathPicker : TemplatedControl
 
     private static FilePickerFileType ParseCustomFilter(string token)
     {
-        var parts = token.Split(',');
+        string[] parts = token.Split(',');
         return new FilePickerFileType(parts[0])
         {
             Patterns = parts.Skip(1).Select(p => p.Trim()).ToArray()

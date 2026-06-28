@@ -13,13 +13,11 @@ namespace PleasantUI.Example.ViewModels.Pages.ToolKitPages;
 
 public class MessageBoxViewModel : ViewModelBase
 {
-    private string _lastResult = "—";
-
     public string LastResult
     {
-        get => _lastResult;
-        set => SetProperty(ref _lastResult, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = "—";
 
     // Resolves a key under the MessageBox/ context with a hardcoded fallback
     private static string T(string key, string fallback) =>
@@ -126,11 +124,11 @@ public class MessageBoxViewModel : ViewModelBase
     public async Task ShowCustomContent()
     {
         // Build extra content: warning icon + description + radio buttons
-        var option1 = new RadioButton { Content = T("CustomOption1", "Keep existing data"),   GroupName = "MBOptions", IsChecked = true };
-        var option2 = new RadioButton { Content = T("CustomOption2", "Replace with new data"), GroupName = "MBOptions" };
-        var option3 = new RadioButton { Content = T("CustomOption3", "Merge both"),            GroupName = "MBOptions" };
+        RadioButton option1 = new() { Content = T("CustomOption1", "Keep existing data"),   GroupName = "MBOptions", IsChecked = true };
+        RadioButton option2 = new() { Content = T("CustomOption2", "Replace with new data"), GroupName = "MBOptions" };
+        RadioButton option3 = new() { Content = T("CustomOption3", "Merge both"),            GroupName = "MBOptions" };
 
-        var panel = new StackPanel
+        StackPanel panel = new()
         {
             Spacing = 8,
             Children =
@@ -161,7 +159,7 @@ public class MessageBoxViewModel : ViewModelBase
             }
         };
 
-        var result = await MessageBox.Show<string>(
+        MessageBoxResult<string> result = await MessageBox.Show<string>(
             PleasantUiExampleApp.Main,
             T("CustomTitle", "Data conflict"),
             T("CustomText",  "A file with this name already exists. How would you like to proceed?"),
@@ -187,9 +185,9 @@ public class MessageBoxViewModel : ViewModelBase
 
     public async Task ShowPleasantDialogRich()
     {
-        var remember = new PleasantDialogCheckBox { Text = TD("RememberChoice", "Remember my choice") };
+        PleasantDialogCheckBox remember = new() { Text = TD("RememberChoice", "Remember my choice") };
 
-        var result = await PleasantDialog.Show(
+        object? result = await PleasantDialog.Show(
             PleasantUiExampleApp.Main,
             header: TD("RichTitle", "Sync settings"),
             body: TD("RichBody", "Choose how your settings should be synchronized across devices."),
@@ -224,9 +222,9 @@ public class MessageBoxViewModel : ViewModelBase
     public async Task ShowPleasantDialogProgress()
     {
         PleasantDialog? dialogRef = null;
-        var cts = new CancellationTokenSource();
+        CancellationTokenSource cts = new();
 
-        var result = await PleasantDialog.Show(
+        object? result = await PleasantDialog.Show(
             PleasantUiExampleApp.Main,
             header: TD("ProgressTitle", "Processing"),
             body: TD("ProgressBody", "Please wait while the operation completes…"),
@@ -259,7 +257,7 @@ public class MessageBoxViewModel : ViewModelBase
                         {
                             d.SetProgressBarState(captured);
                             // Update subheader text to show percentage
-                            var sub = d.FindControl<TextBlock>("SubHeaderText");
+                            TextBlock? sub = d.FindControl<TextBlock>("SubHeaderText");
                             if (sub is not null)
                             {
                                 sub.Text      = $"{captured}%";
@@ -283,7 +281,7 @@ public class MessageBoxViewModel : ViewModelBase
 
     public async Task ShowPleasantDialogDanger()
     {
-        var result = await PleasantDialog.Show(
+        object? result = await PleasantDialog.Show(
             PleasantUiExampleApp.Main,
             header: TD("DangerTitle", "Permanently delete account"),
             body: TD("DangerBody", "This will remove all your data, settings, and history. This cannot be undone."),

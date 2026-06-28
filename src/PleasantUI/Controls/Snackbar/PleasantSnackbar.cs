@@ -100,6 +100,7 @@ public class PleasantSnackbar : PleasantPopupElement
 
     // ── Template ──────────────────────────────────────────────────────────────
 
+    /// <inheritdoc/>
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -120,6 +121,7 @@ public class PleasantSnackbar : PleasantPopupElement
         UpdateTitleState();
     }
 
+    /// <inheritdoc/>
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
@@ -197,7 +199,7 @@ public class PleasantSnackbar : PleasantPopupElement
         // Fire Closing — allow cancellation
         if (_closingHandler is not null)
         {
-            var args = new SnackbarClosingEventArgs(_closeReason);
+            SnackbarClosingEventArgs args = new(_closeReason);
             _closingHandler.Invoke(this, args);
             if (args.Cancel) return;
         }

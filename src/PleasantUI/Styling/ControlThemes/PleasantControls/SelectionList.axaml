@@ -3,7 +3,7 @@
                     xmlns:controls="clr-namespace:PleasantUI.Controls">
     <!-- ── SelectionListItem ─────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="8" />
@@ -14,6 +14,7 @@
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
             </Transitions>
         </Setter>
+        
         <Setter Property="Template">
             <ControlTemplate TargetType="controls:SelectionListItem">
                 <Border Name="RootBorder"
@@ -34,15 +35,9 @@
                                 ClipToBounds="True"
                                 Margin="0 0 12 0"
                                 Background="{DynamicResource ControlFillColor2}">
-                            <Panel>
-                                <Image Name="PART_Image"
-                                       Source="{TemplateBinding Image}"
-                                       Stretch="UniformToFill" />
-                                <ContentPresenter Name="PART_ImagePresenter"
-                                                  ContentTemplate="{TemplateBinding ImageTemplate}"
-                                                  HorizontalAlignment="Stretch"
-                                                  VerticalAlignment="Stretch" />
-                            </Panel>
+                            <PleasantIcon Name="PART_Icon"
+                                          Icon="{TemplateBinding Icon}"
+                                          IconTemplate="{TemplateBinding IconTemplate}" />
                         </Border>
 
                         <!-- Text stack -->
@@ -67,16 +62,16 @@
         </Setter>
 
         <!-- Interaction states -->
-        <Style Selector="^:pointerover /template/ Border#RootBorder">
+        <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         </Style>
-        <Style Selector="^:pressed /template/ Border#RootBorder">
+        <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        <Style Selector="^:selected /template/ Border#RootBorder">
+        <Style Selector="^:selected">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        <Style Selector="^:selected:pointerover /template/ Border#RootBorder">
+        <Style Selector="^:selected:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         <Style Selector="^:disabled">
@@ -142,7 +137,7 @@
         <Style Selector="^[Orientation=Horizontal]">
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="(ScrollViewerExtensions.ScrollOrientation)" Value="Horizontal" />
         </Style>
     </ControlTheme>
-
 </ResourceDictionary>

@@ -100,10 +100,10 @@
         </Style>
 
         <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
         </Style>
         <Style Selector="^:pressed">
-            <Setter Property="Background" Value="{DynamicResource AccentLightColor1}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
         </Style>
     </ControlTheme>
     

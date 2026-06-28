@@ -26,6 +26,13 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+        </Setter>
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="border"

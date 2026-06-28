@@ -75,7 +75,7 @@
                                     <!-- Close button -->
                                     <Button Name="PART_CloseButton"
                                             Grid.Row="0" Grid.Column="2"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource CloseButtonTheme}"
                                             Width="24" Height="24"
                                             Padding="5"
                                             Margin="8 0 0 0"

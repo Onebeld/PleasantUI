@@ -143,8 +143,8 @@ public class HorizontallySplittedView : TemplatedControl, IDockAreaView
         _root = e.NameScope.Get<Panel>("PART_Root");
         _thumb = e.NameScope.Get<Thumb>("PART_Thumb");
 
-        var leftObs = _leftPresenter.IsChildVisibleObservable();
-        var rightObs = _rightPresenter.IsChildVisibleObservable();
+        IObservable<bool> leftObs = _leftPresenter.IsChildVisibleObservable();
+        IObservable<bool> rightObs = _rightPresenter.IsChildVisibleObservable();
 
         _visibilitySubscription = Observable.CombineLatest(leftObs, rightObs, (l, r) => (l, r))
             .Subscribe(new AnonymousObserver<(bool left, bool right)>(t =>
@@ -196,20 +196,20 @@ public class HorizontallySplittedView : TemplatedControl, IDockAreaView
 
     private void UpdateIsDragDropEnabled()
     {
-        var list = Interaction.GetBehaviors(this);
+        BehaviorCollection list = Interaction.GetBehaviors(this);
 
         if (_leftDockArea != null || _rightDockArea != null)
         {
             if (_dragEventSubscribed) return;
             _dragEventSubscribed = true;
-            var behavior = Activator.CreateInstance(DockAreaDragDropBehavior.GetBehaviorType(this)) as DockAreaDragDropBehavior;
+            DockAreaDragDropBehavior? behavior = Activator.CreateInstance(DockAreaDragDropBehavior.GetBehaviorType(this)) as DockAreaDragDropBehavior;
             if (behavior != null) list.Add(behavior);
         }
         else
         {
             if (!_dragEventSubscribed) return;
             _dragEventSubscribed = false;
-            foreach (var b in list.OfType<DockAreaDragDropBehavior>().ToList())
+            foreach (DockAreaDragDropBehavior b in list.OfType<DockAreaDragDropBehavior>().ToList())
                 list.Remove(b);
         }
     }
@@ -218,12 +218,12 @@ public class HorizontallySplittedView : TemplatedControl, IDockAreaView
     {
         if (!_dragEventSubscribed || (_leftDockArea == null && _rightDockArea == null)) return;
 
-        var list = Interaction.GetBehaviors(this);
-        foreach (var b in list.OfType<DockAreaDragDropBehavior>().ToList())
+        BehaviorCollection list = Interaction.GetBehaviors(this);
+        foreach (DockAreaDragDropBehavior b in list.OfType<DockAreaDragDropBehavior>().ToList())
             list.Remove(b);
 
-        var type = e.NewValue.GetValueOrDefault() ?? typeof(DockAreaDragDropBehavior);
-        var newBehavior = Activator.CreateInstance(type) as DockAreaDragDropBehavior;
+        Type type = e.NewValue.GetValueOrDefault() ?? typeof(DockAreaDragDropBehavior);
+        DockAreaDragDropBehavior? newBehavior = Activator.CreateInstance(type) as DockAreaDragDropBehavior;
         if (newBehavior != null) list.Add(newBehavior);
     }
 
@@ -238,8 +238,8 @@ public class HorizontallySplittedView : TemplatedControl, IDockAreaView
         if (_leftPresenter == null || _rightPresenter == null || _root == null || _thumb == null)
             return;
 
-        var size = Bounds.Size;
-        var newWidth = _leftPresenter.Width + e.Vector.X;
+        Size size = Bounds.Size;
+        double newWidth = _leftPresenter.Width + e.Vector.X;
 
         if (newWidth + 5 >= size.Width || newWidth <= 5) return;
 
@@ -251,7 +251,7 @@ public class HorizontallySplittedView : TemplatedControl, IDockAreaView
     {
         if (_leftPresenter == null || _rightPresenter == null || _thumb == null) return;
 
-        var (leftWidth, rightWidth) = GetAbsoluteWidths(size);
+        (double leftWidth, double rightWidth) = GetAbsoluteWidths(size);
 
         if (_leftPresenter.IsChildVisible() && _rightPresenter.IsChildVisible())
         {
@@ -275,9 +275,9 @@ public class HorizontallySplittedView : TemplatedControl, IDockAreaView
 
     private (double left, double right) GetAbsoluteWidths(Size availableSize)
     {
-        var den = LeftWidthProportion + RightWidthProportion;
+        double den = LeftWidthProportion + RightWidthProportion;
         if (den == 0) return (availableSize.Width / 2, availableSize.Width / 2);
-        var factor = availableSize.Width / den;
+        double factor = availableSize.Width / den;
         return (factor * LeftWidthProportion, factor * RightWidthProportion);
     }
 }

@@ -91,9 +91,7 @@
                                     <RotateTransform />
                                 </Viewbox.RenderTransform>
 
-                                <Path x:Name="ExpandCollapseChevron"
-                                      Stretch="Uniform"
-                                      Fill="{DynamicResource TextFillColor2}" />
+                                <PleasantIcon x:Name="ExpandCollapseChevron" Foreground="{DynamicResource TextFillColor2}" />
                             </Viewbox>
                         </Border>
                     </Grid>
@@ -134,11 +132,10 @@
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
         <Style Selector="^:checked /template/ Border#ExpandCollapseChevronBorder">
-            <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
+            <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
-        <Style Selector="^:checked /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Fill"
-                    Value="{CompiledBinding $parent[Expander].Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />
+        <Style Selector="^:checked /template/ PleasantIcon#ExpandCollapseChevron">
+            <Setter Property="Foreground" Value="{ForegroundBased AccentLightColor2}" />
         </Style>
         <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
             <Setter Property="Opacity" Value="0.5" />
@@ -147,26 +144,26 @@
 
     <ControlTheme x:Key="FluentExpanderToggleButtonUpTheme" TargetType="ToggleButton"
                   BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
-        <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{DynamicResource ChevronUpRegular}" />
+        <Style Selector="^ /template/ PleasantIcon#ExpandCollapseChevron">
+            <Setter Property="Icon" Value="{DynamicResource ChevronUpRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonDownTheme" TargetType="ToggleButton"
                   BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
-        <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{DynamicResource ChevronDownRegular}" />
+        <Style Selector="^ /template/ PleasantIcon#ExpandCollapseChevron">
+            <Setter Property="Icon" Value="{DynamicResource ChevronDownRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonLeftTheme" TargetType="ToggleButton"
                   BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
-        <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{DynamicResource ChevronLeftRegular}" />
+        <Style Selector="^ /template/ PleasantIcon#ExpandCollapseChevron">
+            <Setter Property="Icon" Value="{DynamicResource ChevronLeftRegular}" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="FluentExpanderToggleButtonRightTheme" TargetType="ToggleButton"
                   BasedOn="{StaticResource FluentExpanderToggleButtonTheme}">
-        <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-            <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
+        <Style Selector="^ /template/ PleasantIcon#ExpandCollapseChevron">
+            <Setter Property="Icon" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
     </ControlTheme>
 

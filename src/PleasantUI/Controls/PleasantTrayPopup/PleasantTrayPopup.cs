@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+using Avalonia.Platform;
 
 namespace PleasantUI.Controls;
 
@@ -277,7 +278,7 @@ public class PleasantTrayPopup : Window
         if (_appIconImage is null || _appIconPresenter is null)
             return;
 
-        if (icon is Avalonia.Media.IImage imageSource)
+        if (icon is IImage imageSource)
         {
             _appIconImage.Source      = imageSource;
             _appIconImage.IsVisible   = true;
@@ -300,10 +301,10 @@ public class PleasantTrayPopup : Window
     {
         Measure(new Size(Width > 0 ? Width : 300, double.PositiveInfinity));
 
-        var screen = Screens.Primary;
+        Screen? screen = Screens.Primary;
         if (screen is null) { Show(); Activate(); return; }
 
-        var    workArea = screen.WorkingArea;
+        PixelRect    workArea = screen.WorkingArea;
         double scale    = screen.Scaling;
         double margin   = PopupMargin;
         double popupW   = Width > 0 ? Width : 300;

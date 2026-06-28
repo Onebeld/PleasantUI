@@ -6,6 +6,7 @@
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="FontFamily" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />

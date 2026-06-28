@@ -34,6 +34,7 @@
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="(IconHelper.Width)" Value="20" />
         <Setter Property="(IconHelper.Height)" Value="20" />
+        <Setter Property="(IconHelper.IconSize)" Value="22" />
 
         <Setter Property="Template">
             <ControlTemplate>

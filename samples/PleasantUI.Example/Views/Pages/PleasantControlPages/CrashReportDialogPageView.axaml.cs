@@ -29,9 +29,9 @@ public partial class CrashReportDialogPageView : LocalizedUserControl
 
     private async void OnOpenBasic(object? s, RoutedEventArgs e)
     {
-        var ex = new NullReferenceException("Object reference not set to an instance of an object.");
+        NullReferenceException ex = new("Object reference not set to an instance of an object.");
 
-        var dialog = CrashReportDialog.FromException(
+        CrashReportDialog dialog = CrashReportDialog.FromException(
             ex,
             applicationName:    "PleasantUI Example",
             applicationVersion: "1.0.0");
@@ -59,17 +59,17 @@ public partial class CrashReportDialogPageView : LocalizedUserControl
         dialog.SendReportRequested += OnSendRequested;
         dialog.SaveReportRequested += OnSaveRequested;
 
-        var topLevel = TopLevel.GetTopLevel(this);
-        var result   = await dialog.ShowAsync(topLevel);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
+        CrashReportResult result   = await dialog.ShowAsync(topLevel);
 
         ResultLabel.Text = result.ToString();
     }
 
     private async void OnOpenEmailRequired(object? s, RoutedEventArgs e)
     {
-        var ex = new InvalidOperationException("Cannot perform this operation in the current state.");
+        InvalidOperationException ex = new("Cannot perform this operation in the current state.");
 
-        var dialog = CrashReportDialog.FromException(
+        CrashReportDialog dialog = CrashReportDialog.FromException(
             ex,
             applicationName:    "PleasantUI Example",
             applicationVersion: "1.0.0");
@@ -97,8 +97,8 @@ public partial class CrashReportDialogPageView : LocalizedUserControl
         dialog.SendReportRequested += OnSendRequested;
         dialog.SaveReportRequested += OnSaveRequested;
 
-        var topLevel = TopLevel.GetTopLevel(this);
-        var result   = await dialog.ShowAsync(topLevel);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
+        CrashReportResult result   = await dialog.ShowAsync(topLevel);
 
         ResultLabel.Text = result.ToString();
     }

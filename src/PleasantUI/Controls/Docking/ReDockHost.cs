@@ -171,11 +171,11 @@ public class ReDockHost : ContentControl
     /// <summary>Shows a flyout menu for the specified button.</summary>
     internal void ShowFlyout(SideBarButton button)
     {
-        var args = new SideBarButtonFlyoutRequestedEventArgs(button, this, ButtonFlyoutRequestedEvent, this);
+        SideBarButtonFlyoutRequestedEventArgs args = new(button, this, ButtonFlyoutRequestedEvent, this);
         RaiseEvent(args);
         if (args.Handled) return;
 
-        var flyout = new SideBarButtonMenuFlyout(this);
+        SideBarButtonMenuFlyout flyout = new(this);
         flyout.Placement = button.DockLocation?.LeftRight == SideBarLocation.Left
             ? PlacementMode.Right
             : PlacementMode.Left;
@@ -208,7 +208,7 @@ public class ReDockHost : ContentControl
 
         // Find the dock area whose Location matches the button's current DockLocation.
         // A button at LeftUpperTop maps to the DockArea with Location=LeftUpperTop, etc.
-        var dockArea = DockAreas.FirstOrDefault(da =>
+        DockArea? dockArea = DockAreas.FirstOrDefault(da =>
             da.Location.ButtonLocation == button.DockLocation.ButtonLocation &&
             da.Location.LeftRight      == button.DockLocation.LeftRight);
 
@@ -222,7 +222,7 @@ public class ReDockHost : ContentControl
         // dockArea.Target is a property name on ReDock ("LeftContent" / "RightContent").
         // The corresponding ContentPresenter template parts are named
         // "PART_LeftContentPresenter" and "PART_RightContentPresenter".
-        var presenterName = dockArea.Target switch
+        string? presenterName = dockArea.Target switch
         {
             "LeftContent"  => "PART_LeftContentPresenter",
             "RightContent" => "PART_RightContentPresenter",
@@ -235,7 +235,7 @@ public class ReDockHost : ContentControl
             return;
         }
 
-        var presenter = this.GetVisualDescendants()
+        ContentPresenter? presenter = this.GetVisualDescendants()
             .OfType<ContentPresenter>()
             .FirstOrDefault(cp => cp.Name == presenterName);
 
@@ -248,7 +248,7 @@ public class ReDockHost : ContentControl
         if (isVisible)
         {
             // Retrieve the registered content for this button's data context.
-            if (!_buttonContentMap.TryGetValue(button.DataContext, out var content))
+            if (!_buttonContentMap.TryGetValue(button.DataContext, out Control? content))
             {
                 Debug.WriteLine($"[ReDockHost] HandleButtonToggle — no registered content for {button.DataContext}, using default");
                 content = CreateDefaultContent(button.DataContext);
@@ -274,7 +274,7 @@ public class ReDockHost : ContentControl
         {
             // Hide the presenter only if it is currently showing THIS button's content.
             // If another button's content is already there, leave it alone.
-            if (_buttonContentMap.TryGetValue(button.DataContext, out var myContent) &&
+            if (_buttonContentMap.TryGetValue(button.DataContext, out Control? myContent) &&
                 ReferenceEquals(presenter.Content, myContent))
             {
                 presenter.Content = null;
@@ -297,7 +297,7 @@ public class ReDockHost : ContentControl
     {
         if (string.IsNullOrEmpty(targetName)) return null;
 
-        var presenterName = targetName switch
+        string? presenterName = targetName switch
         {
             "LeftContent"  => "PART_LeftContentPresenter",
             "RightContent" => "PART_RightContentPresenter",
@@ -318,8 +318,8 @@ public class ReDockHost : ContentControl
     /// </summary>
     private static Control CreateDefaultContent(object dataContext)
     {
-        var label = dataContext?.ToString() ?? "Panel";
-        var content = new Border
+        string label = dataContext?.ToString() ?? "Panel";
+        Border content = new()
         {
             Padding = new Thickness(12),
             Child = new TextBlock

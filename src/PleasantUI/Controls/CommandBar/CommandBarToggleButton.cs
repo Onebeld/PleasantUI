@@ -78,10 +78,10 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
     /// <inheritdoc/>
     public bool IsInOverflow
     {
-        get => _isInOverflow;
+        get;
         internal set
         {
-            if (SetAndRaise(IsInOverflowProperty, ref _isInOverflow, value))
+            if (SetAndRaise(IsInOverflowProperty, ref field, value))
                 PseudoClasses.Set(CommandBarButton.PC_Overflow, value);
         }
     }
@@ -89,14 +89,11 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
     /// <inheritdoc/>
     public int DynamicOverflowOrder
     {
-        get => _dynamicOverflowOrder;
-        set => SetAndRaise(DynamicOverflowOrderProperty, ref _dynamicOverflowOrder, value);
+        get;
+        set => SetAndRaise(DynamicOverflowOrderProperty, ref field, value);
     }
 
     // ── Private fields ────────────────────────────────────────────────────────
-
-    private bool _isInOverflow;
-    private int  _dynamicOverflowOrder;
 
     // ── Overrides ─────────────────────────────────────────────────────────────
 
@@ -131,7 +128,7 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
         if (IsInOverflow)
         {
             Debug.WriteLine("[CommandBarToggleButton] OnClick - Closing parent CommandBar");
-            var bar = this.FindLogicalAncestorOfType<CommandBar>();
+            CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
             if (bar is not null)
                 bar.IsOpen = false;
         }

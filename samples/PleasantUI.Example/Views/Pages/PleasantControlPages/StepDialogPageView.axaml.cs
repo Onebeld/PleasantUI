@@ -30,7 +30,7 @@ public partial class StepDialogPageView : LocalizedUserControl
 
     private async void OnOpenBasic(object? s, RoutedEventArgs e)
     {
-        var dialog = new StepDialog
+        StepDialog dialog = new()
         {
             Title             = Localizer.Tr("StepDialog/SetupWizardTitle"),
             Description       = Localizer.Tr("StepDialog/SetupWizardDescription"),
@@ -42,20 +42,20 @@ public partial class StepDialogPageView : LocalizedUserControl
         dialog.Steps.Add(new StepItem { Header = Localizer.Tr("StepDialog/AcceptLicenseHeader"),
             Description = Localizer.Tr("StepDialog/AcceptLicenseDescription") });
         dialog.Steps.Add(new StepItem { Header = Localizer.Tr("StepDialog/ChooseDirectoryHeader"),
-            Content = new TextBox { Watermark = Localizer.Tr("StepDialog/DefaultDirectoryPath"), Width = 280 } });
+            Content = new TextBox { PlaceholderText = Localizer.Tr("StepDialog/DefaultDirectoryPath"), Width = 280 } });
         dialog.Steps.Add(new StepItem { Header = Localizer.Tr("StepDialog/CompleteInstallationHeader"),
             Description = Localizer.Tr("StepDialog/CompleteInstallationDescription") });
 
         dialog.PrimaryButtonClicked   += (_, _) => { ResultLabel.Text = Localizer.Tr("StepDialog/Finished"); _ = dialog.CloseAsync(); };
         dialog.SecondaryButtonClicked += (_, _) => { ResultLabel.Text = Localizer.Tr("StepDialog/Cancelled"); _ = dialog.CloseAsync(); };
 
-        var topLevel = TopLevel.GetTopLevel(this);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
         await dialog.ShowAsync(topLevel);
     }
 
     private async void OnOpenAuth(object? s, RoutedEventArgs e)
     {
-        var dialog = new StepDialog
+        StepDialog dialog = new()
         {
             Title               = Localizer.Tr("StepDialog/SignInAzureTitle"),
             Description         = Localizer.Tr("StepDialog/SignInAzureDescription"),
@@ -96,7 +96,7 @@ public partial class StepDialogPageView : LocalizedUserControl
 
         dialog.SecondaryButtonClicked += (_, _) => { ResultLabel.Text = Localizer.Tr("StepDialog/AuthCancelled"); _ = dialog.CloseAsync(); };
 
-        var topLevel = TopLevel.GetTopLevel(this);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
         await dialog.ShowAsync(topLevel);
         if (ResultLabel.Text == "—") ResultLabel.Text = Localizer.Tr("StepDialog/AuthClosed");
     }

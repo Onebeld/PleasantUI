@@ -68,39 +68,33 @@
                                             Theme="{DynamicResource AppBarButtonTheme}"
                                             ToolTip.Tip="{TemplateBinding ClearTooltip}"
                                             Width="28" Height="28" Padding="6">
-                                        <PathIcon Data="{DynamicResource DeleteRegular}"
-                                                  Width="12" Height="12" />
+                                        <PleasantIcon Icon="{DynamicResource DeleteRegular}" Width="12" Height="12" />
                                     </Button>
                                     <Button Name="PART_CloseButton"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource CloseButtonTheme}"
                                             ToolTip.Tip="{TemplateBinding CloseTooltip}"
                                             Width="28" Height="28" Padding="6"
                                             IsVisible="{TemplateBinding ShowCloseButton}">
-                                        <PathIcon Data="{DynamicResource DismissRegular}"
-                                                  Width="10" Height="10" />
+                                        <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- ── Output area ─────────────────────────────── -->
-                        <ScrollViewer Name="PART_ScrollViewer"
-                                      Grid.Row="1"
-                                      VerticalScrollBarVisibility="Auto"
-                                      HorizontalScrollBarVisibility="Auto"
-                                      Padding="10 8">
-                            <TextBox Name="PART_OutputBox"
-                                     Text="{TemplateBinding OutputText}"
-                                     IsReadOnly="True"
-                                     Background="Transparent"
-                                     BorderThickness="0"
-                                     FontFamily="Consolas,Menlo,Monaco,monospace"
-                                     FontSize="12"
-                                     TextWrapping="NoWrap"
-                                     AcceptsReturn="True"
-                                     Foreground="{DynamicResource TextFillColor1}"
-                                     SelectionBrush="{DynamicResource SystemFillColorAttention}" />
-                        </ScrollViewer>
+                        <TextBox Name="PART_OutputBox"
+                                 Grid.Row="1"
+                                 Text="{TemplateBinding OutputText}"
+                                 CornerRadius="0"
+                                 VerticalContentAlignment="Top"
+                                 IsReadOnly="True"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 TextElement.FontFamily="Consolas,Menlo,Monaco,monospace"
+                                 FontSize="12"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="True"
+                                 Foreground="{DynamicResource TextFillColor1}" />
 
                         <!-- ── Input line ──────────────────────────────── -->
                         <Border Grid.Row="2"
@@ -114,14 +108,13 @@
                                            FontFamily="Consolas,Menlo,Monaco,monospace"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Center"
-                                           Foreground="{DynamicResource AccentFillColor1}" />
+                                           Foreground="{DynamicResource TextFillColor1}" />
                                 <TextBox Name="PART_InputBox"
                                          Grid.Column="1"
                                          Text="{TemplateBinding InputText, Mode=TwoWay}"
                                          PlaceholderText="{TemplateBinding InputPlaceholder}"
-                                         FontFamily="Consolas,Menlo,Monaco,monospace"
+                                         TextElement.FontFamily="Consolas,Menlo,Monaco,monospace"
                                          FontSize="12"
-                                         Background="Transparent"
                                          BorderThickness="0"
                                          Padding="8 4" />
                             </Grid>
@@ -130,6 +123,13 @@
                 </Border>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ TextBox#PART_OutputBox:pointerover">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^ /template/ TextBox#PART_OutputBox:focus">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
 
         <!-- Running state: accent status dot -->
         <Style Selector="^:running /template/ Ellipse">

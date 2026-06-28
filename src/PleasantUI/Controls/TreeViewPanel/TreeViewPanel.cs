@@ -252,7 +252,7 @@ public class TreeViewPanel : TemplatedControl
         }
 
         // Wire existing sections.
-        foreach (var section in Sections)
+        foreach (TreeViewSection? section in Sections)
         {
             WireSection(section);
             Debug.WriteLine($"[TreeViewPanel] OnApplyTemplate - Wired section: {section.Header}");
@@ -270,14 +270,14 @@ public class TreeViewPanel : TemplatedControl
 
         if (change.Property == FilterTextProperty)
         {
-            var newFilterText = change.GetNewValue<string?>();
+            string? newFilterText = change.GetNewValue<string?>();
             PseudoClasses.Set(PC_HasFilter, !string.IsNullOrEmpty(newFilterText));
             FilterChanged?.Invoke(this, newFilterText);
 
             Debug.WriteLine($"[TreeViewPanel] OnPropertyChanged - FilterText changed to: {newFilterText}");
 
             // Propagate filter text to all sections
-            foreach (var section in Sections)
+            foreach (TreeViewSection? section in Sections)
                 section.FilterText = newFilterText;
         }
     }
@@ -288,14 +288,14 @@ public class TreeViewPanel : TemplatedControl
     public void ExpandAll()
     {
         Debug.WriteLine("[TreeViewPanel] ExpandAll - Expanding all sections");
-        foreach (var s in Sections) s.IsExpanded = true;
+        foreach (TreeViewSection? s in Sections) s.IsExpanded = true;
     }
 
     /// <summary>Collapses all sections.</summary>
     public void CollapseAll()
     {
         Debug.WriteLine("[TreeViewPanel] CollapseAll - Collapsing all sections");
-        foreach (var s in Sections) s.IsExpanded = false;
+        foreach (TreeViewSection? s in Sections) s.IsExpanded = false;
     }
 
     /// <summary>Clears the filter text.</summary>
@@ -348,7 +348,7 @@ public class TreeViewPanel : TemplatedControl
         Debug.WriteLine($"[TreeViewPanel] OnSectionSelectionChanged - Section: {section.Header}, SelectedItem: {section.SelectedItem}");
 
         // Clear selection in all other sections.
-        foreach (var s in Sections)
+        foreach (TreeViewSection? s in Sections)
             if (!ReferenceEquals(s, section))
                 s.SelectedItem = null;
 
@@ -360,7 +360,7 @@ public class TreeViewPanel : TemplatedControl
 
     private void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
     {
-        var text = _searchBox?.Text;
+        string? text = _searchBox?.Text;
         Debug.WriteLine($"[TreeViewPanel] OnSearchTextChanged - Text: {text}");
         FilterText = text;
     }
@@ -369,8 +369,8 @@ public class TreeViewPanel : TemplatedControl
         Action<double> setter, double from, double to,
         TimeSpan duration, CancellationToken ct = default)
     {
-        var tcs = new TaskCompletionSource();
-        var sw = System.Diagnostics.Stopwatch.StartNew();
+        TaskCompletionSource tcs = new();
+        Stopwatch sw = Stopwatch.StartNew();
         double totalMs = duration.TotalMilliseconds;
 
         Avalonia.Threading.DispatcherTimer.Run(() =>
@@ -400,7 +400,7 @@ public class TreeViewPanel : TemplatedControl
             return;
         }
 
-        var buttonAnimation = new Animation
+        Animation buttonAnimation = new()
         {
             Duration = TimeSpan.FromSeconds(0.2),
             FillMode = FillMode.Forward,
@@ -411,8 +411,8 @@ public class TreeViewPanel : TemplatedControl
                     Cue = new Cue(0.0),
                     Setters =
                     {
-                        new Setter { Property = Button.OpacityProperty, Value = 1.0 },
-                        new Setter { Property = Button.WidthProperty, Value = 32.0 }
+                        new Setter { Property = OpacityProperty, Value = 1.0 },
+                        new Setter { Property = WidthProperty, Value = 32.0 }
                     }
                 },
                 new KeyFrame
@@ -420,8 +420,8 @@ public class TreeViewPanel : TemplatedControl
                     Cue = new Cue(1.0),
                     Setters =
                     {
-                        new Setter { Property = Button.OpacityProperty, Value = 0.0 },
-                        new Setter { Property = Button.WidthProperty, Value = 0.0 }
+                        new Setter { Property = OpacityProperty, Value = 0.0 },
+                        new Setter { Property = WidthProperty, Value = 0.0 }
                     }
                 }
             }
@@ -475,7 +475,7 @@ public class TreeViewPanel : TemplatedControl
             {
                 if (_expandButton is null || _collapseButton is null) return;
 
-                var buttonAnimation = new Animation
+                Animation buttonAnimation = new()
                 {
                     Duration = TimeSpan.FromSeconds(0.2),
                     FillMode = FillMode.Forward,
@@ -486,8 +486,8 @@ public class TreeViewPanel : TemplatedControl
                             Cue = new Cue(0.0),
                             Setters =
                             {
-                                new Setter { Property = Button.OpacityProperty, Value = 0.0 },
-                                new Setter { Property = Button.WidthProperty, Value = 0.0 }
+                                new Setter { Property = OpacityProperty, Value = 0.0 },
+                                new Setter { Property = WidthProperty, Value = 0.0 }
                             }
                         },
                         new KeyFrame
@@ -495,8 +495,8 @@ public class TreeViewPanel : TemplatedControl
                             Cue = new Cue(1.0),
                             Setters =
                             {
-                                new Setter { Property = Button.OpacityProperty, Value = 1.0 },
-                                new Setter { Property = Button.WidthProperty, Value = 32.0 }
+                                new Setter { Property = OpacityProperty, Value = 1.0 },
+                                new Setter { Property = WidthProperty, Value = 32.0 }
                             }
                         }
                     }

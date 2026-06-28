@@ -1,4 +1,5 @@
-﻿using PleasantUI.Controls;
+﻿using Avalonia.Media;
+using PleasantUI.Controls;
 using PleasantUI.Core;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
@@ -9,6 +10,8 @@ namespace PleasantUI.Example.ViewModels.Pages;
 
 public partial class SettingsViewModel : ViewModelBase
 {
+    public List<FontFamily> Fonts { get; set; } = FontManager.Current.SystemFonts.OrderBy(f => f.Name).ToList();
+    
     public SettingsViewModel()
     {
         // Re-raise SelectedLanguage when language changes so the ComboBox stays in sync

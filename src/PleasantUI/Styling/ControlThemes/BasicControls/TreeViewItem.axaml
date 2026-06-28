@@ -27,19 +27,19 @@
                 <Border Background="Transparent"
                         Width="24"
                         Height="24">
-                    <PathIcon x:Name="ChevronPath"
-                              Width="{TemplateBinding Width}"
-                              Height="{TemplateBinding Height}"
-                              Data="{DynamicResource ChevronRightRegular}">
-                        <PathIcon.RenderTransform>
+                    <PleasantIcon x:Name="ChevronPath"
+                                  Width="{TemplateBinding Width}"
+                                  Height="{TemplateBinding Height}"
+                                  Icon="{DynamicResource ChevronRightRegular}">
+                        <PleasantIcon.RenderTransform>
                             <RotateTransform />
-                        </PathIcon.RenderTransform>
-                    </PathIcon>
+                        </PleasantIcon.RenderTransform>
+                    </PleasantIcon>
                 </Border>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:not(:checked) /template/ PathIcon#ChevronPath">
+        <Style Selector="^:not(:checked) /template/ PleasantIcon#ChevronPath">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0%">
@@ -51,7 +51,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^:checked /template/ PathIcon#ChevronPath">
+        <Style Selector="^:checked /template/ PleasantIcon#ChevronPath">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0">

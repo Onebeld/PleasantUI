@@ -12,6 +12,7 @@
                 Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Current}}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="FontFamily" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
@@ -68,7 +69,7 @@
                                         <PleasantIcon Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
                                     </Button>
                                     <Button x:Name="PART_CloseButton"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{DynamicResource CloseButtonTheme}"
                                             ToolTip.Tip="{Localize Close, Default='Close'}">
                                         <PleasantIcon Icon="{DynamicResource DismissRegular}"
                                                      Width="8"

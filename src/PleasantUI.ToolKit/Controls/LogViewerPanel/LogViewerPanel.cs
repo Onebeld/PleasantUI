@@ -15,29 +15,31 @@ namespace PleasantUI.ToolKit.Controls;
 /// A slide-in panel that displays a filterable, searchable log of <see cref="LogEntry"/> items.
 /// Supports auto-scroll, level filtering, source filtering, copy, and clear operations.
 /// </summary>
-[TemplatePart(PART_CloseButton,    typeof(Button))]
-[TemplatePart(PART_ClearButton,    typeof(Button))]
-[TemplatePart(PART_CopyAllButton,  typeof(Button))]
-[TemplatePart(PART_SearchBox,      typeof(TextBox))]
-[TemplatePart(PART_LogList,        typeof(ListBox))]
-[TemplatePart(PART_LevelFilter,    typeof(ComboBox))]
-[TemplatePart(PART_SourceFilter,   typeof(ComboBox))]
-[TemplatePart(PART_DebugToggle,    typeof(ToggleButton))]
+[TemplatePart(PART_CloseButton, typeof(Button))]
+[TemplatePart(PART_ClearButton, typeof(Button))]
+[TemplatePart(PART_CopyAllButton, typeof(Button))]
+[TemplatePart(PART_SearchBox, typeof(TextBox))]
+[TemplatePart(PART_CountBadge, typeof(TextBlock))]
+[TemplatePart(PART_LogList, typeof(ListBox))]
+[TemplatePart(PART_LevelFilter, typeof(ComboBox))]
+[TemplatePart(PART_SourceFilter, typeof(ComboBox))]
+[TemplatePart(PART_DebugToggle, typeof(ToggleButton))]
 [TemplatePart(PART_AutoScrollToggle, typeof(ToggleButton))]
 [PseudoClasses(PC_Open, PC_HasEntries, PC_HasFilter)]
 public class LogViewerPanel : TemplatedControl
 {
     // ── Template part names ───────────────────────────────────────────────────
 
-    internal const string PART_CloseButton      = "PART_CloseButton";
-    internal const string PART_ClearButton       = "PART_ClearButton";
-    internal const string PART_CopyAllButton     = "PART_CopyAllButton";
-    internal const string PART_SearchBox         = "PART_SearchBox";
-    internal const string PART_LogList           = "PART_LogList";
-    internal const string PART_LevelFilter       = "PART_LevelFilter";
-    internal const string PART_SourceFilter      = "PART_SourceFilter";
-    internal const string PART_DebugToggle       = "PART_DebugToggle";
-    internal const string PART_AutoScrollToggle  = "PART_AutoScrollToggle";
+    private const string PART_CloseButton      = "PART_CloseButton";
+    private const string PART_ClearButton       = "PART_ClearButton";
+    private const string PART_CopyAllButton     = "PART_CopyAllButton";
+    private const string PART_SearchBox         = "PART_SearchBox";
+    private const string PART_CountBadge         = "PART_CountBadge";
+    private const string PART_LogList           = "PART_LogList";
+    private const string PART_LevelFilter       = "PART_LevelFilter";
+    private const string PART_SourceFilter      = "PART_SourceFilter";
+    private const string PART_DebugToggle       = "PART_DebugToggle";
+    private const string PART_AutoScrollToggle  = "PART_AutoScrollToggle";
 
     // ── Pseudo-class names ────────────────────────────────────────────────────
 
@@ -295,6 +297,7 @@ public class LogViewerPanel : TemplatedControl
     private Button?       _clearButton;
     private Button?       _copyAllButton;
     private TextBox?      _searchBox;
+    private TextBlock? _countBadge;
     private ListBox?      _logList;
     private ComboBox?     _levelFilter;
     private ComboBox?     _sourceFilter;
@@ -321,6 +324,7 @@ public class LogViewerPanel : TemplatedControl
         _copyAllButton   = e.NameScope.Find<Button>(PART_CopyAllButton);
         _searchBox       = e.NameScope.Find<TextBox>(PART_SearchBox);
         _logList         = e.NameScope.Find<ListBox>(PART_LogList);
+        _countBadge     = e.NameScope.Find<TextBlock>(PART_CountBadge);
         _levelFilter     = e.NameScope.Find<ComboBox>(PART_LevelFilter);
         _sourceFilter    = e.NameScope.Find<ComboBox>(PART_SourceFilter);
         _debugToggle     = e.NameScope.Find<ToggleButton>(PART_DebugToggle);
@@ -328,8 +332,7 @@ public class LogViewerPanel : TemplatedControl
 
         AttachHandlers();
 
-        if (_logList is not null)
-            _logList.ItemsSource = FilteredEntries;
+        _logList?.ItemsSource = FilteredEntries;
 
         if (_levelFilter is not null)
         {
@@ -348,7 +351,7 @@ public class LogViewerPanel : TemplatedControl
 
             // Display "All" for null values
             _sourceFilter.ItemTemplate = new FuncDataTemplate<string?>((source, _) =>
-                new TextBlock { Text = source is null ? AllFilterText : source });
+                new TextBlock { Text = source ?? AllFilterText });
         }
 
         RefreshFilter();
@@ -445,13 +448,15 @@ public class LogViewerPanel : TemplatedControl
         UpdatePseudoClasses();
 
         if (AutoScroll && FilteredEntries.Count > 0 && _logList is not null)
-            _logList.ScrollIntoView(FilteredEntries[FilteredEntries.Count - 1]);
+            _logList.ScrollIntoView(FilteredEntries[^1]);
+        
+        _countBadge?.Text = Entries.Count.ToString();
     }
 
     private void RefreshFilter()
     {
         FilteredEntries.Clear();
-        foreach (var entry in Entries)
+        foreach (LogEntry entry in Entries)
             if (MatchesFilter(entry))
                 FilteredEntries.Add(entry);
     }

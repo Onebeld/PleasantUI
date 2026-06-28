@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Animation;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
@@ -88,8 +89,8 @@ public class NavigationView : TreeView
     private Button? _headerItem;
 
     // Separate item collections for top/bottom nav bar — never shared with the left-pane Items.
-    private readonly Avalonia.Collections.AvaloniaList<NavigationViewItem> _topItems = new();
-    private readonly Avalonia.Collections.AvaloniaList<NavigationViewItem> _bottomItems = new();
+    private readonly AvaloniaList<NavigationViewItem> _topItems = new();
+    private readonly AvaloniaList<NavigationViewItem> _bottomItems = new();
 
     // Stores the IsExpanded state of group items before the pane collapses to compact mode,
     // keyed by the NavigationViewItem instance so each item's state is tracked independently.
@@ -219,16 +220,16 @@ public class NavigationView : TreeView
     /// Defines the <see cref="TopItems" /> property.
     /// Items displayed in the top navigation bar (Position=Top). Completely separate from <see cref="ItemsControl.Items"/>.
     /// </summary>
-    public static readonly DirectProperty<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>> TopItemsProperty =
-        AvaloniaProperty.RegisterDirect<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>>(
+    public static readonly DirectProperty<NavigationView, AvaloniaList<NavigationViewItem>> TopItemsProperty =
+        AvaloniaProperty.RegisterDirect<NavigationView, AvaloniaList<NavigationViewItem>>(
             nameof(TopItems), o => o.TopItems);
 
     /// <summary>
     /// Defines the <see cref="BottomItems" /> property.
     /// Items displayed in the bottom navigation bar (Position=Bottom). Completely separate from <see cref="ItemsControl.Items"/>.
     /// </summary>
-    public static readonly DirectProperty<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>> BottomItemsProperty =
-        AvaloniaProperty.RegisterDirect<NavigationView, Avalonia.Collections.AvaloniaList<NavigationViewItem>>(
+    public static readonly DirectProperty<NavigationView, AvaloniaList<NavigationViewItem>> BottomItemsProperty =
+        AvaloniaProperty.RegisterDirect<NavigationView, AvaloniaList<NavigationViewItem>>(
             nameof(BottomItems), o => o.BottomItems);
 
     /// <summary>
@@ -378,13 +379,13 @@ public class NavigationView : TreeView
     /// Gets the items collection for the top navigation bar.
     /// Populate this instead of <see cref="ItemsControl.Items"/> when using <see cref="NavigationViewPosition.Top"/>.
     /// </summary>
-    public Avalonia.Collections.AvaloniaList<NavigationViewItem> TopItems => _topItems;
+    public AvaloniaList<NavigationViewItem> TopItems => _topItems;
 
     /// <summary>
     /// Gets the items collection for the bottom navigation bar.
     /// Populate this instead of <see cref="ItemsControl.Items"/> when using <see cref="NavigationViewPosition.Bottom"/>.
     /// </summary>
-    public Avalonia.Collections.AvaloniaList<NavigationViewItem> BottomItems => _bottomItems;
+    public AvaloniaList<NavigationViewItem> BottomItems => _bottomItems;
 
     /// <summary>
     /// Gets or sets the display mode of the SplitView control.
@@ -605,7 +606,7 @@ public class NavigationView : TreeView
         }
         else
         {
-            var firstItems = Position == NavigationViewPosition.Top ? _topItems : _bottomItems;
+            AvaloniaList<NavigationViewItem> firstItems = Position == NavigationViewPosition.Top ? _topItems : _bottomItems;
             if (firstItems.Count > 0)
                 SelectTopBottomItem(firstItems[0]);
         }
@@ -681,7 +682,7 @@ public class NavigationView : TreeView
         if (!window.EnableCustomTitleBar) return;
 
         // Find the PleasantTitleBar in the window's template
-        var titleBar = window.GetTemplateChildren().OfType<PleasantTitleBar>().FirstOrDefault();
+        PleasantTitleBar? titleBar = window.GetTemplateDescendants().OfType<PleasantTitleBar>().FirstOrDefault();
         if (titleBar == null) return;
 
         if (Position != NavigationViewPosition.Left)
@@ -724,13 +725,13 @@ public class NavigationView : TreeView
 
     /// <summary>
     /// Explicitly sets IsVisible on the SplitView and TopBottomLayout panels to match the current Position.
-    /// This bypasses pseudo-class styles which can fail to re-apply after style tree changes (e.g. VGUI theme add/remove).
+    /// This bypasses pseudo-class styles which can fail to re-apply after style tree changes
     /// </summary>
     private void UpdateLayoutVisibility(NavigationViewPosition position)
     {
         // Find the SplitView named "split" in the template
-        var splitView = this.GetTemplateChildren().OfType<SplitView>().FirstOrDefault(x => x.Name == "split");
-        var stackPanelButtons = _stackPanelButtons;
+        SplitView? splitView = this.GetTemplateDescendants().OfType<SplitView>().FirstOrDefault(x => x.Name == "split");
+        StackPanel? stackPanelButtons = _stackPanelButtons;
 
         bool isLeft = position == NavigationViewPosition.Left;
         bool isTop = position == NavigationViewPosition.Top;
@@ -744,8 +745,8 @@ public class NavigationView : TreeView
             _topBottomLayout.IsVisible = isTop || isBottom;
 
         // Show/hide the top or bottom bar within the layout
-        var topBar = this.GetVisualDescendants().OfType<Border>().FirstOrDefault(x => x.Name == "PART_TopBar");
-        var bottomBar = this.GetVisualDescendants().OfType<Border>().FirstOrDefault(x => x.Name == "PART_BottomBar");
+        Border? topBar = this.GetVisualDescendants().OfType<Border>().FirstOrDefault(x => x.Name == "PART_TopBar");
+        Border? bottomBar = this.GetVisualDescendants().OfType<Border>().FirstOrDefault(x => x.Name == "PART_BottomBar");
 
         if (topBar is not null) topBar.IsVisible = isTop;
         if (bottomBar is not null) bottomBar.IsVisible = isBottom;
@@ -834,7 +835,7 @@ public class NavigationView : TreeView
     {
         Debug.WriteLine($"[NavigationView] SelectSingleItemCore item={(item as NavigationViewItem)?.Header} tag={(item as NavigationViewItem)?.Tag}");
         
-        var activePresenter = Position == NavigationViewPosition.Left ? _contentPresenter : _topBottomContentPresenter;
+        ContentPresenter? activePresenter = Position == NavigationViewPosition.Left ? _contentPresenter : _topBottomContentPresenter;
         
         if (SelectedItem != item && TransitionAnimation is not null && activePresenter is not null && runAnimation)
         {
@@ -845,7 +846,7 @@ public class NavigationView : TreeView
         }
 
         // Deselect all previously selected items in the tree before selecting the new one
-        foreach (var navItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        foreach (NavigationViewItem navItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
         {
             if (navItem.IsSelected && !ReferenceEquals(navItem, item))
                 navItem.IsSelected = false;
@@ -872,7 +873,7 @@ public class NavigationView : TreeView
 
     private void OnPositionChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        var position = (NavigationViewPosition)(e.NewValue ?? NavigationViewPosition.Left);
+        NavigationViewPosition position = (NavigationViewPosition)(e.NewValue ?? NavigationViewPosition.Left);
         PseudoClasses.Remove(":left");
         PseudoClasses.Remove(":top");
         PseudoClasses.Remove(":bottom");
@@ -891,7 +892,6 @@ public class NavigationView : TreeView
         Debug.WriteLine($"[NavigationView] OnPositionChanged position={position}");
 
         // Explicitly manage layout panel visibility to survive style invalidation
-        // (e.g. when VGUI theme styles are added/removed, pseudo-class styles may not re-apply).
         UpdateLayoutVisibility(position);
 
         // Rebuild the Top/Bottom proxy item collections from Items.
@@ -922,11 +922,11 @@ public class NavigationView : TreeView
         if (position == NavigationViewPosition.Left)
             return;
 
-        var target = position == NavigationViewPosition.Top ? _topItems : _bottomItems;
+        AvaloniaList<NavigationViewItem> target = position == NavigationViewPosition.Top ? _topItems : _bottomItems;
 
-        foreach (var original in Items.OfType<NavigationViewItem>())
+        foreach (NavigationViewItem original in Items.OfType<NavigationViewItem>())
         {
-            var proxy = CreateProxy(original);
+            NavigationViewItem proxy = CreateProxy(original);
             target.Add(proxy);
         }
     }
@@ -938,7 +938,7 @@ public class NavigationView : TreeView
     /// </summary>
     private NavigationViewItem CreateProxy(NavigationViewItem original)
     {
-        var proxy = new NavigationViewItem
+        NavigationViewItem proxy = new()
         {
             Header  = original.Header,
             Icon    = original.Icon,
@@ -949,15 +949,15 @@ public class NavigationView : TreeView
         };
 
         // Forward proxy selection → original selection so content routing works correctly.
-        proxy.GetObservable(NavigationViewItem.IsSelectedProperty)
+        proxy.GetObservable(TreeViewItem.IsSelectedProperty)
             .Subscribe(new AnonymousObserver<bool>(isSelected =>
             {
                 if (!isSelected) return;
                 // Deselect all other proxies in the same collection.
-                var collection = Position == NavigationViewPosition.Top
+                IEnumerable<NavigationViewItem> collection = Position == NavigationViewPosition.Top
                     ? (IEnumerable<NavigationViewItem>)_topItems
                     : _bottomItems;
-                foreach (var other in collection)
+                foreach (NavigationViewItem other in collection)
                     if (!ReferenceEquals(other, proxy))
                         other.IsSelected = false;
 
@@ -1017,7 +1017,7 @@ public class NavigationView : TreeView
         // A disposed control typically has no visual parent or is detached from the tree
         try
         {
-            var isAttached = control.IsAttachedToVisualTree();
+            bool isAttached = control.IsAttachedToVisualTree();
             if (!isAttached)
             {
                 Debug.WriteLine($"[NavigationView] ValidateControlNotDisposed {controlName} is not attached to visual tree — may be disposed or initializing");
@@ -1040,10 +1040,10 @@ public class NavigationView : TreeView
     /// </summary>
     private void RefreshPresentersFromTemplate()
     {
-        var newLeft = this.GetVisualDescendants()
+        ContentPresenter? newLeft = this.GetVisualDescendants()
             .OfType<ContentPresenter>()
             .FirstOrDefault(x => x.Name == "PART_SelectedContentPresenter");
-        var newTopBottom = this.GetVisualDescendants()
+        ContentPresenter? newTopBottom = this.GetVisualDescendants()
             .OfType<ContentPresenter>()
             .FirstOrDefault(x => x.Name == "PART_TopBottomContentPresenter");
 
@@ -1086,10 +1086,10 @@ public class NavigationView : TreeView
             if (!presenter.IsAttachedToVisualTree())
             {
                 // Try to find a live replacement in the current visual tree.
-                var liveLeft = this.GetVisualDescendants()
+                ContentPresenter? liveLeft = this.GetVisualDescendants()
                     .OfType<ContentPresenter>()
                     .FirstOrDefault(x => x.Name == "PART_SelectedContentPresenter" && x.IsAttachedToVisualTree());
-                var liveTopBottom = this.GetVisualDescendants()
+                ContentPresenter? liveTopBottom = this.GetVisualDescendants()
                     .OfType<ContentPresenter>()
                     .FirstOrDefault(x => x.Name == "PART_TopBottomContentPresenter" && x.IsAttachedToVisualTree());
 
@@ -1118,7 +1118,7 @@ public class NavigationView : TreeView
         }
 
         // Check if presenter is already a child of wrapper (invalid circular reference)
-        var presenterParent = presenter.GetVisualParent();
+        Visual? presenterParent = presenter.GetVisualParent();
         if (ReferenceEquals(presenterParent, wrapper))
         {
             Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} has presenter as visual parent — INVALID circular reference");
@@ -1160,7 +1160,7 @@ public class NavigationView : TreeView
         }
 
         // Check if wrapper is already a child of content (invalid circular reference)
-        var wrapperParent = wrapper.GetVisualParent();
+        Visual? wrapperParent = wrapper.GetVisualParent();
         if (ReferenceEquals(wrapperParent, content))
         {
             Debug.WriteLine($"[NavigationView] ValidateContentWrapperCompatibility {contentDescription} has wrapper as visual parent — INVALID circular reference");
@@ -1180,7 +1180,7 @@ public class NavigationView : TreeView
     /// <param name="targetPresenter">The target ContentPresenter we want to assign the wrapper to.</param>
     /// <param name="wrapperName">Name of the wrapper for logging (e.g., "_leftWrapper").</param>
     /// <returns>True if detachment was successful or not needed, false if an error occurred.</returns>
-    private bool SafelyDetachWrapperFromVisualParent(Border wrapper, ContentPresenter? targetPresenter, string wrapperName)
+    private bool SafelyDetachWrapperFromVisualParent(Border? wrapper, ContentPresenter? targetPresenter, string wrapperName)
     {
         if (wrapper is null)
         {
@@ -1189,7 +1189,7 @@ public class NavigationView : TreeView
         }
 
         // Check if wrapper has a visual parent
-        var currentVisualParent = wrapper.GetVisualParent();
+        Visual? currentVisualParent = wrapper.GetVisualParent();
         
         if (currentVisualParent is null)
         {
@@ -1336,7 +1336,7 @@ public class NavigationView : TreeView
         }
 
         // Check if content has a visual parent
-        var currentVisualParent = content.GetVisualParent();
+        Visual? currentVisualParent = content.GetVisualParent();
         
         if (currentVisualParent is null)
         {
@@ -1474,8 +1474,8 @@ public class NavigationView : TreeView
         if (content is null) return;
 
         bool isLeft = Position == NavigationViewPosition.Left;
-        var activeWrapper   = isLeft ? _leftWrapper      : _topBottomWrapper;
-        var inactiveWrapper = isLeft ? _topBottomWrapper : _leftWrapper;
+        Border activeWrapper   = isLeft ? _leftWrapper      : _topBottomWrapper;
+        Border inactiveWrapper = isLeft ? _topBottomWrapper : _leftWrapper;
 
         // Clear inactive wrapper child with comprehensive validation.
         if (!ReferenceEquals(inactiveWrapper.Child, null))
@@ -1539,8 +1539,8 @@ public class NavigationView : TreeView
         Debug.WriteLine($"[NavigationView] RestoreCachedContent cachedPosition={_cachedContentPosition}");
 
         bool isLeft = Position == NavigationViewPosition.Left;
-        var activeWrapper   = isLeft ? _leftWrapper      : _topBottomWrapper;
-        var inactiveWrapper = isLeft ? _topBottomWrapper : _leftWrapper;
+        Border activeWrapper   = isLeft ? _leftWrapper      : _topBottomWrapper;
+        Border inactiveWrapper = isLeft ? _topBottomWrapper : _leftWrapper;
 
         // Clear inactive wrapper child with comprehensive validation.
         if (!ReferenceEquals(inactiveWrapper.Child, null))
@@ -1591,7 +1591,7 @@ public class NavigationView : TreeView
                 }
                 else
                 {
-                    var collection = Position == NavigationViewPosition.Top ? _topItems : _bottomItems;
+                    AvaloniaList<NavigationViewItem> collection = Position == NavigationViewPosition.Top ? _topItems : _bottomItems;
                     if (collection.Count > 0)
                         SelectTopBottomItem(collection[0]);
                 }
@@ -1625,7 +1625,7 @@ public class NavigationView : TreeView
         Debug.WriteLine($"[NavigationView] OnIsOpenChanged isNowOpen={isNowOpen}");
 
         // Only group items (items that have NavigationViewItem children) participate in expand/collapse
-        var groupItems = this.GetLogicalDescendants()
+        List<NavigationViewItem> groupItems = this.GetLogicalDescendants()
             .OfType<NavigationViewItem>()
             .Where(item => item.Items.OfType<NavigationViewItem>().Any())
             .ToList();
@@ -1634,7 +1634,7 @@ public class NavigationView : TreeView
         {
             // Pane collapsing → save IsExpanded for each group item, then collapse it
             _expandedStates.Clear();
-            foreach (var item in groupItems)
+            foreach (NavigationViewItem item in groupItems)
             {
                 _expandedStates[item] = item.IsExpanded;
                 Debug.WriteLine($"[NavigationView] OnIsOpenChanged saving header={item.Header} IsExpanded={item.IsExpanded}");
@@ -1645,7 +1645,7 @@ public class NavigationView : TreeView
         else
         {
             // Pane opening → restore saved IsExpanded for each group item
-            foreach (var item in groupItems)
+            foreach (NavigationViewItem item in groupItems)
             {
                 if (_expandedStates.TryGetValue(item, out bool wasExpanded))
                 {
@@ -1663,7 +1663,7 @@ public class NavigationView : TreeView
     /// </summary>
     private void CloseAllSubMenuPopups()
     {
-        foreach (var item in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        foreach (NavigationViewItem item in this.GetLogicalDescendants().OfType<NavigationViewItem>())
         {
             if (item.IsSubMenuOpen)
             {
@@ -1686,7 +1686,7 @@ public class NavigationView : TreeView
         control.AddHandler(PointerReleasedEvent, (_, args) =>
         {
             // Walk up from the original source to find the NavigationViewItem that was clicked.
-            var source = args.Source as Avalonia.Visual;
+            Visual? source = args.Source as Visual;
             while (source is not null)
             {
                 if (source is NavigationViewItem navItem && control.Items.Contains(navItem))
@@ -1704,9 +1704,9 @@ public class NavigationView : TreeView
         Debug.WriteLine($"[NavigationView] SelectTopBottomItem header={item.Header}");
 
         // Deselect all top+bottom items except the clicked one.
-        foreach (var i in _topItems)
+        foreach (NavigationViewItem? i in _topItems)
             i.IsSelected = !ReferenceEquals(i, item) ? false : true;
-        foreach (var i in _bottomItems)
+        foreach (NavigationViewItem? i in _bottomItems)
             i.IsSelected = !ReferenceEquals(i, item) ? false : true;
 
         if (item.Content is not null)

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TimelinePageView">
-    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640">
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
         <!-- Description -->
         <TextBlock Text="{Localize Timeline/Description}"
                    TextWrapping="Wrap"

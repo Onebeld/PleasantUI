@@ -6,42 +6,36 @@ namespace PleasantUI.Example.ViewModels.Pages.ControlPages;
 
 public class DataGridViewModel : ViewModelBase
 {
-    private bool _showGridLines;
-    private bool _canUserReorderColumns = true;
-    private bool _canUserResizeColumns = true;
-    private bool _canUserSortColumns = true;
-    private bool _showRowDetails;
-
     public AvaloniaList<DataModel> DataModels { get; }
 
     public bool ShowGridLines
     {
-        get => _showGridLines;
-        set => SetProperty(ref _showGridLines, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public bool CanUserReorderColumns
     {
-        get => _canUserReorderColumns;
-        set => SetProperty(ref _canUserReorderColumns, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
 
     public bool CanUserResizeColumns
     {
-        get => _canUserResizeColumns;
-        set => SetProperty(ref _canUserResizeColumns, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
 
     public bool CanUserSortColumns
     {
-        get => _canUserSortColumns;
-        set => SetProperty(ref _canUserSortColumns, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
 
     public bool ShowRowDetails
     {
-        get => _showRowDetails;
-        set => SetProperty(ref _showRowDetails, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public DataGridViewModel()

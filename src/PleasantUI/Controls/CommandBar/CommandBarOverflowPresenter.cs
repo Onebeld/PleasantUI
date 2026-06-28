@@ -146,7 +146,7 @@ public class CommandBarOverflowPresenter : ItemsControl
         PseudoClasses.Set(PC_Toggle, hasToggle);
 
         // Propagate to each item so they can align their content.
-        var items = Items as IList ?? (IList)ItemsView;
+        IList items = Items as IList ?? (IList)ItemsView;
         for (int i = 0; i < items.Count; i++)
         {
             if (items[i] is Control c && c.Classes is IPseudoClasses pc)

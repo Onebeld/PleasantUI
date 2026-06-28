@@ -111,9 +111,9 @@ public class PleasantMenu : TemplatedControl
         _itemsPanel.Children.Clear();
 
         // Use a WrapPanel so items flow naturally and respect Columns via MinWidth
-        var wrap = new WrapPanel { Orientation = Orientation.Horizontal };
+        WrapPanel wrap = new() { Orientation = Orientation.Horizontal };
 
-        foreach (var item in _items)
+        foreach (PleasantMenuItem? item in _items)
             wrap.Children.Add(BuildItemButton(item));
 
         _itemsPanel.Children.Add(wrap);
@@ -125,14 +125,14 @@ public class PleasantMenu : TemplatedControl
         if (item.SecondaryCommand is not null)
             return BuildSplitButton(item);
 
-        var icon = new PleasantIcon()
+        PleasantIcon icon = new()
         {
             Width  = 20,
             Height = 20,
             Icon   = item.Icon
         };
 
-        var label = new TextBlock
+        TextBlock label = new()
         {
             Text            = item.Label,
             TextAlignment   = TextAlignment.Center,
@@ -141,14 +141,14 @@ public class PleasantMenu : TemplatedControl
             Margin          = new Thickness(0, 6, 0, 0)
         };
 
-        var stack = new StackPanel
+        StackPanel stack = new()
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment   = VerticalAlignment.Center,
             Children            = { icon, label }
         };
 
-        var btn = new Button
+        Button btn = new()
         {
             Content           = stack,
             MinWidth          = ItemMinWidth,
@@ -171,9 +171,9 @@ public class PleasantMenu : TemplatedControl
 
     private Button BuildSplitButton(PleasantMenuItem item)
     {
-        var icon = new PleasantIcon() { Width = 20, Height = 20, Icon = item.Icon };
+        PleasantIcon icon = new() { Width = 20, Height = 20, Icon = item.Icon };
 
-        var mainBtn = new Button
+        Button mainBtn = new()
         {
             Content          = icon,
             Padding          = new Thickness(12, 10),
@@ -186,14 +186,14 @@ public class PleasantMenu : TemplatedControl
         };
         mainBtn.Click += (_, _) => CloseFlyout();
 
-        var chevronIcon = new PathIcon
+        PathIcon chevronIcon = new()
         {
             Width  = 10,
             Height = 10,
             Data   = Application.Current!.TryFindResource("ChevronDownRegular", out object? g) ? g as Geometry : null
         };
 
-        var chevronBtn = new Button
+        Button chevronBtn = new()
         {
             Content          = chevronIcon,
             Padding          = new Thickness(6, 10),
@@ -205,13 +205,13 @@ public class PleasantMenu : TemplatedControl
             [Grid.ColumnProperty] = 1
         };
 
-        var splitGrid = new Grid
+        Grid splitGrid = new()
         {
             ColumnDefinitions = new ColumnDefinitions("*,Auto"),
             Children          = { mainBtn, chevronBtn }
         };
 
-        var label = new TextBlock
+        TextBlock label = new()
         {
             Text          = item.Label,
             TextAlignment = TextAlignment.Center,
@@ -220,13 +220,13 @@ public class PleasantMenu : TemplatedControl
             Margin        = new Thickness(0, 6, 0, 0)
         };
 
-        var outer = new StackPanel
+        StackPanel outer = new()
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             Children            = { splitGrid, label }
         };
 
-        var wrapper = new Button
+        Button wrapper = new()
         {
             Content           = outer,
             MinWidth          = ItemMinWidth,
@@ -250,11 +250,11 @@ public class PleasantMenu : TemplatedControl
         _footerLeftPanel.Children.Clear();
         _footerRightPanel.Children.Clear();
 
-        foreach (var fi in _footerItems)
+        foreach (PleasantMenuFooterItem? fi in _footerItems)
         {
-            var icon = new PleasantIcon() { Width = 16, Height = 16, Icon = fi.Icon };
+            PleasantIcon icon = new() { Width = 16, Height = 16, Icon = fi.Icon };
 
-            var btn = new Button
+            Button btn = new()
             {
                 Content          = icon,
                 Padding          = new Thickness(8, 6),
@@ -281,7 +281,7 @@ public class PleasantMenu : TemplatedControl
     private void CloseFlyout()
     {
         // Walk up to find the hosting Flyout and close it
-        var parent = Parent;
+        StyledElement? parent = Parent;
         while (parent is not null)
         {
             if (parent is Popup popup)

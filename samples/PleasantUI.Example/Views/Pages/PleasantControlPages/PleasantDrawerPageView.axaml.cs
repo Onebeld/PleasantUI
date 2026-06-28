@@ -28,12 +28,12 @@ public partial class PleasantDrawerPageView : LocalizedUserControl
 
     private async void OpenDrawer(DrawerPosition position)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
         if (topLevel is null) return;
 
-        string Tr(string key) => Localizer.Instance.TryGetString(key, out var v) ? v : key;
+        string Tr(string key) => Localizer.Instance.TryGetString(key, out string v) ? v : key;
 
-        var drawer = new PleasantDrawer
+        PleasantDrawer drawer = new()
         {
             Title         = Tr("PleasantDrawer/DrawerTitle"),
             Position      = position,

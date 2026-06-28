@@ -143,8 +143,8 @@ public class VerticallySplittedView : TemplatedControl, IDockAreaView
         _root = e.NameScope.Get<Panel>("PART_Root");
         _thumb = e.NameScope.Get<Thumb>("PART_Thumb");
 
-        var topObs = _topPresenter.IsChildVisibleObservable();
-        var bottomObs = _bottomPresenter.IsChildVisibleObservable();
+        IObservable<bool> topObs = _topPresenter.IsChildVisibleObservable();
+        IObservable<bool> bottomObs = _bottomPresenter.IsChildVisibleObservable();
 
         _visibilitySubscription = Observable.CombineLatest(topObs, bottomObs, (t, b) => (t, b))
             .Subscribe(new AnonymousObserver<(bool top, bool bottom)>(v =>
@@ -196,20 +196,20 @@ public class VerticallySplittedView : TemplatedControl, IDockAreaView
 
     private void UpdateIsDragDropEnabled()
     {
-        var list = Interaction.GetBehaviors(this);
+        BehaviorCollection list = Interaction.GetBehaviors(this);
 
         if (_topDockArea != null || _bottomDockArea != null)
         {
             if (_dragEventSubscribed) return;
             _dragEventSubscribed = true;
-            var behavior = Activator.CreateInstance(DockAreaDragDropBehavior.GetBehaviorType(this)) as DockAreaDragDropBehavior;
+            DockAreaDragDropBehavior? behavior = Activator.CreateInstance(DockAreaDragDropBehavior.GetBehaviorType(this)) as DockAreaDragDropBehavior;
             if (behavior != null) list.Add(behavior);
         }
         else
         {
             if (!_dragEventSubscribed) return;
             _dragEventSubscribed = false;
-            foreach (var b in list.OfType<DockAreaDragDropBehavior>().ToList())
+            foreach (DockAreaDragDropBehavior b in list.OfType<DockAreaDragDropBehavior>().ToList())
                 list.Remove(b);
         }
     }
@@ -218,12 +218,12 @@ public class VerticallySplittedView : TemplatedControl, IDockAreaView
     {
         if (!_dragEventSubscribed || (_topDockArea == null && _bottomDockArea == null)) return;
 
-        var list = Interaction.GetBehaviors(this);
-        foreach (var b in list.OfType<DockAreaDragDropBehavior>().ToList())
+        BehaviorCollection list = Interaction.GetBehaviors(this);
+        foreach (DockAreaDragDropBehavior b in list.OfType<DockAreaDragDropBehavior>().ToList())
             list.Remove(b);
 
-        var type = e.NewValue.GetValueOrDefault() ?? typeof(DockAreaDragDropBehavior);
-        var newBehavior = Activator.CreateInstance(type) as DockAreaDragDropBehavior;
+        Type type = e.NewValue.GetValueOrDefault() ?? typeof(DockAreaDragDropBehavior);
+        DockAreaDragDropBehavior? newBehavior = Activator.CreateInstance(type) as DockAreaDragDropBehavior;
         if (newBehavior != null) list.Add(newBehavior);
     }
 
@@ -238,8 +238,8 @@ public class VerticallySplittedView : TemplatedControl, IDockAreaView
         if (_topPresenter == null || _bottomPresenter == null || _root == null || _thumb == null)
             return;
 
-        var size = Bounds.Size;
-        var newHeight = _topPresenter.Height + e.Vector.Y;
+        Size size = Bounds.Size;
+        double newHeight = _topPresenter.Height + e.Vector.Y;
 
         if (newHeight + 5 >= size.Height || newHeight <= 5) return;
 
@@ -251,7 +251,7 @@ public class VerticallySplittedView : TemplatedControl, IDockAreaView
     {
         if (_topPresenter == null || _bottomPresenter == null || _thumb == null) return;
 
-        var (topHeight, bottomHeight) = GetAbsoluteHeights(size);
+        (double topHeight, double bottomHeight) = GetAbsoluteHeights(size);
 
         if (_topPresenter.IsChildVisible() && _bottomPresenter.IsChildVisible())
         {
@@ -275,9 +275,9 @@ public class VerticallySplittedView : TemplatedControl, IDockAreaView
 
     private (double top, double bottom) GetAbsoluteHeights(Size availableSize)
     {
-        var den = TopHeightProportion + BottomHeightProportion;
+        double den = TopHeightProportion + BottomHeightProportion;
         if (den == 0) return (availableSize.Height / 2, availableSize.Height / 2);
-        var factor = availableSize.Height / den;
+        double factor = availableSize.Height / den;
         return (factor * TopHeightProportion, factor * BottomHeightProportion);
     }
 }

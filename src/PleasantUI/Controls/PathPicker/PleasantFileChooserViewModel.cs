@@ -45,11 +45,8 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     // ── State ─────────────────────────────────────────────────────────────────
 
     private string _currentPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-    private string _fileName    = string.Empty;
     private string _filterText  = string.Empty;
     private int    _selectedFilterIndex;
-    private bool   _isLoading;
-    private string _errorMessage = string.Empty;
 
     public string CurrentPath
     {
@@ -59,9 +56,9 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     public string FileName
     {
-        get => _fileName;
-        set => Set(ref _fileName, value);
-    }
+        get;
+        set => Set(ref field, value);
+    } = string.Empty;
 
     public string FilterText
     {
@@ -77,15 +74,15 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     public bool IsLoading
     {
-        get => _isLoading;
-        private set => Set(ref _isLoading, value);
+        get;
+        private set => Set(ref field, value);
     }
 
     public string ErrorMessage
     {
-        get => _errorMessage;
-        private set => Set(ref _errorMessage, value);
-    }
+        get;
+        private set => Set(ref field, value);
+    } = string.Empty;
 
     // ── Collections ───────────────────────────────────────────────────────────
 
@@ -129,7 +126,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     public void GoUp()
     {
-        var parent = Path.GetDirectoryName(_currentPath);
+        string? parent = Path.GetDirectoryName(_currentPath);
         if (parent is not null) Navigate(parent);
     }
 
@@ -137,7 +134,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     {
         if (!CanGoBack) return;
         _forwardStack.Push(_currentPath);
-        var prev = _backStack.Pop();
+        string prev = _backStack.Pop();
         Set(ref _currentPath, prev, nameof(CurrentPath));
         _ = LoadDirectoryAsync(prev);
         NotifyNavigation();
@@ -147,7 +144,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     {
         if (!CanGoForward) return;
         _backStack.Push(_currentPath);
-        var next = _forwardStack.Pop();
+        string next = _forwardStack.Pop();
         Set(ref _currentPath, next, nameof(CurrentPath));
         _ = LoadDirectoryAsync(next);
         NotifyNavigation();
@@ -187,7 +184,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
         try
         {
-            var items = await Task.Run(() => EnumerateItems(path));
+            List<PleasantFileChooserItem> items = await Task.Run(() => EnumerateItems(path));
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -210,13 +207,13 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     private List<PleasantFileChooserItem> EnumerateItems(string path)
     {
-        var result = new List<PleasantFileChooserItem>();
+        List<PleasantFileChooserItem> result = new();
 
-        var dirInfo = new DirectoryInfo(path);
+        DirectoryInfo dirInfo = new(path);
         if (!dirInfo.Exists) return result;
 
         // Directories first
-        foreach (var dir in dirInfo.EnumerateDirectories()
+        foreach (DirectoryInfo dir in dirInfo.EnumerateDirectories()
                      .Where(d => ShowHidden || (d.Attributes & FileAttributes.Hidden) == 0)
                      .OrderBy(d => d.Name, StringComparer.OrdinalIgnoreCase))
         {
@@ -225,7 +222,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
         if (!FoldersOnly)
         {
-            foreach (var file in dirInfo.EnumerateFiles()
+            foreach (FileInfo file in dirInfo.EnumerateFiles()
                          .Where(f => ShowHidden || (f.Attributes & FileAttributes.Hidden) == 0)
                          .OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase))
             {
@@ -240,11 +237,11 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     private void ApplyFilter()
     {
-        var activeExtensions = GetActiveExtensions();
-        var nameFilter       = _filterText.Trim();
+        HashSet<string>? activeExtensions = GetActiveExtensions();
+        string nameFilter       = _filterText.Trim();
 
         Items.Clear();
-        foreach (var item in _allItems)
+        foreach (PleasantFileChooserItem item in _allItems)
         {
             if (item.IsDirectory)
             {
@@ -267,7 +264,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     private HashSet<string>? GetActiveExtensions()
     {
         if (Filters.Count == 0) return null;
-        var filter = Filters[Math.Clamp(_selectedFilterIndex, 0, Filters.Count - 1)];
+        PleasantFileChooserFilter filter = Filters[Math.Clamp(_selectedFilterIndex, 0, Filters.Count - 1)];
         if (filter.Extensions.Count == 0) return null;
         return new HashSet<string>(filter.Extensions, StringComparer.OrdinalIgnoreCase);
     }
@@ -289,7 +286,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     public void Confirm()
     {
-        var paths = new List<string>();
+        List<string> paths = new();
 
         if (SelectedItems.Count > 0)
         {
@@ -298,7 +295,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         }
         else if (!string.IsNullOrWhiteSpace(FileName))
         {
-            var typed = FileName.Trim();
+            string typed = FileName.Trim();
             paths.Add(Path.IsPathRooted(typed) ? typed : Path.Combine(_currentPath, typed));
             Debug.WriteLine($"[FileChooserVM] Confirm — from FileName \"{FileName}\": [{string.Join(", ", paths)}]");
         }
@@ -335,7 +332,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         AddQuickLink(Environment.SpecialFolder.UserProfile);
 
         // Drives
-        foreach (var drive in DriveInfo.GetDrives().Where(d => d.IsReady))
+        foreach (DriveInfo drive in DriveInfo.GetDrives().Where(d => d.IsReady))
             QuickLinks.Add(new PleasantFileChooserItem(drive.RootDirectory.FullName, true));
     }
 
@@ -343,7 +340,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     {
         try
         {
-            var path = Environment.GetFolderPath(folder);
+            string path = Environment.GetFolderPath(folder);
             if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
                 QuickLinks.Add(new PleasantFileChooserItem(path, true));
         }

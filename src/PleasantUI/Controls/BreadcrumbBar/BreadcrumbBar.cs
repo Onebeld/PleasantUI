@@ -161,11 +161,11 @@ public class BreadcrumbBar : ItemsControl
 
         if (_ellipsisItem is not null)
         {
-            var view = ellipsisVisible ? AccessibilityView.Content : AccessibilityView.Raw;
+            AccessibilityView view = ellipsisVisible ? AccessibilityView.Content : AccessibilityView.Raw;
             _ellipsisItem.SetValue(AutomationProperties.AccessibilityViewProperty, view);
         }
 
-        var panelChildren = _panel.Children;
+        Avalonia.Controls.Controls panelChildren = _panel.Children;
         for (int acc = 1, real = firstIndex; acc <= visibleCount; acc++, real++)
         {
             if (real < panelChildren.Count && panelChildren[real] is Control c)
@@ -209,7 +209,7 @@ public class BreadcrumbBar : ItemsControl
         if (ItemCount == 0) { ResetLastItem(); return; }
 
         // The last container is at ItemCount-1 in the ItemsControl.
-        var container = ContainerFromIndex(ItemCount - 1) as BreadcrumbBarItem;
+        BreadcrumbBarItem? container = ContainerFromIndex(ItemCount - 1) as BreadcrumbBarItem;
         if (container is not null)
             UpdateLastElement(container);
     }
@@ -277,7 +277,7 @@ public class BreadcrumbBar : ItemsControl
     {
         if (delta == 0 || _panel is null) return false;
 
-        var focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
+        IInputElement? focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
         if (focused is not Control focusedControl) return false;
 
         int current = _panel.Children.IndexOf(focusedControl);
@@ -288,7 +288,7 @@ public class BreadcrumbBar : ItemsControl
 
         while (target >= 0 && target < count)
         {
-            var el = _panel.Children[target];
+            Control el = _panel.Children[target];
             if (el.Focus())
             {
                 _focusedIndex = target;

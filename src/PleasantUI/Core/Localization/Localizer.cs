@@ -203,7 +203,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         // after registration doesn't race satellite assembly loading.
         try
         {
-            var culture = CultureInfo.CurrentUICulture;
+            CultureInfo culture = CultureInfo.CurrentUICulture;
             resourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: true);
         }
         catch

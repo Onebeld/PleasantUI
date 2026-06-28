@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -492,13 +493,13 @@ public class DownloadPanel : TemplatedControl
             IBrush progressBrush = ChunkProgressBrush
                 ?? new SolidColorBrush(Color.Parse("#4CAF50"));
 
-            foreach (var chunk in Chunks)
+            foreach (ChunkInfo? chunk in Chunks)
             {
                 double chunkStart  = chunk.Start  * canvasWidth;
                 double chunkWidth  = (chunk.End - chunk.Start) * canvasWidth;
                 double fillWidth   = chunkWidth * Math.Clamp(chunk.Progress, 0, 1);
 
-                var rect = new Avalonia.Controls.Shapes.Rectangle
+                Rectangle rect = new()
                 {
                     Width  = fillWidth,
                     Height = canvasHeight,

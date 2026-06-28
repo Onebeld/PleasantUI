@@ -26,9 +26,6 @@ public enum ChunkStatus
 /// </summary>
 public class ChunkInfo : INotifyPropertyChanged
 {
-    private int _index;
-    private double _start;
-    private double _end;
     private double _progress;
     private long _totalSizeBytes;
     private long _downloadedBytes;
@@ -47,22 +44,22 @@ public class ChunkInfo : INotifyPropertyChanged
     /// <summary>Gets or sets the 1-based chunk index.</summary>
     public int Index
     {
-        get => _index;
-        set => SetProperty(ref _index, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     /// <summary>Gets or sets the normalized start position [0..1].</summary>
     public double Start
     {
-        get => _start;
-        set => SetProperty(ref _start, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     /// <summary>Gets or sets the normalized end position [0..1].</summary>
     public double End
     {
-        get => _end;
-        set => SetProperty(ref _end, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     /// <summary>Gets or sets the normalized download progress within this chunk [0..1].</summary>
