@@ -10,6 +10,9 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class TranslateConverter : IMultiValueConverter
 {
+    /// <summary>
+    /// An instance of the <see cref="TranslateConverter"/> class object
+    /// </summary>
     public static readonly TranslateConverter Instance = new();
     
     /// <summary>

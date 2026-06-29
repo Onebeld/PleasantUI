@@ -114,7 +114,5 @@ public class PleasantSettings : ViewModelBase
     public PleasantSettings()
     {
         _windowSettings = new WindowSettings();
-        
-        FontFamily family = new FontFamily("Arial");
     }
 }

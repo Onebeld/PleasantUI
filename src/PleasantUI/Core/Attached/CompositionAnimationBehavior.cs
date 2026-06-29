@@ -9,74 +9,130 @@ using Avalonia.VisualTree;
 
 namespace PleasantUI.Core.Attached;
 
+/// <summary>
+/// A static attached property class for managing composition rendering animations
+/// </summary>
 public static class CompositionAnimationBehavior
 {
-    // =========================
-    // Attached Properties
-    // =========================
-
+    /// <summary>
+    /// Defines the Duration attached property.
+    /// </summary>
     public static readonly AttachedProperty<double> DurationProperty =
-        AvaloniaProperty.RegisterAttached<Visual, double>(
-            "Duration",
-            typeof(CompositionAnimationBehavior),
-            200);
+        AvaloniaProperty.RegisterAttached<Visual, double>("Duration", typeof(CompositionAnimationBehavior), 200);
 
+    /// <summary>
+    /// Defines the InitialOpacity attached property.
+    /// </summary>
     public static readonly AttachedProperty<float> InitialOpacityProperty =
-        AvaloniaProperty.RegisterAttached<Visual, float>(
-            "InitialOpacity",
-            typeof(CompositionAnimationBehavior),
-            0f);
+        AvaloniaProperty.RegisterAttached<Visual, float>("InitialOpacity", typeof(CompositionAnimationBehavior));
 
+    /// <summary>
+    /// Defines the InitialScale attached property.
+    /// </summary>
     public static readonly AttachedProperty<float> InitialScaleProperty =
-        AvaloniaProperty.RegisterAttached<Visual, float>(
-            "InitialScale",
-            typeof(CompositionAnimationBehavior),
-            0.8f);
+        AvaloniaProperty.RegisterAttached<Visual, float>("InitialScale", typeof(CompositionAnimationBehavior), 0.8f);
     
-    
+    /// <summary>
+    /// Defines the UseEntranceAnimations attached property.
+    /// </summary>
     public static readonly AttachedProperty<bool> UseEntranceAnimationsProperty =
-        AvaloniaProperty.RegisterAttached<Visual, bool>(
-            "UseEntranceAnimations",
-            typeof(CompositionAnimationBehavior),
-            false);
-    public static readonly AttachedProperty<bool> UseImplicitAnimationsProperty =
-        AvaloniaProperty.RegisterAttached<Visual, bool>(
-            "UseImplicitAnimations",
-            typeof(CompositionAnimationBehavior),
-            false);
+        AvaloniaProperty.RegisterAttached<Visual, bool>("UseEntranceAnimations", typeof(CompositionAnimationBehavior));
     
+    /// <summary>
+    /// Defines the UseImplicitAnimations attached property.
+    /// </summary>
+    public static readonly AttachedProperty<bool> UseImplicitAnimationsProperty =
+        AvaloniaProperty.RegisterAttached<Visual, bool>("UseImplicitAnimations", typeof(CompositionAnimationBehavior));
+    
+    /// <summary>
+    /// Defines the UseImplicitChildrenAnimations attached property.
+    /// </summary>
     public static readonly AttachedProperty<bool> UseImplicitAnimationsChildrenProperty =
-        AvaloniaProperty.RegisterAttached<Visual, bool>(
-            "UseImplicitChildrenAnimations",
-            typeof(CompositionAnimationBehavior),
-            false);
+        AvaloniaProperty.RegisterAttached<Visual, bool>("UseImplicitChildrenAnimations", typeof(CompositionAnimationBehavior));
 
-    // =========================
-    // Get / Set
-    // =========================
-
+    /// <summary>
+    /// Gets the duration of the animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <returns>Duration of the animation</returns>
     public static double GetDuration(AvaloniaObject o) => o.GetValue(DurationProperty);
+    
+    /// <summary>
+    /// Sets the duration of the animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <param name="v">Duration of the animation</param>
     public static void SetDuration(AvaloniaObject o, double v) => o.SetValue(DurationProperty, v);
 
+    /// <summary>
+    /// Gets the initial opacity value of the animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <returns>Initial opacity value</returns>
     public static float GetInitialOpacity(AvaloniaObject o) => o.GetValue(InitialOpacityProperty);
+
+    /// <summary>
+    /// Sets the initial opacity value of the animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <param name="v">Initial opacity value</param>
     public static void SetInitialOpacity(AvaloniaObject o, float v) => o.SetValue(InitialOpacityProperty, v);
 
+    /// <summary>
+    /// Gets the initial scale value of the animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <returns>Initial scale value</returns>
     public static float GetInitialScale(AvaloniaObject o) => o.GetValue(InitialScaleProperty);
+
+    /// <summary>
+    /// Sets the initial scale value of the animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <param name="v">Initial scale value</param>
     public static void SetInitialScale(AvaloniaObject o, float v) => o.SetValue(InitialScaleProperty, v);
 
+    /// <summary>
+    /// Gets whether to use implicit animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <returns>Whether to use implicit animation</returns>
     public static bool GetUseImplicitAnimations(AvaloniaObject o) => o.GetValue(UseImplicitAnimationsProperty);
+
+    /// <summary>
+    /// Sets whether to use implicit animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <param name="v">Whether to use implicit animation</param>
     public static void SetUseImplicitAnimations(AvaloniaObject o, bool v) => o.SetValue(UseImplicitAnimationsProperty, v);
 
+    /// <summary>
+    /// Sets whether to use entrance animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <returns>Whether to use entrance animation</returns>
     public static bool GetUseEntranceAnimations(AvaloniaObject o) => o.GetValue(UseEntranceAnimationsProperty);
+
+    /// <summary>
+    /// Sets whether to use entrance animation
+    /// </summary>
+    /// <param name="o">Control</param>
+    /// <param name="v">Whether to use entrance animation</param>
     public static void SetUseEntranceAnimations(AvaloniaObject o, bool v) => o.SetValue(UseEntranceAnimationsProperty, v);
 
+    /// <summary>
+    /// Gets whether to use implicit animations for child controls of parent control
+    /// </summary>
+    /// <param name="o">Parent control</param>
+    /// <returns>Whether to use implicit animations for child controls</returns>
     public static bool GetUseImplicitChildrenAnimations(AvaloniaObject o) => o.GetValue(UseImplicitAnimationsChildrenProperty);
-    public static void SetUseImplicitChildrenAnimations(AvaloniaObject o, bool v) => o.SetValue(UseImplicitAnimationsChildrenProperty, v);
-
     
-    // =========================
-    // Init
-    // =========================
+    /// <summary>
+    /// Sets whether to use implicit animations for child controls of parent control
+    /// </summary>
+    /// <param name="o">Parent control</param>
+    /// <param name="v">Whether to use implicit animations for child controls</param>
+    public static void SetUseImplicitChildrenAnimations(AvaloniaObject o, bool v) => o.SetValue(UseImplicitAnimationsChildrenProperty, v);
 
     static CompositionAnimationBehavior()
     {
@@ -96,13 +152,9 @@ public static class CompositionAnimationBehavior
             return;
 
         if (e.NewValue.Value)
-        {
             v.AttachedToVisualTree += VOnAttachedToVisualTree;
-        }
         else
-        {
             v.AttachedToVisualTree -= VOnAttachedToVisualTree;
-        }
     }
 
     private static void VOnAttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
@@ -125,10 +177,6 @@ public static class CompositionAnimationBehavior
             v.AttachedToVisualTree -= OnAttached;
     }
 
-    // =========================
-    // Main Entry
-    // =========================
-
     private static void OnAttached(object? sender, VisualTreeAttachmentEventArgs e)
     {
         if (sender is not Visual visual)
@@ -148,6 +196,9 @@ public static class CompositionAnimationBehavior
             return;
         }
 
+        visual.PropertyChanged += BoundsChanged;
+        return;
+
         void BoundsChanged(object? _, AvaloniaPropertyChangedEventArgs __)
         {
             if (visual.Bounds.Width <= 0 || visual.Bounds.Height <= 0)
@@ -156,20 +207,23 @@ public static class CompositionAnimationBehavior
             visual.PropertyChanged -= BoundsChanged;
             StartEntranceAnimation(visual);
         }
-
-        visual.PropertyChanged += BoundsChanged;
     }
 
     private static void InitializeImplicitAnimation(Visual visual)
     {
+        // We skip one frame so that the rendering gets the Offset value for the control we want to animate,
+        // otherwise the control will move to the zero point first
         Dispatcher.UIThread.Post(() => StartImplicitAnimation(visual), DispatcherPriority.Render);
     }
 
     private static void StartEntranceAnimation(Visual visual)
     {
-        var composition = ElementComposition.GetElementVisual(visual);
-        var compositor = composition.Compositor;
+        CompositionVisual? composition = ElementComposition.GetElementVisual(visual);
+        Compositor? compositor = composition?.Compositor;
 
+        if (compositor == null || composition == null)
+            return;
+        
         double durationMs = GetDuration(visual);
         float initialOpacity = GetInitialOpacity(visual);
         float initialScale = GetInitialScale(visual);
@@ -178,7 +232,7 @@ public static class CompositionAnimationBehavior
             (float)visual.Bounds.Width / 2f,
             (float)visual.Bounds.Height / 2f,
             0);
-
+        
         ScalarKeyFrameAnimation opacityAnim = compositor.CreateScalarKeyFrameAnimation();
         opacityAnim.Duration = TimeSpan.FromMilliseconds(durationMs);
         opacityAnim.InsertKeyFrame(0f, initialOpacity);
@@ -196,9 +250,10 @@ public static class CompositionAnimationBehavior
     private static void StartImplicitAnimation(Visual visual)
     {
         CompositionVisual? composition = ElementComposition.GetElementVisual(visual);
-        composition.Offset = composition.Offset;
-        
-        Compositor compositor = composition.Compositor;
+        Compositor? compositor = composition?.Compositor;
+
+        if (compositor == null || composition == null)
+            return;
         
         double durationMs = GetDuration(visual);
         

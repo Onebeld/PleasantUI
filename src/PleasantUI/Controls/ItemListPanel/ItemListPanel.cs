@@ -14,33 +14,27 @@ namespace PleasantUI.Controls;
 /// A panel that displays a searchable, filterable, multi-selectable list of items
 /// with an optional loading overlay, bulk-action toolbar, and pagination footer slot.
 /// </summary>
-[TemplatePart(PART_SearchBox,       typeof(TextBox))]
-[TemplatePart(PART_ItemsList,       typeof(ListBox))]
-[TemplatePart(PART_LoadingOverlay,  typeof(Border))]
-[TemplatePart(PART_BulkActionBar,   typeof(Border))]
+[TemplatePart(PART_SearchBox, typeof(TextBox))]
+[TemplatePart(PART_ItemsList, typeof(ListBox))]
+[TemplatePart(PART_LoadingOverlay, typeof(Border))]
+[TemplatePart(PART_BulkActionBar, typeof(Border))]
 [TemplatePart(PART_FooterPresenter, typeof(ContentPresenter))]
-[TemplatePart(PART_ClearButton,     typeof(Button))]
+[TemplatePart(PART_ClearButton, typeof(Button))]
 [PseudoClasses(PC_Loading, PC_MultiSelect, PC_HasFilter, PC_HasItems, PC_HasBulkActions)]
 public class ItemListPanel : TemplatedControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
+    private const string PART_SearchBox = "PART_SearchBox";
+    private const string PART_ItemsList = "PART_ItemsList";
+    private const string PART_LoadingOverlay = "PART_LoadingOverlay";
+    private const string PART_BulkActionBar = "PART_BulkActionBar";
+    private const string PART_FooterPresenter = "PART_FooterPresenter";
+    private const string PART_ClearButton = "PART_ClearButton";
 
-    internal const string PART_SearchBox       = "PART_SearchBox";
-    internal const string PART_ItemsList       = "PART_ItemsList";
-    internal const string PART_LoadingOverlay  = "PART_LoadingOverlay";
-    internal const string PART_BulkActionBar   = "PART_BulkActionBar";
-    internal const string PART_FooterPresenter = "PART_FooterPresenter";
-    internal const string PART_ClearButton     = "PART_ClearButton";
-
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_Loading       = ":loading";
-    private const string PC_MultiSelect   = ":multiSelect";
-    private const string PC_HasFilter     = ":hasFilter";
-    private const string PC_HasItems      = ":hasItems";
+    private const string PC_Loading = ":loading";
+    private const string PC_MultiSelect = ":multiSelect";
+    private const string PC_HasFilter = ":hasFilter";
+    private const string PC_HasItems = ":hasItems";
     private const string PC_HasBulkActions = ":hasBulkActions";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="IsLoading"/> property.</summary>
     public static readonly StyledProperty<bool> IsLoadingProperty =
@@ -96,13 +90,12 @@ public class ItemListPanel : TemplatedControl
 
     /// <summary>Defines the <see cref="SearchBoxCornerRadius"/> property.</summary>
     public static readonly StyledProperty<CornerRadius> SearchBoxCornerRadiusProperty =
-        AvaloniaProperty.Register<ItemListPanel, CornerRadius>(nameof(SearchBoxCornerRadius), defaultValue: new CornerRadius(4));
+        AvaloniaProperty.Register<ItemListPanel, CornerRadius>(nameof(SearchBoxCornerRadius),
+            defaultValue: new CornerRadius(4));
 
     /// <summary>Defines the <see cref="SelectedCount"/> direct property.</summary>
     public static readonly DirectProperty<ItemListPanel, int> SelectedCountProperty =
         AvaloniaProperty.RegisterDirect<ItemListPanel, int>(nameof(SelectedCount), o => o.SelectedCount);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets whether the loading overlay is shown.</summary>
     public bool IsLoading
@@ -209,47 +202,44 @@ public class ItemListPanel : TemplatedControl
         private set => SetAndRaise(SelectedCountProperty, ref field, value);
     }
 
-    // ── Events ────────────────────────────────────────────────────────────────
-
     /// <summary>Raised when the selected item changes.</summary>
     public event EventHandler<SelectionChangedEventArgs>? SelectionChanged;
 
     /// <summary>Raised when the search text changes.</summary>
     public event EventHandler<string?>? SearchChanged;
 
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private TextBox?          _searchBox;
-    private ListBox?          _listBox;
-    private Button?           _clearButton;
-    private IEnumerable?      _originalItems;
+    private TextBox? _searchBox;
+    private ListBox? _listBox;
+    private Button? _clearButton;
+    private IEnumerable? _originalItems;
     private AvaloniaList<object>? _filteredItems;
 
-    // ── Template ──────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         if (_searchBox is not null) _searchBox.TextChanged -= OnSearchTextChanged;
-        if (_listBox   is not null) _listBox.SelectionChanged -= OnListSelectionChanged;
+        if (_listBox is not null) _listBox.SelectionChanged -= OnListSelectionChanged;
         if (_clearButton is not null) _clearButton.Click -= OnClearButtonClick;
 
-        _searchBox    = e.NameScope.Find<TextBox>(PART_SearchBox);
-        _listBox      = e.NameScope.Find<ListBox>(PART_ItemsList);
-        _clearButton  = e.NameScope.Find<Button>(PART_ClearButton);
+        _searchBox = e.NameScope.Find<TextBox>(PART_SearchBox);
+        _listBox = e.NameScope.Find<ListBox>(PART_ItemsList);
+        _clearButton = e.NameScope.Find<Button>(PART_ClearButton);
 
         if (_searchBox is not null) _searchBox.TextChanged += OnSearchTextChanged;
-        if (_listBox   is not null)
+        if (_listBox is not null)
         {
             _listBox.SelectionChanged += OnListSelectionChanged;
             SyncList();
         }
+
         if (_clearButton is not null) _clearButton.Click += OnClearButtonClick;
 
         UpdatePseudoClasses();
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -300,24 +290,22 @@ public class ItemListPanel : TemplatedControl
     /// <summary>Clears the search text.</summary>
     public void ClearSearch() => SearchText = null;
 
-    // ── Private helpers ───────────────────────────────────────────────────────
-
     private void SyncList()
     {
         if (_listBox is null) return;
+
+        IEnumerable? items = ItemsSource?.Cast<object>().ToList();
         
-        IEnumerable? items = ItemsSource;
-        _originalItems = items;
-        
-        if (string.IsNullOrEmpty(SearchText))
+        if (items != null)
         {
-            _listBox.ItemsSource = items;
+            _originalItems = items;
+
+            if (string.IsNullOrEmpty(SearchText))
+                _listBox.ItemsSource = items;
+            else
+                ApplyFilter(SearchText);
         }
-        else
-        {
-            ApplyFilter(SearchText);
-        }
-        
+
         _listBox.ItemTemplate = ItemTemplate;
     }
 
@@ -331,20 +319,17 @@ public class ItemListPanel : TemplatedControl
             return;
         }
 
-        _filteredItems ??= new AvaloniaList<object>();
+        _filteredItems ??= [];
         _filteredItems.Clear();
 
         foreach (object? item in _originalItems)
         {
-            if (item is not null)
-            {
-                string? itemString = item.ToString();
-                if (!string.IsNullOrEmpty(itemString) && 
-                    itemString.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                {
-                    _filteredItems.Add(item);
-                }
-            }
+            if (item is null)
+                continue;
+            
+            string? itemString = item.ToString();
+            if (!string.IsNullOrEmpty(itemString) && itemString.Contains(searchText, StringComparison.OrdinalIgnoreCase)) 
+                _filteredItems.Add(item);
         }
 
         _listBox.ItemsSource = _filteredItems;
@@ -352,7 +337,7 @@ public class ItemListPanel : TemplatedControl
 
     private void OnListSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        SelectedItem  = _listBox?.SelectedItem;
+        SelectedItem = _listBox?.SelectedItem;
         SelectedCount = _listBox?.SelectedItems?.Count ?? 0;
         SelectionChanged?.Invoke(this, e);
     }
@@ -363,20 +348,25 @@ public class ItemListPanel : TemplatedControl
     private void OnClearButtonClick(object? sender, RoutedEventArgs e)
     {
         SearchText = null;
-        if (_searchBox is not null)
-            _searchBox.Text = string.Empty;
+        _searchBox?.Text = string.Empty;
     }
 
     private void UpdatePseudoClasses()
     {
-        PseudoClasses.Set(PC_Loading,     IsLoading);
+        PseudoClasses.Set(PC_Loading, IsLoading);
         PseudoClasses.Set(PC_MultiSelect, IsMultiSelectMode);
-        PseudoClasses.Set(PC_HasFilter,   !string.IsNullOrEmpty(SearchText));
+        PseudoClasses.Set(PC_HasFilter, !string.IsNullOrEmpty(SearchText));
         PseudoClasses.Set(PC_HasBulkActions, BulkActionsContent is not null);
 
         bool hasItems = false;
         if (ItemsSource is ICollection c) hasItems = c.Count > 0;
-        else if (ItemsSource is not null) hasItems = ItemsSource.GetEnumerator().MoveNext();
+        else if (ItemsSource is not null)
+        {
+            IEnumerator enumerator = ItemsSource.GetEnumerator();
+            hasItems = enumerator.MoveNext();
+            
+            (enumerator as IDisposable)?.Dispose();
+        }
         PseudoClasses.Set(PC_HasItems, hasItems);
     }
 }

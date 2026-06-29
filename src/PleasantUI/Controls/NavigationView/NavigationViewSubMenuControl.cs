@@ -34,6 +34,9 @@ public class NavigationViewSubMenuControl : ItemsControl
         ItemTemplateProperty.OverrideDefaultValue<NavigationViewSubMenuControl>(null);
     }
 
+    /// <summary>
+    /// <see cref="NavigationViewSubMenuControl"/> control class constructor
+    /// </summary>
     public NavigationViewSubMenuControl()
     {
         Classes.Add("navigationViewSubMenu");

@@ -2,6 +2,7 @@
 using Avalonia.Markup.Xaml;
 using PleasantUI.Converters;
 using PleasantUI.Core.Localization;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace PleasantUI.Core.Extensions.Markup;
 

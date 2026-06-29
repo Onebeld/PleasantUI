@@ -10,6 +10,9 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ColorToTransparentMultiConverter : IMultiValueConverter
 {
+    /// <summary>
+    /// An instance of the <see cref="ColorToTransparentMultiConverter"/> class object
+    /// </summary>
     public static readonly ColorToTransparentMultiConverter Instance = new();
     
     /// <summary>

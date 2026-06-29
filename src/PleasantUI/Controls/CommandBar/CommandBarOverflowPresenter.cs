@@ -14,25 +14,31 @@ namespace PleasantUI.Controls;
 [PseudoClasses(PC_Icons, PC_Toggle)]
 public class CommandBarOverflowPresenter : ItemsControl
 {
-    private const string PC_Icons  = ":icons";
+    private const string PC_Icons = ":icons";
     private const string PC_Toggle = ":toggle";
 
     private int _iconCount;
     private int _toggleCount;
 
+    /// <summary>
+    /// <see cref="CommandBarOverflowPresenter"/> control class constructor
+    /// </summary>
     public CommandBarOverflowPresenter()
     {
         ItemsView.CollectionChanged += OnItemsCollectionChanged;
     }
 
+    /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(CommandBarOverflowPresenter);
 
+    /// <inheritdoc />
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
     {
         recycleKey = null;
         return item is not ICommandBarElement;
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -40,7 +46,7 @@ public class CommandBarOverflowPresenter : ItemsControl
         if (change.Property == ItemsSourceProperty)
         {
             Debug.WriteLine("[CommandBarOverflowPresenter] OnPropertyChanged - ItemsSource changed, resetting counts");
-            _iconCount   = 0;
+            _iconCount = 0;
             _toggleCount = 0;
 
             if (change.NewValue is IList list)
@@ -69,9 +75,10 @@ public class CommandBarOverflowPresenter : ItemsControl
                 else
                 {
                     Debug.WriteLine("[CommandBarOverflowPresenter] OnItemsCollectionChanged - Reset, clearing counts");
-                    _iconCount   = 0;
+                    _iconCount = 0;
                     _toggleCount = 0;
                 }
+
                 break;
             case NotifyCollectionChangedAction.Replace:
                 if (e.OldItems is not null) UnregisterItems(e.OldItems);
@@ -92,13 +99,15 @@ public class CommandBarOverflowPresenter : ItemsControl
                 case CommandBarButton btn:
                     if (btn.Icon is not null) _iconCount++;
                     btn.IsInOverflow = true;
-                    Debug.WriteLine($"[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarButton, iconCount={_iconCount}");
+                    Debug.WriteLine(
+                        $"[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarButton, iconCount={_iconCount}");
                     break;
                 case CommandBarToggleButton tb:
                     _toggleCount++;
                     if (tb.Icon is not null) _iconCount++;
                     tb.IsInOverflow = true;
-                    Debug.WriteLine($"[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarToggleButton, toggleCount={_toggleCount}, iconCount={_iconCount}");
+                    Debug.WriteLine(
+                        $"[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarToggleButton, toggleCount={_toggleCount}, iconCount={_iconCount}");
                     break;
                 case CommandBarSeparator sep:
                     sep.IsInOverflow = true;
@@ -119,14 +128,16 @@ public class CommandBarOverflowPresenter : ItemsControl
                     if (btn.Icon is not null) _iconCount = Math.Max(0, _iconCount - 1);
                     btn.IsInOverflow = false;
                     ClearItemPseudoClasses(btn);
-                    Debug.WriteLine($"[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarButton, iconCount={_iconCount}");
+                    Debug.WriteLine(
+                        $"[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarButton, iconCount={_iconCount}");
                     break;
                 case CommandBarToggleButton tb:
                     _toggleCount = Math.Max(0, _toggleCount - 1);
                     if (tb.Icon is not null) _iconCount = Math.Max(0, _iconCount - 1);
                     tb.IsInOverflow = false;
                     ClearItemPseudoClasses(tb);
-                    Debug.WriteLine($"[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarToggleButton, toggleCount={_toggleCount}, iconCount={_iconCount}");
+                    Debug.WriteLine(
+                        $"[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarToggleButton, toggleCount={_toggleCount}, iconCount={_iconCount}");
                     break;
                 case CommandBarSeparator sep:
                     sep.IsInOverflow = false;
@@ -138,29 +149,30 @@ public class CommandBarOverflowPresenter : ItemsControl
 
     private void UpdateVisualState()
     {
-        bool hasIcons  = _iconCount  > 0;
+        bool hasIcons = _iconCount > 0;
         bool hasToggle = _toggleCount > 0;
 
-        Debug.WriteLine($"[CommandBarOverflowPresenter] UpdateVisualState - hasIcons={hasIcons}, hasToggle={hasToggle}, iconCount={_iconCount}, toggleCount={_toggleCount}");
-        PseudoClasses.Set(PC_Icons,  hasIcons);
+        Debug.WriteLine(
+            $"[CommandBarOverflowPresenter] UpdateVisualState - hasIcons={hasIcons}, hasToggle={hasToggle}, iconCount={_iconCount}, toggleCount={_toggleCount}");
+        PseudoClasses.Set(PC_Icons, hasIcons);
         PseudoClasses.Set(PC_Toggle, hasToggle);
 
         // Propagate to each item so they can align their content.
-        IList items = Items as IList ?? (IList)ItemsView;
-        for (int i = 0; i < items.Count; i++)
+        IList items = Items;
+        foreach (object item in items)
         {
-            if (items[i] is Control c && c.Classes is IPseudoClasses pc)
-            {
-                pc.Set(PC_Icons,  hasIcons);
-                pc.Set(PC_Toggle, hasToggle);
-            }
+            if (item is not Control { Classes: IPseudoClasses pc })
+                continue;
+
+            pc.Set(PC_Icons, hasIcons);
+            pc.Set(PC_Toggle, hasToggle);
         }
     }
 
     private static void ClearItemPseudoClasses(Control c)
     {
         if (c.Classes is not IPseudoClasses pc) return;
-        pc.Set(PC_Icons,  false);
+        pc.Set(PC_Icons, false);
         pc.Set(PC_Toggle, false);
     }
 }

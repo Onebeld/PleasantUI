@@ -69,36 +69,54 @@ public class BackdropBlurBorder : Decorator
     public static readonly StyledProperty<CornerRadius> CornerRadiusProperty =
         AvaloniaProperty.Register<Border, CornerRadius>(nameof(CornerRadius));
     
+    /// <summary>
+    /// Background brush
+    /// </summary>
     public IBrush? Background
     {
         get => GetValue(BackgroundProperty);
         set => SetValue(BackgroundProperty, value);
     }
     
+    /// <summary>
+    /// Border brush
+    /// </summary>
     public IBrush? BorderBrush
     {
         get => GetValue(BorderBrushProperty);
         set => SetValue(BorderBrushProperty, value);
     }
     
+    /// <summary>
+    /// Border thickness
+    /// </summary>
     public Thickness BorderThickness
     {
         get => GetValue(BorderThicknessProperty);
         set => SetValue(BorderThicknessProperty, value);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public double TintOpacity
     {
         get => GetValue(TintOpacityProperty);
         set => SetValue(TintOpacityProperty, value);
     }
 
+    /// <summary>
+    /// Blur radius size
+    /// </summary>
     public double BlurRadius
     {
         get => GetValue(BlurRadiusProperty);
         set => SetValue(BlurRadiusProperty, value);
     }
     
+    /// <summary>
+    /// Corner radius size
+    /// </summary>
     public CornerRadius CornerRadius
     {
         get => GetValue(CornerRadiusProperty);
@@ -118,6 +136,9 @@ public class BackdropBlurBorder : Decorator
         AffectsMeasure<BackdropBlurBorder>(BorderThicknessProperty);
     }
     
+    /// <summary>
+    /// <see cref="BackdropBlurBorder"/> control class constructor
+    /// </summary>
     public BackdropBlurBorder()
     {
         InitializeRefreshTimer();
@@ -171,7 +192,7 @@ public class BackdropBlurBorder : Decorator
         {
             Interval = TimeSpan.FromMilliseconds(25)
         };
-        _refreshTimer.Tick += (s, e) => InvalidateVisual();
+        _refreshTimer.Tick += (_, _) => InvalidateVisual();
     }
     
     private void StartRefreshTimer()
@@ -206,34 +227,24 @@ public class BackdropBlurBorder : Decorator
         return max;
     }
 
-    private class BlurBehindRenderOperation : ICustomDrawOperation
+    private class BlurBehindRenderOperation(
+        IBrush? background,
+        double tintOpacity,
+        double blurRadius,
+        Rect bounds,
+        double cornerRadius,
+        double borderThickness,
+        IBrush? borderColor)
+        : ICustomDrawOperation
     {
-        private readonly IBrush? _background;
-        private readonly float _tinyOpacity;
-        private readonly float _blurRadius;
-        private readonly Rect _bounds;
-        private readonly float _cornerRadius;
-        private readonly float _borderThickness;
-        private readonly IBrush? _borderColor;
+        private readonly IBrush? _background = background;
+        private readonly float _tinyOpacity = (float)tintOpacity;
+        private readonly float _blurRadius = (float)blurRadius;
+        private readonly Rect _bounds = bounds;
+        private readonly float _cornerRadius = (float)cornerRadius;
+        private readonly float _borderThickness = (float)borderThickness;
+        private readonly IBrush? _borderColor = borderColor;
 
-        public BlurBehindRenderOperation(
-            IBrush? background,
-            double tintOpacity,
-            double blurRadius,
-            Rect bounds,
-            double cornerRadius,
-            double borderThickness,
-            IBrush? borderColor)
-        {
-            _background = background;
-            _tinyOpacity = (float)tintOpacity;
-            _blurRadius = (float)blurRadius;
-            _bounds = bounds;
-            _cornerRadius = (float)cornerRadius;
-            _borderThickness = (float)borderThickness;
-            _borderColor = borderColor;
-        }
-        
         public bool HitTest(Point p) => _bounds.Contains(p);
 
         public Rect Bounds => _bounds.Inflate(4);
@@ -269,7 +280,7 @@ public class BackdropBlurBorder : Decorator
             if (blurred == null)
                 return;
 
-            using (SKImageFilter? filter = SKImageFilter.CreateBlur(_blurRadius, _blurRadius, SKShaderTileMode.Clamp))
+            using (SKImageFilter filter = SKImageFilter.CreateBlur(_blurRadius, _blurRadius, SKShaderTileMode.Clamp))
             using (SKPaint blurPaint = new())
             {
                 blurPaint.Shader = backdropShader;

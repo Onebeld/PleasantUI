@@ -12,9 +12,9 @@ namespace PleasantUI.Controls;
 /// Supports an icon, a text label, a keyboard shortcut hint, and checked/unchecked states.
 /// </summary>
 [PseudoClasses(CommandBarButton.PC_Icon, CommandBarButton.PC_Label, CommandBarButton.PC_Compact,
-               CommandBarButton.PC_Overflow, CommandBarButton.PC_LabelRight,
-               CommandBarButton.PC_LabelBottom, CommandBarButton.PC_LabelCollapsed,
-               CommandBarButton.PC_Open)]
+    CommandBarButton.PC_Overflow, CommandBarButton.PC_LabelRight,
+    CommandBarButton.PC_LabelBottom, CommandBarButton.PC_LabelCollapsed,
+    CommandBarButton.PC_Open)]
 public class CommandBarToggleButton : ToggleButton, ICommandBarElement
 {
     // ── Styled properties ─────────────────────────────────────────────────────
@@ -93,52 +93,55 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
         set => SetAndRaise(DynamicOverflowOrderProperty, ref field, value);
     }
 
-    // ── Private fields ────────────────────────────────────────────────────────
-
-    // ── Overrides ─────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(CommandBarToggleButton);
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == IconProperty)
         {
-            Debug.WriteLine($"[CommandBarToggleButton] OnPropertyChanged - Icon changed, hasIcon={change.NewValue is not null}");
+            Debug.WriteLine(
+                $"[CommandBarToggleButton] OnPropertyChanged - Icon changed, hasIcon={change.NewValue is not null}");
             PseudoClasses.Set(CommandBarButton.PC_Icon, change.NewValue is not null);
         }
         else if (change.Property == LabelProperty)
         {
-            Debug.WriteLine($"[CommandBarToggleButton] OnPropertyChanged - Label changed, hasLabel={change.NewValue is not null}");
+            Debug.WriteLine(
+                $"[CommandBarToggleButton] OnPropertyChanged - Label changed, hasLabel={change.NewValue is not null}");
             PseudoClasses.Set(CommandBarButton.PC_Label, change.NewValue is not null);
         }
         else if (change.Property == IsCompactProperty)
         {
-            Debug.WriteLine($"[CommandBarToggleButton] OnPropertyChanged - IsCompact changed to {change.GetNewValue<bool>()}");
+            Debug.WriteLine(
+                $"[CommandBarToggleButton] OnPropertyChanged - IsCompact changed to {change.GetNewValue<bool>()}");
             PseudoClasses.Set(CommandBarButton.PC_Compact, change.GetNewValue<bool>());
         }
     }
 
+    /// <inheritdoc />
     protected override void OnClick()
     {
-        Debug.WriteLine($"[CommandBarToggleButton] OnClick - Label={Label}, IsInOverflow={IsInOverflow}, IsChecked={IsChecked}");
+        Debug.WriteLine(
+            $"[CommandBarToggleButton] OnClick - Label={Label}, IsInOverflow={IsInOverflow}, IsChecked={IsChecked}");
         base.OnClick();
 
-        if (IsInOverflow)
-        {
-            Debug.WriteLine("[CommandBarToggleButton] OnClick - Closing parent CommandBar");
-            CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
-            if (bar is not null)
-                bar.IsOpen = false;
-        }
+        if (!IsInOverflow)
+            return;
+        
+        Debug.WriteLine("[CommandBarToggleButton] OnClick - Closing parent CommandBar");
+        CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
+        if (bar is not null)
+            bar.IsOpen = false;
     }
 
     internal void ApplyLabelPosition(CommandBarDefaultLabelPosition pos)
     {
         Debug.WriteLine($"[CommandBarToggleButton] ApplyLabelPosition - pos={pos}");
-        PseudoClasses.Set(CommandBarButton.PC_LabelBottom,    pos == CommandBarDefaultLabelPosition.Bottom);
-        PseudoClasses.Set(CommandBarButton.PC_LabelRight,     pos == CommandBarDefaultLabelPosition.Right);
+        PseudoClasses.Set(CommandBarButton.PC_LabelBottom, pos == CommandBarDefaultLabelPosition.Bottom);
+        PseudoClasses.Set(CommandBarButton.PC_LabelRight, pos == CommandBarDefaultLabelPosition.Right);
         PseudoClasses.Set(CommandBarButton.PC_LabelCollapsed, pos == CommandBarDefaultLabelPosition.Collapsed);
     }
 

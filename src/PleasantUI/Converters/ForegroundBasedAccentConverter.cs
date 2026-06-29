@@ -11,6 +11,9 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ForegroundBasedAccentConverter : IMultiValueConverter
 {
+    /// <summary>
+    /// An instance of the <see cref="ForegroundBasedAccentConverter"/> class object
+    /// </summary>
     public static readonly ForegroundBasedAccentConverter Instance = new();
     
     /// <summary>

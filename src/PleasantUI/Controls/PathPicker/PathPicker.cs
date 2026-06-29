@@ -16,24 +16,15 @@ namespace PleasantUI.Controls;
 /// A control that combines a <see cref="TextBox"/> and a browse <see cref="Button"/> to let
 /// the user pick one or more file-system paths via the platform storage picker.
 /// </summary>
-[TemplatePart(PART_Button,  typeof(Button))]
+[TemplatePart(PART_Button, typeof(Button))]
 [TemplatePart(PART_TextBox, typeof(TextBox))]
 [PseudoClasses(PC_Empty, PC_HasValue)]
 public partial class PathPicker : TemplatedControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
-
-    /// <summary>Template part name for the browse button.</summary>
-    public const string PART_Button  = "PART_Button";
-    /// <summary>Template part name for the path text box.</summary>
-    public const string PART_TextBox = "PART_TextBox";
-
-    /// <summary>Pseudo-class applied when no path has been selected.</summary>
-    public const string PC_Empty    = ":empty";
-    /// <summary>Pseudo-class applied when at least one path is selected.</summary>
-    public const string PC_HasValue = ":hasvalue";
-
-    // ── File-filter regex ─────────────────────────────────────────────────────
+    private const string PART_Button = "PART_Button";
+    private const string PART_TextBox = "PART_TextBox";
+    private const string PC_Empty = ":empty";
+    private const string PC_HasValue = ":hasvalue";
 
     private const string FilterPattern = @"^\[(?:[^*.,]+|([^*.,]+(,[^,]+)+))\]$";
 
@@ -44,8 +35,9 @@ public partial class PathPicker : TemplatedControl
     private static readonly Regex _filterRegex = new(FilterPattern);
     private static Regex FilterRegex() => _filterRegex;
 #endif
-
-    // ── Properties ────────────────────────────────────────────────────────────
+    
+    private Button? _button;
+    private bool _syncLock;
 
     /// <summary>Defines the <see cref="Title"/> property.</summary>
     public static readonly StyledProperty<string?> TitleProperty =
@@ -57,7 +49,7 @@ public partial class PathPicker : TemplatedControl
 
     /// <summary>Defines the <see cref="Mode"/> property.</summary>
     public static readonly StyledProperty<PathPickerMode> ModeProperty =
-        AvaloniaProperty.Register<PathPicker, PathPickerMode>(nameof(Mode), PathPickerMode.OpenFile);
+        AvaloniaProperty.Register<PathPicker, PathPickerMode>(nameof(Mode));
 
     /// <summary>Defines the <see cref="AllowMultiple"/> property.</summary>
     public static readonly StyledProperty<bool> AllowMultipleProperty =
@@ -107,9 +99,8 @@ public partial class PathPicker : TemplatedControl
 
     /// <summary>Defines the <see cref="VerticalContentAlignment"/> property.</summary>
     public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
-        AvaloniaProperty.Register<PathPicker, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Center);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
+        AvaloniaProperty.Register<PathPicker, VerticalAlignment>(nameof(VerticalContentAlignment),
+            VerticalAlignment.Center);
 
     /// <summary>Gets or sets the dialog title shown in the platform picker.</summary>
     public string? Title
@@ -216,8 +207,6 @@ public partial class PathPicker : TemplatedControl
         set => SetValue(VerticalContentAlignmentProperty, value);
     }
 
-    // ── Direct property backing field ─────────────────────────────────────────
-
     /// <summary>Gets the list of selected paths.</summary>
     public IReadOnlyList<string> SelectedPaths
     {
@@ -225,20 +214,11 @@ public partial class PathPicker : TemplatedControl
         private set => SetAndRaise(SelectedPathsProperty, ref field, value);
     } = [];
 
-    // ── Private fields ────────────────────────────────────────────────────────
-
-    private Button?  _button;
-    private bool     _syncLock;
-
-    // ── Static constructor ────────────────────────────────────────────────────
-
     static PathPicker()
     {
         SelectedPathsProperty.Changed.AddClassHandler<PathPicker>((p, _) => p.SyncPathsToText());
         SelectedPathsTextProperty.Changed.AddClassHandler<PathPicker>((p, _) => p.SyncTextToPaths());
     }
-
-    // ── Template ──────────────────────────────────────────────────────────────
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -247,14 +227,12 @@ public partial class PathPicker : TemplatedControl
 
         if (_button is not null) _button.Click -= OnButtonClick;
 
-        _button  = e.NameScope.Find<Button>(PART_Button);
+        _button = e.NameScope.Find<Button>(PART_Button);
 
         if (_button is not null) _button.Click += OnButtonClick;
 
         UpdatePseudoClasses();
     }
-
-    // ── Sync helpers ──────────────────────────────────────────────────────────
 
     private void SyncPathsToText()
     {
@@ -284,11 +262,9 @@ public partial class PathPicker : TemplatedControl
     private void UpdatePseudoClasses()
     {
         bool hasValue = SelectedPaths.Count > 0;
-        PseudoClasses.Set(PC_Empty,    !hasValue);
-        PseudoClasses.Set(PC_HasValue,  hasValue);
+        PseudoClasses.Set(PC_Empty, !hasValue);
+        PseudoClasses.Set(PC_HasValue, hasValue);
     }
-
-    // ── Picker launch ─────────────────────────────────────────────────────────
 
     private async void OnButtonClick(object? sender, RoutedEventArgs e)
     {
@@ -320,14 +296,15 @@ public partial class PathPicker : TemplatedControl
 
                 picked = await PleasantFileChooser.ShowAsync(topLevel, new PleasantFileChooserOptions
                 {
-                    Title            = Title,
-                    AllowMultiple    = AllowMultiple,
-                    FoldersOnly      = Mode == PathPickerMode.OpenFolder,
+                    Title = Title,
+                    AllowMultiple = AllowMultiple,
+                    FoldersOnly = Mode == PathPickerMode.OpenFolder,
                     InitialDirectory = SuggestedStartPath,
-                    Filters          = filters
+                    Filters = filters
                 });
 
-                Debug.WriteLine($"[PathPicker] Custom picker returned {picked?.Count ?? 0} path(s): [{(picked is null ? "null" : string.Join(", ", picked))}]");
+                Debug.WriteLine(
+                    $"[PathPicker] Custom picker returned {picked?.Count ?? 0} path(s): [{(picked is null ? "null" : string.Join(", ", picked))}]");
             }
             else
             {
@@ -341,21 +318,23 @@ public partial class PathPicker : TemplatedControl
 
                 IReadOnlyList<string?> raw = Mode switch
                 {
-                    PathPickerMode.OpenFile   => await PickOpenFileAsync(storage),
-                    PathPickerMode.SaveFile   => await PickSaveFileAsync(storage),
+                    PathPickerMode.OpenFile => await PickOpenFileAsync(storage),
+                    PathPickerMode.SaveFile => await PickSaveFileAsync(storage),
                     PathPickerMode.OpenFolder => await PickOpenFolderAsync(storage),
-                    _                         => []
+                    _ => []
                 };
 
                 picked = raw.Where(p => p is not null).Select(p => p!).ToList();
 
-                Debug.WriteLine($"[PathPicker] Platform picker returned {picked.Count} path(s): [{string.Join(", ", picked)}]");
+                Debug.WriteLine(
+                    $"[PathPicker] Platform picker returned {picked.Count} path(s): [{string.Join(", ", picked)}]");
             }
 
             List<string> nonNull = picked?.Where(p => !string.IsNullOrEmpty(p)).ToList()
                                    ?? new List<string>();
 
-            Debug.WriteLine($"[PathPicker] nonNull count={nonNull.Count}, IsClearSelectionOnCancel={IsClearSelectionOnCancel}");
+            Debug.WriteLine(
+                $"[PathPicker] nonNull count={nonNull.Count}, IsClearSelectionOnCancel={IsClearSelectionOnCancel}");
 
             if (nonNull.Count > 0)
             {
@@ -385,10 +364,10 @@ public partial class PathPicker : TemplatedControl
     {
         IReadOnlyList<IStorageFile> result = await storage.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title                = Title,
-            AllowMultiple        = AllowMultiple,
+            Title = Title,
+            AllowMultiple = AllowMultiple,
             SuggestedStartLocation = await TryGetFolderAsync(storage, SuggestedStartPath),
-            FileTypeFilter       = ParseFileFilter(FileFilter)
+            FileTypeFilter = ParseFileFilter(FileFilter)
         });
         return result.Select(f => f.TryGetLocalPath()).ToArray();
     }
@@ -397,11 +376,11 @@ public partial class PathPicker : TemplatedControl
     {
         IStorageFile? result = await storage.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title                = Title,
+            Title = Title,
             SuggestedStartLocation = await TryGetFolderAsync(storage, SuggestedStartPath),
-            SuggestedFileName    = SuggestedFileName,
-            FileTypeChoices      = ParseFileFilter(FileFilter),
-            DefaultExtension     = DefaultFileExtension
+            SuggestedFileName = SuggestedFileName,
+            FileTypeChoices = ParseFileFilter(FileFilter),
+            DefaultExtension = DefaultFileExtension
         });
         return result is null ? [] : [result.TryGetLocalPath()];
     }
@@ -410,8 +389,8 @@ public partial class PathPicker : TemplatedControl
     {
         IReadOnlyList<IStorageFolder> result = await storage.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
-            Title                = Title,
-            AllowMultiple        = AllowMultiple,
+            Title = Title,
+            AllowMultiple = AllowMultiple,
             SuggestedStartLocation = await TryGetFolderAsync(storage, SuggestedStartPath)
         });
         return result.Select(f => f.TryGetLocalPath()).ToArray();
@@ -420,18 +399,17 @@ public partial class PathPicker : TemplatedControl
     private static async Task<IStorageFolder?> TryGetFolderAsync(IStorageProvider storage, string? path)
     {
         if (string.IsNullOrWhiteSpace(path)) return null;
-        try { return await storage.TryGetFolderFromPathAsync(path); }
-        catch { return null; }
+        try
+        {
+            return await storage.TryGetFolderFromPathAsync(path);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
-    // ── File-filter parsing ───────────────────────────────────────────────────
-
-    /// <summary>
-    /// Parses a filter string of the form <c>[Name,*.ext][Name2,*.ext2]</c> or
-    /// built-in names like <c>[All][ImageAll]</c>.
-    /// Returns null when the string is empty/null.
-    /// </summary>
-    internal static IReadOnlyList<FilePickerFileType>? ParseFileFilter(string? filter)
+    private static IReadOnlyList<FilePickerFileType>? ParseFileFilter(string? filter)
     {
         if (string.IsNullOrWhiteSpace(filter)) return null;
 
@@ -450,11 +428,11 @@ public partial class PathPicker : TemplatedControl
 
     private static FilePickerFileType ParseSingleFilter(string token) => token switch
     {
-        nameof(FilePickerFileTypes.All)       => FilePickerFileTypes.All,
-        nameof(FilePickerFileTypes.Pdf)       => FilePickerFileTypes.Pdf,
-        nameof(FilePickerFileTypes.ImageAll)  => FilePickerFileTypes.ImageAll,
-        nameof(FilePickerFileTypes.ImageJpg)  => FilePickerFileTypes.ImageJpg,
-        nameof(FilePickerFileTypes.ImagePng)  => FilePickerFileTypes.ImagePng,
+        nameof(FilePickerFileTypes.All) => FilePickerFileTypes.All,
+        nameof(FilePickerFileTypes.Pdf) => FilePickerFileTypes.Pdf,
+        nameof(FilePickerFileTypes.ImageAll) => FilePickerFileTypes.ImageAll,
+        nameof(FilePickerFileTypes.ImageJpg) => FilePickerFileTypes.ImageJpg,
+        nameof(FilePickerFileTypes.ImagePng) => FilePickerFileTypes.ImagePng,
         nameof(FilePickerFileTypes.ImageWebp) => FilePickerFileTypes.ImageWebp,
         nameof(FilePickerFileTypes.TextPlain) => FilePickerFileTypes.TextPlain,
         _ => ParseCustomFilter(token)

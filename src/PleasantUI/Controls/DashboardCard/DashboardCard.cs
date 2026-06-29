@@ -16,16 +16,10 @@ namespace PleasantUI.Controls;
 [PseudoClasses(PC_HasToolbar, PC_HasSubtitle)]
 public class DashboardCard : HeaderedContentControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
+    private const string PART_HeaderToolbar = "PART_HeaderToolbar";
 
-    internal const string PART_HeaderToolbar = "PART_HeaderToolbar";
-
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_HasToolbar  = ":hasToolbar";
+    private const string PC_HasToolbar = ":hasToolbar";
     private const string PC_HasSubtitle = ":hasSubtitle";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Subtitle"/> property.</summary>
     public static readonly StyledProperty<string?> SubtitleProperty =
@@ -59,8 +53,6 @@ public class DashboardCard : HeaderedContentControl
     public static readonly DirectProperty<DashboardCard, AvaloniaList<object>> ToolbarItemsProperty =
         AvaloniaProperty.RegisterDirect<DashboardCard, AvaloniaList<object>>(
             nameof(ToolbarItems), o => o.ToolbarItems);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets a subtitle shown below the header.</summary>
     public string? Subtitle
@@ -104,7 +96,7 @@ public class DashboardCard : HeaderedContentControl
         set => SetValue(ContentPaddingProperty, value);
     }
 
-    /// <summary>Gets or sets whether the content area is wrapped in a <see cref="SmoothScrollViewer"/>.</summary>
+    /// <summary>Gets or sets whether the content area is wrapped in a <see cref="ScrollViewer"/>.</summary>
     public bool ShowScrollViewer
     {
         get => GetValue(ShowScrollViewerProperty);
@@ -115,8 +107,7 @@ public class DashboardCard : HeaderedContentControl
     [Content]
     public AvaloniaList<object> ToolbarItems { get; } = new();
 
-    // ── Overrides ─────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -127,15 +118,15 @@ public class DashboardCard : HeaderedContentControl
             PseudoClasses.Set(PC_HasToolbar, change.NewValue is not null);
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         ItemsControl? toolbar = e.NameScope.Find<ItemsControl>(PART_HeaderToolbar);
-        if (toolbar is not null)
-            toolbar.ItemsSource = ToolbarItems;
+        toolbar?.ItemsSource = ToolbarItems;
 
         PseudoClasses.Set(PC_HasSubtitle, Subtitle is not null);
-        PseudoClasses.Set(PC_HasToolbar,  HeaderContent is not null || ToolbarItems.Count > 0);
+        PseudoClasses.Set(PC_HasToolbar, HeaderContent is not null || ToolbarItems.Count > 0);
     }
 }

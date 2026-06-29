@@ -5,6 +5,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using PleasantUI.Core.Localization;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace PleasantUI.Controls;
 
@@ -15,8 +16,10 @@ public enum WizardDisplayMode
 {
     /// <summary>Embedded directly inside a parent layout.</summary>
     Embedded,
+
     /// <summary>Shown as a <see cref="ContentDialog"/> modal overlay.</summary>
     Modal,
+
     /// <summary>Shown inside a standalone <see cref="PleasantWindow"/>.</summary>
     Window
 }
@@ -25,25 +28,18 @@ public enum WizardDisplayMode
 /// A multi-step installation wizard control with a sidebar step list,
 /// content area, progress bar, and Back / Next / Cancel navigation.
 /// </summary>
-[TemplatePart(PART_BackButton,   typeof(Button))]
-[TemplatePart(PART_NextButton,   typeof(Button))]
+[TemplatePart(PART_BackButton, typeof(Button))]
+[TemplatePart(PART_NextButton, typeof(Button))]
 [TemplatePart(PART_CancelButton, typeof(Button))]
 public class InstallWizard : TemplatedControl
 {
-    /// <summary>Template part name for the Back button.</summary>
-    public const string PART_BackButton   = "PART_BackButton";
-    /// <summary>Template part name for the Next/Finish button.</summary>
-    public const string PART_NextButton   = "PART_NextButton";
-    /// <summary>Template part name for the Cancel button.</summary>
-    public const string PART_CancelButton = "PART_CancelButton";
-
-    // ── Private fields ─────────────────────────────────────────────────────────
+    private const string PART_BackButton = "PART_BackButton";
+    private const string PART_NextButton = "PART_NextButton";
+    private const string PART_CancelButton = "PART_CancelButton";
 
     private Button? _backButton;
     private Button? _nextButton;
     private Button? _cancelButton;
-
-    // ── Properties ───────────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Steps"/> property.</summary>
     public static readonly StyledProperty<IList<WizardStep>> StepsProperty =
@@ -52,6 +48,7 @@ public class InstallWizard : TemplatedControl
     /// <summary>Defines the <see cref="CurrentStepIndex"/> property.</summary>
     public static readonly StyledProperty<int> CurrentStepIndexProperty =
         AvaloniaProperty.Register<InstallWizard, int>(nameof(CurrentStepIndex), defaultValue: 0);
+
     /// <summary>Defines the <see cref="AppName"/> property.</summary>
     public static readonly StyledProperty<string?> AppNameProperty =
         AvaloniaProperty.Register<InstallWizard, string?>(nameof(AppName));
@@ -92,8 +89,6 @@ public class InstallWizard : TemplatedControl
     public static readonly StyledProperty<bool> ShowProgressBarProperty =
         AvaloniaProperty.Register<InstallWizard, bool>(nameof(ShowProgressBar), defaultValue: true);
 
-    // ── Routed events ────────────────────────────────────────────────────────
-
     /// <summary>Raised when the user clicks Next on the last step.</summary>
     public static readonly RoutedEvent<RoutedEventArgs> FinishedEvent =
         RoutedEvent.Register<InstallWizard, RoutedEventArgs>(nameof(Finished), RoutingStrategies.Bubble);
@@ -106,21 +101,13 @@ public class InstallWizard : TemplatedControl
     public static readonly RoutedEvent<WizardStepChangedEventArgs> StepChangedEvent =
         RoutedEvent.Register<InstallWizard, WizardStepChangedEventArgs>(nameof(StepChanged), RoutingStrategies.Bubble);
 
-    // ── CLR accessors ────────────────────────────────────────────────────────
-
     /// <summary>The ordered list of wizard steps.</summary>
     public IList<WizardStep> Steps
     {
         get
         {
-            IList<WizardStep>? list = GetValue(StepsProperty);
-            if (list is null)
-            {
-                AvaloniaList<WizardStep> avList = new();
-                avList.CollectionChanged += OnStepsCollectionChanged;
-                SetValue(StepsProperty, avList);
-                return avList;
-            }
+            IList<WizardStep> list = GetValue(StepsProperty);
+
             return list;
         }
         set
@@ -136,7 +123,8 @@ public class InstallWizard : TemplatedControl
         }
     }
 
-    private void OnStepsCollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private void OnStepsCollectionChanged(object? sender,
+        System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
         if (sender is not IList<WizardStep> list) return;
 
@@ -162,8 +150,8 @@ public class InstallWizard : TemplatedControl
 
         RefreshComputedProperties();
         UpdateButtonStates();
-    }    
-    
+    }
+
     /// <summary>Zero-based index of the currently visible step.</summary>
     public int CurrentStepIndex
     {
@@ -246,21 +234,21 @@ public class InstallWizard : TemplatedControl
     /// <summary>Raised when the user completes the last step.</summary>
     public event EventHandler<RoutedEventArgs>? Finished
     {
-        add    => AddHandler(FinishedEvent, value);
+        add => AddHandler(FinishedEvent, value);
         remove => RemoveHandler(FinishedEvent, value);
     }
 
     /// <summary>Raised when the user cancels the wizard.</summary>
     public event EventHandler<RoutedEventArgs>? Cancelled
     {
-        add    => AddHandler(CancelledEvent, value);
+        add => AddHandler(CancelledEvent, value);
         remove => RemoveHandler(CancelledEvent, value);
     }
 
     /// <summary>Raised when the active step changes.</summary>
     public event EventHandler<WizardStepChangedEventArgs>? StepChanged
     {
-        add    => AddHandler(StepChangedEvent, value);
+        add => AddHandler(StepChangedEvent, value);
         remove => RemoveHandler(StepChangedEvent, value);
     }
 
@@ -290,72 +278,13 @@ public class InstallWizard : TemplatedControl
         private set => SetAndRaise(CurrentStepProperty, ref field, value);
     }
 
-    private void RefreshComputedProperties()
-    {
-        Progress = Steps.Count <= 1 ? 100 : (double)CurrentStepIndex / (Steps.Count - 1) * 100;
-        CurrentStep = CurrentStepIndex >= 0 && CurrentStepIndex < Steps.Count
-            ? Steps[CurrentStepIndex]
-            : null;
-
-        // Update IsActive and StepNumber on each step so the DataTemplate
-        // bindings in the AXAML template can show/hide and number correctly.
-        for (int i = 0; i < Steps.Count; i++)
-        {
-            Steps[i].StepNumber = i + 1;
-            Steps[i].IsActive   = i == CurrentStepIndex;
-        }
-    }
-
-    // ── Static constructor ───────────────────────────────────────────────────
-
     static InstallWizard()
     {
-        CurrentStepIndexProperty.Changed.AddClassHandler<InstallWizard, int>(
-            (w, _) => w.OnStepIndexChanged());
+        CurrentStepIndexProperty.Changed.AddClassHandler<InstallWizard, int>((w, _) => w.OnStepIndexChanged());
 
-        StepsProperty.Changed.AddClassHandler<InstallWizard, IList<WizardStep>>(
-            (w, _) => w.OnStepsReplaced());
+        StepsProperty.Changed.AddClassHandler<InstallWizard, IList<WizardStep>>((w, _) => w.OnStepsReplaced());
     }
-
-    // ── Template ─────────────────────────────────────────────────────────────
-
-    private bool _stepsLoadPending;
-
-    /// <inheritdoc />
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
-        if (change.Property == StepsProperty)
-            OnStepsReplaced();
-    }
-
-    /// <inheritdoc />
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        if (_backButton is not null)   _backButton.Click   -= OnBackClicked;
-        if (_nextButton is not null)   _nextButton.Click   -= OnNextClicked;
-        if (_cancelButton is not null) _cancelButton.Click -= OnCancelClicked;
-
-        _backButton   = e.NameScope.Find<Button>(PART_BackButton);
-        _nextButton   = e.NameScope.Find<Button>(PART_NextButton);
-        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
-
-        if (_backButton is not null)   _backButton.Click   += OnBackClicked;
-        if (_nextButton is not null)   _nextButton.Click   += OnNextClicked;
-        if (_cancelButton is not null) _cancelButton.Click += OnCancelClicked;
-
-        Localizer.Instance.LocalizationChanged += OnLocalizationChanged;
-
-        RefreshComputedProperties();
-        UpdateButtonStates();
-    }
-
-    private void OnLocalizationChanged(string _) => UpdateButtonStates();
-
-    // ── Navigation ───────────────────────────────────────────────────────────
-
+    
     /// <summary>Moves to the next step, or raises <see cref="Finished"/> on the last step.</summary>
     public void GoNext()
     {
@@ -378,12 +307,60 @@ public class InstallWizard : TemplatedControl
             CurrentStepIndex--;
     }
 
-    // ── Private ──────────────────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property == StepsProperty)
+            OnStepsReplaced();
+    }
 
-    private void OnBackClicked(object? sender, RoutedEventArgs e)   => GoBack();
-    private void OnNextClicked(object? sender, RoutedEventArgs e)   => GoNext();
+    /// <inheritdoc />
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        if (_backButton is not null) _backButton.Click -= OnBackClicked;
+        if (_nextButton is not null) _nextButton.Click -= OnNextClicked;
+        if (_cancelButton is not null) _cancelButton.Click -= OnCancelClicked;
+
+        _backButton = e.NameScope.Find<Button>(PART_BackButton);
+        _nextButton = e.NameScope.Find<Button>(PART_NextButton);
+        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
+
+        if (_backButton is not null) _backButton.Click += OnBackClicked;
+        if (_nextButton is not null) _nextButton.Click += OnNextClicked;
+        if (_cancelButton is not null) _cancelButton.Click += OnCancelClicked;
+
+        Localizer.Instance.LocalizationChanged += OnLocalizationChanged;
+
+        RefreshComputedProperties();
+        UpdateButtonStates();
+    }
+    
+    private void OnLocalizationChanged(string _) => UpdateButtonStates();
+
+    private void OnBackClicked(object? sender, RoutedEventArgs e) => GoBack();
+    private void OnNextClicked(object? sender, RoutedEventArgs e) => GoNext();
+
     private void OnCancelClicked(object? sender, RoutedEventArgs e) =>
         RaiseEvent(new RoutedEventArgs(CancelledEvent));
+    
+    private void RefreshComputedProperties()
+    {
+        Progress = Steps.Count <= 1 ? 100 : (double)CurrentStepIndex / (Steps.Count - 1) * 100;
+        CurrentStep = CurrentStepIndex >= 0 && CurrentStepIndex < Steps.Count
+            ? Steps[CurrentStepIndex]
+            : null;
+
+        // Update IsActive and StepNumber on each step so the DataTemplate
+        // bindings in the AXAML template can show/hide and number correctly.
+        for (int i = 0; i < Steps.Count; i++)
+        {
+            Steps[i].StepNumber = i + 1;
+            Steps[i].IsActive = i == CurrentStepIndex;
+        }
+    }
 
     private void OnStepIndexChanged()
     {
@@ -411,11 +388,11 @@ public class InstallWizard : TemplatedControl
             bool isLast = CurrentStepIndex >= Steps.Count - 1;
             _nextButton.Content = isLast
                 ? Localizer.Instance.TryGetString("InstallWizard/BtnFinish", out string finish) ? finish : "Finish"
-                : Localizer.Instance.TryGetString("InstallWizard/BtnNext",   out string next)   ? next   : NextButtonText;
+                : Localizer.Instance.TryGetString("InstallWizard/BtnNext", out string next)
+                    ? next
+                    : NextButtonText;
         }
     }
-
-    // ── Display mode factory methods ─────────────────────────────────────────
 
     /// <summary>
     /// Shows the wizard as a <see cref="ContentDialog"/> modal overlay on the given top-level.
@@ -434,8 +411,16 @@ public class InstallWizard : TemplatedControl
             Padding = new Thickness(0)
         };
 
-        wizard.Finished   += async (_, _) => { await dialog.CloseAsync(true);  tcs.TrySetResult(true); };
-        wizard.Cancelled  += async (_, _) => { await dialog.CloseAsync(false); tcs.TrySetResult(false); };
+        wizard.Finished += async (_, _) =>
+        {
+            await dialog.CloseAsync(true);
+            tcs.TrySetResult(true);
+        };
+        wizard.Cancelled += async (_, _) =>
+        {
+            await dialog.CloseAsync(false);
+            tcs.TrySetResult(false);
+        };
 
         await dialog.ShowAsync(topLevel);
         return await tcs.Task;
@@ -460,22 +445,30 @@ public class InstallWizard : TemplatedControl
 
         PleasantWindow window = new()
         {
-            Title                       = wizard.AppName ?? "Setup",
-            Width                       = width,
-            Height                      = height,
-            MinWidth                    = 500,
-            MinHeight                   = 380,
-            CanResize                   = false,
-            ExtendsContentIntoTitleBar  = false,
-            WindowStartupLocation       = owner is not null
-                                            ? WindowStartupLocation.CenterOwner
-                                            : WindowStartupLocation.CenterScreen,
-            Content                     = wizard,
-            EnableCustomTitleBar        = true,
+            Title = wizard.AppName ?? "Setup",
+            Width = width,
+            Height = height,
+            MinWidth = 500,
+            MinHeight = 380,
+            CanResize = false,
+            ExtendsContentIntoTitleBar = false,
+            WindowStartupLocation = owner is not null
+                ? WindowStartupLocation.CenterOwner
+                : WindowStartupLocation.CenterScreen,
+            Content = wizard,
+            EnableCustomTitleBar = true,
         };
 
-        wizard.Finished  += (_, _) => { tcs.TrySetResult(true);  window.Close(); };
-        wizard.Cancelled += (_, _) => { tcs.TrySetResult(false); window.Close(); };
+        wizard.Finished += (_, _) =>
+        {
+            tcs.TrySetResult(true);
+            window.Close();
+        };
+        wizard.Cancelled += (_, _) =>
+        {
+            tcs.TrySetResult(false);
+            window.Close();
+        };
 
         window.Closed += (_, _) => tcs.TrySetResult(false);
 

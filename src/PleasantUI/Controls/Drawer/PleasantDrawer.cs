@@ -15,34 +15,25 @@ namespace PleasantUI.Controls;
 /// Supports light-dismiss (click outside to close), optional title, close button,
 /// and all four positions (Left, Right, Top, Bottom).
 /// </summary>
-[TemplatePart(PART_CloseButton,   typeof(Button))]
-[TemplatePart(PART_Overlay,       typeof(Border))]
-[TemplatePart(PART_DrawerPanel,   typeof(ShadowBorder))]
+[TemplatePart(PART_CloseButton, typeof(Button))]
+[TemplatePart(PART_Overlay, typeof(Border))]
+[TemplatePart(PART_DrawerPanel, typeof(ShadowBorder))]
 [PseudoClasses(PC_Left, PC_Right, PC_Top, PC_Bottom, PC_Open, PC_Closing)]
 public class PleasantDrawer : PleasantPopupElement
 {
-    /// <summary>Template part name for the close button.</summary>
-    public const string PART_CloseButton = "PART_CloseButton";
-    /// <summary>Template part name for the overlay background border.</summary>
-    public const string PART_Overlay     = "PART_Overlay";
-    /// <summary>Template part name for the drawer panel.</summary>
-    public const string PART_DrawerPanel = "PART_DrawerPanel";
+    private const string PART_CloseButton = "PART_CloseButton";
+    private const string PART_Overlay = "PART_Overlay";
+    private const string PART_DrawerPanel = "PART_DrawerPanel";
 
-    /// <summary>Pseudo-class applied when <see cref="Position"/> is <see cref="DrawerPosition.Left"/>.</summary>
-    public const string PC_Left    = ":left";
-    /// <summary>Pseudo-class applied when <see cref="Position"/> is <see cref="DrawerPosition.Right"/>.</summary>
-    public const string PC_Right   = ":right";
-    /// <summary>Pseudo-class applied when <see cref="Position"/> is <see cref="DrawerPosition.Top"/>.</summary>
-    public const string PC_Top     = ":top";
-    /// <summary>Pseudo-class applied when <see cref="Position"/> is <see cref="DrawerPosition.Bottom"/>.</summary>
-    public const string PC_Bottom  = ":bottom";
-    /// <summary>Pseudo-class applied while the drawer is open.</summary>
-    public const string PC_Open    = ":open";
-    /// <summary>Pseudo-class applied while the drawer is closing.</summary>
-    public const string PC_Closing = ":closing";
+    private const string PC_Left = ":left";
+    private const string PC_Right = ":right";
+    private const string PC_Top = ":top";
+    private const string PC_Bottom = ":bottom";
+    private const string PC_Open = ":open";
+    private const string PC_Closing = ":closing";
 
-    private Button?       _closeButton;
-    private Border?       _overlay;
+    private Button? _closeButton;
+    private Border? _overlay;
     private ShadowBorder? _drawerPanel;
 
     private bool _isClosing;
@@ -50,19 +41,17 @@ public class PleasantDrawer : PleasantPopupElement
     private IInputElement? _lastFocus;
     private object? _result;
 
-    // ── Properties ────────────────────────────────────────────────────────────
-
     /// <summary>Defines the <see cref="Title"/> property.</summary>
     public static readonly StyledProperty<string?> TitleProperty =
         AvaloniaProperty.Register<PleasantDrawer, string?>(nameof(Title));
-    
+
     /// <summary>Defines the <see cref="Icon"/> property.</summary>
     public static readonly StyledProperty<object?> IconProperty =
         AvaloniaProperty.Register<PleasantDrawer, object?>(nameof(Icon));
 
     /// <summary>Defines the <see cref="Position"/> property.</summary>
     public static readonly StyledProperty<DrawerPosition> PositionProperty =
-        AvaloniaProperty.Register<PleasantDrawer, DrawerPosition>(nameof(Position), DrawerPosition.Right);
+        AvaloniaProperty.Register<PleasantDrawer, DrawerPosition>(nameof(Position));
 
     /// <summary>Defines the <see cref="CanLightDismiss"/> property.</summary>
     public static readonly StyledProperty<bool> CanLightDismissProperty =
@@ -91,16 +80,14 @@ public class PleasantDrawer : PleasantPopupElement
     /// <summary>Defines the <see cref="FooterContent"/> property.</summary>
     public static readonly StyledProperty<object?> FooterContentProperty =
         AvaloniaProperty.Register<PleasantDrawer, object?>(nameof(FooterContent));
-    
+
     /// <summary>Defines the <see cref="PanelWidth"/> property.</summary>
     public static readonly StyledProperty<double> PanelWidthProperty =
         AvaloniaProperty.Register<PleasantDrawer, double>(nameof(PanelWidth));
-    
+
     /// <summary>Defines the <see cref="PanelHeight"/> property.</summary>
     public static readonly StyledProperty<double> PanelHeightProperty =
         AvaloniaProperty.Register<PleasantDrawer, double>(nameof(PanelHeight));
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the title shown in the drawer header.</summary>
     public string? Title
@@ -108,7 +95,7 @@ public class PleasantDrawer : PleasantPopupElement
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
-    
+
     /// <summary></summary>
     public object? Icon
     {
@@ -171,22 +158,20 @@ public class PleasantDrawer : PleasantPopupElement
         get => GetValue(FooterContentProperty);
         set => SetValue(FooterContentProperty, value);
     }
-    
+
     /// 
     public double PanelWidth
     {
         get => GetValue(PanelWidthProperty);
         set => SetValue(PanelWidthProperty, value);
     }
-    
+
     /// 
     public double PanelHeight
     {
         get => GetValue(PanelHeightProperty);
         set => SetValue(PanelHeightProperty, value);
     }
-
-    // ── Events ────────────────────────────────────────────────────────────────
 
     /// <summary>Raised when the drawer has fully closed.</summary>
     public static readonly RoutedEvent<RoutedEventArgs> ClosedEvent =
@@ -199,23 +184,21 @@ public class PleasantDrawer : PleasantPopupElement
     /// <summary>Raised when the drawer has fully closed.</summary>
     public event EventHandler<RoutedEventArgs>? Closed
     {
-        add    => AddHandler(ClosedEvent, value);
+        add => AddHandler(ClosedEvent, value);
         remove => RemoveHandler(ClosedEvent, value);
     }
 
     /// <summary>Raised when the drawer has fully opened.</summary>
     public event EventHandler<RoutedEventArgs>? Opened
     {
-        add    => AddHandler(OpenedEvent, value);
+        add => AddHandler(OpenedEvent, value);
         remove => RemoveHandler(OpenedEvent, value);
     }
 
-    // ── Static constructor ────────────────────────────────────────────────────
-
     static PleasantDrawer()
     {
-        PositionProperty.Changed.AddClassHandler<PleasantDrawer, DrawerPosition>(
-            (d, e) => d.UpdatePositionPseudoClasses(e.NewValue.Value));
+        PositionProperty.Changed.AddClassHandler<PleasantDrawer, DrawerPosition>((d, e) =>
+            d.UpdatePositionPseudoClasses(e.NewValue.Value));
     }
 
     /// <summary>Initializes a new instance of <see cref="PleasantDrawer"/>.</summary>
@@ -226,8 +209,6 @@ public class PleasantDrawer : PleasantPopupElement
         // active before the first layout pass.
         UpdatePositionPseudoClasses(Position);
     }
-
-    // ── Show API ──────────────────────────────────────────────────────────────
 
     /// <summary>
     /// Shows the drawer on the specified <see cref="TopLevel"/>.
@@ -250,8 +231,6 @@ public class PleasantDrawer : PleasantPopupElement
         return CloseDrawerAsync();
     }
 
-    // ── Template ──────────────────────────────────────────────────────────────
-
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -261,7 +240,7 @@ public class PleasantDrawer : PleasantPopupElement
         if (_closeButton is not null) _closeButton.Click -= OnCloseButtonClick;
 
         _closeButton = e.NameScope.Find<Button>(PART_CloseButton);
-        _overlay     = e.NameScope.Find<Border>(PART_Overlay);
+        _overlay = e.NameScope.Find<Border>(PART_Overlay);
         _drawerPanel = e.NameScope.Find<ShadowBorder>(PART_DrawerPanel);
 
         if (_closeButton is not null) _closeButton.Click += OnCloseButtonClick;
@@ -327,24 +306,22 @@ public class PleasantDrawer : PleasantPopupElement
         {
             case DrawerPosition.Right:
                 _drawerPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right;
-                _drawerPanel.VerticalAlignment   = Avalonia.Layout.VerticalAlignment.Stretch;
+                _drawerPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
                 break;
             case DrawerPosition.Left:
                 _drawerPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left;
-                _drawerPanel.VerticalAlignment   = Avalonia.Layout.VerticalAlignment.Stretch;
+                _drawerPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
                 break;
             case DrawerPosition.Top:
                 _drawerPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                _drawerPanel.VerticalAlignment   = Avalonia.Layout.VerticalAlignment.Top;
+                _drawerPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top;
                 break;
             case DrawerPosition.Bottom:
                 _drawerPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                _drawerPanel.VerticalAlignment   = Avalonia.Layout.VerticalAlignment.Bottom;
+                _drawerPanel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom;
                 break;
         }
     }
-
-    // ── Private ───────────────────────────────────────────────────────────────
 
     private async Task<T?> ShowCoreAsync<T>(TopLevel topLevel)
     {
@@ -356,7 +333,7 @@ public class PleasantDrawer : PleasantPopupElement
         // so its internal Panel covers the entire overlay and the ShadowBorder
         // can align itself to the correct edge.
         HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-        VerticalAlignment   = Avalonia.Layout.VerticalAlignment.Stretch;
+        VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
 
         Host ??= new ModalWindowHost();
         Host.Content = this;
@@ -367,41 +344,22 @@ public class PleasantDrawer : PleasantPopupElement
         base.ShowCoreForTopLevel(topLevel);
 
         _modalWindows?.Add(this);
-        _lastFocus = topLevel.FocusManager?.GetFocusedElement();
+        _lastFocus = topLevel.FocusManager.GetFocusedElement();
 
         Closed += (_, _) =>
         {
-            try   { tcs.TrySetResult(_result is T typed ? typed : default); }
-            catch { tcs.TrySetResult(default); }
+            try
+            {
+                tcs.TrySetResult(_result is T typed ? typed : default);
+            }
+            catch
+            {
+                tcs.TrySetResult(default);
+            }
         };
 
         return await tcs.Task;
     }
-
-    /*private void SetHostAlignmentFromPosition()
-    {
-        if (Host is null) return;
-
-        switch (Position)
-        {
-            case DrawerPosition.Right:
-                Host.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Right;
-                Host.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-                break;
-            case DrawerPosition.Left:
-                Host.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Left;
-                Host.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
-                break;
-            case DrawerPosition.Top:
-                Host.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                Host.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Top;
-                break;
-            case DrawerPosition.Bottom:
-                Host.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                Host.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Bottom;
-                break;
-        }
-    }*/
 
     private async Task CloseDrawerAsync()
     {
@@ -446,9 +404,9 @@ public class PleasantDrawer : PleasantPopupElement
 
     private void UpdatePositionPseudoClasses(DrawerPosition position)
     {
-        PseudoClasses.Set(PC_Left,   position == DrawerPosition.Left);
-        PseudoClasses.Set(PC_Right,  position == DrawerPosition.Right);
-        PseudoClasses.Set(PC_Top,    position == DrawerPosition.Top);
+        PseudoClasses.Set(PC_Left, position == DrawerPosition.Left);
+        PseudoClasses.Set(PC_Right, position == DrawerPosition.Right);
+        PseudoClasses.Set(PC_Top, position == DrawerPosition.Top);
         PseudoClasses.Set(PC_Bottom, position == DrawerPosition.Bottom);
     }
 }

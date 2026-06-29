@@ -45,6 +45,9 @@
         <Setter Property="CompactPaneLength" Value="{CompiledBinding $parent[NavigationView].CompactPaneLength, Mode=OneWay}" />
         <Setter Property="OpenPaneLength" Value="{CompiledBinding $parent[NavigationView].OpenPaneLength, Mode=OneWay}" />
         <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
+        <Setter Property="(IconHelper.IconSize)" Value="18" />
+        <Setter Property="(IconHelper.Width)" Value="16" />
+        <Setter Property="(IconHelper.Height)" Value="16" />
         
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
@@ -79,8 +82,9 @@
                                             <PleasantIcon Name="PART_PathIcon"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"
-                                                         Width="16"
-                                                         Height="16"
+                                                         Width="{TemplateBinding (IconHelper.Width)}"
+                                                         Height="{TemplateBinding (IconHelper.Height)}"
+                                                         IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
                                                          Foreground="{DynamicResource TextFillColor1}"
                                                          Icon="{TemplateBinding Icon}" />
                                         </Grid>

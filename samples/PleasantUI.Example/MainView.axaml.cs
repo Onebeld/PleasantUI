@@ -87,7 +87,6 @@ public partial class MainView : UserControl
             "MessageBox"   => new MessageBoxPage(),
             "NoticeDialog" => new NoticeDialogPage(),
             "StepDialog"   => new StepDialogPage(),
-            "Docking"      => new DockingPage(),
             _            => null
         };
 

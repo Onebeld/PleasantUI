@@ -11,9 +11,15 @@
 
 > **Repositories:** [Original (Onebeld)](https://github.com/Onebeld/PleasantUI) · [Fork (ghudulf)](https://github.com/ghudulf/PleasantUI)
 
-PleasantUI is a cross-platform UI theme and control library for [Avalonia](https://github.com/AvaloniaUI/Avalonia), inspired by Microsoft Fluent Design and the WinUI/UWP visual language. It completely re-styles every standard Avalonia control and adds a suite of custom controls, a multi-theme engine with custom theme support, a reactive localization system, and a custom window chrome — all AOT-compatible with no `rd.xml` required.
+PleasantUI is a cross-platform UI theme and control library for [Avalonia](https://github.com/AvaloniaUI/Avalonia), inspired by Microsoft Fluent Design, Google Material Design and the WinUI/UWP visual language. It completely re-styles every standard Avalonia control and adds a suite of custom controls, a multi-theme engine with custom theme support, a reactive localization system, and a custom window chrome — all AOT-compatible with no `rd.xml` required.
 
 The project has been in active development since 2021, originally as part of the [Regul](https://github.com/Onebeld/Regul) and [Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner) projects.
+
+## 🏛️ Philosophy
+
+The philosophy is to provide the user with a _**pleasant**_ experience in using applications built on this library. This library isn't intended to be compared to other design principles or other UI libraries. If the interface looks good, then this library is doing its job.
+
+This library may also contain elements from other design principles or UI libraries if it makes the interface _**pleasant**_ enough (but with due attribution, of course).
 
 ## ✨ Features
 

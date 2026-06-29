@@ -5,10 +5,17 @@ using Avalonia.Media;
 
 namespace PleasantUI.Converters;
 
+/// <summary>
+/// A converter class for converting a color to its transparent counterpart
+/// </summary>
 public class ColorToTransparentConverter : IValueConverter
 {
+    /// <summary>
+    /// An instance of the <see cref="ColorToTransparentConverter"/> class object
+    /// </summary>
     public static readonly ColorToTransparentConverter Instance = new();
     
+    /// <inheritdoc/>
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is Color color)
@@ -17,7 +24,8 @@ public class ColorToTransparentConverter : IValueConverter
         return AvaloniaProperty.UnsetValue;
     }
 
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
     }

@@ -21,6 +21,11 @@ public class CustomTheme : ViewModelBase, ITheme
     /// </summary>
     public ThemeVariant ThemeVariant { get; private set; } = null!;
 
+    /// <summary>
+    /// Sets the theme variant
+    /// </summary>
+    /// <param name="themeVariant">Theme variant</param>
+    /// <exception cref="ArgumentNullException">Called if theme variant is null</exception>
     public void SetThemeVariant(ThemeVariant? themeVariant)
     {
         ArgumentNullException.ThrowIfNull(themeVariant);
@@ -47,7 +52,7 @@ public class CustomTheme : ViewModelBase, ITheme
 
             RaisePropertyChanged(nameof(ThemeVariant));
         }
-    } = null!;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CustomTheme" /> class.

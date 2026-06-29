@@ -67,7 +67,6 @@ public class ControlPageCardsFactory
             new("CardTitle/MessageBox",    MaterialIconKind.MessageOutline,       "Card/MessageBox", () =>    new MessageBoxPage(),    _eventAggregator),
             new("CardTitle/NoticeDialog",  MaterialIconKind.InformationOutline,   "Card/NoticeDialog", () =>  new NoticeDialogPage(),  _eventAggregator),
             new("CardTitle/StepDialog",    MaterialIconKind.OrderNumericAscending, "Card/StepDialog", () =>   new StepDialogPage(),    _eventAggregator),
-            new("CardTitle/Docking",       MaterialIconKind.ViewDashboardOutline,  "Card/Docking", () =>      new DockingPage(),       _eventAggregator),
         ];
     }
 }

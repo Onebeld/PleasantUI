@@ -655,7 +655,7 @@ public class NavigationView : TreeView
                      _stackPanelButtons != null && _headerItem != null)
             {
                 if (_mainGrid.RowDefinitions.Count == 0 ||
-                    _mainGrid.RowDefinitions[0].Height.Value != _headerItem.Height)
+                    Math.Abs(_mainGrid.RowDefinitions[0].Height.Value - _headerItem.Height) > 0.01)
                 {
                     _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
                 }
@@ -1032,41 +1032,7 @@ public class NavigationView : TreeView
             return false;
         }
     }
-
-    /// <summary>
-    /// Re-looks up the content presenter references from the current live template.
-    /// Called when we detect that a stored presenter reference is stale (detached from visual tree)
-    /// after a theme switch that didn't trigger OnApplyTemplate.
-    /// </summary>
-    private void RefreshPresentersFromTemplate()
-    {
-        ContentPresenter? newLeft = this.GetVisualDescendants()
-            .OfType<ContentPresenter>()
-            .FirstOrDefault(x => x.Name == "PART_SelectedContentPresenter");
-        ContentPresenter? newTopBottom = this.GetVisualDescendants()
-            .OfType<ContentPresenter>()
-            .FirstOrDefault(x => x.Name == "PART_TopBottomContentPresenter");
-
-        if (newLeft is not null && !ReferenceEquals(newLeft, _contentPresenter))
-        {
-            Debug.WriteLine("[NavigationView] RefreshPresentersFromTemplate — refreshed _contentPresenter");
-            _contentPresenter = newLeft;
-        }
-        if (newTopBottom is not null && !ReferenceEquals(newTopBottom, _topBottomContentPresenter))
-        {
-            Debug.WriteLine("[NavigationView] RefreshPresentersFromTemplate — refreshed _topBottomContentPresenter");
-            _topBottomContentPresenter = newTopBottom;
-        }
-    }
-
-    /// <summary>
-    /// Validates that a wrapper and presenter are compatible for assignment.
-    /// Checks for circular references and invalid state combinations.
-    /// </summary>
-    /// <param name="wrapper">The wrapper Border to validate.</param>
-    /// <param name="presenter">The presenter to validate.</param>
-    /// <param name="wrapperName">Name of the wrapper for logging.</param>
-    /// <returns>True if compatible, false otherwise.</returns>
+    
     private bool ValidateWrapperPresenterCompatibility(Border? wrapper, ContentPresenter? presenter, string wrapperName)
     {
         if (wrapper is null || presenter is null)
@@ -1460,15 +1426,6 @@ public class NavigationView : TreeView
         }
     }
 
-    /// <summary>
-    /// Detaches <paramref name="contentVisual"/> from its current visual parent presenter
-    /// <summary>
-    /// Routes content into the correct wrapper for the current position.
-    /// The wrappers are permanently assigned to their presenters — content moves between
-    /// wrappers (Border.Child), never between ContentPresenters. This eliminates all
-    /// single-visual-parent conflicts because Border has no parent validator.
-    /// Uses comprehensive safe assignment to prevent visual tree violations.
-    /// </summary>
     private void RouteContentToWrapper(object? content)
     {
         if (content is null) return;
@@ -1602,23 +1559,7 @@ public class NavigationView : TreeView
 
         UpdateTitleAndSelectedContent();
     }
-
-    /// <summary>
-    /// Ensures cached content is visible — with wrapper pattern, just calls RestoreCachedContent.
-    /// </summary>
-    private void EnsureCachedContentVisible() => RestoreCachedContent();
-
-    /// <summary>No-op — wrapper pattern makes direct detach unnecessary.</summary>
-    private static void DetachFromPresenter(Visual contentVisual)
-    {
-        Debug.WriteLine("[NavigationView] DetachFromPresenter — no-op (wrapper pattern)");
-    }
-
-    /// <summary>
-    /// Called when the pane IsOpen state changes.
-    /// Saves IsExpanded state of all group items when collapsing to compact mode,
-    /// and restores it when expanding back to full mode.
-    /// </summary>
+    
     private void OnIsOpenChanged(AvaloniaPropertyChangedEventArgs e)
     {
         bool isNowOpen = (bool)(e.NewValue ?? false);
@@ -1705,9 +1646,9 @@ public class NavigationView : TreeView
 
         // Deselect all top+bottom items except the clicked one.
         foreach (NavigationViewItem? i in _topItems)
-            i.IsSelected = !ReferenceEquals(i, item) ? false : true;
+            i.IsSelected = ReferenceEquals(i, item);
         foreach (NavigationViewItem? i in _bottomItems)
-            i.IsSelected = !ReferenceEquals(i, item) ? false : true;
+            i.IsSelected = ReferenceEquals(i, item);
 
         if (item.Content is not null)
         {

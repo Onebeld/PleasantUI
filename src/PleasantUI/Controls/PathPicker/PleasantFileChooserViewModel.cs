@@ -12,18 +12,9 @@ namespace PleasantUI.Controls;
 /// </summary>
 public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 {
-    // ── INotifyPropertyChanged ────────────────────────────────────────────────
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return;
-        field = value;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
-
-    // ── Configuration (set before showing) ───────────────────────────────────
+    private string _currentPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+    private string _filterText = string.Empty;
+    private int _selectedFilterIndex;
 
     /// <summary>Dialog title.</summary>
     public string Title { get; set; } = "Open";
@@ -36,55 +27,89 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
 
     /// <summary>Whether to show hidden files/folders.</summary>
     public bool ShowHidden { get; set; }
+    
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return;
+        field = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 
     /// <summary>
     /// Optional file-type filters.
     /// </summary>
     public IReadOnlyList<PleasantFileChooserFilter> Filters { get; set; } = [];
 
-    // ── State ─────────────────────────────────────────────────────────────────
-
-    private string _currentPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-    private string _filterText  = string.Empty;
-    private int    _selectedFilterIndex;
-
+    /// <summary>
+    /// Gets or sets the current directory path being displayed.
+    /// Setting this property triggers asynchronous loading of the directory contents.
+    /// </summary>
     public string CurrentPath
     {
         get => _currentPath;
-        set { Set(ref _currentPath, value); _ = LoadDirectoryAsync(value); }
+        set
+        {
+            Set(ref _currentPath, value);
+            _ = LoadDirectoryAsync(value);
+        }
     }
 
+    /// <summary>
+    /// Gets or sets the filename (or space-separated list of filenames when multiple selection is enabled).
+    /// </summary>
     public string FileName
     {
         get;
         set => Set(ref field, value);
     } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the text used to filter items by name in the current directory.
+    /// Changing this value automatically updates the visible <see cref="Items"/>.
+    /// </summary>
     public string FilterText
     {
         get => _filterText;
-        set { Set(ref _filterText, value); ApplyFilter(); }
+        set
+        {
+            Set(ref _filterText, value);
+            ApplyFilter();
+        }
     }
 
+    /// <summary>
+    /// Gets or sets the index of the currently selected filter from the <see cref="Filters"/> collection.
+    /// Changing this value automatically updates the visible <see cref="Items"/>.
+    /// </summary>
     public int SelectedFilterIndex
     {
         get => _selectedFilterIndex;
-        set { Set(ref _selectedFilterIndex, value); ApplyFilter(); }
+        set
+        {
+            Set(ref _selectedFilterIndex, value);
+            ApplyFilter();
+        }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether the directory contents are currently being loaded.
+    /// </summary>
     public bool IsLoading
     {
         get;
         private set => Set(ref field, value);
     }
 
+    /// <summary>
+    /// Gets the error message if directory loading failed; otherwise an empty string.
+    /// </summary>
     public string ErrorMessage
     {
         get;
         private set => Set(ref field, value);
     } = string.Empty;
-
-    // ── Collections ───────────────────────────────────────────────────────────
 
     /// <summary>Quick-access locations (drives + common folders).</summary>
     public ObservableCollection<PleasantFileChooserItem> QuickLinks { get; } = [];
@@ -98,11 +123,8 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     /// <summary>Currently selected items.</summary>
     public ObservableCollection<PleasantFileChooserItem> SelectedItems { get; } = [];
 
-    /// <summary>Navigation history for Back/Forward.</summary>
-    private readonly Stack<string> _backStack  = new();
+    private readonly Stack<string> _backStack = new();
     private readonly Stack<string> _forwardStack = new();
-
-    // ── Result ────────────────────────────────────────────────────────────────
 
     /// <summary>Set to the chosen paths when the user confirms, or null on cancel.</summary>
     public IReadOnlyList<string>? Result { get; private set; }
@@ -110,26 +132,39 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
     /// <summary>Raised when the dialog should close (confirm or cancel).</summary>
     public event EventHandler? CloseRequested;
 
-    // ── Constructor ───────────────────────────────────────────────────────────
-
     public PleasantFileChooserViewModel()
     {
         SelectedItems.CollectionChanged += (_, _) => UpdateFileNameFromSelection();
         BuildQuickLinks();
     }
 
-    // ── Navigation ────────────────────────────────────────────────────────────
-
+    /// <summary>
+    /// Gets a value indicating whether the user can navigate to the parent directory.
+    /// </summary>
     public bool CanGoUp => !string.IsNullOrEmpty(Path.GetDirectoryName(_currentPath));
-    public bool CanGoBack    => _backStack.Count > 0;
+    
+    /// <summary>
+    /// Gets a value indicating whether the user can navigate backward in history.
+    /// </summary>
+    public bool CanGoBack => _backStack.Count > 0;
+    
+    /// <summary>
+    /// Gets a value indicating whether the user can navigate forward in history.
+    /// </summary>
     public bool CanGoForward => _forwardStack.Count > 0;
 
+    /// <summary>
+    /// Navigates to the parent directory of the current path, if one exists.
+    /// </summary>
     public void GoUp()
     {
         string? parent = Path.GetDirectoryName(_currentPath);
         if (parent is not null) Navigate(parent);
     }
 
+    /// <summary>
+    /// Navigates backward in the navigation history.
+    /// </summary>
     public void GoBack()
     {
         if (!CanGoBack) return;
@@ -140,6 +175,9 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         NotifyNavigation();
     }
 
+    /// <summary>
+    /// Navigates forward in the navigation history.
+    /// </summary>
     public void GoForward()
     {
         if (!CanGoForward) return;
@@ -150,6 +188,10 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         NotifyNavigation();
     }
 
+    /// <summary>
+    /// Navigates to the specified directory path and updates navigation history.
+    /// </summary>
+    /// <param name="path">The absolute path to navigate to.</param>
     public void Navigate(string path)
     {
         if (string.IsNullOrWhiteSpace(path) || path == _currentPath) return;
@@ -160,6 +202,11 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         NotifyNavigation();
     }
 
+    /// <summary>
+    /// Opens the specified item. If it is a directory, navigates into it; 
+    /// otherwise confirms the selection.
+    /// </summary>
+    /// <param name="item">The item to open.</param>
     public void OpenItem(PleasantFileChooserItem item)
     {
         if (item.IsDirectory)
@@ -175,11 +222,14 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanGoForward)));
     }
 
-    // ── Directory loading ─────────────────────────────────────────────────────
-
+    /// <summary>
+    /// Asynchronously loads the contents of the specified directory and updates the item collections.
+    /// </summary>
+    /// <param name="path">The directory path to load.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task LoadDirectoryAsync(string path)
     {
-        IsLoading    = true;
+        IsLoading = true;
         ErrorMessage = string.Empty;
 
         try
@@ -200,7 +250,7 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 ErrorMessage = ex.Message;
-                IsLoading    = false;
+                IsLoading = false;
             });
         }
     }
@@ -233,12 +283,10 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         return result;
     }
 
-    // ── Filtering ─────────────────────────────────────────────────────────────
-
     private void ApplyFilter()
     {
         HashSet<string>? activeExtensions = GetActiveExtensions();
-        string nameFilter       = _filterText.Trim();
+        string nameFilter = _filterText.Trim();
 
         Items.Clear();
         foreach (PleasantFileChooserItem item in _allItems)
@@ -269,8 +317,6 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         return new HashSet<string>(filter.Extensions, StringComparer.OrdinalIgnoreCase);
     }
 
-    // ── Selection → FileName sync ─────────────────────────────────────────────
-
     private void UpdateFileNameFromSelection()
     {
         if (SelectedItems.Count == 0) return;
@@ -282,8 +328,10 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         Debug.WriteLine($"[FileChooserVM] UpdateFileNameFromSelection → FileName=\"{FileName}\"");
     }
 
-    // ── Confirm / Cancel ──────────────────────────────────────────────────────
-
+    /// <summary>
+    /// Confirms the current selection and closes the dialog with the selected paths.
+    /// Uses <see cref="SelectedItems"/> if any are selected, otherwise falls back to the <see cref="FileName"/> property.
+    /// </summary>
     public void Confirm()
     {
         List<string> paths = new();
@@ -311,13 +359,14 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
         CloseRequested?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Cancels the dialog operation and closes it without returning any result.
+    /// </summary>
     public void Cancel()
     {
         Result = null;
         CloseRequested?.Invoke(this, EventArgs.Empty);
     }
-
-    // ── Quick links ───────────────────────────────────────────────────────────
 
     private void BuildQuickLinks()
     {
@@ -344,6 +393,9 @@ public sealed class PleasantFileChooserViewModel : INotifyPropertyChanged
             if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
                 QuickLinks.Add(new PleasantFileChooserItem(path, true));
         }
-        catch { /* skip unavailable folders */ }
+        catch
+        {
+            /* skip unavailable folders */
+        }
     }
 }

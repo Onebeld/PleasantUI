@@ -1,6 +1,7 @@
 ﻿using Avalonia.Media;
 using PleasantUI.Controls;
 using PleasantUI.Core;
+using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
 using PleasantUI.Example.Structures;
@@ -10,7 +11,7 @@ namespace PleasantUI.Example.ViewModels.Pages;
 
 public partial class SettingsViewModel : ViewModelBase
 {
-    public List<FontFamily> Fonts { get; set; } = FontManager.Current.SystemFonts.OrderBy(f => f.Name).ToList();
+    public List<FontFamily> Fonts { get; set; } = FontManagerHelper.GetFontsAlphabetically();
     
     public SettingsViewModel()
     {

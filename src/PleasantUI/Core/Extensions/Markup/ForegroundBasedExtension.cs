@@ -16,13 +16,6 @@ public class ForegroundBasedExtension : MarkupExtension
     public object? ResourceKey { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ForegroundBasedExtension"/> class.
-    /// </summary>
-    public ForegroundBasedExtension()
-    {
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="ForegroundBasedExtension"/> class with a specified resource key.
     /// </summary>
     /// <param name="resourceKey">The resource key used to retrieve the accent color.</param>

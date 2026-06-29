@@ -4,17 +4,17 @@ using Avalonia.Media;
 
 namespace PleasantUI.Core.Settings.Converters;
 
-public class FontFamilyJsonConverter : JsonConverter<FontFamily>
+internal class FontFamilyJsonConverter : JsonConverter<FontFamily>
 {
-    public override FontFamily? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override FontFamily Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var value = reader.GetString();
+        string? value = reader.GetString();
 
         return value is null ? FontFamily.Default : FontFamily.Parse(value);
     }
 
     public override void Write(Utf8JsonWriter writer, FontFamily value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.Name);
+        writer.WriteStringValue(value.ToString());
     }
 }

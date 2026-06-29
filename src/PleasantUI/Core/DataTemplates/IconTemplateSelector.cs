@@ -1,12 +1,19 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Metadata;
+using PleasantUI.Controls;
+// ReSharper disable CollectionNeverUpdated.Global
 
 namespace PleasantUI.Core.DataTemplates;
 
-
+/// <summary>
+/// Template creation class for <see cref="PleasantIcon"/>
+/// </summary>
 public class IconTemplateSelector : IDataTemplate
 {
+    /// <summary>
+    /// Gets a dictionary of all available templates for an icon.
+    /// </summary>
     [Content]
     public Dictionary<string, IDataTemplate> AvailableTemplates { get; } = new();
     

@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
+// ReSharper disable CollectionNeverQueried.Local
 
 namespace PleasantUI.Core.Localization;
 
@@ -20,7 +21,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     // Strong references to all LocalizeKeyObservable instances — prevents GC from
     // collecting them and silently killing their LocalizationChanged subscriptions.
     private static readonly List<object> AliveObservables = [];
-    private static readonly object ObservableLock = new();
+    private static readonly Lock ObservableLock = new();
 
     private List<ResourceManager>? _resources;
     private int _isChangingLanguage;
@@ -76,7 +77,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <summary>
     /// Initializes a new instance of the <see cref="Localizer" /> class.
     /// </summary>
-    public Localizer()
+    private Localizer()
     {
         LoadLanguage();
     }
@@ -335,7 +336,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     private void LoadLanguage()
     {
         if (ResourceManagers != null)
-            _resources = new List<ResourceManager>(ResourceManagers);
+            _resources = [..ResourceManagers];
 
         InvalidateEvents();
     }

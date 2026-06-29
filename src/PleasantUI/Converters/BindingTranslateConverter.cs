@@ -20,7 +20,7 @@ public class BindingTranslateConverter : IMultiValueConverter
     }
 
     /// <inheritdoc />
-    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(IList<object?>? values, Type targetType, object? parameter, CultureInfo culture)
     {
         if (values is null || values.Count == 0)
             return string.Empty;

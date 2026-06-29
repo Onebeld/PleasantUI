@@ -17,7 +17,7 @@ public class StringToPasswordCharConverter : IMultiValueConverter
     /// <param name="parameter">The converter parameter.</param>
     /// <param name="culture">The culture to use in the conversion.</param>
     /// <returns>The password char if set and text is not empty, otherwise the original text.</returns>
-    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
         if (values.Count < 2)
             return string.Empty;

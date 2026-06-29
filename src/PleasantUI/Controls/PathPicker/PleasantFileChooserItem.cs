@@ -1,3 +1,4 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace PleasantUI.Controls;
 
 /// <summary>
@@ -29,21 +30,28 @@ public sealed class PleasantFileChooserItem
     /// <summary>Gets the icon key: "folder", "file", or "drive".</summary>
     public string IconKey { get; }
 
+    /// <summary>
+    /// <see cref="PleasantFileChooser"/> control class constructor
+    /// </summary>
+    /// <param name="fullPath">Full path to a file or directory</param>
+    /// <param name="isDirectory">Determining if a path is a directory</param>
+    /// <param name="modified">The time the file or directory was modified</param>
+    /// <param name="sizeBytes">Size of bytes</param>
     public PleasantFileChooserItem(string fullPath, bool isDirectory, DateTime? modified = null, long? sizeBytes = null)
     {
-        FullPath    = fullPath;
-        Name        = Path.GetFileName(fullPath);
+        FullPath = fullPath;
+        Name = Path.GetFileName(fullPath);
         if (string.IsNullOrEmpty(Name)) Name = fullPath; // drive roots like "C:\"
         IsDirectory = isDirectory;
-        Modified    = modified;
-        SizeBytes   = isDirectory ? null : sizeBytes;
-        Extension   = isDirectory ? string.Empty : Path.GetExtension(fullPath).ToLowerInvariant();
-        IconKey     = isDirectory ? (string.IsNullOrEmpty(Path.GetFileName(fullPath)) ? "drive" : "folder") : "file";
+        Modified = modified;
+        SizeBytes = isDirectory ? null : sizeBytes;
+        Extension = isDirectory ? string.Empty : Path.GetExtension(fullPath).ToLowerInvariant();
+        IconKey = isDirectory ? (string.IsNullOrEmpty(Path.GetFileName(fullPath)) ? "drive" : "folder") : "file";
     }
 
     private static string FormatSize(long bytes)
     {
-        if (bytes < 1024)        return $"{bytes} B";
+        if (bytes < 1024) return $"{bytes} B";
         if (bytes < 1024 * 1024) return $"{bytes / 1024.0:F1} KB";
         if (bytes < 1024L * 1024 * 1024) return $"{bytes / (1024.0 * 1024):F1} MB";
         return $"{bytes / (1024.0 * 1024 * 1024):F2} GB";

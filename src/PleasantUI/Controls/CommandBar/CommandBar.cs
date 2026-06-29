@@ -14,38 +14,32 @@ namespace PleasantUI.Controls;
 /// A toolbar control that displays primary commands inline and moves overflow items
 /// into a popup menu. Supports dynamic overflow, label positions, and open/closed states.
 /// </summary>
-[TemplatePart(PART_PrimaryItemsControl,   typeof(ItemsControl))]
-[TemplatePart(PART_ContentControl,        typeof(ContentControl))]
+[TemplatePart(PART_PrimaryItemsControl, typeof(ItemsControl))]
+[TemplatePart(PART_ContentControl, typeof(ContentControl))]
 [TemplatePart(PART_SecondaryItemsControl, typeof(CommandBarOverflowPresenter))]
-[TemplatePart(PART_MoreButton,            typeof(Button))]
-[TemplatePart(PART_OverflowPopup,        typeof(Popup))]
+[TemplatePart(PART_MoreButton, typeof(Button))]
+[TemplatePart(PART_OverflowPopup, typeof(Popup))]
 [PseudoClasses(PC_Open, PC_Compact, PC_Minimal, PC_Hidden,
-               PC_LabelBottom, PC_LabelRight, PC_LabelCollapsed,
-               PC_PrimaryOnly, PC_SecondaryOnly, PC_ItemsRight)]
+    PC_LabelBottom, PC_LabelRight, PC_LabelCollapsed,
+    PC_PrimaryOnly, PC_SecondaryOnly, PC_ItemsRight)]
 public class CommandBar : ContentControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
-
-    private const string PART_PrimaryItemsControl   = "PART_PrimaryItemsControl";
-    private const string PART_ContentControl        = "PART_ContentControl";
+    private const string PART_PrimaryItemsControl = "PART_PrimaryItemsControl";
+    private const string PART_ContentControl = "PART_ContentControl";
     private const string PART_SecondaryItemsControl = "PART_SecondaryItemsControl";
-    private const string PART_MoreButton            = "PART_MoreButton";
-    private const string PART_OverflowPopup         = "PART_OverflowPopup";
+    private const string PART_MoreButton = "PART_MoreButton";
+    private const string PART_OverflowPopup = "PART_OverflowPopup";
 
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_Open           = ":open";
-    private const string PC_Compact        = ":compact";
-    private const string PC_Minimal        = ":minimal";
-    private const string PC_Hidden         = ":hidden";
-    private const string PC_LabelBottom    = ":labelBottom";
-    private const string PC_LabelRight     = ":labelRight";
+    private const string PC_Open = ":open";
+    private const string PC_Compact = ":compact";
+    private const string PC_Minimal = ":minimal";
+    private const string PC_Hidden = ":hidden";
+    private const string PC_LabelBottom = ":labelBottom";
+    private const string PC_LabelRight = ":labelRight";
     private const string PC_LabelCollapsed = ":labelCollapsed";
-    private const string PC_PrimaryOnly    = ":primaryOnly";
-    private const string PC_SecondaryOnly  = ":secondaryOnly";
-    private const string PC_ItemsRight     = ":itemsRight";
-
-    // ── Styled / direct properties ────────────────────────────────────────────
+    private const string PC_PrimaryOnly = ":primaryOnly";
+    private const string PC_SecondaryOnly = ":secondaryOnly";
+    private const string PC_ItemsRight = ":itemsRight";
 
     /// <summary>Defines the <see cref="IsOpen"/> property.</summary>
     public static readonly StyledProperty<bool> IsOpenProperty =
@@ -85,8 +79,6 @@ public class CommandBar : ContentControl
     public static readonly DirectProperty<CommandBar, IAvaloniaList<ICommandBarElement>> SecondaryCommandsProperty =
         AvaloniaProperty.RegisterDirect<CommandBar, IAvaloniaList<ICommandBarElement>>(
             nameof(SecondaryCommands), o => o.SecondaryCommands);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets whether the overflow popup is open.</summary>
     public bool IsOpen
@@ -148,16 +140,17 @@ public class CommandBar : ContentControl
 
     /// <summary>Raised when the overflow popup starts opening.</summary>
     public event EventHandler<EventArgs>? Opening;
+
     /// <summary>Raised when the overflow popup has opened.</summary>
     public event EventHandler<EventArgs>? Opened;
+
     /// <summary>Raised when the overflow popup starts closing.</summary>
     public event EventHandler<EventArgs>? Closing;
+
     /// <summary>Raised when the overflow popup has closed.</summary>
     public event EventHandler<EventArgs>? Closed;
 
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private readonly AvaloniaList<ICommandBarElement> _primaryCommands   = new();
+    private readonly AvaloniaList<ICommandBarElement> _primaryCommands = new();
     private readonly AvaloniaList<ICommandBarElement> _secondaryCommands = new();
 
     // Internal working lists sent to the ItemsControls.
@@ -165,42 +158,42 @@ public class CommandBar : ContentControl
     private AvaloniaList<ICommandBarElement>? _primaryItems;
     private AvaloniaList<ICommandBarElement>? _overflowItems;
 
-    private ItemsControl?                _primaryItemsHost;
-    private ContentControl?              _contentHost;
+    private ItemsControl? _primaryItemsHost;
+    private ContentControl? _contentHost;
     private CommandBarOverflowPresenter? _overflowItemsHost;
-    private Button?                      _moreButton;
-    private Popup?                       _overflowPopup;
-    private CommandBarSeparator?         _overflowSeparator;
+    private Button? _moreButton;
+    private Popup? _overflowPopup;
+    private CommandBarSeparator? _overflowSeparator;
 
     // Dynamic overflow tracking
-    private int  _numInOverflow;
-    private int  _hasOrderedOverflow;
+    private int _numInOverflow;
+    private int _hasOrderedOverflow;
     private Dictionary<ICommandBarElement, double>? _widthCache;
     private double _minRecoverWidth;
 
     private bool _templateApplied;
 
-    // ── Constructor ───────────────────────────────────────────────────────────
-
+    /// <summary>
+    /// <see cref="CommandBar"/> control class constructor
+    /// </summary>
     public CommandBar()
     {
-        _primaryCommands.CollectionChanged   += OnPrimaryCommandsChanged;
+        _primaryCommands.CollectionChanged += OnPrimaryCommandsChanged;
         _secondaryCommands.CollectionChanged += OnSecondaryCommandsChanged;
 
         PseudoClasses.Add(PC_Compact);
         PseudoClasses.Add(PC_LabelBottom);
     }
 
-    // ── Template ──────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         Debug.WriteLine("[CommandBar] OnApplyTemplate - START");
-        
+
         // Save the current IsOpen state before template reapplication
         bool savedIsOpen = IsOpen;
         Debug.WriteLine($"[CommandBar] OnApplyTemplate - Saving IsOpen={savedIsOpen}");
-        
+
         _templateApplied = false;
 
         if (_moreButton is not null)
@@ -210,13 +203,14 @@ public class CommandBar : ContentControl
 
         base.OnApplyTemplate(e);
 
-        _primaryItemsHost  = e.NameScope.Find<ItemsControl>(PART_PrimaryItemsControl);
-        _contentHost       = e.NameScope.Find<ContentControl>(PART_ContentControl);
+        _primaryItemsHost = e.NameScope.Find<ItemsControl>(PART_PrimaryItemsControl);
+        _contentHost = e.NameScope.Find<ContentControl>(PART_ContentControl);
         _overflowItemsHost = e.NameScope.Find<CommandBarOverflowPresenter>(PART_SecondaryItemsControl);
-        _moreButton        = e.NameScope.Find<Button>(PART_MoreButton);
-        _overflowPopup     = e.NameScope.Find<Popup>(PART_OverflowPopup);
+        _moreButton = e.NameScope.Find<Button>(PART_MoreButton);
+        _overflowPopup = e.NameScope.Find<Popup>(PART_OverflowPopup);
 
-        Debug.WriteLine($"[CommandBar] OnApplyTemplate - Parts found: PrimaryItems={_primaryItemsHost != null}, Content={_contentHost != null}, OverflowItems={_overflowItemsHost != null}, MoreButton={_moreButton != null}, OverflowPopup={_overflowPopup != null}");
+        Debug.WriteLine(
+            $"[CommandBar] OnApplyTemplate - Parts found: PrimaryItems={_primaryItemsHost != null}, Content={_contentHost != null}, OverflowItems={_overflowItemsHost != null}, MoreButton={_moreButton != null}, OverflowPopup={_overflowPopup != null}");
 
         if (_moreButton is not null)
             _moreButton.Click += OnMoreButtonClick;
@@ -233,7 +227,7 @@ public class CommandBar : ContentControl
             Debug.WriteLine($"[CommandBar] OnApplyTemplate - Restoring IsOpen from {IsOpen} to {savedIsOpen}");
             IsOpen = savedIsOpen;
         }
-        
+
         // Re-apply open state now that items exist — IsOpen may have been set
         // before the template was applied (e.g. IsOpen="True" in XAML).
         Debug.WriteLine($"[CommandBar] OnApplyTemplate - Current IsOpen={IsOpen}, IsSticky={IsSticky}");
@@ -244,6 +238,7 @@ public class CommandBar : ContentControl
         Debug.WriteLine("[CommandBar] OnApplyTemplate - END");
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -251,14 +246,15 @@ public class CommandBar : ContentControl
         if (change.Property == IsOpenProperty)
         {
             bool newValue = change.GetNewValue<bool>();
-            Debug.WriteLine($"[CommandBar] OnPropertyChanged - IsOpen changed from {change.GetOldValue<bool>()} to {newValue}");
+            Debug.WriteLine(
+                $"[CommandBar] OnPropertyChanged - IsOpen changed from {change.GetOldValue<bool>()} to {newValue}");
             OnIsOpenChanged(newValue);
         }
         else if (change.Property == DefaultLabelPositionProperty)
         {
             CommandBarDefaultLabelPosition pos = change.GetNewValue<CommandBarDefaultLabelPosition>();
-            PseudoClasses.Set(PC_LabelBottom,    pos == CommandBarDefaultLabelPosition.Bottom);
-            PseudoClasses.Set(PC_LabelRight,     pos == CommandBarDefaultLabelPosition.Right);
+            PseudoClasses.Set(PC_LabelBottom, pos == CommandBarDefaultLabelPosition.Bottom);
+            PseudoClasses.Set(PC_LabelRight, pos == CommandBarDefaultLabelPosition.Right);
             PseudoClasses.Set(PC_LabelCollapsed, pos == CommandBarDefaultLabelPosition.Collapsed);
             ApplyLabelPositionToItems(pos);
         }
@@ -267,7 +263,7 @@ public class CommandBar : ContentControl
             CommandBarClosedDisplayMode mode = change.GetNewValue<CommandBarClosedDisplayMode>();
             PseudoClasses.Set(PC_Compact, mode == CommandBarClosedDisplayMode.Compact);
             PseudoClasses.Set(PC_Minimal, mode == CommandBarClosedDisplayMode.Minimal);
-            PseudoClasses.Set(PC_Hidden,  mode == CommandBarClosedDisplayMode.Hidden);
+            PseudoClasses.Set(PC_Hidden, mode == CommandBarClosedDisplayMode.Hidden);
         }
         else if (change.Property == ItemsAlignmentProperty)
         {
@@ -276,8 +272,7 @@ public class CommandBar : ContentControl
         }
     }
 
-    // ── Measure — dynamic overflow ────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override Size MeasureOverride(Size availableSize)
     {
         if (!IsDynamicOverflowEnabled || _primaryItems is null || _moreButton is null)
@@ -293,8 +288,8 @@ public class CommandBar : ContentControl
         }
 
         double contentWidth = _contentHost?.DesiredSize.Width ?? 0;
-        double moreWidth    = _moreButton.DesiredSize.Width;
-        double available    = availableSize.Width - contentWidth - moreWidth - 5;
+        double moreWidth = _moreButton.DesiredSize.Width;
+        double available = availableSize.Width - contentWidth - moreWidth - 5;
 
         double primaryWidth = _primaryItemsHost?.DesiredSize.Width ?? 0;
 
@@ -318,7 +313,7 @@ public class CommandBar : ContentControl
                     if (item is CommandBarSeparator sep) sep.IsVisible = true;
                 }
 
-                tracked          += groupWidth;
+                tracked += groupWidth;
                 _minRecoverWidth += groupWidth;
 
                 if (tracked >= available) break;
@@ -361,23 +356,36 @@ public class CommandBar : ContentControl
         return base.MeasureOverride(availableSize);
     }
 
-    // ── Open / close ──────────────────────────────────────────────────────────
-
-    protected virtual void OnOpening() 
+    /// <summary>
+    /// Triggers the command bar open event.
+    /// </summary>
+    protected virtual void OnOpening()
     {
         Debug.WriteLine("[CommandBar] OnOpening");
         Opening?.Invoke(this, EventArgs.Empty);
     }
-    protected virtual void OnOpened() 
+
+    /// <summary>
+    /// Raises an event when the command bar is already open.
+    /// </summary>
+    protected virtual void OnOpened()
     {
         Debug.WriteLine("[CommandBar] OnOpened");
         Opened?.Invoke(this, EventArgs.Empty);
     }
-    protected virtual void OnClosing() 
+
+    /// <summary>
+    /// Triggers the command bar close event.
+    /// </summary>
+    protected virtual void OnClosing()
     {
         Debug.WriteLine("[CommandBar] OnClosing");
         Closing?.Invoke(this, EventArgs.Empty);
     }
+
+    /// <summary>
+    /// Raises an event when the command bar is already closed.
+    /// </summary>
     protected virtual void OnClosed()
     {
         Debug.WriteLine("[CommandBar] OnClosed");
@@ -416,7 +424,8 @@ public class CommandBar : ContentControl
         // will handle preserving the state across template reapplication.
         // This prevents the state from being reset when the popup closes due to
         // control unloading or template reapplication.
-        Debug.WriteLine("[CommandBar] OnOverflowPopupClosed - Skipping IsOpen=false (relying on save/restore in OnApplyTemplate)");
+        Debug.WriteLine(
+            "[CommandBar] OnOverflowPopupClosed - Skipping IsOpen=false (relying on save/restore in OnApplyTemplate)");
     }
 
     // ── Collection change handlers ────────────────────────────────────────────
@@ -438,13 +447,15 @@ public class CommandBar : ContentControl
         {
             case NotifyCollectionChangedAction.Add:
                 foreach (ICommandBarElement? item in e.NewItems!.Cast<ICommandBarElement>())
-                    if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow++;
+                    if (item.DynamicOverflowOrder != 0)
+                        _hasOrderedOverflow++;
                 _primaryItems.InsertRange(e.NewStartingIndex, e.NewItems!.Cast<ICommandBarElement>());
                 break;
 
             case NotifyCollectionChangedAction.Remove:
                 foreach (ICommandBarElement? item in e.OldItems!.Cast<ICommandBarElement>())
-                    if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow--;
+                    if (item.DynamicOverflowOrder != 0)
+                        _hasOrderedOverflow--;
                 _primaryItems.RemoveAll(e.OldItems!.Cast<ICommandBarElement>());
                 break;
 
@@ -455,11 +466,13 @@ public class CommandBar : ContentControl
 
             case NotifyCollectionChangedAction.Replace:
                 foreach (ICommandBarElement? item in e.OldItems!.Cast<ICommandBarElement>())
-                    if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow--;
+                    if (item.DynamicOverflowOrder != 0)
+                        _hasOrderedOverflow--;
                 _primaryItems.RemoveRange(e.OldStartingIndex, e.OldItems!.Count);
                 _primaryItems.InsertRange(e.NewStartingIndex, e.NewItems!.Cast<ICommandBarElement>());
                 foreach (ICommandBarElement? item in e.NewItems!.Cast<ICommandBarElement>())
-                    if (item.DynamicOverflowOrder != 0) _hasOrderedOverflow++;
+                    if (item.DynamicOverflowOrder != 0)
+                        _hasOrderedOverflow++;
                 break;
 
             case NotifyCollectionChangedAction.Move:
@@ -543,7 +556,7 @@ public class CommandBar : ContentControl
         if (_secondaryCommands.Count > 0 || IsDynamicOverflowEnabled)
         {
             _overflowSeparator = new CommandBarSeparator { IsVisible = false };
-            _overflowItems     = new AvaloniaList<ICommandBarElement> { _overflowSeparator };
+            _overflowItems = [_overflowSeparator];
             _overflowItems.AddRange(_secondaryCommands);
 
             if (_overflowItemsHost is not null)
@@ -600,27 +613,21 @@ public class CommandBar : ContentControl
         if (_hasOrderedOverflow > 0)
         {
             int nextOrder = int.MaxValue;
-            bool found    = false;
+            bool found = false;
 
             for (int i = _primaryItems.Count - 1; i >= 0; i--)
             {
                 int order = _primaryItems[i].DynamicOverflowOrder;
                 if (order == 0) continue;
-                found    = true;
+                found = true;
                 nextOrder = Math.Min(nextOrder, order);
             }
 
             if (found)
-            {
-                List<ICommandBarElement> group = new();
-                for (int i = 0; i < _primaryItems.Count; i++)
-                    if (_primaryItems[i].DynamicOverflowOrder == nextOrder)
-                        group.Add(_primaryItems[i]);
-                return group;
-            }
+                return _primaryItems.Where(i => i.DynamicOverflowOrder == nextOrder).ToList();
         }
 
-        return new[] { _primaryItems[_primaryItems.Count - 1] };
+        return [_primaryItems[^1]];
     }
 
     private IList<ICommandBarElement>? GetReturnToPrimaryItems()
@@ -629,7 +636,7 @@ public class CommandBar : ContentControl
 
         ICommandBarElement last = _overflowItems[_numInOverflow - 1];
         if (last.DynamicOverflowOrder == 0)
-            return new[] { last };
+            return [last];
 
         int group = last.DynamicOverflowOrder;
         int count = 1;
@@ -658,7 +665,7 @@ public class CommandBar : ContentControl
         CommandBarOverflowButtonVisibility vis = OverflowButtonVisibility;
         if (vis == CommandBarOverflowButtonVisibility.Auto)
         {
-            bool hasDynamic  = IsDynamicOverflowEnabled && _numInOverflow > 0;
+            bool hasDynamic = IsDynamicOverflowEnabled && _numInOverflow > 0;
             bool hasSecondary = _secondaryCommands.Count > 0;
             _moreButton.IsVisible = hasDynamic || hasSecondary;
         }
@@ -672,7 +679,7 @@ public class CommandBar : ContentControl
 
     private void UpdateCommandStatePseudoClasses()
     {
-        PseudoClasses.Set(PC_PrimaryOnly,   _primaryCommands.Count > 0 && _secondaryCommands.Count == 0);
+        PseudoClasses.Set(PC_PrimaryOnly, _primaryCommands.Count > 0 && _secondaryCommands.Count == 0);
         PseudoClasses.Set(PC_SecondaryOnly, _primaryCommands.Count == 0 && _secondaryCommands.Count > 0);
     }
 
@@ -687,8 +694,8 @@ public class CommandBar : ContentControl
     {
         switch (item)
         {
-            case CommandBarButton btn:    btn.ApplyLabelPosition(pos);    break;
-            case CommandBarToggleButton tb: tb.ApplyLabelPosition(pos);   break;
+            case CommandBarButton btn: btn.ApplyLabelPosition(pos); break;
+            case CommandBarToggleButton tb: tb.ApplyLabelPosition(pos); break;
         }
     }
 
@@ -696,7 +703,7 @@ public class CommandBar : ContentControl
     {
         switch (item)
         {
-            case CommandBarButton btn:    btn.ApplyLabelPosition(CommandBarDefaultLabelPosition.Bottom); break;
+            case CommandBarButton btn: btn.ApplyLabelPosition(CommandBarDefaultLabelPosition.Bottom); break;
             case CommandBarToggleButton tb: tb.ApplyLabelPosition(CommandBarDefaultLabelPosition.Bottom); break;
         }
     }
@@ -708,8 +715,8 @@ public class CommandBar : ContentControl
         {
             switch (item)
             {
-                case CommandBarButton btn:    btn.ApplyOpenState(open);    break;
-                case CommandBarToggleButton tb: tb.ApplyOpenState(open);   break;
+                case CommandBarButton btn: btn.ApplyOpenState(open); break;
+                case CommandBarToggleButton tb: tb.ApplyOpenState(open); break;
             }
         }
     }

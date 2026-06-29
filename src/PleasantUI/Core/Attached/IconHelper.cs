@@ -7,17 +7,29 @@ namespace PleasantUI.Core.Attached;
 /// <summary>
 /// A container class for attached properties for working with icons
 /// </summary>
-public class IconHelper : AvaloniaObject
+public abstract class IconHelper : AvaloniaObject
 {
+    /// <summary>
+    /// Defines the Width attached property.
+    /// </summary>
     public static readonly AttachedProperty<double> WidthProperty =
         AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Width", defaultBindingMode: BindingMode.TwoWay, inherits: true);
     
+    /// <summary>
+    /// Defines the Height attached property.
+    /// </summary>
     public static readonly AttachedProperty<double> HeightProperty =
         AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Height", defaultBindingMode: BindingMode.TwoWay, inherits: true);
     
+    /// <summary>
+    /// Defines the FontSize attached property.
+    /// </summary>
     public static readonly AttachedProperty<double> FontSizeProperty =
         AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("FontSize", 1, defaultBindingMode: BindingMode.TwoWay, inherits: true);
     
+    /// <summary>
+    /// Defines the IconSize attached property.
+    /// </summary>
     public static readonly AttachedProperty<double> IconSizeProperty =
         AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("IconSize", 16, defaultBindingMode: BindingMode.TwoWay, inherits: true);
     

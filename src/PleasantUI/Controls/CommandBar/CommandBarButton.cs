@@ -15,14 +15,14 @@ public class CommandBarButton : Button, ICommandBarElement
 {
     // ── Pseudo-class constants ────────────────────────────────────────────────
 
-    internal const string PC_Icon           = ":icon";
-    internal const string PC_Label          = ":label";
-    internal const string PC_Compact        = ":compact";
-    internal const string PC_Overflow       = ":overflow";
-    internal const string PC_LabelRight     = ":labelRight";
-    internal const string PC_LabelBottom    = ":labelBottom";
+    internal const string PC_Icon = ":icon";
+    internal const string PC_Label = ":label";
+    internal const string PC_Compact = ":compact";
+    internal const string PC_Overflow = ":overflow";
+    internal const string PC_LabelRight = ":labelRight";
+    internal const string PC_LabelBottom = ":labelBottom";
     internal const string PC_LabelCollapsed = ":labelCollapsed";
-    internal const string PC_Open           = ":open";
+    internal const string PC_Open = ":open";
 
     // ── Styled properties ─────────────────────────────────────────────────────
 
@@ -51,8 +51,6 @@ public class CommandBarButton : Button, ICommandBarElement
     public static readonly DirectProperty<CommandBarButton, int> DynamicOverflowOrderProperty =
         AvaloniaProperty.RegisterDirect<CommandBarButton, int>(nameof(DynamicOverflowOrder),
             o => o.DynamicOverflowOrder, (o, v) => o.DynamicOverflowOrder = v);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon geometry displayed on the button.</summary>
     public object? Icon
@@ -100,46 +98,48 @@ public class CommandBarButton : Button, ICommandBarElement
         set => SetAndRaise(DynamicOverflowOrderProperty, ref field, value);
     }
 
-    // ── Private fields ────────────────────────────────────────────────────────
-
-    // ── Overrides ─────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(CommandBarButton);
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == IconProperty)
         {
-            Debug.WriteLine($"[CommandBarButton] OnPropertyChanged - Icon changed, hasIcon={change.NewValue is not null}");
+            Debug.WriteLine(
+                $"[CommandBarButton] OnPropertyChanged - Icon changed, hasIcon={change.NewValue is not null}");
             PseudoClasses.Set(PC_Icon, change.NewValue is not null);
         }
         else if (change.Property == LabelProperty)
         {
-            Debug.WriteLine($"[CommandBarButton] OnPropertyChanged - Label changed, hasLabel={change.NewValue is not null}");
+            Debug.WriteLine(
+                $"[CommandBarButton] OnPropertyChanged - Label changed, hasLabel={change.NewValue is not null}");
             PseudoClasses.Set(PC_Label, change.NewValue is not null);
         }
         else if (change.Property == IsCompactProperty)
         {
-            Debug.WriteLine($"[CommandBarButton] OnPropertyChanged - IsCompact changed to {change.GetNewValue<bool>()}");
+            Debug.WriteLine(
+                $"[CommandBarButton] OnPropertyChanged - IsCompact changed to {change.GetNewValue<bool>()}");
             PseudoClasses.Set(PC_Compact, change.GetNewValue<bool>());
         }
     }
 
+    /// <inheritdoc />
     protected override void OnClick()
     {
         Debug.WriteLine($"[CommandBarButton] OnClick - Label={Label}, IsInOverflow={IsInOverflow}");
         base.OnClick();
 
         // When clicked from the overflow menu, close the CommandBar.
-        if (IsInOverflow)
-        {
-            Debug.WriteLine("[CommandBarButton] OnClick - Closing parent CommandBar");
-            CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
-            if (bar is not null)
-                bar.IsOpen = false;
-        }
+        if (!IsInOverflow)
+            return;
+        
+        Debug.WriteLine("[CommandBarButton] OnClick - Closing parent CommandBar");
+        CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
+        if (bar is not null)
+            bar.IsOpen = false;
     }
 
     /// <summary>
@@ -148,8 +148,8 @@ public class CommandBarButton : Button, ICommandBarElement
     internal void ApplyLabelPosition(CommandBarDefaultLabelPosition pos)
     {
         Debug.WriteLine($"[CommandBarButton] ApplyLabelPosition - pos={pos}");
-        PseudoClasses.Set(PC_LabelBottom,    pos == CommandBarDefaultLabelPosition.Bottom);
-        PseudoClasses.Set(PC_LabelRight,     pos == CommandBarDefaultLabelPosition.Right);
+        PseudoClasses.Set(PC_LabelBottom, pos == CommandBarDefaultLabelPosition.Bottom);
+        PseudoClasses.Set(PC_LabelRight, pos == CommandBarDefaultLabelPosition.Right);
         PseudoClasses.Set(PC_LabelCollapsed, pos == CommandBarDefaultLabelPosition.Collapsed);
     }
 

@@ -10,8 +10,10 @@ public enum WizardStepCompletionState
 {
     /// <summary>Green checkmark — step completed successfully.</summary>
     Success,
+
     /// <summary>Yellow/orange warning icon — step completed with warnings.</summary>
     Warning,
+
     /// <summary>Red error icon — step completed with errors.</summary>
     Error
 }

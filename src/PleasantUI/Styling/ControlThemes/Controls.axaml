@@ -39,7 +39,6 @@
                 <MergeResourceInclude Source="BasicControls/NativeMenuBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
-                <MergeResourceInclude Source="BasicControls/OverlayPopupHost.axaml" />
                 <MergeResourceInclude Source="BasicControls/PathIcon.axaml" />
                 <MergeResourceInclude Source="BasicControls/PopupRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
@@ -107,7 +106,6 @@
                 <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantDrawer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PopConfirm.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantDockingStyles.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SelectionList.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -3,33 +3,17 @@ using Avalonia.Controls;
 
 namespace PleasantUI.Controls;
 
-/// <summary>
-/// Custom panel used inside <see cref="BreadcrumbBar"/>.
-/// Measures all children, then arranges as many as fit from the right side.
-/// When items overflow the available width the ellipsis item (index 0) is shown
-/// and items that don't fit are hidden behind it.
-/// </summary>
 internal sealed class BreadcrumbBarPanel : Panel
 {
-    // ── State queried by BreadcrumbBar after each layout pass ─────────────────
-
-    /// <summary>Whether the ellipsis item is currently visible.</summary>
     public bool EllipsisIsRendered { get; private set; }
 
-    /// <summary>
-    /// Index (within the panel's Children collection) of the first item rendered
-    /// after the ellipsis. Meaningful only when <see cref="EllipsisIsRendered"/> is true.
-    /// </summary>
     public int FirstRenderedItemIndexAfterEllipsis { get; private set; }
 
-    /// <summary>Number of visible (non-ellipsis) items after the last arrange pass.</summary>
     public int VisibleItemsCount { get; private set; }
-
-    // ── Layout ────────────────────────────────────────────────────────────────
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        double accumWidth  = 0;
+        double accumWidth = 0;
         double accumHeight = 0;
 
         int count = Children.Count;
@@ -41,8 +25,8 @@ internal sealed class BreadcrumbBarPanel : Panel
             // Index 0 is always the ellipsis item — don't add its width to the total.
             if (i != 0)
             {
-                accumWidth  += child.DesiredSize.Width;
-                accumHeight  = Math.Max(accumHeight, child.DesiredSize.Height);
+                accumWidth += child.DesiredSize.Width;
+                accumHeight = Math.Max(accumHeight, child.DesiredSize.Height);
             }
         }
 
@@ -67,7 +51,7 @@ internal sealed class BreadcrumbBarPanel : Panel
         }
 
         double maxHeight = GetMaxHeight(firstToRender);
-        double accumX    = 0;
+        double accumX = 0;
 
         // Ellipsis item (index 0)
         if (count > 0)
@@ -79,9 +63,7 @@ internal sealed class BreadcrumbBarPanel : Panel
                 accumX += ellipsis.DesiredSize.Width;
             }
             else
-            {
                 ellipsis.Arrange(default);
-            }
         }
 
         // Regular items (index 1+)
@@ -89,9 +71,7 @@ internal sealed class BreadcrumbBarPanel : Panel
         {
             Control child = Children[i];
             if (i < firstToRender)
-            {
                 child.Arrange(default);
-            }
             else
             {
                 child.Arrange(new Rect(accumX, 0, child.DesiredSize.Width, maxHeight));
@@ -103,12 +83,6 @@ internal sealed class BreadcrumbBarPanel : Panel
         return finalSize;
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Walks backwards from the last item and returns the index of the first item
-    /// that still fits alongside the ellipsis button.
-    /// </summary>
     private int GetFirstItemIndexToArrange(double availableWidth)
     {
         int count = Children.Count;

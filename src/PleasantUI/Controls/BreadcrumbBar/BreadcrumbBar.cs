@@ -19,13 +19,14 @@ public class BreadcrumbBar : ItemsControl
 {
     private const string PART_Panel = "PART_Panel";
 
-    // ── Styled properties ─────────────────────────────────────────────────────
+    private BreadcrumbBarPanel? _panel;
+    private BreadcrumbBarItem? _ellipsisItem;
+    private BreadcrumbBarItem? _lastItem;
+    private int _focusedIndex;
 
     /// <summary>Defines the <see cref="IsLastItemClickEnabled"/> property.</summary>
     public static readonly StyledProperty<bool> IsLastItemClickEnabledProperty =
         AvaloniaProperty.Register<BreadcrumbBar, bool>(nameof(IsLastItemClickEnabled));
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>
     /// Gets or sets whether the last (current) item can be clicked.
@@ -37,19 +38,8 @@ public class BreadcrumbBar : ItemsControl
         set => SetValue(IsLastItemClickEnabledProperty, value);
     }
 
-    // ── Events ────────────────────────────────────────────────────────────────
-
     /// <summary>Raised when the user clicks a breadcrumb item.</summary>
     public event EventHandler<BreadcrumbBarItemClickedEventArgs>? ItemClicked;
-
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private BreadcrumbBarPanel? _panel;
-    private BreadcrumbBarItem?  _ellipsisItem;
-    private BreadcrumbBarItem?  _lastItem;
-    private int                 _focusedIndex;
-
-    // ── Static constructor ────────────────────────────────────────────────────
 
     static BreadcrumbBar()
     {
@@ -58,24 +48,26 @@ public class BreadcrumbBar : ItemsControl
             new FuncTemplate<Panel?>(() => new BreadcrumbBarPanel()));
     }
 
-    // ── Constructor ───────────────────────────────────────────────────────────
-
+    /// <summary>
+    /// <see cref="BreadcrumbBar"/> control class constructor
+    /// </summary>
     public BreadcrumbBar()
     {
         AddHandler(KeyDownEvent, OnPreviewKeyDown, RoutingStrategies.Tunnel);
     }
 
-    // ── ItemsControl overrides ────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
     {
         recycleKey = null;
         return item is not BreadcrumbBarItem;
     }
 
+    /// <inheritdoc />
     protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
         => new BreadcrumbBarItem();
 
+    /// <inheritdoc />
     protected override void PrepareContainerForItemOverride(Control container, object? item, int index)
     {
         base.PrepareContainerForItemOverride(container, item, index);
@@ -96,6 +88,7 @@ public class BreadcrumbBar : ItemsControl
             bcbItem.ResetVisualProperties();
     }
 
+    /// <inheritdoc />
     protected override void ClearContainerForItemOverride(Control container)
     {
         if (container is BreadcrumbBarItem bcbItem)
@@ -103,6 +96,7 @@ public class BreadcrumbBar : ItemsControl
         base.ClearContainerForItemOverride(container);
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -110,6 +104,7 @@ public class BreadcrumbBar : ItemsControl
         EnsureEllipsisItem();
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -129,9 +124,6 @@ public class BreadcrumbBar : ItemsControl
             ForceUpdateLastElement();
         }
     }
-
-    private void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        => ForceUpdateLastElement();
 
     // ── Internal API used by BreadcrumbBarItem / BreadcrumbBarPanel ───────────
 
@@ -168,15 +160,16 @@ public class BreadcrumbBar : ItemsControl
         Avalonia.Controls.Controls panelChildren = _panel.Children;
         for (int acc = 1, real = firstIndex; acc <= visibleCount; acc++, real++)
         {
-            if (real < panelChildren.Count && panelChildren[real] is Control c)
+            if (real < panelChildren.Count && panelChildren[real] is { } c)
             {
                 c.SetValue(AutomationProperties.PositionInSetProperty, acc);
                 c.SetValue(AutomationProperties.SizeOfSetProperty, visibleCount);
             }
         }
     }
-
-    // ── Ellipsis item management ──────────────────────────────────────────────
+    
+    private void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        => ForceUpdateLastElement();
 
     /// <summary>
     /// Ensures the ellipsis sentinel item exists at index 0 of the panel.
@@ -202,8 +195,6 @@ public class BreadcrumbBar : ItemsControl
         _panel.Children.Insert(0, _ellipsisItem);
     }
 
-    // ── Last-item tracking ────────────────────────────────────────────────────
-
     private void ForceUpdateLastElement()
     {
         if (ItemCount == 0) { ResetLastItem(); return; }
@@ -227,8 +218,6 @@ public class BreadcrumbBar : ItemsControl
         _lastItem = null;
     }
 
-    // ── Hidden elements ───────────────────────────────────────────────────────
-
     private IEnumerable<object?> GetHiddenElements(int firstShownPanelIndex)
     {
         // firstShownPanelIndex is a panel index (0 = ellipsis, 1+ = data items).
@@ -238,8 +227,6 @@ public class BreadcrumbBar : ItemsControl
             yield return Items[i];
     }
 
-    // ── Keyboard navigation ───────────────────────────────────────────────────
-
     private void OnPreviewKeyDown(object? sender, KeyEventArgs e)
     {
         bool ltr      = FlowDirection == Avalonia.Media.FlowDirection.LeftToRight;
@@ -248,7 +235,7 @@ public class BreadcrumbBar : ItemsControl
 
         if ((ltr && keyRight) || (!ltr && keyLeft))
         {
-            if (MoveFocusNext()) { e.Handled = true; return; }
+            if (MoveFocusNext()) { e.Handled = true; }
         }
         else if ((ltr && keyLeft) || (!ltr && keyRight))
         {
@@ -277,7 +264,7 @@ public class BreadcrumbBar : ItemsControl
     {
         if (delta == 0 || _panel is null) return false;
 
-        IInputElement? focused = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
+        IInputElement? focused = TopLevel.GetTopLevel(this)?.FocusManager.GetFocusedElement();
         if (focused is not Control focusedControl) return false;
 
         int current = _panel.Children.IndexOf(focusedControl);
