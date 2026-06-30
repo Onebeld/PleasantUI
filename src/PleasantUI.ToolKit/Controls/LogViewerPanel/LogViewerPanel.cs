@@ -8,6 +8,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using PleasantUI.Controls;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -22,7 +23,7 @@ namespace PleasantUI.ToolKit.Controls;
 [TemplatePart(PART_CountBadge, typeof(TextBlock))]
 [TemplatePart(PART_LogList, typeof(ListBox))]
 [TemplatePart(PART_LevelFilter, typeof(ComboBox))]
-[TemplatePart(PART_SourceFilter, typeof(ComboBox))]
+[TemplatePart(PART_SourceFilter, typeof(SearchableComboBox))]
 [TemplatePart(PART_DebugToggle, typeof(ToggleButton))]
 [TemplatePart(PART_AutoScrollToggle, typeof(ToggleButton))]
 [PseudoClasses(PC_Open, PC_HasEntries, PC_HasFilter)]

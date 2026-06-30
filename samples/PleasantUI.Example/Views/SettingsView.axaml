@@ -47,15 +47,15 @@
             <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.FormatFont}"
                                 Header="{Localize Font}">
                 <OptionsDisplayItem.ActionButton>
-                    <ComboBox MinWidth="150"
+                    <SearchableComboBox MinWidth="150"
                               ItemsSource="{Binding Fonts}"
                               SelectedItem="{Binding Font, Source={x:Static PleasantSettings.Current}}">
-                        <ComboBox.ItemTemplate>
+                        <SearchableComboBox.ItemTemplate>
                             <DataTemplate DataType="FontFamily">
                                 <TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
                             </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                        </SearchableComboBox.ItemTemplate>
+                    </SearchableComboBox>
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
