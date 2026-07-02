@@ -153,7 +153,7 @@
                                 </ListBox>
 
                                 <TextBlock Grid.Row="0"
-                                           Text="{Localize AddYourNewColor, Default='Add your new color!'}"
+                                           Text="{Localize ToolKit/ThemeEditor/AddYourNewColor, Default='Add your new color!'}"
                                            IsVisible="{CompiledBinding !ColorPalettes.Count, Source={x:Static PleasantSettings.Current}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
@@ -162,7 +162,7 @@
                                 <Button x:Name="AddColorButton"
                                         Grid.Row="1"
                                         Margin="50 0"
-                                        ToolTip.Tip="{Localize AddColor, Default='Add color'}">
+                                        ToolTip.Tip="{Localize ToolKit/ThemeEditor/AddColor, Default='Add color'}">
                                     <PleasantIcon Icon="{DynamicResource AddRegular}" Width="16" Height="16" />
                                 </Button>
                             </Grid>

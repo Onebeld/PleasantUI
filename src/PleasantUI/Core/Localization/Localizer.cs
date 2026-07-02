@@ -322,6 +322,19 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
 
         return string.Empty;
     }
+    
+    internal static string? UnsanitizeIdentifier(string? sanitized)
+    {
+        if (string.IsNullOrEmpty(sanitized))
+            return sanitized;
+
+        string clean = sanitized.StartsWith('_') && 
+                       (sanitized.Length == 1 || !char.IsLetter(sanitized[1])) 
+            ? sanitized[1..] 
+            : sanitized;
+
+        return clean.Replace("__", "/");
+    }
 
     /// <summary>
     /// Returns an observable for the specified localization key.

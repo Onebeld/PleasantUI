@@ -1,0 +1,10 @@
+﻿<Project>
+    <ItemGroup>
+        <AdditionalFiles Include="@(EmbeddedResource)" Condition="'%(Extension)' == '.resx'" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="Namespace" />
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="RelativeDir" />
+    </ItemGroup>
+</Project>

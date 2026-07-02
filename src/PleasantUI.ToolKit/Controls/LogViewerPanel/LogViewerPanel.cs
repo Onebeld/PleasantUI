@@ -301,7 +301,7 @@ public class LogViewerPanel : TemplatedControl
     private TextBlock? _countBadge;
     private ListBox?      _logList;
     private ComboBox?     _levelFilter;
-    private ComboBox?     _sourceFilter;
+    private SearchableComboBox?     _sourceFilter;
     private ToggleButton? _debugToggle;
     private ToggleButton? _autoScrollToggle;
 
@@ -327,7 +327,7 @@ public class LogViewerPanel : TemplatedControl
         _logList         = e.NameScope.Find<ListBox>(PART_LogList);
         _countBadge     = e.NameScope.Find<TextBlock>(PART_CountBadge);
         _levelFilter     = e.NameScope.Find<ComboBox>(PART_LevelFilter);
-        _sourceFilter    = e.NameScope.Find<ComboBox>(PART_SourceFilter);
+        _sourceFilter    = e.NameScope.Find<SearchableComboBox>(PART_SourceFilter);
         _debugToggle     = e.NameScope.Find<ToggleButton>(PART_DebugToggle);
         _autoScrollToggle = e.NameScope.Find<ToggleButton>(PART_AutoScrollToggle);
 

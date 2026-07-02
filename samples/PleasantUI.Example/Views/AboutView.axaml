@@ -8,7 +8,7 @@
     <ScrollViewer>
         <StackPanel Margin="25" Spacing="16" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
             <!-- Header -->
-            <TextBlock Text="{Localize AboutTitle}"
+            <TextBlock Text="{Localize {x:Static LocKey.AboutTitle}}"
                        Margin="0 0 0 10"
                        Theme="{DynamicResource TitleTextBlockTheme}" />
 
@@ -29,7 +29,7 @@
                         <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 8 0 0">
                             <TextBlock Foreground="{DynamicResource TextFillColor3}"
                                        FontSize="13"
-                                       Text="{Localize About/License}" />
+                                       Text="{Localize {x:Static LocKey.About__License}}" />
                         </StackPanel>
                     </StackPanel>
 
@@ -102,8 +102,8 @@
                             <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Blur}" />
                             
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Classes="Title" Text="{Localize About/FeatureFluentDesign}" />
-                                <TextBlock Classes="Description" Text="{Localize About/FeatureFluentDesignDesc}" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureFluentDesign}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureFluentDesignDesc}}" />
                             </StackPanel>
                         </Grid>
 
@@ -111,8 +111,8 @@
                             <PleasantIcon Icon="{x:Static icons:MaterialIconKind.ViewDashboardEditOutline}" />
                             
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Classes="Title" Text="{Localize About/FeatureCustomControls}" />
-                                <TextBlock Classes="Description" Text="{Localize About/FeatureCustomControlsDesc}" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureCustomControls}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureCustomControlsDesc}}" />
                             </StackPanel>
                         </Grid>
 
@@ -120,8 +120,8 @@
                             <PleasantIcon Icon="{x:Static icons:MaterialIconKind.BrushOutline}" />
                             
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Classes="Title" Text="{Localize About/FeatureThemes}" />
-                                <TextBlock Classes="Description" Text="{Localize About/FeatureThemesDesc}" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureThemes}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureThemesDesc}}" />
                             </StackPanel>
                         </Grid>
 
@@ -129,8 +129,8 @@
                             <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Translate}" />
                             
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Classes="Title" Text="{Localize About/FeatureLocalization}" />
-                                <TextBlock Classes="Description" Text="{Localize About/FeatureLocalizationDesc}" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureLocalization}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureLocalizationDesc}}" />
                             </StackPanel>
                         </Grid>
 

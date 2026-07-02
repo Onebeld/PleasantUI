@@ -115,51 +115,7 @@ public class LocalizeExtension : MarkupExtension
     /// <returns>The localized string.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        if (Key is string key)
-        {
-            if (!string.IsNullOrWhiteSpace(Context))
-                key = $"{Context}/{Key}";
-
-            string resolvedKey = key;
-            bool menuBar = MenuBar;
-            string? defaultVal = Default;
-
-            // Build a resolver that applies menu bar prefix and default fallback
-            string Resolve()
-            {
-                string result;
-                if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
-                    result = menuBar ? "_" + expression : expression;
-                else if (!string.IsNullOrWhiteSpace(defaultVal))
-                    result = menuBar ? "_" + defaultVal : defaultVal;
-                else
-                    result = expression;
-                
-                System.Diagnostics.Debug.WriteLine($"[LocalizeExtension] Resolve key={resolvedKey} lang={Localizer.Instance.CurrentLanguage} result={result}");
-                return result;
-            }
-
-            // LocalizeKeyObservable fires PropertyChanged on every language change.
-            // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources.
-            LocalizeKeyObservable observable = new(Resolve);
-            CompiledBinding binding = CompiledBinding.Create(
-                (LocalizeKeyObservable item) => item.Value,
-                observable,
-                mode: BindingMode.OneWay,
-                fallbackValue: resolvedKey,
-                targetNullValue: resolvedKey);
-
-            if (_bindings is null || _bindings.Length <= 0)
-                return binding;
-
-            BindingBase[] bindingBases = GetBindings(binding);
-            return new MultiBinding
-            {
-                Bindings  = bindingBases,
-                Converter = TranslateConverter.Instance
-            };
-        }
-        else if (Key is BindingBase binding)
+        if (Key is BindingBase bindingBase)
         {
             // Add a language-change trigger so the MultiBinding re-evaluates on every
             // language switch. Without this the converter only fires when the key binding
@@ -170,15 +126,59 @@ public class LocalizeExtension : MarkupExtension
                 langTrigger,
                 mode: BindingMode.OneWay);
 
-            BindingBase[] bindingBases = GetBindingsWithLang(binding, langBinding);
             return new MultiBinding
             {
-                Bindings  = bindingBases,
+                Bindings  = GetBindingsWithLang(bindingBase, langBinding),
                 Converter = new BindingTranslateConverter(Context)
             };
         }
 
-        throw new NotSupportedException("Key must be a string or BindingBase");
+        string key;
+
+        if (!string.IsNullOrWhiteSpace(Context))
+            key = $"{Context}/{Key}";
+        else
+            key = Localizer.UnsanitizeIdentifier(Key.ToString()) ?? Key.ToString() ?? string.Empty;
+
+        string resolvedKey = key;
+        bool menuBar = MenuBar;
+        string? defaultVal = Default;
+
+        // Build a resolver that applies menu bar prefix and default fallback
+        string Resolve()
+        {
+            string result;
+            if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
+                result = menuBar ? "_" + expression : expression;
+            else if (!string.IsNullOrWhiteSpace(defaultVal))
+                result = menuBar ? "_" + defaultVal : defaultVal;
+            else
+                result = expression;
+
+            System.Diagnostics.Debug.WriteLine(
+                $"[LocalizeExtension] Resolve key={resolvedKey} lang={Localizer.Instance.CurrentLanguage} result={result}");
+            return result;
+        }
+
+        // LocalizeKeyObservable fires PropertyChanged on every language change.
+        // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources.
+        LocalizeKeyObservable observable = new(Resolve);
+        CompiledBinding binding = CompiledBinding.Create(
+            (LocalizeKeyObservable item) => item.Value,
+            observable,
+            mode: BindingMode.OneWay,
+            fallbackValue: resolvedKey,
+            targetNullValue: resolvedKey);
+
+        if (_bindings is null || _bindings.Length <= 0)
+            return binding;
+
+        BindingBase[] bindingBases = GetBindings(binding);
+        return new MultiBinding
+        {
+            Bindings = bindingBases,
+            Converter = TranslateConverter.Instance
+        };
     }
 
     private BindingBase[] GetBindings(BindingBase binding)

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.ObjectModel;
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
@@ -26,13 +26,14 @@ public class SearchableComboBox : ItemsControl
     private Popup? _popup;
     private TextBox? _editableTextBox;
 
-    private bool _isUpdatingText;
     private bool _isFiltering;
 
     private object? _selectedItem;
     private int _selectedIndex = -1;
+    
+    private readonly AvaloniaList<object> _filteredItems = [];
 
-    private static readonly FuncTemplate<Panel?> DefaultPanel = new(() => new StackPanel());
+    private static readonly FuncTemplate<Panel?> DefaultPanel = new(() => new VirtualizingStackPanel());
     
     public static readonly DirectProperty<SearchableComboBox, int> SelectedIndexProperty =
         AvaloniaProperty.RegisterDirect<SearchableComboBox, int>(
@@ -50,7 +51,7 @@ public class SearchableComboBox : ItemsControl
             enableDataValidation: true);
 
     public static readonly DirectProperty<SearchableComboBox, object?> SelectionBoxItemProperty =
-        AvaloniaProperty.RegisterDirect<SearchableComboBox, object>(nameof(SelectionBoxItem),
+        AvaloniaProperty.RegisterDirect<SearchableComboBox, object?>(nameof(SelectionBoxItem),
             o => o.SelectionBoxItem);
     
     public static readonly DirectProperty<SearchableComboBox, IEnumerable?> AllItemsProperty =
@@ -58,36 +59,71 @@ public class SearchableComboBox : ItemsControl
             nameof(AllItems), o => o.AllItems, (o, v) => o.AllItems = v);
 
     public static readonly DirectProperty<SearchableComboBox, int> FilteredItemCountProperty =
-        AvaloniaProperty.RegisterDirect<SearchableComboBox, int>(nameof(ItemCount), o => o.ItemCount);
+        AvaloniaProperty.RegisterDirect<SearchableComboBox, int>(nameof(FilteredItemCount), o => o.FilteredItemCount);
 
+    /// <summary>
+    /// Defines the <see cref="IsDropDownOpen"/> property.
+    /// </summary>
     public static readonly StyledProperty<bool> IsDropDownOpenProperty =
         AvaloniaProperty.Register<SearchableComboBox, bool>(nameof(IsDropDownOpen));
 
+    /// <summary>
+    /// Defines the <see cref="MaxDropDownHeight"/> property.
+    /// </summary>
     public static readonly StyledProperty<double> MaxDropDownHeightProperty =
         AvaloniaProperty.Register<SearchableComboBox, double>(nameof(MaxDropDownHeight), 200);
 
+    /// <summary>
+    /// Defines the <see cref="FilterText"/> property.
+    /// </summary>
     public static readonly StyledProperty<string?> FilterTextProperty =
         AvaloniaProperty.Register<SearchableComboBox, string?>(nameof(FilterText), defaultBindingMode: BindingMode.TwoWay);
 
+    /// <summary>
+    /// Defines the <see cref="PlaceholderText"/> property.
+    /// </summary>
     public static readonly StyledProperty<string?> PlaceholderTextProperty =
         AvaloniaProperty.Register<SearchableComboBox, string?>(nameof(PlaceholderText));
+    
+    /// <summary>
+    /// Defines the <see cref="FilterPlaceholderText"/> property.
+    /// </summary>
+    public static readonly StyledProperty<string?> FilterPlaceholderTextProperty =
+        AvaloniaProperty.Register<SearchableComboBox, string?>(nameof(FilterPlaceholderText));
 
+    /// <summary>
+    /// Defines the <see cref="PlaceholderForeground"/> property.
+    /// </summary>
     public static readonly StyledProperty<IBrush?> PlaceholderForegroundProperty =
         AvaloniaProperty.Register<SearchableComboBox, IBrush?>(nameof(PlaceholderForeground));
 
+    /// <summary>
+    /// Defines the <see cref="HorizontalContentAlignment"/> property.
+    /// </summary>
     public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty =
         ContentControl.HorizontalContentAlignmentProperty.AddOwner<SearchableComboBox>();
 
+    /// <summary>
+    /// Defines the <see cref="VerticalContentAlignment"/> property.
+    /// </summary>
     public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
         ContentControl.VerticalContentAlignmentProperty.AddOwner<SearchableComboBox>();
 
+    /// <summary>
+    /// Defines the <see cref="FilterFunction"/> property.
+    /// </summary>
     public static readonly StyledProperty<Func<object?, string?, bool>?> FilterFunctionProperty =
         AvaloniaProperty.Register<SearchableComboBox, Func<object?, string?, bool>?>(nameof(FilterFunction));
 
+    /// <summary>
+    /// Defines the <see cref="SelectionBoxItemTemplate"/> property.
+    /// </summary>
     public static readonly StyledProperty<IDataTemplate?> SelectionBoxItemTemplateProperty =
         AvaloniaProperty.Register<SearchableComboBox, IDataTemplate?>(nameof(SelectionBoxItemTemplate),
             defaultBindingMode: BindingMode.TwoWay,
             coerce: CoerceSelectionBoxItemTemplate);
+    
+    public event EventHandler<SelectionChangedEventArgs>? SelectionChanged;
     
     public event EventHandler? DropDownClosed;
     
@@ -115,6 +151,12 @@ public class SearchableComboBox : ItemsControl
     {
         get => GetValue(PlaceholderTextProperty);
         set => SetValue(PlaceholderTextProperty, value);
+    }
+    
+    public string? FilterPlaceholderText
+    {
+        get => GetValue(FilterPlaceholderTextProperty);
+        set => SetValue(FilterPlaceholderTextProperty, value);
     }
 
     public IBrush? PlaceholderForeground
@@ -167,7 +209,7 @@ public class SearchableComboBox : ItemsControl
             if (Equals(_selectedItem, value))
                 return;
             
-            var oldItem = _selectedItem;
+            object? oldItem = _selectedItem;
             _selectedItem = value;
             RaisePropertyChanged(SelectedItemProperty, oldItem, value);
             UpdateSelectedIndexFromItem();
@@ -207,12 +249,7 @@ public class SearchableComboBox : ItemsControl
     
     private static IDataTemplate? CoerceSelectionBoxItemTemplate(AvaloniaObject obj, IDataTemplate? template)
     {
-        if (template is not null)
-            return template;
-        
-        if (obj is SearchableComboBox comboBox && template is null)
-            return comboBox.ItemTemplate;
-        return template;
+        return template ?? (obj as SearchableComboBox)?.ItemTemplate;
     }
     
     public void Clear()
@@ -220,9 +257,10 @@ public class SearchableComboBox : ItemsControl
         SelectedItem = null;
         SelectedIndex = -1;
         SetCurrentValue(FilterTextProperty, string.Empty);
-        EnsureAllItemsVisible();
+        EnsureAllItems();
     }
     
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         if (_popup != null)
@@ -241,6 +279,7 @@ public class SearchableComboBox : ItemsControl
         }
     }
     
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -250,7 +289,7 @@ public class SearchableComboBox : ItemsControl
             UpdateSelectionBoxItem(SelectedItem);
             TryFocusSelectedItem();
         }
-        else if (change.Property == FilterTextProperty && !_isUpdatingText)
+        else if (change.Property == FilterTextProperty)
         {
             FilterItems();
         }
@@ -262,14 +301,15 @@ public class SearchableComboBox : ItemsControl
         }
     }
 
+    /// <inheritdoc />
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
 
-        if (AllItems == null) 
-            AllItems = ItemsSource ?? Items.Cast<object>().ToList();
+        EnsureAllItems();
     }
     
+    /// <inheritdoc />
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         if (e.Handled) return;
@@ -277,20 +317,13 @@ public class SearchableComboBox : ItemsControl
         if (e.Source is Visual visual && _popup?.IsInsidePopup(visual) == true)
             return;
 
-        if (!IsDropDownOpen)
-        {
-            EnsureAllItemsVisible();
-            SetCurrentValue(FilterTextProperty, string.Empty);
-            SetCurrentValue(IsDropDownOpenProperty, true);
-        }
-        else
-            SetCurrentValue(IsDropDownOpenProperty, false);
+        SetCurrentValue(IsDropDownOpenProperty, !IsDropDownOpen);
 
         e.Handled = true;
-
         base.OnPointerPressed(e);
     }
     
+    /// <inheritdoc />
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         if (e.Handled) return;
@@ -300,7 +333,6 @@ public class SearchableComboBox : ItemsControl
             if (UpdateSelectionFromEventSource(e.Source))
             {
                 SetCurrentValue(IsDropDownOpenProperty, false);
-                
                 e.Handled = true;
             }
         }
@@ -308,6 +340,7 @@ public class SearchableComboBox : ItemsControl
         base.OnPointerReleased(e);
     }
     
+    /// <inheritdoc />
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -321,12 +354,12 @@ public class SearchableComboBox : ItemsControl
         }
 
         if ((e.Key == Key.F4 && !e.KeyModifiers.HasFlag(KeyModifiers.Alt)) ||
-            ((e.Key == Key.Down || e.Key == Key.Up) && e.KeyModifiers.HasFlag(KeyModifiers.Alt)))
+            (e.Key is Key.Down or Key.Up && e.KeyModifiers.HasFlag(KeyModifiers.Alt)))
         {
             SetCurrentValue(IsDropDownOpenProperty, !IsDropDownOpen);
             e.Handled = true;
         }
-        else if (!IsDropDownOpen && (e.Key == Key.Enter || e.Key == Key.Space))
+        else if (!IsDropDownOpen && e.Key is Key.Enter or Key.Space)
         {
             SetCurrentValue(IsDropDownOpenProperty, true);
             e.Handled = true;
@@ -337,19 +370,42 @@ public class SearchableComboBox : ItemsControl
             SetCurrentValue(IsDropDownOpenProperty, false);
             e.Handled = true;
         }
-        else if (IsDropDownOpen && ItemCount > 0 && (e.Key == Key.Down || e.Key == Key.Up))
+        else if (IsDropDownOpen && ItemCount > 0 && e.Key is Key.Down or Key.Up)
         {
-            var direction = e.Key == Key.Down ? 1 : -1;
+            int direction = e.Key == Key.Down ? 1 : -1;
             MoveFocus(direction);
             e.Handled = true;
         }
     }
+    
+    /// <inheritdoc />
+    protected override void PrepareContainerForItemOverride(Control container, object? item, int index)
+    {
+        base.PrepareContainerForItemOverride(container, item, index);
 
+        if (container is SearchableComboBoxItem comboItem)
+        {
+            bool isSelected = Equals(item, SelectedItem);
+            comboItem.SetCurrentValue(ListBoxItem.IsSelectedProperty, isSelected);
+        }
+    }
+    
+    /// <inheritdoc />
+    protected override void ClearContainerForItemOverride(Control container)
+    {
+        if (container is SearchableComboBoxItem comboItem)
+            comboItem.SetCurrentValue(ListBoxItem.IsSelectedProperty, false);
+
+        base.ClearContainerForItemOverride(container);
+    }
+
+    /// <inheritdoc />
     protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
     {
         return new SearchableComboBoxItem();
     }
 
+    /// <inheritdoc />
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
     {
         return NeedsContainer<SearchableComboBoxItem>(item, out recycleKey);
@@ -357,13 +413,13 @@ public class SearchableComboBox : ItemsControl
     
     internal void ItemFocused(SearchableComboBoxItem dropDownItem)
     {
-        if (IsDropDownOpen && dropDownItem.IsFocused && dropDownItem.IsArrangeValid)
+        if (IsDropDownOpen && dropDownItem is { IsFocused: true, IsArrangeValid: true })
         {
             dropDownItem.BringIntoView();
         }
     }
     
-    protected int IndexFromItem(object? item)
+    private int IndexFromItem(object? item)
     {
         if (item == null) return -1;
         return Items.IndexOf(item);
@@ -371,20 +427,37 @@ public class SearchableComboBox : ItemsControl
     
     private bool UpdateSelectionFromEventSource(object? eventSource)
     {
-        var container = GetContainerFromEventSource(eventSource);
+        Control? container = GetContainerFromEventSource(eventSource);
         if (container == null) return false;
 
         int index = IndexFromContainer(container);
         if (index < 0) return false;
 
-        var item = Items.ElementAtOrDefault(index);
-        if (item != null)
-        {
-            SelectedItem = item;
-            return true;
-        }
+        object? item = index < Items.Count ? Items[index] : null;
+        
+        if (item == null)
+            return false;
+        
+        DeselectContainerForItem(SelectedItem);
 
-        return false;
+        SelectedItem = item;
+        if (container is  SearchableComboBoxItem comboItem)
+            comboItem.IsSelected = true;
+        
+        // TODO: SelectionChanged
+        //SelectionChanged?.Invoke(this, new SelectionChangedEventArgs());
+            
+        return true;
+    }
+
+    private void DeselectContainerForItem(object? item)
+    {
+        if (item == null)
+            return;
+        
+        Control? oldContainer = ContainerFromItem(item);
+        if (oldContainer is SearchableComboBoxItem comboItem)
+            comboItem.IsSelected = false;
     }
     
     private Control? GetContainerFromEventSource(object? eventSource)
@@ -399,13 +472,9 @@ public class SearchableComboBox : ItemsControl
     
     private void PopupOpened(object? sender, EventArgs e)
     {
-        EnsureAllItemsVisible();
-        
-        _isUpdatingText = true;
+        EnsureAllItems();
         SetCurrentValue(FilterTextProperty, string.Empty);
-        _isUpdatingText = false;
-
-        UpdateContainerSelection();
+        
         _editableTextBox?.Focus();
         
         if (SelectedItem != null)
@@ -417,17 +486,14 @@ public class SearchableComboBox : ItemsControl
     private void PopupClosed(object? sender, EventArgs e)
     {
         SetCurrentValue(FilterTextProperty, string.Empty);
-        EnsureAllItemsVisible();
-
+        EnsureAllItems();
+        
         DropDownClosed?.Invoke(this, EventArgs.Empty);
     }
     
-    private void EnsureAllItemsVisible()
+    private void EnsureAllItems()
     {
-        if (AllItems == null)
-        {
-            AllItems = ItemsSource ?? Items.Cast<object>().ToList();
-        }
+        AllItems ??= ItemsSource ?? Items.Cast<object>().ToList();
 
         if (!Equals(ItemsSource, AllItems))
             SetCurrentValue(ItemsSourceProperty, AllItems);
@@ -440,11 +506,9 @@ public class SearchableComboBox : ItemsControl
         _isFiltering = true;
         try
         {
-            if (AllItems == null)
-            {
-                AllItems = ItemsSource ?? Items.Cast<object>().ToList();
-                if (AllItems == null) return;
-            }
+            EnsureAllItems();
+            
+            if (AllItems == null) return;
 
             string? filterText = FilterText;
 
@@ -452,35 +516,32 @@ public class SearchableComboBox : ItemsControl
             {
                 if (!Equals(ItemsSource, AllItems))
                     SetCurrentValue(ItemsSourceProperty, AllItems);
-                
-                UpdateContainerSelection();
-                return;
+
+                if (AllItems is ICollection collection)
+                    FilteredItemCount = collection.Count;
             }
+            else
+            {
+                Func<object?, string?, bool> filterFunc = FilterFunction ?? DefaultFilterFunction;
+                
+                _filteredItems.Clear();
 
-            Func<object?, string?, bool> filterFunc = FilterFunction ?? DefaultFilterFunction;
-            
-            List<object> filtered = AllItems.Cast<object>()
-                .Where(item => filterFunc(item, filterText))
-                .ToList();
-
-            SetCurrentValue(ItemsSourceProperty, new ObservableCollection<object>(filtered));
-            FilteredItemCount = filtered.Count;
-            
-            UpdateContainerSelection();
+                foreach (object? item in AllItems)
+                {
+                    if (filterFunc(item, filterText))
+                        _filteredItems.Add(item);
+                }
+                
+                if (!Equals(ItemsSource, _filteredItems))
+                    SetCurrentValue(ItemsSourceProperty, _filteredItems);
+                
+                FilteredItemCount = _filteredItems.Count;
+            }
         }
         finally
         {
             _isFiltering = false;
         }
-    }
-
-    private static bool DefaultFilterFunction(object? item, string? filterText)
-    {
-        if (item == null || string.IsNullOrEmpty(filterText)) return true;
-        string itemText = item is SearchableComboBoxItem cbi
-            ? cbi.Content?.ToString() ?? ""
-            : item.ToString() ?? "";
-        return itemText.Contains(filterText, StringComparison.OrdinalIgnoreCase);
     }
 
     private void UpdateSelectionBoxItem(object? item)
@@ -511,45 +572,18 @@ public class SearchableComboBox : ItemsControl
         }
         else
         {
-            if (item is not null && ItemTemplate is null && SelectionBoxItemTemplate is null && DisplayMemberBinding is { } binding)
-            {
-                FuncDataTemplate<object?> template = new((_, _) =>
-                    new TextBlock
-                    {
-                        [TextBlock.DataContextProperty] = item,
-                        [!TextBlock.TextProperty] = binding,
-                    });
-                Control? text = template.Build(item);
-                SelectionBoxItem = text;
-            }
-            else
-            {
-                SelectionBoxItem = item;
-            }
-                
+            SelectionBoxItem = item;
         }
-    }
-    
-    private void UpdateFlowDirection()
-    {
-        if (SelectionBoxItem is not Rectangle rectangle)
-            return;
-
-        if ((rectangle.Fill as VisualBrush)?.Visual is not { } content)
-            return;
-        
-        FlowDirection flowDirection = content.GetVisualParent()?.FlowDirection ?? FlowDirection.LeftToRight;
-        rectangle.FlowDirection = flowDirection;
     }
 
     private void UpdateSelectedItemFromIndex()
     {
-        if (_selectedIndex >= 0 && _selectedIndex < ItemCount)
-        {
-            var item = ContainerFromIndex(_selectedIndex)?.DataContext ?? Items.ElementAtOrDefault(_selectedIndex);
-            if (item != null && !Equals(_selectedItem, item))
-                SelectedItem = item;
-        }
+        if (_selectedIndex < 0 || _selectedIndex >= ItemCount)
+            return;
+        
+        object? item = ContainerFromIndex(_selectedIndex)?.DataContext ?? Items.ElementAtOrDefault(_selectedIndex);
+        if (item != null && !Equals(_selectedItem, item))
+            SelectedItem = item;
     }
 
     private void UpdateSelectedIndexFromItem()
@@ -560,37 +594,53 @@ public class SearchableComboBox : ItemsControl
             return;
         }
 
-        var index = IndexFromItem(SelectedItem);
-        if (index >= 0)
-        {
-            _selectedIndex = index;
-            return;
-        }
+        _selectedIndex = IndexFromItem(SelectedItem);
 
-        if (AllItems != null)
-        {
-            var allList = AllItems.Cast<object>().ToList();
-            _selectedIndex = allList.FindIndex(x => Equals(x, SelectedItem));
-        }
+        if (_selectedIndex >= 0)
+            return;
+
+        if (AllItems == null)
+            return;
+        
+        List<object> allList = AllItems.Cast<object>().ToList();
+        _selectedIndex = allList.FindIndex(x => Equals(x, SelectedItem));
+    }
+    
+    private static bool DefaultFilterFunction(object? item, string? filterText)
+    {
+        if (item == null || string.IsNullOrEmpty(filterText)) return true;
+        
+        string itemText = item is SearchableComboBoxItem cbi
+            ? cbi.Content?.ToString() ?? ""
+            : item.ToString() ?? "";
+        
+        return itemText.Contains(filterText, StringComparison.OrdinalIgnoreCase);
+    }
+    
+    private void UpdateFlowDirection()
+    {
+        if (SelectionBoxItem is not Rectangle { Fill: VisualBrush brush } rectangle)
+            return;
+        
+        FlowDirection flowDirection = brush.Visual?.GetVisualParent()?.FlowDirection ?? FlowDirection.LeftToRight;
+        rectangle.FlowDirection = flowDirection;
     }
 
     private void SelectFocusedItem()
     {
-        foreach (var container in GetRealizedContainers())
+        foreach (Control container in GetRealizedContainers())
         {
-            if (container.IsFocused)
+            if (!container.IsFocused || container is not SearchableComboBoxItem)
+                continue;
+            
+            int index = IndexFromContainer(container);
+            if (index >= 0)
             {
-                var index = IndexFromContainer(container);
-                if (index >= 0)
-                {
-                    var item = Items.ElementAtOrDefault(index);
-                    SelectedItem = item;           // This preserves the real item
-                    UpdateContainerSelection();
-                    SetCurrentValue(FilterTextProperty, string.Empty);
-                    EnsureAllItemsVisible();
-                }
-                break;
+                SelectedItem = Items.ElementAtOrDefault(index);
+                SetCurrentValue(FilterTextProperty, string.Empty);
+                EnsureAllItems();
             }
+            break;
         }
     }
 
@@ -598,7 +648,7 @@ public class SearchableComboBox : ItemsControl
     {
         if (!IsDropDownOpen || SelectedIndex == -1) return;
 
-        var container = ContainerFromIndex(SelectedIndex);
+        Control? container = ContainerFromIndex(SelectedIndex);
         if (container == null)
         {
             ScrollIntoView(SelectedIndex);
@@ -610,48 +660,15 @@ public class SearchableComboBox : ItemsControl
 
     private void MoveFocus(int direction)
     {
-        var containers = GetRealizedContainers().ToList();
+        List<Control> containers = GetRealizedContainers().ToList();
         if (containers.Count == 0) return;
 
-        var focusedIndex = -1;
-        for (int i = 0; i < containers.Count; i++)
-        {
-            if (containers[i].IsFocused)
-            {
-                focusedIndex = i;
-                break;
-            }
-        }
+        int focusedIndex = containers.FindIndex(c => c.IsFocused);
+        int newIndex = focusedIndex + direction;
 
-        var newIndex = focusedIndex + direction;
         if (newIndex < 0) newIndex = containers.Count - 1;
         if (newIndex >= containers.Count) newIndex = 0;
 
-        if (newIndex >= 0 && newIndex < containers.Count)
-        {
-            containers[newIndex].Focus();
-        }
-    }
-    
-    private void UpdateContainerSelection()
-    {
-        if (Presenter?.Panel == null) return;
-
-        object? selectedItem = SelectedItem;
-        if (selectedItem == null) return;
-
-        foreach (Control child in Presenter.Panel.Children)
-        {
-            if (child is not SearchableComboBoxItem item)
-                continue;
-            
-            bool isSelected = Equals(GetItemFromContainer(item), selectedItem);
-            item.SetCurrentValue(SearchableComboBoxItem.IsSelectedProperty, isSelected);
-        }
-    }
-    
-    private object? GetItemFromContainer(Control container)
-    {
-        return container.DataContext ?? (container as ContentControl)?.Content;
+        containers[newIndex].Focus();
     }
 }

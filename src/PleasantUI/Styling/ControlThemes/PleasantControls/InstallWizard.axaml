@@ -239,14 +239,14 @@
                                 <Grid ColumnDefinitions="*,Auto,8,Auto,8,Auto">
                                     <Border Grid.Column="0" />
                                     <Button Name="PART_CancelButton" Grid.Column="1"
-                                            Content="{Localize InstallWizard/BtnCancel}"
+                                            Content="{Localize Cancel, Default='Cancel'}"
                                             IsVisible="{TemplateBinding ShowCancelButton}"
                                             MinWidth="80" />
                                     <Button Name="PART_BackButton" Grid.Column="3"
-                                            Content="{Localize InstallWizard/BtnBack}"
+                                            Content="{Localize Back, Default='Back'}"
                                             MinWidth="80" />
                                     <Button Name="PART_NextButton" Grid.Column="5"
-                                            Content="{Localize InstallWizard/BtnNext}"
+                                            Content="{Localize Next, Default='Next'}"
                                             Theme="{DynamicResource AccentButtonTheme}"
                                             MinWidth="80" />
                                 </Grid>

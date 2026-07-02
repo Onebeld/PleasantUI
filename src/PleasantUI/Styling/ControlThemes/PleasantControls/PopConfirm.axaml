@@ -92,12 +92,12 @@
                                         <Button Name="PART_CancelButton"
                                                 Command="{TemplateBinding CancelCommand}"
                                                 CommandParameter="{TemplateBinding CancelCommandParameter}"
-                                                Content="{Localize PopConfirm/Cancel}" />
+                                                Content="{Localize Cancel, Default='Cancel'}" />
                                         <Button Name="PART_ConfirmButton"
                                                 Theme="{DynamicResource AccentButtonTheme}"
                                                 Command="{TemplateBinding ConfirmCommand}"
                                                 CommandParameter="{TemplateBinding ConfirmCommandParameter}"
-                                                Content="{Localize PopConfirm/Confirm}" />
+                                                Content="{Localize Confirm, Default='Confirm'}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>

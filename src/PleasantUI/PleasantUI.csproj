@@ -2,6 +2,9 @@
     <PropertyGroup>
         <Title>PleasantUI</Title>
         <PackageId>PleasantUI</PackageId>
+
+        <IncludeBuildOutput>true</IncludeBuildOutput>
+        <DevelopmentDependency>false</DevelopmentDependency>
     </PropertyGroup>
 
     <Import Project="..\..\build\Package.props" />
@@ -9,10 +12,33 @@
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.5" />
         <PackageReference Include="Avalonia.Skia" Version="12.0.5" />
-        <PackageReference Include="System.Text.Json" Version="10.0.9" />
     </ItemGroup>
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <CompilerVisibleProperty Include="RootNamespace" />
+        <CompilerVisibleProperty Include="AssemblyName" />
+        <CompilerVisibleProperty Include="MSBuildProjectDirectory" />
+    </ItemGroup>
+    
+    <Target Name="PleasantUI_InjectResxAdditionalFiles"
+            BeforeTargets="PrepareForBuild;CoreCompile">
+        <ItemGroup>
+            <AdditionalFiles
+                    Include="@(EmbeddedResource)"
+                    Condition="'%(Extension)' == '.resx'" />
+        </ItemGroup>
+
+        <Message Text="PleasantUI: Found @(AdditionalFiles) resx files" Importance="high" />
+    </Target>
+    
+    <ItemGroup>
+        <None Include="..\..\generators\PleasantUI.Localization.Generator\bin\$(Configuration)\netstandard2.0\PleasantUI.Localization.Generator.dll"
+              Pack="true"
+              PackagePath="analyzers/dotnet/cs"
+              Visible="false" />
     </ItemGroup>
 </Project>

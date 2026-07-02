@@ -166,13 +166,22 @@
                                         Opacity="1"
                                         HorizontalAlignment="Stretch"
                                         CornerRadius="{DynamicResource ControlCornerRadius}">
-                                    <ScrollViewer
-                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                                        <ItemsPresenter Name="PART_ItemsPresenter"
-                                                        Margin="0 4"
-                                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
-                                    </ScrollViewer>
+                                    <Panel>
+                                        <ScrollViewer
+                                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                            <ItemsPresenter Name="PART_ItemsPresenter"
+                                                            Margin="0 4"
+                                                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                        </ScrollViewer>
+                                        
+                                        <TextBlock Foreground="{DynamicResource TextFillColor2}"
+                                                   Text="No elements"
+                                                   Margin="0 15"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   IsVisible="{Binding !ItemCount, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </Panel>
                                 </Border>
                             </ShadowBorder>
                         </Popup>

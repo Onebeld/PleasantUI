@@ -120,6 +120,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="PlaceholderForeground" Value="{DynamicResource TextFillColor3}" />
+        <Setter Property="FilterPlaceholderText" Value="{Localize SearchableComboBox/SearchPlaceholder, Default='Search...'}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel />
@@ -251,6 +252,7 @@
                                     <TextBox x:Name="PART_EditableTextBox"
                                              Classes="ClearTextBox"
                                              Text="{TemplateBinding FilterText, Mode=TwoWay}"
+                                             PlaceholderText="{TemplateBinding FilterPlaceholderText}"
                                              DockPanel.Dock="Top"
                                              Margin="0 0 0 5">
                                         <TextBox.InnerLeftContent>
@@ -265,16 +267,12 @@
                                         <Panel>
                                             <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                                           VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                                                <ItemsPresenter Name="PART_ItemsPresenter">
-                                                    <ItemsPresenter.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <StackPanel />
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsPresenter.ItemsPanel>
-                                                </ItemsPresenter>
+                                                <ItemsPresenter Name="PART_ItemsPresenter" 
+                                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
                                             </ScrollViewer>
                                             
-                                            <TextBlock Text="No elements"
+                                            <TextBlock Foreground="{DynamicResource TextFillColor2}"
+                                                       Text="No elements"
                                                        Margin="0 15"
                                                        VerticalAlignment="Center"
                                                        TextAlignment="Center"

@@ -17,6 +17,6 @@
             <ComboBoxItem Content="{Localize Option1, Context=ComboBoxPage}" />
         </ComboBox>
         <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize AutoCompleteBox}" />
-        <AutoCompleteBox x:Name="FruitAutoComplete" Watermark="{Localize StartTyping}" HorizontalAlignment="Stretch" />
+        <AutoCompleteBox x:Name="FruitAutoComplete" PlaceholderText="{Localize StartTyping}" HorizontalAlignment="Stretch" />
     </StackPanel>
 </UserControl>

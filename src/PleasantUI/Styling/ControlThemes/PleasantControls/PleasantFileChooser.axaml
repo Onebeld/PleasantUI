@@ -223,12 +223,12 @@
                                              VerticalContentAlignment="Center" />
                                     <Button Name="PART_CancelButton"
                                             Grid.Column="3"
-                                            Content="{Localize PopConfirm/Cancel}"
+                                            Content="{Localize Cancel, Default='Cancel'}"
                                             MinWidth="90" />
                                     <Button Name="PART_OkButton"
                                             Grid.Column="5"
                                             Theme="{DynamicResource AccentButtonTheme}"
-                                            Content="{Localize PathPicker/OpenFile}"
+                                            Content="{Localize PathPicker/OpenFile, Default='Open file'}"
                                             MinWidth="90" />
                                 </Grid>
                             </Border>
