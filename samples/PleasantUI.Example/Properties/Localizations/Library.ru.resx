@@ -98,6 +98,42 @@
     <data name="SearchableComboBox/SearchPlaceholder" xml:space="preserve">
         <value>Поиск...</value>
     </data>
+    <data name="Theme/Light" xml:space="preserve">
+        <value>Светлая</value>
+    </data>
+    <data name="Theme/Cave" xml:space="preserve">
+        <value>Пещерная</value>
+    </data>
+    <data name="Theme/Cherry" xml:space="preserve">
+        <value>Вишневая</value>
+    </data>
+    <data name="Theme/Custom" xml:space="preserve">
+        <value>Своя</value>
+    </data>
+    <data name="Theme/Dark" xml:space="preserve">
+        <value>Темная</value>
+    </data>
+    <data name="Theme/Ice" xml:space="preserve">
+        <value>Ледяная</value>
+    </data>
+    <data name="Theme/Lunar" xml:space="preserve">
+        <value>Лунная</value>
+    </data>
+    <data name="Theme/Sunny" xml:space="preserve">
+        <value>Солнечная</value>
+    </data>
+    <data name="Theme/System" xml:space="preserve">
+        <value>Системная</value>
+    </data>
+    <data name="Theme/Mint" xml:space="preserve">
+        <value>Мятная</value>
+    </data>
+    <data name="Theme/Spruce" xml:space="preserve">
+        <value>Лесная</value>
+    </data>
+    <data name="Theme/Strawberry" xml:space="preserve">
+        <value>Клубничная</value>
+    </data>
     <data name="ToolKit/ThemeEditor" xml:space="preserve">
         <value>Редактор тем</value>
     </data>

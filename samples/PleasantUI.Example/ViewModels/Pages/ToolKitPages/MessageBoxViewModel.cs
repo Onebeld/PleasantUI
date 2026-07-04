@@ -20,17 +20,17 @@ public class MessageBoxViewModel : ViewModelBase
     } = "—";
 
     // Resolves a key under the MessageBox/ context with a hardcoded fallback
-    private static string T(string key, string fallback) =>
-        Localizer.TrDefault(key, fallback, "MessageBox");
+    private static string T(LocKey key, string fallback) =>
+        Localizer.TrDefault(key, fallback);
 
     // Maps an internal result token back to a localized display string
     private static string LocalizeResult(string result) => result switch
     {
-        "OK"     => T("Ok",     "OK"),
-        "Cancel" => T("Cancel", "Cancel"),
-        "Yes"    => T("Yes",    "Yes"),
-        "No"     => T("No",     "No"),
-        "Delete" => T("Delete", "Delete"),
+        "OK"     => T(LocKey.Ok,     "OK"),
+        "Cancel" => T(LocKey.Cancel, "Cancel"),
+        "Yes"    => T(LocKey.MessageBox__Yes,    "Yes"),
+        "No"     => T(LocKey.MessageBox__No,     "No"),
+        "Delete" => T(LocKey.MessageBox__Delete, "Delete"),
         _        => result
     };
 
@@ -38,8 +38,8 @@ public class MessageBoxViewModel : ViewModelBase
     {
         string result = await MessageBox.Show(
             PleasantUiExampleApp.Main,
-            T("Title",       "Information"),
-            T("DefaultText", "This is a default message box with a single OK button."));
+            T(LocKey.MessageBox__Title,       "Information"),
+            T(LocKey.MessageBox__DefaultText, "This is a default message box with a single OK button."));
 
         LastResult = LocalizeResult(result);
     }
@@ -48,13 +48,12 @@ public class MessageBoxViewModel : ViewModelBase
     {
         string result = await MessageBox.Show(
             PleasantUiExampleApp.Main,
-            T("ConfirmTitle",  "Confirm"),
-            T("OkCancelText",  "Do you want to proceed with this action?"),
-            new[]
-            {
-                new MessageBoxButton { Text = T("Ok",     "OK"),     Result = "OK",     Default = true, IsKeyDown = true },
-                new MessageBoxButton { Text = T("Cancel", "Cancel"), Result = "Cancel" }
-            });
+            T(LocKey.MessageBox__ConfirmTitle,  "Confirm"),
+            T(LocKey.MessageBox__OkCancelText,  "Do you want to proceed with this action?"),
+            [
+                new MessageBoxButton { Text = T(LocKey.Ok,     "OK"),     Result = "OK",     Default = true, IsKeyDown = true },
+                new MessageBoxButton { Text = T(LocKey.Cancel, "Cancel"), Result = "Cancel" }
+            ]);
 
         LastResult = LocalizeResult(result);
     }
@@ -63,12 +62,12 @@ public class MessageBoxViewModel : ViewModelBase
     {
         string result = await MessageBox.Show(
             PleasantUiExampleApp.Main,
-            T("QuestionTitle", "Question"),
-            T("YesNoText",     "Would you like to save your changes before closing?"),
+            T(LocKey.MessageBox__QuestionTitle, "Question"),
+            T(LocKey.MessageBox__YesNoText,     "Would you like to save your changes before closing?"),
             new[]
             {
-                new MessageBoxButton { Text = T("Yes", "Yes"), Result = "Yes", Default = true, IsKeyDown = true },
-                new MessageBoxButton { Text = T("No",  "No"),  Result = "No" }
+                new MessageBoxButton { Text = T(LocKey.MessageBox__Yes, "Yes"), Result = "Yes", Default = true, IsKeyDown = true },
+                new MessageBoxButton { Text = T(LocKey.MessageBox__No,  "No"),  Result = "No" }
             });
 
         LastResult = LocalizeResult(result);
@@ -78,13 +77,13 @@ public class MessageBoxViewModel : ViewModelBase
     {
         string result = await MessageBox.Show(
             PleasantUiExampleApp.Main,
-            T("QuestionTitle",   "Question"),
-            T("YesNoCancelText", "Save changes to the document before closing?"),
+            T(LocKey.MessageBox__QuestionTitle,   "Question"),
+            T(LocKey.MessageBox__YesNoCancelText, "Save changes to the document before closing?"),
             new[]
             {
-                new MessageBoxButton { Text = T("Yes",    "Yes"),    Result = "Yes",    Default = true, IsKeyDown = true },
-                new MessageBoxButton { Text = T("No",     "No"),     Result = "No" },
-                new MessageBoxButton { Text = T("Cancel", "Cancel"), Result = "Cancel" }
+                new MessageBoxButton { Text = T(LocKey.MessageBox__Yes,    "Yes"),    Result = "Yes",    Default = true, IsKeyDown = true },
+                new MessageBoxButton { Text = T(LocKey.MessageBox__No,     "No"),     Result = "No" },
+                new MessageBoxButton { Text = T(LocKey.Cancel, "Cancel"), Result = "Cancel" }
             });
 
         LastResult = LocalizeResult(result);
@@ -94,13 +93,13 @@ public class MessageBoxViewModel : ViewModelBase
     {
         string result = await MessageBox.Show(
             PleasantUiExampleApp.Main,
-            T("ErrorTitle",  "Error"),
-            T("ErrorText",   "An unexpected error occurred while processing your request."),
+            T(LocKey.MessageBox__ErrorTitle,  "Error"),
+            T(LocKey.MessageBox__ErrorText,   "An unexpected error occurred while processing your request."),
             new[]
             {
-                new MessageBoxButton { Text = T("Ok", "OK"), Result = "OK", Default = true, IsKeyDown = true }
+                new MessageBoxButton { Text = T(LocKey.Ok, "OK"), Result = "OK", Default = true, IsKeyDown = true }
             },
-            T("ErrorDetail", "System.InvalidOperationException: Object reference not set to an instance of an object.\n   at SomeMethod() in File.cs:line 42"));
+            T(LocKey.MessageBox__ErrorDetail, "System.InvalidOperationException: Object reference not set to an instance of an object.\n   at SomeMethod() in File.cs:line 42"));
 
         LastResult = LocalizeResult(result);
     }
@@ -109,12 +108,12 @@ public class MessageBoxViewModel : ViewModelBase
     {
         string result = await MessageBox.Show(
             PleasantUiExampleApp.Main,
-            T("DangerTitle", "Delete"),
-            T("DangerText",  "This action is irreversible. All selected items will be permanently deleted."),
+            T(LocKey.MessageBox__DangerTitle, "Delete"),
+            T(LocKey.MessageBox__DangerText,  "This action is irreversible. All selected items will be permanently deleted."),
             new[]
             {
-                new MessageBoxButton { Text = T("Delete", "Delete"), Result = "Delete", Default = true },
-                new MessageBoxButton { Text = T("Cancel", "Cancel"), Result = "Cancel", IsKeyDown = true }
+                new MessageBoxButton { Text = T(LocKey.MessageBox__Delete, "Delete"), Result = "Delete", Default = true },
+                new MessageBoxButton { Text = T(LocKey.Cancel, "Cancel"), Result = "Cancel", IsKeyDown = true }
             },
             style: MessageBoxStyle.Danger);
 
@@ -124,9 +123,9 @@ public class MessageBoxViewModel : ViewModelBase
     public async Task ShowCustomContent()
     {
         // Build extra content: warning icon + description + radio buttons
-        RadioButton option1 = new() { Content = T("CustomOption1", "Keep existing data"),   GroupName = "MBOptions", IsChecked = true };
-        RadioButton option2 = new() { Content = T("CustomOption2", "Replace with new data"), GroupName = "MBOptions" };
-        RadioButton option3 = new() { Content = T("CustomOption3", "Merge both"),            GroupName = "MBOptions" };
+        RadioButton option1 = new() { Content = T(LocKey.MessageBox__CustomOption1, "Keep existing data"),   GroupName = "MBOptions", IsChecked = true };
+        RadioButton option2 = new() { Content = T(LocKey.MessageBox__CustomOption2, "Replace with new data"), GroupName = "MBOptions" };
+        RadioButton option3 = new() { Content = T(LocKey.MessageBox__CustomOption3, "Merge both"),            GroupName = "MBOptions" };
 
         StackPanel panel = new()
         {
@@ -147,7 +146,7 @@ public class MessageBoxViewModel : ViewModelBase
                         },
                         new TextBlock
                         {
-                            Text        = T("CustomHint", "Choose how to handle the conflict:"),
+                            Text        = T(LocKey.MessageBox__CustomHint, "Choose how to handle the conflict:"),
                             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
                             VerticalAlignment = VerticalAlignment.Center
                         }
@@ -161,17 +160,17 @@ public class MessageBoxViewModel : ViewModelBase
 
         MessageBoxResult<string> result = await MessageBox.Show<string>(
             PleasantUiExampleApp.Main,
-            T("CustomTitle", "Data conflict"),
-            T("CustomText",  "A file with this name already exists. How would you like to proceed?"),
+            T(LocKey.MessageBox__CustomTitle, "Data conflict"),
+            T(LocKey.MessageBox__CustomText,  "A file with this name already exists. How would you like to proceed?"),
             extraContent: panel,
             valueSelector: _ => option1.IsChecked == true ? "keep"
                               : option2.IsChecked == true ? "replace"
                               : "merge",
-            buttons: new[]
-            {
-                new MessageBoxButton { Text = T("Ok", "OK"),     Result = "OK",     Default = true, IsKeyDown = true },
-                new MessageBoxButton { Text = T("Cancel", "Cancel"), Result = "Cancel" }
-            });
+            buttons:
+            [
+                new MessageBoxButton { Text = T(LocKey.Ok, "OK"),     Result = "OK",     Default = true, IsKeyDown = true },
+                new MessageBoxButton { Text = T(LocKey.Cancel, "Cancel"), Result = "Cancel" }
+            ]);
 
         LastResult = result.Button == "Cancel"
             ? LocalizeResult("Cancel")
@@ -180,39 +179,36 @@ public class MessageBoxViewModel : ViewModelBase
 
     // ── PleasantDialog samples ────────────────────────────────────────────────
 
-    private static string TD(string key, string fallback) =>
-        Localizer.TrDefault(key, fallback, "PleasantDialog");
-
     public async Task ShowPleasantDialogRich()
     {
-        PleasantDialogCheckBox remember = new() { Text = TD("RememberChoice", "Remember my choice") };
+        PleasantDialogCheckBox remember = new() { Text = T(LocKey.PleasantDialog__RememberChoice, "Remember my choice") };
 
         object? result = await PleasantDialog.Show(
             PleasantUiExampleApp.Main,
-            header: TD("RichTitle", "Sync settings"),
-            body: TD("RichBody", "Choose how your settings should be synchronized across devices."),
+            header: T(LocKey.PleasantDialog__RichTitle, "Sync settings"),
+            body: T(LocKey.PleasantDialog__RichBody, "Choose how your settings should be synchronized across devices."),
             iconGeometryKey: "TuneRegular",
-            subHeader: TD("RichSubHeader", "This affects all connected accounts."),
-            commands: new PleasantDialogCommand[]
-            {
-                new PleasantDialogRadioButton { Text = TD("RichOpt1", "Sync automatically"),  IsChecked = true },
-                new PleasantDialogRadioButton { Text = TD("RichOpt2", "Ask before syncing") },
-                new PleasantDialogRadioButton { Text = TD("RichOpt3", "Never sync") },
+            subHeader: T(LocKey.PleasantDialog__RichSubHeader, "This affects all connected accounts."),
+            commands:
+            [
+                new PleasantDialogRadioButton { Text = T(LocKey.PleasantDialog__RichOpt1, "Sync automatically"),  IsChecked = true },
+                new PleasantDialogRadioButton { Text = T(LocKey.PleasantDialog__RichOpt2, "Ask before syncing") },
+                new PleasantDialogRadioButton { Text = T(LocKey.PleasantDialog__RichOpt3, "Never sync") },
                 remember
-            },
-            buttons: new[]
-            {
-                new PleasantDialogButton { Text = TD("Save", "Save"),   DialogResult = PleasantDialogResult.OK,     IsDefault = true },
-                new PleasantDialogButton { Text = TD("Cancel", "Cancel"), DialogResult = PleasantDialogResult.Cancel }
-            },
+            ],
+            buttons:
+            [
+                new PleasantDialogButton { Text = T(LocKey.PleasantDialog__Save, "Save"),   DialogResult = PleasantDialogResult.OK,     IsDefault = true },
+                new PleasantDialogButton { Text = T(LocKey.Cancel, "Cancel"), DialogResult = PleasantDialogResult.Cancel }
+            ],
             footer: new TextBlock
             {
-                Text        = TD("RichFooter", "Changes take effect after restarting the application."),
+                Text        = T(LocKey.PleasantDialog__RichFooter, "Changes take effect after restarting the application."),
                 TextWrapping = Avalonia.Media.TextWrapping.Wrap,
                 Foreground  = null  // inherits theme color
             },
             footerExpandable: true,
-            footerToggleText: TD("MoreDetails", "More details"));
+            footerToggleText: T(LocKey.PleasantDialog__MoreDetails, "More details"));
 
         LastResult = result is PleasantDialogResult r
             ? r.ToString()
@@ -221,27 +217,26 @@ public class MessageBoxViewModel : ViewModelBase
 
     public async Task ShowPleasantDialogProgress()
     {
-        PleasantDialog? dialogRef = null;
         CancellationTokenSource cts = new();
 
         object? result = await PleasantDialog.Show(
             PleasantUiExampleApp.Main,
-            header: TD("ProgressTitle", "Processing"),
-            body: TD("ProgressBody", "Please wait while the operation completes…"),
+            header: T(LocKey.PleasantDialog__ProgressTitle, "Processing"),
+            body: T(LocKey.PleasantDialog__ProgressBody, "Please wait while the operation completes…"),
             iconGeometryKey: "ProgressHelper",
-            subHeader: TD("ProgressSubHeader", "0%"),
+            subHeader: T(LocKey.PleasantDialog__ProgressSubHeader, "0%"),
             buttons: new[]
             {
                 new PleasantDialogButton
                 {
-                    Text         = TD("Cancel", "Cancel"),
+                    Text         = T(LocKey.Cancel, "Cancel"),
                     DialogResult = PleasantDialogResult.Cancel,
                     IsDefault    = true
                 }
             },
             onDialogReady: d =>
             {
-                dialogRef = d;
+                _ = d;
                 d.SetProgressBarState(0);
 
                 // Run simulated work on a background thread
@@ -250,7 +245,7 @@ public class MessageBoxViewModel : ViewModelBase
                     for (int i = 0; i <= 100; i += 5)
                     {
                         if (cts.Token.IsCancellationRequested) break;
-                        await Task.Delay(120, cts.Token).ContinueWith(_ => { });
+                        await Task.Delay(120, cts.Token).ContinueWith(_ => { }, cts.Token);
 
                         int captured = i;
                         Avalonia.Threading.Dispatcher.UIThread.Post(() =>
@@ -276,38 +271,38 @@ public class MessageBoxViewModel : ViewModelBase
             });
 
         cts.Cancel();
-        LastResult = result?.ToString() ?? "—";
+        LastResult = result.ToString() ?? "—";
     }
 
     public async Task ShowPleasantDialogDanger()
     {
         object? result = await PleasantDialog.Show(
             PleasantUiExampleApp.Main,
-            header: TD("DangerTitle", "Permanently delete account"),
-            body: TD("DangerBody", "This will remove all your data, settings, and history. This cannot be undone."),
+            header: T(LocKey.MessageBox__DangerTitle, "Permanently delete account"),
+            body: T(LocKey.PleasantDialog__DangerBody, "This will remove all your data, settings, and history. This cannot be undone."),
             iconGeometryKey: "ErrorCircleRegular",
             style: MessageBoxStyle.Danger,
-            commands: new PleasantDialogCommand[]
-            {
+            commands:
+            [
                 new PleasantDialogCommandLink
                 {
-                    Text        = TD("DangerCmd1", "Delete everything"),
-                    Description = TD("DangerCmd1Desc", "Removes all files, preferences, and account data permanently."),
+                    Text        = T(LocKey.PleasantDialog__DangerCmd1, "Delete everything"),
+                    Description = T(LocKey.PleasantDialog__DangerCmd1Desc, "Removes all files, preferences, and account data permanently."),
                     DialogResult = PleasantDialogResult.OK,
                     ClosesOnInvoked = true
                 },
                 new PleasantDialogCommandLink
                 {
-                    Text        = TD("DangerCmd2", "Export data first"),
-                    Description = TD("DangerCmd2Desc", "Download a copy of your data before deletion."),
+                    Text        = T(LocKey.PleasantDialog__DangerCmd2, "Export data first"),
+                    Description = T(LocKey.PleasantDialog__DangerCmd2Desc, "Download a copy of your data before deletion."),
                     DialogResult = "export",
                     ClosesOnInvoked = true
                 }
-            },
-            buttons: new[]
-            {
-                new PleasantDialogButton { Text = TD("Cancel", "Cancel"), DialogResult = PleasantDialogResult.Cancel, IsDefault = true }
-            });
+            ],
+            buttons:
+            [
+                new PleasantDialogButton { Text = T(LocKey.Cancel, "Cancel"), DialogResult = PleasantDialogResult.Cancel, IsDefault = true }
+            ]);
 
         LastResult = result?.ToString() ?? "—";
     }

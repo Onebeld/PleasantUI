@@ -105,6 +105,42 @@
     <data name="SearchableComboBox/SearchPlaceholder" xml:space="preserve">
         <value>Search...</value>
     </data>
+    <data name="Theme/Light" xml:space="preserve">
+        <value>Light</value>
+    </data>
+    <data name="Theme/System" xml:space="preserve">
+        <value>System</value>
+    </data>
+    <data name="Theme/Dark" xml:space="preserve">
+        <value>Dark</value>
+    </data>
+    <data name="Theme/Mint" xml:space="preserve">
+        <value>Mint</value>
+    </data>
+    <data name="Theme/Strawberry" xml:space="preserve">
+        <value>Strawberry</value>
+    </data>
+    <data name="Theme/Ice" xml:space="preserve">
+        <value>Ice</value>
+    </data>
+    <data name="Theme/Sunny" xml:space="preserve">
+        <value>Sunny</value>
+    </data>
+    <data name="Theme/Spruce" xml:space="preserve">
+        <value>Spruce</value>
+    </data>
+    <data name="Theme/Cherry" xml:space="preserve">
+        <value>Cherry</value>
+    </data>
+    <data name="Theme/Cave" xml:space="preserve">
+        <value>Cave</value>
+    </data>
+    <data name="Theme/Lunar" xml:space="preserve">
+        <value>Lunar</value>
+    </data>
+    <data name="Theme/Custom" xml:space="preserve">
+        <value>Custom</value>
+    </data>
     <data name="ToolKit/ThemeEditor" xml:space="preserve">
         <value>Theme editor</value>
     </data>

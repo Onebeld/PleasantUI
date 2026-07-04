@@ -27,42 +27,6 @@
     <data name="Theme" xml:space="preserve">
         <value>Theme</value>
     </data>
-    <data name="Theme/Light" xml:space="preserve">
-        <value>Light</value>
-    </data>
-    <data name="Theme/System" xml:space="preserve">
-        <value>System</value>
-    </data>
-    <data name="Theme/Dark" xml:space="preserve">
-        <value>Dark</value>
-    </data>
-    <data name="Theme/Mint" xml:space="preserve">
-        <value>Mint</value>
-    </data>
-    <data name="Theme/Strawberry" xml:space="preserve">
-        <value>Strawberry</value>
-    </data>
-    <data name="Theme/Ice" xml:space="preserve">
-        <value>Ice</value>
-    </data>
-    <data name="Theme/Sunny" xml:space="preserve">
-        <value>Sunny</value>
-    </data>
-    <data name="Theme/Spruce" xml:space="preserve">
-        <value>Spruce</value>
-    </data>
-    <data name="Theme/Cherry" xml:space="preserve">
-        <value>Cherry</value>
-    </data>
-    <data name="Theme/Cave" xml:space="preserve">
-        <value>Cave</value>
-    </data>
-    <data name="Theme/Lunar" xml:space="preserve">
-        <value>Lunar</value>
-    </data>
-    <data name="Theme/Custom" xml:space="preserve">
-        <value>Custom</value>
-    </data>
     <data name="Language" xml:space="preserve">
         <value>Language</value>
     </data>
@@ -527,10 +491,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Finish</value></data>
     <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Cancel</value></data>
 
-    <!-- PopConfirm -->
-    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Confirm</value></data>
-    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Cancel</value></data>
-
     <!-- Drawer page -->
     <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Drawer</value></data>
     <data name="Card/PleasantDrawer"            xml:space="preserve"><value>A panel that slides in from any edge of the screen, overlaying the main content with optional title, footer, and light-dismiss support.</value></data>
@@ -570,22 +530,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Open folder</value></data>
     <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Save file</value></data>
     <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Open multiple files</value></data>
-
-    <!-- Docking page -->
-    <data name="CardTitle/Docking"              xml:space="preserve"><value>Docking</value></data>
-    <data name="Card/Docking"                   xml:space="preserve"><value>A full docking system with resizable sidebars, split views, and drag-and-drop tool panels.</value></data>
-    <data name="Docking/Description"            xml:space="preserve"><value>Drag the sidebar buttons between the left and right bars. Resize panels by dragging the dividers. Right-click a button to move it via the context menu.</value></data>
-    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>EXPLORER</value></data>
-    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>PROPERTIES</value></data>
-    <data name="Docking/EditorArea"             xml:space="preserve"><value>Editor area</value></data>
-    <data name="Docking/DragHint"               xml:space="preserve"><value>Drag sidebar buttons to rearrange panels</value></data>
-    <data name="Docking/PropName"               xml:space="preserve"><value>Name</value></data>
-    <data name="Docking/PropWidth"              xml:space="preserve"><value>Width</value></data>
-    <data name="Docking/PropHeight"             xml:space="preserve"><value>Height</value></data>
-    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Left — Upper</value></data>
-    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Left — Lower</value></data>
-    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Right — Upper</value></data>
-    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Right — Lower</value></data>
 
     <!-- PleasantMiniWindow page -->
     <data name="CardTitle/PleasantMiniWindow"   xml:space="preserve"><value>PleasantMiniWindow</value></data>

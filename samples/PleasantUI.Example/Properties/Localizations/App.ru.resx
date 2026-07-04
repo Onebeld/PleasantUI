@@ -20,42 +20,6 @@
     <data name="Theme" xml:space="preserve">
         <value>Тема</value>
     </data>
-    <data name="Theme/Light" xml:space="preserve">
-        <value>Светлая</value>
-    </data>
-    <data name="Theme/Cave" xml:space="preserve">
-        <value>Пещерная</value>
-    </data>
-    <data name="Theme/Cherry" xml:space="preserve">
-        <value>Вишневая</value>
-    </data>
-    <data name="Theme/Custom" xml:space="preserve">
-        <value>Своя</value>
-    </data>
-    <data name="Theme/Dark" xml:space="preserve">
-        <value>Темная</value>
-    </data>
-    <data name="Theme/Ice" xml:space="preserve">
-        <value>Ледяная</value>
-    </data>
-    <data name="Theme/Lunar" xml:space="preserve">
-        <value>Лунная</value>
-    </data>
-    <data name="Theme/Sunny" xml:space="preserve">
-        <value>Солнечная</value>
-    </data>
-    <data name="Theme/System" xml:space="preserve">
-        <value>Системная</value>
-    </data>
-    <data name="Theme/Mint" xml:space="preserve">
-        <value>Мятная</value>
-    </data>
-    <data name="Theme/Spruce" xml:space="preserve">
-        <value>Лесная</value>
-    </data>
-    <data name="Theme/Strawberry" xml:space="preserve">
-        <value>Клубничная</value>
-    </data>
     <data name="Language" xml:space="preserve">
         <value>Язык</value>
     </data>
@@ -533,10 +497,6 @@
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Готово</value></data>
     <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Отмена</value></data>
 
-    <!-- PopConfirm -->
-    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Подтвердить</value></data>
-    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Отмена</value></data>
-
     <!-- Drawer page -->
     <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Выдвижная панель</value></data>
     <data name="Card/PleasantDrawer"            xml:space="preserve"><value>Панель, выезжающая с любого края экрана поверх основного содержимого с поддержкой заголовка, подвала и закрытия по клику.</value></data>
@@ -576,22 +536,6 @@
     <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Открыть папку</value></data>
     <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Сохранить файл</value></data>
     <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Открыть несколько файлов</value></data>
-
-    <!-- Docking page -->
-    <data name="CardTitle/Docking"              xml:space="preserve"><value>Докинг</value></data>
-    <data name="Card/Docking"                   xml:space="preserve"><value>Полная система докинга с изменяемыми боковыми панелями, разделёнными видами и перетаскиваемыми инструментами.</value></data>
-    <data name="Docking/Description"            xml:space="preserve"><value>Перетаскивайте кнопки боковой панели между левой и правой панелями. Изменяйте размер панелей, перетаскивая разделители. Щёлкните правой кнопкой мыши по кнопке, чтобы переместить её через контекстное меню.</value></data>
-    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>ПРОВОДНИК</value></data>
-    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>СВОЙСТВА</value></data>
-    <data name="Docking/EditorArea"             xml:space="preserve"><value>Область редактора</value></data>
-    <data name="Docking/DragHint"               xml:space="preserve"><value>Перетащите кнопки боковой панели для перестановки панелей</value></data>
-    <data name="Docking/PropName"               xml:space="preserve"><value>Имя</value></data>
-    <data name="Docking/PropWidth"              xml:space="preserve"><value>Ширина</value></data>
-    <data name="Docking/PropHeight"             xml:space="preserve"><value>Высота</value></data>
-    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Лево — Верх</value></data>
-    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Лево — Низ</value></data>
-    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Право — Верх</value></data>
-    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Право — Низ</value></data>
 
     <!-- PleasantMiniWindow page -->
     <data name="CardTitle/PleasantMiniWindow"   xml:space="preserve"><value>PleasantMiniWindow</value></data>

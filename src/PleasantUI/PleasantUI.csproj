@@ -40,5 +40,9 @@
               Pack="true"
               PackagePath="analyzers/dotnet/cs"
               Visible="false" />
+        <None Include="..\..\analyzers\PleasantUI.Localization.Analyzer\bin\$(Configuration)\netstandard2.0\PleasantUI.Localization.Analyzer.dll"
+              Pack="true"
+              PackagePath="analyzers/dotnet/cs"
+              Visible="false" />
     </ItemGroup>
 </Project>

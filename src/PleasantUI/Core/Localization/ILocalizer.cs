@@ -18,7 +18,7 @@ public interface ILocalizer
     /// </summary>
     /// <param name="key">The key to look up.</param>
     /// <returns>The localized string, or an empty string if the key is not found.</returns>
-    string? GetExpression(string key);
+    string? GetExpression(object key);
 
     /// <summary>
     /// Edits the current language.

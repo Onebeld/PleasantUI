@@ -89,15 +89,17 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <param name="context">The context of the translation.</param>
     /// <param name="args">The arguments to pass to the translation.</param>
     /// <returns>The translated string.</returns>
-    public static string Tr(string? key, string? context = null, params object[] args)
+    public static string Tr(object? key, string? context = null, params object[] args)
     {
+        key =  UnsanitizeIdentifier(key?.ToString());
+        
         if (key is null)
             return string.Empty;
 
         if (context is not null)
             key = $"{context}/{key}";
 
-        string expression = Instance[key];
+        string expression = Instance[key.ToString() ??  string.Empty];
 
         return string.Format(expression, args);
     }
@@ -110,10 +112,12 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <param name="context">The context of the translation.</param>
     /// <param name="args">The arguments to pass to the translation.</param>
     /// <returns>The translated string.</returns>
-    public static string TrDefault(string? key, string? defaultString = null, string? context = null, params object[] args)
+    public static string TrDefault(object? key, string? defaultString = null, string? context = null, params object[] args)
     {
         if (key is null)
             return defaultString ?? string.Empty;
+
+        key = UnsanitizeIdentifier(key.ToString());
 
         if (context is not null)
             key = $"{context}/{key}";
@@ -150,7 +154,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <param name="key">The key to look up.</param>
     /// <param name="expression">The localized string, or null if the key is not found or the resources are empty.</param>
     /// <returns>True if the key is found, false otherwise.</returns>
-    public bool TryGetString(string key, out string expression)
+    public bool TryGetString(object? key, out string expression)
     {
         if (_resources == null || _resources.Count == 0)
         {
@@ -300,7 +304,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     }
 
     /// <inheritdoc />
-    public string GetExpression(string key)
+    public string GetExpression(object? key)
     {
         if (_resources == null) return string.Empty;
         foreach (ResourceManager resource in _resources)
@@ -309,7 +313,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
 
             try
             {
-                row = resource.GetString(key);
+                row = resource.GetString(key?.ToString() ?? string.Empty);
             }
             catch (MissingManifestResourceException)
             {

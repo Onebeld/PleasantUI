@@ -28,6 +28,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.Localization.Analyzer", "analyzers\PleasantUI.Localization.Analyzer\PleasantUI.Localization.Analyzer.csproj", "{A519CDCF-2774-4FD9-AE5F-0F6B62F7C346}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_tests", "_tests", "{80E17402-8124-43B7-A0BB-E939CDD20E21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{6B8337BF-8256-47CF-836E-C5A3C745D931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.Localization.Analyzer.Tests", "tests\analyzers\PleasantUI.Localization.Analyzer.Tests\PleasantUI.Localization.Analyzer.Tests.csproj", "{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +72,10 @@ Global
 		{A519CDCF-2774-4FD9-AE5F-0F6B62F7C346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A519CDCF-2774-4FD9-AE5F-0F6B62F7C346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A519CDCF-2774-4FD9-AE5F-0F6B62F7C346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71BFCFA6-B53E-4F28-819F-51CB26516B5A} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
@@ -73,5 +83,7 @@ Global
 		{59DC0F4B-421E-407D-9435-F6ED14765634} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
 		{967BBBAA-7F6F-4DA6-A8E5-9F0A70DFF684} = {77203EAD-CB0D-4D37-B8E7-2F2BA0A1B1EF}
 		{A519CDCF-2774-4FD9-AE5F-0F6B62F7C346} = {20ECD7A9-C3D1-41AA-A8BB-640E3B28BBC0}
+		{6B8337BF-8256-47CF-836E-C5A3C745D931} = {80E17402-8124-43B7-A0BB-E939CDD20E21}
+		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5} = {6B8337BF-8256-47CF-836E-C5A3C745D931}
 	EndGlobalSection
 EndGlobal
