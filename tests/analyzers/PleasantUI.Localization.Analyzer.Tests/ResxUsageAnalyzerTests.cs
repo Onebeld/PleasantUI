@@ -15,10 +15,12 @@ public class ResxUsageAnalyzerTests
 {
     private const string DiagnosticId = "PUILOC101";
     
-    private const string TestResxContent = @"<?xml version='1.0' encoding='utf-8'?>
-<root>
-  <data name='App/CardTitle/PinCode'><value>Pin Code</value></data>
-</root>";
+    private const string TestResxContent = """
+                                           <?xml version='1.0' encoding='utf-8'?>
+                                           <root>
+                                             <data name='App/CardTitle/PinCode'><value>Pin Code</value></data>
+                                           </root>
+                                           """;
 
     private static readonly ReferenceAssemblies NetVersion = ReferenceAssemblies.Net.Net100;
     

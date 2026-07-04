@@ -1,0 +1,8 @@
+﻿<Project>
+    <PropertyGroup>
+        <PleasantUIDisableResxUsageAnalyzer Condition="'$(PleasantUIDisableResxKeyGenerator)' == ''">false</PleasantUIDisableResxUsageAnalyzer>
+    </PropertyGroup>
+    <ItemGroup>
+        <CompilerVisibleProperty Include="PleasantUIDisableResxKeyGenerator" />
+    </ItemGroup>
+</Project>

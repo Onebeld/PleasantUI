@@ -1,0 +1,8 @@
+﻿<Project>
+    <PropertyGroup>
+        <PleasantUIDisableResxAnalyzer Condition="'$(PleasantUIDisableResxAnalyzer)' == ''">false</PleasantUIDisableResxAnalyzer>
+    </PropertyGroup>
+    <ItemGroup>
+        <CompilerVisibleProperty Include="PleasantUIDisableResxAnalyzer" />
+    </ItemGroup>
+</Project>

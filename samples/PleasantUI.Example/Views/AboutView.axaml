@@ -179,7 +179,7 @@
                                 Padding="12 6"
                                 Click="PatreonButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PleasantIcon Icon="{DynamicResource Github}" />
+                                <PleasantIcon Icon="{DynamicResource Patreon}" />
                                 
                                 <TextBlock Text="{Localize About/PatreonSupport}"
                                            Foreground="{DynamicResource AccentLightColor1}" />
@@ -191,7 +191,7 @@
                                 Padding="12 6"
                                 Click="BoostyButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PleasantIcon Icon="{DynamicResource Github}" />
+                                <PleasantIcon Icon="{DynamicResource Boosty}" />
                                 
                                 <TextBlock Text="{Localize About/BoostySupport}"
                                            Foreground="{DynamicResource AccentLightColor1}" />

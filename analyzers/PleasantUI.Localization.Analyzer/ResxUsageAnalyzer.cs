@@ -54,6 +54,12 @@ public class ResxUsageAnalyzer : DiagnosticAnalyzer
 
         context.RegisterCompilationStartAction(compilationContext =>
         {
+            AnalyzerConfigOptions globalOptions = compilationContext.Options.AnalyzerConfigOptionsProvider.GlobalOptions;
+            
+            if (globalOptions.TryGetValue("build_property.PleasantUIDisableResxAnalyzer", out string? msbuildValue) &&
+                string.Equals(msbuildValue.Trim(), "true", StringComparison.OrdinalIgnoreCase))
+                return;
+            
             Compilation compilation = compilationContext.Compilation;
 
             List<AdditionalText> resxFiles = compilationContext.Options.AdditionalFiles

@@ -8,6 +8,9 @@
 
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
+
+        <RootNamespace>PleasantUI.Localization.Generator</RootNamespace>
+        <AssemblyName>PleasantUI.Localization.Generator</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

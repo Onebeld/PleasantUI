@@ -24,25 +24,24 @@
         <CompilerVisibleProperty Include="MSBuildProjectDirectory" />
     </ItemGroup>
     
-    <Target Name="PleasantUI_InjectResxAdditionalFiles"
-            BeforeTargets="PrepareForBuild;CoreCompile">
-        <ItemGroup>
-            <AdditionalFiles
-                    Include="@(EmbeddedResource)"
-                    Condition="'%(Extension)' == '.resx'" />
-        </ItemGroup>
-
-        <Message Text="PleasantUI: Found @(AdditionalFiles) resx files" Importance="high" />
-    </Target>
-    
     <ItemGroup>
         <None Include="..\..\generators\PleasantUI.Localization.Generator\bin\$(Configuration)\netstandard2.0\PleasantUI.Localization.Generator.dll"
               Pack="true"
-              PackagePath="analyzers/dotnet/cs"
+              PackagePath="analyzers\dotnet\cs"
               Visible="false" />
         <None Include="..\..\analyzers\PleasantUI.Localization.Analyzer\bin\$(Configuration)\netstandard2.0\PleasantUI.Localization.Analyzer.dll"
               Pack="true"
-              PackagePath="analyzers/dotnet/cs"
+              PackagePath="analyzers\dotnet\cs"
               Visible="false" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\build\PleasantUI.Localization.Analyzer.targets">
+            <Pack>true</Pack>
+            <PackagePath>build\;buildTransitive\</PackagePath>
+        </Content>
+        <Content Include="..\..\build\PleasantUI.Localization.Generator.targets">
+            <Pack>true</Pack>
+            <PackagePath>build\;buildTransitive\</PackagePath>
+        </Content>
     </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 
     <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentLightColor3}" />
+        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBased AccentLightColor3}" />
         <Setter Property="Cursor" Value="Ibeam" />
 
         <Style Selector="^[IsEnabled=True]">

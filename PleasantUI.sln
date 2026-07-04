@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_build", "_build", "{D6E493
 	ProjectSection(SolutionItems) = preProject
 		build\Package.props = build\Package.props
 		build\PleasantUI.targets = build\PleasantUI.targets
+		build\PleasantUI.Localization.Analyzer.targets = build\PleasantUI.Localization.Analyzer.targets
+		build\PleasantUI.Localization.Generator.targets = build\PleasantUI.Localization.Generator.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "generators", "generators", "{77203EAD-CB0D-4D37-B8E7-2F2BA0A1B1EF}"
