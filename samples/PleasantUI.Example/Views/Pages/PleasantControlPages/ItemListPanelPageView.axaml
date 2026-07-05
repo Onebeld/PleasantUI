@@ -25,7 +25,7 @@
         </WrapPanel>
 
         <controls:ItemListPanel x:Name="ListPanel"
-                                SearchWatermark="{Localize ItemListPanel/SearchWatermark}"
+                                SearchWatermark="{Localize {x:Static LocKey.SearchableComboBox__SearchPlaceholder}}"
                                 EmptyStateTitle="{Localize ItemListPanel/EmptyTitle}"
                                 EmptyStateSubtitle="{Localize ItemListPanel/EmptySubtitle}"
                                 LoadingTitle="{Localize ItemListPanel/LoadingTitle}"

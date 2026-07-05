@@ -36,7 +36,7 @@
         <TextBlock Theme="{DynamicResource TitleTextBlockTheme}"
                    TextAlignment="Center"
                    TextWrapping="Wrap"
-                   Text="{Localize Welcome, Context='Hello'}"/> 
+                   Text="{Localize {x:Static LocKey.WelcomeToPleasantUI}}"/> 
 
         <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
                    Text="{CompiledBinding BasicControlsText}" />

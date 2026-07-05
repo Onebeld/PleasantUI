@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.Localization.Analyzer.Tests", "tests\analyzers\PleasantUI.Localization.Analyzer.Tests\PleasantUI.Localization.Analyzer.Tests.csproj", "{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleasantUI.Tests", "tests\PleasantUI.Tests\PleasantUI.Tests.csproj", "{A6230EC5-60E1-41E8-BE8E-CA9A82D7F835}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6230EC5-60E1-41E8-BE8E-CA9A82D7F835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6230EC5-60E1-41E8-BE8E-CA9A82D7F835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6230EC5-60E1-41E8-BE8E-CA9A82D7F835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6230EC5-60E1-41E8-BE8E-CA9A82D7F835}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71BFCFA6-B53E-4F28-819F-51CB26516B5A} = {BEE78D8A-ED3D-4D34-9B29-43D5BB953D40}
@@ -87,5 +93,6 @@ Global
 		{A519CDCF-2774-4FD9-AE5F-0F6B62F7C346} = {20ECD7A9-C3D1-41AA-A8BB-640E3B28BBC0}
 		{6B8337BF-8256-47CF-836E-C5A3C745D931} = {80E17402-8124-43B7-A0BB-E939CDD20E21}
 		{D3E71BE9-D438-48ED-A99D-EF30AEFD66A5} = {6B8337BF-8256-47CF-836E-C5A3C745D931}
+		{A6230EC5-60E1-41E8-BE8E-CA9A82D7F835} = {80E17402-8124-43B7-A0BB-E939CDD20E21}
 	EndGlobalSection
 EndGlobal

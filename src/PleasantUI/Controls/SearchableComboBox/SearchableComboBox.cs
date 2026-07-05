@@ -11,6 +11,7 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Metadata;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Size = Avalonia.Size;
 
@@ -30,8 +31,9 @@ public class SearchableComboBox : ItemsControl
 
     private object? _selectedItem;
     private int _selectedIndex = -1;
+    private bool _isUpdatingSelection;
     
-    private readonly AvaloniaList<object> _filteredItems = [];
+    private readonly AvaloniaList<object?> _filteredItems = [];
 
     private static readonly FuncTemplate<Panel?> DefaultPanel = new(() => new VirtualizingStackPanel());
     
@@ -112,8 +114,8 @@ public class SearchableComboBox : ItemsControl
     /// <summary>
     /// Defines the <see cref="FilterFunction"/> property.
     /// </summary>
-    public static readonly StyledProperty<Func<object?, string?, bool>?> FilterFunctionProperty =
-        AvaloniaProperty.Register<SearchableComboBox, Func<object?, string?, bool>?>(nameof(FilterFunction));
+    public static readonly StyledProperty<Func<Control?, object?, string?, bool>?> FilterFunctionProperty =
+        AvaloniaProperty.Register<SearchableComboBox, Func<Control?, object?, string?, bool>?>(nameof(FilterFunction));
 
     /// <summary>
     /// Defines the <see cref="SelectionBoxItemTemplate"/> property.
@@ -177,7 +179,7 @@ public class SearchableComboBox : ItemsControl
         set => SetValue(VerticalContentAlignmentProperty, value);
     }
 
-    public Func<object?, string?, bool>? FilterFunction
+    public Func<Control?, object?, string?, bool>? FilterFunction
     {
         get => GetValue(FilterFunctionProperty);
         set => SetValue(FilterFunctionProperty, value);
@@ -286,18 +288,34 @@ public class SearchableComboBox : ItemsControl
 
         if (change.Property == SelectedItemProperty)
         {
+            DeselectContainerForItem(change.OldValue);
             UpdateSelectionBoxItem(SelectedItem);
+            SelectContainerForItem(SelectedItem);
             TryFocusSelectedItem();
+            
+            object? oldItem = change.GetOldValue<object?>();
+            object? newItem = change.GetNewValue<object?>();
+        
+            object[] removed = oldItem != null ? [oldItem] : [];
+            object[] added = newItem != null ? [newItem] : [];
+
+            SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(
+                SelectingItemsControl.SelectionChangedEvent,
+                removed, 
+                added));
+        }
+        else if (change.Property == IsDropDownOpenProperty)
+        {
+            SetCurrentValue(FilterTextProperty, string.Empty);
+            EnsureAllItems();
         }
         else if (change.Property == FilterTextProperty)
         {
             FilterItems();
         }
-        else if (change.Property == ItemsSourceProperty)
+        else if (change.Property == ItemsSourceProperty && !_isFiltering)
         {
-            IEnumerable newItems = change.GetNewValue<IEnumerable>();
-            if (!_isFiltering && AllItems == null)
-                AllItems = newItems;
+            AllItems = change.GetNewValue<IEnumerable>();;
         }
     }
 
@@ -372,7 +390,7 @@ public class SearchableComboBox : ItemsControl
         }
         else if (IsDropDownOpen && ItemCount > 0 && e.Key is Key.Down or Key.Up)
         {
-            int direction = e.Key == Key.Down ? 1 : -1;
+            NavigationDirection direction = e.Key == Key.Down ? NavigationDirection.Next : NavigationDirection.Previous;
             MoveFocus(direction);
             e.Handled = true;
         }
@@ -421,43 +439,34 @@ public class SearchableComboBox : ItemsControl
     
     private int IndexFromItem(object? item)
     {
-        if (item == null) return -1;
         return Items.IndexOf(item);
     }
     
     private bool UpdateSelectionFromEventSource(object? eventSource)
     {
         Control? container = GetContainerFromEventSource(eventSource);
-        if (container == null) return false;
 
         int index = IndexFromContainer(container);
         if (index < 0) return false;
 
         object? item = index < Items.Count ? Items[index] : null;
-        
-        if (item == null)
-            return false;
-        
-        DeselectContainerForItem(SelectedItem);
 
         SelectedItem = item;
-        if (container is  SearchableComboBoxItem comboItem)
-            comboItem.IsSelected = true;
-        
-        // TODO: SelectionChanged
-        //SelectionChanged?.Invoke(this, new SelectionChangedEventArgs());
-            
         return true;
     }
 
     private void DeselectContainerForItem(object? item)
     {
-        if (item == null)
-            return;
-        
         Control? oldContainer = ContainerFromItem(item);
         if (oldContainer is SearchableComboBoxItem comboItem)
             comboItem.IsSelected = false;
+    }
+    
+    private void SelectContainerForItem(object? item)
+    {
+        Control? container = ContainerFromItem(item);
+        if (container is SearchableComboBoxItem comboItem)
+            comboItem.IsSelected = true;
     }
     
     private Control? GetContainerFromEventSource(object? eventSource)
@@ -474,7 +483,7 @@ public class SearchableComboBox : ItemsControl
     {
         EnsureAllItems();
         SetCurrentValue(FilterTextProperty, string.Empty);
-        
+    
         _editableTextBox?.Focus();
         
         if (SelectedItem != null)
@@ -485,9 +494,6 @@ public class SearchableComboBox : ItemsControl
 
     private void PopupClosed(object? sender, EventArgs e)
     {
-        SetCurrentValue(FilterTextProperty, string.Empty);
-        EnsureAllItems();
-        
         DropDownClosed?.Invoke(this, EventArgs.Empty);
     }
     
@@ -522,13 +528,16 @@ public class SearchableComboBox : ItemsControl
             }
             else
             {
-                Func<object?, string?, bool> filterFunc = FilterFunction ?? DefaultFilterFunction;
+                Func<Control?, object?, string?, bool> filterFunc = FilterFunction ?? 
+                                                                    ((container, item, text) => DefaultFilterFunction(container, item, text, this));
                 
                 _filteredItems.Clear();
 
                 foreach (object? item in AllItems)
                 {
-                    if (filterFunc(item, filterText))
+                    Control? container = ContainerFromItem(item);
+                    
+                    if (filterFunc(container, item, filterText))
                         _filteredItems.Add(item);
                 }
                 
@@ -572,47 +581,90 @@ public class SearchableComboBox : ItemsControl
         }
         else
         {
-            SelectionBoxItem = item;
+            if (item == null && ItemTemplate != null)
+            {
+                Control? materialized = ItemTemplate.Build(null);
+
+                SelectionBoxItem = materialized switch
+                {
+                    TextBlock tb => tb.Text,
+                    ContentControl cc => cc.Content,
+                    _ => materialized
+                };
+            }
+            else
+                SelectionBoxItem = item;
         }
     }
 
     private void UpdateSelectedItemFromIndex()
     {
-        if (_selectedIndex < 0 || _selectedIndex >= ItemCount)
-            return;
+        if (_isUpdatingSelection) return;
+        if (_selectedIndex < 0 || _selectedIndex >= ItemCount) return;
         
-        object? item = ContainerFromIndex(_selectedIndex)?.DataContext ?? Items.ElementAtOrDefault(_selectedIndex);
-        if (item != null && !Equals(_selectedItem, item))
-            SelectedItem = item;
+        _isUpdatingSelection = true;
+        try
+        {
+            object? item = ContainerFromIndex(_selectedIndex)?.DataContext ?? Items.ElementAtOrDefault(_selectedIndex);
+            if (!Equals(_selectedItem, item))
+                SelectedItem = item;
+        }
+        finally
+        {
+            _isUpdatingSelection = false;
+        }
     }
 
     private void UpdateSelectedIndexFromItem()
     {
-        if (SelectedItem == null)
-        {
-            _selectedIndex = -1;
-            return;
-        }
-
-        _selectedIndex = IndexFromItem(SelectedItem);
-
-        if (_selectedIndex >= 0)
-            return;
-
-        if (AllItems == null)
-            return;
+        if (_isUpdatingSelection) return;
         
-        List<object> allList = AllItems.Cast<object>().ToList();
-        _selectedIndex = allList.FindIndex(x => Equals(x, SelectedItem));
+        _isUpdatingSelection = true;
+        try
+        {
+            _selectedIndex = IndexFromItem(SelectedItem);
+
+            if (_selectedIndex >= 0) return;
+            if (AllItems == null) return;
+        
+            List<object?> allList = AllItems.Cast<object?>().ToList();
+            _selectedIndex = allList.FindIndex(x => Equals(x, SelectedItem));
+        }
+        finally
+        {
+            _isUpdatingSelection = false;
+        }
     }
     
-    private static bool DefaultFilterFunction(object? item, string? filterText)
+    private static bool DefaultFilterFunction(Control? container, object? item, string? filterText, SearchableComboBox parent)
     {
-        if (item == null || string.IsNullOrEmpty(filterText)) return true;
+        if (string.IsNullOrEmpty(filterText)) return true;
+
+        string itemText = "";
+
+        if (container is SearchableComboBoxItem cbi)
+        {
+            if (cbi.Content is null)
+                itemText = cbi.FindDescendantOfType<TextBlock>()?.Text ?? "";
+            else
+                itemText = cbi.Content.ToString() ?? "";
+        }
         
-        string itemText = item is SearchableComboBoxItem cbi
-            ? cbi.Content?.ToString() ?? ""
-            : item.ToString() ?? "";
+        if (string.IsNullOrEmpty(itemText) && item == null && parent.ItemTemplate != null)
+        {
+            var materialized = parent.ItemTemplate.Build(null);
+            if (materialized is TextBlock tb)
+                itemText = tb.Text ?? "";
+            else if (materialized is ContentControl cc)
+                itemText = cc.Content?.ToString() ?? "";
+            else
+                itemText = materialized?.ToString() ?? "";
+        }
+
+        if (string.IsNullOrEmpty(itemText))
+        {
+            itemText = item?.ToString() ?? "";
+        }
         
         return itemText.Contains(filterText, StringComparison.OrdinalIgnoreCase);
     }
@@ -628,19 +680,18 @@ public class SearchableComboBox : ItemsControl
 
     private void SelectFocusedItem()
     {
-        foreach (Control container in GetRealizedContainers())
+        var topLevel = TopLevel.GetTopLevel(this);
+        var focusManager = topLevel?.FocusManager;
+    
+        if (focusManager?.GetFocusedElement() is SearchableComboBoxItem focusedContainer)
         {
-            if (!container.IsFocused || container is not SearchableComboBoxItem)
-                continue;
-            
-            int index = IndexFromContainer(container);
-            if (index >= 0)
+            int index = IndexFromContainer(focusedContainer);
+            if (index >= 0 && index < Items.Count)
             {
-                SelectedItem = Items.ElementAtOrDefault(index);
+                SelectedItem = Items[index];
                 SetCurrentValue(FilterTextProperty, string.Empty);
                 EnsureAllItems();
             }
-            break;
         }
     }
 
@@ -652,23 +703,42 @@ public class SearchableComboBox : ItemsControl
         if (container == null)
         {
             ScrollIntoView(SelectedIndex);
-            container = ContainerFromIndex(SelectedIndex);
         }
-
-        container?.Focus();
     }
 
-    private void MoveFocus(int direction)
+    private void MoveFocus(NavigationDirection direction)
     {
-        List<Control> containers = GetRealizedContainers().ToList();
-        if (containers.Count == 0) return;
+        var topLevel = TopLevel.GetTopLevel(this);
+        var focusManager = topLevel?.FocusManager;
+        if (focusManager == null) return;
 
-        int focusedIndex = containers.FindIndex(c => c.IsFocused);
-        int newIndex = focusedIndex + direction;
+        var currentFocused = focusManager.GetFocusedElement() as Control;
 
-        if (newIndex < 0) newIndex = containers.Count - 1;
-        if (newIndex >= containers.Count) newIndex = 0;
+        // Если фокус сейчас в TextBox, при нажатии "Вниз" переходим на первый элемент списка
+        if (currentFocused == _editableTextBox && direction == NavigationDirection.Next)
+        {
+            var firstContainer = ContainerFromIndex(0);
+            firstContainer?.Focus();
+            return;
+        }
 
-        containers[newIndex].Focus();
+        // Смещаем фокус внутри Popup средствами самого FocusManager
+        focusManager.TryMoveFocus(direction);
+
+        // Проверяем, куда ушел фокус после перемещения
+        var newFocused = focusManager.GetFocusedElement() as Control;
+
+        // Циклическая навигация: если фокус улетел за пределы Popup (или никуда не встал)
+        if (newFocused == null || (_popup != null && !_popup.IsInsidePopup(newFocused)))
+        {
+            if (direction == NavigationDirection.Next)
+            {
+                ContainerFromIndex(0)?.Focus();
+            }
+            else
+            {
+                ContainerFromIndex(ItemCount - 1)?.Focus();
+            }
+        }
     }
 }

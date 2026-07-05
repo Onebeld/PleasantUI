@@ -62,7 +62,6 @@
                     <NavigationViewItem Tag="MessageBox"  Header="{Localize CardTitle/MessageBox}"  Icon="{x:Static icons:MaterialIconKind.MessageOutline}" />
                     <NavigationViewItem Tag="NoticeDialog" Header="{Localize CardTitle/NoticeDialog}" Icon="{x:Static icons:MaterialIconKind.InformationOutline}" />
                     <NavigationViewItem Tag="StepDialog"  Header="{Localize CardTitle/StepDialog}"  Icon="{x:Static icons:MaterialIconKind.OrderNumericAscending}" />
-                    <NavigationViewItem Tag="Docking"     Header="{Localize CardTitle/Docking}"     Icon="{x:Static icons:MaterialIconKind.ViewDashboardOutline}" />
                 </NavigationViewItem>
             </NavigationViewItem>
 

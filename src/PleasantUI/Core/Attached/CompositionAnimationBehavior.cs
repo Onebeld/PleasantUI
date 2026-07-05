@@ -213,7 +213,7 @@ public static class CompositionAnimationBehavior
     {
         // We skip one frame so that the rendering gets the Offset value for the control we want to animate,
         // otherwise the control will move to the zero point first
-        Dispatcher.UIThread.Post(() => StartImplicitAnimation(visual), DispatcherPriority.Render);
+        Dispatcher.UIThread.Post(() => _ = StartImplicitAnimationAsync(visual), DispatcherPriority.Render);
     }
 
     private static void StartEntranceAnimation(Visual visual)
@@ -247,14 +247,23 @@ public static class CompositionAnimationBehavior
         composition.StartAnimation("Scale", scaleAnim);
     }
 
-    private static void StartImplicitAnimation(Visual visual)
+    private static async Task StartImplicitAnimationAsync(Visual visual)
     {
         CompositionVisual? composition = ElementComposition.GetElementVisual(visual);
         Compositor? compositor = composition?.Compositor;
 
         if (compositor == null || composition == null)
             return;
-        
+
+        // This hack fixes the behavior where, upon creation, the control's offset is intermittently 0 and only
+        // subsequently animates to the current value (issue #9396 in AvaloniaUI repository).
+        //
+        // NOTE: This hack won't work unless you call Dispatcher.UIThread.Post() before StartImplicitAnimationAsync
+        // method. I don't know why, but it works.
+        //
+        // Link: https://github.com/AvaloniaUI/Avalonia/issues/9396
+        await compositor.RequestCommitAsync();
+    
         double durationMs = GetDuration(visual);
         
         Vector3KeyFrameAnimation offset = compositor.CreateVector3KeyFrameAnimation();

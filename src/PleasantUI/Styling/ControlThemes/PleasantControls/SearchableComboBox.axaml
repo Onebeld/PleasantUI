@@ -80,6 +80,10 @@
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
+        <Style Selector="^[IsFocused=True]">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+        
 
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
@@ -94,6 +98,9 @@
         </Style>
         <Style Selector="^:selected /template/ Border#Pill">
             <Setter Property="IsVisible" Value="True" />
+        </Style>
+        <Style Selector="^[IsFocused=True]:selected">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
         <Style Selector="^:selected:pointerover">
