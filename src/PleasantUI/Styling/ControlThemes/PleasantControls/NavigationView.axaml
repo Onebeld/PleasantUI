@@ -93,7 +93,8 @@
                                         <ScrollViewer DockPanel.Dock="Top">
                                             <ItemsPresenter x:Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                            Margin="0 0 0 5" />
+                                                            Margin="0 0 0 5"
+                                                            KeyboardNavigation.TabNavigation="Once" />
                                         </ScrollViewer>
                                     </DockPanel>
                                 </Grid>
@@ -105,8 +106,8 @@
                                 ClipToBounds="True">
                             <ContentPresenter Name="PART_SelectedContentPresenter"
                                               Opacity="1"
-                                              Focusable="True"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                              Content="{TemplateBinding SelectedContent}" />
                         </Border>
                     </SplitView>
 
@@ -146,73 +147,6 @@
                                          Width="16" Height="16" />
                         </Button>
                     </StackPanel>
-
-                    <!-- Top / Bottom horizontal layout (hidden unless :top or :bottom pseudo-class is active) -->
-                    <DockPanel x:Name="PART_TopBottomLayout"
-                               Grid.Column="0"
-                               Grid.ColumnSpan="2"
-                               IsVisible="False"
-                               LastChildFill="True">
-
-                        <!-- Top bar: items from TopItems collection, never from Items -->
-                        <Border x:Name="PART_TopBar"
-                                DockPanel.Dock="Top"
-                                IsVisible="False"
-                                Background="{DynamicResource BackgroundColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="0 0 0 1">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Disabled">
-                                <ItemsControl x:Name="PART_TopItemsControl"
-                                              ItemsSource="{TemplateBinding TopItems}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="4 0" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.Styles>
-                                        <Style Selector="NavigationViewItem">
-                                            <Setter Property="Theme" Value="{DynamicResource TopBottomNavigationViewItemTheme}" />
-                                        </Style>
-                                    </ItemsControl.Styles>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Border>
-
-                        <!-- Bottom bar: items from BottomItems collection, never from Items -->
-                        <Border x:Name="PART_BottomBar"
-                                DockPanel.Dock="Bottom"
-                                IsVisible="False"
-                                Background="{DynamicResource BackgroundColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="0 1 0 0">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Disabled">
-                                <ItemsControl x:Name="PART_BottomItemsControl"
-                                              ItemsSource="{TemplateBinding BottomItems}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="4 0" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.Styles>
-                                        <Style Selector="NavigationViewItem">
-                                            <Setter Property="Theme" Value="{DynamicResource TopBottomNavigationViewItemTheme}" />
-                                        </Style>
-                                    </ItemsControl.Styles>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Border>
-
-                        <!-- Content area for top/bottom layouts -->
-                        <Border Background="{TemplateBinding Background}"
-                                ClipToBounds="True">
-                            <ContentPresenter x:Name="PART_TopBottomContentPresenter"
-                                              Opacity="1"
-                                              Focusable="True"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                        </Border>
-                    </DockPanel>
                 </Grid>
             </ControlTemplate>
         </Setter>

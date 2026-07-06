@@ -69,7 +69,6 @@
 
                         <Panel Grid.Column="0" Name="ContentRoot">
                             <ContentPresenter x:Name="PART_ContentPresenter"
-                                              Focusable="True"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" />
                             <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False" />

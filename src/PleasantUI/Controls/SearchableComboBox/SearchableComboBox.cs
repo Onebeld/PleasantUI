@@ -11,7 +11,6 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Metadata;
-using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Size = Avalonia.Size;
 

@@ -34,6 +34,12 @@ public class AppViewModel : ViewModelBase
         get;
         set => SetProperty(ref field, value);
     } = true;
+    
+    public bool IsEnabledAnimation
+    {
+        get;
+        set => SetProperty(ref field, value);
+    } = true;
 
     public string WelcomeText
     {
@@ -124,14 +130,26 @@ public class AppViewModel : ViewModelBase
     /// </summary>
     public void ForceRefreshLocalizedTexts() => RefreshLocalizedTexts();
 
-    public void ChangePage(IPage page)
+    public void ChangePage(IPage page, bool enableAnimation = true)
     {
+        IsEnabledAnimation = enableAnimation;
         IsForwardAnimation = true;
         Page = page;
     }
 
-    public void BackToHomePage()
+    public void BackToHomePage(bool enableAnimation = true)
     {
+        if (Page is HomePage)
+            return;
+        
+        IsEnabledAnimation = enableAnimation;
+        IsForwardAnimation = false;
+        Page = new HomePage();
+    }
+    
+    public void BackToHomePageXaml()
+    {
+        IsEnabledAnimation = true;
         IsForwardAnimation = false;
         Page = new HomePage();
     }

@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
+using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
@@ -33,6 +35,12 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
     /// </summary>
     public static readonly StyledProperty<bool> ForwardProperty =
         AvaloniaProperty.Register<PleasantPageSlide, bool>(nameof(Forward), true);
+    
+    /// <summary>
+    /// Defines the <see cref="Forward" /> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsEnabledProperty =
+        AvaloniaProperty.Register<PleasantPageSlide, bool>(nameof(IsEnabled), true);
 
     /// <summary>
     /// Defines the <see cref="Orientation" /> property.
@@ -63,6 +71,15 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
         get => GetValue(ForwardProperty);
         set => SetValue(ForwardProperty, value);
     }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the transition should slide forward or backward.
+    /// </summary>
+    public bool IsEnabled
+    {
+        get => GetValue(IsEnabledProperty);
+        set => SetValue(IsEnabledProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets the orientation of the slide.
@@ -84,6 +101,20 @@ public class PleasantPageSlide : AvaloniaObject, IPageTransition
     {
         if (cancellationToken.IsCancellationRequested)
             return;
+        
+        if (!IsEnabled || ReferenceEquals(from, to))
+        {
+            from?.IsVisible = false;
+            to?.IsVisible = true;
+            return;
+        }
+
+        if (from is ContentPresenter { Content: null })
+        {
+            from.IsVisible = false;
+            to?.IsVisible = true;
+            return;
+        }
 
         Visual parent = GetVisualParent(from, to);
         double distance = Orientation == SlideAxis.Horizontal ? parent.Bounds.Width : parent.Bounds.Height;

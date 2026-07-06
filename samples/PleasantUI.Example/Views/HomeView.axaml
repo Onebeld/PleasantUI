@@ -14,13 +14,13 @@
                   VerticalScrollBarVisibility="Auto">
         <TransitioningContentControl Content="{CompiledBinding Page}">
                 <TransitioningContentControl.PageTransition>
-                    <transitions:PleasantPageSlide Orientation="Horizontal" Duration="0:0:0.3" Forward="{CompiledBinding IsForwardAnimation}" />
+                    <transitions:PleasantPageSlide Orientation="Horizontal" Duration="0:0:0.3" Forward="{CompiledBinding IsForwardAnimation}" IsEnabled="{CompiledBinding IsEnabledAnimation}" />
                 </TransitioningContentControl.PageTransition>
                 <TransitioningContentControl.ContentTemplate>
                     <DataTemplate DataType="interfaces:IPage">
                         <Grid RowDefinitions="Auto,*" Margin="15">
                             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5" IsVisible="{Binding ShowTitle}">
-                                <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePage}"
+                                <Button Command="{CompiledBinding $parent[views:HomeView].((viewModels:AppViewModel)DataContext).BackToHomePageXaml}"
                                         ToolTip.Tip="Back to home page">
                                     <PleasantIcon Icon="{x:Static icons:MaterialIconKind.ArrowLeft}"
                                                  Foreground="{DynamicResource TextFillColor1}" />

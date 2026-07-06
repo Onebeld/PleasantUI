@@ -20,6 +20,8 @@
                             <Setter Property="CornerRadius" Value="0" />
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+                            <Setter Property="IsTabStop" Value="False" />
+                            <Setter Property="Focusable" Value="False" />
                         </Style>
 
                         <Style Selector="Button > PleasantIcon">

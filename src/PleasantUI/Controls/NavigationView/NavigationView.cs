@@ -19,6 +19,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
@@ -26,6 +27,7 @@ using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using PleasantUI.Controls.Chrome;
+using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls;
 
@@ -53,7 +55,7 @@ public enum NavigationViewPosition
 [TemplatePart("PART_HeaderItem", typeof(Button))]
 [TemplatePart("PART_BackButton", typeof(Button))]
 [TemplatePart("PART_SelectedContentPresenter", typeof(ContentPresenter))]
-public class NavigationView : TreeView
+public class NavigationView : TreeView, ICustomKeyboardNavigation
 {
     private const double LittleWidth = 1005;
     private const double VeryLittleWidth = 650;
@@ -65,6 +67,8 @@ public class NavigationView : TreeView
     private Border? _marginPanel;
     private StackPanel? _stackPanelButtons;
     private DockPanel? _topBottomLayout;
+    private Border? _topBar;
+    private Border? _bottomBar;
 
     private Button? _backButton;
 
@@ -73,18 +77,9 @@ public class NavigationView : TreeView
     private CancellationTokenSource? _cancellationTokenSource;
     private ContentPresenter? _contentPresenter;
     private ContentPresenter? _topBottomContentPresenter;
-
-    // Stable wrapper controls permanently assigned to each presenter.
-    // The actual page content is placed inside the active wrapper; the inactive wrapper is hidden.
-    // This avoids all single-visual-parent conflicts because the wrappers never move between
-    // presenters — only the content inside them changes, and Border.Child assignment is safe
-    // because we always clear the old wrapper's child before setting the new one.
-    private readonly Border _leftWrapper    = new() { HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch };
-    private readonly Border _topBottomWrapper = new() { HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch };
-
-    // Cache: the last content object and which position it was routed for.
-    private object? _cachedContent;
-    private NavigationViewPosition _cachedContentPosition;
+    
+    private CompositeDisposable? _windowDisposables;
+    private readonly List<IDisposable> _proxySubscriptions = [];
 
     private Button? _headerItem;
 
@@ -488,7 +483,8 @@ public class NavigationView : TreeView
         IsOpenProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnIsOpenChanged(e));
         ShowBackButtonProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
         DisplayModeProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
-        ButtonsPanelOffsetProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.UpdateMarginPanel());
+        ButtonsPanelOffsetProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnButtonsPanelOffsetChanged());
+        CompactPaneLengthProperty.Changed.AddClassHandler<NavigationView>((x, _) => x.OnCompactPaneLengthChanged());
         PositionProperty.Changed.AddClassHandler<NavigationView>((x, e) => x.OnPositionChanged(e));
     }
     /// <summary>
@@ -498,10 +494,8 @@ public class NavigationView : TreeView
     {
         PseudoClasses.Add(":normal");
         PseudoClasses.Add(":left");
-        this.GetObservable(BoundsProperty).Subscribe(new AnonymousObserver<Rect>(bounds =>
-        {
-            Dispatcher.UIThread.InvokeAsync(() => OnBoundsChanged(bounds));
-        }));
+        
+        KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Continue);
     }
 
     /// <inheritdoc />
@@ -514,12 +508,13 @@ public class NavigationView : TreeView
         _headerItem = e.NameScope.Find<Button>("PART_HeaderItem");
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
-        _topBottomContentPresenter = e.NameScope.Find<ContentPresenter>("PART_TopBottomContentPresenter");
         _container = e.NameScope.Find<Border>("PART_Container");
         _mainGrid = e.NameScope.Find<Grid>("PART_SplitViewGrid");
         _dockPanel = e.NameScope.Find<DockPanel>("PART_ItemsPresenterDockPanel");
         _marginPanel = e.NameScope.Find<Border>("PART_MarginPanel");
         _topBottomLayout = e.NameScope.Find<DockPanel>("PART_TopBottomLayout");
+        _topBar = e.NameScope.Find<Border>("PART_TopBar");
+        _bottomBar = e.NameScope.Find<Border>("PART_BottomBar");
 
         // Wire up top/bottom bar item selection — items are owned by TopItems/BottomItems, not Items.
         WireTopBottomItemSelection(e.NameScope.Find<ItemsControl>("PART_TopItemsControl"));
@@ -527,21 +522,8 @@ public class NavigationView : TreeView
 
         Debug.WriteLine($"[NavigationView] OnApplyTemplate parts: headerItem={_headerItem is not null} backButton={_backButton is not null} contentPresenter={_contentPresenter is not null}");
 
-        // Template re-application (e.g. theme change) gives us brand-new presenter instances.
-        // Assign the stable wrapper controls to the new presenters. The wrappers never move
-        // between presenters — they are permanently owned by their respective presenter.
-        // Content routing works by placing the actual page content inside the active wrapper
-        // and hiding the inactive wrapper, avoiding all single-visual-parent conflicts.
-        // Use comprehensive safe assignment to prevent visual tree violations.
-        Debug.WriteLine("[NavigationView] OnApplyTemplate safely assigning wrappers to presenters");
-        bool leftAssigned = SafelyAssignWrapperToPresenter(_contentPresenter, _leftWrapper, "_leftWrapper");
-        bool topBottomAssigned = SafelyAssignWrapperToPresenter(_topBottomContentPresenter, _topBottomWrapper, "_topBottomWrapper");
-        Debug.WriteLine($"[NavigationView] OnApplyTemplate wrapper assignment results: left={leftAssigned}, topBottom={topBottomAssigned}");
-
         // Explicitly sync layout panel visibility with current Position (survives style invalidation).
         UpdateLayoutVisibility(Position);
-
-        RestoreCachedContent();
 
         if (_headerItem != null)
         {
@@ -550,42 +532,37 @@ public class NavigationView : TreeView
 
         BackButtonCommandProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<ICommand?>>(x =>
         {
-            if (_backButton != null)
-                _backButton.IsVisible = x.NewValue.Value is not null;
+            _backButton?.IsVisible = x.NewValue.Value is not null;
         }));
 
         if (TopLevel.GetTopLevel(this) is PleasantWindow window)
         {
             _window = window;
             _titleBarHeight = window.TitleBarHeight;
+            
+            _windowDisposables?.Dispose();
+            _windowDisposables = new CompositeDisposable();
+            
             Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={_titleBarHeight}");
             UpdateMacNavigationLayout(window);
             UpdateContainerTitleHeight(window);
             UpdateMarginPanel();
             UpdateTitleBarOffset(window);
-            UpdateTopBottomLayout(window);
-
-            window.GetObservable(PleasantWindow.TitleBarHeightProperty)
+            
+            _windowDisposables.Add(window.GetObservable(PleasantWindow.TitleBarHeightProperty)
                 .Subscribe(new AnonymousObserver<double>(h =>
                 {
                     _titleBarHeight = h;
                     UpdateContainerTitleHeight(window);
                     UpdateMarginPanel();
-                    UpdateTopBottomLayout(window);
-                }));
+                })));
 
             // Auto-sync ButtonsPanelOffset with TitleBarType — Compact = offset on, others = off
-            window.GetObservable(PleasantWindow.TitleBarTypeProperty)
+            _windowDisposables.Add(window.GetObservable(PleasantWindow.TitleBarTypeProperty)
                 .Subscribe(new AnonymousObserver<PleasantTitleBar.Type>(type =>
                 {
                     ButtonsPanelOffset = type == PleasantTitleBar.Type.Compact;
-                }));
-
-            this.GetObservable(ButtonsPanelOffsetProperty)
-                .Subscribe(new AnonymousObserver<bool>(_ => UpdateTitleBarOffset(window)));
-
-            this.GetObservable(CompactPaneLengthProperty)
-                .Subscribe(new AnonymousObserver<double>(_ => UpdateTitleBarOffset(window)));
+                })));
         }
 
         UpdateTitleAndSelectedContent();
@@ -611,6 +588,32 @@ public class NavigationView : TreeView
                 SelectTopBottomItem(firstItems[0]);
         }
     }
+    
+    (bool handled, IInputElement? next) ICustomKeyboardNavigation.GetNext(IInputElement element, NavigationDirection direction)
+    {
+        // Во всех остальных случаях отдаем управление стандартному FocusManager, возвращая handled = false
+        return (false, null);
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        
+        _windowDisposables?.Dispose();
+        _windowDisposables = null;
+        _window = null;
+        
+        _cancellationTokenSource?.Cancel();
+    }
+
+    protected override void OnSizeChanged(SizeChangedEventArgs e)
+    {
+        base.OnSizeChanged(e);
+        
+        if (e.NewSize.Width <= 0) return;
+
+        OnBoundsChanged(new Rect(e.NewSize));
+    }
 
     /// <inheritdoc />
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
@@ -631,6 +634,17 @@ public class NavigationView : TreeView
         // Always run deselection of other items, even if this item is already selected
         CloseAllSubMenuPopups();
         SelectSingleItemCore(item, runAnimation);
+    }
+    
+    private void OnButtonsPanelOffsetChanged()
+    {
+        UpdateMarginPanel();
+        if (_window is not null) UpdateTitleBarOffset(_window);
+    }
+
+    private void OnCompactPaneLengthChanged()
+    {
+        if (_window is not null) UpdateTitleBarOffset(_window);
     }
 
     private void UpdateMacNavigationLayout(PleasantWindow window)
@@ -702,31 +716,6 @@ public class NavigationView : TreeView
         }
     }
 
-    /// <summary>
-    /// Applies the correct top margin to <c>PART_TopBottomLayout</c> so the horizontal nav bar
-    /// sits flush below the custom titlebar (Top position) or the content area is inset correctly
-    /// (Bottom position). For Left position this is a no-op.
-    /// </summary>
-    private void UpdateTopBottomLayout(PleasantWindow window)
-    {
-        if (_topBottomLayout is null) return;
-
-        if (!window.EnableCustomTitleBar || Position == NavigationViewPosition.Left)
-        {
-            _topBottomLayout.Margin = new Thickness(0);
-            return;
-        }
-
-        // For Top: push the entire DockPanel down by titleBarHeight so the bar clears the titlebar.
-        // For Bottom: same — the content area starts below the titlebar, bar docks to the bottom.
-        _topBottomLayout.Margin = new Thickness(0, _titleBarHeight, 0, 0);
-        Debug.WriteLine($"[NavigationView] UpdateTopBottomLayout position={Position} titleBarHeight={_titleBarHeight} → margin=0,{_titleBarHeight},0,0");
-    }
-
-    /// <summary>
-    /// Explicitly sets IsVisible on the SplitView and TopBottomLayout panels to match the current Position.
-    /// This bypasses pseudo-class styles which can fail to re-apply after style tree changes
-    /// </summary>
     private void UpdateLayoutVisibility(NavigationViewPosition position)
     {
         // Find the SplitView named "split" in the template
@@ -737,19 +726,11 @@ public class NavigationView : TreeView
         bool isTop = position == NavigationViewPosition.Top;
         bool isBottom = position == NavigationViewPosition.Bottom;
 
-        if (splitView is not null)
-            splitView.IsVisible = isLeft;
-        if (stackPanelButtons is not null)
-            stackPanelButtons.IsVisible = isLeft;
-        if (_topBottomLayout is not null)
-            _topBottomLayout.IsVisible = isTop || isBottom;
+        splitView?.IsVisible = isLeft;
+        stackPanelButtons?.IsVisible = isLeft;
+        _topBottomLayout?.IsVisible = isTop || isBottom;
 
-        // Show/hide the top or bottom bar within the layout
-        Border? topBar = this.GetVisualDescendants().OfType<Border>().FirstOrDefault(x => x.Name == "PART_TopBar");
-        Border? bottomBar = this.GetVisualDescendants().OfType<Border>().FirstOrDefault(x => x.Name == "PART_BottomBar");
-
-        if (topBar is not null) topBar.IsVisible = isTop;
-        if (bottomBar is not null) bottomBar.IsVisible = isBottom;
+        _bottomBar?.IsVisible = isBottom;
 
         Debug.WriteLine($"[NavigationView] UpdateLayoutVisibility position={position} splitView={splitView is not null} topBottomLayout={_topBottomLayout is not null}");
     }
@@ -856,6 +837,50 @@ public class NavigationView : TreeView
 
         SelectedItem = item;
     }
+    
+    private void ChangeNavigationContent(object? newContent, bool playAnimation = true)
+    {
+        if (newContent is null) return;
+        
+        if (ReferenceEquals(SelectedContent, newContent))
+            return;
+        
+        if (SelectedContent is ILogical oldLogical)
+        {
+            LogicalChildren.Remove(oldLogical);
+        }
+
+        // Добавляем новую страницу в логическое дерево компонента
+        if (newContent is ILogical newLogical)
+        {
+            if (!LogicalChildren.Contains(newLogical))
+            {
+                LogicalChildren.Add(newLogical);
+            }
+        }
+
+        SelectedContent = newContent;
+
+        if (!playAnimation || TransitionAnimation is null || _contentPresenter is null)
+            return;
+        
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
+        
+        CancellationToken token = _cancellationTokenSource.Token;
+
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            if (token.IsCancellationRequested) return;
+            try
+            {
+                await TransitionAnimation.RunAsync(_contentPresenter, token);
+            }
+            catch (TaskCanceledException)
+            {
+            }
+        }, DispatcherPriority.Send);
+    }
 
     private void UpdatePseudoClasses(bool isCompact)
     {
@@ -873,49 +898,26 @@ public class NavigationView : TreeView
 
     private void OnPositionChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        NavigationViewPosition position = (NavigationViewPosition)(e.NewValue ?? NavigationViewPosition.Left);
-        PseudoClasses.Remove(":left");
-        PseudoClasses.Remove(":top");
-        PseudoClasses.Remove(":bottom");
-        switch (position)
-        {
-            case NavigationViewPosition.Top:
-                PseudoClasses.Add(":top");
-                break;
-            case NavigationViewPosition.Bottom:
-                PseudoClasses.Add(":bottom");
-                break;
-            default:
-                PseudoClasses.Add(":left");
-                break;
-        }
-        Debug.WriteLine($"[NavigationView] OnPositionChanged position={position}");
+        if (e.NewValue is not NavigationViewPosition position)
+            return;
+        
+        PseudoClasses.Set(":left", position == NavigationViewPosition.Left);
+        PseudoClasses.Set(":top", position == NavigationViewPosition.Top);
+        PseudoClasses.Set(":bottom", position == NavigationViewPosition.Bottom);
 
-        // Explicitly manage layout panel visibility to survive style invalidation
         UpdateLayoutVisibility(position);
-
-        // Rebuild the Top/Bottom proxy item collections from Items.
+        UpdateMarginPanel();
         RebuildTopBottomProxies(position);
-
-        // Update top/bottom layout margins and titlebar clearance for the new position.
-        if (_window is not null)
-        {
-            UpdateTopBottomLayout(_window);
-            UpdateTitleBarOffset(_window);
-        }
-
-        // Re-route the current content to the now-active presenter.
-        UpdateTitleAndSelectedContent();
     }
 
-    /// <summary>
-    /// Rebuilds <see cref="TopItems"/> or <see cref="BottomItems"/> with proxy clones of the
-    /// top-level items when switching to a horizontal layout, or clears them when
-    /// returning to the Left layout.  Proxies are new instances — they never share visual identity
-    /// with the originals, so Avalonia's single-visual-parent rule is never violated.
-    /// </summary>
     private void RebuildTopBottomProxies(NavigationViewPosition position)
     {
+        foreach (IDisposable subscription in _proxySubscriptions)
+        {
+            subscription.Dispose();
+        }
+        _proxySubscriptions.Clear();
+        
         _topItems.Clear();
         _bottomItems.Clear();
 
@@ -931,11 +933,6 @@ public class NavigationView : TreeView
         }
     }
 
-    /// <summary>
-    /// Creates a proxy <see cref="NavigationViewItem"/> that mirrors the data of <paramref name="original"/>
-    /// without sharing any visual or logical parent.  Selection on the proxy is forwarded to the original
-    /// so that <see cref="UpdateTitleAndSelectedContent"/> always operates on the real item.
-    /// </summary>
     private NavigationViewItem CreateProxy(NavigationViewItem original)
     {
         NavigationViewItem proxy = new()
@@ -949,7 +946,7 @@ public class NavigationView : TreeView
         };
 
         // Forward proxy selection → original selection so content routing works correctly.
-        proxy.GetObservable(TreeViewItem.IsSelectedProperty)
+        IDisposable sub = proxy.GetObservable(TreeViewItem.IsSelectedProperty)
             .Subscribe(new AnonymousObserver<bool>(isSelected =>
             {
                 if (!isSelected) return;
@@ -969,495 +966,25 @@ public class NavigationView : TreeView
                 // Drive content update directly — SelectedItem won't change because
                 // the proxy is not in Items, so OnSelectedItemChanged won't fire.
                 SelectedContent = original.Content;
-                _cachedContent = original.Content;
-                _cachedContentPosition = Position;
-
-                RouteContentToWrapper(original.Content);
             }));
+        
+        _proxySubscriptions.Add(sub);
 
         return proxy;
     }
-
-    /// <summary>
-    /// Validates that the current operation is running on the UI thread.
-    /// This is critical for all visual tree operations to prevent cross-thread exceptions.
-    /// </summary>
-    /// <param name="operationName">Name of the operation being performed for logging.</param>
-    /// <returns>True if on UI thread, false otherwise.</returns>
-    private bool ValidateUiThreadAccess(string operationName)
-    {
-        if (!Dispatcher.UIThread.CheckAccess())
-        {
-            Debug.WriteLine($"[NavigationView] ValidateUiThreadAccess {operationName} — NOT on UI thread, operation may fail");
-            return false;
-        }
-        
-        Debug.WriteLine($"[NavigationView] ValidateUiThreadAccess {operationName} — UI thread validated");
-        return true;
-    }
-
-    /// <summary>
-    /// Validates that a control is not disposed and is still usable.
-    /// Prevents operations on disposed controls which can cause crashes.
-    /// Null controls are treated as valid (we just can't validate them) to allow
-    /// early initialization before template is applied.
-    /// </summary>
-    /// <param name="control">The control to validate.</param>
-    /// <param name="controlName">Name of the control for logging.</param>
-    /// <returns>True if control is valid or null, false if disposed.</returns>
-    private bool ValidateControlNotDisposed(Control? control, string controlName)
-    {
-        if (control is null)
-        {
-            Debug.WriteLine($"[NavigationView] ValidateControlNotDisposed {controlName} is null — treating as valid (early initialization)");
-            return true; // Treat null as valid - we can't validate it, but that's okay
-        }
-
-        // Check if the control is in a disposed state by checking its visual parent chain
-        // A disposed control typically has no visual parent or is detached from the tree
-        try
-        {
-            bool isAttached = control.IsAttachedToVisualTree();
-            if (!isAttached)
-            {
-                Debug.WriteLine($"[NavigationView] ValidateControlNotDisposed {controlName} is not attached to visual tree — may be disposed or initializing");
-                // We still allow operations on unattached controls as they might be in the process of being attached
-                // This is a warning, not a failure
-            }
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"[NavigationView] ValidateControlNotDisposed {controlName} validation FAILED: {ex.Message}");
-            return false;
-        }
-    }
     
-    private bool ValidateWrapperPresenterCompatibility(Border? wrapper, ContentPresenter? presenter, string wrapperName)
+    private object? FindContentInHierarchy(NavigationViewItem? item)
     {
-        if (wrapper is null || presenter is null)
+        while (item is not null)
         {
-            Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} — null wrapper or presenter");
-            return false;
+            if (item.Content is not null)
+                return item.Content;
+
+            item = item.GetLogicalParent() as NavigationViewItem 
+                   ?? item.GetVisualParent() as NavigationViewItem;
         }
 
-        // Check if wrapper is already a child of the presenter (valid state)
-        if (ReferenceEquals(presenter.Content, wrapper))
-        {
-            // Also verify the presenter is still attached to the live visual tree.
-            // After a theme switch that doesn't trigger OnApplyTemplate, the presenter
-            // may be a stale instance from the old template — detached from the visual tree.
-            // Note: during OnApplyTemplate itself the presenter may not yet be attached,
-            // so we only treat it as stale if we can find a live replacement.
-            if (!presenter.IsAttachedToVisualTree())
-            {
-                // Try to find a live replacement in the current visual tree.
-                ContentPresenter? liveLeft = this.GetVisualDescendants()
-                    .OfType<ContentPresenter>()
-                    .FirstOrDefault(x => x.Name == "PART_SelectedContentPresenter" && x.IsAttachedToVisualTree());
-                ContentPresenter? liveTopBottom = this.GetVisualDescendants()
-                    .OfType<ContentPresenter>()
-                    .FirstOrDefault(x => x.Name == "PART_TopBottomContentPresenter" && x.IsAttachedToVisualTree());
-
-                bool foundLiveReplacement = (ReferenceEquals(presenter, _contentPresenter) && liveLeft is not null && !ReferenceEquals(liveLeft, presenter))
-                                         || (ReferenceEquals(presenter, _topBottomContentPresenter) && liveTopBottom is not null && !ReferenceEquals(liveTopBottom, presenter));
-
-                if (foundLiveReplacement)
-                {
-                    Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} assigned to DETACHED presenter but live replacement found — stale, needs re-assignment");
-                    if (liveLeft is not null && !ReferenceEquals(liveLeft, _contentPresenter)) _contentPresenter = liveLeft;
-                    if (liveTopBottom is not null && !ReferenceEquals(liveTopBottom, _topBottomContentPresenter)) _topBottomContentPresenter = liveTopBottom;
-                    return false; // force re-assignment with the live presenter
-                }
-                // No live replacement found yet (mid-template-application) — treat as valid
-                Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} assigned to presenter not yet attached — treating as valid (mid-apply)");
-            }
-            Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} already assigned to presenter — valid");
-            return true;
-        }
-
-        // Check if wrapper's child is the presenter (invalid circular reference)
-        if (ReferenceEquals(wrapper.Child, presenter))
-        {
-            Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} has presenter as child — INVALID circular reference");
-            return false;
-        }
-
-        // Check if presenter is already a child of wrapper (invalid circular reference)
-        Visual? presenterParent = presenter.GetVisualParent();
-        if (ReferenceEquals(presenterParent, wrapper))
-        {
-            Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} has presenter as visual parent — INVALID circular reference");
-            return false;
-        }
-
-        Debug.WriteLine($"[NavigationView] ValidateWrapperPresenterCompatibility {wrapperName} — compatible");
-        return true;
-    }
-
-    /// <summary>
-    /// Validates that content and wrapper are compatible for assignment.
-    /// Checks for circular references and invalid state combinations.
-    /// </summary>
-    /// <param name="content">The content control to validate.</param>
-    /// <param name="wrapper">The wrapper Border to validate.</param>
-    /// <param name="contentDescription">Description of the content for logging.</param>
-    /// <returns>True if compatible, false otherwise.</returns>
-    private bool ValidateContentWrapperCompatibility(Control? content, Border? wrapper, string contentDescription)
-    {
-        if (content is null || wrapper is null)
-        {
-            Debug.WriteLine($"[NavigationView] ValidateContentWrapperCompatibility {contentDescription} — null content or wrapper");
-            return false;
-        }
-
-        // Check if content is already a child of the wrapper (valid state)
-        if (ReferenceEquals(wrapper.Child, content))
-        {
-            Debug.WriteLine($"[NavigationView] ValidateContentWrapperCompatibility {contentDescription} already assigned to wrapper — valid");
-            return true;
-        }
-
-        // Check if content's child is the wrapper (invalid circular reference)
-        if (content is ContentPresenter contentPresenter && ReferenceEquals(contentPresenter.Content, wrapper))
-        {
-            Debug.WriteLine($"[NavigationView] ValidateContentWrapperCompatibility {contentDescription} has wrapper as content — INVALID circular reference");
-            return false;
-        }
-
-        // Check if wrapper is already a child of content (invalid circular reference)
-        Visual? wrapperParent = wrapper.GetVisualParent();
-        if (ReferenceEquals(wrapperParent, content))
-        {
-            Debug.WriteLine($"[NavigationView] ValidateContentWrapperCompatibility {contentDescription} has wrapper as visual parent — INVALID circular reference");
-            return false;
-        }
-
-        Debug.WriteLine($"[NavigationView] ValidateContentWrapperCompatibility {contentDescription} — compatible");
-        return true;
-    }
-
-    /// <summary>
-    /// Safely detaches a wrapper Border from any current visual parent before reassignment.
-    /// This prevents the "already has a visual parent" error during template re-application.
-    /// Performs comprehensive validation and logging for all operations.
-    /// </summary>
-    /// <param name="wrapper">The wrapper Border to detach.</param>
-    /// <param name="targetPresenter">The target ContentPresenter we want to assign the wrapper to.</param>
-    /// <param name="wrapperName">Name of the wrapper for logging (e.g., "_leftWrapper").</param>
-    /// <returns>True if detachment was successful or not needed, false if an error occurred.</returns>
-    private bool SafelyDetachWrapperFromVisualParent(Border? wrapper, ContentPresenter? targetPresenter, string wrapperName)
-    {
-        if (wrapper is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} is null — skipping");
-            return false;
-        }
-
-        // Check if wrapper has a visual parent
-        Visual? currentVisualParent = wrapper.GetVisualParent();
-        
-        if (currentVisualParent is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} has no visual parent — safe to assign");
-            return true;
-        }
-
-        // Check if the current visual parent is already the target presenter
-        if (ReferenceEquals(currentVisualParent, targetPresenter))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} already parented to target presenter — no action needed");
-            return true;
-        }
-
-        // Check if the current visual parent is a ContentPresenter
-        if (currentVisualParent is ContentPresenter currentPresenter)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} currently parented to ContentPresenter — detaching");
-            
-            try
-            {
-                // Clear the content of the current presenter to detach the wrapper
-                currentPresenter.Content = null;
-                Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} successfully detached from old ContentPresenter");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} FAILED to detach from ContentPresenter: {ex.Message}");
-                return false;
-            }
-        }
-
-        // If the parent is not a ContentPresenter, we cannot safely detach it
-        // This is an unexpected state - log it but don't throw
-        Debug.WriteLine($"[NavigationView] SafelyDetachWrapperFromVisualParent {wrapperName} has unexpected visual parent type {currentVisualParent.GetType().Name} — cannot safely detach");
-        return false;
-    }
-
-    /// <summary>
-    /// Safely assigns a wrapper Border to a ContentPresenter with full validation.
-    /// Performs comprehensive checks to prevent visual tree violations.
-    /// Null presenters are handled gracefully - assignment is skipped but validation passes
-    /// to allow early initialization before template is applied.
-    /// </summary>
-    /// <param name="presenter">The target ContentPresenter.</param>
-    /// <param name="wrapper">The wrapper Border to assign.</param>
-    /// <param name="wrapperName">Name of the wrapper for logging.</param>
-    /// <returns>True if assignment was successful or skipped (null presenter), false otherwise.</returns>
-    private bool SafelyAssignWrapperToPresenter(ContentPresenter? presenter, Border? wrapper, string wrapperName)
-    {
-        // Validate UI thread access
-        if (!ValidateUiThreadAccess($"SafelyAssignWrapperToPresenter({wrapperName})"))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} — UI thread validation failed");
-            return false;
-        }
-
-        // Validate controls are not disposed (null is now treated as valid)
-        if (!ValidateControlNotDisposed(presenter, $"presenter for {wrapperName}"))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} — presenter validation failed");
-            return false;
-        }
-
-        if (!ValidateControlNotDisposed(wrapper, wrapperName))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} — wrapper validation failed");
-            return false;
-        }
-
-        if (presenter is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter presenter is null for {wrapperName} — skipping assignment (early initialization)");
-            return true; // Return true to indicate this is acceptable (not a failure)
-        }
-
-        if (wrapper is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} is null — skipping assignment");
-            return false;
-        }
-
-        // Validate wrapper and presenter compatibility
-        if (!ValidateWrapperPresenterCompatibility(wrapper, presenter, wrapperName))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} — compatibility validation failed");
-            return false;
-        }
-
-        // Check if already correctly assigned
-        if (ReferenceEquals(presenter.Content, wrapper))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} already assigned to presenter — no action needed");
-            return true;
-        }
-
-        // First, safely detach the wrapper from any current visual parent
-        if (!SafelyDetachWrapperFromVisualParent(wrapper, presenter, wrapperName))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} detachment failed — aborting assignment");
-            return false;
-        }
-
-        // Now safely assign the wrapper to the presenter
-        try
-        {
-            presenter.Content = wrapper;
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} successfully assigned to presenter");
-            return true;
-        }
-        catch (InvalidOperationException ex)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} assignment FAILED with InvalidOperationException: {ex.Message}");
-            return false;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignWrapperToPresenter {wrapperName} assignment FAILED with unexpected exception: {ex.Message}");
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Safely detaches content control from any current visual parent before assigning to a wrapper.
-    /// This prevents visual tree violations when content is moved between wrappers.
-    /// </summary>
-    /// <param name="content">The content control to detach.</param>
-    /// <param name="targetWrapper">The target wrapper we want to assign the content to.</param>
-    /// <param name="contentDescription">Description of the content for logging.</param>
-    /// <returns>True if detachment was successful or not needed, false if an error occurred.</returns>
-    private bool SafelyDetachContentFromVisualParent(Control? content, Border? targetWrapper, string contentDescription)
-    {
-        if (content is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} is null — skipping");
-            return true;
-        }
-
-        if (targetWrapper is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent target wrapper is null for {contentDescription} — skipping");
-            return false;
-        }
-
-        // Check if content has a visual parent
-        Visual? currentVisualParent = content.GetVisualParent();
-        
-        if (currentVisualParent is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} has no visual parent — safe to assign");
-            return true;
-        }
-
-        // Check if the current visual parent is already the target wrapper
-        if (ReferenceEquals(currentVisualParent, targetWrapper))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} already parented to target wrapper — no action needed");
-            return true;
-        }
-
-        // Check if the current visual parent is a Border (wrapper)
-        if (currentVisualParent is Border currentWrapper)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} currently parented to Border wrapper — detaching");
-            
-            try
-            {
-                // Clear the child of the current wrapper to detach the content
-                currentWrapper.Child = null;
-                Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} successfully detached from old Border wrapper");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} FAILED to detach from Border wrapper: {ex.Message}");
-                return false;
-            }
-        }
-
-        // If the parent is not a Border, we cannot safely detach it using this method
-        // This is an unexpected state - log it but don't throw
-        Debug.WriteLine($"[NavigationView] SafelyDetachContentFromVisualParent {contentDescription} has unexpected visual parent type {currentVisualParent.GetType().Name} — cannot safely detach");
-        return false;
-    }
-
-    /// <summary>
-    /// Safely assigns content control to a wrapper Border with full validation.
-    /// Performs comprehensive checks to prevent visual tree violations.
-    /// Null wrappers are handled gracefully - assignment is skipped but validation passes
-    /// to allow early initialization before template is applied.
-    /// </summary>
-    /// <param name="wrapper">The target wrapper Border.</param>
-    /// <param name="content">The content control to assign.</param>
-    /// <param name="contentDescription">Description of the content for logging.</param>
-    /// <returns>True if assignment was successful or skipped (null wrapper), false otherwise.</returns>
-    private bool SafelyAssignContentToWrapper(Border? wrapper, Control? content, string contentDescription)
-    {
-        // Validate UI thread access
-        if (!ValidateUiThreadAccess($"SafelyAssignContentToWrapper({contentDescription})"))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} — UI thread validation failed");
-            return false;
-        }
-
-        // Validate controls are not disposed (null is now treated as valid)
-        if (!ValidateControlNotDisposed(wrapper, $"wrapper for {contentDescription}"))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} — wrapper validation failed");
-            return false;
-        }
-
-        if (!ValidateControlNotDisposed(content, contentDescription))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} — content validation failed");
-            return false;
-        }
-
-        if (wrapper is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper wrapper is null for {contentDescription} — skipping assignment (early initialization)");
-            return true; // Return true to indicate this is acceptable (not a failure)
-        }
-
-        if (content is null)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} is null — skipping assignment");
-            return false;
-        }
-
-        // Validate content and wrapper compatibility
-        if (!ValidateContentWrapperCompatibility(content, wrapper, contentDescription))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} — compatibility validation failed");
-            return false;
-        }
-
-        // Check if already correctly assigned
-        if (ReferenceEquals(wrapper.Child, content))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} already assigned to wrapper — no action needed");
-            return true;
-        }
-
-        // First, safely detach the content from any current visual parent
-        if (!SafelyDetachContentFromVisualParent(content, wrapper, contentDescription))
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} detachment failed — aborting assignment");
-            return false;
-        }
-
-        // Now safely assign the content to the wrapper
-        try
-        {
-            wrapper.Child = content;
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} successfully assigned to wrapper");
-            return true;
-        }
-        catch (InvalidOperationException ex)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} assignment FAILED with InvalidOperationException: {ex.Message}");
-            return false;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"[NavigationView] SafelyAssignContentToWrapper {contentDescription} assignment FAILED with unexpected exception: {ex.Message}");
-            return false;
-        }
-    }
-
-    private void RouteContentToWrapper(object? content)
-    {
-        if (content is null) return;
-
-        bool isLeft = Position == NavigationViewPosition.Left;
-        Border activeWrapper   = isLeft ? _leftWrapper      : _topBottomWrapper;
-        Border inactiveWrapper = isLeft ? _topBottomWrapper : _leftWrapper;
-
-        // Clear inactive wrapper child with comprehensive validation.
-        if (!ReferenceEquals(inactiveWrapper.Child, null))
-        {
-            Debug.WriteLine($"[NavigationView] RouteContentToWrapper clearing inactive wrapper child");
-            inactiveWrapper.Child = null;
-        }
-        
-        // Assign content to active wrapper with comprehensive safety checks.
-        // This ensures content is safely detached from any existing parent before assignment.
-        if (!ReferenceEquals(activeWrapper.Child, content as Control))
-        {
-            Debug.WriteLine($"[NavigationView] RouteContentToWrapper safely assigning content to active wrapper");
-            bool contentAssigned = SafelyAssignContentToWrapper(activeWrapper, content as Control, $"content for {(isLeft ? "Left" : "TopBottom")} position");
-            Debug.WriteLine($"[NavigationView] RouteContentToWrapper content assignment result: {contentAssigned}");
-        }
-
-        // Ensure wrappers are assigned to their presenters (survives template re-application).
-        // Use comprehensive safe assignment to prevent visual tree violations.
-        Debug.WriteLine($"[NavigationView] RouteContentToWrapper ensuring wrappers are assigned to presenters");
-        bool leftAssigned = SafelyAssignWrapperToPresenter(_contentPresenter, _leftWrapper, "_leftWrapper");
-        bool topBottomAssigned = SafelyAssignWrapperToPresenter(_topBottomContentPresenter, _topBottomWrapper, "_topBottomWrapper");
-        Debug.WriteLine($"[NavigationView] RouteContentToWrapper wrapper assignment results: left={leftAssigned}, topBottom={topBottomAssigned}");
-
-        Debug.WriteLine($"[NavigationView] RouteContentToWrapper isLeft={isLeft}");
+        return null;
     }
 
     private void UpdateTitleAndSelectedContent()
@@ -1465,99 +992,43 @@ public class NavigationView : TreeView
         if (SelectedItem is not NavigationViewItem item) return;
         Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent selectedItem header={item.Header} hasContent={item.Content is not null}");
         if (item.Content is null) return;
+        
+        if (SelectedContent is ILogical oldLogical)
+        {
+            LogicalChildren.Remove(oldLogical);
+        }
+        if (item.Content is ILogical newLogical && !LogicalChildren.Contains(newLogical))
+        {
+            LogicalChildren.Add(newLogical);
+        }
 
         SelectedContent = item.Content;
-        _cachedContent = item.Content;
-        _cachedContentPosition = Position;
-
-        RouteContentToWrapper(item.Content);
-    }
-
-    /// <summary>
-    /// Restores the cached content after a template re-application.
-    /// Re-assigns wrappers to the new presenter instances and re-routes cached content.
-    /// Uses comprehensive safe assignment to prevent visual tree violations.
-    /// </summary>
-    private void RestoreCachedContent()
-    {
-        // Always re-assign wrappers to the (possibly new) presenter instances.
-        // Use comprehensive safe assignment to prevent visual tree violations.
-        Debug.WriteLine($"[NavigationView] RestoreCachedContent safely assigning wrappers to presenters");
-        bool leftAssigned = SafelyAssignWrapperToPresenter(_contentPresenter, _leftWrapper, "_leftWrapper");
-        bool topBottomAssigned = SafelyAssignWrapperToPresenter(_topBottomContentPresenter, _topBottomWrapper, "_topBottomWrapper");
-        Debug.WriteLine($"[NavigationView] RestoreCachedContent wrapper assignment results: left={leftAssigned}, topBottom={topBottomAssigned}");
-
-        if (_cachedContent is null) return;
-
-        // Always use the current Position, not the stale cached position.
-        // The cached position can be out-of-date after a theme switch that triggers
-        // OnApplyTemplate while the nav layout has already changed (e.g. Top→Left).
-        _cachedContentPosition = Position;
-        Debug.WriteLine($"[NavigationView] RestoreCachedContent cachedPosition={_cachedContentPosition}");
-
-        bool isLeft = Position == NavigationViewPosition.Left;
-        Border activeWrapper   = isLeft ? _leftWrapper      : _topBottomWrapper;
-        Border inactiveWrapper = isLeft ? _topBottomWrapper : _leftWrapper;
-
-        // Clear inactive wrapper child with comprehensive validation.
-        if (!ReferenceEquals(inactiveWrapper.Child, null))
-        {
-            Debug.WriteLine($"[NavigationView] RestoreCachedContent clearing inactive wrapper child");
-            inactiveWrapper.Child = null;
-        }
-        
-        // Assign cached content to active wrapper with comprehensive safety checks.
-        // This ensures content is safely detached from any existing parent before assignment.
-        if (!ReferenceEquals(activeWrapper.Child, _cachedContent as Control))
-        {
-            Debug.WriteLine($"[NavigationView] RestoreCachedContent safely assigning cached content to active wrapper");
-            bool contentAssigned = SafelyAssignContentToWrapper(activeWrapper, _cachedContent as Control, $"cached content for {(isLeft ? "Left" : "TopBottom")} position");
-            Debug.WriteLine($"[NavigationView] RestoreCachedContent content assignment result: {contentAssigned}");
-        }
-
-        Debug.WriteLine($"[NavigationView] RestoreCachedContent done isLeft={isLeft}");
     }
 
     private void OnSelectedItemChanged()
     {
         Debug.WriteLine($"[NavigationView] OnSelectedItemChanged → SelectedItem={(SelectedItem as NavigationViewItem)?.Header}");
-
-        if (SelectedItem is null && _cachedContent is not null)
+        
+        if (SelectedItem is NavigationViewItem item)
         {
-            Debug.WriteLine("[NavigationView] OnSelectedItemChanged SelectedItem=null but cache exists — restoring");
-            RestoreCachedContent();
-
-            // After a theme switch that doesn't trigger OnApplyTemplate, the presenters may be
-            // stale (pointing to the old template's instances). Schedule a deferred re-selection
-            // so that once the new template is fully applied and items are re-attached, the
-            // correct item gets selected and content is routed through live presenters.
-            Dispatcher.UIThread.Post(() =>
+            object? targetContent = FindContentInHierarchy(item);
+            
+            if (targetContent is not null)
             {
-                if (SelectedItem is not null) return; // already re-selected by something else
-
-                // Re-sync layout visibility in case style invalidation reset it.
-                UpdateLayoutVisibility(Position);
-
-                if (Position == NavigationViewPosition.Left)
-                {
-                    if (Items.Count > 0 && Items[0] is ISelectable first)
-                    {
-                        Debug.WriteLine($"[NavigationView] OnSelectedItemChanged deferred re-select header={(first as NavigationViewItem)?.Header}");
-                        SelectSingleItem(first, false);
-                    }
-                }
-                else
-                {
-                    AvaloniaList<NavigationViewItem> collection = Position == NavigationViewPosition.Top ? _topItems : _bottomItems;
-                    if (collection.Count > 0)
-                        SelectTopBottomItem(collection[0]);
-                }
-            }, DispatcherPriority.Loaded);
-
-            return;
+                ChangeNavigationContent(targetContent);
+            }
+            else
+            {
+                Debug.WriteLine($"[NavigationView] SelectedItem changed to '{item.Header}', but Content is null. Keeping current visual content.");
+            }
         }
-
-        UpdateTitleAndSelectedContent();
+        else
+        {
+            if (SelectedItem is not null && SelectedItem != SelectedContent)
+            {
+                ChangeNavigationContent(SelectedItem);
+            }
+        }
     }
     
     private void OnIsOpenChanged(AvaloniaPropertyChangedEventArgs e)
@@ -1598,10 +1069,6 @@ public class NavigationView : TreeView
         }
     }
 
-    /// <summary>
-    /// Closes all open submenu popups in the navigation view.
-    /// Called when a selection is made to ensure popups are dismissed.
-    /// </summary>
     private void CloseAllSubMenuPopups()
     {
         foreach (NavigationViewItem item in this.GetLogicalDescendants().OfType<NavigationViewItem>())
@@ -1614,11 +1081,6 @@ public class NavigationView : TreeView
         }
     }
 
-    /// <summary>
-    /// Subscribes to pointer-released events on all items inside a top/bottom <see cref="ItemsControl"/>
-    /// so that clicking an item triggers selection and content update.
-    /// Items are owned by <see cref="TopItems"/> or <see cref="BottomItems"/> — never by <see cref="ItemsControl.Items"/>.
-    /// </summary>
     private void WireTopBottomItemSelection(ItemsControl? control)
     {
         if (control is null) return;
@@ -1650,19 +1112,18 @@ public class NavigationView : TreeView
         foreach (NavigationViewItem? i in _bottomItems)
             i.IsSelected = ReferenceEquals(i, item);
 
-        if (item.Content is not null)
-        {
-            if (TransitionAnimation is not null && _topBottomContentPresenter is not null)
-            {
-                _cancellationTokenSource?.Cancel();
-                _cancellationTokenSource = new CancellationTokenSource();
-                TransitionAnimation.RunAsync(_topBottomContentPresenter, _cancellationTokenSource.Token);
-            }
-            SelectedContent = item.Content;
-            _cachedContent = item.Content;
-            _cachedContentPosition = Position;
+        if (!Equals(SelectedItem, item))
+            SelectedItem = item;
+        
+        object? targetContent = FindContentInHierarchy(item);
 
-            RouteContentToWrapper(item.Content);
+        if (targetContent is not null)
+        {
+            ChangeNavigationContent(item.Content);
+        }
+        else
+        {
+            Debug.WriteLine($"[NavigationView] Top/Bottom item '{item.Header}' selected via pointer, keeping current content.");
         }
     }
 }
