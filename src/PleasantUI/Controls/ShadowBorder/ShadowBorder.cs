@@ -20,6 +20,9 @@ public class ShadowBorder : Decorator
 
     public static readonly StyledProperty<double> BlurRadiusProperty =
         AvaloniaProperty.Register<ShadowBorder, double>(nameof(BlurRadius), 12.0);
+    
+    public static readonly StyledProperty<bool> IsEnabledProperty =
+        AvaloniaProperty.Register<ShadowBorder, bool>(nameof(IsEnabled), true);
 
     public static readonly StyledProperty<Vector> OffsetProperty =
         AvaloniaProperty.Register<ShadowBorder, Vector>(nameof(Offset), new Vector(0, 4));
@@ -37,6 +40,12 @@ public class ShadowBorder : Decorator
     {
         get => GetValue(BlurRadiusProperty);
         set => SetValue(BlurRadiusProperty, value);
+    }
+    
+    public bool IsEnabled
+    {
+        get => GetValue(IsEnabledProperty);
+        set => SetValue(IsEnabledProperty, value);
     }
 
     public Vector Offset
@@ -64,7 +73,8 @@ public class ShadowBorder : Decorator
         
         if (change.Property != ShadowColorProperty &&
             change.Property != OffsetProperty &&
-            change.Property != CornerRadiusProperty)
+            change.Property != CornerRadiusProperty &&
+            change.Property != IsEnabledProperty)
             return;
         
         InvalidateShadowCache();
@@ -84,7 +94,7 @@ public class ShadowBorder : Decorator
     /// <inheritdoc />
     public override void Render(DrawingContext context)
     {
-        if (Opacity > 0.001)
+        if (Opacity > 0.001 && IsEnabled)
         {
             Size contentSize = Child?.Bounds.Size ?? Bounds.Size;
             EnsureShadowBitmap(contentSize);

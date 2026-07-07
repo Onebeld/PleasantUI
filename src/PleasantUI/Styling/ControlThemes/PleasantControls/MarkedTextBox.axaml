@@ -41,7 +41,7 @@
         </Setter> 
 
         <Setter Property="ContextFlyout">
-            <PleasantMenuFlyout Placement="Bottom">
+            <MenuFlyout Placement="Bottom">
                 <MenuItem Header="{Localize CutMenu, Default='C_ut'}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
@@ -65,7 +65,7 @@
                           Foreground="{DynamicResource TextFillColor1}"
                           Icon="{DynamicResource PasteRegular}"
                           FontFamily="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
-            </PleasantMenuFlyout>
+            </MenuFlyout>
         </Setter>
 
         <Setter Property="Template">

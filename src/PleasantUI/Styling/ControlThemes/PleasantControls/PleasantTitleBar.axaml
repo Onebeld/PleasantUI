@@ -7,7 +7,7 @@
         </Border>
     </Design.PreviewWith>
 
-    <PleasantMenuFlyout x:Key="WindowMenuFlyout">
+    <MenuFlyout x:Key="WindowMenuFlyout">
         <MenuItem x:Name="PART_ReestablishMenuItem"
                   Header="{Localize Restore, Default='_Restore'}"
                   Icon="{DynamicResource SquareMultipleRegular}"
@@ -32,7 +32,7 @@
                   InputGesture="Ctrl+Q" Icon="{DynamicResource DismissRegular}" 
                   IconHelper.Width="12"
                   IconHelper.Height="12" />
-    </PleasantMenuFlyout>
+    </MenuFlyout>
 
     <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
         <Setter Property="Background" Value="Transparent" />

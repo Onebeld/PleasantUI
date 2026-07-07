@@ -8,7 +8,6 @@
              x:Class="PleasantUI.Example.MainView">
     <Panel>
         <NavigationView x:Name="MainNavigationView">
-
             <NavigationViewItem x:Name="HomeNavItem"
                                 Header="{Localize Home}"
                                 Icon="{x:Static icons:MaterialIconKind.HomeOutline}"
@@ -64,25 +63,25 @@
                     <NavigationViewItem Tag="StepDialog"  Header="{Localize CardTitle/StepDialog}"  Icon="{x:Static icons:MaterialIconKind.OrderNumericAscending}" />
                 </NavigationViewItem>
             </NavigationViewItem>
-
-            <NavigationViewItem x:Name="AboutNavItem"
-                                Header="{Localize About}"
-                                Icon="{x:Static icons:MaterialIconKind.InformationOutline}"
-                                DockPanel.Dock="Bottom">
-                <NavigationViewItem.Content>
-                    <views:AboutView/>
-                </NavigationViewItem.Content>
-            </NavigationViewItem>
-
-            <NavigationViewItem x:Name="SettingsNavItem"
-                                Header="{Localize Settings}"
-                                DockPanel.Dock="Bottom"
-                                Icon="{x:Static icons:MaterialIconKind.CogOutline}"
-                                Margin="0 0 0 5">
-                <NavigationViewItem.Content>
-                    <views:SettingsView/>
-                </NavigationViewItem.Content>
-            </NavigationViewItem>
+            
+            <NavigationView.BottomItems>
+                <NavigationViewItem x:Name="SettingsNavItem"
+                                    Header="{Localize Settings}"
+                                    Icon="{x:Static icons:MaterialIconKind.CogOutline}"
+                                    Margin="0 0 0 5">
+                    <NavigationViewItem.Content>
+                        <views:SettingsView/>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItem x:Name="AboutNavItem"
+                                    Header="{Localize About}"
+                                    Icon="{x:Static icons:MaterialIconKind.InformationOutline}">
+                    <NavigationViewItem.Content>
+                        <views:AboutView/>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+            </NavigationView.BottomItems>
         </NavigationView>
         
         <OnFormFactor>

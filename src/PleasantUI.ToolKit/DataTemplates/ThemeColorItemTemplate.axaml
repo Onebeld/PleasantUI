@@ -11,7 +11,7 @@
                     Height="30"
                     ToolTip.Tip="{Localize Menu, Default='Menu'}">
                 <Button.Flyout> 
-                    <PleasantMenuFlyout>
+                    <MenuFlyout>
                         <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                                   Command="{Binding CopyColorAsync}"
                                   Icon="{DynamicResource CopyRegular}" />
@@ -19,7 +19,7 @@
                         <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                                   Command="{Binding PasteColorAsync}"
                                   Icon="{DynamicResource PasteRegular}" />
-                    </PleasantMenuFlyout>
+                    </MenuFlyout>
                 </Button.Flyout>
 
                 <PleasantIcon Icon="{DynamicResource MoreRegular}" />

@@ -57,6 +57,7 @@
         <Setter Property="(IconHelper.Width)" Value="14" />
         <Setter Property="(IconHelper.Height)" Value="14" />
         <Setter Property="(IconHelper.FontSize)" Value="0" />
+        <Setter Property="(IconHelper.IconSize)" Value="14" />
         
         <Setter Property="Transitions">
             <Transitions>
@@ -87,6 +88,7 @@
                                              Width="{TemplateBinding (IconHelper.Width)}"
                                              Height="{TemplateBinding (IconHelper.Height)}"
                                              IconHelper.FontSize="{TemplateBinding (IconHelper.FontSize)}"
+                                             IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
                                              Margin="0 0 12 0"
                                              HorizontalAlignment="Center"
                                              VerticalAlignment="Center" />
@@ -126,24 +128,6 @@
                            HorizontalOffset="-4"
                            IsLightDismissEnabled="False"
                            IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
-                        <Popup.Styles>
-                            <Style Selector="Popup[IsOpen=True] > ShadowBorder">
-                                <Style.Animations>
-                                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                        <KeyFrame Cue="0%">
-                                            <Setter Property="TranslateTransform.Y"
-                                                    Value="-100" />
-                                            <Setter Property="Opacity" Value="0" />
-                                        </KeyFrame>
-                                        <KeyFrame Cue="100%">
-                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                            <Setter Property="Opacity" Value="1" />
-                                        </KeyFrame>
-                                    </Animation>
-                                </Style.Animations>
-                            </Style>
-                        </Popup.Styles>
-                        
                         <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                       Margin="6 4 6 6"
                                       BlurRadius="5"
@@ -151,7 +135,6 @@
                                       ShadowColor="#3C000000">
                             <Border Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
-                                    Opacity="0"
                                     BorderThickness="1"
                                     MaxWidth="456"
                                     MinHeight="32"

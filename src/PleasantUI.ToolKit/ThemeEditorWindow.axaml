@@ -30,9 +30,9 @@
     <DockPanel Margin="20">
         <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto,*">
             <StackPanel Grid.Column="0" Spacing="10" Orientation="Horizontal">
-                <PathIcon Data="{DynamicResource BrushVariantRegular}" />
+                <PathIcon Data="{StaticResource BrushVariantRegular}" />
 
-                <TextBlock Text="{Localize ToolKit/ThemeEditor/ThemeEditor, Default='Theme editor'}" Theme="{DynamicResource SubtitleTextBlockTheme}" />
+                <TextBlock VerticalAlignment="Center" Text="{Localize ToolKit/ThemeEditor/ThemeEditor, Default='Theme editor'}" Theme="{StaticResource SubtitleTextBlockTheme}" />
             </StackPanel>
 
             <TextBlock Grid.Column="2"
@@ -200,13 +200,13 @@
                             <Button Name="ButtonThemesFlyout" Grid.Row="0"
                                     Content="{Localize ToolKit/ThemeEditor/GetColorsBasedOn, Default='Get colors based on...'}">
                                 <Button.Styles>
-                                    <Style Selector="PleasantFlyoutPresenter">
+                                    <Style Selector="FlyoutPresenter">
                                         <Setter Property="Width" Value="{CompiledBinding $parent[Button].Bounds.Width}" />
                                     </Style>
                                 </Button.Styles>
 
                                 <Button.Flyout>
-                                    <PleasantFlyout>
+                                    <Flyout>
                                         <StackPanel Margin="10" Spacing="5">
                                             <Panel>
                                                 <TextBlock VerticalAlignment="Center"
@@ -252,7 +252,7 @@
                                                 </Panel>
                                             </PleasantBorder>
                                         </StackPanel>
-                                    </PleasantFlyout>
+                                    </Flyout>
                                 </Button.Flyout>
                             </Button>
 

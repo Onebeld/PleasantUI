@@ -32,7 +32,7 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_LeftTitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitlePanel", typeof(StackPanel))]
-[PseudoClasses(":active", ":minimized", ":normal", ":maximized", ":isactive", ":titlebar")]
+[PseudoClasses(":active", ":minimized", ":normal", ":maximized", ":isactive", ":titlebar", ":title-visible")]
 public class PleasantTitleBar : TemplatedControl
 {
     /// <summary>
@@ -78,6 +78,8 @@ public class PleasantTitleBar : TemplatedControl
 
     private ContentPresenter? _titleBarContent;
     private StackPanel? _titlePanel;
+    
+    private CompositeDisposable? _disposables;
 
     /// <summary>
     /// Defines the <see cref="IsTitleVisible"/> property.
@@ -99,6 +101,15 @@ public class PleasantTitleBar : TemplatedControl
     public static readonly AttachedProperty<bool> IsTitleBarHitTestVisibleProperty =
         AvaloniaProperty.RegisterAttached<PleasantTitleBar, Window, bool>(
             "IsTitleBarHitTestVisible", defaultValue: true);
+    
+    public static readonly StyledProperty<Thickness> ContentPaddingProperty =
+        AvaloniaProperty.Register<PleasantTitleBar, Thickness>(nameof(ContentPadding));
+
+    public Thickness ContentPadding
+    {
+        get => GetValue(ContentPaddingProperty);
+        set => SetValue(ContentPaddingProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the title panel (icon + title + subtitle) is visible.
@@ -165,9 +176,34 @@ public class PleasantTitleBar : TemplatedControl
         }
     }
 
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IsTitleVisibleProperty && e.NewValue is bool visible)
+        {
+            PseudoClasses.Set(":title-visible", visible);
+        }
+        else if (e.Property == LeftClearanceProperty && e.NewValue is double w)
+        {
+            if (!_isMacOS && _titleBarGrid is { ColumnDefinitions.Count: > 0 })
+                _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(w, GridUnitType.Pixel);
+        }
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        
+        _disposables?.Dispose();
+        _disposables = null;
+    }
+
     private void Attach(PleasantWindow host)
     {
-        CompositeDisposable unused = new()
+        _disposables?.Dispose();
+        
+        _disposables = new CompositeDisposable
         {
             host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(windowState =>
             {
@@ -221,12 +257,6 @@ public class PleasantTitleBar : TemplatedControl
                 if (_isMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !b;
             })),
-            this.GetObservable(IsTitleVisibleProperty).Subscribe(new AnonymousObserver<bool>(visible =>
-            {
-                // Only apply when custom title bar is active; EnableCustomTitleBar handler owns visibility otherwise
-                if (_titlePanel is not null && (_host?.EnableCustomTitleBar ?? false))
-                    _titlePanel.IsVisible = visible;
-            })),
             host.GetObservable(IsTitleBarHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(hitTestVisible =>
             {
                 if (_dragWindowBorder is not null)
@@ -252,12 +282,6 @@ public class PleasantTitleBar : TemplatedControl
                 _captionButtons.IsVisible = enable && usesCustomCaptionsNow;
                 _titlePanel.IsVisible = enable && IsTitleVisible;
                 _leftTitleBarContent.IsVisible = enable;
-            })),
-            this.GetObservable(LeftClearanceProperty).Subscribe(new AnonymousObserver<double>(w =>
-            {
-                // Col 0 is the left clearance column on non-macOS
-                if (!_isMacOS && _titleBarGrid is { ColumnDefinitions.Count: > 0 })
-                    _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(w, GridUnitType.Pixel);
             }))
         };
     }

@@ -108,9 +108,9 @@
                                             <Setter Property="MinWidth" Value="0" />
                                             <Setter Property="MinHeight" Value="0" />
                                             <Setter Property="ContextFlyout">
-                                                <PleasantMenuFlyout>
+                                                <MenuFlyout>
                                                     <MenuItem x:Name="DeleteColor" Header="{Localize DeleteMenu, Default='_Delete'}" Icon="{DynamicResource DeleteRegular}" />
-                                                </PleasantMenuFlyout>
+                                                </MenuFlyout>
                                             </Setter>
                                             <Setter Property="Template">
                                                 <ControlTemplate>

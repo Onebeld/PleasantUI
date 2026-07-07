@@ -86,7 +86,6 @@
                 <MergeResourceInclude Source="PleasantControls/PleasantFileChooser.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantBorder.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantFlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTrayPopup.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSnackbar.axaml" />
@@ -132,5 +131,81 @@
         <Style Selector="^:pressed PleasantIcon">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
+    </Style>
+    
+    <Style Selector="ToolTip">
+        <Setter Property="(PopupAnimationHelper.IsEnabled)" Value="False" />
+    </Style>
+
+    <Style Selector=":is(Popup):not(ToolTip Popup)">
+        <Setter Property="(PopupAnimationHelper.IsEnabled)" Value="True" />
+        <Setter Property="(PopupAnimationHelper.Animations)">
+            <PopupPlacementAnimationCollection>
+                <PopupPlacementAnimationCollection.Default>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.Y)"
+                                    Value="-100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.Y)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Default>
+                <PopupPlacementAnimationCollection.Top>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.Y)"
+                                    Value="100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.Y)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Top>
+                <PopupPlacementAnimationCollection.Right>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.X)"
+                                    Value="-100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.X)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Right>
+                <PopupPlacementAnimationCollection.Left>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.X)"
+                                    Value="100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.X)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Left>
+                <PopupPlacementAnimationCollection.Center>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(ScaleTransform.ScaleY)" Value="0.1" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(ScaleTransform.ScaleY)" Value="1" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Center>
+            </PopupPlacementAnimationCollection>
+        </Setter>
     </Style>
 </Styles>

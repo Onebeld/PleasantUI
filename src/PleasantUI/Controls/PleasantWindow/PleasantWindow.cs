@@ -3,10 +3,12 @@ using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Reactive;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using PleasantUI.Controls.Chrome;
+using PleasantUI.Core.Common;
 
 namespace PleasantUI.Controls;
 
@@ -119,6 +121,15 @@ public class PleasantWindow : PleasantWindowBase
     /// </summary>
     public static readonly StyledProperty<bool> IsFullScreenButtonVisibleProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsFullScreenButtonVisible), false);
+    
+    public static readonly StyledProperty<Thickness> TitleBarMarginProperty =
+        AvaloniaProperty.Register<PleasantWindow, Thickness>(nameof(TitleBarMargin));
+
+    public Thickness TitleBarMargin
+    {
+        get => GetValue(TitleBarMarginProperty);
+        set => SetValue(TitleBarMarginProperty, value);
+    }
 
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
@@ -285,6 +296,17 @@ public class PleasantWindow : PleasantWindowBase
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
 
+    public PleasantWindow()
+    {
+        KeyBindings.Add(new KeyBinding
+        {
+            Gesture = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) 
+                ? new KeyGesture(Key.Q, KeyModifiers.Meta)
+                : new KeyGesture(Key.F4, KeyModifiers.Alt),
+            Command = new RelayCommand(Close)
+        });
+    }
+
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -297,7 +319,6 @@ public class PleasantWindow : PleasantWindowBase
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
- 
     }
 
     /// <inheritdoc />
@@ -328,6 +349,25 @@ public class PleasantWindow : PleasantWindowBase
 
         if (change.Property == EnableBlurProperty)
             SetTransparencyLevelHint();
+        
+        if (change.Property == WindowStateProperty)
+        {
+            WindowState state = change.GetNewValue<WindowState>();
+        
+            // Компенсация отступов для Windows при Maximized
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (state == WindowState.Maximized)
+                {
+                    // Windows добавляет невидимую рамку в 8 пикселей при максимизации
+                    Padding = new Thickness(8); 
+                }
+                else if (state == WindowState.Normal)
+                {
+                    Padding = new Thickness(0);
+                }
+            }
+        }
     }
 
     private Panel? _splashLayer;
@@ -372,7 +412,8 @@ public class PleasantWindow : PleasantWindowBase
         // Fade out on the UI thread
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            if (_splashOverlay is null) return;
+            if (_splashOverlay is null || _splashCts is null || _splashCts.IsCancellationRequested) 
+                return;
 
             Animation fadeOut = new()
             {
@@ -385,7 +426,7 @@ public class PleasantWindow : PleasantWindowBase
                 }
             };
 
-            await fadeOut.RunAsync(_splashOverlay);
+            await fadeOut.RunAsync(_splashOverlay, _splashCts.Token);
 
             _splashLayer.Children.Clear();
             _splashLayer.IsVisible = false;
@@ -416,6 +457,10 @@ public class PleasantWindow : PleasantWindowBase
                     : WindowDecorations.None;
             }
         }
+
+        TitleBarMargin = WindowState == WindowState.FullScreen
+            ? new Thickness(0)
+            : new Thickness(0, TitleBarHeight, 0, 0);
     }
 
     private void SetTransparencyLevelHint()

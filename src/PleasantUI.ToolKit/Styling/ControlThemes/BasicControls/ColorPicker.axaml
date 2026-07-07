@@ -43,9 +43,9 @@
                                 Padding="0,0,10,0"
                                 UseLayoutRounding="False">
                     <DropDownButton.Flyout>
-                        <PleasantFlyout>
+                        <Flyout>
                             <pleasantColorView:PleasantColorView Color="{TemplateBinding Color, Mode=TwoWay}" />
-                        </PleasantFlyout>
+                        </Flyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
             </ControlTemplate>

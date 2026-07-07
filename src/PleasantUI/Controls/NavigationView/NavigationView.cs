@@ -8,6 +8,7 @@
  * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/Navigation/NavigationView/NavigationView.cs
  */
 
+using System.Collections;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
@@ -67,7 +68,6 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
     private Border? _marginPanel;
     private StackPanel? _stackPanelButtons;
     private DockPanel? _topBottomLayout;
-    private Border? _topBar;
     private Border? _bottomBar;
 
     private Button? _backButton;
@@ -76,16 +76,14 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
 
     private CancellationTokenSource? _cancellationTokenSource;
     private ContentPresenter? _contentPresenter;
-    private ContentPresenter? _topBottomContentPresenter;
     
     private CompositeDisposable? _windowDisposables;
     private readonly List<IDisposable> _proxySubscriptions = [];
 
     private Button? _headerItem;
 
-    // Separate item collections for top/bottom nav bar — never shared with the left-pane Items.
-    private readonly AvaloniaList<NavigationViewItem> _topItems = new();
-    private readonly AvaloniaList<NavigationViewItem> _bottomItems = new();
+    private readonly AvaloniaList<NavigationViewItem> _topItems = [];
+    private readonly AvaloniaList<NavigationViewItem> _bottomItems = [];
 
     // Stores the IsExpanded state of group items before the pane collapses to compact mode,
     // keyed by the NavigationViewItem instance so each item's state is tracked independently.
@@ -210,22 +208,18 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
     /// </summary>
     public static readonly StyledProperty<NavigationViewPosition> PositionProperty =
         AvaloniaProperty.Register<NavigationView, NavigationViewPosition>(nameof(Position));
-
-    /// <summary>
-    /// Defines the <see cref="TopItems" /> property.
-    /// Items displayed in the top navigation bar (Position=Top). Completely separate from <see cref="ItemsControl.Items"/>.
-    /// </summary>
+    
     public static readonly DirectProperty<NavigationView, AvaloniaList<NavigationViewItem>> TopItemsProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, AvaloniaList<NavigationViewItem>>(
             nameof(TopItems), o => o.TopItems);
 
-    /// <summary>
-    /// Defines the <see cref="BottomItems" /> property.
-    /// Items displayed in the bottom navigation bar (Position=Bottom). Completely separate from <see cref="ItemsControl.Items"/>.
-    /// </summary>
+    /// <summary>Small icon buttons in the footer bar.</summary>
     public static readonly DirectProperty<NavigationView, AvaloniaList<NavigationViewItem>> BottomItemsProperty =
         AvaloniaProperty.RegisterDirect<NavigationView, AvaloniaList<NavigationViewItem>>(
             nameof(BottomItems), o => o.BottomItems);
+
+    public AvaloniaList<NavigationViewItem> TopItems => _topItems;
+    public AvaloniaList<NavigationViewItem> BottomItems => _bottomItems;
 
     /// <summary>
     /// Gets or sets the geometry of the icon.
@@ -371,18 +365,6 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
     }
 
     /// <summary>
-    /// Gets the items collection for the top navigation bar.
-    /// Populate this instead of <see cref="ItemsControl.Items"/> when using <see cref="NavigationViewPosition.Top"/>.
-    /// </summary>
-    public AvaloniaList<NavigationViewItem> TopItems => _topItems;
-
-    /// <summary>
-    /// Gets the items collection for the bottom navigation bar.
-    /// Populate this instead of <see cref="ItemsControl.Items"/> when using <see cref="NavigationViewPosition.Bottom"/>.
-    /// </summary>
-    public AvaloniaList<NavigationViewItem> BottomItems => _bottomItems;
-
-    /// <summary>
     /// Gets or sets the display mode of the SplitView control.
     /// </summary>
     /// <remarks>
@@ -496,12 +478,14 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         PseudoClasses.Add(":left");
         
         KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Continue);
+        
+        _topItems.ForEachItem(item => item.NavigationView = this, item => item.NavigationView = null, () => { });
+        _bottomItems.ForEachItem(item => item.NavigationView = this, item => item.NavigationView = null, () => { });
     }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
-        Debug.WriteLine("[NavigationView] OnApplyTemplate");
         base.OnApplyTemplate(e);
 
         _stackPanelButtons = e.NameScope.Find<StackPanel>("PART_StackPanelButtons");
@@ -513,14 +497,7 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         _dockPanel = e.NameScope.Find<DockPanel>("PART_ItemsPresenterDockPanel");
         _marginPanel = e.NameScope.Find<Border>("PART_MarginPanel");
         _topBottomLayout = e.NameScope.Find<DockPanel>("PART_TopBottomLayout");
-        _topBar = e.NameScope.Find<Border>("PART_TopBar");
         _bottomBar = e.NameScope.Find<Border>("PART_BottomBar");
-
-        // Wire up top/bottom bar item selection — items are owned by TopItems/BottomItems, not Items.
-        WireTopBottomItemSelection(e.NameScope.Find<ItemsControl>("PART_TopItemsControl"));
-        WireTopBottomItemSelection(e.NameScope.Find<ItemsControl>("PART_BottomItemsControl"));
-
-        Debug.WriteLine($"[NavigationView] OnApplyTemplate parts: headerItem={_headerItem is not null} backButton={_backButton is not null} contentPresenter={_contentPresenter is not null}");
 
         // Explicitly sync layout panel visibility with current Position (survives style invalidation).
         UpdateLayoutVisibility(Position);
@@ -534,36 +511,6 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         {
             _backButton?.IsVisible = x.NewValue.Value is not null;
         }));
-
-        if (TopLevel.GetTopLevel(this) is PleasantWindow window)
-        {
-            _window = window;
-            _titleBarHeight = window.TitleBarHeight;
-            
-            _windowDisposables?.Dispose();
-            _windowDisposables = new CompositeDisposable();
-            
-            Debug.WriteLine($"[NavigationView] OnApplyTemplate PleasantWindow found titleBarHeight={_titleBarHeight}");
-            UpdateMacNavigationLayout(window);
-            UpdateContainerTitleHeight(window);
-            UpdateMarginPanel();
-            UpdateTitleBarOffset(window);
-            
-            _windowDisposables.Add(window.GetObservable(PleasantWindow.TitleBarHeightProperty)
-                .Subscribe(new AnonymousObserver<double>(h =>
-                {
-                    _titleBarHeight = h;
-                    UpdateContainerTitleHeight(window);
-                    UpdateMarginPanel();
-                })));
-
-            // Auto-sync ButtonsPanelOffset with TitleBarType — Compact = offset on, others = off
-            _windowDisposables.Add(window.GetObservable(PleasantWindow.TitleBarTypeProperty)
-                .Subscribe(new AnonymousObserver<PleasantTitleBar.Type>(type =>
-                {
-                    ButtonsPanelOffset = type == PleasantTitleBar.Type.Compact;
-                })));
-        }
 
         UpdateTitleAndSelectedContent();
     }
@@ -591,13 +538,51 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
     
     (bool handled, IInputElement? next) ICustomKeyboardNavigation.GetNext(IInputElement element, NavigationDirection direction)
     {
-        // Во всех остальных случаях отдаем управление стандартному FocusManager, возвращая handled = false
         return (false, null);
+    }
+
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        
+        if (BindWindowSettings && TopLevel.GetTopLevel(this) is PleasantWindow window)
+        {
+            _window = window;
+            _titleBarHeight = window.TitleBarHeight;
+        
+            _windowDisposables?.Dispose();
+            _windowDisposables = new CompositeDisposable();
+        
+            UpdateMacNavigationLayout(window);
+            UpdateContainerTitleHeight(window);
+            UpdateMarginPanel();
+        
+            Dispatcher.UIThread.Post(() => UpdateTitleBarOffset(window), DispatcherPriority.Render);
+        
+            _windowDisposables.Add(window.GetObservable(PleasantWindow.TitleBarHeightProperty)
+                .Subscribe(new AnonymousObserver<double>(h =>
+                {
+                    _titleBarHeight = h;
+                    UpdateContainerTitleHeight(window);
+                    UpdateMarginPanel();
+                })));
+
+            _windowDisposables.Add(window.GetObservable(PleasantWindow.TitleBarTypeProperty)
+                .Subscribe(new AnonymousObserver<PleasantTitleBar.Type>(type =>
+                {
+                    ButtonsPanelOffset = type == PleasantTitleBar.Type.Compact;
+                })));
+        }
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
+        
+        if (_window != null)
+        {
+            ResetTitleBarOffset(_window);
+        }
         
         _windowDisposables?.Dispose();
         _windowDisposables = null;
@@ -630,10 +615,24 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
 
     internal void SelectSingleItem(ISelectable item, bool runAnimation = true)
     {
-        Debug.WriteLine($"[NavigationView] SelectSingleItem header={(item as NavigationViewItem)?.Header} runAnimation={runAnimation}");
-        // Always run deselection of other items, even if this item is already selected
+        if (item is not NavigationViewItem navItem) return;
+        
         CloseAllSubMenuPopups();
-        SelectSingleItemCore(item, runAnimation);
+        
+        foreach (var currentItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
+        {
+            if (currentItem != navItem && currentItem.IsSelected)
+                currentItem.IsSelected = false;
+        }
+        foreach (var currentItem in _topItems.Concat(_bottomItems))
+        {
+            if (currentItem != navItem && currentItem.IsSelected)
+                currentItem.IsSelected = false;
+        }
+
+        navItem.IsSelected = true;
+        
+        SelectedItem = navItem;
     }
     
     private void OnButtonsPanelOffsetChanged()
@@ -656,24 +655,18 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         {
             if (state == WindowState.FullScreen)
             {
-                if (_mainGrid is { RowDefinitions.Count: > 0 })
-                    _mainGrid.RowDefinitions.RemoveAt(0);
-                if (_stackPanelButtons != null)
-                    _stackPanelButtons.Margin = new Thickness(5);
                 if (_marginPanel != null)
                     Grid.SetRow(_marginPanel, 1);
                 if (_dockPanel != null)
                     Grid.SetRow(_dockPanel, 2);
             }
-            else if (_mainGrid != null && _marginPanel != null && _dockPanel != null &&
-                     _stackPanelButtons != null && _headerItem != null)
+            else if (_mainGrid != null && _marginPanel != null && _dockPanel != null && _headerItem != null)
             {
                 if (_mainGrid.RowDefinitions.Count == 0 ||
                     Math.Abs(_mainGrid.RowDefinitions[0].Height.Value - _headerItem.Height) > 0.01)
                 {
                     _mainGrid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(_headerItem.Height, GridUnitType.Pixel) });
                 }
-                _stackPanelButtons.Margin = new Thickness(5, _titleBarHeight + 6, 5, 5);
                 Grid.SetRow(_marginPanel, 2);
                 Grid.SetRow(_dockPanel, 3);
             }
@@ -684,8 +677,7 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
     {
         if (_container == null) return;
 
-        Thickness margin = window.EnableCustomTitleBar ? new Thickness(8, _titleBarHeight + 1, 8, 8) : new Thickness(0);
-        Debug.WriteLine($"[NavigationView] UpdateContainerTitleHeight enableCustomTitleBar={window.EnableCustomTitleBar} margin={margin}");
+        Thickness margin = window.EnableCustomTitleBar ? new Thickness(5, _titleBarHeight + 1, 5, 5) : new Thickness(0);
 
         _container.CornerRadius = new CornerRadius(8);
         _container.Margin = margin;
@@ -712,8 +704,16 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         else
         {
             // Left + hamburger overlaps titlebar — restore clearance so logo clears the hamburger
-            titleBar.LeftClearance = 40;
+            titleBar.LeftClearance = 45;
         }
+    }
+    
+    private void ResetTitleBarOffset(PleasantWindow window)
+    {
+        if (!window.EnableCustomTitleBar) return;
+
+        PleasantTitleBar? titleBar = window.GetTemplateDescendants().OfType<PleasantTitleBar>().FirstOrDefault();
+        titleBar?.LeftClearance = 0;
     }
 
     private void UpdateLayoutVisibility(NavigationViewPosition position)
@@ -762,12 +762,6 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
 
         _marginPanel.Height = result;
 
-        if (_stackPanelButtons != null)
-        {
-            double topMargin = ButtonsPanelOffset ? _titleBarHeight + 5 : 5;
-            _stackPanelButtons.Margin = new Thickness(5, topMargin, 5, 5);
-        }
-
         Debug.WriteLine($"[NavigationView] UpdateMarginPanel titleBarHeight={_titleBarHeight} noBack={noBackButton} offset={ButtonsPanelOffset} → {result}");
     }
     
@@ -791,51 +785,22 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
 
             if (!isLittle && !isVeryLittle)
             {
-                Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → CompactInline IsOpen stays");
                 UpdatePseudoClasses(false);
                 DisplayMode = SplitViewDisplayMode.CompactInline;
             }
             else if (isLittle && !isVeryLittle)
             {
-                Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → CompactOverlay IsOpen=false");
                 UpdatePseudoClasses(false);
                 DisplayMode = SplitViewDisplayMode.CompactOverlay;
                 IsOpen = false;
             }
             else if (isLittle && isVeryLittle)
             {
-                Debug.WriteLine($"[NavigationView] OnBoundsChanged width={rect.Width:F0} → Overlay IsOpen=false");
                 UpdatePseudoClasses(true);
                 DisplayMode = SplitViewDisplayMode.Overlay;
                 IsOpen = false;
             }
         }
-    }
-
-    private void SelectSingleItemCore(object? item, bool runAnimation = true)
-    {
-        Debug.WriteLine($"[NavigationView] SelectSingleItemCore item={(item as NavigationViewItem)?.Header} tag={(item as NavigationViewItem)?.Tag}");
-        
-        ContentPresenter? activePresenter = Position == NavigationViewPosition.Left ? _contentPresenter : _topBottomContentPresenter;
-        
-        if (SelectedItem != item && TransitionAnimation is not null && activePresenter is not null && runAnimation)
-        {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            TransitionAnimation.RunAsync(activePresenter, _cancellationTokenSource.Token);
-        }
-
-        // Deselect all previously selected items in the tree before selecting the new one
-        foreach (NavigationViewItem navItem in this.GetLogicalDescendants().OfType<NavigationViewItem>())
-        {
-            if (navItem.IsSelected && !ReferenceEquals(navItem, item))
-                navItem.IsSelected = false;
-        }
-        if (item is ISelectable selectableItem)
-            selectableItem.IsSelected = true;
-
-        SelectedItem = item;
     }
     
     private void ChangeNavigationContent(object? newContent, bool playAnimation = true)
@@ -846,17 +811,12 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
             return;
         
         if (SelectedContent is ILogical oldLogical)
-        {
             LogicalChildren.Remove(oldLogical);
-        }
 
-        // Добавляем новую страницу в логическое дерево компонента
         if (newContent is ILogical newLogical)
         {
             if (!LogicalChildren.Contains(newLogical))
-            {
                 LogicalChildren.Add(newLogical);
-            }
         }
 
         SelectedContent = newContent;
@@ -871,7 +831,9 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
 
         Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            if (token.IsCancellationRequested) return;
+            if (token.IsCancellationRequested)
+                return;
+            
             try
             {
                 await TransitionAnimation.RunAsync(_contentPresenter, token);
@@ -907,70 +869,6 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
 
         UpdateLayoutVisibility(position);
         UpdateMarginPanel();
-        RebuildTopBottomProxies(position);
-    }
-
-    private void RebuildTopBottomProxies(NavigationViewPosition position)
-    {
-        foreach (IDisposable subscription in _proxySubscriptions)
-        {
-            subscription.Dispose();
-        }
-        _proxySubscriptions.Clear();
-        
-        _topItems.Clear();
-        _bottomItems.Clear();
-
-        if (position == NavigationViewPosition.Left)
-            return;
-
-        AvaloniaList<NavigationViewItem> target = position == NavigationViewPosition.Top ? _topItems : _bottomItems;
-
-        foreach (NavigationViewItem original in Items.OfType<NavigationViewItem>())
-        {
-            NavigationViewItem proxy = CreateProxy(original);
-            target.Add(proxy);
-        }
-    }
-
-    private NavigationViewItem CreateProxy(NavigationViewItem original)
-    {
-        NavigationViewItem proxy = new()
-        {
-            Header  = original.Header,
-            Icon    = original.Icon,
-            Tag     = original.Tag,
-            Content = original.Content,
-            // Give the proxy a reference to this NavigationView so its Select() can call back.
-            NavigationView = this,
-        };
-
-        // Forward proxy selection → original selection so content routing works correctly.
-        IDisposable sub = proxy.GetObservable(TreeViewItem.IsSelectedProperty)
-            .Subscribe(new AnonymousObserver<bool>(isSelected =>
-            {
-                if (!isSelected) return;
-                // Deselect all other proxies in the same collection.
-                IEnumerable<NavigationViewItem> collection = Position == NavigationViewPosition.Top
-                    ? (IEnumerable<NavigationViewItem>)_topItems
-                    : _bottomItems;
-                foreach (NavigationViewItem other in collection)
-                    if (!ReferenceEquals(other, proxy))
-                        other.IsSelected = false;
-
-                // Mirror selection onto the original so UpdateTitleAndSelectedContent
-                // picks up the right Content.
-                if (!original.IsSelected)
-                    original.IsSelected = true;
-
-                // Drive content update directly — SelectedItem won't change because
-                // the proxy is not in Items, so OnSelectedItemChanged won't fire.
-                SelectedContent = original.Content;
-            }));
-        
-        _proxySubscriptions.Add(sub);
-
-        return proxy;
     }
     
     private object? FindContentInHierarchy(NavigationViewItem? item)
@@ -990,44 +888,30 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
     private void UpdateTitleAndSelectedContent()
     {
         if (SelectedItem is not NavigationViewItem item) return;
-        Debug.WriteLine($"[NavigationView] UpdateTitleAndSelectedContent selectedItem header={item.Header} hasContent={item.Content is not null}");
+        
         if (item.Content is null) return;
         
         if (SelectedContent is ILogical oldLogical)
-        {
             LogicalChildren.Remove(oldLogical);
-        }
         if (item.Content is ILogical newLogical && !LogicalChildren.Contains(newLogical))
-        {
             LogicalChildren.Add(newLogical);
-        }
 
         SelectedContent = item.Content;
     }
 
     private void OnSelectedItemChanged()
     {
-        Debug.WriteLine($"[NavigationView] OnSelectedItemChanged → SelectedItem={(SelectedItem as NavigationViewItem)?.Header}");
-        
         if (SelectedItem is NavigationViewItem item)
         {
             object? targetContent = FindContentInHierarchy(item);
-            
+
             if (targetContent is not null)
-            {
                 ChangeNavigationContent(targetContent);
-            }
-            else
-            {
-                Debug.WriteLine($"[NavigationView] SelectedItem changed to '{item.Header}', but Content is null. Keeping current visual content.");
-            }
         }
         else
         {
             if (SelectedItem is not null && SelectedItem != SelectedContent)
-            {
                 ChangeNavigationContent(SelectedItem);
-            }
         }
     }
     
@@ -1081,27 +965,6 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         }
     }
 
-    private void WireTopBottomItemSelection(ItemsControl? control)
-    {
-        if (control is null) return;
-
-        // Use AddHandler with handledEventsToo=false so we catch the bubble from NavigationViewItem children.
-        control.AddHandler(PointerReleasedEvent, (_, args) =>
-        {
-            // Walk up from the original source to find the NavigationViewItem that was clicked.
-            Visual? source = args.Source as Visual;
-            while (source is not null)
-            {
-                if (source is NavigationViewItem navItem && control.Items.Contains(navItem))
-                {
-                    SelectTopBottomItem(navItem);
-                    break;
-                }
-                source = source.GetVisualParent();
-            }
-        }, handledEventsToo: false);
-    }
-
     private void SelectTopBottomItem(NavigationViewItem item)
     {
         Debug.WriteLine($"[NavigationView] SelectTopBottomItem header={item.Header}");
@@ -1118,12 +981,9 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         object? targetContent = FindContentInHierarchy(item);
 
         if (targetContent is not null)
-        {
             ChangeNavigationContent(item.Content);
-        }
         else
-        {
-            Debug.WriteLine($"[NavigationView] Top/Bottom item '{item.Header}' selected via pointer, keeping current content.");
-        }
+            Debug.WriteLine(
+                $"[NavigationView] Top/Bottom item '{item.Header}' selected via pointer, keeping current content.");
     }
 }
