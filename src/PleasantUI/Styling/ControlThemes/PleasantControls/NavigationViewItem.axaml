@@ -64,11 +64,11 @@
                         <Grid RowDefinitions="*,Auto">
                             <Border Grid.Row="0"
                                     Name="PART_NavDecorator"
-                                    Background="{TemplateBinding Background}">
+                                    Background="{TemplateBinding Background}"
+                                    TemplatedControl.IsTemplateFocusTarget="True">
                                 <RippleEffect x:Name="PART_Ripple" Padding="2.5">
                                     <Grid Name="PART_InternalGrid"
-                                          ColumnDefinitions="35,*"
-                                          Margin="{TemplateBinding NavigationViewDistance, Mode= OneWay, Converter={x:Static MenuConverters.MarginMultiplier}}">
+                                          ColumnDefinitions="35,*">
                                         <Grid Grid.Column="0"
                                               Name="PART_IconGrid"
                                               Height="30">
@@ -148,10 +148,6 @@
             <Setter Property="ClipToBounds" Value="True" />
         </Style>
 
-        <Style Selector="^ /template/ Grid#PART_InternalGrid">
-            <Setter Property="Margin"
-                    Value="{CompiledBinding $parent[NavigationViewItem].NavigationViewDistance, Mode=OneWay, Converter={x:Static MenuConverters.MarginMultiplier}}" />
-        </Style>
         <Style Selector="^.header /template/ Grid#PART_InternalGrid">
             <Setter Property="Margin" Value="0" />
         </Style>

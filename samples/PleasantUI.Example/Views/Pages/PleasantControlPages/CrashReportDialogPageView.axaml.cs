@@ -57,7 +57,6 @@ public partial class CrashReportDialogPageView : LocalizedUserControl
         dialog.UserMessagePlaceholder = Localizer.Tr("CrashReportDialog/UserMessagePlaceholder");
 
         dialog.SendReportRequested += OnSendRequested;
-        dialog.SaveReportRequested += OnSaveRequested;
 
         TopLevel? topLevel = TopLevel.GetTopLevel(this);
         CrashReportResult result   = await dialog.ShowAsync(topLevel);
@@ -95,7 +94,6 @@ public partial class CrashReportDialogPageView : LocalizedUserControl
         dialog.VersionLabel = Localizer.Tr("CrashReportDialog/VersionLabel");
         dialog.UserMessagePlaceholder = Localizer.Tr("CrashReportDialog/UserMessagePlaceholder");
         dialog.SendReportRequested += OnSendRequested;
-        dialog.SaveReportRequested += OnSaveRequested;
 
         TopLevel? topLevel = TopLevel.GetTopLevel(this);
         CrashReportResult result   = await dialog.ShowAsync(topLevel);
@@ -114,12 +112,5 @@ public partial class CrashReportDialogPageView : LocalizedUserControl
             // Report success back to the dialog so it transitions to the success state.
             e.ReportSuccess?.Invoke();
         });
-    }
-
-    private static void OnSaveRequested(object? sender, SaveReportEventArgs e)
-    {
-        // In a real app you'd open a SaveFileDialog and write the report.
-        // Here we just acknowledge it.
-        System.Diagnostics.Debug.WriteLine($"[CrashReport] Save requested. Message: {e.UserMessage}");
     }
 }

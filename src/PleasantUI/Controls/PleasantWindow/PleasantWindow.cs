@@ -349,25 +349,6 @@ public class PleasantWindow : PleasantWindowBase
 
         if (change.Property == EnableBlurProperty)
             SetTransparencyLevelHint();
-        
-        if (change.Property == WindowStateProperty)
-        {
-            WindowState state = change.GetNewValue<WindowState>();
-        
-            // Компенсация отступов для Windows при Maximized
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (state == WindowState.Maximized)
-                {
-                    // Windows добавляет невидимую рамку в 8 пикселей при максимизации
-                    Padding = new Thickness(8); 
-                }
-                else if (state == WindowState.Normal)
-                {
-                    Padding = new Thickness(0);
-                }
-            }
-        }
     }
 
     private Panel? _splashLayer;

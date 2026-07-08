@@ -116,10 +116,7 @@ public class ProgressRing : RangeBase
         set => SetValue(ThicknessProperty, value);
     }
 
-    static ProgressRing()
-    {
-        ValueProperty.Changed.AddClassHandler<ProgressRing>(OnValuePropertyChanged);
-    }
+    static ProgressRing() { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProgressRing" /> class.
@@ -130,14 +127,16 @@ public class ProgressRing : RangeBase
     }
 
     /// <inheritdoc />
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        base.OnPropertyChanged(change);
+        base.OnPropertyChanged(e);
 
-        if (change.Property == IsIndeterminateProperty)
-            PseudoClasses.Set(":indeterminate", change.NewValue as bool? ?? false);
-        else if (change.Property == PreserveAspectProperty)
-            UpdatePseudoClasses(null, change.NewValue as bool? ?? false);
+        if (e.Property == IsIndeterminateProperty)
+            PseudoClasses.Set(":indeterminate", e.NewValue as bool? ?? false);
+        else if (e.Property == PreserveAspectProperty)
+            UpdatePseudoClasses(null, e.NewValue as bool? ?? false);
+        else if (e.Property == ValueAngleProperty)
+            OnValuePropertyChanged(this, e);
     }
 
     private static void OnValuePropertyChanged(ProgressRing sender, AvaloniaPropertyChangedEventArgs e)

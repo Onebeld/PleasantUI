@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace PleasantUI.Core.Localization;
 
@@ -49,7 +48,7 @@ public sealed class LocalizeKeyObservable : INotifyPropertyChanged
     private void OnLanguageChanged(string language)
     {
         string newValue = _resolver();
-        Debug.WriteLine($"[LocalizeKeyObservable] lang={language} old=\"{_value}\" new=\"{newValue}\"");
+        
         // Always assign — setter fires PropertyChanged unconditionally
         Value = newValue;
     }

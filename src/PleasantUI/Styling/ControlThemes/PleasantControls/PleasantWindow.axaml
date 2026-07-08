@@ -18,18 +18,14 @@
                     <Panel x:Name="PART_Background" Background="{TemplateBinding Background}" IsHitTestVisible="False" />
 
                     <VisualLayerManager x:Name="PART_VisualLayerManager">
-                        
-                        <Grid>
-                            <OnPlatform>
-                                <OnPlatform.Default>
-                                    <PleasantTitleBar x:Name="PART_PleasantTitleBar"
-                                                      VerticalAlignment="Top"
-                                                      ZIndex="1"
-                                                      Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
-                                </OnPlatform.Default>
-                            </OnPlatform>
+                        <Grid RowDefinitions="Auto,*">
+                            <PleasantTitleBar x:Name="PART_PleasantTitleBar"
+                                              Grid.Row="0"
+                                              VerticalAlignment="Top"
+                                              ZIndex="1"
+                                              Height="{CompiledBinding $parent[PleasantWindow].TitleBarHeight}" />
                             
-                            <ContentPresenter x:Name="PART_ContentWindow"
+                            <ContentPresenter Grid.Row="1" x:Name="PART_ContentWindow"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               Content="{TemplateBinding Content}"
                                               Margin="{TemplateBinding Padding}"
@@ -47,9 +43,12 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^[ExtendsContentIntoTitleBar=False][EnableCustomTitleBar=True]">
-            <Setter Property="Padding" Value="{CompiledBinding $self.TitleBarHeight, Converter={x:Static ThicknessConverters.Top}}" />
+        
+        <Style Selector="^[ExtendsContentIntoTitleBar=True] /template/ PleasantTitleBar#PART_PleasantTitleBar">
+            <Setter Property="(Grid.Row)" Value="1" />
+        </Style>
+        <Style Selector="^[ExtendsContentIntoTitleBar=True][TitleBarType=NavigationViewClassicExtended] /template/ PleasantTitleBar#PART_PleasantTitleBar">
+            <Setter Property="Margin" Value="45 0 0 0" />
         </Style>
 
         <Style Selector="^ /template/ Panel#PART_Background">
@@ -101,6 +100,28 @@
                     <Setter Property="TitleBarHeight" Value="44" />
                 </OnPlatform.macOS>
             </OnPlatform>
+        </Style>
+        <Style Selector="^[TitleBarType=NavigationViewClassicExtended]">
+            <OnPlatform>
+                <OnPlatform.Default>
+                    <Setter Property="TitleBarHeight" Value="44" />
+                </OnPlatform.Default>
+                <OnPlatform.macOS>
+                    <Setter Property="TitleBarHeight" Value="36" />
+                </OnPlatform.macOS>
+            </OnPlatform>
+            <Setter Property="Margin" Value="45 0 0 0" />
+        </Style>
+        <Style Selector="^[TitleBarType=NavigationViewClassicExtended][OverrideMacOSCaption=True]">
+            <OnPlatform>
+                <OnPlatform.Default>
+                    <Setter Property="TitleBarHeight" Value="44" />
+                </OnPlatform.Default>
+                <OnPlatform.macOS>
+                    <Setter Property="TitleBarHeight" Value="44" />
+                </OnPlatform.macOS>
+            </OnPlatform>
+            <Setter Property="Margin" Value="45 0 0 0" />
         </Style>
         <Style Selector="^[TitleBarType=Compact]">
             <OnPlatform>

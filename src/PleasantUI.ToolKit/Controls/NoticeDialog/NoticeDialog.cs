@@ -111,11 +111,7 @@ public partial class NoticeDialog : ContentDialog
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(NoticeDialog);
 
-    // ── Constructor ───────────────────────────────────────────────────────────
-
     public NoticeDialog() => InitializeComponent();
-
-    // ── Static factory ────────────────────────────────────────────────────────
 
     /// <summary>
     /// Shows a <see cref="NoticeDialog"/> with the specified parameters.
@@ -149,6 +145,7 @@ public partial class NoticeDialog : ContentDialog
         TaskCompletionSource tcs = new();
         dialog.Closed += (_, _) => tcs.TrySetResult();
         dialog.ShowAsync(parent);
+        
         return tcs.Task;
     }
 }

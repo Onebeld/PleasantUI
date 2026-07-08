@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using Material.Icons;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.Interfaces;
@@ -55,8 +54,6 @@ public class ControlPageCard : INotifyPropertyChanged
         _title = Resolve(titleKey);
         _description = Resolve(descriptionKey);
 
-        Debug.WriteLine($"[ControlPageCard] Created key={titleKey} title=\"{_title}\"");
-
         Localizer.Instance.LocalizationChanged += OnLanguageChanged;
     }
 
@@ -66,7 +63,6 @@ public class ControlPageCard : INotifyPropertyChanged
         {
             Title = Resolve(TitleKey);
             Description = Resolve(DescriptionKey);
-            Debug.WriteLine($"[ControlPageCard] Updated key={TitleKey} title=\"{_title}\" lang={lang}");
         }
 
         if (Avalonia.Threading.Dispatcher.UIThread.CheckAccess())

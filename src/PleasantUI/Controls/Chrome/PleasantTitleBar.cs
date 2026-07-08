@@ -32,7 +32,7 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_LeftTitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitleBarContent", typeof(ContentPresenter))]
 [TemplatePart("PART_TitlePanel", typeof(StackPanel))]
-[PseudoClasses(":active", ":minimized", ":normal", ":maximized", ":isactive", ":titlebar", ":title-visible")]
+[PseudoClasses(":active", ":minimized", ":normal", ":maximized", ":isactive", ":titlebar", ":title-visible", ":compact-titlebar")]
 public class PleasantTitleBar : TemplatedControl
 {
     /// <summary>
@@ -49,14 +49,14 @@ public class PleasantTitleBar : TemplatedControl
         /// The title bar is slightly larger than usual
         /// </summary>
         ClassicExtended = 1,
+        
+        NavigationViewClassicExtended = 2,
 
         /// <summary>
         /// A compact title bar that takes up minimal vertical space
         /// </summary>
-        Compact = 2
+        Compact = 3
     }
-
-    private readonly bool _isMacOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     
     private PleasantWindow? _host;
     private PleasantCaptionButtons? _captionButtons;
@@ -80,20 +80,16 @@ public class PleasantTitleBar : TemplatedControl
     private StackPanel? _titlePanel;
     
     private CompositeDisposable? _disposables;
+    
+    public static readonly DirectProperty<PleasantTitleBar, bool> IsMacOSProperty =
+        AvaloniaProperty.RegisterDirect<PleasantTitleBar, bool>(nameof(IsMacOS),
+            titleBar => titleBar.IsMacOS);
 
     /// <summary>
     /// Defines the <see cref="IsTitleVisible"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> IsTitleVisibleProperty =
         AvaloniaProperty.Register<PleasantTitleBar, bool>(nameof(IsTitleVisible), true);
-    
-    /// <summary>
-    /// Defines the <see cref="LeftClearance"/> property.
-    /// Controls the width of the reserved left column in the titlebar grid (default 40px on Windows).
-    /// Set to 0 to push the logo/title to the far left when no hamburger overlaps the titlebar.
-    /// </summary>
-    public static readonly StyledProperty<double> LeftClearanceProperty =
-        AvaloniaProperty.Register<PleasantTitleBar, double>(nameof(LeftClearance), 40.0);
     
     /// <summary>
     /// Defines the attached property that controls whether the drag area of the title bar responds to hit-testing.
@@ -120,14 +116,11 @@ public class PleasantTitleBar : TemplatedControl
         set => SetValue(IsTitleVisibleProperty, value);
     }
 
-    /// <summary>
-    /// Gets or sets the width of the left clearance column in the titlebar grid.
-    /// </summary>
-    public double LeftClearance
+    public bool IsMacOS
     {
-        get => GetValue(LeftClearanceProperty);
-        set => SetValue(LeftClearanceProperty, value);
-    }
+        get;
+        set => SetAndRaise(IsMacOSProperty, ref field, value);
+    } = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
     /// <summary>Gets the IsTitleBarHitTestVisible attached value from a window.</summary>
     public static bool GetIsTitleBarHitTestVisible(Window obj) => obj.GetValue(IsTitleBarHitTestVisibleProperty);
@@ -184,11 +177,6 @@ public class PleasantTitleBar : TemplatedControl
         {
             PseudoClasses.Set(":title-visible", visible);
         }
-        else if (e.Property == LeftClearanceProperty && e.NewValue is double w)
-        {
-            if (!_isMacOS && _titleBarGrid is { ColumnDefinitions.Count: > 0 })
-                _titleBarGrid.ColumnDefinitions[0].Width = new GridLength(w, GridUnitType.Pixel);
-        }
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -213,13 +201,13 @@ public class PleasantTitleBar : TemplatedControl
 
                 if (windowState == WindowState.Maximized)
                 {
-                    if (_reestablishMenuItem is not null) _reestablishMenuItem.IsEnabled = true;
-                    if (_expandMenuItem is not null) _expandMenuItem.IsEnabled = false;
+                    _reestablishMenuItem?.IsEnabled = true;
+                    _expandMenuItem?.IsEnabled = false;
                 }
                 else
                 {
-                    if (_reestablishMenuItem is not null) _reestablishMenuItem.IsEnabled = false;
-                    if (_expandMenuItem is not null) _expandMenuItem.IsEnabled = true;
+                    _reestablishMenuItem?.IsEnabled = false;
+                    _expandMenuItem?.IsEnabled = true;
                 }
             })),
             host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(b =>
@@ -229,7 +217,7 @@ public class PleasantTitleBar : TemplatedControl
             })),
             host.GetObservable(PleasantWindow.SubtitleProperty).Subscribe(new AnonymousObserver<string>(s =>
             {
-                if (_subtitle is not null) _subtitle.Text = s;
+                _subtitle?.Text = s;
             })),
             host.GetObservable(Window.TitleProperty).Subscribe(new AnonymousObserver<string?>(SetDisplayTitle)),
             host.GetObservable(PleasantWindow.DisplayTitleProperty).Subscribe(new AnonymousObserver<object?>(SetDisplayTitle)),
@@ -237,30 +225,28 @@ public class PleasantTitleBar : TemplatedControl
             host.GetObservable(Window.IconProperty).Subscribe(new AnonymousObserver<WindowIcon?>(SetDisplayIcon)),
             host.GetObservable(PleasantWindow.LeftTitleBarContentProperty).Subscribe(new AnonymousObserver<object?>(content =>
             {
-                if (_leftTitleBarContent is not null)
-                    _leftTitleBarContent.Content = content;
+                _leftTitleBarContent?.Content = content;
             })),
             host.GetObservable(PleasantWindow.TitleContentProperty).Subscribe(new AnonymousObserver<object?>(content =>
             {
-                if (_titleBarContent is not null)
-                    _titleBarContent.Content = content;
+                _titleBarContent?.Content = content;
 
-                if (_isMacOS && _titlePanel is not null)
+                if (IsMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !host.ExtendsContentIntoTitleBar && content is null;
             })),
             host.GetObservable(PleasantWindow.TitleBarTypeProperty).Subscribe(new AnonymousObserver<Type>(type =>
             {
                 PseudoClasses.Set(":titlebar", type == Type.Classic);
+                PseudoClasses.Set(":compact-titlebar", type == Type.Compact);
             })),
             host.GetObservable(PleasantWindow.ExtendsContentIntoTitleBarProperty).Subscribe(new AnonymousObserver<bool>(b =>
             {
-                if (_isMacOS && _titlePanel is not null)
+                if (IsMacOS && _titlePanel is not null)
                     _titlePanel.IsVisible = !b;
             })),
             host.GetObservable(IsTitleBarHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(hitTestVisible =>
             {
-                if (_dragWindowBorder is not null)
-                    _dragWindowBorder.IsHitTestVisible = hitTestVisible;
+                _dragWindowBorder?.IsHitTestVisible = hitTestVisible;
             })),
             host.GetObservable(PleasantWindow.EnableCustomTitleBarProperty).Subscribe(new AnonymousObserver<bool>(enable =>
             {
@@ -272,13 +258,13 @@ public class PleasantTitleBar : TemplatedControl
                 {
                     // On macOS without caption override, native buttons are used — hide custom ones.
                     // Otherwise always keep the panel visible; UpdateButtonVisibility controls individual buttons.
-                    bool usesCustomCaptions = !_isMacOS || _host.OverrideMacOSCaption;
+                    bool usesCustomCaptions = !IsMacOS || _host.OverrideMacOSCaption;
                     _captionButtons.IsVisible = enable && usesCustomCaptions;
                     // Drag border is not useful in fullscreen
                     _dragWindowBorder.IsVisible = enable && state != WindowState.FullScreen;
                 }));
 
-                bool usesCustomCaptionsNow = !_isMacOS || _host.OverrideMacOSCaption;
+                bool usesCustomCaptionsNow = !IsMacOS || _host.OverrideMacOSCaption;
                 _captionButtons.IsVisible = enable && usesCustomCaptionsNow;
                 _titlePanel.IsVisible = enable && IsTitleVisible;
                 _leftTitleBarContent.IsVisible = enable;
@@ -306,7 +292,7 @@ public class PleasantTitleBar : TemplatedControl
 
         _titleBarGrid.ColumnDefinitions.Clear();
 
-        if (_isMacOS)
+        if (IsMacOS)
         {
             if (_host != null)
             {
@@ -332,14 +318,13 @@ public class PleasantTitleBar : TemplatedControl
         else
         {
             // Non-macOS layout
-            _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(LeftClearance, GridUnitType.Pixel) });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _titleBarGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         }
         // Set child placements based on platform.
-        if (_isMacOS)
+        if (IsMacOS)
         {
             if (_captionButtons != null)
             {

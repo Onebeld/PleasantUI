@@ -77,15 +77,13 @@ public class PropertyGrid : TemplatedControl
 
         _rowsHost = e.NameScope.Find<ItemsControl>(PART_RowsHost);
 
-        if (_rowsHost is not null)
-            _rowsHost.ItemsSource = Rows;
+        _rowsHost?.ItemsSource = Rows;
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────
 
     private void OnRowsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (_rowsHost is not null)
-            _rowsHost.ItemsSource = Rows;
+        _rowsHost?.ItemsSource = Rows;
     }
 }

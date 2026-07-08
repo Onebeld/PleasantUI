@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -108,20 +107,14 @@ public class CommandBarButton : Button, ICommandBarElement
 
         if (change.Property == IconProperty)
         {
-            Debug.WriteLine(
-                $"[CommandBarButton] OnPropertyChanged - Icon changed, hasIcon={change.NewValue is not null}");
             PseudoClasses.Set(PC_Icon, change.NewValue is not null);
         }
         else if (change.Property == LabelProperty)
         {
-            Debug.WriteLine(
-                $"[CommandBarButton] OnPropertyChanged - Label changed, hasLabel={change.NewValue is not null}");
             PseudoClasses.Set(PC_Label, change.NewValue is not null);
         }
         else if (change.Property == IsCompactProperty)
         {
-            Debug.WriteLine(
-                $"[CommandBarButton] OnPropertyChanged - IsCompact changed to {change.GetNewValue<bool>()}");
             PseudoClasses.Set(PC_Compact, change.GetNewValue<bool>());
         }
     }
@@ -129,17 +122,14 @@ public class CommandBarButton : Button, ICommandBarElement
     /// <inheritdoc />
     protected override void OnClick()
     {
-        Debug.WriteLine($"[CommandBarButton] OnClick - Label={Label}, IsInOverflow={IsInOverflow}");
         base.OnClick();
 
         // When clicked from the overflow menu, close the CommandBar.
         if (!IsInOverflow)
             return;
         
-        Debug.WriteLine("[CommandBarButton] OnClick - Closing parent CommandBar");
         CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
-        if (bar is not null)
-            bar.IsOpen = false;
+        bar?.IsOpen = false;
     }
 
     /// <summary>
@@ -147,7 +137,6 @@ public class CommandBarButton : Button, ICommandBarElement
     /// </summary>
     internal void ApplyLabelPosition(CommandBarDefaultLabelPosition pos)
     {
-        Debug.WriteLine($"[CommandBarButton] ApplyLabelPosition - pos={pos}");
         PseudoClasses.Set(PC_LabelBottom, pos == CommandBarDefaultLabelPosition.Bottom);
         PseudoClasses.Set(PC_LabelRight, pos == CommandBarDefaultLabelPosition.Right);
         PseudoClasses.Set(PC_LabelCollapsed, pos == CommandBarDefaultLabelPosition.Collapsed);
@@ -156,7 +145,6 @@ public class CommandBarButton : Button, ICommandBarElement
     /// <summary>Sets the :open pseudo-class driven by the parent <see cref="CommandBar"/>.</summary>
     internal void ApplyOpenState(bool open)
     {
-        Debug.WriteLine($"[CommandBarButton] ApplyOpenState - open={open}");
         PseudoClasses.Set(PC_Open, open);
     }
 }

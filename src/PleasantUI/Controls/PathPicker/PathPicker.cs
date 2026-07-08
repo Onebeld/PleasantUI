@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Avalonia;
@@ -35,7 +34,7 @@ public partial class PathPicker : TemplatedControl
     private static readonly Regex _filterRegex = new(FilterPattern);
     private static Regex FilterRegex() => _filterRegex;
 #endif
-    
+
     private Button? _button;
     private bool _syncLock;
 
@@ -214,10 +213,17 @@ public partial class PathPicker : TemplatedControl
         private set => SetAndRaise(SelectedPathsProperty, ref field, value);
     } = [];
 
-    static PathPicker()
+    static PathPicker() { }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        SelectedPathsProperty.Changed.AddClassHandler<PathPicker>((p, _) => p.SyncPathsToText());
-        SelectedPathsTextProperty.Changed.AddClassHandler<PathPicker>((p, _) => p.SyncTextToPaths());
+        base.OnPropertyChanged(e);
+
+        if (e.Property == SelectedPathsProperty || e.Property == SelectedPathsTextProperty)
+        {
+            SyncPathsToText();
+        }
     }
 
     /// <inheritdoc />
@@ -239,7 +245,6 @@ public partial class PathPicker : TemplatedControl
         if (_syncLock) return;
         _syncLock = true;
         SelectedPathsText = string.Join(Environment.NewLine, SelectedPaths);
-        Debug.WriteLine($"[PathPicker] SyncPathsToText → SelectedPathsText=\"{SelectedPathsText}\"");
         _syncLock = false;
         UpdatePseudoClasses();
     }
@@ -254,7 +259,6 @@ public partial class PathPicker : TemplatedControl
             .Select(s => s.Trim())
             .Where(s => s.Length > 0)
             .ToArray()) ?? [];
-        Debug.WriteLine($"[PathPicker] SyncTextToPaths → SelectedPaths count={SelectedPaths.Count}");
         _syncLock = false;
         UpdatePseudoClasses();
     }
@@ -271,20 +275,17 @@ public partial class PathPicker : TemplatedControl
         TopLevel? topLevel = TopLevel.GetTopLevel(this);
         if (topLevel is null)
         {
-            Debug.WriteLine("[PathPicker] OnButtonClick — TopLevel is null, aborting");
             return;
         }
 
         try
         {
-            if (_button is not null) _button.IsEnabled = false;
+            _button?.IsEnabled = false;
 
             IReadOnlyList<string>? picked;
 
             if (UseCustomPicker)
             {
-                Debug.WriteLine($"[PathPicker] Using custom picker, Mode={Mode}");
-
                 List<PleasantFileChooserFilter> filters = ParseFileFilter(FileFilter)?
                                                               .Select(f => new PleasantFileChooserFilter(
                                                                   f.Name,
@@ -302,17 +303,11 @@ public partial class PathPicker : TemplatedControl
                     InitialDirectory = SuggestedStartPath,
                     Filters = filters
                 });
-
-                Debug.WriteLine(
-                    $"[PathPicker] Custom picker returned {picked?.Count ?? 0} path(s): [{(picked is null ? "null" : string.Join(", ", picked))}]");
             }
             else
             {
-                Debug.WriteLine($"[PathPicker] Using platform picker, Mode={Mode}");
-
                 if (topLevel.StorageProvider is not { } storage)
                 {
-                    Debug.WriteLine("[PathPicker] StorageProvider is null");
                     return;
                 }
 
@@ -325,22 +320,14 @@ public partial class PathPicker : TemplatedControl
                 };
 
                 picked = raw.Where(p => p is not null).Select(p => p!).ToList();
-
-                Debug.WriteLine(
-                    $"[PathPicker] Platform picker returned {picked.Count} path(s): [{string.Join(", ", picked)}]");
             }
 
             List<string> nonNull = picked?.Where(p => !string.IsNullOrEmpty(p)).ToList()
-                                   ?? new List<string>();
-
-            Debug.WriteLine(
-                $"[PathPicker] nonNull count={nonNull.Count}, IsClearSelectionOnCancel={IsClearSelectionOnCancel}");
+                                   ?? [];
 
             if (nonNull.Count > 0)
             {
-                Debug.WriteLine($"[PathPicker] Setting SelectedPaths → [{string.Join(", ", nonNull)}]");
                 SelectedPaths = nonNull;
-                Debug.WriteLine($"[PathPicker] SelectedPathsText after sync = \"{SelectedPathsText}\"");
             }
             else if (IsClearSelectionOnCancel)
             {
@@ -350,13 +337,9 @@ public partial class PathPicker : TemplatedControl
             if (nonNull.Count > 0 || !IsOmitCommandOnCancel)
                 Command?.Execute(SelectedPaths);
         }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"[PathPicker] Exception: {ex}");
-        }
         finally
         {
-            if (_button is not null) _button.IsEnabled = true;
+            _button?.IsEnabled = true;
         }
     }
 

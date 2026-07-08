@@ -216,8 +216,7 @@ public class TerminalPanel : TemplatedControl
 
         AttachHandlers();
 
-        if (_outputBox is not null)
-            _outputBox.Text = OutputText;
+        _outputBox?.Text = OutputText;
 
         PseudoClasses.Set(PC_Running,   IsRunning);
         PseudoClasses.Set(PC_HasOutput, !string.IsNullOrEmpty(OutputText));
@@ -241,8 +240,7 @@ public class TerminalPanel : TemplatedControl
         }
         else if (change.Property == OutputTextProperty)
         {
-            if (_outputBox is not null)
-                _outputBox.Text = change.GetNewValue<string?>();
+            _outputBox?.Text = change.GetNewValue<string?>();
             PseudoClasses.Set(PC_HasOutput, !string.IsNullOrEmpty(change.GetNewValue<string?>()));
         }
     }
@@ -317,7 +315,6 @@ public class TerminalPanel : TemplatedControl
 
     private void ScrollToEnd()
     {
-        if (_scrollViewer is null) return;
-        _scrollViewer.Offset = new Vector(_scrollViewer.Offset.X, double.MaxValue);
+        _scrollViewer?.Offset = new Vector(_scrollViewer.Offset.X, double.MaxValue);
     }
 }

@@ -56,12 +56,10 @@ public class BindingTranslateConverter : IMultiValueConverter
                 ? Localizer.Tr(key, args: [.. args])
                 : Localizer.Tr(key);
 
-            System.Diagnostics.Debug.WriteLine($"[BindingTranslateConverter] key=\"{key}\" → \"{result}\" lang={Localizer.Instance.CurrentLanguage}");
             return result;
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[BindingTranslateConverter] ERROR key=\"{key}\": {ex.Message}");
             return Localizer.Tr(key);
         }
     }

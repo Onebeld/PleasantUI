@@ -39,15 +39,17 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid x:Name="PART_TitleBarGrid">
+                <Grid x:Name="PART_TitleBarGrid" ColumnDefinitions="Auto,Auto,*,Auto">
                     <Border x:Name="PART_DragWindow"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
                             Background="Transparent"
                             ContextFlyout="{DynamicResource WindowMenuFlyout}"
                             WindowDecorationProperties.ElementRole="TitleBar" />
 
-                    <ContentPresenter x:Name="PART_LeftTitleBarContent" />
+                    <ContentPresenter Grid.Column="0" x:Name="PART_LeftTitleBarContent" />
 
-                    <StackPanel x:Name="PART_TitlePanel"
+                    <StackPanel Grid.Column="1" x:Name="PART_TitlePanel"
                                 Orientation="Horizontal"
                                 Margin="5 0 0 0"
                                 Spacing="5"
@@ -64,20 +66,27 @@
                                    Foreground="{DynamicResource TextFillColor3}" />
                     </StackPanel>
 
-                    <ContentPresenter x:Name="PART_TitleBarContent" />
+                    <ContentPresenter Grid.Column="2" x:Name="PART_TitleBarContent" />
 
                     <OnPlatform>
                         <OnPlatform.Default>
-                            <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons" />
+                            <PleasantCaptionButtons Grid.Column="3" x:Name="PART_PleasantCaptionButtons" />
                         </OnPlatform.Default>
                         <OnPlatform.macOS>
-                            <PleasantCaptionButtons x:Name="PART_PleasantCaptionButtons"
+                            <PleasantCaptionButtons Grid.Column="3" x:Name="PART_PleasantCaptionButtons"
                                                     Theme="{DynamicResource PleasantCaptionButtonsMacOSStyle}" />
                         </OnPlatform.macOS>
                     </OnPlatform>
                 </Grid>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^:titlebar /template/ StackPanel#PART_TitlePanel">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^:compact-titlebar /template/ StackPanel#PART_TitlePanel">
+            <Setter Property="Margin" Value="0" />
+        </Style>
 
         <Style Selector="^:isactive /template/ PleasantIcon#PART_DisplayTitle">
             <Setter Property="Opacity" Value="0.7" />

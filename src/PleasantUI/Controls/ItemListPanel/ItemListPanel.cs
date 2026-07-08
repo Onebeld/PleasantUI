@@ -250,10 +250,9 @@ public class ItemListPanel : TemplatedControl
         {
             bool multi = change.GetNewValue<bool>();
             PseudoClasses.Set(PC_MultiSelect, multi);
-            if (_listBox is not null)
-                _listBox.SelectionMode = multi
-                    ? SelectionMode.Multiple | SelectionMode.Toggle
-                    : SelectionMode.Single;
+            _listBox?.SelectionMode = multi
+                ? SelectionMode.Multiple | SelectionMode.Toggle
+                : SelectionMode.Single;
         }
         else if (change.Property == SearchTextProperty)
         {

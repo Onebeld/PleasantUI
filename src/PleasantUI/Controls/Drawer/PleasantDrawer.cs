@@ -195,11 +195,7 @@ public class PleasantDrawer : PleasantPopupElement
         remove => RemoveHandler(OpenedEvent, value);
     }
 
-    static PleasantDrawer()
-    {
-        PositionProperty.Changed.AddClassHandler<PleasantDrawer, DrawerPosition>((d, e) =>
-            d.UpdatePositionPseudoClasses(e.NewValue.Value));
-    }
+    static PleasantDrawer() { }
 
     /// <summary>Initializes a new instance of <see cref="PleasantDrawer"/>.</summary>
     public PleasantDrawer()
@@ -209,28 +205,19 @@ public class PleasantDrawer : PleasantPopupElement
         // active before the first layout pass.
         UpdatePositionPseudoClasses(Position);
     }
-
-    /// <summary>
-    /// Shows the drawer on the specified <see cref="TopLevel"/>.
-    /// </summary>
-    public Task ShowAsync(TopLevel topLevel)
-        => ShowCoreAsync<object>(topLevel);
-
-    /// <summary>
-    /// Shows the drawer and returns a typed result when it closes.
-    /// </summary>
-    public Task<T?> ShowAsync<T>(TopLevel topLevel)
-        => ShowCoreAsync<T>(topLevel);
-
-    /// <summary>
-    /// Closes the drawer, optionally passing a result value.
-    /// </summary>
-    public Task CloseAsync(object? result = null)
+    
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        _result = result;
-        return CloseDrawerAsync();
-    }
+        base.OnPropertyChanged(change);
 
+        if (change.Property == PositionProperty)
+        {
+            UpdatePositionPseudoClasses(Position);
+            ApplyPositionAlignment(Position);
+        }
+    }
+    
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -286,16 +273,25 @@ public class PleasantDrawer : PleasantPopupElement
         }
     }
 
-    /// <inheritdoc />
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
+    /// <summary>
+    /// Shows the drawer on the specified <see cref="TopLevel"/>.
+    /// </summary>
+    public Task ShowAsync(TopLevel topLevel)
+        => ShowCoreAsync<object>(topLevel);
 
-        if (change.Property == PositionProperty)
-        {
-            UpdatePositionPseudoClasses(Position);
-            ApplyPositionAlignment(Position);
-        }
+    /// <summary>
+    /// Shows the drawer and returns a typed result when it closes.
+    /// </summary>
+    public Task<T?> ShowAsync<T>(TopLevel topLevel)
+        => ShowCoreAsync<T>(topLevel);
+
+    /// <summary>
+    /// Closes the drawer, optionally passing a result value.
+    /// </summary>
+    public Task CloseAsync(object? result = null)
+    {
+        _result = result;
+        return CloseDrawerAsync();
     }
 
     private void ApplyPositionAlignment(DrawerPosition position)

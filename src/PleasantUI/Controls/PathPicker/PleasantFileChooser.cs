@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -8,6 +7,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace PleasantUI.Controls;
@@ -41,7 +41,7 @@ public class PleasantFileChooser : TemplatedControl
     private const string PART_BackButton = "PART_BackButton";
     private const string PART_ForwardButton = "PART_ForwardButton";
     private const string PART_UpButton = "PART_UpButton";
-    
+
     private PleasantFileChooserViewModel? _vm;
 
     private ListBox? _quickLinks;
@@ -191,28 +191,50 @@ public class PleasantFileChooser : TemplatedControl
         private set => SetValue(IsLoadingProperty, value);
     }
 
-    static PleasantFileChooser()
+    static PleasantFileChooser() { }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
+        base.OnPropertyChanged(e);
+
         // Sync control properties → ViewModel when changed from AXAML/code
-        CurrentPathProperty.Changed.AddClassHandler<PleasantFileChooser>((c, e) =>
+        if (e.Property == CurrentPathProperty)
         {
-            if (c._vm is not null && e.NewValue is string p) c._vm.Navigate(p);
-        });
+            if (_vm is not null && e.NewValue is string p) _vm.Navigate(p);
+        }
+        else if (e.Property == FileNameProperty)
+        {
+            if (_vm is not null && e.NewValue is string n) _vm.FileName = n;
+        }
+        else if (e.Property == FilterTextProperty)
+        {
+            if (_vm is not null && e.NewValue is string t) _vm.FilterText = t;
+        }
+        else if (e.Property == SelectedFilterIndexProperty)
+        {
+            if (_vm is not null && e.NewValue is int i) _vm.SelectedFilterIndex = i;
+        }
+    }
 
-        FileNameProperty.Changed.AddClassHandler<PleasantFileChooser>((c, e) =>
-        {
-            if (c._vm is not null && e.NewValue is string n) c._vm.FileName = n;
-        });
+    /// <inheritdoc />
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+        Detach();
 
-        FilterTextProperty.Changed.AddClassHandler<PleasantFileChooser>((c, e) =>
-        {
-            if (c._vm is not null && e.NewValue is string t) c._vm.FilterText = t;
-        });
+        _quickLinks = e.NameScope.Find<ListBox>(PART_QuickLinks);
+        _fileList = e.NameScope.Find<ListBox>(PART_FileList);
+        _locationBox = e.NameScope.Find<TextBox>(PART_LocationBox);
+        _filterBox = e.NameScope.Find<TextBox>(PART_FilterBox);
+        _filterCombo = e.NameScope.Find<ComboBox>(PART_FilterCombo);
+        _okButton = e.NameScope.Find<Button>(PART_OkButton);
+        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
+        _backButton = e.NameScope.Find<Button>(PART_BackButton);
+        _forwardButton = e.NameScope.Find<Button>(PART_ForwardButton);
+        _upButton = e.NameScope.Find<Button>(PART_UpButton);
 
-        SelectedFilterIndexProperty.Changed.AddClassHandler<PleasantFileChooser>((c, e) =>
-        {
-            if (c._vm is not null && e.NewValue is int i) c._vm.SelectedFilterIndex = i;
-        });
+        Attach();
     }
 
     /// <summary>
@@ -279,26 +301,6 @@ public class PleasantFileChooser : TemplatedControl
         foreach (PleasantFileChooserItem item in _vm.Items) Items.Add(item);
     }
 
-    /// <inheritdoc />
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-        Detach();
-
-        _quickLinks = e.NameScope.Find<ListBox>(PART_QuickLinks);
-        _fileList = e.NameScope.Find<ListBox>(PART_FileList);
-        _locationBox = e.NameScope.Find<TextBox>(PART_LocationBox);
-        _filterBox = e.NameScope.Find<TextBox>(PART_FilterBox);
-        _filterCombo = e.NameScope.Find<ComboBox>(PART_FilterCombo);
-        _okButton = e.NameScope.Find<Button>(PART_OkButton);
-        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
-        _backButton = e.NameScope.Find<Button>(PART_BackButton);
-        _forwardButton = e.NameScope.Find<Button>(PART_ForwardButton);
-        _upButton = e.NameScope.Find<Button>(PART_UpButton);
-
-        Attach();
-    }
-
     private void Attach()
     {
         if (_quickLinks is not null) _quickLinks.SelectionChanged += OnQuickLinkSelected;
@@ -337,8 +339,6 @@ public class PleasantFileChooser : TemplatedControl
         if (_upButton is not null) _upButton.Click -= OnUpClicked;
     }
 
-    // ── Event handlers ────────────────────────────────────────────────────────
-
     private void OnQuickLinkSelected(object? sender, SelectionChangedEventArgs e)
     {
         if (_vm is null || _quickLinks?.SelectedItem is not PleasantFileChooserItem item) return;
@@ -364,9 +364,6 @@ public class PleasantFileChooser : TemplatedControl
             if (obj is PleasantFileChooserItem item)
                 _vm.SelectedItems.Add(item);
         }
-
-        Debug.WriteLine(
-            $"[FileChooser] SelectionChanged → SelectedItems count={_vm.SelectedItems.Count}, FileName=\"{_vm.FileName}\"");
     }
 
     private void OnLocationKeyDown(object? sender, KeyEventArgs e)
@@ -392,8 +389,6 @@ public class PleasantFileChooser : TemplatedControl
 
     private void OnOkClicked(object? sender, RoutedEventArgs e)
     {
-        Debug.WriteLine(
-            $"[FileChooser] OkClicked — FileName=\"{_vm?.FileName}\", SelectedItems={_vm?.SelectedItems.Count ?? 0}");
         _vm?.Confirm();
     }
 
@@ -440,7 +435,6 @@ public class PleasantFileChooser : TemplatedControl
         {
             if (resultSet) return;
             resultSet = true;
-            Debug.WriteLine($"[FileChooser] CloseRequested — Result=[{string.Join(", ", vm.Result ?? [])}]");
             // Set result BEFORE closing so the ShowAsync continuation's TrySetResult(null) loses the race
             tcs.TrySetResult(vm.Result);
             await dialog.CloseAsync();

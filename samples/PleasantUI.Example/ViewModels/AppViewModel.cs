@@ -94,8 +94,6 @@ public class AppViewModel : ViewModelBase
 
     private void Rebuild()
     {
-        System.Diagnostics.Debug.WriteLine($"[AppViewModel] Rebuild lang={Localizer.Instance.CurrentLanguage}");
-
         // Refresh header texts first — these are bound via CompiledBinding so they
         // update instantly without any view recreation needed.
         RefreshLocalizedTexts();
@@ -112,8 +110,6 @@ public class AppViewModel : ViewModelBase
         BasicControlPageCards.AddRange(newBasic);
         PleasantControlPageCards.AddRange(newPleasant);
         ToolKitPageCards.AddRange(newToolkit);
-
-        System.Diagnostics.Debug.WriteLine($"[AppViewModel] Rebuild done, welcome=\"{_welcomeText}\" first card=\"{newBasic.FirstOrDefault()?.Title}\"");
     }
 
     private void RefreshLocalizedTexts()

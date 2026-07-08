@@ -5,6 +5,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using PleasantUI.Core.Localization;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace PleasantUI.Controls;
@@ -278,41 +279,17 @@ public class InstallWizard : TemplatedControl
         private set => SetAndRaise(CurrentStepProperty, ref field, value);
     }
 
-    static InstallWizard()
-    {
-        CurrentStepIndexProperty.Changed.AddClassHandler<InstallWizard, int>((w, _) => w.OnStepIndexChanged());
-
-        StepsProperty.Changed.AddClassHandler<InstallWizard, IList<WizardStep>>((w, _) => w.OnStepsReplaced());
-    }
-    
-    /// <summary>Moves to the next step, or raises <see cref="Finished"/> on the last step.</summary>
-    public void GoNext()
-    {
-        if (CurrentStepIndex >= Steps.Count - 1)
-        {
-            RaiseEvent(new RoutedEventArgs(FinishedEvent));
-            return;
-        }
-
-        if (CurrentStep is not null)
-            CurrentStep.IsCompleted = true;
-
-        CurrentStepIndex++;
-    }
-
-    /// <summary>Moves to the previous step.</summary>
-    public void GoBack()
-    {
-        if (CurrentStepIndex > 0)
-            CurrentStepIndex--;
-    }
+    static InstallWizard() { }
 
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
+        
         if (change.Property == StepsProperty)
             OnStepsReplaced();
+        else if (change.Property == CurrentStepIndexProperty)
+            OnStepIndexChanged();
     }
 
     /// <inheritdoc />
@@ -337,15 +314,37 @@ public class InstallWizard : TemplatedControl
         RefreshComputedProperties();
         UpdateButtonStates();
     }
-    
+
+    /// <summary>Moves to the next step, or raises <see cref="Finished"/> on the last step.</summary>
+    public void GoNext()
+    {
+        if (CurrentStepIndex >= Steps.Count - 1)
+        {
+            RaiseEvent(new RoutedEventArgs(FinishedEvent));
+            return;
+        }
+
+        CurrentStep?.IsCompleted = true;
+
+        CurrentStepIndex++;
+    }
+
+    /// <summary>Moves to the previous step.</summary>
+    public void GoBack()
+    {
+        if (CurrentStepIndex > 0)
+            CurrentStepIndex--;
+    }
+
     private void OnLocalizationChanged(string _) => UpdateButtonStates();
 
     private void OnBackClicked(object? sender, RoutedEventArgs e) => GoBack();
+    
     private void OnNextClicked(object? sender, RoutedEventArgs e) => GoNext();
 
     private void OnCancelClicked(object? sender, RoutedEventArgs e) =>
         RaiseEvent(new RoutedEventArgs(CancelledEvent));
-    
+
     private void RefreshComputedProperties()
     {
         Progress = Steps.Count <= 1 ? 100 : (double)CurrentStepIndex / (Steps.Count - 1) * 100;
@@ -380,8 +379,7 @@ public class InstallWizard : TemplatedControl
 
     private void UpdateButtonStates()
     {
-        if (_backButton is not null)
-            _backButton.IsEnabled = CurrentStepIndex > 0;
+        _backButton?.IsEnabled = CurrentStepIndex > 0;
 
         if (_nextButton is not null)
         {

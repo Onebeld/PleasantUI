@@ -11,44 +11,51 @@ namespace PleasantUI.Controls;
 /// Represents a single entry in a <see cref="Timeline"/>.
 /// </summary>
 [PseudoClasses(PC_First, PC_Last, PC_EmptyIcon, PC_AllLeft, PC_AllRight, PC_Separate)]
-[TemplatePart(PART_Header,   typeof(ContentPresenter))]
-[TemplatePart(PART_Icon,     typeof(Panel))]
-[TemplatePart(PART_Content,  typeof(ContentPresenter))]
-[TemplatePart(PART_Time,     typeof(TextBlock))]
+[TemplatePart(PART_Header, typeof(ContentPresenter))]
+[TemplatePart(PART_Icon, typeof(Panel))]
+[TemplatePart(PART_Content, typeof(ContentPresenter))]
+[TemplatePart(PART_Time, typeof(TextBlock))]
 [TemplatePart(PART_RootGrid, typeof(Grid))]
 public class TimelineItem : HeaderedContentControl
 {
     /// <summary>Pseudo-class applied to the first item in the timeline.</summary>
-    public const string PC_First     = ":first";
+    public const string PC_First = ":first";
+
     /// <summary>Pseudo-class applied to the last item in the timeline.</summary>
-    public const string PC_Last      = ":last";
+    public const string PC_Last = ":last";
+
     /// <summary>Pseudo-class applied when no custom icon is set.</summary>
     public const string PC_EmptyIcon = ":empty-icon";
+
     /// <summary>Pseudo-class applied when position is <see cref="TimelineItemPosition.Left"/>.</summary>
-    public const string PC_AllLeft   = ":all-left";
+    public const string PC_AllLeft = ":all-left";
+
     /// <summary>Pseudo-class applied when position is <see cref="TimelineItemPosition.Right"/>.</summary>
-    public const string PC_AllRight  = ":all-right";
+    public const string PC_AllRight = ":all-right";
+
     /// <summary>Pseudo-class applied when position is <see cref="TimelineItemPosition.Separate"/>.</summary>
-    public const string PC_Separate  = ":separate";
+    public const string PC_Separate = ":separate";
 
     /// <summary>Template part name for the header presenter.</summary>
-    public const string PART_Header   = "PART_Header";
+    public const string PART_Header = "PART_Header";
+
     /// <summary>Template part name for the icon panel.</summary>
-    public const string PART_Icon     = "PART_Icon";
+    public const string PART_Icon = "PART_Icon";
+
     /// <summary>Template part name for the content presenter.</summary>
-    public const string PART_Content  = "PART_Content";
+    public const string PART_Content = "PART_Content";
+
     /// <summary>Template part name for the time text block.</summary>
-    public const string PART_Time     = "PART_Time";
+    public const string PART_Time = "PART_Time";
+
     /// <summary>Template part name for the root grid.</summary>
     public const string PART_RootGrid = "PART_RootGrid";
 
     private ContentPresenter? _headerPresenter;
-    private Panel?            _iconPanel;
+    private Panel? _iconPanel;
     private ContentPresenter? _contentPresenter;
-    private TextBlock?        _timePresenter;
-    private Grid?             _rootGrid;
-
-    // ── Properties ──────────────────────────────────────────────────────────
+    private TextBlock? _timePresenter;
+    private Grid? _rootGrid;
 
     /// <summary>Defines the <see cref="Icon"/> property.</summary>
     public static readonly StyledProperty<object?> IconProperty =
@@ -91,8 +98,6 @@ public class TimelineItem : HeaderedContentControl
     public static readonly DirectProperty<TimelineItem, double> RightWidthProperty =
         AvaloniaProperty.RegisterDirect<TimelineItem, double>(nameof(RightWidth),
             o => o.RightWidth, (o, v) => o.RightWidth = v);
-
-    // ── CLR accessors ────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon content displayed on the axis node.</summary>
     public object? Icon
@@ -157,31 +162,32 @@ public class TimelineItem : HeaderedContentControl
         set => SetAndRaise(RightWidthProperty, ref field, value);
     }
 
-    // ── Static constructor ───────────────────────────────────────────────────
-
     static TimelineItem()
     {
-        IconProperty.Changed.AddClassHandler<TimelineItem, object?>(
-            (item, args) => item.OnIconChanged(args));
-
-        PositionProperty.Changed.AddClassHandler<TimelineItem, TimelineItemPosition>(
-            (item, args) => item.ApplyPositionPseudoClasses(args.NewValue.Value));
-
         AffectsMeasure<TimelineItem>(LeftWidthProperty, IconWidthProperty, RightWidthProperty);
     }
 
-    // ── Template ─────────────────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IconProperty)
+            OnIconChanged(e);
+        else if (e.Property == PositionProperty && e.NewValue is TimelineItemPosition position)
+            ApplyPositionPseudoClasses(position);
+    }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        _rootGrid        = e.NameScope.Find<Grid>(PART_RootGrid);
+        _rootGrid = e.NameScope.Find<Grid>(PART_RootGrid);
         _headerPresenter = e.NameScope.Find<ContentPresenter>(PART_Header);
-        _iconPanel       = e.NameScope.Find<Panel>(PART_Icon);
+        _iconPanel = e.NameScope.Find<Panel>(PART_Icon);
         _contentPresenter = e.NameScope.Find<ContentPresenter>(PART_Content);
-        _timePresenter   = e.NameScope.Find<TextBlock>(PART_Time);
+        _timePresenter = e.NameScope.Find<TextBlock>(PART_Time);
 
         PseudoClasses.Set(PC_EmptyIcon, Icon is null);
         ApplyPositionPseudoClasses(Position);
@@ -194,15 +200,13 @@ public class TimelineItem : HeaderedContentControl
         (Parent as Timeline)?.InvalidateContainers();
     }
 
-    // ── Internal API used by Timeline / TimelinePanel ────────────────────────
-
     /// <summary>
     /// Marks this item as first, last, or neither in the list.
     /// </summary>
     internal void SetEndFlags(bool isFirst, bool isLast)
     {
         PseudoClasses.Set(PC_First, isFirst);
-        PseudoClasses.Set(PC_Last,  isLast);
+        PseudoClasses.Set(PC_Last, isLast);
     }
 
     /// <summary>
@@ -210,19 +214,19 @@ public class TimelineItem : HeaderedContentControl
     /// </summary>
     internal (double left, double icon, double right) GetColumnWidths()
     {
-        double header  = _headerPresenter?.DesiredSize.Width  ?? 0;
-        double icon    = _iconPanel?.DesiredSize.Width        ?? 0;
+        double header = _headerPresenter?.DesiredSize.Width ?? 0;
+        double icon = _iconPanel?.DesiredSize.Width ?? 0;
         double content = _contentPresenter?.DesiredSize.Width ?? 0;
-        double time    = _timePresenter?.DesiredSize.Width    ?? 0;
+        double time = _timePresenter?.DesiredSize.Width ?? 0;
 
         double contentMax = Math.Max(header, content);
 
         return Position switch
         {
-            TimelineItemPosition.Left     => (0, icon, Math.Max(contentMax, time)),
-            TimelineItemPosition.Right    => (Math.Max(contentMax, time), icon, 0),
+            TimelineItemPosition.Left => (0, icon, Math.Max(contentMax, time)),
+            TimelineItemPosition.Right => (Math.Max(contentMax, time), icon, 0),
             TimelineItemPosition.Separate => (time, icon, contentMax),
-            _                             => (0, 0, 0),
+            _ => (0, 0, 0),
         };
     }
 
@@ -246,16 +250,14 @@ public class TimelineItem : HeaderedContentControl
             SetCurrentValue(property, value);
     }
 
-    // ── Private helpers ──────────────────────────────────────────────────────
-
-    private void OnIconChanged(AvaloniaPropertyChangedEventArgs<object?> args)
+    private void OnIconChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        PseudoClasses.Set(PC_EmptyIcon, args.NewValue.Value is null);
+        PseudoClasses.Set(PC_EmptyIcon, args.NewValue is null);
     }
 
     private void ApplyPositionPseudoClasses(TimelineItemPosition position)
     {
-        PseudoClasses.Set(PC_AllLeft,  position == TimelineItemPosition.Left);
+        PseudoClasses.Set(PC_AllLeft, position == TimelineItemPosition.Left);
         PseudoClasses.Set(PC_AllRight, position == TimelineItemPosition.Right);
         PseudoClasses.Set(PC_Separate, position == TimelineItemPosition.Separate);
     }

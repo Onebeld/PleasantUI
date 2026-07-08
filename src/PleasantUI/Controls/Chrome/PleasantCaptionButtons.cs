@@ -157,8 +157,7 @@ public sealed class PleasantCaptionButtons : TemplatedControl
             _minimizeButton.IsVisible = false;
             _maximizeButton.IsVisible = false;
             _closeButton.IsVisible = Host.IsCloseButtonVisible;
-            if (_fullScreenButton is not null)
-                _fullScreenButton.IsVisible = Host.IsFullScreenButtonVisible;
+            _fullScreenButton?.IsVisible = Host.IsFullScreenButtonVisible;
             return;
         }
 

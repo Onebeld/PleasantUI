@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
 // ReSharper disable CollectionNeverQueried.Local
@@ -269,7 +268,6 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             language = DefaultLanguage;
 
         Interlocked.Exchange(ref _isChangingLanguage, 1);
-        Debug.WriteLine($"[Localizer] ChangeLanguage → \"{language}\" (subscribers: {LocalizationChanged?.GetInvocationList().Length ?? 0})");
 
         CultureInfo culture = new(language);
         CultureInfo.CurrentCulture = culture;
@@ -295,11 +293,8 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             }
         }
 
-        Debug.WriteLine($"[Localizer] Resources primed for \"{language}\", firing LocalizationChanged");
-
         LocalizationChanged?.Invoke(language);
 
-        Debug.WriteLine($"[Localizer] ChangeLanguage done → \"{language}\"");
         Interlocked.Exchange(ref _isChangingLanguage, 0);
     }
 

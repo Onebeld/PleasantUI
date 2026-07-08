@@ -45,7 +45,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             MinHeight="69"
-                            ClipToBounds="True">
+                            ClipToBounds="True"
+                            TemplatedControl.IsTemplateFocusTarget="True">
                         <RippleEffect x:Name="PART_Ripple" Padding="12 5">
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto">
                                 <PleasantIcon Name="IconHost"
@@ -150,6 +151,10 @@
             <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
         </Style>
 
+        <Style Selector="^:not(:expands)">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="IsTabStop" Value="False" />
+        </Style>
         <Style Selector="^:expands /template/ Viewbox#ChevronHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>

@@ -5,9 +5,10 @@
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
              xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             ClipToBounds="False"
              x:Class="PleasantUI.Example.MainView">
     <Panel>
-        <NavigationView x:Name="MainNavigationView">
+        <NavigationView x:Name="MainNavigationView" BindWindowSettings="True">
             <NavigationViewItem x:Name="HomeNavItem"
                                 Header="{Localize Home}"
                                 Icon="{x:Static icons:MaterialIconKind.HomeOutline}"

@@ -1,5 +1,4 @@
 using System.Collections.Specialized;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -188,18 +187,14 @@ public class CommandBar : ContentControl
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
-        Debug.WriteLine("[CommandBar] OnApplyTemplate - START");
 
         // Save the current IsOpen state before template reapplication
         bool savedIsOpen = IsOpen;
-        Debug.WriteLine($"[CommandBar] OnApplyTemplate - Saving IsOpen={savedIsOpen}");
 
         _templateApplied = false;
 
         if (_moreButton is not null)
             _moreButton.Click -= OnMoreButtonClick;
-        if (_overflowPopup is not null)
-            _overflowPopup.Closed -= OnOverflowPopupClosed;
 
         base.OnApplyTemplate(e);
 
@@ -208,9 +203,6 @@ public class CommandBar : ContentControl
         _overflowItemsHost = e.NameScope.Find<CommandBarOverflowPresenter>(PART_SecondaryItemsControl);
         _moreButton = e.NameScope.Find<Button>(PART_MoreButton);
         _overflowPopup = e.NameScope.Find<Popup>(PART_OverflowPopup);
-
-        Debug.WriteLine(
-            $"[CommandBar] OnApplyTemplate - Parts found: PrimaryItems={_primaryItemsHost != null}, Content={_contentHost != null}, OverflowItems={_overflowItemsHost != null}, MoreButton={_moreButton != null}, OverflowPopup={_overflowPopup != null}");
 
         if (_moreButton is not null)
             _moreButton.Click += OnMoreButtonClick;
@@ -223,19 +215,14 @@ public class CommandBar : ContentControl
         // Restore the saved IsOpen state after template reapplication
         // This preserves the state across theme changes
         if (savedIsOpen != IsOpen)
-        {
-            Debug.WriteLine($"[CommandBar] OnApplyTemplate - Restoring IsOpen from {IsOpen} to {savedIsOpen}");
             IsOpen = savedIsOpen;
-        }
 
         // Re-apply open state now that items exist — IsOpen may have been set
         // before the template was applied (e.g. IsOpen="True" in XAML).
-        Debug.WriteLine($"[CommandBar] OnApplyTemplate - Current IsOpen={IsOpen}, IsSticky={IsSticky}");
         if (IsOpen)
             ApplyOpenStateToItems(true);
 
         UpdateMoreButtonVisibility();
-        Debug.WriteLine("[CommandBar] OnApplyTemplate - END");
     }
 
     /// <inheritdoc />
@@ -246,8 +233,6 @@ public class CommandBar : ContentControl
         if (change.Property == IsOpenProperty)
         {
             bool newValue = change.GetNewValue<bool>();
-            Debug.WriteLine(
-                $"[CommandBar] OnPropertyChanged - IsOpen changed from {change.GetOldValue<bool>()} to {newValue}");
             OnIsOpenChanged(newValue);
         }
         else if (change.Property == DefaultLabelPositionProperty)
@@ -361,7 +346,6 @@ public class CommandBar : ContentControl
     /// </summary>
     protected virtual void OnOpening()
     {
-        Debug.WriteLine("[CommandBar] OnOpening");
         Opening?.Invoke(this, EventArgs.Empty);
     }
 
@@ -370,7 +354,6 @@ public class CommandBar : ContentControl
     /// </summary>
     protected virtual void OnOpened()
     {
-        Debug.WriteLine("[CommandBar] OnOpened");
         Opened?.Invoke(this, EventArgs.Empty);
     }
 
@@ -379,7 +362,6 @@ public class CommandBar : ContentControl
     /// </summary>
     protected virtual void OnClosing()
     {
-        Debug.WriteLine("[CommandBar] OnClosing");
         Closing?.Invoke(this, EventArgs.Empty);
     }
 
@@ -388,14 +370,12 @@ public class CommandBar : ContentControl
     /// </summary>
     protected virtual void OnClosed()
     {
-        Debug.WriteLine("[CommandBar] OnClosed");
         Closed?.Invoke(this, EventArgs.Empty);
         _moreButton?.Focus();
     }
 
     private void OnIsOpenChanged(bool open)
     {
-        Debug.WriteLine($"[CommandBar] OnIsOpenChanged - open={open}");
         if (open)
         {
             OnOpening();
@@ -414,7 +394,6 @@ public class CommandBar : ContentControl
 
     private void OnMoreButtonClick(object? sender, RoutedEventArgs e)
     {
-        Debug.WriteLine($"[CommandBar] OnMoreButtonClick - Toggling IsOpen from {IsOpen} to {!IsOpen}");
         IsOpen = !IsOpen;
     }
 
@@ -424,8 +403,6 @@ public class CommandBar : ContentControl
         // will handle preserving the state across template reapplication.
         // This prevents the state from being reset when the popup closes due to
         // control unloading or template reapplication.
-        Debug.WriteLine(
-            "[CommandBar] OnOverflowPopupClosed - Skipping IsOpen=false (relying on save/restore in OnApplyTemplate)");
     }
 
     // ── Collection change handlers ────────────────────────────────────────────
@@ -437,7 +414,11 @@ public class CommandBar : ContentControl
         if (_primaryItems is null)
         {
             AttachItems();
-            goto SetState;
+            
+            UpdateCommandStatePseudoClasses();
+            InvalidateMeasure();
+            
+            return;
         }
 
         if (IsDynamicOverflowEnabled)
@@ -480,7 +461,6 @@ public class CommandBar : ContentControl
                 break;
         }
 
-        SetState:
         UpdateCommandStatePseudoClasses();
         InvalidateMeasure();
     }
@@ -489,43 +469,40 @@ public class CommandBar : ContentControl
     {
         if (!_templateApplied) return;
 
-        if (_overflowItems is null)
+        if (_overflowItems is not null)
         {
-            AttachItems();
-            goto SetState;
+            // Secondary items start after the dynamic-overflow items + separator.
+            int startIndex = _numInOverflow == 0 ? 0 : _numInOverflow + 1;
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    for (int i = 0; i < e.NewItems!.Count; i++)
+                        _overflowItems.Insert(e.NewStartingIndex + i + startIndex,
+                            (ICommandBarElement)e.NewItems[i]!);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    for (int i = 0; i < e.OldItems!.Count; i++)
+                        _overflowItems.RemoveAt(e.OldStartingIndex + i + startIndex);
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    _overflowItems.RemoveRange(startIndex, _overflowItems.Count - startIndex);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                case NotifyCollectionChangedAction.Move:
+                    for (int i = 0; i < e.OldItems!.Count; i++)
+                        _overflowItems.RemoveAt(e.OldStartingIndex + i + startIndex);
+                    for (int i = 0; i < e.NewItems!.Count; i++)
+                        _overflowItems.Insert(e.NewStartingIndex + i + startIndex,
+                            (ICommandBarElement)e.NewItems[i]!);
+                    break;
+            }
         }
+        else AttachItems();
 
-        // Secondary items start after the dynamic-overflow items + separator.
-        int startIndex = _numInOverflow == 0 ? 0 : _numInOverflow + 1;
-
-        switch (e.Action)
-        {
-            case NotifyCollectionChangedAction.Add:
-                for (int i = 0; i < e.NewItems!.Count; i++)
-                    _overflowItems.Insert(e.NewStartingIndex + i + startIndex,
-                        (ICommandBarElement)e.NewItems[i]!);
-                break;
-
-            case NotifyCollectionChangedAction.Remove:
-                for (int i = 0; i < e.OldItems!.Count; i++)
-                    _overflowItems.RemoveAt(e.OldStartingIndex + i + startIndex);
-                break;
-
-            case NotifyCollectionChangedAction.Reset:
-                _overflowItems.RemoveRange(startIndex, _overflowItems.Count - startIndex);
-                break;
-
-            case NotifyCollectionChangedAction.Replace:
-            case NotifyCollectionChangedAction.Move:
-                for (int i = 0; i < e.OldItems!.Count; i++)
-                    _overflowItems.RemoveAt(e.OldStartingIndex + i + startIndex);
-                for (int i = 0; i < e.NewItems!.Count; i++)
-                    _overflowItems.Insert(e.NewStartingIndex + i + startIndex,
-                        (ICommandBarElement)e.NewItems[i]!);
-                break;
-        }
-
-        SetState:
         UpdateCommandStatePseudoClasses();
         InvalidateMeasure();
     }
@@ -549,8 +526,7 @@ public class CommandBar : ContentControl
 
             _primaryItems.AddRange(_primaryCommands);
 
-            if (_primaryItemsHost is not null)
-                _primaryItemsHost.ItemsSource = _primaryItems;
+            _primaryItemsHost?.ItemsSource = _primaryItems;
         }
 
         if (_secondaryCommands.Count > 0 || IsDynamicOverflowEnabled)
@@ -559,8 +535,7 @@ public class CommandBar : ContentControl
             _overflowItems = [_overflowSeparator];
             _overflowItems.AddRange(_secondaryCommands);
 
-            if (_overflowItemsHost is not null)
-                _overflowItemsHost.ItemsSource = _overflowItems;
+            _overflowItemsHost?.ItemsSource = _overflowItems;
         }
 
         UpdateCommandStatePseudoClasses();

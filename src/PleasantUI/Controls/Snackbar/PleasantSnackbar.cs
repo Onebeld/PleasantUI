@@ -245,11 +245,9 @@ public class PleasantSnackbar : PleasantPopupElement
         await animation.RunAsync(_snackbarBorder);
         _snackbarBorder.Width = double.NaN;
 
-        if (_contentPresenter != null)
-            _contentPresenter.TextWrapping = TextWrapping.WrapWithOverflow;
+        _contentPresenter?.TextWrapping = TextWrapping.WrapWithOverflow;
 
-        if (_grid != null)
-            _grid.Opacity = 1;
+        _grid?.Opacity = 1;
     }
 
     private async Task RunCloseAnimation()

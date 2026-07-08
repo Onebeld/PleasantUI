@@ -22,7 +22,7 @@ namespace PleasantUI.Controls;
 public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 {
     private object? _dialogResult;
-    private IInputElement? _lastFocus;
+    private InputElement? _lastFocus;
     private Border? _modalBackground;
     private Panel? _panel;
 
@@ -264,6 +264,10 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 
                 if (_lastFocus is not null)
                 {
+                    if (_lastFocus is Visual { IsEffectivelyVisible: true })
+                    {
+                        _lastFocus.Focus();
+                    }
                     _lastFocus.Focus();
                     _lastFocus = null;
                 }
@@ -296,7 +300,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         base.ShowCoreForTopLevel(topLevel);
 
         _modalWindows?.Add(this);
-        _lastFocus = topLevel?.FocusManager.GetFocusedElement();
+        _lastFocus = topLevel?.FocusManager.GetFocusedElement() as InputElement;
 
         Closed += (_, _) =>
         {
@@ -309,6 +313,8 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
                 taskCompletionSource.TrySetResult(default);
             }
         };
+        
+        
 
         return await taskCompletionSource.Task;
     }
@@ -374,14 +380,6 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     protected override Type StyleKeyOverride => typeof(ContentDialog);
 
     /// <inheritdoc />
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnAttachedToVisualTree(e);
-
-        Focus(NavigationMethod.Pointer);
-    }
-
-    /// <inheritdoc />
     protected override async void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -392,12 +390,28 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
                 _ = ShowBackgroundAnimation.RunAsync(_modalBackground);
 
             if (OpenAnimation is not null)
-                await OpenAnimation.RunAsync(this);
+                _ = OpenAnimation.RunAsync(this);
+            
+            FocusFirstElement();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[ContentDialog] Animation error: {ex}");
+            // ignored
         }
+    }
+    
+    private void FocusFirstElement()
+    {
+        IInputElement? firstElement = this.GetVisualDescendants()
+            .OfType<IInputElement>()
+            .FirstOrDefault(x => x.Focusable && 
+                                 KeyboardNavigation.GetIsTabStop((InputElement)x) && 
+                                 x is { IsEffectivelyVisible: true, IsEffectivelyEnabled: true });
+
+        if (firstElement != null)
+            firstElement.Focus();
+        else
+            Focus();
     }
 
     private bool ShouldCancelClose(CancelEventArgs? args = null)

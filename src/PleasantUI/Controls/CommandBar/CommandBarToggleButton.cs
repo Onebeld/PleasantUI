@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -103,20 +102,14 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
 
         if (change.Property == IconProperty)
         {
-            Debug.WriteLine(
-                $"[CommandBarToggleButton] OnPropertyChanged - Icon changed, hasIcon={change.NewValue is not null}");
             PseudoClasses.Set(CommandBarButton.PC_Icon, change.NewValue is not null);
         }
         else if (change.Property == LabelProperty)
         {
-            Debug.WriteLine(
-                $"[CommandBarToggleButton] OnPropertyChanged - Label changed, hasLabel={change.NewValue is not null}");
             PseudoClasses.Set(CommandBarButton.PC_Label, change.NewValue is not null);
         }
         else if (change.Property == IsCompactProperty)
         {
-            Debug.WriteLine(
-                $"[CommandBarToggleButton] OnPropertyChanged - IsCompact changed to {change.GetNewValue<bool>()}");
             PseudoClasses.Set(CommandBarButton.PC_Compact, change.GetNewValue<bool>());
         }
     }
@@ -124,22 +117,17 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
     /// <inheritdoc />
     protected override void OnClick()
     {
-        Debug.WriteLine(
-            $"[CommandBarToggleButton] OnClick - Label={Label}, IsInOverflow={IsInOverflow}, IsChecked={IsChecked}");
         base.OnClick();
 
         if (!IsInOverflow)
             return;
         
-        Debug.WriteLine("[CommandBarToggleButton] OnClick - Closing parent CommandBar");
         CommandBar? bar = this.FindLogicalAncestorOfType<CommandBar>();
-        if (bar is not null)
-            bar.IsOpen = false;
+        bar?.IsOpen = false;
     }
 
     internal void ApplyLabelPosition(CommandBarDefaultLabelPosition pos)
     {
-        Debug.WriteLine($"[CommandBarToggleButton] ApplyLabelPosition - pos={pos}");
         PseudoClasses.Set(CommandBarButton.PC_LabelBottom, pos == CommandBarDefaultLabelPosition.Bottom);
         PseudoClasses.Set(CommandBarButton.PC_LabelRight, pos == CommandBarDefaultLabelPosition.Right);
         PseudoClasses.Set(CommandBarButton.PC_LabelCollapsed, pos == CommandBarDefaultLabelPosition.Collapsed);
@@ -147,7 +135,6 @@ public class CommandBarToggleButton : ToggleButton, ICommandBarElement
 
     internal void ApplyOpenState(bool open)
     {
-        Debug.WriteLine($"[CommandBarToggleButton] ApplyOpenState - open={open}");
         PseudoClasses.Set(CommandBarButton.PC_Open, open);
     }
 }

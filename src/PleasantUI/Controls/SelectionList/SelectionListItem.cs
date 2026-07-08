@@ -57,21 +57,25 @@ public class SelectionListItem : ListBoxItem
         get => GetValue(TimestampProperty);
         set => SetValue(TimestampProperty, value);
     }
-
-    static SelectionListItem()
-    {
-        IconProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-        IconTemplateProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-        SubtitleProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-        TimestampProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-    }
-
+    
     /// <summary>
     /// Overrides the style key so Avalonia's theme lookup resolves
     /// <see cref="SelectionListItem"/> instead of the base <see cref="ListBoxItem"/> type.
     /// </summary>
     protected override Type StyleKeyOverride => typeof(SelectionListItem);
 
+    static SelectionListItem() { }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IconProperty || e.Property == IconTemplateProperty || e.Property == SubtitleProperty || e.Property == TimestampProperty)
+            UpdatePseudoClasses();
+    }
+
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);

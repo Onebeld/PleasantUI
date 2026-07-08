@@ -189,6 +189,12 @@ public class OptionsDisplayItem : TemplatedControl
         remove => RemoveHandler(NavigationRequestedEvent, value);
     }
 
+    static OptionsDisplayItem()
+    {
+        FocusableProperty.OverrideDefaultValue<OptionsDisplayItem>(true);
+        IsTabStopProperty.OverrideDefaultValue<OptionsDisplayItem>(true);
+    }
+    
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
@@ -227,6 +233,17 @@ public class OptionsDisplayItem : TemplatedControl
         _layoutRoot.PointerPressed += OnLayoutRootPointerPressed;
         _layoutRoot.PointerReleased += OnLayoutRootPointerReleased;
         _layoutRoot.PointerCaptureLost += OnLayoutRootPointerCaptureLost;
+    }
+
+    /// <inheritdoc />
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.Enter)
+        {
+            IsExpanded = !IsExpanded;
+        }
     }
 
     private void OnLayoutRootPointerPressed(object? sender, PointerPressedEventArgs e)

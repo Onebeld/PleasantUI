@@ -6,7 +6,7 @@
                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                 x:Class="PleasantUI.Example.Desktop.MainWindow"
                 Title="PleasantUI"
-                TitleBarType="ClassicExtended"
+                TitleBarType="NavigationViewClassicExtended"
                 WindowStartupLocation="CenterScreen"
                 ExtendsContentIntoTitleBar="True"
                 Icon="PleasantUIIcon.ico"

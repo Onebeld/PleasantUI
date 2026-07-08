@@ -184,8 +184,7 @@ public class StepDialog : PleasantPopupElement
 
         AttachHandlers();
 
-        if (_stepsHost is not null)
-            _stepsHost.ItemsSource = Steps;
+        _stepsHost?.ItemsSource = Steps;
 
         RenumberSteps();
         UpdatePseudoClasses();
@@ -281,8 +280,7 @@ public class StepDialog : PleasantPopupElement
     private void OnStepsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         RenumberSteps();
-        if (_stepsHost is not null)
-            _stepsHost.ItemsSource = Steps;
+        _stepsHost?.ItemsSource = Steps;
     }
 
     private void RenumberSteps()

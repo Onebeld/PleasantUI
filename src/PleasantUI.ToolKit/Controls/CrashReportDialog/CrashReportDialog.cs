@@ -627,8 +627,7 @@ public class CrashReportDialog : PleasantPopupElement
 
         IsHitTestVisible = false;
 
-        if (_modalBackground is not null)
-            _modalBackground.IsHitTestVisible = false;
+        _modalBackground?.IsHitTestVisible = false;
 
         if (CloseAnimation is not null)
             await CloseAnimation.RunAsync(this);
@@ -703,9 +702,9 @@ public class CrashReportDialog : PleasantPopupElement
             if (OpenAnimation is not null)
                 await OpenAnimation.RunAsync(this);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[CrashReportDialog] Animation error: {ex.Message}");
+            // ignored
         }
 
         _emailBox?.Focus();
@@ -837,8 +836,8 @@ public class CrashReportDialog : PleasantPopupElement
 
     private void SetButtonsEnabled(bool enabled)
     {
-        if (_sendButton   is not null) _sendButton.IsEnabled   = enabled;
-        if (_saveButton   is not null) _saveButton.IsEnabled   = enabled;
-        if (_cancelButton is not null) _cancelButton.IsEnabled = enabled;
+        _sendButton?.IsEnabled = enabled;
+        _saveButton?.IsEnabled = enabled;
+        _cancelButton?.IsEnabled = enabled;
     }
 }

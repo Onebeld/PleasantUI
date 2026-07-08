@@ -60,7 +60,8 @@
                             ClipToBounds="False"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Border ClipToBounds="True"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                KeyboardNavigation.TabNavigation="Cycle">
                             <Grid RowDefinitions="*,Auto">
                                 <ContentPresenter Grid.Row="0"
                                                   Content="{TemplateBinding Content}"

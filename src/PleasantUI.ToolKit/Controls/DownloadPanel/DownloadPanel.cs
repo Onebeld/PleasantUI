@@ -437,10 +437,7 @@ public class DownloadPanel : TemplatedControl
                 _tabStrip.SelectedItem = SelectedTab;
         }
 
-        if (_chunkList is not null)
-        {
-            _chunkList.ItemsSource = Chunks;
-        }
+        _chunkList?.ItemsSource = Chunks;
 
         UpdatePseudoClasses();
         RedrawChunkCanvas();
@@ -543,8 +540,7 @@ public class DownloadPanel : TemplatedControl
 
     private void OnChunksChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (_chunkList is not null)
-            _chunkList.ItemsSource = Chunks;
+        _chunkList?.ItemsSource = Chunks;
 
         PseudoClasses.Set(PC_HasChunks, Chunks.Count > 0);
         RedrawChunkCanvas();

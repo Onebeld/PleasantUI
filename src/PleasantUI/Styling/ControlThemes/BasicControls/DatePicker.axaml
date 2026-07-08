@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:PleasantUI.Controls"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="200 20" Height="500">
@@ -12,12 +11,6 @@
         </Border>
     </Design.PreviewWith>
 
-    <!--
-        Base DatePicker theme — PART_FlyoutButton is the single interactive element.
-        Visual shape (CornerRadius, BorderBrush) is owned by PART_OuterBorder which
-        wraps the button and clips it. The button uses AppBarButtonTheme (flat,
-        transparent) so it never contributes its own visual shape.
-    -->
     <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
@@ -73,7 +66,7 @@
                                IsLightDismissEnabled="True"
                                InheritsTransform="True"
                                PlacementTarget="{TemplateBinding}"
-                               Placement="Bottom">
+                               Placement="Center">
                             <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                           Margin="6 4 6 6" BlurRadius="5" Offset="0 1"
                                           ShadowColor="#3C000000">
@@ -91,90 +84,6 @@
         </Setter>
 
         <Style Selector="^ /template/ Border#PART_OuterBorder:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
-        </Style>
-    </ControlTheme>
-
-    <!--
-        PleasantDatePicker theme — fully decoupled architecture:
-        - PART_ClickArea: the visible styled Border (owns all visual shape)
-        - PART_FlyoutButton: hidden zero-size Button kept only for Avalonia's
-          internal DatePicker.cs popup wiring
-        - PleasantDatePicker.OnApplyTemplate collapses the button and routes
-          PART_ClickArea.PointerPressed → PART_FlyoutButton.Click
-    -->
-    <ControlTheme x:Key="{x:Type controls:PleasantDatePicker}" TargetType="controls:PleasantDatePicker">
-        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ControlBorderThickness}" />
-        <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
-
-        <Setter Property="Template">
-            <ControlTemplate>
-                <DataValidationErrors>
-                    <Panel Name="LayoutRoot">
-                        <!-- Visible styled container — no Button involved -->
-                        <Border Name="PART_ClickArea"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                ClipToBounds="True"
-                                Cursor="Hand">
-                            <Grid Name="PART_ButtonContentGrid"
-                                  ColumnDefinitions="132*,Auto,78*,Auto,78*">
-                                <TextBlock Grid.Column="0" Name="PART_DayTextBlock"
-                                           Text="day" HorizontalAlignment="Center"
-                                           Padding="11 5 11 5" />
-                                <TextBlock Grid.Column="2" Name="PART_MonthTextBlock"
-                                           Text="month" TextAlignment="Left"
-                                           Padding="11 5 11 5" />
-                                <TextBlock Grid.Column="4" Name="PART_YearTextBlock"
-                                           Text="year" HorizontalAlignment="Center"
-                                           Padding="11 5 30 5" />
-                                <Rectangle x:Name="PART_FirstSpacer"
-                                           Fill="{TemplateBinding BorderBrush}"
-                                           HorizontalAlignment="Center" Width="1"
-                                           Grid.Column="1" />
-                                <Rectangle x:Name="PART_SecondSpacer"
-                                           Fill="{TemplateBinding BorderBrush}"
-                                           HorizontalAlignment="Center" Width="1"
-                                           Grid.Column="3" />
-                            </Grid>
-                        </Border>
-
-                        <!-- Hidden zero-size button — Avalonia's DatePicker.cs wires its
-                             Click to open the popup in base.OnApplyTemplate.
-                             PleasantDatePicker.OnApplyTemplate then routes
-                             PART_ClickArea.PointerPressed to fire this button's Click. -->
-                        <Button Name="PART_FlyoutButton"
-                                Width="0" Height="0" Opacity="0"
-                                IsHitTestVisible="False" IsTabStop="False"
-                                TemplatedControl.IsTemplateFocusTarget="True" />
-
-                        <Popup Name="PART_Popup"
-                               WindowManagerAddShadowHint="False"
-                               IsLightDismissEnabled="True"
-                               InheritsTransform="True"
-                               PlacementTarget="{TemplateBinding}"
-                               Placement="Bottom">
-                            <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
-                                          Margin="6 4 6 6" BlurRadius="5" Offset="0 1"
-                                          ShadowColor="#3C000000">
-                                <Border Background="{DynamicResource BackgroundColor1}"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="{StaticResource ControlBorderThickness}"
-                                        CornerRadius="{DynamicResource ControlCornerRadius}">
-                                    <DatePickerPresenter Name="PART_PickerPresenter" />
-                                </Border>
-                            </ShadowBorder>
-                        </Popup>
-                    </Panel>
-                </DataValidationErrors>
-            </ControlTemplate>
-        </Setter>
-
-        <Style Selector="^ /template/ Border#PART_ClickArea:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
     </ControlTheme>

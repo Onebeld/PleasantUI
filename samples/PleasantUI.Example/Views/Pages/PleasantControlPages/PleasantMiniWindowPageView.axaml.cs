@@ -171,7 +171,7 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
             };
             row.PointerPressed += (_, _) =>
             {
-                if (selected is not null) selected.Background = null;
+                selected?.Background = null;
                 selected = row;
                 row.Background = new SolidColorBrush(Color.Parse("#44FFFFFF"));
             };

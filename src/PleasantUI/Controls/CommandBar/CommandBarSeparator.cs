@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -33,7 +32,6 @@ public class CommandBarSeparator : TemplatedControl, ICommandBarElement
         get;
         internal set
         {
-            Debug.WriteLine($"[CommandBarSeparator] IsInOverflow set to {value}");
             if (SetAndRaise(IsInOverflowProperty, ref field, value))
                 PseudoClasses.Set(CommandBarButton.PC_Overflow, value);
         }
@@ -43,11 +41,7 @@ public class CommandBarSeparator : TemplatedControl, ICommandBarElement
     public int DynamicOverflowOrder
     {
         get;
-        set
-        {
-            Debug.WriteLine($"[CommandBarSeparator] DynamicOverflowOrder set to {value}");
-            SetAndRaise(DynamicOverflowOrderProperty, ref field, value);
-        }
+        set => SetAndRaise(DynamicOverflowOrderProperty, ref field, value);
     }
 
     /// <inheritdoc/>

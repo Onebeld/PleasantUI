@@ -16,8 +16,6 @@ public class Timeline : ItemsControl
     private static readonly FuncTemplate<Panel?> DefaultPanel =
         new(() => new TimelinePanel());
 
-    // ── Binding-forwarding properties ────────────────────────────────────────
-
     /// <summary>Defines the <see cref="IconMemberBinding"/> property.</summary>
     public static readonly StyledProperty<BindingBase?> IconMemberBindingProperty =
         AvaloniaProperty.Register<Timeline, BindingBase?>(nameof(IconMemberBinding));
@@ -34,8 +32,6 @@ public class Timeline : ItemsControl
     public static readonly StyledProperty<BindingBase?> TimeMemberBindingProperty =
         AvaloniaProperty.Register<Timeline, BindingBase?>(nameof(TimeMemberBinding));
 
-    // ── Template properties ──────────────────────────────────────────────────
-
     /// <summary>Defines the <see cref="IconTemplate"/> property.</summary>
     public static readonly StyledProperty<IDataTemplate?> IconTemplateProperty =
         AvaloniaProperty.Register<Timeline, IDataTemplate?>(nameof(IconTemplate));
@@ -43,8 +39,6 @@ public class Timeline : ItemsControl
     /// <summary>Defines the <see cref="DescriptionTemplate"/> property.</summary>
     public static readonly StyledProperty<IDataTemplate?> DescriptionTemplateProperty =
         AvaloniaProperty.Register<Timeline, IDataTemplate?>(nameof(DescriptionTemplate));
-
-    // ── Display properties ───────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="TimeFormat"/> property.</summary>
     public static readonly StyledProperty<string?> TimeFormatProperty =
@@ -54,8 +48,6 @@ public class Timeline : ItemsControl
     /// <summary>Defines the <see cref="Mode"/> property.</summary>
     public static readonly StyledProperty<TimelineDisplayMode> ModeProperty =
         AvaloniaProperty.Register<Timeline, TimelineDisplayMode>(nameof(Mode));
-
-    // ── CLR accessors ────────────────────────────────────────────────────────
 
     /// <summary>Binding path for the icon of each item when using <see cref="ItemsControl.ItemsSource"/>.</summary>
     [AssignBinding]
@@ -123,16 +115,21 @@ public class Timeline : ItemsControl
         set => SetValue(ModeProperty, value);
     }
 
-    // ── Static constructor ───────────────────────────────────────────────────
-
     static Timeline()
     {
         ItemsPanelProperty.OverrideDefaultValue<Timeline>(DefaultPanel);
-        ModeProperty.Changed.AddClassHandler<Timeline, TimelineDisplayMode>(
-            (t, e) => t.OnDisplayModeChanged(e));
     }
 
-    // ── Container overrides ──────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == ModeProperty)
+        {
+            OnDisplayModeChanged(e);
+        }
+    }
 
     /// <inheritdoc />
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
@@ -182,8 +179,6 @@ public class Timeline : ItemsControl
         return base.ArrangeOverride(finalSize);
     }
 
-    // ── Internal API ─────────────────────────────────────────────────────────
-
     /// <summary>
     /// Re-evaluates first/last flags and position pseudo-classes for all realised containers.
     /// Called by <see cref="TimelineItem"/> when it attaches to the visual tree.
@@ -195,12 +190,13 @@ public class Timeline : ItemsControl
             items[i].SetEndFlags(i == 0, i == items.Count - 1);
     }
 
-    // ── Private helpers ──────────────────────────────────────────────────────
-
-    private void OnDisplayModeChanged(AvaloniaPropertyChangedEventArgs<TimelineDisplayMode> e)
+    private void OnDisplayModeChanged(AvaloniaPropertyChangedEventArgs e)
     {
+        if (e.NewValue is not TimelineDisplayMode mode)
+            return;
+        
         if (ItemsPanelRoot is TimelinePanel panel)
-            panel.Mode = e.NewValue.Value;
+            panel.Mode = mode;
 
         // Force a full layout pass so ArrangeOverride re-applies positions
         // with the new mode and TimelinePanel re-synchronises column widths.

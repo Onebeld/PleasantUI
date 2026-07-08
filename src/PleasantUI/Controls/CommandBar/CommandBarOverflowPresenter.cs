@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -45,7 +44,6 @@ public class CommandBarOverflowPresenter : ItemsControl
 
         if (change.Property == ItemsSourceProperty)
         {
-            Debug.WriteLine("[CommandBarOverflowPresenter] OnPropertyChanged - ItemsSource changed, resetting counts");
             _iconCount = 0;
             _toggleCount = 0;
 
@@ -60,7 +58,6 @@ public class CommandBarOverflowPresenter : ItemsControl
 
     private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        Debug.WriteLine($"[CommandBarOverflowPresenter] OnItemsCollectionChanged - Action={e.Action}");
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add:
@@ -74,7 +71,6 @@ public class CommandBarOverflowPresenter : ItemsControl
                     UnregisterItems(e.OldItems);
                 else
                 {
-                    Debug.WriteLine("[CommandBarOverflowPresenter] OnItemsCollectionChanged - Reset, clearing counts");
                     _iconCount = 0;
                     _toggleCount = 0;
                 }
@@ -91,7 +87,6 @@ public class CommandBarOverflowPresenter : ItemsControl
 
     private void RegisterItems(IList items)
     {
-        Debug.WriteLine($"[CommandBarOverflowPresenter] RegisterItems - count={items.Count}");
         for (int i = 0; i < items.Count; i++)
         {
             switch (items[i])
@@ -99,19 +94,14 @@ public class CommandBarOverflowPresenter : ItemsControl
                 case CommandBarButton btn:
                     if (btn.Icon is not null) _iconCount++;
                     btn.IsInOverflow = true;
-                    Debug.WriteLine(
-                        $"[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarButton, iconCount={_iconCount}");
                     break;
                 case CommandBarToggleButton tb:
                     _toggleCount++;
                     if (tb.Icon is not null) _iconCount++;
                     tb.IsInOverflow = true;
-                    Debug.WriteLine(
-                        $"[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarToggleButton, toggleCount={_toggleCount}, iconCount={_iconCount}");
                     break;
                 case CommandBarSeparator sep:
                     sep.IsInOverflow = true;
-                    Debug.WriteLine("[CommandBarOverflowPresenter] RegisterItems - Registered CommandBarSeparator");
                     break;
             }
         }
@@ -119,7 +109,6 @@ public class CommandBarOverflowPresenter : ItemsControl
 
     private void UnregisterItems(IList items)
     {
-        Debug.WriteLine($"[CommandBarOverflowPresenter] UnregisterItems - count={items.Count}");
         for (int i = 0; i < items.Count; i++)
         {
             switch (items[i])
@@ -128,20 +117,15 @@ public class CommandBarOverflowPresenter : ItemsControl
                     if (btn.Icon is not null) _iconCount = Math.Max(0, _iconCount - 1);
                     btn.IsInOverflow = false;
                     ClearItemPseudoClasses(btn);
-                    Debug.WriteLine(
-                        $"[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarButton, iconCount={_iconCount}");
                     break;
                 case CommandBarToggleButton tb:
                     _toggleCount = Math.Max(0, _toggleCount - 1);
                     if (tb.Icon is not null) _iconCount = Math.Max(0, _iconCount - 1);
                     tb.IsInOverflow = false;
                     ClearItemPseudoClasses(tb);
-                    Debug.WriteLine(
-                        $"[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarToggleButton, toggleCount={_toggleCount}, iconCount={_iconCount}");
                     break;
                 case CommandBarSeparator sep:
                     sep.IsInOverflow = false;
-                    Debug.WriteLine("[CommandBarOverflowPresenter] UnregisterItems - Unregistered CommandBarSeparator");
                     break;
             }
         }
@@ -152,8 +136,6 @@ public class CommandBarOverflowPresenter : ItemsControl
         bool hasIcons = _iconCount > 0;
         bool hasToggle = _toggleCount > 0;
 
-        Debug.WriteLine(
-            $"[CommandBarOverflowPresenter] UpdateVisualState - hasIcons={hasIcons}, hasToggle={hasToggle}, iconCount={_iconCount}, toggleCount={_toggleCount}");
         PseudoClasses.Set(PC_Icons, hasIcons);
         PseudoClasses.Set(PC_Toggle, hasToggle);
 

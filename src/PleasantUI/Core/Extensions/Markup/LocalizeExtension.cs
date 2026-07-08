@@ -155,8 +155,6 @@ public class LocalizeExtension : MarkupExtension
             else
                 result = expression;
 
-            System.Diagnostics.Debug.WriteLine(
-                $"[LocalizeExtension] Resolve key={resolvedKey} lang={Localizer.Instance.CurrentLanguage} result={result}");
             return result;
         }
 

@@ -38,11 +38,4 @@
             <Setter Property="(IconHelper.IconSize)" Value="20" />
         </Style>
     </Application.Styles>
-
-    <TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon ToolTipText="PleasantUI Example"
-                      Icon="avares://PleasantUI.Example.Desktop/PleasantUIIcon.ico" />
-        </TrayIcons>
-    </TrayIcon.Icons>
 </Application>

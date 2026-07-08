@@ -223,7 +223,6 @@ public class PleasantTheme : Styles
 
         ResolveTheme(_platformSettings);
         ResolveAccentColor(_platformSettings);
-         System.Diagnostics.Debug.WriteLine("Pleasantui INIT done");
     }
 
     private void LoadCustomThemes()
@@ -281,10 +280,8 @@ public class PleasantTheme : Styles
 
     private void DesktopShutdownRequested(object? sender, ShutdownRequestedEventArgs e)
     {
-        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] DesktopShutdownRequested - saving settings with Theme={PleasantSettings.Current?.Theme}");
         _settingsProvider.Save(PleasantSettings.Current, Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
         PleasantThemesLoader.Save();
-        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] Settings saved");
     }
 
     private void PleasantSettingsOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -336,16 +333,12 @@ public class PleasantTheme : Styles
         if (PleasantSettings.Current is null)
             throw new NullReferenceException("PleasantSettings.Current is null.");
 
-        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] ResolveTheme - Current.Theme={PleasantSettings.Current.Theme}");
-
         ThemeVariant? themeVariant = PleasantSettings.Current.Theme switch
         {
             "Custom" => SelectedCustomTheme?.ThemeVariant,
             "System" => GetThemeFromIPlatformSettings(platformSettings),
             _ => Themes.FirstOrDefault(theme => theme.Name == PleasantSettings.Current.Theme)?.ThemeVariant
         };
-
-        System.Diagnostics.Debug.WriteLine($"[PleasantTheme] ResolveTheme - resolved to {themeVariant}");
 
         if (Application.Current is not null)
         {

@@ -29,8 +29,7 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*">
-
+                <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*" TemplatedControl.IsTemplateFocusTarget="True">
                     <ContentPresenter x:Name="PART_ContentPresenter"
                                       Grid.Row="0"
                                       VerticalAlignment="Top"

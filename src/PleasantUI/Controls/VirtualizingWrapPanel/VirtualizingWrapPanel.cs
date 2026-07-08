@@ -640,7 +640,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     {
         Control e = GetRealizedElement(index) ??
                     GetItemIsOwnContainer(items, index) ??
-                    GetRecycledElement(items, index) ??
+                    GetRecycledElement(index) ??
                     CreateElementInternal(items, index);
         return e;
     }
@@ -674,7 +674,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         return null;
     }
 
-    private Control? GetRecycledElement(IReadOnlyList<object?> items, int index)
+    private Control? GetRecycledElement(int index)
     {
         if (_unrealizedFocusedIndex == index && _unrealizedFocusedElement is not null)
         {

@@ -10,18 +10,15 @@
  */
 
 using System.Collections;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
-using Avalonia.Reactive;
 using Avalonia.VisualTree;
+using PleasantUI.Core.Common;
 using PleasantUI.Core.Extensions;
-using LogicalExtensions = PleasantUI.Core.Extensions.LogicalExtensions;
 
 namespace PleasantUI.Controls;
 
@@ -31,9 +28,6 @@ namespace PleasantUI.Controls;
 [TemplatePart("PART_Popup", typeof(Popup))]
 public class NavigationViewItem : TreeViewItem
 {
-    private IEnumerable? _compactItems;
-    private Popup? _popup;
-
     /// <summary>
     /// Defines the <see cref="Content" /> property.
     /// </summary>
@@ -80,15 +74,6 @@ public class NavigationViewItem : TreeViewItem
         Button.ClickModeProperty.AddOwner<NavigationViewItem>();
 
     /// <summary>
-    /// Defines the <see cref="NavigationViewDistance" /> property.
-    /// </summary>
-    public static readonly DirectProperty<NavigationViewItem, int> NavigationViewDistanceProperty =
-        AvaloniaProperty.RegisterDirect<NavigationViewItem, int>(
-            nameof(NavigationViewDistance),
-            o => o.NavigationViewDistance,
-            (o, v) => o.NavigationViewDistance = v);
-
-    /// <summary>
     /// Defines the <see cref="CompactPaneLength" /> property.
     /// </summary>
     public static readonly StyledProperty<double> CompactPaneLengthProperty =
@@ -116,10 +101,6 @@ public class NavigationViewItem : TreeViewItem
             nameof(IsSubMenuOpen),
             o => o.IsSubMenuOpen,
             (o, v) => o.IsSubMenuOpen = v);
-
-    public static readonly DirectProperty<NavigationViewItem, IEnumerable?> CompactItemsProperty =
-        AvaloniaProperty.RegisterDirect<NavigationViewItem, IEnumerable?>(
-            nameof(CompactItems), o => o.CompactItems, (o, v) => o.CompactItems = v);
 
     /// <summary>
     /// Defines the <see cref="NavigationView" /> property.
@@ -150,12 +131,6 @@ public class NavigationViewItem : TreeViewItem
     {
         get;
         set => SetAndRaise(ContentProperty, ref field, value);
-    }
-
-    public IEnumerable? CompactItems
-    {
-        get => _compactItems;
-        private set => SetAndRaise(CompactItemsProperty, ref _compactItems, value);
     }
 
     /// <summary>
@@ -220,18 +195,6 @@ public class NavigationViewItem : TreeViewItem
     {
         get => GetValue(ClickModeProperty);
         set => SetValue(ClickModeProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the distance of the navigation view.
-    /// </summary>
-    /// <value>
-    /// The distance of the navigation view.
-    /// </value>
-    public int NavigationViewDistance
-    {
-        get;
-        protected set => SetAndRaise(LevelProperty, ref field, value);
     }
 
     /// <summary>
@@ -318,33 +281,8 @@ public class NavigationViewItem : TreeViewItem
 
     static NavigationViewItem()
     {
-        IsExpandedProperty.Changed.AddClassHandler<NavigationViewItem>((navigationViewItem, _) =>
-        {
-            if (navigationViewItem.IsExpanded)
-            {
-                RoutedEventArgs routedEventArgs = new(OpenedEvent);
-                navigationViewItem.RaiseEvent(routedEventArgs);
-            }
-            else
-            {
-                RoutedEventArgs routedEventArgs = new(ClosedEvent);
-                navigationViewItem.RaiseEvent(routedEventArgs);
-            }
-        });
         OpenedEvent.AddClassHandler<NavigationViewItem>((x, e) => x.OnOpened(x, e));
         ClosedEvent.AddClassHandler<NavigationViewItem>((x, e) => x.OnClosed(x, e));
-        IsSelectedProperty.Changed.AddClassHandler<NavigationViewItem>
-        ((navigationViewItem, e) =>
-        {
-            if (navigationViewItem.IsSelected)
-                navigationViewItem.OnSelected(navigationViewItem, e);
-        });
-        IsOpenProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<bool>>(OnIsOpenChanged));
-        OpenPaneLengthProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnPaneSizesChanged));
-        CompactPaneLengthProperty.Changed.Subscribe(
-            new AnonymousObserver<AvaloniaPropertyChangedEventArgs<double>>(OnPaneSizesChanged));
 
         FocusableProperty.OverrideDefaultValue<NavigationViewItem>(true);
         ClickModeProperty.OverrideDefaultValue<NavigationViewItem>(ClickMode.Release);
@@ -355,18 +293,25 @@ public class NavigationViewItem : TreeViewItem
     /// </summary>
     public NavigationViewItem()
     {
-        NavigationViewDistance = 0;
     }
 
-    protected override void OnKeyDown(KeyEventArgs e)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        if (!IsOpen)
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IsSelectedProperty)
         {
-            e.Handled = true;
-            return;
+            if (IsSelected)
+                OnSelected(this, e);
         }
-        
-        base.OnKeyDown(e);
+        else if (e.Property == IsExpandedProperty)
+            RaiseEvent(new RoutedEventArgs(IsExpanded ? OpenedEvent : ClosedEvent));
+        else if (e.Property == IsOpenProperty)
+            OnIsOpenChanged(e);
+        else if (e.Property == OpenPaneLengthProperty)
+            OnPaneSizesChanged(e);
+        else if (e.Property == CompactPaneLengthProperty)
+            OnPaneSizesChanged(e);
     }
 
     /// <summary>
@@ -376,13 +321,8 @@ public class NavigationViewItem : TreeViewItem
     /// <param name="e">The event arguments.</param>
     protected virtual void OnSelected(object sender, AvaloniaPropertyChangedEventArgs e)
     {
-        if (Parent is NavigationView
-            {
-                DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay
-            } navigationView)
-        {
+        if (Parent is NavigationView { DisplayMode: SplitViewDisplayMode.CompactOverlay or SplitViewDisplayMode.Overlay } navigationView)
             navigationView.IsOpen = false;
-        }
     }
 
     /// <summary>
@@ -406,9 +346,7 @@ public class NavigationViewItem : TreeViewItem
         UpdatePseudoClasses();
 
         if (SelectOnClose)
-        {
             this.GetParentTOfLogical<NavigationView>()?.SelectSingleItem(this);
-        }
     }
 
     /// <inheritdoc />
@@ -419,33 +357,12 @@ public class NavigationViewItem : TreeViewItem
     {
         base.OnApplyTemplate(e);
 
-        if (_popup is not null)
-        {
-            _popup.Closed -= OnPopupClosed;
-        }
-
-        _popup = e.NameScope.Find<Popup>("PART_Popup");
-
-        if (_popup is not null)
-        {
-            _popup.Closed += OnPopupClosed;
-        }
-
         UpdatePseudoClasses();
-    }
-
-    /// <inheritdoc />
-    protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
-    {
-        base.OnAttachedToLogicalTree(e);
-        NavigationViewDistance = LogicalExtensions.CalculateDistanceFromLogicalParent<NavigationView>(this) - 1;
     }
 
     /// <inheritdoc />
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
-        base.OnPointerPressed(e);
-
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
             e.Handled = true;
@@ -458,8 +375,6 @@ public class NavigationViewItem : TreeViewItem
     /// <inheritdoc />
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
-        base.OnPointerReleased(e);
-
         if (e.InitialPressMouseButton != MouseButton.Left) return;
 
         e.Handled = true;
@@ -470,7 +385,7 @@ public class NavigationViewItem : TreeViewItem
         }
     }
 
-    private static void OnPaneSizesChanged(AvaloniaPropertyChangedEventArgs<double> e)
+    private static void OnPaneSizesChanged(AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Sender is NavigationViewItem navigationViewItem)
         {
@@ -505,11 +420,6 @@ public class NavigationViewItem : TreeViewItem
                 sender.RaiseEvent(new RoutedEventArgs(ClosedEvent));
                 break;
         }
-    }
-
-    private void OnPopupClosed(object? sender, EventArgs e)
-    {
-        IsSubMenuOpen = false;
     }
 
     private void UpdatePseudoClasses()
@@ -564,12 +474,8 @@ public class NavigationViewItem : TreeViewItem
                 MenuItem flyoutItem = new()
                 {
                     Header = child.Header?.ToString(),
-                    Icon = child.Icon
-                };
-
-                flyoutItem.Click += (s, e) =>
-                {
-                    navigationView?.SelectedItem = child;
+                    Icon = child.Icon,
+                    Command = new RelayCommand(() => navigationView?.SelectedItem = child)
                 };
 
                 itemsCollection.Add(flyoutItem);
@@ -583,21 +489,17 @@ public class NavigationViewItem : TreeViewItem
         bool isPaneOpen = navigationView?.IsOpen ?? IsOpen;
         bool hasChildren = Items.OfType<NavigationViewItem>().Any();
 
-        if (!isPaneOpen && hasChildren)
+        switch (isPaneOpen)
         {
-            navigationView?.SelectSingleItem(this);
-            ShowCompactFlyout();
-            return;
+            case false when hasChildren:
+                ShowCompactFlyout();
+                return;
+            case true when hasChildren:
+                IsExpanded = !IsExpanded;
+                break;
         }
 
-        if (isPaneOpen && hasChildren)
-        {
-            IsExpanded = !IsExpanded;
-        }
-
-        if (!IsSelected && (!hasChildren || !isPaneOpen))
-        {
+        if (!IsSelected)
             navigationView?.SelectSingleItem(this);
-        }
     }
 }
