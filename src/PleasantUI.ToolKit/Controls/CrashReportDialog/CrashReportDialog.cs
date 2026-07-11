@@ -1,21 +1,15 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Avalonia;
-using Avalonia.Animation;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Styling;
 using Avalonia.Threading;
 using PleasantUI.Controls;
-using PleasantUI.Core.Helpers;
-using PleasantUI.Core.Interfaces;
+using PleasantUI.Core.Localization;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -26,8 +20,10 @@ public enum CrashReportResult
 {
     /// <summary>The user dismissed the dialog without sending.</summary>
     Cancelled,
+
     /// <summary>The report was sent successfully.</summary>
     Sent,
+
     /// <summary>The report was saved to disk.</summary>
     Saved
 }
@@ -60,8 +56,8 @@ public sealed class SendReportEventArgs : EventArgs
 
     public SendReportEventArgs(string email, string userMessage, bool includeScreenshot)
     {
-        Email             = email;
-        UserMessage       = userMessage;
+        Email = email;
+        UserMessage = userMessage;
         IncludeScreenshot = includeScreenshot;
     }
 }
@@ -84,44 +80,48 @@ public sealed class SaveReportEventArgs : EventArgs
 /// Extends <see cref="PleasantPopupElement"/> so it integrates with the
 /// PleasantUI overlay system exactly like <see cref="ContentDialog"/>.
 /// </summary>
-[TemplatePart(PART_SendButton,       typeof(Button))]
-[TemplatePart(PART_SaveButton,       typeof(Button))]
-[TemplatePart(PART_CancelButton,     typeof(Button))]
-[TemplatePart(PART_EmailBox,         typeof(TextBox))]
-[TemplatePart(PART_UserMessageBox,   typeof(TextBox))]
+[TemplatePart(PART_SendButton, typeof(Button))]
+[TemplatePart(PART_SaveButton, typeof(Button))]
+[TemplatePart(PART_CancelButton, typeof(Button))]
+[TemplatePart(PART_EmailBox, typeof(TextBox))]
+[TemplatePart(PART_UserMessageBox, typeof(TextBox))]
 [TemplatePart(PART_ScreenshotToggle, typeof(CheckBox))]
-[TemplatePart(PART_TabStrip,         typeof(ListBox))]
-[TemplatePart(PART_TabContent,       typeof(ContentPresenter))]
+[TemplatePart(PART_TabStrip, typeof(ListBox))]
+[TemplatePart(PART_TabContent, typeof(ContentPresenter))]
 [PseudoClasses(PC_Sending, PC_Success, PC_Failure, PC_HasScreenshot, PC_EmailRequired, PC_EmailInvalid)]
-public class CrashReportDialog : PleasantPopupElement
+public partial class CrashReportDialog : ContentDialog
 {
-    // ── Template part names ───────────────────────────────────────────────────
+    private const string PART_SendButton = "PART_SendButton";
+    private const string PART_SaveButton = "PART_SaveButton";
+    private const string PART_CancelButton = "PART_CancelButton";
+    private const string PART_EmailBox = "PART_EmailBox";
+    private const string PART_UserMessageBox = "PART_UserMessageBox";
+    private const string PART_ScreenshotToggle = "PART_ScreenshotToggle";
+    private const string PART_TabStrip = "PART_TabStrip";
+    private const string PART_TabContent = "PART_TabContent";
 
-    internal const string PART_SendButton       = "PART_SendButton";
-    internal const string PART_SaveButton       = "PART_SaveButton";
-    internal const string PART_CancelButton     = "PART_CancelButton";
-    internal const string PART_EmailBox         = "PART_EmailBox";
-    internal const string PART_UserMessageBox   = "PART_UserMessageBox";
-    internal const string PART_ScreenshotToggle = "PART_ScreenshotToggle";
-    internal const string PART_TabStrip         = "PART_TabStrip";
-    internal const string PART_TabContent       = "PART_TabContent";
-
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_Sending       = ":sending";
-    private const string PC_Success       = ":success";
-    private const string PC_Failure       = ":failure";
+    private const string PC_Sending = ":sending";
+    private const string PC_Success = ":success";
+    private const string PC_Failure = ":failure";
     private const string PC_HasScreenshot = ":hasScreenshot";
     private const string PC_EmailRequired = ":emailRequired";
-    private const string PC_EmailInvalid  = ":emailInvalid";
+    private const string PC_EmailInvalid = ":emailInvalid";
+    private const string PC_TabGeneral = ":tab-general";
+    private const string PC_TabException = ":tab-exception";
+    private const string PC_TabScreenshot = ":tab-screenshot";
+    
+    [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "ru-RU")]
+    private static partial Regex MyRegex();
 
-    // ── Email regex ───────────────────────────────────────────────────────────
-
-    private static readonly Regex EmailRegex = new(
-        @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-        RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-    // ── Styled properties ─────────────────────────────────────────────────────
+    private static readonly Regex EmailRegex = MyRegex();
+    
+    private Button? _sendButton;
+    private Button? _saveButton;
+    private Button? _cancelButton;
+    private TextBox? _emailBox;
+    private TextBox? _userMessageBox;
+    private CheckBox? _screenshotToggle;
+    private ListBox? _tabStrip;
 
     /// <summary>Defines the <see cref="ApplicationName"/> property.</summary>
     public static readonly StyledProperty<string?> ApplicationNameProperty =
@@ -171,93 +171,9 @@ public class CrashReportDialog : PleasantPopupElement
     public static readonly StyledProperty<string?> StatusMessageProperty =
         AvaloniaProperty.Register<CrashReportDialog, string?>(nameof(StatusMessage));
 
-    /// <summary>Defines the <see cref="OpenAnimation"/> property.</summary>
-    public static readonly StyledProperty<Animation?> OpenAnimationProperty =
-        AvaloniaProperty.Register<CrashReportDialog, Animation?>(nameof(OpenAnimation));
-
-    /// <summary>Defines the <see cref="CloseAnimation"/> property.</summary>
-    public static readonly StyledProperty<Animation?> CloseAnimationProperty =
-        AvaloniaProperty.Register<CrashReportDialog, Animation?>(nameof(CloseAnimation));
-
     /// <summary>Defines the <see cref="AutoCloseOnSuccess"/> property.</summary>
     public static readonly StyledProperty<bool> AutoCloseOnSuccessProperty =
         AvaloniaProperty.Register<CrashReportDialog, bool>(nameof(AutoCloseOnSuccess), defaultValue: false);
-
-    /// <summary>Defines the <see cref="SendReportLabel"/> property.</summary>
-    public static readonly StyledProperty<string> SendReportLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SendReportLabel), defaultValue: "Send Report");
-
-    /// <summary>Defines the <see cref="SaveReportLabel"/> property.</summary>
-    public static readonly StyledProperty<string> SaveReportLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SaveReportLabel), defaultValue: "Save Report");
-
-    /// <summary>Defines the <see cref="CancelLabel"/> property.</summary>
-    public static readonly StyledProperty<string> CancelLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(CancelLabel), defaultValue: "Cancel");
-
-    /// <summary>Defines the <see cref="EmailLabel"/> property.</summary>
-    public static readonly StyledProperty<string> EmailLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(EmailLabel), defaultValue: "Your email address");
-
-    /// <summary>Defines the <see cref="EmailValidationError"/> property.</summary>
-    public static readonly StyledProperty<string> EmailValidationErrorProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(EmailValidationError), defaultValue: "Please enter a valid email address.");
-
-    /// <summary>Defines the <see cref="IncludeScreenshotLabel"/> property.</summary>
-    public static readonly StyledProperty<string> IncludeScreenshotLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(IncludeScreenshotLabel), defaultValue: "Include screenshot in report");
-
-    /// <summary>Defines the <see cref="MessageLabel"/> property.</summary>
-    public static readonly StyledProperty<string> MessageLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(MessageLabel), defaultValue: "Message");
-
-    /// <summary>Defines the <see cref="GeneralTabLabel"/> property.</summary>
-    public static readonly StyledProperty<string> GeneralTabLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(GeneralTabLabel), defaultValue: "General");
-
-    /// <summary>Defines the <see cref="ExceptionTabLabel"/> property.</summary>
-    public static readonly StyledProperty<string> ExceptionTabLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(ExceptionTabLabel), defaultValue: "Exception");
-
-    /// <summary>Defines the <see cref="ScreenshotTabLabel"/> property.</summary>
-    public static readonly StyledProperty<string> ScreenshotTabLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(ScreenshotTabLabel), defaultValue: "Screenshot");
-
-    /// <summary>Defines the <see cref="SendingMessage"/> property.</summary>
-    public static readonly StyledProperty<string> SendingMessageProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SendingMessage), defaultValue: "Sending report…");
-
-    /// <summary>Defines the <see cref="SuccessMessage"/> property.</summary>
-    public static readonly StyledProperty<string> SuccessMessageProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(SuccessMessage), defaultValue: "Report sent successfully. Thank you!");
-
-    /// <summary>Defines the <see cref="FailureMessagePrefix"/> property.</summary>
-    public static readonly StyledProperty<string> FailureMessagePrefixProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(FailureMessagePrefix), defaultValue: "Failed to send report: ");
-
-    /// <summary>Defines the <see cref="CrashedText"/> property.</summary>
-    public static readonly StyledProperty<string> CrashedTextProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(CrashedText), defaultValue: " crashed");
-
-    /// <summary>Defines the <see cref="OccurredAtText"/> property.</summary>
-    public static readonly StyledProperty<string> OccurredAtTextProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(OccurredAtText), defaultValue: "Occurred at");
-
-    /// <summary>Defines the <see cref="WhatWereYouDoingText"/> property.</summary>
-    public static readonly StyledProperty<string> WhatWereYouDoingTextProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(WhatWereYouDoingText), defaultValue: "What were you doing when the crash occurred? (optional)");
-
-    /// <summary>Defines the <see cref="ApplicationLabel"/> property.</summary>
-    public static readonly StyledProperty<string> ApplicationLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(ApplicationLabel), defaultValue: "Application");
-
-    /// <summary>Defines the <see cref="VersionLabel"/> property.</summary>
-    public static readonly StyledProperty<string> VersionLabelProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(VersionLabel), defaultValue: "Version");
-
-    /// <summary>Defines the <see cref="UserMessagePlaceholder"/> property.</summary>
-    public static readonly StyledProperty<string> UserMessagePlaceholderProperty =
-        AvaloniaProperty.Register<CrashReportDialog, string>(nameof(UserMessagePlaceholder), defaultValue: "Describe what you were doing…");
 
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
@@ -345,161 +261,15 @@ public class CrashReportDialog : PleasantPopupElement
         set => SetValue(StatusMessageProperty, value);
     }
 
-    /// <summary>Gets or sets the open animation.</summary>
-    public Animation? OpenAnimation
-    {
-        get => GetValue(OpenAnimationProperty);
-        set => SetValue(OpenAnimationProperty, value);
-    }
-
-    /// <summary>Gets or sets the close animation.</summary>
-    public Animation? CloseAnimation
-    {
-        get => GetValue(CloseAnimationProperty);
-        set => SetValue(CloseAnimationProperty, value);
-    }
-
     /// <summary>Gets or sets whether the dialog automatically closes after successful report sending.</summary>
     public bool AutoCloseOnSuccess
     {
         get => GetValue(AutoCloseOnSuccessProperty);
         set => SetValue(AutoCloseOnSuccessProperty, value);
     }
-
-    /// <summary>Gets or sets the label for the Send Report button.</summary>
-    public string SendReportLabel
-    {
-        get => GetValue(SendReportLabelProperty);
-        set => SetValue(SendReportLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the Save Report button.</summary>
-    public string SaveReportLabel
-    {
-        get => GetValue(SaveReportLabelProperty);
-        set => SetValue(SaveReportLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the Cancel button.</summary>
-    public string CancelLabel
-    {
-        get => GetValue(CancelLabelProperty);
-        set => SetValue(CancelLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the email input field.</summary>
-    public string EmailLabel
-    {
-        get => GetValue(EmailLabelProperty);
-        set => SetValue(EmailLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the validation error message for invalid email.</summary>
-    public string EmailValidationError
-    {
-        get => GetValue(EmailValidationErrorProperty);
-        set => SetValue(EmailValidationErrorProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the include screenshot checkbox.</summary>
-    public string IncludeScreenshotLabel
-    {
-        get => GetValue(IncludeScreenshotLabelProperty);
-        set => SetValue(IncludeScreenshotLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the message field.</summary>
-    public string MessageLabel
-    {
-        get => GetValue(MessageLabelProperty);
-        set => SetValue(MessageLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the General tab.</summary>
-    public string GeneralTabLabel
-    {
-        get => GetValue(GeneralTabLabelProperty);
-        set => SetValue(GeneralTabLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the Exception tab.</summary>
-    public string ExceptionTabLabel
-    {
-        get => GetValue(ExceptionTabLabelProperty);
-        set => SetValue(ExceptionTabLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the Screenshot tab.</summary>
-    public string ScreenshotTabLabel
-    {
-        get => GetValue(ScreenshotTabLabelProperty);
-        set => SetValue(ScreenshotTabLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the message shown while sending the report.</summary>
-    public string SendingMessage
-    {
-        get => GetValue(SendingMessageProperty);
-        set => SetValue(SendingMessageProperty, value);
-    }
-
-    /// <summary>Gets or sets the message shown when the report is sent successfully.</summary>
-    public string SuccessMessage
-    {
-        get => GetValue(SuccessMessageProperty);
-        set => SetValue(SuccessMessageProperty, value);
-    }
-
-    /// <summary>Gets or sets the prefix for the failure message.</summary>
-    public string FailureMessagePrefix
-    {
-        get => GetValue(FailureMessagePrefixProperty);
-        set => SetValue(FailureMessagePrefixProperty, value);
-    }
-
-    /// <summary>Gets or sets the text shown after the application name.</summary>
-    public string CrashedText
-    {
-        get => GetValue(CrashedTextProperty);
-        set => SetValue(CrashedTextProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the occurred at field.</summary>
-    public string OccurredAtText
-    {
-        get => GetValue(OccurredAtTextProperty);
-        set => SetValue(OccurredAtTextProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the user message field.</summary>
-    public string WhatWereYouDoingText
-    {
-        get => GetValue(WhatWereYouDoingTextProperty);
-        set => SetValue(WhatWereYouDoingTextProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the application field.</summary>
-    public string ApplicationLabel
-    {
-        get => GetValue(ApplicationLabelProperty);
-        set => SetValue(ApplicationLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the label for the version field.</summary>
-    public string VersionLabel
-    {
-        get => GetValue(VersionLabelProperty);
-        set => SetValue(VersionLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the placeholder text for the user message field.</summary>
-    public string UserMessagePlaceholder
-    {
-        get => GetValue(UserMessagePlaceholderProperty);
-        set => SetValue(UserMessagePlaceholderProperty, value);
-    }
-
-    // ── Events ────────────────────────────────────────────────────────────────
+    
+    /// <inheritdoc />
+    protected override Type StyleKeyOverride => typeof(CrashReportDialog);
 
     /// <summary>
     /// Raised when the user clicks Send Report.
@@ -511,40 +281,14 @@ public class CrashReportDialog : PleasantPopupElement
     /// <summary>Raised when the user clicks Save Report.</summary>
     public event EventHandler<SaveReportEventArgs>? SaveReportRequested;
 
-    /// <summary>Raised when the dialog closes.</summary>
-    public event EventHandler? Closed;
-
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private Button?   _sendButton;
-    private Button?   _saveButton;
-    private Button?   _cancelButton;
-    private TextBox?  _emailBox;
-    private TextBox?  _userMessageBox;
-    private CheckBox? _screenshotToggle;
-    private ListBox?  _tabStrip;
-
-    private Border?  _modalBackground;
-    private Panel?   _panel;
-    private bool     _isClosing;
-    private CrashReportResult _result = CrashReportResult.Cancelled;
-
-    private AvaloniaList<PleasantPopupElement>? _modalWindows;
-    private IInputElement? _lastFocus;
-
-    // Tab items — built once and reused.
-    private readonly List<string> _tabs = new();
-
-    // ── Convenience factory ───────────────────────────────────────────────────
-
     /// <summary>
     /// Creates a pre-populated <see cref="CrashReportDialog"/> from an <see cref="Exception"/>.
     /// </summary>
     public static CrashReportDialog FromException(
         Exception ex,
-        string? applicationName    = null,
+        string? applicationName = null,
         string? applicationVersion = null,
-        Bitmap? screenshot         = null)
+        Bitmap? screenshot = null)
     {
         StringBuilder sb = new();
         if (ex.InnerException is not null)
@@ -553,39 +297,38 @@ public class CrashReportDialog : PleasantPopupElement
 
         return new CrashReportDialog
         {
-            ApplicationName    = applicationName,
+            ApplicationName = applicationName,
             ApplicationVersion = applicationVersion,
-            ExceptionType      = ex.GetType().FullName,
-            ExceptionMessage   = ex.Message,
-            ExceptionSource    = ex.Source,
-            StackTrace         = sb.ToString(),
-            OccurredAt         = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            Screenshot         = screenshot,
-            ShowScreenshotTab  = screenshot is not null
+            ExceptionType = ex.GetType().FullName,
+            ExceptionMessage = ex.Message,
+            ExceptionSource = ex.Source,
+            StackTrace = sb.ToString(),
+            OccurredAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            Screenshot = screenshot,
+            ShowScreenshotTab = screenshot is not null
         };
     }
 
-    // ── Template ──────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         DetachHandlers();
 
-        _sendButton       = e.NameScope.Find<Button>(PART_SendButton);
-        _saveButton       = e.NameScope.Find<Button>(PART_SaveButton);
-        _cancelButton     = e.NameScope.Find<Button>(PART_CancelButton);
-        _emailBox         = e.NameScope.Find<TextBox>(PART_EmailBox);
-        _userMessageBox   = e.NameScope.Find<TextBox>(PART_UserMessageBox);
+        _sendButton = e.NameScope.Find<Button>(PART_SendButton);
+        _saveButton = e.NameScope.Find<Button>(PART_SaveButton);
+        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
+        _emailBox = e.NameScope.Find<TextBox>(PART_EmailBox);
+        _userMessageBox = e.NameScope.Find<TextBox>(PART_UserMessageBox);
         _screenshotToggle = e.NameScope.Find<CheckBox>(PART_ScreenshotToggle);
-        _tabStrip         = e.NameScope.Find<ListBox>(PART_TabStrip);
+        _tabStrip = e.NameScope.Find<ListBox>(PART_TabStrip);
 
         AttachHandlers();
-        BuildTabs();
         UpdatePseudoClasses();
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -593,11 +336,6 @@ public class CrashReportDialog : PleasantPopupElement
         if (change.Property == ScreenshotProperty)
         {
             PseudoClasses.Set(PC_HasScreenshot, change.NewValue is not null);
-            BuildTabs();
-        }
-        else if (change.Property == ShowScreenshotTabProperty)
-        {
-            BuildTabs();
         }
         else if (change.Property == IsEmailRequiredProperty)
         {
@@ -605,144 +343,28 @@ public class CrashReportDialog : PleasantPopupElement
         }
     }
 
-    // ── Show / Close API ──────────────────────────────────────────────────────
-
-    /// <summary>Shows the dialog and returns the result when it closes.</summary>
-    public Task<CrashReportResult> ShowAsync(TopLevel? topLevel = null)
-        => ShowCoreAsync(topLevel);
-
-    /// <summary>Shows the dialog on a <see cref="Window"/>.</summary>
-    public Task<CrashReportResult> ShowAsync(Window window)
-        => ShowCoreAsync(window);
-
-    /// <summary>Shows the dialog on an <see cref="IPleasantWindow"/>.</summary>
-    public Task<CrashReportResult> ShowAsync(IPleasantWindow pleasantWindow)
-        => ShowCoreAsync(pleasantWindow as TopLevel);
-
-    /// <summary>Closes the dialog programmatically.</summary>
-    public async Task CloseAsync()
-    {
-        if (_isClosing) return;
-        _isClosing = true;
-
-        IsHitTestVisible = false;
-
-        _modalBackground?.IsHitTestVisible = false;
-
-        if (CloseAnimation is not null)
-            await CloseAnimation.RunAsync(this);
-
-        _modalWindows?.Remove(this);
-
-        if (_lastFocus is not null)
-        {
-            _lastFocus.Focus();
-            _lastFocus = null;
-        }
-
-        base.DeleteCoreForTopLevel();
-        Closed?.Invoke(this, EventArgs.Empty);
-    }
-
-    // ── Private helpers ───────────────────────────────────────────────────────
-
-    private async Task<CrashReportResult> ShowCoreAsync(TopLevel? topLevel)
-    {
-        _modalWindows = WindowHelper.GetModalWindows(topLevel);
-
-        TaskCompletionSource<CrashReportResult> tcs = new();
-
-        _panel = new Panel();
-
-        _modalBackground = new Border
-        {
-            Background = new SolidColorBrush(Color.Parse("#3A000000")),
-            Opacity    = 0
-        };
-
-        _panel.Children.Add(_modalBackground);
-        _panel.Children.Add(this);
-
-        Host ??= new ModalWindowHost();
-        Host.Content = _panel;
-
-        base.ShowCoreForTopLevel(topLevel);
-
-        _modalWindows?.Add(this);
-        _lastFocus = topLevel?.FocusManager?.GetFocusedElement();
-
-        Closed += (_, _) =>
-        {
-            try   { tcs.TrySetResult(_result); }
-            catch { tcs.TrySetResult(CrashReportResult.Cancelled); }
-        };
-
-        return await tcs.Task;
-    }
-
-    protected override async void OnLoaded(RoutedEventArgs e)
+    /// <inheritdoc />
+    protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
-
-        try
-        {
-            if (_modalBackground is not null)
-            {
-                Animation bgAnim = new()
-                {
-                    Duration = TimeSpan.FromMilliseconds(200),
-                    FillMode = FillMode.Forward
-                };
-                KeyFrame kf = new() { Cue = new Cue(1.0) };
-                kf.Setters.Add(new Setter(OpacityProperty, 1.0));
-                bgAnim.Children.Add(kf);
-                await bgAnim.RunAsync(_modalBackground);
-            }
-
-            if (OpenAnimation is not null)
-                await OpenAnimation.RunAsync(this);
-        }
-        catch (Exception)
-        {
-            // ignored
-        }
 
         _emailBox?.Focus();
     }
 
     private void AttachHandlers()
     {
-        if (_sendButton   is not null) _sendButton.Click   += OnSendClicked;
-        if (_saveButton   is not null) _saveButton.Click   += OnSaveClicked;
+        if (_sendButton is not null) _sendButton.Click += OnSendClicked;
+        if (_saveButton is not null) _saveButton.Click += OnSaveClicked;
         if (_cancelButton is not null) _cancelButton.Click += OnCancelClicked;
-        if (_tabStrip     is not null) _tabStrip.SelectionChanged += OnTabSelectionChanged;
+        if (_tabStrip is not null) _tabStrip.SelectionChanged += OnTabSelectionChanged;
     }
 
     private void DetachHandlers()
     {
-        if (_sendButton   is not null) _sendButton.Click   -= OnSendClicked;
-        if (_saveButton   is not null) _saveButton.Click   -= OnSaveClicked;
+        if (_sendButton is not null) _sendButton.Click -= OnSendClicked;
+        if (_saveButton is not null) _saveButton.Click -= OnSaveClicked;
         if (_cancelButton is not null) _cancelButton.Click -= OnCancelClicked;
-        if (_tabStrip     is not null) _tabStrip.SelectionChanged -= OnTabSelectionChanged;
-    }
-
-    private void BuildTabs()
-    {
-        _tabs.Clear();
-        _tabs.Add(GeneralTabLabel);
-        _tabs.Add(ExceptionTabLabel);
-        if (ShowScreenshotTab && Screenshot is not null)
-            _tabs.Add(ScreenshotTabLabel);
-
-        if (_tabStrip is not null)
-        {
-            _tabStrip.ItemsSource = _tabs;
-            if (_tabStrip.SelectedIndex < 0 || _tabStrip.SelectedIndex >= _tabs.Count)
-                _tabStrip.SelectedIndex = 0;
-        }
-
-        // Sync Tag so styles activate immediately.
-        Tag = _tabs.Count > 0 ? _tabs[0] : GeneralTabLabel;
+        if (_tabStrip is not null) _tabStrip.SelectionChanged -= OnTabSelectionChanged;
     }
 
     private void UpdatePseudoClasses()
@@ -750,8 +372,6 @@ public class CrashReportDialog : PleasantPopupElement
         PseudoClasses.Set(PC_HasScreenshot, Screenshot is not null);
         PseudoClasses.Set(PC_EmailRequired, IsEmailRequired);
     }
-
-    // ── Button handlers ───────────────────────────────────────────────────────
 
     private void OnSendClicked(object? s, RoutedEventArgs e)
     {
@@ -776,38 +396,37 @@ public class CrashReportDialog : PleasantPopupElement
 
         PseudoClasses.Set(PC_EmailInvalid, false);
 
-        string userMessage       = _userMessageBox?.Text?.Trim() ?? string.Empty;
+        string userMessage = _userMessageBox?.Text?.Trim() ?? string.Empty;
         bool includeScreenshot = _screenshotToggle?.IsChecked == true;
 
         // Transition to sending state.
         PseudoClasses.Set(PC_Sending, true);
-        StatusMessage = SendingMessage;
+        StatusMessage = Localizer.TrDefault("ToolKit/CrashReportDialog/SendingReport", "Sending report…");
 
         SetButtonsEnabled(false);
 
         SendReportEventArgs args = new(email, userMessage, includeScreenshot)
         {
-            ReportSuccess = () => Dispatcher.UIThread.Post(async () =>
+            ReportSuccess = () => Dispatcher.UIThread.Post(async void () =>
             {
                 PseudoClasses.Set(PC_Sending, false);
                 PseudoClasses.Set(PC_Success, true);
-                StatusMessage = SuccessMessage;
-                _result = CrashReportResult.Sent;
+                StatusMessage = Localizer.TrDefault("ToolKit/CrashReportDialog/SuccessMessage", "Report sent successfully. Thank you!");
                 SetButtonsEnabled(true);
 
                 if (AutoCloseOnSuccess)
                 {
                     await Task.Delay(1500); // Wait briefly to show success message
-                    await CloseAsync();
+                    await CloseAsync(CrashReportResult.Sent);
                 }
             }),
             ReportFailure = msg => Dispatcher.UIThread.Post(() =>
             {
                 PseudoClasses.Set(PC_Sending, false);
                 PseudoClasses.Set(PC_Failure, true);
-                StatusMessage = $"{FailureMessagePrefix}{msg}";
-                _result = CrashReportResult.Cancelled;
+                StatusMessage = $"{Localizer.TrDefault("ToolKit/CrashReportDialog/FailureMessagePrefix", "Failed to send report: ")}{msg}";
                 SetButtonsEnabled(true);
+                _ = CloseAsync(CrashReportResult.Cancelled);
             })
         };
 
@@ -817,21 +436,26 @@ public class CrashReportDialog : PleasantPopupElement
     private void OnSaveClicked(object? s, RoutedEventArgs e)
     {
         string userMessage = _userMessageBox?.Text?.Trim() ?? string.Empty;
-        _result = CrashReportResult.Saved;
         SaveReportRequested?.Invoke(this, new SaveReportEventArgs(userMessage));
+        
+        _ = CloseAsync(CrashReportResult.Saved);
     }
 
     private void OnCancelClicked(object? s, RoutedEventArgs e)
     {
-        _result = CrashReportResult.Cancelled;
-        _ = CloseAsync();
+        _ = CloseAsync(CrashReportResult.Cancelled);
     }
 
     private void OnTabSelectionChanged(object? s, SelectionChangedEventArgs e)
     {
         // Drive tab visibility via the Tag property so AXAML styles can react.
-        string selected = _tabStrip?.SelectedItem as string ?? "General";
-        Tag = selected;
+
+        if (_tabStrip?.SelectedItem is not ListBoxItem selected)
+            return;
+        
+        PseudoClasses.Set(PC_TabGeneral, ReferenceEquals(selected.Tag, "general"));
+        PseudoClasses.Set(PC_TabException, ReferenceEquals(selected.Tag, "exception"));
+        PseudoClasses.Set(PC_TabScreenshot, ReferenceEquals(selected.Tag, "screenshot"));
     }
 
     private void SetButtonsEnabled(bool enabled)

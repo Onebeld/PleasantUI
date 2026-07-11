@@ -121,15 +121,6 @@ public class PleasantWindow : PleasantWindowBase
     /// </summary>
     public static readonly StyledProperty<bool> IsFullScreenButtonVisibleProperty =
         AvaloniaProperty.Register<PleasantWindow, bool>(nameof(IsFullScreenButtonVisible), false);
-    
-    public static readonly StyledProperty<Thickness> TitleBarMarginProperty =
-        AvaloniaProperty.Register<PleasantWindow, Thickness>(nameof(TitleBarMargin));
-
-    public Thickness TitleBarMargin
-    {
-        get => GetValue(TitleBarMarginProperty);
-        set => SetValue(TitleBarMarginProperty, value);
-    }
 
     /// <summary>
     /// Shows the self-created TitleBar and hides the system TitleBar.
@@ -301,7 +292,7 @@ public class PleasantWindow : PleasantWindowBase
         KeyBindings.Add(new KeyBinding
         {
             Gesture = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) 
-                ? new KeyGesture(Key.Q, KeyModifiers.Meta)
+                ? new KeyGesture(Key.W, KeyModifiers.Meta)
                 : new KeyGesture(Key.F4, KeyModifiers.Alt),
             Command = new RelayCommand(Close)
         });
@@ -438,10 +429,6 @@ public class PleasantWindow : PleasantWindowBase
                     : WindowDecorations.None;
             }
         }
-
-        TitleBarMargin = WindowState == WindowState.FullScreen
-            ? new Thickness(0)
-            : new Thickness(0, TitleBarHeight, 0, 0);
     }
 
     private void SetTransparencyLevelHint()

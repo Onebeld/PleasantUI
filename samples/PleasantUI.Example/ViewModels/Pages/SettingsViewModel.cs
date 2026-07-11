@@ -91,8 +91,11 @@ public partial class SettingsViewModel : ViewModelBase
         PleasantTheme.CustomThemes.Add(newCustomTheme);
     }
 
-    public async Task EditThemeAsync(CustomTheme customTheme)
+    public async Task EditThemeAsync(object value)
     {
+        if (value is not CustomTheme customTheme)
+            return;
+        
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, customTheme);
 
         if (newCustomTheme is null)
@@ -101,8 +104,11 @@ public partial class SettingsViewModel : ViewModelBase
         PleasantUiExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
     }
 
-    public void DeleteTheme(CustomTheme customTheme)
+    public void DeleteTheme(object value)
     {
+        if (value is  not CustomTheme customTheme)
+            return;
+        
         PleasantTheme.CustomThemes.Remove(customTheme);
     }
 }

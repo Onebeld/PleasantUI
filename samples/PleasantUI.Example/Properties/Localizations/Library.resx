@@ -201,4 +201,67 @@
     <data name="NoItems" xml:space="preserve">
         <value>No items</value>
     </data>
+    <data name="ToolKit/CrashReportDialog/CrashHasOccurred" xml:space="preserve">
+        <value>A crash has occurred!</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Message" xml:space="preserve">
+        <value>Message</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SendingReport" xml:space="preserve">
+        <value>Sending report…</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/StackTrace" xml:space="preserve">
+        <value>Stack trace</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/IncludeScreenshotInReport" xml:space="preserve">
+        <value>Include screenshot in report</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/YourEmailAddress" xml:space="preserve">
+        <value>Your email address</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/EmailValidationError" xml:space="preserve">
+        <value>Please enter a valid email address.</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/WhatWereYouDoingText" xml:space="preserve">
+        <value>What were you doing when the crash occurred? (optional)</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SendReport" xml:space="preserve">
+        <value>Send Report</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SaveReport" xml:space="preserve">
+        <value>Save Report</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Application" xml:space="preserve">
+        <value>Application</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Version" xml:space="preserve">
+        <value>Version</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/OccurredAt" xml:space="preserve">
+        <value>Occurred at</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/UserMessagePlaceholder" xml:space="preserve">
+        <value>Describe what you were doing…</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/General" xml:space="preserve">
+        <value>General</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Exception" xml:space="preserve">
+        <value>Exception</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Screenshot" xml:space="preserve">
+        <value>Screenshot</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Type" xml:space="preserve">
+        <value>Type</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Source" xml:space="preserve">
+        <value>Source</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SuccessMessage" xml:space="preserve">
+        <value>Report sent successfully. Thank you!</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/FailureMessagePrefix" xml:space="preserve">
+        <value>Failed to send report: </value>
+    </data>
 </root>

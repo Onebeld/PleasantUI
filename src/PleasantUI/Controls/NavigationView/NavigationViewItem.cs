@@ -295,6 +295,7 @@ public class NavigationViewItem : TreeViewItem
     {
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
@@ -493,7 +494,7 @@ public class NavigationViewItem : TreeViewItem
         {
             case false when hasChildren:
                 ShowCompactFlyout();
-                return;
+                break;
             case true when hasChildren:
                 IsExpanded = !IsExpanded;
                 break;

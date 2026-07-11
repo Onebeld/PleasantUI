@@ -70,6 +70,8 @@
                 <MergeResourceInclude Source="BasicControls/WindowNotificationManager.axaml" />
 
                 <!-- Pleasant Controls -->
+                <MergeResourceInclude Source="PleasantControls/Chrome/PleasantCaptionButtons.axaml" />
+                <MergeResourceInclude Source="PleasantControls/Chrome/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/DashboardCard.axaml" />
@@ -85,13 +87,11 @@
                 <MergeResourceInclude Source="PleasantControls/PathPicker.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantFileChooser.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantBorder.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTrayPopup.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSnackbar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSplashScreen.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMenu.axaml" />
@@ -132,9 +132,61 @@
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
     </Style>
+
+    <Style Selector=":is(ContentDialog)">
+        <Setter Property="OpenAnimation">
+            <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.2">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+        <Setter Property="CloseAnimation">
+            <Animation Duration="0:0:0.05" FillMode="Both">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.05">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+
+        <Setter Property="ShowBackgroundAnimation">
+            <Animation Duration="0:0:0.2" FillMode="Both">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.2">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+        <Setter Property="HideBackgroundAnimation">
+            <Animation Duration="0:0:0.05" FillMode="Both">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.05">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+    </Style>
     
-    <Style Selector="ToolTip">
-        <Setter Property="(PopupAnimationHelper.IsEnabled)" Value="False" />
+    <Style Selector=":is(Popup)">
+        <Setter Property="(TextElement.FontFamily)" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
     </Style>
 
     <Style Selector=":is(Popup):not(ToolTip Popup)">

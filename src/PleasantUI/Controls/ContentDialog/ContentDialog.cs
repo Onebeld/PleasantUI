@@ -157,6 +157,11 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </summary>
     public event EventHandler? Closed;
 
+    static ContentDialog()
+    {
+        ClipToBoundsProperty.OverrideDefaultValue<ContentDialog>(false);
+    }
+
     /// <summary>
     /// Shows the dialog asynchronously.
     /// </summary>
@@ -314,8 +319,6 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
             }
         };
         
-        
-
         return await taskCompletionSource.Task;
     }
 

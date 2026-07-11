@@ -29,9 +29,10 @@
 
         <MenuItem Name="PART_CloseMenuItem"
                   Header="{Localize CloseMenu, Default='_Close'}"
-                  InputGesture="Ctrl+Q" Icon="{DynamicResource DismissRegular}" 
+                  Icon="{DynamicResource DismissRegular}"
+                  InputGesture="{OnPlatform Default=Alt+F4, macOS=Ctrl+W}"
                   IconHelper.Width="12"
-                  IconHelper.Height="12" />
+                  IconHelper.Height="12"/>
     </MenuFlyout>
 
     <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">

@@ -194,4 +194,61 @@
     <data name="NoItems" xml:space="preserve">
         <value>Нет элементов</value>
     </data>
+    <data name="ToolKit/CrashReportDialog/CrashHasOccurred" xml:space="preserve">
+        <value>Произошел сбой!</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Message" xml:space="preserve">
+        <value>Сообщение</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SendingReport" xml:space="preserve">
+        <value>Отправка отчёта...</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/StackTrace" xml:space="preserve">
+        <value>Трассировка стека</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/IncludeScreenshotInReport" xml:space="preserve">
+        <value>Включите скриншот в отчет</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/YourEmailAddress" xml:space="preserve">
+        <value>Ваш адрес электронной почты</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/EmailValidationError" xml:space="preserve">
+        <value>Пожалуйста, введите действительный адрес электронной почты.</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/WhatWereYouDoingText" xml:space="preserve">
+        <value>Что Вы делали, когда произошёл сбой? (необязательно)</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SaveReport" xml:space="preserve">
+        <value>Сохранить отчет</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SendReport" xml:space="preserve">
+        <value>Отправить отчет</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Application" xml:space="preserve">
+        <value>Приложение</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Version" xml:space="preserve">
+        <value>Версия</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/OccurredAt" xml:space="preserve">
+        <value>Произошло в</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/UserMessagePlaceholder" xml:space="preserve">
+        <value>Опишите, что Вы делали...</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Exception" xml:space="preserve">
+        <value>Исключение</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/General" xml:space="preserve">
+        <value>Общее</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Screenshot" xml:space="preserve">
+        <value>Скриншот</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Type" xml:space="preserve">
+        <value>Тип</value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/Source" xml:space="preserve">
+        <value>Источник</value>
+    </data>
 </root>

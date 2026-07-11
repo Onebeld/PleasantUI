@@ -1,13 +1,11 @@
 using System.Collections.Specialized;
 using Avalonia;
-using Avalonia.Animation;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Metadata;
-using Avalonia.Styling;
 using PleasantUI.Controls;
 
 namespace PleasantUI.ToolKit.Controls;
@@ -17,28 +15,27 @@ namespace PleasantUI.ToolKit.Controls;
 /// Supports a title, description, status message, primary/secondary action buttons,
 /// and open/close animations consistent with <see cref="ContentDialog"/>.
 /// </summary>
-[TemplatePart(PART_CloseButton,    typeof(Button))]
-[TemplatePart(PART_PrimaryButton,  typeof(Button))]
+[TemplatePart(PART_CloseButton, typeof(Button))]
+[TemplatePart(PART_PrimaryButton, typeof(Button))]
 [TemplatePart(PART_SecondaryButton, typeof(Button))]
-[TemplatePart(PART_StepsHost,      typeof(ItemsControl))]
+[TemplatePart(PART_StepsHost, typeof(ItemsControl))]
 [PseudoClasses(PC_Open, PC_HasStatus, PC_HasPrimary, PC_HasSecondary)]
-public class StepDialog : PleasantPopupElement
+public class StepDialog : ContentDialog
 {
-    // ── Template part names ───────────────────────────────────────────────────
+    private const string PART_CloseButton = "PART_CloseButton";
+    private const string PART_PrimaryButton = "PART_PrimaryButton";
+    private const string PART_SecondaryButton = "PART_SecondaryButton";
+    private const string PART_StepsHost = "PART_StepsHost";
 
-    internal const string PART_CloseButton     = "PART_CloseButton";
-    internal const string PART_PrimaryButton   = "PART_PrimaryButton";
-    internal const string PART_SecondaryButton = "PART_SecondaryButton";
-    internal const string PART_StepsHost       = "PART_StepsHost";
-
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_Open         = ":open";
-    private const string PC_HasStatus    = ":hasStatus";
-    private const string PC_HasPrimary   = ":hasPrimary";
+    private const string PC_Open = ":open";
+    private const string PC_HasStatus = ":hasStatus";
+    private const string PC_HasPrimary = ":hasPrimary";
     private const string PC_HasSecondary = ":hasSecondary";
 
-    // ── Styled properties ─────────────────────────────────────────────────────
+    private Button? _closeButton;
+    private Button? _primaryButton;
+    private Button? _secondaryButton;
+    private ItemsControl? _stepsHost;
 
     /// <summary>Defines the <see cref="Title"/> property.</summary>
     public static readonly StyledProperty<string?> TitleProperty =
@@ -64,22 +61,10 @@ public class StepDialog : PleasantPopupElement
     public static readonly StyledProperty<double> MinDialogWidthProperty =
         AvaloniaProperty.Register<StepDialog, double>(nameof(MinDialogWidth), defaultValue: 420);
 
-    /// <summary>Defines the <see cref="OpenAnimation"/> property.</summary>
-    public static readonly StyledProperty<Animation?> OpenAnimationProperty =
-        AvaloniaProperty.Register<StepDialog, Animation?>(nameof(OpenAnimation));
-
-    /// <summary>Defines the <see cref="CloseAnimation"/> property.</summary>
-    public static readonly StyledProperty<Animation?> CloseAnimationProperty =
-        AvaloniaProperty.Register<StepDialog, Animation?>(nameof(CloseAnimation));
-
-    // ── Direct properties ─────────────────────────────────────────────────────
-
     /// <summary>Defines the <see cref="Steps"/> direct property.</summary>
     public static readonly DirectProperty<StepDialog, AvaloniaList<StepItem>> StepsProperty =
         AvaloniaProperty.RegisterDirect<StepDialog, AvaloniaList<StepItem>>(
             nameof(Steps), o => o.Steps);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the dialog title.</summary>
     public string? Title
@@ -123,25 +108,9 @@ public class StepDialog : PleasantPopupElement
         set => SetValue(MinDialogWidthProperty, value);
     }
 
-    /// <summary>Gets or sets the animation played when the dialog opens.</summary>
-    public Animation? OpenAnimation
-    {
-        get => GetValue(OpenAnimationProperty);
-        set => SetValue(OpenAnimationProperty, value);
-    }
-
-    /// <summary>Gets or sets the animation played when the dialog closes.</summary>
-    public Animation? CloseAnimation
-    {
-        get => GetValue(CloseAnimationProperty);
-        set => SetValue(CloseAnimationProperty, value);
-    }
-
     /// <summary>Gets the collection of steps displayed in the dialog.</summary>
     [Content]
-    public AvaloniaList<StepItem> Steps { get; } = new();
-
-    // ── Events ────────────────────────────────────────────────────────────────
+    public AvaloniaList<StepItem> Steps { get; } = [];  
 
     /// <summary>Raised when the primary button is clicked.</summary>
     public event EventHandler? PrimaryButtonClicked;
@@ -149,38 +118,25 @@ public class StepDialog : PleasantPopupElement
     /// <summary>Raised when the secondary button is clicked.</summary>
     public event EventHandler? SecondaryButtonClicked;
 
-    /// <summary>Raised when the dialog is closed.</summary>
-    public event EventHandler? Closed;
-
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private Button?       _closeButton;
-    private Button?       _primaryButton;
-    private Button?       _secondaryButton;
-    private ItemsControl? _stepsHost;
-    private Border?       _modalBackground;
-    private Panel?        _panel;
-    private bool          _isClosing;
-
-    // ── Constructor ───────────────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override Type StyleKeyOverride => typeof(StepDialog);
 
     public StepDialog()
     {
         Steps.CollectionChanged += OnStepsChanged;
     }
 
-    // ── Template ──────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         DetachHandlers();
 
-        _closeButton     = e.NameScope.Find<Button>(PART_CloseButton);
-        _primaryButton   = e.NameScope.Find<Button>(PART_PrimaryButton);
+        _closeButton = e.NameScope.Find<Button>(PART_CloseButton);
+        _primaryButton = e.NameScope.Find<Button>(PART_PrimaryButton);
         _secondaryButton = e.NameScope.Find<Button>(PART_SecondaryButton);
-        _stepsHost       = e.NameScope.Find<ItemsControl>(PART_StepsHost);
+        _stepsHost = e.NameScope.Find<ItemsControl>(PART_StepsHost);
 
         AttachHandlers();
 
@@ -190,6 +146,7 @@ public class StepDialog : PleasantPopupElement
         UpdatePseudoClasses();
     }
 
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -202,80 +159,25 @@ public class StepDialog : PleasantPopupElement
             PseudoClasses.Set(PC_HasSecondary, change.NewValue is not null);
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
-
-    /// <summary>Shows the dialog on the specified <see cref="TopLevel"/>.</summary>
-    public async Task ShowAsync(TopLevel? topLevel = null)
-    {
-        _panel = new Panel();
-
-        _modalBackground = new Border
-        {
-            Background = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#3A000000")),
-            Opacity    = 0
-        };
-
-        _panel.Children.Add(_modalBackground);
-        _panel.Children.Add(this);
-
-        Host ??= new ModalWindowHost();
-        Host.Content = _panel;
-
-        base.ShowCoreForTopLevel(topLevel);
-
-        PseudoClasses.Set(PC_Open, true);
-
-        // Fade in modal background
-        if (_modalBackground is not null)
-        {
-            Animation bgAnim = new()
-            {
-                Duration = TimeSpan.FromMilliseconds(200),
-                FillMode = FillMode.Forward
-            };
-            KeyFrame kf = new() { Cue = new Cue(1.0) };
-            kf.Setters.Add(new Setter(OpacityProperty, 1.0));
-            bgAnim.Children.Add(kf);
-            await bgAnim.RunAsync(_modalBackground);
-        }
-
-        await RunOpenAnimation();
-    }
-
-    /// <summary>Closes the dialog.</summary>
-    public async Task CloseAsync()
-    {
-        if (_isClosing) return;
-        _isClosing = true;
-
-        await RunCloseAnimation();
-
-        PseudoClasses.Set(PC_Open, false);
-        base.DeleteCoreForTopLevel();
-
-        _isClosing = false;
-        Closed?.Invoke(this, EventArgs.Empty);
-    }
-
-    // ── Private helpers ───────────────────────────────────────────────────────
-
     private void AttachHandlers()
     {
-        if (_closeButton     is not null) _closeButton.Click     += OnCloseClicked;
-        if (_primaryButton   is not null) _primaryButton.Click   += OnPrimaryClicked;
+        if (_closeButton is not null) _closeButton.Click += OnCloseClicked;
+        if (_primaryButton is not null) _primaryButton.Click += OnPrimaryClicked;
         if (_secondaryButton is not null) _secondaryButton.Click += OnSecondaryClicked;
     }
 
     private void DetachHandlers()
     {
-        if (_closeButton     is not null) _closeButton.Click     -= OnCloseClicked;
-        if (_primaryButton   is not null) _primaryButton.Click   -= OnPrimaryClicked;
+        if (_closeButton is not null) _closeButton.Click -= OnCloseClicked;
+        if (_primaryButton is not null) _primaryButton.Click -= OnPrimaryClicked;
         if (_secondaryButton is not null) _secondaryButton.Click -= OnSecondaryClicked;
     }
 
-    private void OnCloseClicked(object? s, RoutedEventArgs e)     => _ = CloseAsync();
-    private void OnPrimaryClicked(object? s, RoutedEventArgs e)   => PrimaryButtonClicked?.Invoke(this, EventArgs.Empty);
-    private void OnSecondaryClicked(object? s, RoutedEventArgs e) => SecondaryButtonClicked?.Invoke(this, EventArgs.Empty);
+    private void OnCloseClicked(object? s, RoutedEventArgs e) => _ = CloseAsync();
+    private void OnPrimaryClicked(object? s, RoutedEventArgs e) => PrimaryButtonClicked?.Invoke(this, EventArgs.Empty);
+
+    private void OnSecondaryClicked(object? s, RoutedEventArgs e) =>
+        SecondaryButtonClicked?.Invoke(this, EventArgs.Empty);
 
     private void OnStepsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
@@ -291,20 +193,8 @@ public class StepDialog : PleasantPopupElement
 
     private void UpdatePseudoClasses()
     {
-        PseudoClasses.Set(PC_HasStatus,    StatusMessage is not null);
-        PseudoClasses.Set(PC_HasPrimary,   PrimaryButtonText is not null);
+        PseudoClasses.Set(PC_HasStatus, StatusMessage is not null);
+        PseudoClasses.Set(PC_HasPrimary, PrimaryButtonText is not null);
         PseudoClasses.Set(PC_HasSecondary, SecondaryButtonText is not null);
-    }
-
-    private async Task RunOpenAnimation()
-    {
-        if (OpenAnimation is not null)
-            await OpenAnimation.RunAsync(this);
-    }
-
-    private async Task RunCloseAnimation()
-    {
-        if (CloseAnimation is not null)
-            await CloseAnimation.RunAsync(this);
     }
 }

@@ -19,9 +19,6 @@ using PleasantUI.ToolKit.Utils;
 
 namespace PleasantUI.ToolKit.ViewModels;
 
-/// <summary>
-/// ViewModel for the <see cref="PleasantUI.ToolKit.ThemeEditorWindow" />.
-/// </summary>
 internal class ThemeEditorViewModel : ViewModelBase, IDisposable
 {
     private readonly ThemeEditorWindow _themeEditorWindow;
@@ -31,28 +28,19 @@ internal class ThemeEditorViewModel : ViewModelBase, IDisposable
 
     private readonly IThemeService _themeService;
 
-    private IDisposable _copySub;
-    private IDisposable _pasteColorSub;
-    private IDisposable _requestColorSub;
-    private IDisposable _colorChangedSub;
+    private IDisposable? _copySub;
+    private IDisposable? _pasteColorSub;
+    private IDisposable? _requestColorSub;
+    private IDisposable? _colorChangedSub;
 
-    /// <summary>
-    /// Gets the resource dictionary containing the theme colors.
-    /// </summary>
     public ResourceDictionary ResourceDictionary => _themeService.ResourceDictionary;
 
-    /// <summary>
-    /// Gets or sets the custom theme being edited.
-    /// </summary>
     public CustomTheme CustomTheme
     {
         get => _customTheme;
         set => SetProperty(ref _customTheme, value);
     }
 
-    /// <summary>
-    /// Gets or sets the name of the theme.
-    /// </summary>
     public string ThemeName
     {
         get => _themeService.ThemeName;
@@ -64,37 +52,16 @@ internal class ThemeEditorViewModel : ViewModelBase, IDisposable
         }
     }
 
-    /// <summary>
-    /// Gets or sets the list of available default themes.
-    /// </summary>
-    public AvaloniaList<Theme> Themes { get; } = new();
+    public AvaloniaList<Theme> Themes { get; } = [];
 
-    /// <summary>
-    /// Gets the list of theme colors.
-    /// </summary>
     public AvaloniaList<ThemeColor> ThemeColors => _themeService.ThemeColors;
 
-    /// <summary>
-    /// Gets the colors of the custom theme in JSON format.
-    /// </summary>
     public string JsonColors => _themeService.JsonColors;
 
-    /// <summary>
-    /// Gets a value indicating whether an undo operation is possible.
-    /// </summary>
     public bool CanUndo => _themeService.CanUndo;
 
-    /// <summary>
-    /// Gets a value indicating whether a redo operation is possible.
-    /// </summary>
     public bool CanRedo => _themeService.CanRedo;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ThemeEditorViewModel" /> class.
-    /// </summary>
-    /// <param name="windowParent">The parent window.</param>
-    /// <param name="themeEditorWindow">The theme editor window.</param>
-    /// <param name="customTheme">The custom theme to edit (optional).</param>
     public ThemeEditorViewModel(IPleasantWindow windowParent, ThemeEditorWindow themeEditorWindow, CustomTheme? customTheme)
     {
         _pleasantWindowParent = windowParent;
@@ -218,9 +185,12 @@ internal class ThemeEditorViewModel : ViewModelBase, IDisposable
     /// <summary>
     /// Applies the colors from the specified theme.
     /// </summary>
-    /// <param name="theme">The theme to apply.</param>
-    public void GetColorsFromTheme(ITheme theme)
+    /// <param name="value">The theme to apply.</param>
+    public void GetColorsFromTheme(object value)
     {
+        if (value is not ITheme theme)
+            return;
+        
         _themeEditorWindow.ButtonThemesFlyout.Flyout?.Hide();
         
         _themeService.GetColorsFromTheme(theme);
@@ -308,6 +278,11 @@ internal class ThemeEditorViewModel : ViewModelBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
+        _copySub?.Dispose();
+        _pasteColorSub?.Dispose();
+        _requestColorSub?.Dispose();
+        _colorChangedSub?.Dispose();
+        
         GC.SuppressFinalize(this);
     }
 }

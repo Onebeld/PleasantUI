@@ -92,37 +92,6 @@
         <Setter Property="VerticalAlignment"   Value="Center" />
         <Setter Property="Opacity"             Value="0" />
         <Setter Property="CornerRadius"        Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="ClipToBounds" Value="False" />
-
-        <Setter Property="OpenAnimation">
-            <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
-                <KeyFrame KeyTime="0:0:0">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
-                    <Setter Property="Opacity" Value="0" />
-                </KeyFrame>
-                <KeyFrame KeyTime="0:0:0.2">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                    <Setter Property="Opacity" Value="1" />
-                </KeyFrame>
-            </Animation>
-        </Setter>
-
-        <Setter Property="CloseAnimation">
-            <Animation Duration="0:0:0.05" FillMode="Both">
-                <KeyFrame KeyTime="0:0:0">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                    <Setter Property="Opacity" Value="1" />
-                </KeyFrame>
-                <KeyFrame KeyTime="0:0:0.05">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
-                    <Setter Property="Opacity" Value="0" />
-                </KeyFrame>
-            </Animation>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
