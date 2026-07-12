@@ -1,5 +1,3 @@
-using System.Collections.Specialized;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Collections;
@@ -8,8 +6,11 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Metadata;
 using Avalonia.Styling;
+using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace PleasantUI.Controls;
 
@@ -42,6 +43,10 @@ public class TreeViewPanel : TemplatedControl
     private const string PC_SearchFocused = ":searchFocused";
 
     // ── Styled properties ─────────────────────────────────────────────────────
+
+    /// <summary>Defines the <see cref="SectionIcon"/> property.</summary>
+    public static readonly StyledProperty<Geometry> SectionIconProperty =
+        AvaloniaProperty.Register<TreeViewPanel, Geometry>(nameof(SectionIcon));
 
     /// <summary>Defines the <see cref="FilterText"/> property.</summary>
     public static readonly StyledProperty<string?> FilterTextProperty =
@@ -87,6 +92,13 @@ public class TreeViewPanel : TemplatedControl
             nameof(Sections), o => o.Sections);
 
     // ── CLR accessors ─────────────────────────────────────────────────────────
+
+    /// <summary>Gets or sets the icon used for sections.</summary>
+    public Geometry SectionIcon
+    {
+        get => GetValue(SectionIconProperty);
+        set => SetValue(SectionIconProperty, value);
+    }
 
     /// <summary>Gets or sets the text used to filter items across all sections.</summary>
     public string? FilterText

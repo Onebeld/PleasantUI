@@ -15,20 +15,20 @@ public class PleasantMiniWindow : PleasantWindowBase
     private Button? _closeButton;
     private Panel? _dragWindowPanel;
 
-    private Button? _hiddenButton;
+    private Button? _minimizeButton;
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
         _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
-        _hiddenButton = e.NameScope.Find<Button>("PART_HiddenButton");
+        _minimizeButton = e.NameScope.Find<Button>("PART_MinimizeButton");
         _dragWindowPanel = e.NameScope.Find<Panel>("PART_DragWindow");
 
         if (_closeButton is not null)
             _closeButton.Click += (_, _) => Close();
-        if (_hiddenButton is not null)
-            _hiddenButton.Click += (_, _) => WindowState = WindowState.Minimized;
+        if (_minimizeButton is not null)
+            _minimizeButton.Click += (_, _) => WindowState = WindowState.Minimized;
 
         ExtendClientAreaToDecorationsHint = PleasantSettings.Current?.WindowSettings.EnableCustomTitleBar ?? false;
 
@@ -52,10 +52,16 @@ public class PleasantMiniWindow : PleasantWindowBase
         AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowPinButton), true);
 
     /// <summary>
-    /// Defines the <see cref="ShowHiddenButton"/> property.
+    /// Defines the <see cref="ShowMinimizeButton"/> property.
     /// </summary>
-    public static readonly StyledProperty<bool> ShowHiddenButtonProperty =
-        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowHiddenButton));
+    public static readonly StyledProperty<bool> ShowMinimizeButtonProperty =
+        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowMinimizeButton), false);
+
+    /// <summary>
+    /// Defines the <see cref="ShowCloseButton"/> property.
+    /// </summary>
+    public static readonly StyledProperty<bool> ShowCloseButtonProperty =
+        AvaloniaProperty.Register<PleasantMiniWindow, bool>(nameof(ShowCloseButton), true);
 
     /// <summary>
     /// Defines the <see cref="EnableCustomTitleBar"/> property.
@@ -91,10 +97,19 @@ public class PleasantMiniWindow : PleasantWindowBase
     /// <summary>
     /// Shows a spear that allows you to hide the window.
     /// </summary>
-    public bool ShowHiddenButton
+    public bool ShowMinimizeButton
     {
-        get => GetValue(ShowHiddenButtonProperty);
-        set => SetValue(ShowHiddenButtonProperty, value);
+        get => GetValue(ShowMinimizeButtonProperty);
+        set => SetValue(ShowMinimizeButtonProperty, value);
+    }
+
+    /// <summary>
+    /// Shows a button that allows you to close the window.
+    /// </summary>
+    public bool ShowCloseButton
+    {
+        get => GetValue(ShowCloseButtonProperty);
+        set => SetValue(ShowCloseButtonProperty, value);
     }
 
     /// <summary>

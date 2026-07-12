@@ -34,10 +34,12 @@ public partial class PleasantMiniWindowPageView : LocalizedUserControl
     {
         PleasantMiniWindow steamWindow = new()
         {
-            Title            = "Steam",
-            Width            = 460,
-            Height           = 340,
-            ShowHiddenButton = true,
+            Title              = "Steam",
+            Width              = 460,
+            Height             = 340,
+            ShowPinButton      = true,
+            ShowMinimizeButton = true,
+            ShowCloseButton    = true,
         };
 
         // Nav items: (label, description, opens games list)

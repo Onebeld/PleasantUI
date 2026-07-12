@@ -29,7 +29,8 @@ public partial class MyToolWindow : PleasantMiniWindow
 | `EnableCustomTitleBar` | `bool` | from settings | Replaces the OS title bar with the minimal Fluent one |
 | `EnableBlur` | `bool` | from settings | Acrylic/blur background |
 | `ShowPinButton` | `bool` | `true` | Shows the pin (always-on-top) toggle button |
-| `ShowHiddenButton` | `bool` | `false` | Shows a minimize button |
+| `ShowMinimizedButton` | `bool` | `false` | Shows a minimize button |
+| `ShowClosedButton` | `bool` | `true` | Shows a close button |
 
 ## Showing as a dialog
 
