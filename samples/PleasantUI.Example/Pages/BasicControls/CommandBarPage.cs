@@ -1,7 +1,7 @@
-using Avalonia.Controls;
-using PleasantUI.Example.Views.Pages.PleasantControlPages;
+﻿using Avalonia.Controls;
+using PleasantUI.Example.Views.Pages.ControlPages;
 
-namespace PleasantUI.Example.Pages.PleasantControls;
+namespace PleasantUI.Example.Pages.BasicControls;
 
 public class CommandBarPage : LocalizedPage
 {

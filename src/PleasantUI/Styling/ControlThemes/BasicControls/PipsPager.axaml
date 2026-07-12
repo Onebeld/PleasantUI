@@ -1,0 +1,176 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <StackPanel Margin="5">
+            <PipsPager NumberOfPages="5" SelectedPageIndex="2" />
+            <PipsPager Orientation="Vertical" NumberOfPages="5" SelectedPageIndex="2" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="PipsPagerItemTheme" TargetType="ListBoxItem">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Background="Transparent">
+                    <Ellipse Name="Pip"
+                             Width="4"
+                             Height="4"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Fill="{DynamicResource ControlDarkFillColor1}">
+                        <Ellipse.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Fill" Duration="0:0:0.100" />
+                                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.100" />
+                            </Transitions>
+                        </Ellipse.Transitions>
+                    </Ellipse>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Ellipse#Pip">
+            <Setter Property="RenderTransform" Value="scale(1.5)" />
+            <Setter Property="Fill" Value="{DynamicResource ControlDarkFillColor3}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Ellipse#Pip">
+            <Setter Property="RenderTransform" Value="scale(1.2)" />
+            <Setter Property="Fill" Value="{DynamicResource ControlDarkFillColor2}" />
+        </Style>
+
+        <Style Selector="^:selected /template/ Ellipse#Pip">
+            <Setter Property="RenderTransform" Value="scale(1.5)" />
+            <Setter Property="Fill" Value="{DynamicResource AccentLightColor1}" />
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
+            <Setter Property="RenderTransform" Value="scale(1.8)" />
+            <Setter Property="Fill" Value="{DynamicResource AccentLightColor3}" />
+        </Style>
+        <Style Selector="^:disabled /template/ Ellipse#Pip">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type PipsPager}" TargetType="PipsPager">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="PreviousButtonTheme" Value="{StaticResource AppBarButtonTheme}" />
+        <Setter Property="NextButtonTheme" Value="{StaticResource AppBarButtonTheme}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Name="PART_RootPanel"
+                            Orientation="{TemplateBinding Orientation}"
+                            Background="{TemplateBinding Background}"
+                            ClipToBounds="False">
+                    <Button Name="PART_PreviousButton"
+                            Theme="{TemplateBinding PreviousButtonTheme}"
+                            IsVisible="{TemplateBinding IsPreviousButtonVisible}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Width="28"
+                            Height="28">
+                        <PleasantIcon Name="PreviousButtonIcon" Width="10" Height="10"
+                                      Icon="{StaticResource ChevronLeftRegular}" />
+                    </Button>
+
+                    <ListBox Name="PART_PipsPagerList"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Padding="0"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                             ItemsSource="{Binding TemplateSettings.Pips, RelativeSource={RelativeSource TemplatedParent}}"
+                             SelectedIndex="{Binding SelectedPageIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                             AutoScrollToSelectedItem="False"
+                             ClipToBounds="False"
+                             ItemContainerTheme="{StaticResource PipsPagerItemTheme}">
+                        <ListBox.Styles>
+                            <Style Selector="ScrollViewer">
+                                <Setter Property="ClipToBounds" Value="False" />
+                            </Style>
+                        </ListBox.Styles>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel
+                                    Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=PipsPager}}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Spacing="0" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+
+                    <Button Name="PART_NextButton"
+                            Theme="{TemplateBinding NextButtonTheme}"
+                            IsVisible="{TemplateBinding IsNextButtonVisible}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Width="28"
+                            Height="28">
+                        <PleasantIcon Name="NextButtonIcon" Width="10" Height="10"
+                                      Icon="{StaticResource ChevronRightRegular}" />
+                    </Button>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Button#PART_PreviousButton">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.200" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="^ /template/ Button#PART_NextButton">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.200" />
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^:horizontal /template/ StackPanel#PART_RootPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
+
+        <Style Selector="^:vertical /template/ ListBox ListBoxItem">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="12" />
+        </Style>
+
+        <Style Selector="^:vertical /template/ StackPanel#PART_RootPanel">
+            <Setter Property="Orientation" Value="Vertical" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="^:vertical /template/ Button#PART_PreviousButton PleasantIcon#PreviousButtonIcon">
+            <Setter Property="Icon" Value="{StaticResource ChevronUpRegular}" />
+        </Style>
+        <Style Selector="^:vertical /template/ Button#PART_NextButton PleasantIcon#NextButtonIcon">
+            <Setter Property="Icon" Value="{StaticResource ChevronDownRegular}" />
+        </Style>
+
+        <Style Selector="^:first-page /template/ Button#PART_PreviousButton">
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^:last-page /template/ Button#PART_NextButton">
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

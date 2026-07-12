@@ -30,6 +30,9 @@
                     <NavigationViewItem Tag="DataGrid"      Header="{Localize CardTitle/DataGrid}"      Icon="{x:Static icons:MaterialIconKind.Grid}" />
                     <NavigationViewItem Tag="PinCode"       Header="{Localize CardTitle/PinCode}"       Icon="{x:Static icons:MaterialIconKind.KeyboardOutline}" />
                     <NavigationViewItem Tag="SelectionList" Header="{Localize CardTitle/SelectionList}" Icon="{x:Static icons:MaterialIconKind.ViewListOutline}" />
+                    <NavigationViewItem Tag="TableView" Header="{Localize CardTitle/TableView}" Icon="{x:Static icons:MaterialIconKind.Table}" />
+                    <NavigationViewItem Tag="CommandBar" Header="{Localize CardTitle/CommandBar}" Icon="{x:Static icons:MaterialIconKind.ViewGridOutline}" />
+                    <NavigationViewItem Tag="NavigationPage" Header="{Localize CardTitle/NavigationPage}" Icon="{x:Static icons:MaterialIconKind.Navigation}" />
                 </NavigationViewItem>
 
                 <NavigationViewItem Header="{Localize PleasantControls}"
@@ -46,7 +49,6 @@
                     <NavigationViewItem Tag="PathPicker"         Header="{Localize CardTitle/PathPicker}"         Icon="{x:Static icons:MaterialIconKind.FolderOpenOutline}" />
                     <NavigationViewItem Tag="PleasantMiniWindow" Header="{Localize CardTitle/PleasantMiniWindow}" Icon="{x:Static icons:MaterialIconKind.WindowMinimize}" />
                     <NavigationViewItem Tag="BreadcrumbBar" Header="{Localize {x:Static LocKey.CardTitle__BreadcrumbBar}}"      Icon="{x:Static icons:MaterialIconKind.PageNextOutline}" />
-                    <NavigationViewItem Tag="CommandBar"         Header="{Localize CardTitle/CommandBar}"         Icon="{x:Static icons:MaterialIconKind.ViewGridOutline}" />
                     <NavigationViewItem Tag="DashboardCard"      Header="{Localize CardTitle/DashboardCard}"      Icon="{x:Static icons:MaterialIconKind.ViewDashboardOutline}" />
                     <NavigationViewItem Tag="LogViewerPanel"     Header="{Localize CardTitle/LogViewerPanel}"     Icon="{x:Static icons:MaterialIconKind.TextBoxOutline}" />
                     <NavigationViewItem Tag="TerminalPanel"      Header="{Localize CardTitle/TerminalPanel}"      Icon="{x:Static icons:MaterialIconKind.ConsoleLine}" />

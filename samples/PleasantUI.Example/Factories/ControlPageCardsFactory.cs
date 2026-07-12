@@ -4,7 +4,9 @@ using PleasantUI.Example.Models;
 using PleasantUI.Example.Pages.BasicControls;
 using PleasantUI.Example.Pages.PleasantControls;
 using PleasantUI.Example.Pages.Toolkit;
-using PleasantUI.ToolKit.Services.Interfaces;namespace PleasantUI.Example.Factories;
+using PleasantUI.ToolKit.Services.Interfaces;
+
+namespace PleasantUI.Example.Factories;
 
 public class ControlPageCardsFactory
 {
@@ -29,6 +31,9 @@ public class ControlPageCardsFactory
             new("CardTitle/DataGrid",     MaterialIconKind.Grid,                 "Card/DataGrid", () =>  new DataGridPage(), _eventAggregator),
             new("CardTitle/PinCode",      MaterialIconKind.KeyboardOutline,       "Card/PinCode", () =>   new PinCodePage(),  _eventAggregator),
             new("CardTitle/SelectionList", MaterialIconKind.ViewListOutline, "Card/SelectionList", () => new SelectionListPage(), _eventAggregator),
+            new("CardTitle/TableView", MaterialIconKind.Table, "Card/TableView", () => new TableViewPage(), _eventAggregator),
+            new("CardTitle/CommandBar", MaterialIconKind.AppleKeyboardCommand, "Card/CommandBar", () => new CommandBarPage(), _eventAggregator),
+            new("CardTitle/NavigationPage", MaterialIconKind.Navigation, "Card/NavigationPage", () => new NavigationPageTitlePage(), _eventAggregator),
         ];
     }
 
@@ -48,7 +53,6 @@ public class ControlPageCardsFactory
             new("CardTitle/PathPicker",          MaterialIconKind.FolderOpenOutline,     "Card/PathPicker", () =>          new PathPickerPage(),          _eventAggregator),
             new("CardTitle/PleasantMiniWindow",  MaterialIconKind.WindowMinimize,        "Card/PleasantMiniWindow", () =>  new PleasantMiniWindowPage(),  _eventAggregator),
             new("CardTitle/BreadcrumbBar",       MaterialIconKind.PageNextOutline,        "Card/BreadcrumbBar", () =>       new BreadcrumbBarPage(),       _eventAggregator),
-            new("CardTitle/CommandBar",          MaterialIconKind.ViewGridOutline,        "Card/CommandBar", () =>          new CommandBarPage(),          _eventAggregator),
             new("CardTitle/DashboardCard",       MaterialIconKind.ViewDashboardOutline,   "Card/DashboardCard", () =>       new DashboardCardPage(),       _eventAggregator),
             new("CardTitle/LogViewerPanel",      MaterialIconKind.TextBoxOutline,         "Card/LogViewerPanel", () =>      new LogViewerPanelPage(),      _eventAggregator),
             new("CardTitle/TerminalPanel",       MaterialIconKind.ConsoleLine,            "Card/TerminalPanel", () =>       new TerminalPanelPage(),       _eventAggregator),

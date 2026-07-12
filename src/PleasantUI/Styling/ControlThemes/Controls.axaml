@@ -5,6 +5,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- Basic Controls -->
+                <MergeResourceInclude Source="BasicControls/TableView/TableView.axaml" />
+                <MergeResourceInclude Source="BasicControls/TableView/TableViewCell.axaml" />
+                <MergeResourceInclude Source="BasicControls/TableView/TableViewColumnHeader.axaml" />
+                <MergeResourceInclude Source="BasicControls/TableView/TableViewRow.axaml" />
                 <MergeResourceInclude Source="BasicControls/AdornerLayer.axaml" />
                 <MergeResourceInclude Source="BasicControls/AutoCompleteBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/Button.axaml" />
@@ -18,7 +22,9 @@
                 <MergeResourceInclude Source="BasicControls/CheckBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ComboBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/ContentControl.axaml" />
+                <MergeResourceInclude Source="BasicControls/ContentPage.axaml" />
                 <MergeResourceInclude Source="BasicControls/ContextMenu.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
                 <MergeResourceInclude Source="BasicControls/DatePicker.axaml" />
@@ -37,9 +43,11 @@
                 <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/ModalWindowHost.axaml" />
                 <MergeResourceInclude Source="BasicControls/NativeMenuBar.axaml" />
+                <MergeResourceInclude Source="BasicControls/NavigationPage.axaml" />
                 <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
                 <MergeResourceInclude Source="BasicControls/PathIcon.axaml" />
+                <MergeResourceInclude Source="BasicControls/PipsPager.axaml" />
                 <MergeResourceInclude Source="BasicControls/PopupRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
@@ -73,7 +81,6 @@
                 <MergeResourceInclude Source="PleasantControls/Chrome/PleasantCaptionButtons.axaml" />
                 <MergeResourceInclude Source="PleasantControls/Chrome/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
-                <MergeResourceInclude Source="PleasantControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/DashboardCard.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantIcon.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ItemListPanel.axaml" />

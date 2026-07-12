@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Margin="20" BorderThickness="1">
+            <TableView Height="200" Width="400">
+                <TableView.Columns>
+                    <TableViewColumn Header="Name" Width="*" />
+                    <TableViewColumn Header="Value" Width="120" />
+                </TableView.Columns>
+            </TableView>
+        </Border>
+    </Design.PreviewWith>
+    
+    <ControlTemplate x:Key="TableViewColumnHeaderResizerTemplate" TargetType="Thumb">
+        <Border Background="{DynamicResource BackgroundColor1}">
+            <Rectangle Width="5"
+                       Fill="Transparent"
+                       HorizontalAlignment="Center" />
+        </Border>
+    </ControlTemplate>
+    
+    <ControlTheme x:Key="{x:Type TableViewColumnHeader}" TargetType="TableViewColumnHeader">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="10 5" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{TemplateBinding Padding}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="0 0 3 0"/>
+                    <Thumb Name="PART_Resizer"
+                           Template="{StaticResource TableViewColumnHeaderResizerTemplate}"
+                           Width="3"
+                           HorizontalAlignment="Right"
+                           Cursor="SizeWestEast"
+                           Margin="0"
+                           IsEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Column?.CanUserEffectivelyResize, FallbackValue=False}">
+                    </Thumb>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

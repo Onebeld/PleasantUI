@@ -146,7 +146,6 @@
                                         BorderBrush="{DynamicResource ControlBorderColor}"
                                         BorderThickness="{DynamicResource ControlBorderThickness}"
                                         Padding="0"
-                                        Opacity="1"
                                         HorizontalAlignment="Stretch"
                                         CornerRadius="{DynamicResource ControlCornerRadius}">
                                     <Panel>

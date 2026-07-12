@@ -235,7 +235,6 @@
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     BorderThickness="{DynamicResource ControlBorderThickness}"
                                     Padding="4"
-                                    Opacity="1"
                                     HorizontalAlignment="Stretch"
                                     CornerRadius="{DynamicResource ControlCornerRadius}">
                                 <DockPanel Margin="5">

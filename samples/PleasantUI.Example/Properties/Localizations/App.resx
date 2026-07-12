@@ -687,13 +687,13 @@ The above copyright notice and this permission notice shall be included in all c
 
     <!-- CommandBar page -->
     <data name="CardTitle/CommandBar" xml:space="preserve">
-        <value>CommandBar</value>
+        <value>OldCommandBar</value>
     </data>
     <data name="Card/CommandBar" xml:space="preserve">
         <value>A toolbar with primary commands inline and overflow in a popup menu.</value>
     </data>
     <data name="CommandBar/Description" xml:space="preserve">
-        <value>CommandBar displays primary commands inline and moves overflow items into a popup. Supports dynamic overflow, label positions, toggle buttons, and separators.</value>
+        <value>OldCommandBar displays primary commands inline and moves overflow items into a popup. Supports dynamic overflow, label positions, toggle buttons, and separators.</value>
     </data>
     <data name="CommandBar/BasicTitle" xml:space="preserve">
         <value>Basic usage</value>
@@ -729,7 +729,7 @@ The above copyright notice and this permission notice shall be included in all c
         <value>Toggle buttons</value>
     </data>
     <data name="CommandBar/ToggleDesc" xml:space="preserve">
-        <value>CommandBarToggleButton supports checked/unchecked states with accent styling. The state is reflected below.</value>
+        <value>OldCommandBarToggleButton supports checked/unchecked states with accent styling. The state is reflected below.</value>
     </data>
     <data name="CommandBar/PropertiesTitle" xml:space="preserve">
         <value>Key properties</value>

@@ -1,0 +1,48 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PleasantUI.Example.ViewModels.Pages.ControlPages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PleasantUI.Example.Views.Pages.ControlPages.TableViewPageView"
+             x:DataType="viewModels:TableViewPageViewModel">
+
+  <DockPanel>
+
+    <StackPanel Orientation="Horizontal"
+                DockPanel.Dock="Top">
+
+      <CheckBox Name="UseStarSizes"
+                Content="Use star-sized columns"
+                IsChecked="True"
+                Margin="8" />
+
+      <CheckBox Name="CanUserResizeColumns"
+                Content="Allow column resizing"
+                IsChecked="True"
+                Margin="8" />
+
+    </StackPanel>
+
+    <TableView ItemsSource="{Binding Countries}"
+               CanUserResizeColumns="{Binding #CanUserResizeColumns.IsChecked}">
+      <TableView.Columns>
+        <TableViewColumn Header="Name"
+                         Binding="{Binding Name}" />
+        <TableViewColumn Header="Region"
+                         Binding="{Binding Region}" />
+        <TableViewColumn Header="Population"
+                         Binding="{Binding Population, StringFormat=N0}"
+                         HorizontalContentAlignment="Right" />
+        <TableViewColumn Header="Area"
+                         Binding="{Binding Area, StringFormat=N0}"
+                         HorizontalContentAlignment="Right" />
+        <TableViewColumn Header="GDP"
+                         Binding="{Binding GDP, StringFormat=N0}"
+                         HorizontalContentAlignment="Right">
+        </TableViewColumn>
+      </TableView.Columns>
+    </TableView>
+
+  </DockPanel>
+</UserControl>

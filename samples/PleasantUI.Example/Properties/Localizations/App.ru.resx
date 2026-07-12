@@ -655,13 +655,13 @@
 
     <!-- CommandBar page -->
     <data name="CardTitle/CommandBar" xml:space="preserve">
-        <value>CommandBar</value>
+        <value>OldCommandBar</value>
     </data>
     <data name="Card/CommandBar" xml:space="preserve">
         <value>Панель инструментов с основными командами и всплывающим меню переполнения.</value>
     </data>
     <data name="CommandBar/Description" xml:space="preserve">
-        <value>CommandBar отображает основные команды в строке и перемещает переполненные элементы во всплывающее меню. Поддерживает динамическое переполнение, позиции меток, кнопки-переключатели и разделители.</value>
+        <value>OldCommandBar отображает основные команды в строке и перемещает переполненные элементы во всплывающее меню. Поддерживает динамическое переполнение, позиции меток, кнопки-переключатели и разделители.</value>
     </data>
     <data name="CommandBar/BasicTitle" xml:space="preserve">
         <value>Базовое использование</value>
@@ -697,7 +697,7 @@
         <value>Кнопки-переключатели</value>
     </data>
     <data name="CommandBar/ToggleDesc" xml:space="preserve">
-        <value>CommandBarToggleButton поддерживает состояния включено/выключено с акцентным оформлением. Состояние отображается ниже.</value>
+        <value>OldCommandBarToggleButton поддерживает состояния включено/выключено с акцентным оформлением. Состояние отображается ниже.</value>
     </data>
     <data name="CommandBar/PropertiesTitle" xml:space="preserve">
         <value>Ключевые свойства</value>
