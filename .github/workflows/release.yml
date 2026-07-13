@@ -125,7 +125,7 @@ jobs:
           find src/ -name "*.nupkg" 2>/dev/null | sort
 
           FAILED=0
-          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.ToolKit; do
             FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
             if [ -z "$FOUND" ]; then
               echo "ERROR: No .nupkg found anywhere under src/$project"
@@ -667,7 +667,6 @@ jobs:
             'Always end with a Packages section listing:' \
             '- PleasantUI' \
             '- PleasantUI.DataGrid' \
-            '- PleasantUI.MaterialIcons' \
             '- PleasantUI.ToolKit' \
             '' \
             '---' \
@@ -711,7 +710,6 @@ jobs:
               printf '\n### Packages\n'
               printf '- PleasantUI\n'
               printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.MaterialIcons\n'
               printf '- PleasantUI.ToolKit\n'
             } > /tmp/release_notes.md
             echo "Using simple commit-based release notes (AI generation skipped)."
@@ -731,7 +729,6 @@ jobs:
               printf '\n### Packages\n'
               printf '- PleasantUI\n'
               printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.MaterialIcons\n'
               printf '- PleasantUI.ToolKit\n'
             } > /tmp/release_notes.md
             echo "WARNING: AI release notes generation failed. Used commit-based fallback."
@@ -755,7 +752,6 @@ jobs:
           files: |
             src/PleasantUI/bin/Release/*.nupkg
             src/PleasantUI.DataGrid/bin/Release/*.nupkg
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
             src/PleasantUI.ToolKit/bin/Release/*.nupkg
 
       - name: Confirm release created
@@ -776,7 +772,6 @@ jobs:
           for pkg in \
             src/PleasantUI/bin/Release/*.nupkg \
             src/PleasantUI.DataGrid/bin/Release/*.nupkg \
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg \
             src/PleasantUI.ToolKit/bin/Release/*.nupkg; do
             echo "Pushing $pkg"
             dotnet nuget push "$pkg" \

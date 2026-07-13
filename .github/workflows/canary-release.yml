@@ -198,7 +198,7 @@ jobs:
           find src/ -name "*.nupkg" 2>/dev/null | sort
 
           FAILED=0
-          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.ToolKit; do
             FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
             if [ -z "$FOUND" ]; then
               echo "ERROR: No .nupkg found anywhere under src/$project"
@@ -214,7 +214,7 @@ jobs:
       - name: Rename packages with canary version
         run: |
           CANARY_VERSION="${{ steps.version.outputs.canary_version }}"
-          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.ToolKit; do
             for pkg in src/$project/bin/Release/*.nupkg; do
               if [ -f "$pkg" ]; then
                 BASE_NAME=$(basename "$pkg" .nupkg)
@@ -743,7 +743,6 @@ jobs:
             'Always end with a Packages section listing:' \
             '- PleasantUI' \
             '- PleasantUI.DataGrid' \
-            '- PleasantUI.MaterialIcons' \
             '- PleasantUI.ToolKit' \
             '' \
             'Add an Example App section noting that a single-file example application is included in the canary release artifacts for testing the canary build.' \
@@ -790,7 +789,6 @@ jobs:
               printf '\n### Packages\n'
               printf '- PleasantUI\n'
               printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.MaterialIcons\n'
               printf '- PleasantUI.ToolKit\n'
               printf '\n### Example App\n\n'
               printf 'A single-file example application is included in the canary release artifacts for this build.\n'
@@ -817,7 +815,6 @@ jobs:
                 printf '\n### Packages\n'
                 printf '- PleasantUI\n'
                 printf '- PleasantUI.DataGrid\n'
-                printf '- PleasantUI.MaterialIcons\n'
                 printf '- PleasantUI.ToolKit\n'
                 printf '\n### Example App\n\n'
                 printf 'A single-file example application is included in the canary release artifacts for this build.\n'
@@ -858,7 +855,7 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             
-            const body = `## Canary Release Build\n\n${notes}\n\n### Release Artifacts\n\nDownload all canary release artifacts (NuGet packages + example app) from the workflow run page:\n\n[Download Artifacts](https://github.com/${owner}/${repo}/actions/runs/${runId})\n\nThe "canary-release-artifacts" artifact includes:\n- PleasantUI NuGet packages\n- PleasantUI.DataGrid NuGet packages\n- PleasantUI.MaterialIcons NuGet packages\n- PleasantUI.ToolKit NuGet packages\n- PleasantUI Example app (Linux x64)`;
+            const body = `## Canary Release Build\n\n${notes}\n\n### Release Artifacts\n\nDownload all canary release artifacts (NuGet packages + example app) from the workflow run page:\n\n[Download Artifacts](https://github.com/${owner}/${repo}/actions/runs/${runId})\n\nThe "canary-release-artifacts" artifact includes:\n- PleasantUI NuGet packages\n- PleasantUI.DataGrid NuGet packages\n- PleasantUI.ToolKit NuGet packages\n- PleasantUI Example app (Linux x64)`;
             
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -890,7 +887,6 @@ jobs:
             echo "The \`canary-release-artifacts\` artifact includes:"
             echo "- PleasantUI NuGet packages"
             echo "- PleasantUI.DataGrid NuGet packages"
-            echo "- PleasantUI.MaterialIcons NuGet packages"
             echo "- PleasantUI.ToolKit NuGet packages"
             echo "- PleasantUI Example app (Linux x64)"
             if [ "${{ steps.pr_comment.outcome }}" == "failure" ]; then

@@ -54,7 +54,7 @@ jobs:
           find src/ -name "*.nupkg" 2>/dev/null | sort
 
           FAILED=0
-          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.ToolKit; do
             FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
             if [ -z "$FOUND" ]; then
               echo "ERROR: No .nupkg found anywhere under src/$project"
@@ -77,7 +77,6 @@ jobs:
           path: |
             src/PleasantUI/bin/Release/*.nupkg
             src/PleasantUI.DataGrid/bin/Release/*.nupkg
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
             src/PleasantUI.ToolKit/bin/Release/*.nupkg
           if-no-files-found: error
 
