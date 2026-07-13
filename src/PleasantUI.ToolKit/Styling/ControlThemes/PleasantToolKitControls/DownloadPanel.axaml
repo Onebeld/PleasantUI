@@ -3,7 +3,6 @@
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
                     xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
                     x:ClassModifier="internal">
-
     <!-- Chunk Item DataTemplate -->
     <DataTemplate x:Key="ChunkItemTemplate" DataType="controls:ChunkInfo">
         <Border Padding="12 10"

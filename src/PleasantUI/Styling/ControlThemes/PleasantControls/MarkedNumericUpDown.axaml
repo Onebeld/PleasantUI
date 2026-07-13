@@ -45,7 +45,6 @@
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <MarkedTextBox Name="PART_TextBox"
-                                   Background="{Binding Background, Converter={x:Static ColorToTransparentConverter.Instance}, RelativeSource={RelativeSource AncestorType=MarkedNumericUpDown}}"
                                    Mark="{TemplateBinding Mark}"
                                    Padding="{TemplateBinding Padding}"
                                    PlaceholderText="{TemplateBinding PlaceholderText}"
@@ -58,5 +57,12 @@
                 </ButtonSpinner>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ MarkedTextBox#PART_TextBox">
+            <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
+        </Style>
+        <Style Selector="^ /template/ MarkedTextBox#PART_TextBox:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

@@ -93,7 +93,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore (with retry)
         if: steps.tag_check.outputs.exists == 'false'
@@ -103,18 +103,20 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 15
           command: |
-            dotnet restore src/PleasantUI/PleasantUI.csproj
+            dotnet restore src/generators/PleasantUI.Localization.Generator/PleasantUI.Localization.Generator.csproj
+            dotnet restore src/analyzers/PleasantUI.Localization.Analyzer/PleasantUI.Localization.Analyzer.csproj
             dotnet restore src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj
-            dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
             dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
+            dotnet restore src/PleasantUI/PleasantUI.csproj
 
       - name: Build
         if: steps.tag_check.outputs.exists == 'false'
         run: |
-          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build src/generators/PleasantUI.Localization.Generator/PleasantUI.Localization.Generator.csproj --configuration Release --no-restore
+          dotnet build src/analyzers/PleasantUI.Localization.Analyzer/PleasantUI.Localization.Analyzer.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
-          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
 
       - name: Verify packages exist
         if: steps.tag_check.outputs.exists == 'false'

@@ -247,6 +247,20 @@ public class ScrollViewerExtensions : AvaloniaObject
 
         if (activeChildScrollViewer is { Presenter: ScrollContentPresenter childScp })
         {
+            Vector childDelta = realDelta;
+            ScrollOrientation childOrientation = GetScrollOrientation(activeChildScrollViewer);
+            
+            if (childOrientation == ScrollOrientation.Horizontal && orientation == ScrollOrientation.Vertical && !isShiftPressed)
+            {
+                if (childDelta.X == 0 && childDelta.Y != 0)
+                    childDelta = new Vector(childDelta.Y, 0);
+            }
+            else if (childOrientation == ScrollOrientation.Vertical && orientation == ScrollOrientation.Horizontal && !isShiftPressed)
+            {
+                if (childDelta.Y == 0 && childDelta.X != 0)
+                    childDelta = new Vector(0, childDelta.X);
+            }
+            
             TopLevel? childTopLevel = TopLevel.GetTopLevel(activeChildScrollViewer);
 
             if (childTopLevel != null && childTopLevel != currentTopLevel)
@@ -254,7 +268,7 @@ public class ScrollViewerExtensions : AvaloniaObject
                 if (!GetHandleCustomScroll(activeChildScrollViewer))
                     return;
                 
-                if (CanScroll(childScp, realDelta))
+                if (CanScroll(childScp, childDelta))
                 {
                     ScrollAnimationState? childState = activeChildScrollViewer.GetValue(AnimationStateProperty);
                     if (childState != null)
@@ -265,11 +279,10 @@ public class ScrollViewerExtensions : AvaloniaObject
                 }
 
                 e.Handled = true;
-
                 return;
             }
 
-            if (CanScroll(childScp, realDelta))
+            if (CanScroll(childScp, childDelta))
             {
                 if (!GetHandleCustomScroll(activeChildScrollViewer))
                     return;
@@ -280,7 +293,7 @@ public class ScrollViewerExtensions : AvaloniaObject
                     return;
                 
                 childState.ScrollContentPresenter ??= childScp;
-                ProcessScrollForTarget(activeChildScrollViewer, childScp, childState, realDelta);
+                ProcessScrollForTarget(activeChildScrollViewer, childScp, childState, childDelta);
                 e.Handled = true;
 
                 return;

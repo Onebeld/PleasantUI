@@ -95,7 +95,7 @@ public class PleasantTheme : Styles
     /// </summary>
     public static Theme[] Themes { get; private set; } = null!;
 
-    private void CustomThemesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void CustomThemesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (!_isInitialized || _platformSettings is null) return;
 
@@ -300,8 +300,8 @@ public class PleasantTheme : Styles
                 _settingsProvider.Save(PleasantSettings.Current,
                     Path.Combine(PleasantDirectories.Settings, PleasantFileNames.Settings));
                 break;
-            case nameof(PleasantSettings.Current.NumericalAccentColor):
-                UpdateAccentColors(Color.FromUInt32(PleasantSettings.Current.NumericalAccentColor));
+            case nameof(PleasantSettings.Current.AccentColor):
+                UpdateAccentColors(PleasantSettings.Current.AccentColor);
                 break;
         }
     }
@@ -352,10 +352,9 @@ public class PleasantTheme : Styles
             throw new NullReferenceException("PleasantSettings.Current is null.");
 
         if (!PleasantSettings.Current.PreferUserAccentColor)
-            PleasantSettings.Current.NumericalAccentColor = platformSettings.GetColorValues().AccentColor1.ToUInt32();
+            PleasantSettings.Current.AccentColor = platformSettings.GetColorValues().AccentColor1;
 
-        Color accentColor = Color.FromUInt32(PleasantSettings.Current.NumericalAccentColor);
-        UpdateAccentColors(accentColor);
+        UpdateAccentColors(PleasantSettings.Current.AccentColor);
     }
 
     private void PlatformSettingsOnColorValuesChanged(object? sender, PlatformColorValues e)
@@ -368,7 +367,8 @@ public class PleasantTheme : Styles
             ThemeVariant themeVariant =
                 e.ThemeVariant is PlatformThemeVariant.Light ? ThemeVariant.Light : ThemeVariant.Dark;
 
-            Application.Current.RequestedThemeVariant = themeVariant;
+            if (themeVariant != Application.Current.RequestedThemeVariant)
+                Application.Current.RequestedThemeVariant = themeVariant;
         }
 
         if (PleasantSettings.Current.PreferUserAccentColor)
@@ -376,8 +376,10 @@ public class PleasantTheme : Styles
         
         Color accentColor = e.AccentColor1;
 
-        PleasantSettings.Current.NumericalAccentColor = accentColor.ToUInt32();
-
+        if (accentColor == PleasantSettings.Current.AccentColor)
+            return;
+        
+        PleasantSettings.Current.AccentColor = accentColor;
         UpdateAccentColors(accentColor);
     }
 

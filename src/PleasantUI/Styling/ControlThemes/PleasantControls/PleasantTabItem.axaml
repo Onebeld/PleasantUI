@@ -22,7 +22,7 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type PleasantTabItem}" TargetType="PleasantTabItem">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Padding" Value="5 0 5 0" />
         <Setter Property="FontSize" Value="12" />
@@ -30,27 +30,24 @@
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Width" Value="190" />
+        <Setter Property="(CompositionAnimationBehavior.UseEntranceAnimations)" Value="True" />
+        <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
         <Setter Property="Transitions">
             <Transitions>
-                <TransformOperationsTransition Duration="00:00:00.2"
-                                               Property="RenderTransform"
-                                               Easing="0,0 0,1" />
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
             </Transitions>
         </Setter>
-
+        
         <Setter Property="Template">
             <ControlTemplate>
-                <Panel>
-                    <Border Name="PART_LayoutRoot"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="{TemplateBinding CornerRadius}" />
-
-                    <Decorator Padding="{TemplateBinding Padding}">
+                <Border Name="PART_LayoutRoot"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <RippleEffect Name="PART_Ripple" Padding="{TemplateBinding Padding}" CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid ColumnDefinitions="*,Auto">
                             <ContentPresenter Grid.Column="0" Name="PART_ContentPresenter"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -69,37 +66,21 @@
                                     VerticalAlignment="Center"
                                     Padding="5"
                                     Margin="5 0 0 0"
-                                    ToolTip.Tip="{DynamicResource Close}">
-                                <Viewbox Width="8" Height="8">
-                                    <Path Data="{DynamicResource DismissRegular}"
-                                          StrokeThickness="0.5" />
-                                </Viewbox>
-
+                                    ToolTip.Tip="{Localize Close, Default='Close'}">
+                                <PleasantIcon Width="8" Height="8" Icon="{DynamicResource DismissRegular}" />
                             </Button>
                         </Grid>
-                    </Decorator>
-                </Panel>
+                    </RippleEffect>
+                </Border>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
 
         <Style Selector="^ /template/ Border#PART_LayoutRoot">
             <Setter Property="Background" Value="{CompiledBinding $parent[PleasantTabItem].Background}" />
-        </Style>
-        <Style Selector="^ /template/ Border#PART_SelectedPipe">
-            <Setter Property="IsVisible" Value="False" />
-            <Setter Property="RenderTransform" Value="scaleX(0)" />
-            <Setter Property="Transitions">
-                <Transitions>
-                    <TransformOperationsTransition Duration="00:00:00.167"
-                                                   Property="RenderTransform"
-                                                   Easing="0,0 0,1" />
-                </Transitions>
-            </Setter>
-        </Style>
-        <Style Selector="^:dragging">
-            <Setter Property="Transitions">
-                <Transitions />
-            </Setter>
         </Style>
 
         <Style Selector="^:pointerover">
@@ -108,27 +89,8 @@
 
         <Style Selector="^:selected">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor3}" />
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
-        </Style>
-        <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
-            <Setter Property="IsVisible" Value="True" />
-            <Setter Property="RenderTransform" Value="scaleX(1)" />
-        </Style>
-
-        <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe">
-            <Setter Property="Height" Value="2" />
-            <Setter Property="Margin" Value="0 0 0 2" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
-        </Style>
-
-        <Style Selector="^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
-            <Setter Property="Height" Value="2" />
-            <Setter Property="Margin" Value="0 0 0 2" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
 
         <Style Selector="^:disabled">

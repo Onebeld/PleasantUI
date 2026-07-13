@@ -1,11 +1,6 @@
 ﻿using System.Collections.Specialized;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
-using Avalonia.Markup.Xaml;
-using Avalonia.Media;
-using PleasantUI.Example.Helpers;
 
 namespace PleasantUI.Example.Views.Pages.ControlPages;
 

@@ -34,7 +34,8 @@ public class PleasantSettings : ViewModelBase
     /// Gets or sets the color in numerical form
     /// </summary>
     [DataMember]
-    public uint NumericalAccentColor
+    [JsonConverter(typeof(ColorConverterFactory))]
+    public Color AccentColor
     {
         get;
         set => SetProperty(ref field, value);
@@ -90,7 +91,8 @@ public class PleasantSettings : ViewModelBase
     /// Gets or sets the list of color palettes.
     /// </summary>
     [DataMember]
-    public AvaloniaList<uint> ColorPalettes
+    [JsonConverter(typeof(ColorConverterFactory))]
+    public AvaloniaList<Color> ColorPalettes
     {
         get;
         set => SetProperty(ref field, value);

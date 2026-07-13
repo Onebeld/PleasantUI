@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:pleasantColorView="clr-namespace:PleasantUI.ToolKit.Controls.PleasantColorView"
-                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters">
+                    xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
+                    x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
             <ColorPicker />

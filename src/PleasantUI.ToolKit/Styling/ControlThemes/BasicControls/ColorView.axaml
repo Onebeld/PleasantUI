@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=System.Runtime"
                     xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
@@ -100,7 +99,7 @@
                                 <ListBox Grid.Row="0"
                                          Margin="0 0 0 5"
                                          ItemsSource="{CompiledBinding ColorPalettes, Source={x:Static PleasantSettings.Current}}"
-                                         SelectedItem="{CompiledBinding $parent[ColorView].Color, Converter={x:Static ColorToUIntConverter.Instance}}">
+                                         SelectedItem="{CompiledBinding $parent[ColorView].Color}">
                                     <ListBox.Styles>
                                         <Style Selector="ListBoxItem">
                                             <Setter Property="Margin" Value="0" />
@@ -133,16 +132,16 @@
                                         </Style>
                                     </ListBox.Styles>
                                     <ListBox.ItemTemplate>
-                                        <DataTemplate x:DataType="s:UInt32">
+                                        <DataTemplate x:DataType="Color">
                                             <Border x:Name="BorderSelect"
                                                     AutomationProperties.Name="{CompiledBinding Converter={x:Static converters:ColorPickerConverters.ColorToName}}"
                                                     ToolTip.Tip="{CompiledBinding Converter={x:Static converters:ColorPickerConverters.ColorToName}}"
-                                                    BorderBrush="{CompiledBinding Converter={x:Static ColorConverters.UIntToForeground}}"
+                                                    BorderBrush="{CompiledBinding Converter={x:Static ColorConverters.ForegroundFromLuminanceColor}}"
                                                     HorizontalAlignment="Stretch"
                                                     Width="35"
                                                     Height="55"
                                                     VerticalAlignment="Stretch"
-                                                    Background="{CompiledBinding Converter={x:Static ColorConverters.UIntToBrush}}" />
+                                                    Background="{CompiledBinding Converter={x:Static converters:ColorPickerConverters.ToBrush}}" />
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                     <ListBox.ItemsPanel>

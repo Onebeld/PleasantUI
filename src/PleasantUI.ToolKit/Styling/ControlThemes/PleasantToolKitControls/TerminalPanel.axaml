@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
                     x:ClassModifier="internal">
-
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="500" Height="320">
             <controls:TerminalPanel Title="Terminal"

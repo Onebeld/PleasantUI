@@ -75,7 +75,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTodayHighlighted" Value="True" />
-        <Setter Property="Padding" Value="10 0 0 0" />
+        <Setter Property="Padding" Value="10 0 10 0" />
 
         <Setter Property="Template">
             <ControlTemplate>

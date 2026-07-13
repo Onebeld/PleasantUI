@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -179,7 +180,9 @@ public partial class NavigationPageTitlePageView : UserControl
                         Icon = MaterialIconKind.Edit,
                         Label = "Edit"
                     },
-                }
+                },
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 2, 0)
             }
         };
         await DemoNav.PushAsync(page);
