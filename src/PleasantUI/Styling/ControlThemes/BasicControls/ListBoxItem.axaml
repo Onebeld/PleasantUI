@@ -10,7 +10,7 @@
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                 </ListBox>
-                <ListBox ItemContainerTheme="{DynamicResource HorizontalListBoxItem}" Width="250" Height="150">
+                <ListBox ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal" />

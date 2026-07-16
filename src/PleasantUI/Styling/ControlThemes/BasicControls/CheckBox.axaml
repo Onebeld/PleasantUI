@@ -34,7 +34,7 @@
 
                             <Path Name="CheckGlyph"
                                   Stretch="Uniform"
-                                  Data="{DynamicResource CheckmarkRegular}"
+                                  Data="{StaticResource CheckmarkRegular}"
                                   Fill="{ForegroundBased AccentLightColor2}"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"

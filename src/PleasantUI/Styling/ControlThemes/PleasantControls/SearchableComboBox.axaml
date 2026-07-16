@@ -1,28 +1,37 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="50">
+            <StackPanel Spacing="5">
+                <SearchableComboBox>
+                    <SearchableComboBoxItem Content="Item1" />
+                    <SearchableComboBoxItem Content="Item2" />
+                    <SearchableComboBoxItem Content="Item3" />
+                </SearchableComboBox>
+                <SearchableComboBox PlaceholderText="Placeholder">
+                    <SearchableComboBoxItem Content="Item1" />
+                    <SearchableComboBoxItem Content="Item2" />
+                    <SearchableComboBoxItem Content="Item3" />
+                </SearchableComboBox>
+
+                <SearchableComboBox IsEnabled="False" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
     <ControlTheme x:Key="{x:Type SearchableComboBoxItem}" TargetType="SearchableComboBoxItem">
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="Padding" Value="11 5 11 7" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="FocusAdorner">
-            <FocusAdornerTemplate>
-                <Border BorderThickness="2"
-                        BorderBrush="{DynamicResource FocusStrokeColorOuter}"
-                        Margin="-3">
-                    <Border BorderThickness="1"
-                            BorderBrush="{DynamicResource FocusStrokeColorInner}" />
-                </Border>
-            </FocusAdornerTemplate>
-        </Setter>
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions> 
+            </Transitions>
         </Setter>
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="LayoutRoot"
@@ -35,7 +44,7 @@
                         TemplatedControl.IsTemplateFocusTarget="True">
                     <RippleEffect x:Name="PART_Ripple">
                         <Panel>
-                            <Border Name="Pill" Theme="{DynamicResource ComboBoxItemPillBorder}" />
+                            <Border Name="Pill" Theme="{StaticResource ComboBoxItemPillBorder}" />
 
                             <ContentPresenter Name="ContentPresenter"
                                               Content="{TemplateBinding Content}"
@@ -84,7 +93,7 @@
         <Style Selector="^[IsFocused=True]">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        
+
 
         <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
@@ -116,7 +125,7 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
-    
+
     <ControlTheme x:Key="{x:Type SearchableComboBox}" TargetType="SearchableComboBox">
         <Setter Property="Padding" Value="12 0 0 0" />
         <Setter Property="MaxDropDownHeight" Value="500" />
@@ -128,7 +137,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="PlaceholderForeground" Value="{DynamicResource TextFillColor3}" />
-        <Setter Property="FilterPlaceholderText" Value="{Localize SearchableComboBox/SearchPlaceholder, Default='Search...'}" />
+        <Setter Property="FilterPlaceholderText"
+                Value="{Localize SearchableComboBox/SearchPlaceholder, Default='Search...'}" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel />
@@ -139,105 +149,77 @@
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
             </Transitions>
         </Setter>
-        
+
         <Setter Property="Template">
-        <ControlTemplate>
-            <DataValidationErrors>
-                <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,32">
-                    <ContentPresenter x:Name="HeaderContentPresenter"
-                                      Grid.Row="0"
-                                      Grid.Column="0"
-                                      Grid.ColumnSpan="2"
-                                      IsVisible="False"
-                                      Margin="0 0 0 8"
-                                      VerticalAlignment="Top" />
-                    
-                    <Border x:Name="Background"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            MinWidth="64"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            ClipToBounds="True">
-                        <RippleEffect x:Name="PART_Ripple" />
-                    </Border>
+            <ControlTemplate>
+                <DataValidationErrors>
+                    <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,32">
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                                          Grid.Row="0"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="2"
+                                          IsVisible="False"
+                                          Margin="0 0 0 8"
+                                          VerticalAlignment="Top" />
 
-                    <Border x:Name="HighlightBackground"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            BorderThickness="{TemplateBinding BorderThickness}" />
-
-                    <Border Name="Pill"
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            Theme="{DynamicResource ComboBoxItemPillBorder}"
-                            Margin="1 0 0 0" />
-
-                    <TextBlock x:Name="PlaceholderTextBlock"
-                               Grid.Row="1"
-                               Grid.Column="0"
-                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                               Margin="{TemplateBinding Padding}"
-                               Text="{TemplateBinding PlaceholderText}"
-                               Foreground="{TemplateBinding PlaceholderForeground}"
-                               IsVisible="{TemplateBinding SelectionBoxItem, Converter={x:Static ObjectConverters.IsNull}}" />
-
-                    <ContentPresenter x:Name="ContentPresenter"
-                                      Content="{TemplateBinding SelectionBoxItem}"
-                                      ContentTemplate="{TemplateBinding ItemTemplate}"
+                        <RippleEffect x:Name="PART_Ripple"
                                       Grid.Row="1"
                                       Grid.Column="0"
-                                      Margin="{TemplateBinding Padding}"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                      Grid.ColumnSpan="2"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      MinWidth="64"
+                                      CornerRadius="{TemplateBinding CornerRadius}" />
 
-                    <Border x:Name="DropDownOverlay"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Background="#00000000"
-                            Margin="0 1 1 1"
-                            Width="30"
-                            IsVisible="False"
-                            HorizontalAlignment="Right" />
+                        <TextBlock x:Name="PlaceholderTextBlock"
+                                   Grid.Row="1"
+                                   Grid.Column="0"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Margin="{TemplateBinding Padding}"
+                                   Text="{TemplateBinding PlaceholderText}"
+                                   Foreground="{TemplateBinding PlaceholderForeground}"
+                                   IsVisible="{TemplateBinding SelectionBoxItem, Converter={x:Static ObjectConverters.IsNull}}" />
 
-                    <PathIcon Grid.Row="1"
-                              Grid.Column="1"
-                              IsHitTestVisible="False"
-                              Width="10"
-                              Height="10"
-                              Margin="20 0 15 0"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Center"
-                              Data="{DynamicResource ChevronDownRegular}" />
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding ItemTemplate}"
+                                          Grid.Row="1"
+                                          Grid.Column="0"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-                    <Popup Name="PART_Popup"
-                           Grid.Column="0"
-                           Grid.Row="0"
-                           WindowManagerAddShadowHint="False"
-                           IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
-                           MinWidth="{CompiledBinding $parent[SearchableComboBox].Bounds.Width}"
-                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                           PlacementTarget="Background"
-                           IsLightDismissEnabled="True"
-                           Placement="Center"
-                           InheritsTransform="True">
-                        <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
-                                      Margin="6 4 6 6"
-                                      BlurRadius="5"
-                                      Offset="0 1"
-                                      ShadowColor="#3C000000">
-                            <Border x:Name="PopupBorder"
-                                    Background="{DynamicResource BackgroundColor1}"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="{DynamicResource ControlBorderThickness}"
-                                    Padding="4"
-                                    HorizontalAlignment="Stretch"
-                                    CornerRadius="{DynamicResource ControlCornerRadius}">
+                        <PathIcon Grid.Row="1"
+                                  Grid.Column="1"
+                                  IsHitTestVisible="False"
+                                  Width="10"
+                                  Height="10"
+                                  Margin="20 0 15 0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource ChevronDownRegular}" />
+
+                        <Popup Name="PART_Popup"
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               WindowManagerAddShadowHint="False"
+                               IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                               MinWidth="{CompiledBinding $parent[SearchableComboBox].Bounds.Width}"
+                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                               PlacementTarget="PART_Ripple"
+                               IsLightDismissEnabled="True"
+                               Placement="Center"
+                               InheritsTransform="True">
+                            <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                                          Background="{DynamicResource BackgroundColor1}"
+                                          HorizontalAlignment="Stretch"
+                                          Padding="4"
+                                          Margin="6 4 6 6"
+                                          BlurRadius="5"
+                                          Offset="0 1"
+                                          ShadowColor="#3C000000">
                                 <DockPanel Margin="5">
                                     <TextBox x:Name="PART_EditableTextBox"
                                              Classes="ClearTextBox"
@@ -246,52 +228,39 @@
                                              DockPanel.Dock="Top"
                                              Margin="0 0 0 5">
                                         <TextBox.InnerLeftContent>
-                                            <PleasantIcon Icon="{DynamicResource SearchRegular}"
+                                            <PleasantIcon Icon="{StaticResource SearchRegular}"
+                                                          IconHelper.Width="12"
+                                                          IconHelper.Height="12"
                                                           Width="12"
                                                           Height="12"
                                                           Margin="10 0 5 0" />
                                         </TextBox.InnerLeftContent>
                                     </TextBox>
-                                    
+
                                     <PleasantBorder BackgroundLevel="Level2">
                                         <Panel>
-                                            <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                                                <ItemsPresenter Name="PART_ItemsPresenter" 
+                                            <ScrollViewer
+                                                HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                                VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                                <ItemsPresenter Name="PART_ItemsPresenter"
                                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                                             </ScrollViewer>
-                                            
+
                                             <TextBlock Foreground="{DynamicResource TextFillColor2}"
                                                        Text="No elements"
                                                        Margin="0 15"
                                                        VerticalAlignment="Center"
                                                        TextAlignment="Center"
-                                                       IsVisible="{Binding !FilteredItemCount, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                       IsVisible="{Binding !FilteredItemCount, RelativeSource={RelativeSource TemplatedParent}}" />
                                         </Panel>
                                     </PleasantBorder>
                                 </DockPanel>
-                            </Border>
-                        </ShadowBorder>
-                    </Popup>
-                </Grid>
-            </DataValidationErrors>
-        </ControlTemplate>
-    </Setter>
-
-        <Style Selector="^ /template/ Border#HighlightBackground">
-            <Setter Property="IsVisible" Value="False" />
-            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource FocusStrokeColorOuter}" />
-            <Setter Property="BorderThickness" Value="2" />
-        </Style>
-        <Style Selector="^ /template/ Border#Pill">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^ /template/ Border#DropDownOverlay">
-            <Setter Property="IsVisible" Value="False" />
-            <Setter Property="Margin" Value="-4 4 4 4" />
-            <Setter Property="Background" Value="Transparent" />
-        </Style>
+                            </ShadowBorder>
+                        </Popup>
+                    </Grid>
+                </DataValidationErrors>
+            </ControlTemplate>
+        </Setter>
 
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />

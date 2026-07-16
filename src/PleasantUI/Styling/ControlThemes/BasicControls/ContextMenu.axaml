@@ -44,7 +44,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="LayoutRoot"
-                        Theme="{DynamicResource FlyoutBorderTheme}"
+                        Theme="{StaticResource FlyoutBorderTheme}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"

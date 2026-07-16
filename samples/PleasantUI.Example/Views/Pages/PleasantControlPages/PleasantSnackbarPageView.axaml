@@ -7,7 +7,7 @@
     <StackPanel Margin="16 8 16 16" Spacing="12" MaxWidth="560">
         <!-- ── Severity variants ──────────────────────────────────── -->
         <TextBlock Text="{Localize Snackbar/SeveritySection}"
-                   Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                   Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Margin="0 4 0 0" />
 
         <OptionsDisplayItem Header="{Localize Snackbar/Information}"
@@ -41,7 +41,7 @@
         <!-- ── Content variants ──────────────────────────────────── -->
         <Separator Margin="0 4" />
         <TextBlock Text="{Localize Snackbar/ContentSection}"
-                   Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                   Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Margin="0 4 0 0" />
 
         <OptionsDisplayItem Header="{Localize Snackbar/LongMessage}"
@@ -82,7 +82,7 @@
         <!-- ── Events ─────────────────────────────────────────────── -->
         <Separator Margin="0 4" />
         <TextBlock Text="{Localize Snackbar/EventsSection}"
-                   Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                   Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Margin="0 4 0 0" />
 
         <OptionsDisplayItem Header="{Localize Snackbar/WithEvents}"

@@ -64,7 +64,7 @@
             <Template>
                 <PathIcon Width="10"
                           Height="10"
-                          Data="{DynamicResource ChevronUpRegular}" />
+                          Data="{StaticResource ChevronUpRegular}" />
             </Template>
         </Setter>
 
@@ -100,7 +100,7 @@
             <Template>
                 <PathIcon Width="10"
                           Height="10"
-                          Data="{DynamicResource ChevronDownRegular}" />
+                          Data="{StaticResource ChevronDownRegular}" />
             </Template>
         </Setter>
 

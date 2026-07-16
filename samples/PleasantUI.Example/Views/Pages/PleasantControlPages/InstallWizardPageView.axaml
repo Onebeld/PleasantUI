@@ -16,7 +16,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="{Localize InstallWizard/ModesTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize InstallWizard/ModesDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -24,7 +24,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button x:Name="ShowModalButton"
                             Content="{Localize InstallWizard/ShowModal}"
-                            Theme="{DynamicResource AccentButtonTheme}" />
+                            Theme="{StaticResource AccentButtonTheme}" />
                     <Button x:Name="ShowWindowButton"
                             Content="{Localize InstallWizard/ShowWindow}" />
                 </StackPanel>
@@ -37,7 +37,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize InstallWizard/DemoTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize InstallWizard/DemoDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -55,7 +55,7 @@
                                         AppName="{Localize InstallWizard/AppName}"
                                         FooterText="{Localize InstallWizard/FooterText}"
                                         Height="420"
-                                        AppIcon="{DynamicResource PleasantUIForeground}"
+                                        AppIcon="{StaticResource PleasantUIForeground}"
                                         IconHelper.Width="130">
                     <controls:InstallWizard.Steps>
 
@@ -190,7 +190,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="{Localize InstallWizard/PropsTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="AppName" FontFamily="Consolas,Monospace"
                                FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />

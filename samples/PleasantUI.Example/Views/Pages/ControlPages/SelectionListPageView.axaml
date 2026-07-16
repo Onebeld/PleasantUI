@@ -15,7 +15,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}"
                 Padding="16">
             <StackPanel Spacing="12">
-                <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                            Text="{Localize SelectionList/VerticalWithImages}" />
                 <TextBlock Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12"
@@ -31,7 +31,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}"
                 Padding="16">
             <StackPanel Spacing="12">
-                <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                            Text="{Localize SelectionList/HorizontalChips}" />
                 <TextBlock Foreground="{DynamicResource TextFillColor2}"
                            FontSize="12"
@@ -47,7 +47,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}"
                 Padding="16">
             <StackPanel Spacing="12">
-                <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                            Text="{Localize SelectionList/EmptyState}" />
                 <controls:SelectionList EmptyMessage="{Localize SelectionList/EmptyMessage}" />
             </StackPanel>

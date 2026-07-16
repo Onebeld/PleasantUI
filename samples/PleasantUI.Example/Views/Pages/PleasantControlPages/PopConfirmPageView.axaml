@@ -15,7 +15,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize PopConfirm/DemoTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PopConfirm/DemoDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -38,7 +38,7 @@
                                          PopupHeader="{Localize PopConfirm/SubmitHeader}"
                                          PopupContent="{Localize PopConfirm/SubmitBody}">
                         <Button Content="{Localize PopConfirm/SubmitBtn}"
-                                Theme="{DynamicResource AccentButtonTheme}" />
+                                Theme="{StaticResource AccentButtonTheme}" />
                     </controls:PopConfirm>
 
                     <controls:PopConfirm Classes="Error"
@@ -56,7 +56,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="Placement variants"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <WrapPanel Orientation="Horizontal">
                     <WrapPanel.Styles>
                         <Style Selector="controls|PopConfirm">
@@ -89,7 +89,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="Key properties"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PopupHeader" FontFamily="Consolas,Monospace"
                                FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />

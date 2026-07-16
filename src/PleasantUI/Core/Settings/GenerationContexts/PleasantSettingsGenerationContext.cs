@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PleasantUI.Core.GenerationContexts;
+namespace PleasantUI.Core.Settings.GenerationContexts;
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PleasantSettings))]

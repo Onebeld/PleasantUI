@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:PleasantUI.Converters;assembly=PleasantUI"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0">
@@ -17,7 +16,7 @@
                 </ScrollViewer>
                 <ContentDialog.BottomPanelContent>
                     <UniformGrid Margin="15 0" Rows="0" Columns="2">
-                        <Button Theme="{DynamicResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
+                        <Button Theme="{StaticResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
                                 Margin="5" />
 
                         <Button Content="Cancel" VerticalAlignment="Center" Margin="5" />
@@ -48,39 +47,30 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              MinWidth="{TemplateBinding MinWidth}"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              KeyboardNavigation.TabNavigation="Cycle"
+                              ClipContentToBounds="True"
                               BlurRadius="60"
                               ShadowColor="#6E000000"
                               Offset="0 6">
-                    <Border CornerRadius="{TemplateBinding CornerRadius}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            MinWidth="{TemplateBinding MinWidth}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            ClipToBounds="False"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Border ClipToBounds="True"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                KeyboardNavigation.TabNavigation="Cycle">
-                            <Grid RowDefinitions="*,Auto">
-                                <ContentPresenter Grid.Row="0"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        <DockPanel>
+                            <Border DockPanel.Dock="Bottom"
+                                    Background="{DynamicResource BackgroundColor3}"
+                                    IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                    Height="80">
+                                <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />
+                            </Border>
 
-                                <Border Grid.Row="1"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        Background="{DynamicResource BackgroundColor3}"
-                                        BorderThickness="0 1 0 0"
-                                        CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static converters:CornerRadiusFilterConverters.Bottom}}"
-                                        IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                        Height="80">
-                                    <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </Border>
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </DockPanel>
                 </ShadowBorder>
             </ControlTemplate>
         </Setter>

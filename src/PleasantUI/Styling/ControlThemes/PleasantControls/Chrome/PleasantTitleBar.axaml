@@ -10,16 +10,16 @@
     <MenuFlyout x:Key="WindowMenuFlyout">
         <MenuItem x:Name="PART_ReestablishMenuItem"
                   Header="{Localize Restore, Default='_Restore'}"
-                  Icon="{DynamicResource SquareMultipleRegular}"
+                  Icon="{StaticResource SquareMultipleRegular}"
                   IconHelper.FontSize="2"
                   IconHelper.Width="12"
                   IconHelper.Height="12" />
         <MenuItem Name="PART_CollapseMenuItem"
-                  Header="{Localize CollapseMenu, Default='C_ollapse'}" Icon="{DynamicResource SubtractRegular}"
+                  Header="{Localize CollapseMenu, Default='C_ollapse'}" Icon="{StaticResource SubtractRegular}"
                   IconHelper.Width="12"
                   IconHelper.Height="12" />
         <MenuItem Name="PART_ExpandMenuItem"
-                  Header="{Localize ExpandMenu, Default='_Expand'}" Icon="{DynamicResource MaximizeRegular}"
+                  Header="{Localize ExpandMenu, Default='_Expand'}" Icon="{StaticResource MaximizeRegular}"
                   IconHelper.Width="12"
                   IconHelper.Height="12" />
 
@@ -29,7 +29,7 @@
 
         <MenuItem Name="PART_CloseMenuItem"
                   Header="{Localize CloseMenu, Default='_Close'}"
-                  Icon="{DynamicResource DismissRegular}"
+                  Icon="{StaticResource DismissRegular}"
                   InputGesture="{OnPlatform Default=Alt+F4, macOS=Ctrl+W}"
                   IconHelper.Width="12"
                   IconHelper.Height="12"/>
@@ -75,7 +75,7 @@
                         </OnPlatform.Default>
                         <OnPlatform.macOS>
                             <PleasantCaptionButtons Grid.Column="3" x:Name="PART_PleasantCaptionButtons"
-                                                    Theme="{DynamicResource PleasantCaptionButtonsMacOSStyle}" />
+                                                    Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
                         </OnPlatform.macOS>
                     </OnPlatform>
                 </Grid>

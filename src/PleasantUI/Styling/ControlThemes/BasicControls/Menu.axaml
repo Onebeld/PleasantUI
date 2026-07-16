@@ -40,25 +40,20 @@
                                    IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
                                    OverlayInputPassThroughElement="{CompiledBinding $parent[Menu]}">
                                 <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                                              Background="{DynamicResource BackgroundColor1}"
+                                              HorizontalAlignment="Stretch"
+                                              MaxWidth="456"
+                                              MinHeight="32"
                                               Margin="6 4 6 6"
                                               BlurRadius="5"
                                               Offset="0 1"
                                               ShadowColor="#3C000000">
-                                    <Border Background="{DynamicResource BackgroundColor1}"
-                                            BorderBrush="{DynamicResource ControlBorderColor}"
-                                            BorderThickness="{DynamicResource ControlBorderThickness}"
-                                            Opacity="0"
-                                            MaxWidth="456"
-                                            MinHeight="32"
-                                            HorizontalAlignment="Stretch"
-                                            CornerRadius="{DynamicResource ControlCornerRadius}">
-                                        <ScrollViewer>
-                                            <ItemsPresenter Name="PART_ItemsPresenter"
-                                                            ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                            Margin="0 2 0 2"
-                                                            Grid.IsSharedSizeScope="True" />
-                                        </ScrollViewer>
-                                    </Border>
+                                    <ScrollViewer>
+                                        <ItemsPresenter Name="PART_ItemsPresenter"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        Margin="0 2 0 2"
+                                                        Grid.IsSharedSizeScope="True" />
+                                    </ScrollViewer>
                                 </ShadowBorder>
                             </Popup>
                         </Panel>

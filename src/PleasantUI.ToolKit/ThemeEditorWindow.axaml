@@ -61,7 +61,7 @@
                                 </TextBlock>
                             </ToolTip.Tip>
 
-                            <PleasantIcon Icon="{DynamicResource ArrowLeftRegular}" />
+                            <PleasantIcon Icon="{StaticResource ArrowLeftRegular}" />
                         </Button>
                         <Button Command="{CompiledBinding Redo}"
                                 IsEnabled="{CompiledBinding CanRedo}"
@@ -73,11 +73,11 @@
                                 </TextBlock>
                             </ToolTip.Tip>
 
-                            <PleasantIcon Icon="{DynamicResource ArrowRightRegular}" />
+                            <PleasantIcon Icon="{StaticResource ArrowRightRegular}" />
                         </Button>
                     </StackPanel>
 
-                    <InformationBlock Icon="{DynamicResource PaletteRegular}"
+                    <InformationBlock Icon="{StaticResource PaletteRegular}"
                                       Content="{CompiledBinding ThemeColors.Count}"
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
@@ -126,7 +126,7 @@
 
                                     <Button Content="Control Button" KeyboardNavigation.IsTabStop="False" />
                                     <Button Content="Danger Control Button"
-                                            Theme="{DynamicResource DangerButtonTheme}"
+                                            Theme="{StaticResource DangerButtonTheme}"
                                             KeyboardNavigation.IsTabStop="False" />
 
                                     <RadioButton Content="RadioButton1"
@@ -173,19 +173,19 @@
             <DockPanel Grid.Column="2">
                 <UniformGrid Columns="2" DockPanel.Dock="Top">
                     <RadioButton x:Name="ButtonColors"
-                                 Theme="{DynamicResource ButtonedRadioButton}"
+                                 Theme="{StaticResource ButtonedRadioButton}"
                                  CornerRadius="99 0 0 99"
                                  IsChecked="True"
                                  GroupName="ColorsData"
                                  ToolTip.Tip="{Localize ToolKit/Colors, Default='Colors'}">
-                        <PleasantIcon Icon="{DynamicResource PaletteRegular}" />
+                        <PleasantIcon Icon="{StaticResource PaletteRegular}" />
                     </RadioButton>
                     <RadioButton x:Name="ButtonJson"
-                                 Theme="{DynamicResource ButtonedRadioButton}"
+                                 Theme="{StaticResource ButtonedRadioButton}"
                                  CornerRadius="0 99 99 0"
                                  GroupName="ColorsData"
                                  ToolTip.Tip="JSON">
-                        <PleasantIcon Icon="{DynamicResource CodeBracesRegular}" />
+                        <PleasantIcon Icon="{StaticResource CodeBracesRegular}" />
                     </RadioButton>
                 </UniformGrid>
 
@@ -210,11 +210,11 @@
                                         <StackPanel Margin="10" Spacing="5">
                                             <Panel>
                                                 <TextBlock VerticalAlignment="Center"
-                                                           Theme="{DynamicResource BaseTextBlockTheme}"
+                                                           Theme="{StaticResource BaseTextBlockTheme}"
                                                            Text="{Localize ToolKit/Themes, Default='Themes'}" />
                                                 
                                                 <InformationBlock HorizontalAlignment="Right"
-                                                                  Icon="{DynamicResource BrushVariantRegular}" 
+                                                                  Icon="{StaticResource BrushVariantRegular}" 
                                                                   Content="{CompiledBinding Themes.Count}"
                                                                   ToolTip.Tip="{Localize ToolKit/ThemeEditor/NumberOfThemes, Default='Number of themes'}"/>
                                             </Panel>
@@ -228,11 +228,11 @@
                                             
                                             <Panel>
                                                 <TextBlock VerticalAlignment="Center"
-                                                           Theme="{DynamicResource BaseTextBlockTheme}"
+                                                           Theme="{StaticResource BaseTextBlockTheme}"
                                                            Text="{Localize ToolKit/CustomThemes, Default='Custom themes'}" /> 
                                                 
                                                 <InformationBlock HorizontalAlignment="Right"
-                                                                  Icon="{DynamicResource BrushVariantRegular}"
+                                                                  Icon="{StaticResource BrushVariantRegular}"
                                                                   Content="{CompiledBinding Count, Source={x:Static PleasantTheme.CustomThemes}}"
                                                                   ToolTip.Tip="{Localize ToolKit/ThemeEditor/NumberOfCustomThemes, Default='Number of custom themes'}"/>
                                             </Panel>
@@ -270,12 +270,12 @@
                                 <Button ToolTip.Tip="{Localize ToolKit/ThemeEditor/CopyTheme, Default='Copy theme'}"
                                         CornerRadius="99 0 0 99"
                                         Command="{CompiledBinding CopyThemeAsync}">
-                                    <PleasantIcon Icon="{DynamicResource CopyRegular}" />
+                                    <PleasantIcon Icon="{StaticResource CopyRegular}" />
                                 </Button>
                                 <Button ToolTip.Tip="{Localize ToolKit/ThemeEditor/PasteTheme, Default='Paste theme'}"
                                         CornerRadius="0 99 99 0"
                                         Command="{CompiledBinding PasteThemeAsync}">
-                                    <PleasantIcon Icon="{DynamicResource PasteRegular}" />
+                                    <PleasantIcon Icon="{StaticResource PasteRegular}" />
                                 </Button>
                             </StackPanel>
 
@@ -283,12 +283,12 @@
                                 <Button ToolTip.Tip="{Localize ToolKit/ThemeEditor/ImportTheme, Default='Import theme'}"
                                         CornerRadius="99 0 0 99"
                                         Command="{CompiledBinding ImportThemeAsync}">
-                                    <PleasantIcon Icon="{DynamicResource FileImportRegular}" />
+                                    <PleasantIcon Icon="{StaticResource FileImportRegular}" />
                                 </Button>
                                 <Button ToolTip.Tip="{Localize ToolKit/ThemeEditor/ExportTheme, Default='Export theme'}"
                                         CornerRadius="0 99 99 0"
                                         Command="{CompiledBinding ExportThemeAsync}">
-                                    <PleasantIcon Icon="{DynamicResource FileExportRegular}" />
+                                    <PleasantIcon Icon="{StaticResource FileExportRegular}" />
                                 </Button>
                             </StackPanel>
 
@@ -319,7 +319,7 @@
                                            RadiusY="8" />
 
                                 <StackPanel Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <PathIcon Data="{DynamicResource FileImportRegular}"
+                                    <PathIcon Data="{StaticResource FileImportRegular}"
                                               Foreground="{DynamicResource TextFillColor3}"
                                               Height="32"
                                               Width="32"
@@ -343,7 +343,7 @@
     <ContentDialog.BottomPanelContent>
         <UniformGrid Margin="15 0" Rows="0" Columns="2">
             <Button x:Name="OkButton"
-                    Theme="{DynamicResource AccentButtonTheme}"
+                    Theme="{StaticResource AccentButtonTheme}"
                     Content="{Localize Ok, Default='OK'}"
                     VerticalAlignment="Center"
                     Margin="5" />

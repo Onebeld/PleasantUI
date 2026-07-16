@@ -4,7 +4,7 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Width="400" Height="500">
-            <controls:PleasantDrawer Title="Drawer Title" Icon="{DynamicResource PinRegular}" Position="Right" Width="320">
+            <controls:PleasantDrawer Title="Drawer Title" Icon="{StaticResource PinRegular}" Position="Right" Width="320">
                 <TextBlock Text="Drawer content." Margin="20" TextWrapping="Wrap" />
             </controls:PleasantDrawer>
         </Border>
@@ -59,11 +59,11 @@
                                                Foreground="{DynamicResource TextFillColor1}" />
                                     <Button Name="PART_CloseButton"
                                             Grid.Column="2"
-                                            Theme="{DynamicResource CloseButtonTheme}"
+                                            Theme="{StaticResource CloseButtonTheme}"
                                             Width="32" Height="32" Padding="8"
                                             VerticalAlignment="Center"
                                             ToolTip.Tip="{Localize Close, Default='Close'}">
-                                        <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
+                                        <PleasantIcon Icon="{StaticResource DismissRegular}" Width="10" Height="10" />
                                     </Button>
                                 </Grid>
                                 <Border Grid.Row="0" Height="1" Margin="0 52 0 0"

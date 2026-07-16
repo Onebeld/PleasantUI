@@ -44,7 +44,7 @@
                                             Width="44" Height="44"
                                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                             Background="{DynamicResource SystemFillColorCritical}">
-                                        <PathIcon Data="{DynamicResource ErrorCircleRegular}"
+                                        <PathIcon Data="{StaticResource ErrorCircleRegular}"
                                                   Width="22" Height="22"
                                                   Foreground="{ForegroundBased SystemFillColorCritical}"
                                                   HorizontalAlignment="Center"
@@ -53,7 +53,7 @@
 
                                     <TextBlock Grid.Column="2"
                                                VerticalAlignment="Center"
-                                               Theme="{DynamicResource SubtitleTextBlockTheme}"
+                                               Theme="{StaticResource SubtitleTextBlockTheme}"
                                                Text="{Localize ToolKit/CrashReportDialog/CrashHasOccurred, Default='A crash has occurred!'}" />
                                 </Grid>
                             </Border>
@@ -112,13 +112,13 @@
                                                         Orientation="Horizontal" Spacing="10"
                                                         HorizontalAlignment="Center">
                                                 <PathIcon Name="PART_SuccessIcon"
-                                                          Data="{DynamicResource CheckmarkRegular}"
+                                                          Data="{StaticResource CheckmarkRegular}"
                                                           Width="16" Height="16"
                                                           Foreground="{DynamicResource SystemFillColorSuccess}"
                                                           IsVisible="False"
                                                           VerticalAlignment="Center" />
                                                 <PathIcon Name="PART_FailureIcon"
-                                                          Data="{DynamicResource AlertOutline}"
+                                                          Data="{StaticResource AlertOutline}"
                                                           Width="16" Height="16"
                                                           Foreground="{DynamicResource SystemFillColorCritical}"
                                                           IsVisible="False"
@@ -147,7 +147,7 @@
                                                 Padding="12 6"
                                                 FontSize="12">
                                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <PleasantIcon Icon="{DynamicResource DocumentRegular}" Width="12" Height="12" />
+                                                <PleasantIcon Icon="{StaticResource DocumentRegular}" Width="12" Height="12" />
                                                 <TextBlock Text="{Localize ToolKit/CrashReportDialog/SaveReport, Default='Save Report'}" />
                                             </StackPanel>
                                         </Button>
@@ -155,11 +155,11 @@
                                         <!-- Send button -->
                                         <Button Name="PART_SendButton"
                                                 Grid.Column="2"
-                                                Theme="{DynamicResource AccentButtonTheme}"
+                                                Theme="{StaticResource AccentButtonTheme}"
                                                 Padding="14 6"
                                                 FontSize="12">
                                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <PleasantIcon Icon="{DynamicResource ArrowRightRegular}" Width="12" Height="12" />
+                                                <PleasantIcon Icon="{StaticResource ArrowRightRegular}" Width="12" Height="12" />
                                                 <TextBlock Text="{Localize ToolKit/CrashReportDialog/SendReport, Default='Send Report'}" />
                                             </StackPanel>
                                         </Button>

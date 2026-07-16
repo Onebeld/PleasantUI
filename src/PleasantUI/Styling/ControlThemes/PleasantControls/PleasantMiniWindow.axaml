@@ -44,10 +44,10 @@
 
                                 <ToggleButton HorizontalAlignment="Left"
                                               Margin="4"
-                                              Theme="{DynamicResource AppBarToggleButtonTheme}"
+                                              Theme="{StaticResource AppBarToggleButtonTheme}"
                                               IsChecked="{CompiledBinding $parent[PleasantMiniWindow].Topmost}"
                                               ToolTip.Tip="{Localize AttachOverWindows, Default='Attach over windows'}">
-                                    <PleasantIcon Icon="{DynamicResource PinRegular}" Width="12" Height="12" />
+                                    <PleasantIcon Icon="{StaticResource PinRegular}" Width="12" Height="12" />
                                 </ToggleButton>
 
                                 <Border Background="{DynamicResource TextFillColor3}"
@@ -64,14 +64,14 @@
                                             Margin="4"
                                             IsVisible="{CompiledBinding $parent[PleasantMiniWindow].EnableCustomTitleBar}">
                                     <Button x:Name="PART_HiddenButton"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{Localize Collapse, Default='Collapse'}">
-                                        <PleasantIcon Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
+                                        <PleasantIcon Icon="{StaticResource SubtractRegular}" Width="10" Height="10" />
                                     </Button>
                                     <Button x:Name="PART_CloseButton"
-                                            Theme="{DynamicResource CloseButtonTheme}"
+                                            Theme="{StaticResource CloseButtonTheme}"
                                             ToolTip.Tip="{Localize Close, Default='Close'}">
-                                        <PleasantIcon Icon="{DynamicResource DismissRegular}"
+                                        <PleasantIcon Icon="{StaticResource DismissRegular}"
                                                      Width="8"
                                                      Height="8" />
                                     </Button>

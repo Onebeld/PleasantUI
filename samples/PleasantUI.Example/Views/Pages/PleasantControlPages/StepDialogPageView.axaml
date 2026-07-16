@@ -12,11 +12,11 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize StepDialog/BasicTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize StepDialog/BasicDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
                 <Button x:Name="OpenBasicBtn" Content="{Localize StepDialog/OpenBasic}"
-                        Theme="{DynamicResource AccentButtonTheme}" HorizontalAlignment="Left" />
+                        Theme="{StaticResource AccentButtonTheme}" HorizontalAlignment="Left" />
             </StackPanel>
         </Border>
 
@@ -24,7 +24,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize StepDialog/AuthTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize StepDialog/AuthDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
                 <Button x:Name="OpenAuthBtn" Content="{Localize StepDialog/OpenAuth}"

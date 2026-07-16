@@ -3,7 +3,7 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="50">
-            <PleasantSplashScreen AppIcon="{DynamicResource PaletteRegular}" AppName="Test App" />
+            <PleasantSplashScreen AppIcon="{StaticResource PaletteRegular}" AppName="Test App" />
         </Border>
     </Design.PreviewWith>
     
@@ -40,7 +40,7 @@
                         <!-- App name — fallback when no icon or custom content -->
                         <TextBlock x:Name="AppNameText"
                                    Text="{TemplateBinding AppName}"
-                                   Theme="{DynamicResource TitleTextBlockTheme}"
+                                   Theme="{StaticResource TitleTextBlockTheme}"
                                    HorizontalAlignment="Center"
                                    IsVisible="{TemplateBinding AppName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
 

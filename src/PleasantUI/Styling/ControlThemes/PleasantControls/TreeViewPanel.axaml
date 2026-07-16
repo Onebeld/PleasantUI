@@ -7,7 +7,7 @@
             <controls:TreeViewPanel FilterWatermark="Filter entities...">
                 <controls:TreeViewSection Header="Queues"
                                           IsLoading="False"
-                                          SectionIcon="{DynamicResource CutRegular}"/>
+                                          SectionIcon="{StaticResource CutRegular}"/>
             </controls:TreeViewPanel>
         </Border>
     </Design.PreviewWith>
@@ -174,7 +174,7 @@
                                              FontSize="14"
                                              MinWidth="80">
                                         <TextBox.InnerLeftContent>
-                                            <PleasantIcon Icon="{DynamicResource SearchRegular}"
+                                            <PleasantIcon Icon="{StaticResource SearchRegular}"
                                                          Width="14"
                                                          Height="14"
                                                          Foreground="{DynamicResource TextFillColor3}"
@@ -183,12 +183,12 @@
                                         <TextBox.InnerRightContent>
                                             <Button Name="PART_ClearButton"
                                                     Grid.Column="2"
-                                                    Theme="{DynamicResource CloseButtonTheme}"
+                                                    Theme="{StaticResource CloseButtonTheme}"
                                                     Width="24" Height="24"
                                                     CornerRadius="99"
                                                     Margin="0 0 5 0"
                                                     IsVisible="{Binding $parent[TextBox].Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-                                                <PleasantIcon Icon="{DynamicResource DismissRegular}"
+                                                <PleasantIcon Icon="{StaticResource DismissRegular}"
                                                              Width="10" Height="10" />
                                             </Button>
                                         </TextBox.InnerRightContent>
@@ -197,24 +197,24 @@
                                 <!-- Expand-all button -->
                                 <Button Name="PART_ExpandButton"
                                         Grid.Column="1"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{StaticResource AppBarButtonTheme}"
                                         Width="32" Height="32"
                                         Padding="6"
                                         ToolTip.Tip="Expand all"
                                         IsVisible="{TemplateBinding ShowExpandButton}">
-                                    <PleasantIcon Icon="{DynamicResource ChevronDownRegular}"
+                                    <PleasantIcon Icon="{StaticResource ChevronDownRegular}"
                                               Width="12" Height="12" />
                                 </Button>
 
                                 <!-- Collapse-all button -->
                                 <Button Name="PART_CollapseButton"
                                         Grid.Column="2"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{StaticResource AppBarButtonTheme}"
                                         Width="32" Height="32"
                                         Padding="6"
                                         ToolTip.Tip="Collapse all"
                                         IsVisible="{TemplateBinding ShowCollapseButton}">
-                                    <PleasantIcon Icon="{DynamicResource ChevronUpRegular}"
+                                    <PleasantIcon Icon="{StaticResource ChevronUpRegular}"
                                               Width="12" Height="12" />
                                 </Button>
                             </Grid>

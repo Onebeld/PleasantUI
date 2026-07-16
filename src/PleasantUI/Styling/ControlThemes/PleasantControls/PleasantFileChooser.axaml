@@ -44,7 +44,7 @@
                                                 <Viewbox Width="16" Height="16" VerticalAlignment="Center">
                                                     <Path Stretch="Uniform"
                                                           Fill="{DynamicResource AccentFillColor1}"
-                                                          Data="{DynamicResource FileImportRegular}" />
+                                                          Data="{StaticResource FileImportRegular}" />
                                                 </Viewbox>
                                                 <TextBlock Text="{Binding Name}"
                                                            FontSize="13"
@@ -67,37 +67,37 @@
                                   Margin="12 12 12 8">
                                 <Button Name="PART_BackButton"
                                         Grid.Column="0"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{StaticResource AppBarButtonTheme}"
                                         Width="32" Height="32" Padding="6"
                                         ToolTip.Tip="Back"
                                         IsEnabled="{TemplateBinding CanGoBack}">
                                     <Viewbox Width="14" Height="14">
-                                        <Path Data="{DynamicResource ArrowLeftRegular}"
+                                        <Path Data="{StaticResource ArrowLeftRegular}"
                                               Fill="{DynamicResource TextFillColor1}"
                                               Stretch="Uniform" />
                                     </Viewbox>
                                 </Button>
                                 <Button Name="PART_ForwardButton"
                                         Grid.Column="1"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{StaticResource AppBarButtonTheme}"
                                         Width="32" Height="32" Padding="6"
                                         ToolTip.Tip="Forward"
                                         IsEnabled="{TemplateBinding CanGoForward}">
                                     <Viewbox Width="14" Height="14">
-                                        <Path Data="{DynamicResource ArrowRightRegular}"
+                                        <Path Data="{StaticResource ArrowRightRegular}"
                                               Fill="{DynamicResource TextFillColor1}"
                                               Stretch="Uniform" />
                                     </Viewbox>
                                 </Button>
                                 <Button Name="PART_UpButton"
                                         Grid.Column="2"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{StaticResource AppBarButtonTheme}"
                                         Width="32" Height="32" Padding="6"
                                         Margin="4 0 8 0"
                                         ToolTip.Tip="Up"
                                         IsEnabled="{TemplateBinding CanGoUp}">
                                     <Viewbox Width="14" Height="14">
-                                        <Path Data="{DynamicResource ChevronUpRegular}"
+                                        <Path Data="{StaticResource ChevronUpRegular}"
                                               Fill="{DynamicResource TextFillColor1}"
                                               Stretch="Uniform" />
                                     </Viewbox>
@@ -168,7 +168,7 @@
                                                              VerticalAlignment="Center">
                                                         <Path Stretch="Uniform"
                                                               Fill="{DynamicResource AccentFillColor1}"
-                                                              Data="{DynamicResource FileImportRegular}" />
+                                                              Data="{StaticResource FileImportRegular}" />
                                                     </Viewbox>
                                                     <TextBlock Grid.Column="1"
                                                                Text="{Binding Name}"
@@ -226,7 +226,7 @@
                                             MinWidth="90" />
                                     <Button Name="PART_OkButton"
                                             Grid.Column="5"
-                                            Theme="{DynamicResource AccentButtonTheme}"
+                                            Theme="{StaticResource AccentButtonTheme}"
                                             Content="{Localize PathPicker/OpenFile, Default='Open file'}"
                                             MinWidth="90" />
                                 </Grid>

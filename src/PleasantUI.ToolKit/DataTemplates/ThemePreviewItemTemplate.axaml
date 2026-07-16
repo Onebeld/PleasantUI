@@ -5,7 +5,7 @@
                     xmlns:viewModels="clr-namespace:PleasantUI.ToolKit.ViewModels"
                     xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls">
     <DataTemplate x:Key="ThemePreviewItemTemplate" DataType="{x:Type interfaces:ITheme}">
-        <Button Theme="{DynamicResource AppBarButtonTheme}"
+        <Button Theme="{StaticResource AppBarButtonTheme}"
                 Margin="5"
                 HorizontalContentAlignment="Left"
                 Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext)?.GetColorsFromTheme}"

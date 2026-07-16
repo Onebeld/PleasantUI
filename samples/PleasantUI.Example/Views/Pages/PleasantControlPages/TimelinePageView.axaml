@@ -16,7 +16,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="{Localize Timeline/DisplayMode}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <RadioButton x:Name="ModeLeft" Content="{Localize Timeline/ModeLeft}" IsChecked="True"
                                  GroupName="TimelineMode" />
@@ -34,7 +34,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize Timeline/OrderTracking}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
 
                 <Timeline x:Name="DemoTimeline">
                     <TimelineItem Header="{Localize Timeline/Step1Header}"
@@ -72,7 +72,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize Timeline/ItemTypes}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize Timeline/ItemTypesDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -99,7 +99,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize Timeline/CustomIcon}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize Timeline/CustomIconDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -108,21 +108,21 @@
                 <Timeline>
                     <TimelineItem Header="{Localize Timeline/IconStep1}" Content="{Localize Timeline/IconStep1Desc}">
                         <TimelineItem.Icon>
-                            <PathIcon Data="{DynamicResource CheckmarkRegular}"
+                            <PathIcon Data="{StaticResource CheckmarkRegular}"
                                       Width="12" Height="12"
                                       Foreground="{DynamicResource SystemFillColorSuccess}" />
                         </TimelineItem.Icon>
                     </TimelineItem>
                     <TimelineItem Header="{Localize Timeline/IconStep2}" Content="{Localize Timeline/IconStep2Desc}">
                         <TimelineItem.Icon>
-                            <PathIcon Data="{DynamicResource ArrowLeftRegular}"
+                            <PathIcon Data="{StaticResource ArrowLeftRegular}"
                                       Width="12" Height="12"
                                       Foreground="{DynamicResource SystemFillColorNeutral}" />
                         </TimelineItem.Icon>
                     </TimelineItem>
                     <TimelineItem Header="{Localize Timeline/IconStep3}" Content="{Localize Timeline/IconStep3Desc}">
                         <TimelineItem.Icon>
-                            <PathIcon Data="{DynamicResource DeleteRegular}"
+                            <PathIcon Data="{StaticResource DeleteRegular}"
                                       Width="12" Height="12"
                                       Foreground="{DynamicResource SystemFillColorCritical}" />
                         </TimelineItem.Icon>

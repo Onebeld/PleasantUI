@@ -45,21 +45,19 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ClipToBounds="True">
-                    <RippleEffect Name="PART_Ripple">
-                        <ContentPresenter Name="PART_ContentPresenter"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          Padding="{TemplateBinding Padding}"
-                                          TextBlock.Foreground="{TemplateBinding Foreground}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </RippleEffect>
-                </Border>
+                <RippleEffect Name="PART_Ripple"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
@@ -78,12 +76,10 @@
     <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="10 0" />
-        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
 
@@ -113,19 +109,19 @@
                                             Spacing="0">
                                     <RepeatButton Name="PART_IncreaseButton"
                                                   IsTabStop="{TemplateBinding IsTabStop}"
-                                                  Theme="{DynamicResource ButtonSpinnerRepeatButton}"
+                                                  Theme="{StaticResource ButtonSpinnerRepeatButton}"
                                                   VerticalContentAlignment="Center"
                                                   Height="14">
-                                        <PleasantIcon Icon="{DynamicResource ChevronUpRegular}" Width="10" Height="10" />
+                                        <PleasantIcon Icon="{StaticResource ChevronUpRegular}" Width="10" Height="10" />
                                     </RepeatButton>
 
                                     <RepeatButton Name="PART_DecreaseButton"
                                                   IsTabStop="{TemplateBinding IsTabStop}"
-                                                  Theme="{DynamicResource ButtonSpinnerRepeatButton}"
+                                                  Theme="{StaticResource ButtonSpinnerRepeatButton}"
                                                   VerticalContentAlignment="Center"
                                                   FontSize="18"
                                                   Height="14">
-                                        <PleasantIcon Icon="{DynamicResource ChevronDownRegular}" Width="10"
+                                        <PleasantIcon Icon="{StaticResource ChevronDownRegular}" Width="10"
                                                       Height="10" />
                                     </RepeatButton>
                                 </StackPanel>

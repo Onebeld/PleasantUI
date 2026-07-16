@@ -5,11 +5,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.CalendarPageView">
     <StackPanel Spacing="16" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize InlineCalendar}" HorizontalAlignment="Center" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize InlineCalendar}" HorizontalAlignment="Center" />
         <Calendar SelectionMode="SingleDate" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize DatePicker}" HorizontalAlignment="Center" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize DatePicker}" HorizontalAlignment="Center" />
         <CalendarDatePicker HorizontalAlignment="Center" PlaceholderText="{Localize PickADate}" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize SpinnerDatePicker}" HorizontalAlignment="Center" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize SpinnerDatePicker}" HorizontalAlignment="Center" />
         <DatePicker HorizontalAlignment="Center" />
     </StackPanel>
 </UserControl>

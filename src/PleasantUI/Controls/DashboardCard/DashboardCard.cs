@@ -49,11 +49,6 @@ public class DashboardCard : HeaderedContentControl
     public static readonly StyledProperty<bool> ShowScrollViewerProperty =
         AvaloniaProperty.Register<DashboardCard, bool>(nameof(ShowScrollViewer), defaultValue: true);
 
-    /// <summary>Defines the <see cref="ToolbarItems"/> property.</summary>
-    public static readonly DirectProperty<DashboardCard, AvaloniaList<object>> ToolbarItemsProperty =
-        AvaloniaProperty.RegisterDirect<DashboardCard, AvaloniaList<object>>(
-            nameof(ToolbarItems), o => o.ToolbarItems);
-
     /// <summary>Gets or sets a subtitle shown below the header.</summary>
     public string? Subtitle
     {
@@ -103,10 +98,6 @@ public class DashboardCard : HeaderedContentControl
         set => SetValue(ShowScrollViewerProperty, value);
     }
 
-    /// <summary>Gets the collection of toolbar items shown in the header's right slot.</summary>
-    [Content]
-    public AvaloniaList<object> ToolbarItems { get; } = new();
-
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
@@ -123,10 +114,6 @@ public class DashboardCard : HeaderedContentControl
     {
         base.OnApplyTemplate(e);
 
-        ItemsControl? toolbar = e.NameScope.Find<ItemsControl>(PART_HeaderToolbar);
-        toolbar?.ItemsSource = ToolbarItems;
-
         PseudoClasses.Set(PC_HasSubtitle, Subtitle is not null);
-        PseudoClasses.Set(PC_HasToolbar, HeaderContent is not null || ToolbarItems.Count > 0);
     }
 }

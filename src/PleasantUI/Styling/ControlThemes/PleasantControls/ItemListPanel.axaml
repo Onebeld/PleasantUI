@@ -44,7 +44,7 @@
                                     Padding="0">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <PathIcon Grid.Column="0"
-                                              Data="{DynamicResource SearchRegular}"
+                                              Data="{StaticResource SearchRegular}"
                                               Width="16" Height="16"
                                               Margin="12 0 8 0"
                                               Foreground="{DynamicResource TextFillColor3}"
@@ -59,12 +59,12 @@
                                              VerticalContentAlignment="Center" />
                                     <Button Name="PART_ClearButton"
                                             Grid.Column="2"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{StaticResource AppBarButtonTheme}"
                                             Width="32" Height="32"
                                             Padding="8"
                                             Margin="0 0 6 0"
                                             IsVisible="{Binding SearchText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-                                        <PathIcon Data="{DynamicResource DismissRegular}"
+                                        <PathIcon Data="{StaticResource DismissRegular}"
                                                   Width="12" Height="12" />
                                     </Button>
                                 </Grid>
@@ -110,7 +110,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
                                 <StackPanel Spacing="8" HorizontalAlignment="Center">
-                                    <PathIcon Data="{DynamicResource ListRegular}"
+                                    <PathIcon Data="{StaticResource ListRegular}"
                                               Width="28" Height="28"
                                               HorizontalAlignment="Center"
                                               Foreground="{DynamicResource TextFillColor3}" />

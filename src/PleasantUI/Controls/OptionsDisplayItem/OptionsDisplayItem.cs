@@ -15,7 +15,7 @@ namespace PleasantUI.Controls;
 public class OptionsDisplayItem : TemplatedControl
 {
     private bool _isPressed;
-    private Border? _layoutRoot;
+    private RippleEffect? _rippleEffect;
     
     /// <summary>
     /// Defines the <see cref="Header" /> property.
@@ -229,10 +229,10 @@ public class OptionsDisplayItem : TemplatedControl
     {
         base.OnApplyTemplate(e);
 
-        _layoutRoot = e.NameScope.Find<Border>("LayoutRoot")!;
-        _layoutRoot.PointerPressed += OnLayoutRootPointerPressed;
-        _layoutRoot.PointerReleased += OnLayoutRootPointerReleased;
-        _layoutRoot.PointerCaptureLost += OnLayoutRootPointerCaptureLost;
+        _rippleEffect = e.NameScope.Find<RippleEffect>("PART_Ripple")!;
+        _rippleEffect.PointerPressed += OnLayoutRootPointerPressed;
+        _rippleEffect.PointerReleased += OnLayoutRootPointerReleased;
+        _rippleEffect.PointerCaptureLost += OnLayoutRootPointerCaptureLost;
     }
 
     /// <inheritdoc />

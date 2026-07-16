@@ -6,12 +6,12 @@
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="400">
             <controls:PropertyGrid>
-                <controls:PropertyRow Label="URL"       Value="https://example.com/file.zip"
-                                      ValueKind="Link"  ToolTipText="https://example.com/file.zip" />
-                <controls:PropertyRow Label="Name"      Value="file.zip" />
-                <controls:PropertyRow Label="Size"      Value="128 MB" />
-                <controls:PropertyRow Label="Speed"     Value="4.2 MB/s" />
-                <controls:PropertyRow Label="Status"    Value="Downloading"
+                <controls:PropertyRow Label="URL" Value="https://example.com/file.zip"
+                                      ValueKind="Link" ToolTipText="https://example.com/file.zip" />
+                <controls:PropertyRow Label="Name" Value="file.zip" />
+                <controls:PropertyRow Label="Size" Value="128 MB" />
+                <controls:PropertyRow Label="Speed" Value="4.2 MB/s" />
+                <controls:PropertyRow Label="Status" Value="Downloading"
                                       ValueKind="Status" />
             </controls:PropertyGrid>
         </Border>
@@ -29,14 +29,14 @@
                     <TextBlock Grid.Column="0"
                                Text="{TemplateBinding Label}"
                                Foreground="{DynamicResource TextFillColor2}"
-                               FontSize="{DynamicResource GlobalFontSize}"
+                               FontSize="{StaticResource GlobalFontSize}"
                                VerticalAlignment="Center" />
 
                     <!-- Value: plain text (default) -->
                     <TextBlock Name="PART_TextValue"
                                Grid.Column="2"
                                Text="{TemplateBinding Value}"
-                               FontSize="{DynamicResource GlobalFontSize}"
+                               FontSize="{StaticResource GlobalFontSize}"
                                TextTrimming="CharacterEllipsis"
                                VerticalAlignment="Center"
                                ToolTip.Tip="{TemplateBinding ToolTipText}" />
@@ -47,10 +47,8 @@
                             Content="{TemplateBinding Value}"
                             Command="{TemplateBinding LinkCommand}"
                             CommandParameter="{TemplateBinding LinkCommandParameter}"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Padding="0"
-                            CornerRadius="0"
+                            Theme="{StaticResource AppBarButtonTheme}"
+                            Padding="5 0"
                             HorizontalContentAlignment="Left"
                             VerticalContentAlignment="Center"
                             Cursor="Hand"
@@ -59,7 +57,7 @@
                         <Button.Styles>
                             <Style Selector="Button /template/ ContentPresenter">
                                 <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis" />
-                                <Setter Property="TextBlock.Foreground"   Value="{DynamicResource TextFillColor1}" />
+                                <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextFillColor1}" />
                             </Style>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
                                 <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentFillColor1}" />
@@ -72,7 +70,7 @@
                     <TextBlock Name="PART_StatusValue"
                                Grid.Column="2"
                                Text="{TemplateBinding Value}"
-                               FontSize="{DynamicResource GlobalFontSize}"
+                               FontSize="{StaticResource GlobalFontSize}"
                                Foreground="{TemplateBinding ValueBrush}"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -118,16 +116,17 @@
     <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:PropertyGrid}" TargetType="controls:PropertyGrid">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="RowSpacing"          Value="10" />
+        <Setter Property="RowSpacing" Value="10" />
 
         <Setter Property="Template">
             <ControlTemplate>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                    VerticalScrollBarVisibility="Auto">
+                              VerticalScrollBarVisibility="Auto">
                     <ItemsControl Name="PART_RowsHost">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Spacing="{Binding RowSpacing, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" />
+                                <StackPanel
+                                    Spacing="{Binding RowSpacing, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>

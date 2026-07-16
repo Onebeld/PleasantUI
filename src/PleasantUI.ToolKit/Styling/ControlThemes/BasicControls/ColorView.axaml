@@ -42,7 +42,7 @@
                         <!-- Spectrum Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <PathIcon Data="{DynamicResource BrushRegular}" />
+                                <PathIcon Data="{StaticResource BrushRegular}" />
                             </TabItem.Header>
                             <Grid ColumnDefinitions="Auto,*,Auto"
                                   RowDefinitions="Auto,*" Margin="10">
@@ -93,7 +93,7 @@
                         <!-- Palette Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <PathIcon Data="{DynamicResource PaletteRegular}" />
+                                <PathIcon Data="{StaticResource PaletteRegular}" />
                             </TabItem.Header>
                             <Grid RowDefinitions="*,30">
                                 <ListBox Grid.Row="0"
@@ -108,7 +108,7 @@
                                             <Setter Property="MinHeight" Value="0" />
                                             <Setter Property="ContextFlyout">
                                                 <MenuFlyout>
-                                                    <MenuItem x:Name="DeleteColor" Header="{Localize DeleteMenu, Default='_Delete'}" Icon="{DynamicResource DeleteRegular}" />
+                                                    <MenuItem x:Name="DeleteColor" Header="{Localize DeleteMenu, Default='_Delete'}" Icon="{StaticResource DeleteRegular}" />
                                                 </MenuFlyout>
                                             </Setter>
                                             <Setter Property="Template">
@@ -162,14 +162,14 @@
                                         Grid.Row="1"
                                         Margin="50 0"
                                         ToolTip.Tip="{Localize ToolKit/ThemeEditor/AddColor, Default='Add color'}">
-                                    <PleasantIcon Icon="{DynamicResource AddRegular}" Width="16" Height="16" />
+                                    <PleasantIcon Icon="{StaticResource AddRegular}" Width="16" Height="16" />
                                 </Button>
                             </Grid>
                         </TabItem>
                         <!-- Components Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <PathIcon Data="{DynamicResource TuneRegular}" />
+                                <PathIcon Data="{StaticResource TuneRegular}" />
                             </TabItem.Header>
                             <Grid ColumnDefinitions="30,80,*"
                                   Margin="10"
@@ -182,7 +182,7 @@
                                     <!-- Content RGB/HSV names are hard-coded in ColorPicker as well -->
                                     <!-- ToggleButtons are styled to look like a 'SegmentedControl' or 'ButtonGroup' -->
                                     <RadioButton x:Name="RgbToggleButton"
-                                                 Theme="{DynamicResource ButtonedRadioButton}"
+                                                 Theme="{StaticResource ButtonedRadioButton}"
                                                  Grid.Column="0"
                                                  Content="RGB"
                                                  HorizontalAlignment="Stretch"
@@ -193,7 +193,7 @@
                                                  GroupName="ColorMode"
                                                  CornerRadius="999 0 0 999" />
                                     <RadioButton x:Name="HsvToggleButton"
-                                                 Theme="{DynamicResource ButtonedRadioButton}"
+                                                 Theme="{StaticResource ButtonedRadioButton}"
                                                  Grid.Column="1"
                                                  Content="HSV"
                                                  HorizontalAlignment="Stretch"

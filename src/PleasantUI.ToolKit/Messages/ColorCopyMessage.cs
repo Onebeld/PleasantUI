@@ -2,12 +2,4 @@
 
 namespace PleasantUI.ToolKit.Messages;
 
-internal class ColorCopyMessage
-{
-    public Color Color { get; }
-
-    public ColorCopyMessage(Color color)
-    {
-        Color = color;
-    }
-}
+internal record struct ColorCopyMessage(Color Color);

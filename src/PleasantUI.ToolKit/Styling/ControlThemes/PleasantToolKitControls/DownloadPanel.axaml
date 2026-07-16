@@ -217,13 +217,13 @@
                               Margin="0 0 0 10">
                             <!-- Details toggle (left) -->
                             <Button Name="PART_DetailsToggle"
-                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                    Theme="{StaticResource AppBarButtonTheme}"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Padding="10 6">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
                                     <PathIcon Name="PART_DetailsChevron"
-                                              Data="{DynamicResource ChevronDownRegular}"
+                                              Data="{StaticResource ChevronDownRegular}"
                                               Width="10" Height="10" />
                                     <TextBlock Name="PART_DetailsLabel"
                                                Text="{TemplateBinding ShowDetailsLabel}"
@@ -244,7 +244,7 @@
                                 </Button>
                                 <Button Name="PART_CancelButton"
                                         Command="{TemplateBinding CancelCommand}"
-                                        Theme="{DynamicResource DangerButtonTheme}"
+                                        Theme="{StaticResource DangerButtonTheme}"
                                         Content="{TemplateBinding CancelLabel}"
                                         Padding="14 6"
                                         FontSize="12" />
@@ -299,7 +299,7 @@
             <Setter Property="Text" Value="{Binding ResumeLabel, RelativeSource={RelativeSource TemplatedParent}}" />
         </Style>
         <Style Selector="^:paused /template/ Button#PART_PauseButton">
-            <Setter Property="Theme" Value="{DynamicResource AccentButtonTheme}" />
+            <Setter Property="Theme" Value="{StaticResource AccentButtonTheme}" />
         </Style>
 
         <!-- ── Merging: show merge progress ──────────────────────────── -->

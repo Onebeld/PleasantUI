@@ -70,95 +70,89 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="2"
                             ClipToBounds="False">
-                        <Grid Name="grid"
+                        <Grid x:Name="HorizontalTemplate"
                               Margin="{TemplateBinding Padding}"
-                              RowDefinitions="Auto, *"
-                              ClipToBounds="False">
-                            <Grid x:Name="SliderContainer" Grid.Row="1" ClipToBounds="False">
-                                <Grid.Styles>
-                                    <Style Selector="TickBar">
-                                        <Setter Property="ReservedSpace"
-                                                Value="{CompiledBinding #PART_Track.Thumb.Bounds}" />
-                                    </Style>
-                                </Grid.Styles>
+                              ClipToBounds="False"
+                              ColumnDefinitions="Auto,Auto,*"
+                              MinHeight="0"
+                              RowDefinitions="5,Auto,5">
+                            <Grid.Styles>
+                                <Style Selector="TickBar">
+                                    <Setter Property="ReservedSpace"
+                                            Value="{CompiledBinding #PART_Track.Thumb.Bounds}" />
+                                </Style>
+                            </Grid.Styles>
 
-                                <Grid x:Name="HorizontalTemplate"
-                                      ClipToBounds="False"
-                                      ColumnDefinitions="Auto,Auto,*"
-                                      MinHeight="0"
-                                      RowDefinitions="5,Auto,5">
-                                    <TickBar Grid.Row="0"
-                                             Grid.Column="0"
-                                             Name="TopTickBar"
-                                             Placement="Top"
-                                             Height="4"
-                                             VerticalAlignment="Bottom"
-                                             Margin="0,0,0,4"
-                                             Grid.ColumnSpan="3" />
+                            <TickBar Grid.Row="0"
+                                     Grid.Column="0"
+                                     Name="TopTickBar"
+                                     Placement="Top"
+                                     Height="4"
+                                     VerticalAlignment="Bottom"
+                                     Margin="0,0,0,4"
+                                     Grid.ColumnSpan="3" />
 
-                                    <TickBar Grid.Column="0"
-                                             Name="BottomTickBar"
-                                             Placement="Bottom"
-                                             Height="4"
-                                             VerticalAlignment="Top"
-                                             Margin="0 4 0 0"
-                                             Grid.Row="2"
-                                             Grid.ColumnSpan="3" />
+                            <TickBar Grid.Column="0"
+                                     Name="BottomTickBar"
+                                     Placement="Bottom"
+                                     Height="4"
+                                     VerticalAlignment="Top"
+                                     Margin="0 4 0 0"
+                                     Grid.Row="2"
+                                     Grid.ColumnSpan="3" />
 
-                                    <Track Grid.Column="0"
-                                           Name="PART_Track"
-                                           Grid.Row="1"
-                                           Margin="2 0"
-                                           Grid.ColumnSpan="3" Orientation="Horizontal"
-                                           ClipToBounds="False">
-                                        <Track.DecreaseButton>
-                                            <RepeatButton Name="PART_DecreaseButton"
-                                                          Background="{TemplateBinding Foreground}"
-                                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                                <RepeatButton.Template>
-                                                    <ControlTemplate>
-                                                        <Grid>
-                                                            <Border Name="FocusTarget"
-                                                                    Background="#00000000" Margin="0,-10" />
-                                                            <Border Name="TrackBackground"
-                                                                    Background="{TemplateBinding Background}"
-                                                                    CornerRadius="2"
-                                                                    Height="4"
-                                                                    VerticalAlignment="Center" />
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </RepeatButton.Template>
-                                            </RepeatButton>
-                                        </Track.DecreaseButton>
-                                        <Track.IncreaseButton>
-                                            <RepeatButton Name="PART_IncreaseButton"
-                                                          Background="{TemplateBinding Background}"
-                                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                                <RepeatButton.Template>
-                                                    <ControlTemplate>
-                                                        <Grid>
-                                                            <Border Name="FocusTarget"
-                                                                    Background="#00000000"
-                                                                    Margin="0,-10" />
-                                                            <Border Name="TrackBackground"
-                                                                    Background="{TemplateBinding Background}"
-                                                                    CornerRadius="2"
-                                                                    Height="4"
-                                                                    VerticalAlignment="Center" />
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </RepeatButton.Template>
-                                            </RepeatButton>
-                                        </Track.IncreaseButton>
-                                        <Thumb Classes="SliderThumbStyle" Name="thumb"
-                                               Margin="0" Padding="0"
-                                               DataContext="{TemplateBinding Value}"
-                                               Theme="{DynamicResource SliderThumbTheme}"
-                                               Height="18"
-                                               Width="18" />
-                                    </Track>
-                                </Grid>
-                            </Grid>
+                            <Track Grid.Column="0"
+                                   Name="PART_Track"
+                                   Grid.Row="1"
+                                   Margin="2 0"
+                                   Grid.ColumnSpan="3" Orientation="Horizontal"
+                                   ClipToBounds="False">
+                                <Track.DecreaseButton>
+                                    <RepeatButton Name="PART_DecreaseButton"
+                                                  Background="{TemplateBinding Foreground}"
+                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate>
+                                                <Grid>
+                                                    <Border Name="FocusTarget"
+                                                            Background="#00000000" Margin="0,-10" />
+                                                    <Border Name="TrackBackground"
+                                                            Background="{TemplateBinding Background}"
+                                                            CornerRadius="2"
+                                                            Height="4"
+                                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseButton>
+                                <Track.IncreaseButton>
+                                    <RepeatButton Name="PART_IncreaseButton"
+                                                  Background="{TemplateBinding Background}"
+                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate>
+                                                <Grid>
+                                                    <Border Name="FocusTarget"
+                                                            Background="#00000000"
+                                                            Margin="0,-10" />
+                                                    <Border Name="TrackBackground"
+                                                            Background="{TemplateBinding Background}"
+                                                            CornerRadius="2"
+                                                            Height="4"
+                                                            VerticalAlignment="Center" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.IncreaseButton>
+                                <Thumb Classes="SliderThumbStyle" Name="thumb"
+                                       Margin="0" Padding="0"
+                                       DataContext="{TemplateBinding Value}"
+                                       Theme="{StaticResource SliderThumbTheme}"
+                                       Height="18"
+                                       Width="18" />
+                            </Track>
                         </Grid>
                     </Border>
                 </DataValidationErrors>
@@ -172,84 +166,80 @@
                         <Border BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 CornerRadius="2">
-                            <Grid Name="grid"
+                            <Grid x:Name="VerticalTemplate"
                                   Margin="{TemplateBinding Padding}"
-                                  RowDefinitions="Auto,*">
-                                <Grid x:Name="SliderContainer" Grid.Row="1">
-                                    <Grid.Styles>
-                                        <Style Selector="TickBar">
-                                            <Setter Property="ReservedSpace"
-                                                    Value="{CompiledBinding #PART_Track.Thumb.Bounds}" />
-                                        </Style>
-                                    </Grid.Styles>
-                                    <Grid x:Name="VerticalTemplate"
-                                          RowDefinitions="*,Auto,Auto"
-                                          ColumnDefinitions="10,Auto,10">
-                                        <TickBar Grid.Row="0"
-                                                 Grid.Column="0"
-                                                 Name="LeftTickBar"
-                                                 Placement="Left"
-                                                 Width="4"
-                                                 HorizontalAlignment="Right" Margin="0,0,4,0" Grid.RowSpan="3" />
+                                  RowDefinitions="*,Auto,Auto"
+                                  ColumnDefinitions="10,Auto,10">
+                                <Grid.Styles>
+                                    <Style Selector="TickBar">
+                                        <Setter Property="ReservedSpace"
+                                                Value="{CompiledBinding #PART_Track.Thumb.Bounds}" />
+                                    </Style>
+                                </Grid.Styles>
 
-                                        <TickBar Grid.Row="0"
-                                                 Name="RightTickBar"
-                                                 Placement="Right"
-                                                 Width="4"
-                                                 HorizontalAlignment="Left"
-                                                 Margin="4 0 0 0" Grid.Column="2" Grid.RowSpan="3" />
-                                        <Track Grid.Row="0"
-                                               Name="PART_Track"
-                                               Margin="0 2"
-                                               Grid.Column="1"
-                                               Grid.RowSpan="3" Orientation="Vertical">
-                                            <Track.DecreaseButton>
-                                                <RepeatButton Name="PART_DecreaseButton"
-                                                              Background="{TemplateBinding Foreground}"
-                                                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                    <RepeatButton.Template>
-                                                        <ControlTemplate>
-                                                            <Grid>
-                                                                <Border Name="FocusTarget" Background="#00000000"
-                                                                        Margin="0,-10" />
-                                                                <Border Name="TrackBackground"
-                                                                        Background="{TemplateBinding Background}"
-                                                                        CornerRadius="4"
-                                                                        Width="4"
-                                                                        HorizontalAlignment="Center" />
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </RepeatButton.Template>
-                                                </RepeatButton>
-                                            </Track.DecreaseButton>
-                                            <Track.IncreaseButton>
-                                                <RepeatButton Name="PART_IncreaseButton"
-                                                              Background="{TemplateBinding Background}"
-                                                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                    <RepeatButton.Template>
-                                                        <ControlTemplate>
-                                                            <Grid>
-                                                                <Border Name="FocusTarget" Background="#00000000"
-                                                                        Margin="0,-10" />
-                                                                <Border Name="TrackBackground"
-                                                                        Background="{TemplateBinding Background}"
-                                                                        CornerRadius="4"
-                                                                        Width="4"
-                                                                        HorizontalAlignment="Center" />
-                                                            </Grid>
-                                                        </ControlTemplate>
-                                                    </RepeatButton.Template>
-                                                </RepeatButton>
-                                            </Track.IncreaseButton>
-                                            <Thumb Classes="SliderThumbStyle"
-                                                   Theme="{DynamicResource SliderThumbTheme}"
-                                                   Name="SliderThumb" Margin="0"
-                                                   Padding="0" DataContext="{TemplateBinding Value}"
-                                                   Height="18"
-                                                   Width="18" />
-                                        </Track>
-                                    </Grid>
-                                </Grid>
+                                <TickBar Grid.Row="0"
+                                         Grid.Column="0"
+                                         Name="LeftTickBar"
+                                         Placement="Left"
+                                         Width="4"
+                                         HorizontalAlignment="Right" Margin="0,0,4,0" Grid.RowSpan="3" />
+
+                                <TickBar Grid.Row="0"
+                                         Name="RightTickBar"
+                                         Placement="Right"
+                                         Width="4"
+                                         HorizontalAlignment="Left"
+                                         Margin="4 0 0 0" Grid.Column="2" Grid.RowSpan="3" />
+                                <Track Grid.Row="0"
+                                       Name="PART_Track"
+                                       Margin="0 2"
+                                       Grid.Column="1"
+                                       Grid.RowSpan="3" Orientation="Vertical">
+                                    <Track.DecreaseButton>
+                                        <RepeatButton Name="PART_DecreaseButton"
+                                                      Background="{TemplateBinding Foreground}"
+                                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <RepeatButton.Template>
+                                                <ControlTemplate>
+                                                    <Grid>
+                                                        <Border Name="FocusTarget" Background="#00000000"
+                                                                Margin="0,-10" />
+                                                        <Border Name="TrackBackground"
+                                                                Background="{TemplateBinding Background}"
+                                                                CornerRadius="4"
+                                                                Width="4"
+                                                                HorizontalAlignment="Center" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </RepeatButton.Template>
+                                        </RepeatButton>
+                                    </Track.DecreaseButton>
+                                    <Track.IncreaseButton>
+                                        <RepeatButton Name="PART_IncreaseButton"
+                                                      Background="{TemplateBinding Background}"
+                                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <RepeatButton.Template>
+                                                <ControlTemplate>
+                                                    <Grid>
+                                                        <Border Name="FocusTarget" Background="#00000000"
+                                                                Margin="0,-10" />
+                                                        <Border Name="TrackBackground"
+                                                                Background="{TemplateBinding Background}"
+                                                                CornerRadius="4"
+                                                                Width="4"
+                                                                HorizontalAlignment="Center" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </RepeatButton.Template>
+                                        </RepeatButton>
+                                    </Track.IncreaseButton>
+                                    <Thumb Classes="SliderThumbStyle"
+                                           Theme="{StaticResource SliderThumbTheme}"
+                                           Name="SliderThumb" Margin="0"
+                                           Padding="0" DataContext="{TemplateBinding Value}"
+                                           Height="18"
+                                           Width="18" />
+                                </Track>
                             </Grid>
                         </Border>
                     </DataValidationErrors>

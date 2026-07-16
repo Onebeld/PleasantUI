@@ -14,7 +14,7 @@
                               InputGesture="Ctrl+N">
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
-                                <Path Data="{DynamicResource CheckmarkRegular}"
+                                <Path Data="{StaticResource CheckmarkRegular}"
                                       Fill="{DynamicResource TextFillColor1}"
                                       Stretch="Uniform" />
                             </Viewbox>
@@ -118,7 +118,7 @@
                                           Margin="24 0 0 0"
                                           Width="10"
                                           Height="10"
-                                          Data="{DynamicResource ChevronRightRegular}" />
+                                          Data="{StaticResource ChevronRightRegular}" />
                             </Grid>
                         </RippleEffect>
                     </Border>

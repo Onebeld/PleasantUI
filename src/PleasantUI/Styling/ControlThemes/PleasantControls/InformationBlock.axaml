@@ -3,7 +3,7 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="50">
-            <InformationBlock Content="500" Icon="{DynamicResource PinRegular}" />
+            <InformationBlock Content="500" Icon="{StaticResource PinRegular}" />
         </Border>
     </Design.PreviewWith>
 

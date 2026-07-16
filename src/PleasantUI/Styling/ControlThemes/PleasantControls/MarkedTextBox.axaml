@@ -47,21 +47,21 @@
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
                           InputGesture="{x:Static TextBox.CutGesture}"
                           Foreground="{DynamicResource TextFillColor1}"
-                          Icon="{DynamicResource CutRegular}" />
+                          Icon="{StaticResource CutRegular}" />
                 
                 <MenuItem Header="{Localize Copy, Default='_Copy'}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
                           InputGesture="{x:Static TextBox.CopyGesture}"
                           Foreground="{DynamicResource TextFillColor1}"
-                          Icon="{DynamicResource CopyRegular}" />
+                          Icon="{StaticResource CopyRegular}" />
                 
                 <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
                           InputGesture="{x:Static TextBox.PasteGesture}"
                           Foreground="{DynamicResource TextFillColor1}"
-                          Icon="{DynamicResource PasteRegular}" />
+                          Icon="{StaticResource PasteRegular}" />
             </MenuFlyout>
         </Setter>
 

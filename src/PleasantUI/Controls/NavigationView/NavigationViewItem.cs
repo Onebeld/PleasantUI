@@ -17,8 +17,8 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
-using PleasantUI.Core.Common;
 using PleasantUI.Core.Extensions;
+using PleasantUI.Core.Internal;
 
 namespace PleasantUI.Controls;
 
@@ -476,7 +476,7 @@ public class NavigationViewItem : TreeViewItem
                 {
                     Header = child.Header?.ToString(),
                     Icon = child.Icon,
-                    Command = new RelayCommand(() => navigationView?.SelectedItem = child)
+                    Command = new InternalCommand(() => navigationView?.SelectedItem = child)
                 };
 
                 itemsCollection.Add(flyoutItem);

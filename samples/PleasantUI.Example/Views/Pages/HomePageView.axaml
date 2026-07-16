@@ -28,16 +28,16 @@
                 </LinearGradientBrush>
             </Border.Background>
             <Viewbox Stretch="Uniform" HorizontalAlignment="Center" Margin="50 15">
-                <PleasantIcon Icon="{DynamicResource PleasantUI}" Width="600" Height="160" />
+                <PleasantIcon Icon="{StaticResource PleasantUI}" Width="600" Height="160" />
             </Viewbox>
         </Border>
 
-        <TextBlock Theme="{DynamicResource TitleTextBlockTheme}"
+        <TextBlock Theme="{StaticResource TitleTextBlockTheme}"
                    TextAlignment="Center"
                    TextWrapping="Wrap"
                    Text="{Localize {x:Static LocKey.WelcomeToPleasantUI}}"/> 
 
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Text="{CompiledBinding BasicControlsText}" />
 
         <ItemsControl ItemsSource="{CompiledBinding BasicControlPageCards}"
@@ -49,7 +49,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Text="{CompiledBinding PleasantControlsText}" />
 
         <ItemsControl ItemsSource="{CompiledBinding PleasantControlPageCards}"
@@ -61,7 +61,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}"
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Text="{CompiledBinding ToolKitText}" />
 
         <ItemsControl ItemsSource="{CompiledBinding ToolKitPageCards}"

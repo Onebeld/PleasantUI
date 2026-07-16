@@ -33,35 +33,34 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        
         <Setter Property="Template">
             <ControlTemplate>
-                <Border x:Name="PART_Border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ClipToBounds="True">
-                    <RippleEffect Name="PART_Ripple" Padding="{TemplateBinding Padding}">
-                        <StackPanel x:Name="PART_LayoutRoot"
-                                    Spacing="4"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                            <PleasantIcon Icon="{TemplateBinding Icon}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          HorizontalAlignment="Center" />
-                            <TextBlock x:Name="PART_Label"
-                                       Text="{TemplateBinding Label}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       FontSize="11"
-                                       HorizontalAlignment="Center"
-                                       TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </RippleEffect>
-                </Border>
+                <RippleEffect Name="PART_Ripple"
+                              Padding="{TemplateBinding Padding}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                    <StackPanel x:Name="PART_LayoutRoot"
+                                Spacing="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <PleasantIcon Icon="{TemplateBinding Icon}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalAlignment="Center" />
+                        <TextBlock x:Name="PART_Label"
+                                   Text="{TemplateBinding Label}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="11"
+                                   HorizontalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
         
-        <Style Selector="^ /template/ Border#PART_Border">
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="Transitions">
                 <Transitions>
                     <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -73,7 +72,7 @@
         </Style>
 
         <!-- Hover -->
-        <Style Selector="^:pointerover /template/ Border#PART_Border">
+        <Style Selector="^:pointerover /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
@@ -139,37 +138,35 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        
         <Setter Property="Template">
             <ControlTemplate>
-                <Border x:Name="PART_Border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ClipToBounds="True">
-                    <RippleEffect Name="PART_Ripple"
-                                  Padding="{TemplateBinding Padding}">
-                        <StackPanel x:Name="PART_LayoutRoot"
-                                    Spacing="4"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                            <PleasantIcon x:Name="PART_IconPresenter"
-                                          Icon="{TemplateBinding Icon}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          HorizontalAlignment="Center" />
-                            <TextBlock x:Name="PART_Label"
-                                       Text="{TemplateBinding Label}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       FontSize="11"
-                                       HorizontalAlignment="Center"
-                                       TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </RippleEffect>
-                </Border>
+                <RippleEffect Name="PART_Ripple"
+                              Padding="{TemplateBinding Padding}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                    <StackPanel x:Name="PART_LayoutRoot"
+                                Spacing="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <PleasantIcon x:Name="PART_IconPresenter"
+                                      Icon="{TemplateBinding Icon}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalAlignment="Center" />
+                        <TextBlock x:Name="PART_Label"
+                                   Text="{TemplateBinding Label}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="11"
+                                   HorizontalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
         
-        <Style Selector="^ /template/ Border#PART_Border">
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="Transitions">
                 <Transitions>
                     <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -181,12 +178,12 @@
         </Style>
 
         <!-- Hover -->
-        <Style Selector="^:pointerover /template/ Border#PART_Border">
+        <Style Selector="^:pointerover /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <!-- Checked -->
-        <Style Selector="^:checked /template/ Border#PART_Border">
+        <Style Selector="^:checked /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
         </Style>
         
@@ -195,10 +192,10 @@
             <Setter Property="RippleOpacity" Value="0.2" />
         </Style>
         
-        <Style Selector="^:checked:pointerover /template/ Border#PART_Border">
+        <Style Selector="^:checked:pointerover /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
         </Style>
-        <Style Selector="^:checked:pressed /template/ Border#PART_Border">
+        <Style Selector="^:checked:pressed /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
         </Style>
 

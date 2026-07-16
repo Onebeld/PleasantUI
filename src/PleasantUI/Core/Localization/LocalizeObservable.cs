@@ -27,7 +27,7 @@ public class LocalizeObservable : IObservable<string>
         
         bool first;
 
-        for (; ; )
+        while (true)
         {
             lock (this)
             {
@@ -51,9 +51,7 @@ public class LocalizeObservable : IObservable<string>
         }
 
         if (first)
-        {
             Initialize();
-        }
 
         Subscribed(observer);
 

@@ -84,7 +84,7 @@
                                             Content="{TemplateBinding SecondaryButtonText}"
                                             IsVisible="{TemplateBinding SecondaryButtonText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                                     
-                                    <Button Name="PART_PrimaryButton" Theme="{DynamicResource AccentButtonTheme}"
+                                    <Button Name="PART_PrimaryButton" Theme="{StaticResource AccentButtonTheme}"
                                             Content="{TemplateBinding PrimaryButtonText}"
                                             IsVisible="{TemplateBinding PrimaryButtonText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
                                 </UniformGrid>
@@ -102,7 +102,7 @@
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorNeutral}" />
         </Style>
         <Style Selector="^:info /template/ PleasantIcon#PART_Icon">
-            <Setter Property="Icon" Value="{DynamicResource InfoRegular}" />
+            <Setter Property="Icon" Value="{StaticResource InfoRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorNeutral}" />
         </Style>
         
@@ -113,7 +113,7 @@
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorCaution}" />
         </Style>
         <Style Selector="^:warning /template/ PleasantIcon#PART_Icon">
-            <Setter Property="Icon" Value="{DynamicResource WarningRegular}" />
+            <Setter Property="Icon" Value="{StaticResource WarningRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorCaution}" />
         </Style>
         
@@ -127,7 +127,7 @@
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorCritical}" />
         </Style>
         <Style Selector="^:error /template/ PleasantIcon#PART_Icon">
-            <Setter Property="Icon" Value="{DynamicResource ErrorCircleRegular}" />
+            <Setter Property="Icon" Value="{StaticResource ErrorCircleRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorCritical}" />
         </Style>
         
@@ -138,7 +138,7 @@
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorSuccess}" />
         </Style>
         <Style Selector="^:success /template/ PleasantIcon#PART_Icon">
-            <Setter Property="Icon" Value="{DynamicResource CheckCircleRegular}" />
+            <Setter Property="Icon" Value="{StaticResource CheckCircleRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorSuccess}" />
         </Style>
 

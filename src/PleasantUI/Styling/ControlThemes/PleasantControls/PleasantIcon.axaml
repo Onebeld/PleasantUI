@@ -12,20 +12,23 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ContentPresenter Name="PART_ContentPresenter"
+                                  Background="{TemplateBinding Background}"
                                   Foreground="{TemplateBinding Foreground}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Padding="{TemplateBinding Padding}"
                                   TextAlignment="Center"
                                   ContentTemplate="{TemplateBinding IconTemplate}"
                                   Content="{TemplateBinding Icon}">
                     <ContentPresenter.DataTemplates>
                         <DataTemplate DataType="Geometry">
                             <PathIcon Data="{Binding}"
-                                      Width="NaN"
-                                      Height="NaN"
+                                      Width="{Binding (IconHelper.Width), RelativeSource={RelativeSource AncestorType=PleasantIcon}}"
+                                      Height="{Binding (IconHelper.Height), RelativeSource={RelativeSource AncestorType=PleasantIcon}}"
                                       FontSize="{Binding (IconHelper.FontSize), RelativeSource={RelativeSource AncestorType=PleasantIcon}}"
                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
                         </DataTemplate>
                         <DataTemplate DataType="IImage">
-                            <Image Source="{Binding}" Width="NaN" Height="NaN" />
+                            <Image Source="{Binding}" Width="{Binding (IconHelper.Width), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" Height="{Binding (IconHelper.Height), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
                         </DataTemplate>
                     </ContentPresenter.DataTemplates>
                 </ContentPresenter>

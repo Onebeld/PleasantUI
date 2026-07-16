@@ -46,21 +46,21 @@
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
                           InputGesture="{x:Static TextBox.CutGesture}"
                           Foreground="{DynamicResource TextFillColor1}"
-                          Icon="{DynamicResource CutRegular}" />
+                          Icon="{StaticResource CutRegular}" />
                 
                 <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
                           InputGesture="{x:Static TextBox.CopyGesture}"
                           Foreground="{DynamicResource TextFillColor1}"
-                          Icon="{DynamicResource CopyRegular}" />
+                          Icon="{StaticResource CopyRegular}" />
                 
                 <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
                           InputGesture="{x:Static TextBox.PasteGesture}"
                           Foreground="{DynamicResource TextFillColor1}"
-                          Icon="{DynamicResource PasteRegular}" />
+                          Icon="{StaticResource PasteRegular}" />
             </MenuFlyout>
         </Setter>
 
@@ -131,17 +131,17 @@
         <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <ToggleButton Theme="{DynamicResource AppBarToggleButtonTheme}"
+                    <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}"
                                   Padding="4"
                                   Margin="5"
                                   CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                   IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
                         <ToggleButton.Styles>
                             <Style Selector="ToggleButton > PleasantIcon">
-                                <Setter Property="Icon" Value="{DynamicResource PasswordBoxRevealButtonIcon}" />
+                                <Setter Property="Icon" Value="{StaticResource PasswordBoxRevealButtonIcon}" />
                             </Style>
                             <Style Selector="ToggleButton:checked > PleasantIcon">
-                                <Setter Property="Icon" Value="{DynamicResource PasswordBoxHideButtonIcon}" />
+                                <Setter Property="Icon" Value="{StaticResource PasswordBoxHideButtonIcon}" />
                             </Style>
                         </ToggleButton.Styles>
 
@@ -154,12 +154,13 @@
         <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <Button Theme="{DynamicResource AppBarButtonTheme}"
+                    <Button Theme="{StaticResource AppBarButtonTheme}"
                             Padding="6"
                             Margin="5"
                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Command="{CompiledBinding $parent[TextBox].Clear}">
-                        <PleasantIcon Width="10" Height="10" Icon="{DynamicResource DismissRegular}" />
+                        <PleasantIcon Width="10" Height="10" IconHelper.Width="10"
+                                      IconHelper.Height="10" Icon="{StaticResource DismissRegular}" />
                     </Button>
                 </Template>
             </Setter>

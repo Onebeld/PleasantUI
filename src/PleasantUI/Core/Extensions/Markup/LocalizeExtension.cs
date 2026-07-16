@@ -144,20 +144,6 @@ public class LocalizeExtension : MarkupExtension
         bool menuBar = MenuBar;
         string? defaultVal = Default;
 
-        // Build a resolver that applies menu bar prefix and default fallback
-        string Resolve()
-        {
-            string result;
-            if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
-                result = menuBar ? "_" + expression : expression;
-            else if (!string.IsNullOrWhiteSpace(defaultVal))
-                result = menuBar ? "_" + defaultVal : defaultVal;
-            else
-                result = expression;
-
-            return result;
-        }
-
         // LocalizeKeyObservable fires PropertyChanged on every language change.
         // Use a reflection Binding — reliable for non-AvaloniaObject INPC sources.
         LocalizeKeyObservable observable = new(Resolve);
@@ -177,6 +163,20 @@ public class LocalizeExtension : MarkupExtension
             Bindings = bindingBases,
             Converter = TranslateConverter.Instance
         };
+
+        // Build a resolver that applies menu bar prefix and default fallback
+        string Resolve()
+        {
+            string result;
+            if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
+                result = menuBar ? "_" + expression : expression;
+            else if (!string.IsNullOrWhiteSpace(defaultVal))
+                result = menuBar ? "_" + defaultVal : defaultVal;
+            else
+                result = expression;
+
+            return result;
+        }
     }
 
     private BindingBase[] GetBindings(BindingBase binding)

@@ -17,7 +17,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize BreadcrumbBar/BasicTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize BreadcrumbBar/BasicDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -55,7 +55,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize BreadcrumbBar/ItemsSourceTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize BreadcrumbBar/ItemsSourceDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -80,7 +80,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize BreadcrumbBar/OverflowTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize BreadcrumbBar/OverflowDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -110,7 +110,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize BreadcrumbBar/ClickableLastTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize BreadcrumbBar/ClickableLastDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -147,7 +147,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="{Localize BreadcrumbBar/PropertiesTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <Grid ColumnDefinitions="Auto,16,*"
                       RowDefinitions="Auto,Auto,Auto,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0"

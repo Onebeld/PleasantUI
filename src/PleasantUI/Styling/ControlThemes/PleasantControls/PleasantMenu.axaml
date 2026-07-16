@@ -22,7 +22,7 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="{TemplateBinding Title}"
-                                       Theme="{DynamicResource SubtitleTextBlockTheme}"
+                                       Theme="{StaticResource SubtitleTextBlockTheme}"
                                        VerticalAlignment="Center" />
 
                             <!-- Badges slot (InformationBlocks, counts, etc.) -->

@@ -32,7 +32,7 @@
                         <Grid Margin="{TemplateBinding Padding}">
                             <Rectangle HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"
-                                       Fill="{DynamicResource CheckeredBackgroundBrush}"
+                                       Fill="{StaticResource CheckeredBackgroundBrush}"
                                        RadiusX="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                        RadiusY="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.BottomRight}}" />
                             <Rectangle HorizontalAlignment="Stretch"
@@ -79,7 +79,7 @@
                                     </RepeatButton>
                                 </Track.IncreaseButton>
                                 <Thumb Name="ColorSliderThumb"
-                                       Theme="{DynamicResource ColorSliderThumbTheme}"
+                                       Theme="{StaticResource ColorSliderThumbTheme}"
                                        Margin="0"
                                        Padding="0"
                                        DataContext="{TemplateBinding Value}"
@@ -104,7 +104,7 @@
                         <Grid Margin="{TemplateBinding Padding}">
                             <Rectangle HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"
-                                       Fill="{DynamicResource CheckeredBackgroundBrush}"
+                                       Fill="{StaticResource CheckeredBackgroundBrush}"
                                        RadiusX="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.TopLeft}}"
                                        RadiusY="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.BottomRight}}" />
                             <Rectangle HorizontalAlignment="Stretch"
@@ -151,7 +151,7 @@
                                     </RepeatButton>
                                 </Track.IncreaseButton>
                                 <Thumb Name="ColorSliderThumb"
-                                       Theme="{DynamicResource ColorSliderThumbTheme}"
+                                       Theme="{StaticResource ColorSliderThumbTheme}"
                                        Margin="0"
                                        Padding="0"
                                        DataContext="{TemplateBinding Value}"

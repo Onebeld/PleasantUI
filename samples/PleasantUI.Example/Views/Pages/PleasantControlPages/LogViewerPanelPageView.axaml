@@ -15,11 +15,11 @@
                         <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
                     </WrapPanel.Styles>
                     <Button x:Name="OpenPanelBtn"  Content="{Localize LogViewerPanel/OpenPanel}"
-                            Theme="{DynamicResource AccentButtonTheme}" />
+                            Theme="{StaticResource AccentButtonTheme}" />
                     <Button x:Name="AddInfoBtn"    Content="{Localize LogViewerPanel/AddInfo}" />
                     <Button x:Name="AddWarningBtn" Content="{Localize LogViewerPanel/AddWarning}" />
                     <Button x:Name="AddErrorBtn"   Content="{Localize LogViewerPanel/AddError}"
-                            Theme="{DynamicResource DangerButtonTheme}" />
+                            Theme="{StaticResource DangerButtonTheme}" />
                     <Button x:Name="AddDebugBtn"   Content="{Localize LogViewerPanel/AddDebug}" />
                 </WrapPanel>
             </StackPanel>

@@ -61,13 +61,13 @@
 
                             <Button Grid.Column="1"
                                     Name="PART_CloseButton"
-                                    Theme="{DynamicResource CloseButtonTheme}"
+                                    Theme="{StaticResource CloseButtonTheme}"
                                     MinWidth="0"
                                     VerticalAlignment="Center"
                                     Padding="5"
                                     Margin="5 0 0 0"
                                     ToolTip.Tip="{Localize Close, Default='Close'}">
-                                <PleasantIcon Width="8" Height="8" Icon="{DynamicResource DismissRegular}" />
+                                <PleasantIcon Width="8" Height="8" Icon="{StaticResource DismissRegular}" />
                             </Button>
                         </Grid>
                     </RippleEffect>

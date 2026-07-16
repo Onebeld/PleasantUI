@@ -6,48 +6,42 @@
             <StackPanel Spacing="5">
                 <Button Content="Button" Padding="50 10" />
                 <Button Padding="50 10">
-                    <PleasantIcon Icon="{DynamicResource ChevronUpRegular}" Width="14" Height="14" />
+                    <PleasantIcon Icon="{StaticResource ChevronUpRegular}" Width="14" Height="14" />
                 </Button>
-                <Button Theme="{DynamicResource AppBarButtonTheme}" Content="App Bar Button" />
-                <Button Theme="{DynamicResource AccentButtonTheme}" Content="Accent Button" Padding="50 10" />
-                <Button Theme="{DynamicResource DangerButtonTheme}" Content="Danger" Padding="50 10" />
+                <Button Theme="{StaticResource AppBarButtonTheme}" Content="App Bar Button" />
+                <Button Theme="{StaticResource AccentButtonTheme}" Content="Accent Button" Padding="50 10" />
+                <Button Theme="{StaticResource DangerButtonTheme}" Content="Danger" Padding="50 10" />
                 <Button Content="Disabled Button" IsEnabled="False" Padding="50 10" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
-        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="Padding" Value="11 5 11 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
             </Transitions> 
-        </Setter> 
+        </Setter>
 
-        <Setter Property="Template">  
+        <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ClipToBounds="True">
-                    <RippleEffect Name="PART_Ripple">
-                        <ContentPresenter Name="PART_ContentPresenter"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          Padding="{TemplateBinding Padding}"
-                                          TextBlock.Foreground="{TemplateBinding Foreground}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </RippleEffect>
-                </Border>
+                <RippleEffect Name="PART_Ripple"
+                              Background="{TemplateBinding Background}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
 
@@ -66,12 +60,10 @@
     <ControlTheme x:Key="AppBarButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="BorderThickness" Value="0" />
     </ControlTheme>
 
     <ControlTheme x:Key="DangerButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource DangerColor}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderDangerColor}" />
         <Setter Property="Foreground" Value="{ForegroundBased DangerColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
 
@@ -90,7 +82,6 @@
 
     <ControlTheme x:Key="AccentButtonTheme" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{ForegroundBased AccentLightColor2}" />
 
@@ -111,7 +102,6 @@
         <Setter Property="Background" Value="{ColorToTransparent DangerColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="BorderThickness" Value="0" />
 
         <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />

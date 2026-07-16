@@ -38,7 +38,7 @@
                                VerticalAlignment="Center" FontSize="12"
                                Foreground="{DynamicResource TextFillColor2}" />
                     <Button Content="{Localize ItemListPanel/DeleteSelected}"
-                            Theme="{DynamicResource DangerButtonTheme}"
+                            Theme="{StaticResource DangerButtonTheme}"
                             Padding="10 4" FontSize="12" />
                 </StackPanel>
             </controls:ItemListPanel.BulkActionsContent>

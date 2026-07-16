@@ -41,7 +41,7 @@
                                             Margin="0 0 0 5" />
                         </ScrollViewer>
                         <Button Name="PART_AdderButton"
-                                Theme="{DynamicResource AppBarButtonTheme}"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left"
                                 Width="28"

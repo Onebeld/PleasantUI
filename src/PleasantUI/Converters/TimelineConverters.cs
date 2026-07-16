@@ -16,7 +16,7 @@ public static class TimelineConverters
     public static readonly IMultiValueConverter DateTimeFormat =
         new FuncMultiValueConverter<object?, string>(values =>
         {
-            if (values.Count >= 2 && values[0] is DateTime date && values[1] is string fmt)
+            if (values is [DateTime date, string fmt, ..])
                 return date.ToString(fmt, CultureInfo.CurrentCulture);
             return string.Empty;
         });

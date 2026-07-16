@@ -112,7 +112,7 @@
                                        Grid.Column="1" />
 
                             <Button Name="PART_Button"
-                                    Theme="{DynamicResource CalendarDatePickerButton}"
+                                    Theme="{StaticResource CalendarDatePickerButton}"
                                     CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                     Grid.Column="2"
                                     Focusable="False" />

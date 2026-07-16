@@ -16,14 +16,14 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize MiniWindow/LaunchTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize MiniWindow/LaunchDesc}"
                            TextWrapping="Wrap" FontSize="12"
                            Foreground="{DynamicResource TextFillColor2}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button x:Name="OpenSteamButton"
                             Content="{Localize MiniWindow/OpenSteam}"
-                            Theme="{DynamicResource AccentButtonTheme}" />
+                            Theme="{StaticResource AccentButtonTheme}" />
                     <Button x:Name="OpenGamesButton"
                             Content="{Localize MiniWindow/OpenGames}" />
                     <Button x:Name="OpenSampleButton"
@@ -38,7 +38,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="{Localize MiniWindow/PropsTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="EnableCustomTitleBar" FontFamily="Consolas,Monospace"
                                FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />

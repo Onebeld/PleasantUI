@@ -1225,7 +1225,7 @@ public partial class DashboardView : UserControl
                    Spacing="10"
                    Margin="20,20,20,10">
             <Button Content="{Localize AddVehicle}" 
-                    Theme="{DynamicResource AccentButtonTheme}" />
+                    Theme="{StaticResource AccentButtonTheme}" />
             <Button Content="{Localize Refresh}" />
         </StackPanel>
 

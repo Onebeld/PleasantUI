@@ -75,7 +75,7 @@
                             Description="{Localize DangerVariantDesc, Context=MessageBox}">
             <OptionsDisplayItem.ActionButton>
                 <Button Content="{Localize Show, Context=MessageBox}"
-                        Theme="{DynamicResource DangerButtonTheme}"
+                        Theme="{StaticResource DangerButtonTheme}"
                         Command="{CompiledBinding ShowDanger}" />
             </OptionsDisplayItem.ActionButton>
         </OptionsDisplayItem>
@@ -93,7 +93,7 @@
         <Separator Margin="0 4" />
 
         <TextBlock Text="{Localize PleasantDialogSection, Context=MessageBox}"
-                   Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                   Theme="{StaticResource BodyStrongTextBlockTheme}"
                    Margin="0 4 0 0" />
 
         <!-- Rich dialog with icon + subheader + commands + footer -->
@@ -119,7 +119,7 @@
                             Description="{Localize PleasantDialogDangerVariantDesc, Context=MessageBox}">
             <OptionsDisplayItem.ActionButton>
                 <Button Content="{Localize Show, Context=MessageBox}"
-                        Theme="{DynamicResource DangerButtonTheme}"
+                        Theme="{StaticResource DangerButtonTheme}"
                         Command="{CompiledBinding ShowPleasantDialogDanger}" />
             </OptionsDisplayItem.ActionButton>
         </OptionsDisplayItem>

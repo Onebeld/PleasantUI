@@ -16,7 +16,7 @@
                 </Style>
             </WrapPanel.Styles>
             <Button x:Name="TickBtn" Content="{Localize DownloadPanel/Tick}"
-                    Theme="{DynamicResource AccentButtonTheme}" />
+                    Theme="{StaticResource AccentButtonTheme}" />
             <Button x:Name="PauseBtn" Content="{Localize DownloadPanel/PauseResume}" />
             <Button x:Name="MergeBtn" Content="{Localize DownloadPanel/ToggleMerge}" />
             <Button x:Name="ResetBtn" Content="{Localize DownloadPanel/Reset}" />

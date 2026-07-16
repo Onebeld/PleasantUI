@@ -13,13 +13,13 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize CrashReportDialog/BasicTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize CrashReportDialog/BasicDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}"
                            TextWrapping="Wrap" />
                 <Button x:Name="OpenBasicBtn"
                         Content="{Localize CrashReportDialog/OpenBasic}"
-                        Theme="{DynamicResource DangerButtonTheme}"
+                        Theme="{StaticResource DangerButtonTheme}"
                         HorizontalAlignment="Left" />
             </StackPanel>
         </Border>
@@ -29,7 +29,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize CrashReportDialog/EmailRequiredTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize CrashReportDialog/EmailRequiredDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}"
                            TextWrapping="Wrap" />

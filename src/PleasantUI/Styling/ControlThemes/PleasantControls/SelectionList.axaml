@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.Controls"
                     x:ClassModifier="internal">
-    <!-- ── SelectionListItem ─────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:SelectionListItem}" TargetType="controls:SelectionListItem">
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
@@ -27,7 +26,6 @@
                         Margin="2"
                         ClipToBounds="True">
                     <Grid ColumnDefinitions="Auto,*">
-
                         <!-- Image / icon area — hidden by :no-image pseudo-class -->
                         <Border Name="ImageBorder"
                                 Grid.Column="0"
@@ -45,7 +43,7 @@
                         <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
                             <TextBlock Name="PART_Title"
                                        Text="{TemplateBinding Title}"
-                                       Theme="{DynamicResource BodyStrongTextBlockTheme}"
+                                       Theme="{StaticResource BodyStrongTextBlockTheme}"
                                        TextTrimming="CharacterEllipsis" />
                             <TextBlock Name="PART_Subtitle"
                                        Text="{TemplateBinding Subtitle}"
@@ -91,7 +89,6 @@
         </Style>
     </ControlTheme>
 
-    <!-- ── SelectionList ─────────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:SelectionList}" TargetType="controls:SelectionList">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
@@ -100,7 +97,6 @@
         <Setter Property="Template">
             <ControlTemplate TargetType="controls:SelectionList">
                 <Grid RowDefinitions="Auto,8,*">
-
                     <!-- Selection count — shown/hidden from code-behind -->
                     <TextBlock Name="PART_SelectionCount"
                                Grid.Row="0"

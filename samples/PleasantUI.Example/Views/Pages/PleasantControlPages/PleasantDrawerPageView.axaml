@@ -14,7 +14,7 @@
                 Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize PleasantDrawer/DemoTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize PleasantDrawer/DemoDesc}"
                            TextWrapping="Wrap"
                            FontSize="12"
@@ -29,7 +29,7 @@
                     </WrapPanel.Styles>
                     <Button x:Name="OpenRightButton"
                             Content="{Localize PleasantDrawer/OpenRight}"
-                            Theme="{DynamicResource AccentButtonTheme}" />
+                            Theme="{StaticResource AccentButtonTheme}" />
                     <Button x:Name="OpenLeftButton"
                             Content="{Localize PleasantDrawer/OpenLeft}" />
                     <Button x:Name="OpenTopButton"
@@ -46,7 +46,7 @@
                 Padding="16">
             <StackPanel Spacing="10">
                 <TextBlock Text="Key properties"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <Grid ColumnDefinitions="Auto,16,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Position" FontFamily="Consolas,Monospace"
                                FontSize="12" Foreground="{DynamicResource AccentFillColor1}" VerticalAlignment="Center" />

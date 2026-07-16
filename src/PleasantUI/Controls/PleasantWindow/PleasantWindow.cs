@@ -8,7 +8,7 @@ using Avalonia.Reactive;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using PleasantUI.Controls.Chrome;
-using PleasantUI.Core.Common;
+using PleasantUI.Core.Internal;
 
 namespace PleasantUI.Controls;
 
@@ -294,7 +294,7 @@ public class PleasantWindow : PleasantWindowBase
             Gesture = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) 
                 ? new KeyGesture(Key.W, KeyModifiers.Meta)
                 : new KeyGesture(Key.F4, KeyModifiers.Alt),
-            Command = new RelayCommand(Close)
+            Command = new InternalCommand(Close)
         });
     }
 

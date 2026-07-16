@@ -123,7 +123,7 @@
                                                                      ConverterParameter="{x:Static controls:WizardStepCompletionState.Warning}" />
                                                         </MultiBinding>
                                                     </Border.IsVisible>
-                                                    <Path Data="{DynamicResource AlertOutline}"
+                                                    <Path Data="{StaticResource AlertOutline}"
                                                           Fill="{Binding $parent[Border].Background, Converter={x:Static ContrastBrushConverter.Instance}}"
                                                           Stretch="Uniform" Width="14" Height="14"
                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -218,7 +218,7 @@
                                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                                     <PathIcon Grid.Column="0"
                                               Width="16" Height="16"
-                                              Data="{DynamicResource InfoRegular}"
+                                              Data="{StaticResource InfoRegular}"
                                               Foreground="{DynamicResource AccentFillColorDefaultBrush}"
                                               VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="1"
@@ -247,7 +247,7 @@
                                             MinWidth="80" />
                                     <Button Name="PART_NextButton" Grid.Column="5"
                                             Content="{Localize Next, Default='Next'}"
-                                            Theme="{DynamicResource AccentButtonTheme}"
+                                            Theme="{StaticResource AccentButtonTheme}"
                                             MinWidth="80" />
                                 </Grid>
                             </Border>

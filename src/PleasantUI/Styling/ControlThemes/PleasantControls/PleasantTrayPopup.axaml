@@ -76,7 +76,7 @@
                                                 <Button Name="PART_CloseButton"
                                                         Grid.Column="2"
                                                         IsVisible="{TemplateBinding ShowCloseButton}"
-                                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                                        Theme="{StaticResource AppBarButtonTheme}"
                                                         Width="24" Height="24"
                                                         Padding="0"
                                                         VerticalAlignment="Top">

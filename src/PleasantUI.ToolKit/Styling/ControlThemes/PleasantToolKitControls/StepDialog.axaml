@@ -12,7 +12,7 @@
                                  MinDialogWidth="420">
                 <controls:StepItem Header="Open the authentication page">
                     <Button Content="Open microsoft.com/devicelogin"
-                            Theme="{DynamicResource AccentButtonTheme}"
+                            Theme="{StaticResource AccentButtonTheme}"
                             HorizontalAlignment="Left" />
                 </controls:StepItem>
                 <controls:StepItem Header="Select the path">
@@ -125,12 +125,12 @@
                                 <!-- Close button -->
                                 <Button Name="PART_CloseButton"
                                         Grid.Column="1"
-                                        Theme="{DynamicResource CloseButtonTheme}"
+                                        Theme="{StaticResource CloseButtonTheme}"
                                         Width="32" Height="32"
                                         Padding="8"
                                         VerticalAlignment="Top"
                                         ToolTip.Tip="{Localize Close, Default='Close'}">
-                                    <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
+                                    <PleasantIcon Icon="{StaticResource DismissRegular}" Width="10" Height="10" />
                                 </Button>
                             </Grid>
 
@@ -187,7 +187,7 @@
                                             Padding="15 5" />
                                     <Button Name="PART_PrimaryButton"
                                             Content="{TemplateBinding PrimaryButtonText}"
-                                            Theme="{DynamicResource AccentButtonTheme}"
+                                            Theme="{StaticResource AccentButtonTheme}"
                                             IsVisible="False"
                                             Padding="15 5" />
                                 </StackPanel>

@@ -23,6 +23,15 @@ public static class LocalizeBinding
         string? defaultVal = @default;
         bool menu = menuBar;
 
+        LocalizeKeyObservable observable = new(Resolve);
+        
+        return CompiledBinding.Create(
+            (LocalizeKeyObservable value) => value.Value,
+            observable,
+            mode: BindingMode.OneWay,
+            fallbackValue: resolvedKey,
+            targetNullValue: resolvedKey);
+
         string Resolve()
         {
             if (Localizer.Instance.TryGetString(resolvedKey, out string expression))
@@ -33,15 +42,6 @@ public static class LocalizeBinding
 
             return expression;
         }
-
-        LocalizeKeyObservable observable = new(Resolve);
-        
-        return CompiledBinding.Create(
-            (LocalizeKeyObservable value) => value.Value,
-            observable,
-            mode: BindingMode.OneWay,
-            fallbackValue: resolvedKey,
-            targetNullValue: resolvedKey);
     }
 }
 

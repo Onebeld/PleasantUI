@@ -26,23 +26,22 @@ public class ContrastBrushConverter : IValueConverter
     /// <see cref="Brushes.Black"/> if the background is light; 
     /// <see cref="Brushes.White"/> if the background is dark.
     /// </returns>
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is ISolidColorBrush brush)
-        {
-            Color color = brush.Color;
+        if (value is not ISolidColorBrush brush)
+            return Brushes.Black;
+        
+        Color color = brush.Color;
 
-            double luminance = ColorHelper.GetRelativeLuminance(color);
+        double luminance = ColorHelper.GetRelativeLuminance(color);
             
-            return luminance > 0.5 ? Brushes.Black : Brushes.White;
-        }
+        return luminance > 0.5 ? Brushes.Black : Brushes.White;
 
-        return Brushes.Black;
     }
 
     /// <inheritdoc/>
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }

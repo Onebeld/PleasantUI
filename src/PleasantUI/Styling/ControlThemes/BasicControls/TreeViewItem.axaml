@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
-        <Border Padding="20" MinWidth="300">
+        <Border Padding="20" MinWidth="300" Height="300">
             <TreeView>
                 <TreeViewItem Header="Level 1" IsExpanded="True">
                     <TreeViewItem Header="Level 2.1" IsSelected="True" IsExpanded="True">
@@ -24,13 +24,13 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="Transparent"
+                <Border x:Name="Chevron"
+                        Background="Transparent"
                         Width="24"
                         Height="24">
-                    <PleasantIcon x:Name="ChevronPath"
-                                  Width="{TemplateBinding Width}"
+                    <PleasantIcon Width="{TemplateBinding Width}"
                                   Height="{TemplateBinding Height}"
-                                  Icon="{DynamicResource ChevronRightRegular}">
+                                  Icon="{StaticResource ChevronRightRegular}">
                         <PleasantIcon.RenderTransform>
                             <RotateTransform />
                         </PleasantIcon.RenderTransform>
@@ -39,7 +39,7 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:not(:checked) /template/ PleasantIcon#ChevronPath">
+        <Style Selector="^:not(:checked) /template/ Border#Chevron">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0%">
@@ -51,7 +51,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^:checked /template/ PleasantIcon#ChevronPath">
+        <Style Selector="^:checked /template/ Border#Chevron">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0">
@@ -67,7 +67,7 @@
 
     <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
         <Setter Property="Padding" Value="0" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="MinHeight" Value="25" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
@@ -75,28 +75,25 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <StackPanel>
-                    <Border Name="PART_LayoutRoot"
-                            Classes="TreeViewItemLayoutRoot"
-                            Focusable="True"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            MinHeight="{TemplateBinding MinHeight}"
-                            TemplatedControl.IsTemplateFocusTarget="True">
-                        <Grid Name="PART_Header"
-                              ColumnDefinitions="Auto,*"
-                              Margin="{TemplateBinding Level, Mode=OneWay, Converter={x:Static TreeViewItemMarginConverters.Left}}">
+                    <RippleEffect Name="PART_Ripple"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  MinHeight="{TemplateBinding MinHeight}"
+                                  Focusable="True"
+                                  TemplatedControl.IsTemplateFocusTarget="True">
+                        <DockPanel Name="PART_Header" Margin="{TemplateBinding Level, Mode=OneWay, Converter={x:Static TreeViewItemMarginConverters.Left}}">
                             <Panel Name="PART_ExpandCollapseChevronContainer"
-                                   Grid.Column="0"
+                                   DockPanel.Dock="Left"
                                    Margin="12 0 12 0">
                                 <ToggleButton Name="PART_ExpandCollapseChevron"
-                                              Theme="{DynamicResource TreeViewExpandCollapseChevron}"
+                                              Theme="{StaticResource TreeViewExpandCollapseChevron}"
                                               Focusable="False"
                                               IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
                             </Panel>
+
                             <ContentPresenter Name="PART_HeaderPresenter"
-                                              Grid.Column="1"
                                               Focusable="False"
                                               Background="Transparent"
                                               Content="{TemplateBinding Header}"
@@ -104,20 +101,30 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                               Margin="{TemplateBinding Padding}" />
-                        </Grid>
-                    </Border>
+                        </DockPanel>
+                    </RippleEffect>
+                    
                     <ItemsPresenter Name="PART_ItemsPresenter"
                                     IsVisible="{TemplateBinding IsExpanded}"
                                     ItemsPanel="{TemplateBinding ItemsPanel}" />
                 </StackPanel>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                </Transitions> 
+            </Setter>
+        </Style>
 
-        <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
-        <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+        <Style Selector="^:pressed /template/ RippleEffect#PART_Ripple:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
@@ -128,7 +135,7 @@
         <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^:empty /template/ Panel#Part_ExpandCollapseChevronContainer">
+        <Style Selector="^:empty /template/ Panel#PART_ExpandCollapseChevronContainer">
             <Setter Property="Width" Value="12" />
         </Style>
     </ControlTheme>

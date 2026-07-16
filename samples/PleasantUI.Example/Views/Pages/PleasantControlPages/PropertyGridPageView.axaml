@@ -14,7 +14,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize PropertyGrid/DownloadTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <controls:PropertyGrid RowSpacing="10">
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelUrl}"
                                           Value="https://example.com/release/v2.1.0/setup.exe"
@@ -41,7 +41,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize PropertyGrid/ExceptionTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <controls:PropertyGrid RowSpacing="10">
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelApplication}" Value="MyApp" />
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelVersion}" Value="2.1.0" />

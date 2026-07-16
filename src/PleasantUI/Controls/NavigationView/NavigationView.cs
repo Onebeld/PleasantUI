@@ -25,7 +25,7 @@ using Avalonia.Reactive;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using PleasantUI.Controls.Chrome;
-using PleasantUI.Core.Common;
+using PleasantUI.Core.Internal;
 using PleasantUI.Core.Internal.Reactive;
 
 namespace PleasantUI.Controls;
@@ -460,7 +460,7 @@ public class NavigationView : TreeView, ICustomKeyboardNavigation
         _backButton = e.NameScope.Find<Button>("PART_BackButton");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_SelectedContentPresenter");
 
-        _headerItem?.Command = new RelayCommand(() => IsOpen = AlwaysOpen || !IsOpen);
+        _headerItem?.Command = new InternalCommand(() => IsOpen = AlwaysOpen || !IsOpen);
 
         BackButtonCommandProperty.Changed.Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs<ICommand?>>(x =>
         {

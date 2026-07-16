@@ -74,6 +74,10 @@ public class PleasantSnackbar : PleasantPopupElement
     public Control?   ActionButton   { get => GetValue(ActionButtonProperty);   set => SetValue(ActionButtonProperty, value); }
 
     // ── Constructor ───────────────────────────────────────────────────────────
+    
+    public PleasantSnackbar()
+    {
+    }
 
     public PleasantSnackbar(TopLevel? topLevel)
     {
@@ -149,6 +153,7 @@ public class PleasantSnackbar : PleasantPopupElement
             NotificationType = options.NotificationType,
             IsClosable       = options.IsClosable,
             TopLevel         = parent,
+            Opacity = 0,
             _closingHandler  = options.Closing,
             _closedHandler   = options.Closed
         };

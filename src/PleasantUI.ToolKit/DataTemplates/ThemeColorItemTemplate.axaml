@@ -6,7 +6,7 @@
         <DockPanel>
             <Button DockPanel.Dock="Right"
                     Margin="2 0 0 0"
-                    Theme="{DynamicResource AppBarButtonTheme}"
+                    Theme="{StaticResource AppBarButtonTheme}"
                     Width="30"
                     Height="30"
                     ToolTip.Tip="{Localize Menu, Default='Menu'}">
@@ -14,15 +14,15 @@
                     <MenuFlyout>
                         <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                                   Command="{Binding CopyColorAsync}"
-                                  Icon="{DynamicResource CopyRegular}" />
+                                  Icon="{StaticResource CopyRegular}" />
                         
                         <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                                   Command="{Binding PasteColorAsync}"
-                                  Icon="{DynamicResource PasteRegular}" />
+                                  Icon="{StaticResource PasteRegular}" />
                     </MenuFlyout>
                 </Button.Flyout>
 
-                <PleasantIcon Icon="{DynamicResource MoreRegular}" />
+                <PleasantIcon Icon="{StaticResource MoreRegular}" />
             </Button>
             
             <ColorPicker DockPanel.Dock="Right"

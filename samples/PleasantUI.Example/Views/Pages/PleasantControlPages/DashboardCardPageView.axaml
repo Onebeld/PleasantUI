@@ -14,7 +14,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize DashboardCard/BasicTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize DashboardCard/BasicDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
                 <controls:DashboardCard Header="{Localize DashboardCard/Revenue}"
@@ -32,7 +32,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize DashboardCard/ToolbarTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize DashboardCard/ToolbarDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
                 <controls:DashboardCard Header="{Localize DashboardCard/Downloads}"
@@ -59,7 +59,7 @@
                 CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize DashboardCard/FooterTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize DashboardCard/FooterDesc}"
                            FontSize="12" Foreground="{DynamicResource TextFillColor2}" TextWrapping="Wrap" />
                 <controls:DashboardCard Header="{Localize DashboardCard/SystemStatus}" Height="160">

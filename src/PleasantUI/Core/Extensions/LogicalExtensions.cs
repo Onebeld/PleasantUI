@@ -16,21 +16,4 @@ public static class LogicalExtensions
     {
         return logical.GetSelfAndLogicalAncestors().OfType<T>().FirstOrDefault();
     }
-
-    internal static int CalculateDistanceFromLogicalParent<T>(ILogical logical, int @default = -1)
-        where T : class, ILogical
-    {
-        int result = 0;
-
-        while (logical is not null && logical is not T)
-        {
-            if (logical.LogicalParent is null)
-                return @default;
-
-            ++result;
-            logical = logical.LogicalParent;
-        }
-
-        return logical is not null ? result : @default;
-    }
 }

@@ -7,8 +7,8 @@
                 <RadioButton Content="Content 1" GroupName="Group1" />
                 <RadioButton Content="Content 2" GroupName="Group1" />
 
-                <RadioButton Theme="{DynamicResource ButtonedRadioButton}" Content="Content 1" GroupName="Group2" />
-                <RadioButton Theme="{DynamicResource ButtonedRadioButton}" Content="Content 2" GroupName="Group2" />
+                <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="Content 1" GroupName="Group2" />
+                <RadioButton Theme="{StaticResource ButtonedRadioButton}" Content="Content 2" GroupName="Group2" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -29,8 +29,8 @@
 
         <Setter Property="Template">
             <ControlTemplate TargetType="RadioButton">
-                <Grid ColumnDefinitions="25,*">
-                    <Grid Name="Glyph" Grid.Column="0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <Panel Name="Glyph" DockPanel.Dock="Left" Margin="0 0 5 0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Ellipse Name="OuterEllipse"
                                  Width="20"
                                  Height="20"
@@ -44,10 +44,9 @@
                                  Height="8"
                                  Fill="{ForegroundBased AccentLightColor3}"
                                  UseLayoutRounding="False" />
-                    </Grid>
+                    </Panel>
 
-                    <ContentPresenter Grid.Column="1"
-                                      Name="PART_ContentPresenter"
+                    <ContentPresenter Name="PART_ContentPresenter"
                                       Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -55,7 +54,7 @@
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Foreground="{TemplateBinding Foreground}"
                                       RecognizesAccessKey="True" />
-                </Grid>
+                </StackPanel>
             </ControlTemplate>
         </Setter>
         <Style Selector="^ /template/ Ellipse#CheckGlyph">

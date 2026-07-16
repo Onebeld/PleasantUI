@@ -21,7 +21,7 @@
                 Padding="16">
             <StackPanel Spacing="8" VerticalAlignment="Top">
                 <TextBlock Text="{Localize TreeViewPanel/DetailTitle}"
-                           Theme="{DynamicResource BodyStrongTextBlockTheme}" />
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
                 <TextBlock Text="{Localize TreeViewPanel/DetailDesc}"
                            TextWrapping="Wrap" FontSize="12"
                            Foreground="{DynamicResource TextFillColor2}" />

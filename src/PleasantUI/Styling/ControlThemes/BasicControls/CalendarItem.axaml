@@ -21,31 +21,39 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
                 <!-- HCA was changed here to ensure nav arrows display correctly -->
-                <ContentPresenter Name="Text" Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  Content="{TemplateBinding Content}"
-                                  Margin="{TemplateBinding Margin}"
-                                  Padding="{TemplateBinding Padding}"
-                                  HorizontalContentAlignment="Stretch"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <RippleEffect Name="PART_Ripple"
+                              RippleFill="{DynamicResource ControlFillColor3}"
+                              Background="{TemplateBinding Background}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              Margin="{TemplateBinding Margin}"
+                              Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Name="Text" 
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:pointerover /template/ ContentPresenter#Text">
+        <Style Selector="^:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
-        <Style Selector="^:pressed /template/ ContentPresenter#Text">
+        <Style Selector="^:pressed">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
         </Style>
-        <Style Selector="^:disabled /template/ ContentPresenter">
+        <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>
@@ -72,30 +80,28 @@
                         <Grid Grid.Row="0" ColumnDefinitions="5*,*,*">
                             <Button Name="PART_HeaderButton"
                                     Grid.Column="0"
-                                    Theme="{DynamicResource PleasantCalendarButton}"
+                                    Theme="{StaticResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
                                     FontWeight="SemiBold"
                                     Padding="12,0,0,0"
                                     HorizontalContentAlignment="Left" />
                             <Button Name="PART_PreviousButton"
                                     Grid.Column="1"
-                                    Theme="{DynamicResource PleasantCalendarButton}"
+                                    Theme="{StaticResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="Left">
-                                <PathIcon Data="{DynamicResource ChevronDownRegular}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          Width="10"
-                                          Height="10" />
+                                <PleasantIcon Icon="{StaticResource ChevronDownRegular}"
+                                              Width="10"
+                                              Height="10" />
                             </Button>
                             <Button Name="PART_NextButton"
                                     Grid.Column="2"
-                                    Theme="{DynamicResource PleasantCalendarButton}"
+                                    Theme="{StaticResource PleasantCalendarButton}"
                                     Foreground="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="Left">
-                                <PathIcon Data="{DynamicResource ChevronUpRegular}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          Width="10"
-                                          Height="10" />
+                                <PleasantIcon Icon="{StaticResource ChevronUpRegular}"
+                                              Width="10"
+                                              Height="10" />
                             </Button>
                         </Grid>
 

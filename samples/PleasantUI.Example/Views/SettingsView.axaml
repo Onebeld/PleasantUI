@@ -27,7 +27,7 @@
             
             <TextBlock Text="{Localize Settings}"
                        Margin="0 0 0 10"
-                       Theme="{DynamicResource TitleTextBlockTheme}" />
+                       Theme="{StaticResource TitleTextBlockTheme}" />
             
             <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.Language}"
                 Header="{Localize Language}">
@@ -59,7 +59,7 @@
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
 
-            <OptionsDisplayItem Icon="{DynamicResource FullScreenEnterRegular}"
+            <OptionsDisplayItem Icon="{StaticResource FullScreenEnterRegular}"
                                 Header="{Localize FullScreenButton, Default='Full Screen Button'}"
                                 Description="{Localize FullScreenButtonDescription, Default='Show a full screen toggle button in the title bar'}">
                 <OptionsDisplayItem.ActionButton>
@@ -98,7 +98,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{Localize Theme}"
-                                Icon="{DynamicResource BrushVariantRegular}"
+                                Icon="{StaticResource BrushVariantRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -123,7 +123,7 @@
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5">
                         <Panel>
-                            <TextBlock Theme="{DynamicResource BaseTextBlockTheme}"
+                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
                                        Text="{Localize CustomThemes}"
                                        VerticalAlignment="Center" />
                             
@@ -161,7 +161,7 @@
                                                             IsVisible="{CompiledBinding $parent[ContentControl].IsPointerOver}"
                                                             Orientation="Horizontal"
                                                             Spacing="5">
-                                                    <Button Theme="{DynamicResource AppBarButtonTheme}"
+                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
@@ -170,7 +170,7 @@
                                                                      IconHelper.IconSize="18" />
                                                     </Button>
 
-                                                    <Button Theme="{DynamicResource DangerButtonTheme}"
+                                                    <Button Theme="{StaticResource DangerButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             CornerRadius="{DynamicResource ControlCornerRadius}"

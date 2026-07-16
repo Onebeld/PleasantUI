@@ -10,7 +10,7 @@
                 WindowStartupLocation="CenterScreen"
                 ExtendsContentIntoTitleBar="True"
                 Icon="PleasantUIIcon.ico"
-                DisplayIcon="{DynamicResource PleasantUILogo}"
+                DisplayIcon="{StaticResource PleasantUILogo}"
                 DisplayTitle="{DynamicResource PleasantUINoLogo}"
                 MinWidth="600"
                 MinHeight="500"

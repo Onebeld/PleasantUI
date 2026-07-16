@@ -10,15 +10,13 @@ internal class CompositeDisposable : ICollection<IDisposable>, IDisposable
     public int Count { get { lock (_disposables) { return _disposables.Count; } } }
     
     public bool IsReadOnly => false;
-    
-    public bool IsDisposed => _disposed;
-    
+
     public CompositeDisposable() : this([]) { }
 
-    public CompositeDisposable(IEnumerable<IDisposable>? disposables)
+    private CompositeDisposable(IEnumerable<IDisposable>? disposables)
     {
-        if (disposables is null)
-            throw new ArgumentNullException(nameof(disposables));
+        ArgumentNullException.ThrowIfNull(disposables);
+        
         _disposables = new List<IDisposable>(disposables);
     }
     
@@ -34,7 +32,8 @@ internal class CompositeDisposable : ICollection<IDisposable>, IDisposable
 
     public void Add(IDisposable? item)
     {
-        if (item == null) throw new ArgumentNullException(nameof(item));
+        ArgumentNullException.ThrowIfNull(item);
+        
         lock (_disposables)
         {
             if (_disposed)

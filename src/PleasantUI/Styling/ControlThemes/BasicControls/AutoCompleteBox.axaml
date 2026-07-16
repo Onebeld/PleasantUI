@@ -24,8 +24,6 @@
     <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Padding" Value="10 5 10 5" />
 
@@ -57,8 +55,6 @@
                             <Border Name="PART_SuggestionsContainer"
                                     Padding="0"
                                     Background="{DynamicResource BackgroundColor1}"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="{DynamicResource ControlBorderThickness}"
                                     CornerRadius="{DynamicResource ControlCornerRadius}"
                                     Opacity="1">
                                 <ListBox Name="PART_SelectingItemsControl"

@@ -16,10 +16,9 @@
                     <StackPanel.Styles>
                         <Style Selector="Button">
                             <Setter Property="Width" Value="45" />
-                            <Setter Property="Theme" Value="{DynamicResource AppBarButtonTheme}" />
+                            <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="0" />
                             <Setter Property="Padding" Value="0" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
                             <Setter Property="IsTabStop" Value="False" />
                             <Setter Property="Focusable" Value="False" />
                         </Style>
@@ -36,7 +35,7 @@
                     </Button>
                     <Button Name="PART_MinimizeButton"
                             WindowDecorationProperties.ElementRole="MinimizeButton">
-                        <PleasantIcon Icon="{DynamicResource SubtractRegular}" Width="10" Height="10" />
+                        <PleasantIcon Icon="{StaticResource SubtractRegular}" Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_MaximizeButton"
                             WindowDecorationProperties.ElementRole="MaximizeButton">
@@ -44,8 +43,8 @@
                     </Button>
                     <Button Name="PART_CloseButton"
                             WindowDecorationProperties.ElementRole="CloseButton"
-                            Theme="{DynamicResource CloseButtonTheme}">
-                        <PleasantIcon Icon="{DynamicResource DismissRegular}" Width="10" Height="10" />
+                            Theme="{StaticResource CloseButtonTheme}">
+                        <PleasantIcon Icon="{StaticResource DismissRegular}" Width="10" Height="10" />
                     </Button>
                 </StackPanel>
             </ControlTemplate>
@@ -58,24 +57,24 @@
 
         <Style Selector="^ /template/ Button#PART_FullScreenButton">
             <Style Selector="^ PleasantIcon">
-                <Setter Property="Icon" Value="{DynamicResource FullScreenEnterRegular}" />
+                <Setter Property="Icon" Value="{StaticResource FullScreenEnterRegular}" />
             </Style>
         </Style>
         <Style Selector="^:fullscreen /template/ Button#PART_FullScreenButton">
             <Style Selector="^ PleasantIcon">
-                <Setter Property="Icon" Value="{DynamicResource FullScreenExitRegular}" />
+                <Setter Property="Icon" Value="{StaticResource FullScreenExitRegular}" />
             </Style>
         </Style>
 
         <Style Selector="^ /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PleasantIcon">
-                <Setter Property="Icon" Value="{DynamicResource MaximizeRegular}" />
+                <Setter Property="Icon" Value="{StaticResource MaximizeRegular}" />
             </Style>
         </Style>
 
         <Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
             <Style Selector="^ PleasantIcon">
-                <Setter Property="Icon" Value="{DynamicResource SquareMultipleRegular}" />
+                <Setter Property="Icon" Value="{StaticResource SquareMultipleRegular}" />
                 <Setter Property="(IconHelper.FontSize)" Value="2" />
             </Style>
         </Style>
@@ -91,7 +90,7 @@
                         <Style Selector="Button">
                             <Setter Property="Width" Value="12" />
                             <Setter Property="Height" Value="12" />
-                            <Setter Property="Theme" Value="{DynamicResource AppBarButtonTheme}" />
+                            <Setter Property="Theme" Value="{StaticResource AppBarButtonTheme}" />
                             <Setter Property="CornerRadius" Value="99" />
                         </Style>
 

@@ -37,25 +37,21 @@
             <ControlTemplate>
                 <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
                     <ShadowBorder Margin="5 5 5 10"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
                                   CornerRadius="{TemplateBinding CornerRadius}"
                                   BlurRadius="5"
                                   Offset="0 1"
                                   ShadowColor="#3C000000">
-                        <Border CornerRadius="{TemplateBinding CornerRadius}">
-                            <Border Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="{TemplateBinding CornerRadius}">
-                                <DockPanel>
-                                    <Border x:Name="PART_HeaderBar"
-                                            Height="5"
-                                            DockPanel.Dock="Top"
-                                            Margin="20 -3 20 0"
-                                            CornerRadius="{DynamicResource RoundedControlCornerRadius}" />
-                                    <ContentPresenter Name="PART_Content" Content="{TemplateBinding Content}" />
-                                </DockPanel>
-                            </Border>
-                        </Border>
+                        <DockPanel>
+                            <Border x:Name="PART_HeaderBar"
+                                    Height="5"
+                                    DockPanel.Dock="Top"
+                                    Margin="20 -3 20 0"
+                                    CornerRadius="{DynamicResource RoundedControlCornerRadius}" />
+                            <ContentPresenter Name="PART_Content" Content="{TemplateBinding Content}" />
+                        </DockPanel>
                     </ShadowBorder>
                 </LayoutTransformControl>
             </ControlTemplate>
