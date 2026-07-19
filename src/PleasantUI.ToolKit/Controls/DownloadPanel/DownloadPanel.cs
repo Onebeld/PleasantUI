@@ -30,8 +30,6 @@ namespace PleasantUI.ToolKit.Controls;
 [PseudoClasses(PC_Paused, PC_Merging, PC_ShowDetails, PC_HasChunks)]
 public class DownloadPanel : TemplatedControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
-
     internal const string PART_TabStrip      = "PART_TabStrip";
     internal const string PART_TabContent    = "PART_TabContent";
     internal const string PART_ProgressBar   = "PART_ProgressBar";
@@ -41,14 +39,18 @@ public class DownloadPanel : TemplatedControl
     internal const string PART_CancelButton  = "PART_CancelButton";
     internal const string PART_DetailsToggle = "PART_DetailsToggle";
 
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
     private const string PC_Paused      = ":paused";
     private const string PC_Merging     = ":merging";
     private const string PC_ShowDetails = ":showDetails";
     private const string PC_HasChunks   = ":hasChunks";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
+    
+    private ListBox?          _tabStrip;
+    private ProgressBar?      _progressBar;
+    private Canvas?           _chunkCanvas;
+    private ListBox?          _chunkList;
+    private Button?           _pauseButton;
+    private Button?           _cancelButton;
+    private Button?           _detailsToggle;
 
     /// <summary>Defines the <see cref="Progress"/> property.</summary>
     public static readonly StyledProperty<double> ProgressProperty =
@@ -166,8 +168,6 @@ public class DownloadPanel : TemplatedControl
     public static readonly StyledProperty<string> ChunkUnknownTextProperty =
         AvaloniaProperty.Register<DownloadPanel, string>(nameof(ChunkUnknownText), defaultValue: "Unknown");
 
-    // ── Direct properties ─────────────────────────────────────────────────────
-
     /// <summary>Defines the <see cref="Tabs"/> direct property.</summary>
     public static readonly DirectProperty<DownloadPanel, AvaloniaList<object>> TabsProperty =
         AvaloniaProperty.RegisterDirect<DownloadPanel, AvaloniaList<object>>(
@@ -177,8 +177,6 @@ public class DownloadPanel : TemplatedControl
     public static readonly DirectProperty<DownloadPanel, AvaloniaList<ChunkInfo>> ChunksProperty =
         AvaloniaProperty.RegisterDirect<DownloadPanel, AvaloniaList<ChunkInfo>>(
             nameof(Chunks), o => o.Chunks);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the overall download progress [0..100].</summary>
     public double Progress
@@ -389,29 +387,13 @@ public class DownloadPanel : TemplatedControl
     /// <summary>Gets the collection of chunk data used for canvas visualization and the details list.</summary>
     public AvaloniaList<ChunkInfo> Chunks { get; } = new();
 
-    // ── Events ────────────────────────────────────────────────────────────────
-
     /// <summary>Raised when the selected tab changes.</summary>
     public event EventHandler<SelectionChangedEventArgs>? TabSelectionChanged;
-
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private ListBox?          _tabStrip;
-    private ProgressBar?      _progressBar;
-    private Canvas?           _chunkCanvas;
-    private ListBox?          _chunkList;
-    private Button?           _pauseButton;
-    private Button?           _cancelButton;
-    private Button?           _detailsToggle;
-
-    // ── Constructor ───────────────────────────────────────────────────────────
 
     public DownloadPanel()
     {
         Chunks.CollectionChanged += OnChunksChanged;
     }
-
-    // ── Template ──────────────────────────────────────────────────────────────
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -468,8 +450,6 @@ public class DownloadPanel : TemplatedControl
             RedrawChunkCanvas();
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
-
     /// <summary>
     /// Redraws the chunk progress canvas based on the current <see cref="Chunks"/> collection.
     /// Call this after updating chunk progress values.
@@ -484,11 +464,7 @@ public class DownloadPanel : TemplatedControl
 
             double canvasWidth  = _chunkCanvas.Bounds.Width;
             double canvasHeight = _chunkCanvas.Bounds.Height;
-
             if (canvasWidth <= 0 || canvasHeight <= 0) return;
-
-            IBrush progressBrush = ChunkProgressBrush
-                ?? new SolidColorBrush(Color.Parse("#4CAF50"));
 
             foreach (ChunkInfo? chunk in Chunks)
             {
@@ -500,7 +476,7 @@ public class DownloadPanel : TemplatedControl
                 {
                     Width  = fillWidth,
                     Height = canvasHeight,
-                    Fill   = chunk.ProgressBrush ?? progressBrush
+                    Fill   = chunk.ProgressBrush
                 };
 
                 Canvas.SetLeft(rect, chunkStart);
@@ -509,8 +485,6 @@ public class DownloadPanel : TemplatedControl
             }
         }, DispatcherPriority.Render);
     }
-
-    // ── Private helpers ───────────────────────────────────────────────────────
 
     private void AttachHandlers()
     {

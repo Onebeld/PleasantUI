@@ -69,10 +69,11 @@
                                 <Border Grid.Row="0" Height="1" Margin="0 52 0 0"
                                         Background="{DynamicResource ControlBorderColor}"
                                         IsVisible="{TemplateBinding Title, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                                <ScrollViewer Grid.Row="1" Padding="20 12"
-                                                    HorizontalScrollBarVisibility="Disabled"
-                                                    VerticalScrollBarVisibility="Auto">
-                                    <ContentPresenter Content="{TemplateBinding Content}"
+                                <ScrollViewer Grid.Row="1"
+                                              HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Auto">
+                                    <ContentPresenter Padding="20 12"
+                                                      Content="{TemplateBinding Content}"
                                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />

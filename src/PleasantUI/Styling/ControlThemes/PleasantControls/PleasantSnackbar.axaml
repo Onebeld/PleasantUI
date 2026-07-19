@@ -29,28 +29,44 @@
                               CornerRadius="99"
                               BlurRadius="5"
                               Offset="0 1"
+                              Padding="5"
                               ShadowColor="#3C000000">
-                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalAlignment="Center">
+                    <DockPanel VerticalAlignment="Center">
                         <!-- Severity icon pill -->
                         <PleasantIcon x:Name="PART_Icon"
+                                      DockPanel.Dock="Left"
                                       Foreground="{ForegroundBased SystemFillColorNeutral}"
                                       VerticalAlignment="Center"
                                       Width="30"
                                       Height="30"
-                                      Margin="5"
                                       CornerRadius="99"
                                       Icon="{TemplateBinding Icon}"
                                       IconHelper.Width="16"
                                       IconHelper.Height="16" />
+                        
+                        <!-- Close button (only visible when :closable) -->
+                        <Button x:Name="PART_CloseButton"
+                                DockPanel.Dock="Right"
+                                Opacity="0"
+                                Theme="{StaticResource CloseButtonTheme}"
+                                CornerRadius="99"
+                                Width="28" Height="28"
+                                Padding="6"
+                                Margin="5 0 0 0"
+                                VerticalAlignment="Center"
+                                IsVisible="False">
+                            <PleasantIcon Icon="{StaticResource DismissRegular}"
+                                          Width="10"
+                                          Height="10" />
+                        </Button>
 
                         <!-- Content area: title + message + action button -->
                         <Grid x:Name="PART_Grid"
-                              Grid.Column="1"
                               RowDefinitions="Auto,Auto"
                               ColumnDefinitions="*,Auto"
                               Opacity="0"
                               VerticalAlignment="Center"
-                              Margin="0 6 6 6">
+                              Margin="5 0 5 0">
 
                             <!-- Title (only visible when :titled) -->
                             <TextBlock x:Name="PART_Title"
@@ -69,7 +85,6 @@
                                               VerticalContentAlignment="Center"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               Margin="{TemplateBinding Padding}"
-
                                               TextAlignment="Start" />
 
                             <!-- Action button (text button or custom control) -->
@@ -79,7 +94,7 @@
                                     Foreground="{DynamicResource AccentLightColor3}"
                                     CornerRadius="99"
                                     VerticalAlignment="Center"
-                                    Margin="5 5 0 5" />
+                                    Margin="5 0 -5 0" />
 
                             <!-- Custom action button slot -->
                             <ContentPresenter x:Name="PART_ActionButton"
@@ -87,27 +102,9 @@
                                               Content="{TemplateBinding ActionButton}"
                                               VerticalContentAlignment="Center"
                                               IsVisible="{TemplateBinding ActionButton, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                              Margin="5 5 0 5" />
+                                              Margin="5 0 -5 0" />
                         </Grid>
-
-                        <!-- Close button (only visible when :closable) -->
-                        <Button x:Name="PART_CloseButton"
-                                Grid.Column="2"
-                                Theme="{StaticResource CloseButtonTheme}"
-                                CornerRadius="99"
-                                Width="28" Height="28"
-                                Padding="6"
-                                VerticalAlignment="Center"
-                                Margin="0 0 6 0"
-                                IsVisible="False">
-                            <PleasantIcon Icon="{StaticResource DismissRegular}"
-                                          Width="10"
-                                          Height="10" />
-                        </Button>
-
-                        <!-- Fixed right-edge spacer — always present -->
-                        <Border Grid.Column="3" Width="10" />
-                    </Grid>
+                    </DockPanel>
                 </ShadowBorder>
             </ControlTemplate>
         </Setter>
@@ -163,6 +160,14 @@
 
         <!-- ── Grid fade-in transition (unchanged) ─────────────────────── -->
         <Style Selector="^ /template/ Grid#PART_Grid">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^ /template/ Button#PART_CloseButton">
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.1" />

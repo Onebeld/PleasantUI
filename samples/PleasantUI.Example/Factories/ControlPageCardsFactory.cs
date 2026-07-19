@@ -57,7 +57,6 @@ public class ControlPageCardsFactory
             new("CardTitle/LogViewerPanel",      MaterialIconKind.TextBoxOutline,         "Card/LogViewerPanel", () =>      new LogViewerPanelPage(),      _eventAggregator),
             new("CardTitle/TerminalPanel",       MaterialIconKind.ConsoleLine,            "Card/TerminalPanel", () =>       new TerminalPanelPage(),       _eventAggregator),
             new("CardTitle/TreeViewPanel",       MaterialIconKind.FileTreeOutline,        "Card/TreeViewPanel", () =>       new TreeViewPanelPage(),       _eventAggregator),
-            new("CardTitle/ItemListPanel",       MaterialIconKind.FormatListBulletedType, "Card/ItemListPanel", () =>       new ItemListPanelPage(),       _eventAggregator),
             new("CardTitle/PropertyGrid",        MaterialIconKind.TableColumnPlusAfter,   "Card/PropertyGrid", () =>        new PropertyGridPage(),        _eventAggregator),
             new("CardTitle/DownloadPanel",       MaterialIconKind.DownloadOutline,        "Card/DownloadPanel", () =>       new DownloadPanelPage(),       _eventAggregator),
             new("CardTitle/CrashReportDialog",   MaterialIconKind.BugOutline,             "Card/CrashReportDialog", () =>   new CrashReportDialogPage(),   _eventAggregator),

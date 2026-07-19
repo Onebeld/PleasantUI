@@ -24,6 +24,7 @@ public class PleasantSnackbar : PleasantPopupElement
     private ContentPresenter? _contentPresenter;
     private Grid? _grid;
     private Control? _snackbarBorder;
+    private bool _isClosing;
 
     private IDisposable? _closingTimer;
     private SnackbarCloseReason _closeReason = SnackbarCloseReason.Programmatic;
@@ -32,8 +33,6 @@ public class PleasantSnackbar : PleasantPopupElement
     private EventHandler<SnackbarClosedEventArgs>? _closedHandler;
 
     private readonly SnackbarQueueManager<PleasantSnackbar>? _queueManager;
-
-    // ── Avalonia properties ───────────────────────────────────────────────────
 
     public static readonly StyledProperty<Animation?> OpenAnimationProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Animation?>(nameof(OpenAnimation));
@@ -62,19 +61,54 @@ public class PleasantSnackbar : PleasantPopupElement
     public static readonly StyledProperty<Control?> ActionButtonProperty =
         AvaloniaProperty.Register<PleasantSnackbar, Control?>(nameof(ActionButton));
 
-    // ── CLR properties ────────────────────────────────────────────────────────
+    public Animation? OpenAnimation
+    {
+        get => GetValue(OpenAnimationProperty);
+        set => SetValue(OpenAnimationProperty, value);
+    }
 
-    public Animation? OpenAnimation  { get => GetValue(OpenAnimationProperty);  set => SetValue(OpenAnimationProperty, value); }
-    public Animation? CloseAnimation { get => GetValue(CloseAnimationProperty); set => SetValue(CloseAnimationProperty, value); }
-    public object?  Icon           { get => GetValue(IconProperty);           set => SetValue(IconProperty, value); }
-    public NotificationType NotificationType { get => GetValue(NotificationTypeProperty); set => SetValue(NotificationTypeProperty, value); }
-    public ICommand?  Command        { get => GetValue(CommandProperty);        set => SetValue(CommandProperty, value); }
-    public string?    Title          { get => GetValue(TitleProperty);          set => SetValue(TitleProperty, value); }
-    public bool       IsClosable     { get => GetValue(IsClosableProperty);     set => SetValue(IsClosableProperty, value); }
-    public Control?   ActionButton   { get => GetValue(ActionButtonProperty);   set => SetValue(ActionButtonProperty, value); }
+    public Animation? CloseAnimation
+    {
+        get => GetValue(CloseAnimationProperty);
+        set => SetValue(CloseAnimationProperty, value);
+    }
 
-    // ── Constructor ───────────────────────────────────────────────────────────
-    
+    public object? Icon
+    {
+        get => GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+
+    public NotificationType NotificationType
+    {
+        get => GetValue(NotificationTypeProperty);
+        set => SetValue(NotificationTypeProperty, value);
+    }
+
+    public ICommand? Command
+    {
+        get => GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public string? Title
+    {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public bool IsClosable
+    {
+        get => GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
+    }
+
+    public Control? ActionButton
+    {
+        get => GetValue(ActionButtonProperty);
+        set => SetValue(ActionButtonProperty, value);
+    }
+
     public PleasantSnackbar()
     {
     }
@@ -84,12 +118,14 @@ public class PleasantSnackbar : PleasantPopupElement
         _queueManager = WindowHelper.GetSnackbarQueueManager(topLevel);
     }
 
-    // ── Static Show overloads ─────────────────────────────────────────────────
+    public static void Show(PleasantSnackbarOptions options) => ShowCoreForTopLevel(null, options);
+    public static void Show(Window window, PleasantSnackbarOptions options) => ShowCoreForTopLevel(window, options);
 
-    public static void Show(PleasantSnackbarOptions options)                          => ShowCoreForTopLevel(null, options);
-    public static void Show(Window window, PleasantSnackbarOptions options)           => ShowCoreForTopLevel(window, options);
-    public static void Show(IPleasantWindow pleasantWindow, PleasantSnackbarOptions options) => ShowCoreForTopLevel(pleasantWindow as TopLevel, options);
-    public static void Show(TopLevel topLevel, PleasantSnackbarOptions options)       => ShowCoreForTopLevel(topLevel, options);
+    public static void Show(IPleasantWindow pleasantWindow, PleasantSnackbarOptions options) =>
+        ShowCoreForTopLevel(pleasantWindow as TopLevel, options);
+
+    public static void Show(TopLevel topLevel, PleasantSnackbarOptions options) =>
+        ShowCoreForTopLevel(topLevel, options);
 
     // ── Internal host management ──────────────────────────────────────────────
 
@@ -109,11 +145,11 @@ public class PleasantSnackbar : PleasantPopupElement
     {
         base.OnApplyTemplate(e);
 
-        _snackbarBorder  = e.NameScope.Find<Control>("PART_Snackbar");
+        _snackbarBorder = e.NameScope.Find<Control>("PART_Snackbar");
         _contentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
-        _button          = e.NameScope.Find<Button>("PART_Button");
-        _grid            = e.NameScope.Find<Grid>("PART_Grid");
-        _closeButton     = e.NameScope.Find<Button>("PART_CloseButton");
+        _button = e.NameScope.Find<Button>("PART_Button");
+        _grid = e.NameScope.Find<Grid>("PART_Grid");
+        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
 
         if (_snackbarBorder is null || _contentPresenter is null)
             throw new NullReferenceException("Snackbar border or content presenter not found");
@@ -147,15 +183,15 @@ public class PleasantSnackbar : PleasantPopupElement
 
         PleasantSnackbar snackbar = new(parent)
         {
-            Content          = options.Message,
-            Title            = options.Title,
-            Icon             = options.Icon,
+            Content = options.Message,
+            Title = options.Title,
+            Icon = options.Icon,
             NotificationType = options.NotificationType,
-            IsClosable       = options.IsClosable,
-            TopLevel         = parent,
+            IsClosable = options.IsClosable,
+            TopLevel = parent,
             Opacity = 0,
-            _closingHandler  = options.Closing,
-            _closedHandler   = options.Closed
+            _closingHandler = options.Closing,
+            _closedHandler = options.Closed
         };
 
         // Wire action button
@@ -188,12 +224,6 @@ public class PleasantSnackbar : PleasantPopupElement
         snackbar._queueManager?.Enqueue(snackbar);
 
         if (snackbar._queueManager is null)
-        {
-            snackbar.CreateHost();
-            return;
-        }
-
-        if (snackbar._queueManager.Count <= 1)
             snackbar.CreateHost();
     }
 
@@ -201,6 +231,9 @@ public class PleasantSnackbar : PleasantPopupElement
 
     private async Task Close(Action? action = null)
     {
+        if (_isClosing) return;
+        _isClosing = true;
+        
         // Fire Closing — allow cancellation
         if (_closingHandler is not null)
         {
@@ -237,13 +270,14 @@ public class PleasantSnackbar : PleasantPopupElement
 
         Animation animation = new()
         {
-            Easing    = new CubicEaseInOut(),
-            Duration  = TimeSpan.FromSeconds(0.3),
-            FillMode  = FillMode.Both,
-            Children  =
+            Easing = new CubicEaseInOut(),
+            Duration = TimeSpan.FromSeconds(0.3),
+            FillMode = FillMode.Both,
+            Children =
             {
-                new KeyFrame { KeyTime = TimeSpan.Zero,               Setters = { new Setter(WidthProperty, MinWidth) } },
-                new KeyFrame { KeyTime = TimeSpan.FromSeconds(0.3),   Setters = { new Setter(WidthProperty, maxSnackbarWidth) } }
+                new KeyFrame { KeyTime = TimeSpan.Zero, Setters = { new Setter(WidthProperty, MinWidth) } },
+                new KeyFrame
+                    { KeyTime = TimeSpan.FromSeconds(0.3), Setters = { new Setter(WidthProperty, maxSnackbarWidth) } }
             }
         };
 
@@ -253,6 +287,7 @@ public class PleasantSnackbar : PleasantPopupElement
         _contentPresenter?.TextWrapping = TextWrapping.WrapWithOverflow;
 
         _grid?.Opacity = 1;
+        _closeButton?.Opacity = 1;
     }
 
     private async Task RunCloseAnimation()
@@ -296,10 +331,10 @@ public class PleasantSnackbar : PleasantPopupElement
 
     private void UpdateNotificationType()
     {
-        PseudoClasses.Set(":error",       NotificationType == NotificationType.Error);
+        PseudoClasses.Set(":error", NotificationType == NotificationType.Error);
         PseudoClasses.Set(":information", NotificationType == NotificationType.Information);
-        PseudoClasses.Set(":success",     NotificationType == NotificationType.Success);
-        PseudoClasses.Set(":warning",     NotificationType == NotificationType.Warning);
+        PseudoClasses.Set(":success", NotificationType == NotificationType.Success);
+        PseudoClasses.Set(":warning", NotificationType == NotificationType.Warning);
     }
 
     private void UpdateClosableState()

@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:timeline="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.TimelinePageView">
     <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="640" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
@@ -36,33 +37,33 @@
                 <TextBlock Text="{Localize Timeline/OrderTracking}"
                            Theme="{StaticResource BodyStrongTextBlockTheme}" />
 
-                <Timeline x:Name="DemoTimeline">
-                    <TimelineItem Header="{Localize Timeline/Step1Header}"
+                <timeline:Timeline x:Name="DemoTimeline">
+                    <timeline:TimelineItem Header="{Localize Timeline/Step1Header}"
                                   Content="{Localize Timeline/Step1Content}"
                                   Time="2024-03-01 09:00:00"
                                   TimeFormat="yyyy-MM-dd HH:mm"
                                   Type="Success" />
-                    <TimelineItem Header="{Localize Timeline/Step2Header}"
+                    <timeline:TimelineItem Header="{Localize Timeline/Step2Header}"
                                   Content="{Localize Timeline/Step2Content}"
                                   Time="2024-03-02 14:30:00"
                                   TimeFormat="yyyy-MM-dd HH:mm"
                                   Type="Success" />
-                    <TimelineItem Header="{Localize Timeline/Step3Header}"
+                    <timeline:TimelineItem Header="{Localize Timeline/Step3Header}"
                                   Content="{Localize Timeline/Step3Content}"
                                   Time="2024-03-03 11:15:00"
                                   TimeFormat="yyyy-MM-dd HH:mm"
                                   Type="Ongoing" />
-                    <TimelineItem Header="{Localize Timeline/Step4Header}"
+                    <timeline:TimelineItem Header="{Localize Timeline/Step4Header}"
                                   Content="{Localize Timeline/Step4Content}"
                                   Time="2024-03-05 00:00:00"
                                   TimeFormat="yyyy-MM-dd"
                                   Type="Default" />
-                    <TimelineItem Header="{Localize Timeline/Step5Header}"
+                    <timeline:TimelineItem Header="{Localize Timeline/Step5Header}"
                                   Content="{Localize Timeline/Step5Content}"
                                   Time="2024-03-07 00:00:00"
                                   TimeFormat="yyyy-MM-dd"
                                   Type="Default" />
-                </Timeline>
+                </timeline:Timeline>
             </StackPanel>
         </Border>
 
@@ -78,18 +79,18 @@
                            FontSize="12"
                            Foreground="{DynamicResource TextFillColor2}" />
 
-                <Timeline>
-                    <TimelineItem Header="{Localize Timeline/TypeDefault}" Type="Default"
+                <timeline:Timeline>
+                    <timeline:TimelineItem Header="{Localize Timeline/TypeDefault}" Type="Default"
                                   Content="{Localize Timeline/TypeDefaultDesc}" />
-                    <TimelineItem Header="{Localize Timeline/TypeOngoing}" Type="Ongoing"
+                    <timeline:TimelineItem Header="{Localize Timeline/TypeOngoing}" Type="Ongoing"
                                   Content="{Localize Timeline/TypeOngoingDesc}" />
-                    <TimelineItem Header="{Localize Timeline/TypeSuccess}" Type="Success"
+                    <timeline:TimelineItem Header="{Localize Timeline/TypeSuccess}" Type="Success"
                                   Content="{Localize Timeline/TypeSuccessDesc}" />
-                    <TimelineItem Header="{Localize Timeline/TypeWarning}" Type="Warning"
+                    <timeline:TimelineItem Header="{Localize Timeline/TypeWarning}" Type="Warning"
                                   Content="{Localize Timeline/TypeWarningDesc}" />
-                    <TimelineItem Header="{Localize Timeline/TypeError}" Type="Error"
+                    <timeline:TimelineItem Header="{Localize Timeline/TypeError}" Type="Error"
                                   Content="{Localize Timeline/TypeErrorDesc}" />
-                </Timeline>
+                </timeline:Timeline>
             </StackPanel>
         </Border>
 
@@ -105,29 +106,29 @@
                            FontSize="12"
                            Foreground="{DynamicResource TextFillColor2}" />
 
-                <Timeline>
-                    <TimelineItem Header="{Localize Timeline/IconStep1}" Content="{Localize Timeline/IconStep1Desc}">
-                        <TimelineItem.Icon>
+                <timeline:Timeline>
+                    <timeline:TimelineItem Header="{Localize Timeline/IconStep1}" Content="{Localize Timeline/IconStep1Desc}">
+                        <timeline:TimelineItem.Icon>
                             <PathIcon Data="{StaticResource CheckmarkRegular}"
                                       Width="12" Height="12"
                                       Foreground="{DynamicResource SystemFillColorSuccess}" />
-                        </TimelineItem.Icon>
-                    </TimelineItem>
-                    <TimelineItem Header="{Localize Timeline/IconStep2}" Content="{Localize Timeline/IconStep2Desc}">
-                        <TimelineItem.Icon>
+                        </timeline:TimelineItem.Icon>
+                    </timeline:TimelineItem>
+                    <timeline:TimelineItem Header="{Localize Timeline/IconStep2}" Content="{Localize Timeline/IconStep2Desc}">
+                        <timeline:TimelineItem.Icon>
                             <PathIcon Data="{StaticResource ArrowLeftRegular}"
                                       Width="12" Height="12"
                                       Foreground="{DynamicResource SystemFillColorNeutral}" />
-                        </TimelineItem.Icon>
-                    </TimelineItem>
-                    <TimelineItem Header="{Localize Timeline/IconStep3}" Content="{Localize Timeline/IconStep3Desc}">
-                        <TimelineItem.Icon>
+                        </timeline:TimelineItem.Icon>
+                    </timeline:TimelineItem>
+                    <timeline:TimelineItem Header="{Localize Timeline/IconStep3}" Content="{Localize Timeline/IconStep3Desc}">
+                        <timeline:TimelineItem.Icon>
                             <PathIcon Data="{StaticResource DeleteRegular}"
                                       Width="12" Height="12"
                                       Foreground="{DynamicResource SystemFillColorCritical}" />
-                        </TimelineItem.Icon>
-                    </TimelineItem>
-                </Timeline>
+                        </timeline:TimelineItem.Icon>
+                    </timeline:TimelineItem>
+                </timeline:Timeline>
             </StackPanel>
         </Border>
     </StackPanel>

@@ -13,7 +13,9 @@
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/LogViewerPanel.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/StepDialog.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/DownloadPanel.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/InstallWizard.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/CrashReportDialog.axaml" />
         <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/NoticeDialog.axaml" />
+        <MergeResourceInclude Source="/Styling/ControlThemes/PleasantToolKitControls/Timeline.axaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

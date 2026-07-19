@@ -5,7 +5,7 @@
 
 <img align="center" src="https://i.imgur.com/Sr3crB8.png">
 
-![Imgur](https://i.imgur.com/7HXbYEo.png)
+![Imgur](https://i.imgur.com/o40rAoq.png)
 
 # PleasantUI
 
@@ -23,9 +23,9 @@ This library may also contain elements from other design principles or UI librar
 
 ## ✨ Features
 
-### Complete Fluent-style control theming
+### Complete control theming
 
-Every standard Avalonia control gets a full Fluent Design makeover — rounded corners, layered fill colors, smooth pointer-over and pressed transitions, and accent color integration:
+Every standard Avalonia control is receiving a complete overhaul: rounded corners, multi-layered fills, smooth transitions on hover and click, and accent color integration:
 
 | Control | Control | Control |
 |---|---|---|
@@ -74,6 +74,7 @@ Controls built from scratch that go beyond what Avalonia ships:
 - `{Localize Key}` AXAML markup extension binds reactively — switching language updates every bound string instantly without reloading views
 - `Localizer.TrDefault(key, fallback)` for safe lookups that fall back to a raw string instead of an error message
 - `LocalizationChanged` event for view models and code-behind to react to language switches
+- A localization key analyzer is included. You won't miss any unused keys in your applications!
 
 ## Packages
 
@@ -152,10 +153,10 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 Published on NuGet:
 
 ```xml
-<PackageReference Include="PleasantUI" Version="5.2.0" />
-<PackageReference Include="PleasantUI.DataGrid" Version="5.2.0" />
-<PackageReference Include="PleasantUI.MaterialIcons" Version="5.2.0" />
-<PackageReference Include="PleasantUI.ToolKit" Version="5.2.0" />
+<PackageReference Include="PleasantUI" Version="5.3.0" />
+<PackageReference Include="PleasantUI.DataGrid" Version="5.3.0" />
+<PackageReference Include="PleasantUI.MaterialIcons" Version="5.3.0" />
+<PackageReference Include="PleasantUI.ToolKit" Version="5.3.0" />
 ```
 
 

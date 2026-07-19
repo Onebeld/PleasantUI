@@ -33,16 +33,9 @@
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
                               CornerRadius="{TemplateBinding CornerRadius}">
-                    <StackPanel x:Name="InnerGrid" Orientation="Horizontal">
-                        <ContentPresenter x:Name="PART_ContentPresenter"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Padding="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-
+                    <DockPanel x:Name="InnerGrid">
                         <PleasantIcon x:Name="DropDownGlyph"
+                                      DockPanel.Dock="Right"
                                       UseLayoutRounding="False"
                                       IsHitTestVisible="False"
                                       Height="12"
@@ -52,7 +45,15 @@
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       Foreground="{DynamicResource TextFillColor2}" />
-                    </StackPanel>
+                        
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          RecognizesAccessKey="True"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </DockPanel>
                 </RippleEffect>
             </ControlTemplate>
         </Setter>

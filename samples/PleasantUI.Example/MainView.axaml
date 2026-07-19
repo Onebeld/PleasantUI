@@ -53,7 +53,6 @@
                     <NavigationViewItem Tag="LogViewerPanel"     Header="{Localize CardTitle/LogViewerPanel}"     Icon="{x:Static icons:MaterialIconKind.TextBoxOutline}" />
                     <NavigationViewItem Tag="TerminalPanel"      Header="{Localize CardTitle/TerminalPanel}"      Icon="{x:Static icons:MaterialIconKind.ConsoleLine}" />
                     <NavigationViewItem Tag="TreeViewPanel"      Header="{Localize CardTitle/TreeViewPanel}"      Icon="{x:Static icons:MaterialIconKind.FileTreeOutline}" />
-                    <NavigationViewItem Tag="ItemListPanel"      Header="{Localize CardTitle/ItemListPanel}"      Icon="{x:Static icons:MaterialIconKind.FormatListBulletedType}" />
                     <NavigationViewItem Tag="PropertyGrid"       Header="{Localize CardTitle/PropertyGrid}"       Icon="{x:Static icons:MaterialIconKind.TableColumnPlusAfter}" />
                     <NavigationViewItem Tag="DownloadPanel"      Header="{Localize CardTitle/DownloadPanel}"      Icon="{x:Static icons:MaterialIconKind.DownloadOutline}" />
                     <NavigationViewItem Tag="CrashReportDialog"  Header="{Localize CardTitle/CrashReportDialog}"  Icon="{x:Static icons:MaterialIconKind.BugOutline}" />

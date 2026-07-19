@@ -11,8 +11,6 @@
     <SolidColorBrush x:Key="DataGridRowBackgroundBrush" Color="Transparent" />
     <SolidColorBrush x:Key="DataGridRowInvalidBrush" Color="#33FF0000" />
     <SolidColorBrush x:Key="DataGridDetailsPresenterBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="{DynamicResource AccentColor}" />
-    <SolidColorBrush x:Key="DataGridScrollBarsSeparatorBackground" Color="{DynamicResource BackgroundColor2}" />
     <SolidColorBrush x:Key="DataGridDisabledVisualElementBackground" Color="#66FFFFFF" />
     <StreamGeometry x:Key="DataGridSortIconDescendingPath">M1875 1011l-787 787v-1798h-128v1798l-787 -787l-90 90l941 941l941 -941z</StreamGeometry>
     <StreamGeometry x:Key="DataGridSortIconAscendingPath">M1965 947l-941 -941l-941 941l90 90l787 -787v1798h128v-1798l787 787z</StreamGeometry>
@@ -306,7 +304,7 @@
                         <Rectangle Grid.Row="0"
                                    Grid.Column="0"
                                    Name="BackgroundRectangle"
-                                   Fill="{DynamicResource DataGridRowBackgroundBrush}"
+                                   Fill="{StaticResource DataGridRowBackgroundBrush}"
                                    Grid.RowSpan="2"
                                    Grid.ColumnSpan="2" />
                         <Rectangle Grid.Row="0"
@@ -314,7 +312,7 @@
                                    x:Name="InvalidVisualElement"
                                    Opacity="0"
                                    Grid.ColumnSpan="2"
-                                   Fill="{DynamicResource DataGridRowInvalidBrush}" />
+                                   Fill="{StaticResource DataGridRowInvalidBrush}" />
 
                         <DataGridRowHeader Grid.Row="0"
                                            Grid.Column="0"
@@ -328,7 +326,7 @@
                         <DataGridDetailsPresenter Name="PART_DetailsPresenter"
                                                   Grid.Row="1"
                                                   Grid.Column="1"
-                                                  Background="{DynamicResource DataGridDetailsPresenterBackgroundBrush}" />
+                                                  Background="{StaticResource DataGridDetailsPresenterBackgroundBrush}" />
                         <Rectangle Name="PART_BottomGridLine"
                                    Grid.Row="2"
                                    Grid.Column="1"
@@ -496,7 +494,7 @@
         
         <Setter Property="DropLocationIndicatorTemplate">
             <Template>
-                <Rectangle Fill="{DynamicResource DataGridDropLocationIndicatorBackground}"
+                <Rectangle Fill="{DynamicResource AccentColor}"
                            Width="2" />
             </Template>
         </Setter>
@@ -533,14 +531,14 @@
                             </DataGridRowsPresenter.GestureRecognizers>
                         </DataGridRowsPresenter>
                         <Rectangle Name="PART_BottomRightCorner"
-                                   Fill="{DynamicResource DataGridScrollBarsSeparatorBackground}"
+                                   Fill="{DynamicResource BackgroundColor2}"
                                    Grid.Column="2"
                                    Grid.Row="2" />
                         <ScrollBar Name="PART_VerticalScrollbar"
                                    Orientation="Vertical"
                                    Grid.Column="2"
                                    Grid.Row="1"
-                                   Width="{DynamicResource ScrollBarSize}" />
+                                   Width="{StaticResource ScrollBarSize}" />
 
                         <Grid Grid.Column="1"
                               Grid.Row="2"
@@ -549,7 +547,7 @@
                             <ScrollBar Name="PART_HorizontalScrollbar"
                                        Grid.Column="1"
                                        Orientation="Horizontal"
-                                       Height="{DynamicResource ScrollBarSize}" />
+                                       Height="{StaticResource ScrollBarSize}" />
                         </Grid>
                         <Border x:Name="PART_DisabledVisualElement"
                                 Grid.ColumnSpan="3" Grid.Column="0"
@@ -558,7 +556,7 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="2"
-                                Background="{DynamicResource DataGridDisabledVisualElementBackground}"
+                                Background="{StaticResource DataGridDisabledVisualElementBackground}"
                                 IsVisible="{Binding !$parent[DataGrid].IsEnabled}" />
                     </Grid>
                 </Border>

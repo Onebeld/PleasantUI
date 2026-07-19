@@ -47,6 +47,7 @@
             <Style Selector="^ /template/ Border#Border">
                 <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
                 <Setter Property="TextElement.Foreground" Value="{ForegroundBased AccentLinearGradientBrush}" />
+                <Setter Property="TextElement.FontWeight" Value="SemiBold" />
             </Style>
             <Style Selector="^ /template/ RippleEffect#PART_Ripple">
                 <Setter Property="RippleFill" Value="Black" />

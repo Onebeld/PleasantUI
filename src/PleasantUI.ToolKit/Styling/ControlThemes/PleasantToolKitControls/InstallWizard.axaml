@@ -1,28 +1,44 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:PleasantUI.Controls"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Width="720" Height="480">
             <controls:InstallWizard AppName="My Application"
                                     FooterText="© 2025 My Company. All rights reserved.">
                 <controls:InstallWizard.Steps>
-                    <controls:WizardStep Header="Welcome"      Description="Welcome to the setup wizard." />
-                    <controls:WizardStep Header="License"      Description="Please read the license." />
+                    <controls:WizardStep Header="Welcome" Description="Welcome to the setup wizard.">
+                        <StackPanel Spacing="12">
+                            <Border Background="{DynamicResource ControlFillColor2}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    Padding="12"
+                                    MinHeight="80"
+                                    MaxHeight="260">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                              HorizontalScrollBarVisibility="Disabled">
+                                    <TextBlock Text="{Localize InstallWizard/LicenseText}"
+                                               TextWrapping="Wrap"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextFillColor2}" />
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </controls:WizardStep>
+                    <controls:WizardStep Header="License" Description="Please read the license." />
                     <controls:WizardStep Header="Install Type" Description="Choose how to install." />
-                    <controls:WizardStep Header="Installing"   Description="Please wait." />
-                    <controls:WizardStep Header="Summary"      Description="Installation complete." />
+                    <controls:WizardStep Header="Installing" Description="Please wait." />
+                    <controls:WizardStep Header="Summary" Description="Installation complete." />
                 </controls:InstallWizard.Steps>
             </controls:InstallWizard>
         </Border>
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type controls:InstallWizard}" TargetType="controls:InstallWizard">
-        <Setter Property="Background"      Value="{DynamicResource ControlFillColor1}" />
-        <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="FontSize"        Value="14" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="(IconHelper.Width)" Value="NaN" />
         <Setter Property="(IconHelper.Height)" Value="36" />
 
@@ -41,7 +57,6 @@
                                   runs from the rounded top-right corner down to the footer
                     -->
                     <Grid ColumnDefinitions="220,*,2" RowDefinitions="3,*">
-
                         <!-- ── LEFT SIDEBAR — spans both rows ────────────── -->
                         <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                 Background="{DynamicResource ControlFillColor2}"
@@ -51,8 +66,8 @@
 
                                 <StackPanel Grid.Row="0" Margin="20 24 20 16" Spacing="8" HorizontalAlignment="Left">
                                     <PleasantIcon Icon="{TemplateBinding AppIcon}"
-                                                 Width="{TemplateBinding (IconHelper.Width)}"
-                                                 Height="{TemplateBinding (IconHelper.Height)}" />
+                                                  Width="{TemplateBinding (IconHelper.Width)}"
+                                                  Height="{TemplateBinding (IconHelper.Height)}" />
                                     <TextBlock Text="{TemplateBinding AppName}"
                                                FontSize="15" FontWeight="SemiBold"
                                                Foreground="{DynamicResource TextFillColor1}"
@@ -66,10 +81,13 @@
                                                 <Grid.Styles>
                                                     <Style Selector="Border.checkmark[IsVisible=True]">
                                                         <Style.Animations>
-                                                            <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                                                            <Animation Duration="0:0:0.2" FillMode="Forward"
+                                                                       Easing="SineEaseOut">
                                                                 <KeyFrame Cue="0%">
-                                                                    <Setter Property="ScaleTransform.ScaleX" Value="0.5" />
-                                                                    <Setter Property="ScaleTransform.ScaleY" Value="0.5" />
+                                                                    <Setter Property="ScaleTransform.ScaleX"
+                                                                            Value="0.5" />
+                                                                    <Setter Property="ScaleTransform.ScaleY"
+                                                                            Value="0.5" />
                                                                     <Setter Property="Opacity" Value="0" />
                                                                 </KeyFrame>
                                                                 <KeyFrame Cue="100%">
@@ -180,35 +198,8 @@
                                      IsVisible="{TemplateBinding ShowProgressBar}" />
 
                         <!-- ── RIGHT CONTENT — row 1, col 1 ──────────────── -->
-                        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="*,Auto,Auto">
-
-                            <ScrollViewer Grid.Row="0"
-                                          Padding="32 24 32 8"
-                                          HorizontalScrollBarVisibility="Disabled"
-                                          VerticalScrollBarVisibility="Auto">
-                                <ItemsControl ItemsSource="{TemplateBinding Steps}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="controls:WizardStep">
-                                            <StackPanel Spacing="6" IsVisible="{Binding IsActive}">
-                                                <TextBlock Text="{Binding Header}"
-                                                           FontSize="20" FontWeight="SemiBold"
-                                                           Foreground="{DynamicResource TextFillColor1}"
-                                                           TextWrapping="Wrap" />
-                                                <TextBlock Text="{Binding Description}"
-                                                           FontSize="13"
-                                                           Foreground="{DynamicResource TextFillColor2}"
-                                                           TextWrapping="Wrap"
-                                                           Margin="0 0 0 16" />
-                                                <ContentPresenter Content="{Binding Content}"
-                                                                  ContentTemplate="{Binding ContentTemplate}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </ScrollViewer>
-
-                            <!-- Status message area -->
-                            <Border Grid.Row="1"
+                        <DockPanel Grid.Row="1" Grid.Column="1">
+                            <Border DockPanel.Dock="Bottom"
                                     Name="StatusBorder"
                                     Padding="32 12"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
@@ -231,7 +222,7 @@
                                 </Grid>
                             </Border>
 
-                            <Border Grid.Row="2"
+                            <Border DockPanel.Dock="Bottom"
                                     Padding="32 12"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
                                     Background="{DynamicResource ControlFillColor1}"
@@ -251,7 +242,35 @@
                                             MinWidth="80" />
                                 </Grid>
                             </Border>
-                        </Grid>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ContentPresenter Content="{TemplateBinding CurrentStep}" Padding="32 24 32 8">
+                                    <ContentPresenter.ContentTemplate>
+                                        <DataTemplate DataType="controls:WizardStep">
+                                            <StackPanel Spacing="6">
+                                                <TextBlock Text="{Binding Header}"
+                                                           FontSize="20" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource TextFillColor1}"
+                                                           TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding Description}"
+                                                           FontSize="13"
+                                                           Foreground="{DynamicResource TextFillColor2}"
+                                                           TextWrapping="Wrap"
+                                                           Margin="0 0 0 16" />
+                                                <ContentPresenter Content="{Binding Content}"
+                                                                  ContentTemplate="{Binding ContentTemplate}"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  HorizontalContentAlignment="Stretch" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ContentPresenter.ContentTemplate>
+                                </ContentPresenter>
+                            </ScrollViewer>
+
+                            <!-- Status message area -->
+
+                        </DockPanel>
 
                         <!-- ── RIGHT BORDER LINE — row 1, col 2 ──────────── -->
                         <!-- 1px column below the progress bar, full height of content+footer.

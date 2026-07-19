@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
-                    xmlns:converters="clr-namespace:PleasantUI.Converters;assembly=PleasantUI"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -14,7 +13,7 @@
                                    PrimaryButtonText="Yes" />
         </Border>
     </Design.PreviewWith>
-    
+
     <ControlTheme x:Key="{x:Type controls:NoticeDialog}" TargetType="controls:NoticeDialog">
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
@@ -27,7 +26,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="IsHitTestVisible" Value="True" />
-        
+
         <Setter Property="Canvas.Bottom" Value="1" />
         <Setter Property="Canvas.Left" Value="1" />
         <Setter Property="Canvas.Right" Value="1" />
@@ -36,65 +35,62 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
+                              BorderBrush="{TemplateBinding BorderThickness}"
+                              Background="{TemplateBinding Background}"
+                              MinWidth="{TemplateBinding MinWidth}"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                               BlurRadius="60"
                               ShadowColor="#6E000000"
-                              Offset="0 50">
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            MinWidth="{TemplateBinding MinWidth}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            ClipToBounds="True"
-                            BorderThickness="{DynamicResource ControlBorderThickness}">
-                        <StackPanel>
-                            <Border Height="50" Name="PART_TitleBorder" Padding="15 0">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
-                                    <PleasantIcon Name="PART_Icon" Width="20" Height="20" />
-                                    
-                                    <TextBlock Name="PART_TitleText" Text="{TemplateBinding Title}" Theme="{StaticResource SubtitleTextBlockTheme}" />
-                                </StackPanel>
-                            </Border>
-                            
-                            <StackPanel Margin="15" Spacing="10">
-                                <TextBlock Text="{TemplateBinding Message}" TextWrapping="Wrap" />
-                                <TextBlock FontStyle="Italic"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor2}"
-                                           Text="{TemplateBinding NoticeFooterText}"
-                                           IsVisible="{TemplateBinding NoticeFooterText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                            </StackPanel>
+                              Offset="0 6"
+                              ClipContentToBounds="True">
+                    <StackPanel>
+                        <Border Height="50" Name="PART_TitleBorder" Padding="15 0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                                <PleasantIcon Name="PART_Icon" Width="20" Height="20" />
 
-                            <Border BorderBrush="{DynamicResource ControlBorderColor}"
-                                    Background="{DynamicResource BackgroundColor3}"
-                                    BorderThickness="0 1 0 0"
-                                    CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static converters:CornerRadiusFilterConverters.Bottom}}"
-                                    IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                    Height="80">
-                                <UniformGrid x:Name="Buttons" Margin="15 0" Rows="0" Columns="2" VerticalAlignment="Center" ColumnSpacing="10">
-                                    <Control>
-                                        <Control.IsVisible>
-                                            <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                                <TemplateBinding Property="SecondaryButtonText" Converter="{x:Static StringConverters.IsNullOrEmpty}" />
-                                            </MultiBinding>
-                                        </Control.IsVisible>
-                                    </Control>
-                                    
-                                    <Button Name="PART_SecondaryButton"
-                                            Content="{TemplateBinding SecondaryButtonText}"
-                                            IsVisible="{TemplateBinding SecondaryButtonText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                                    
-                                    <Button Name="PART_PrimaryButton" Theme="{StaticResource AccentButtonTheme}"
-                                            Content="{TemplateBinding PrimaryButtonText}"
-                                            IsVisible="{TemplateBinding PrimaryButtonText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                                </UniformGrid>
-                            </Border>
+                                <TextBlock Name="PART_TitleText" Text="{TemplateBinding Title}"
+                                           Theme="{StaticResource SubtitleTextBlockTheme}" />
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Margin="15" Spacing="10">
+                            <TextBlock Text="{TemplateBinding Message}" TextWrapping="Wrap" />
+                            <TextBlock FontStyle="Italic"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource TextFillColor2}"
+                                       Text="{TemplateBinding NoticeFooterText}"
+                                       IsVisible="{TemplateBinding NoticeFooterText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                         </StackPanel>
-                    </Border>
+
+                        <Border Background="{DynamicResource BackgroundColor2}"
+                                IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Height="80">
+                            <UniformGrid x:Name="Buttons" Margin="15 0" Rows="0" Columns="2" VerticalAlignment="Center"
+                                         ColumnSpacing="10">
+                                <Control>
+                                    <Control.IsVisible>
+                                        <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                            <TemplateBinding Property="SecondaryButtonText"
+                                                             Converter="{x:Static StringConverters.IsNullOrEmpty}" />
+                                        </MultiBinding>
+                                    </Control.IsVisible>
+                                </Control>
+
+                                <Button Name="PART_SecondaryButton"
+                                        Content="{TemplateBinding SecondaryButtonText}"
+                                        IsVisible="{TemplateBinding SecondaryButtonText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                                <Button Name="PART_PrimaryButton" Theme="{StaticResource AccentButtonTheme}"
+                                        Content="{TemplateBinding PrimaryButtonText}"
+                                        IsVisible="{TemplateBinding PrimaryButtonText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                            </UniformGrid>
+                        </Border>
+                    </StackPanel>
                 </ShadowBorder>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^:info /template/ Border#PART_TitleBorder">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
@@ -105,7 +101,7 @@
             <Setter Property="Icon" Value="{StaticResource InfoRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorNeutral}" />
         </Style>
-        
+
         <Style Selector="^:warning /template/ Border#PART_TitleBorder">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorCaution}" />
         </Style>
@@ -116,7 +112,7 @@
             <Setter Property="Icon" Value="{StaticResource WarningRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorCaution}" />
         </Style>
-        
+
         <Style Selector="^:error /template/ Button#PART_PrimaryButton">
             <Setter Property="Theme" Value="{StaticResource DangerButtonTheme}" />
         </Style>
@@ -130,7 +126,7 @@
             <Setter Property="Icon" Value="{StaticResource ErrorCircleRegular}" />
             <Setter Property="Foreground" Value="{ForegroundBased SystemFillColorCritical}" />
         </Style>
-        
+
         <Style Selector="^:success /template/ Border#PART_TitleBorder">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccess}" />
         </Style>

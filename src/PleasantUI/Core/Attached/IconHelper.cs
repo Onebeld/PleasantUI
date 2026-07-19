@@ -13,25 +13,25 @@ public abstract class IconHelper : AvaloniaObject
     /// Defines the Width attached property.
     /// </summary>
     public static readonly AttachedProperty<double> WidthProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Width", defaultBindingMode: BindingMode.TwoWay, inherits: true, defaultValue: double.NaN);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Width", defaultBindingMode: BindingMode.TwoWay, defaultValue: double.NaN);
     
     /// <summary>
     /// Defines the Height attached property.
     /// </summary>
     public static readonly AttachedProperty<double> HeightProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Height", defaultBindingMode: BindingMode.TwoWay, inherits: true, defaultValue: double.NaN);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("Height", defaultBindingMode: BindingMode.TwoWay, defaultValue: double.NaN);
     
     /// <summary>
     /// Defines the FontSize attached property.
     /// </summary>
     public static readonly AttachedProperty<double> FontSizeProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("FontSize", 1, defaultBindingMode: BindingMode.TwoWay, inherits: true);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("FontSize", 1, defaultBindingMode: BindingMode.TwoWay);
     
     /// <summary>
     /// Defines the IconSize attached property.
     /// </summary>
     public static readonly AttachedProperty<double> IconSizeProperty =
-        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("IconSize", 16, defaultBindingMode: BindingMode.TwoWay, inherits: true);
+        AvaloniaProperty.RegisterAttached<IconHelper, Control, double>("IconSize", 16, defaultBindingMode: BindingMode.TwoWay);
     
     static IconHelper() { }
 

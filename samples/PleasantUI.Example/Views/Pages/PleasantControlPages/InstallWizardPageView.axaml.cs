@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
-using PleasantUI.Controls;
 using PleasantUI.Core.Localization;
+using PleasantUI.ToolKit.Controls;
 
 namespace PleasantUI.Example.Views.Pages.PleasantControlPages;
 

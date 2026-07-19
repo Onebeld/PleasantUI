@@ -1,14 +1,17 @@
+using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Metadata;
+using PleasantUI.Controls;
 using PleasantUI.Core.Localization;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Display mode for an install wizard.
@@ -43,8 +46,8 @@ public class InstallWizard : TemplatedControl
     private Button? _cancelButton;
 
     /// <summary>Defines the <see cref="Steps"/> property.</summary>
-    public static readonly StyledProperty<IList<WizardStep>> StepsProperty =
-        AvaloniaProperty.Register<InstallWizard, IList<WizardStep>>(nameof(Steps));
+    public static readonly DirectProperty<InstallWizard, AvaloniaList<WizardStep>> StepsProperty =
+        AvaloniaProperty.RegisterDirect<InstallWizard, AvaloniaList<WizardStep>>(nameof(Steps), o => o.Steps);
 
     /// <summary>Defines the <see cref="CurrentStepIndex"/> property.</summary>
     public static readonly StyledProperty<int> CurrentStepIndexProperty =
@@ -102,57 +105,16 @@ public class InstallWizard : TemplatedControl
     public static readonly RoutedEvent<WizardStepChangedEventArgs> StepChangedEvent =
         RoutedEvent.Register<InstallWizard, WizardStepChangedEventArgs>(nameof(StepChanged), RoutingStrategies.Bubble);
 
-    /// <summary>The ordered list of wizard steps.</summary>
-    public IList<WizardStep> Steps
-    {
-        get
-        {
-            IList<WizardStep> list = GetValue(StepsProperty);
+    /// <summary>Progress value 0–100 based on current step.</summary>
+    public static readonly DirectProperty<InstallWizard, double> ProgressProperty =
+        AvaloniaProperty.RegisterDirect<InstallWizard, double>(nameof(Progress),
+            o => o.Progress);
 
-            return list;
-        }
-        set
-        {
-            // Unsubscribe from old list
-            if (GetValue(StepsProperty) is AvaloniaList<WizardStep> old)
-                old.CollectionChanged -= OnStepsCollectionChanged;
-
-            if (value is AvaloniaList<WizardStep> newList)
-                newList.CollectionChanged += OnStepsCollectionChanged;
-
-            SetValue(StepsProperty, value);
-        }
-    }
-
-    private void OnStepsCollectionChanged(object? sender,
-        System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        if (sender is not IList<WizardStep> list) return;
-
-        // Deduplicate: if the list now contains duplicate headers (reinit scenario),
-        // keep only the LAST occurrence of each header — i.e. the freshly-added ones.
-        // This fires after each Add, so we check on every addition.
-        HashSet<string?> seen = new();
-        List<WizardStep> toRemove = new();
-
-        // Walk backwards — keep the last occurrence of each header
-        for (int i = list.Count - 1; i >= 0; i--)
-        {
-            string? header = list[i].Header;
-            if (!seen.Add(header))
-                toRemove.Add(list[i]);
-        }
-
-        if (toRemove.Count == 0) return;
-
-        // Remove duplicates (the earlier/stale ones)
-        foreach (WizardStep step in toRemove)
-            list.Remove(step);
-
-        RefreshComputedProperties();
-        UpdateButtonStates();
-    }
-
+    /// <summary>The currently active step, or null.</summary>
+    public static readonly DirectProperty<InstallWizard, WizardStep?> CurrentStepProperty =
+        AvaloniaProperty.RegisterDirect<InstallWizard, WizardStep?>(nameof(CurrentStep),
+            o => o.CurrentStep);
+    
     /// <summary>Zero-based index of the currently visible step.</summary>
     public int CurrentStepIndex
     {
@@ -230,8 +192,6 @@ public class InstallWizard : TemplatedControl
         set => SetValue(ShowProgressBarProperty, value);
     }
 
-    // ── Events ───────────────────────────────────────────────────────────────
-
     /// <summary>Raised when the user completes the last step.</summary>
     public event EventHandler<RoutedEventArgs>? Finished
     {
@@ -253,18 +213,6 @@ public class InstallWizard : TemplatedControl
         remove => RemoveHandler(StepChangedEvent, value);
     }
 
-    // ── Computed helpers (used by bindings in the template) ──────────────────
-
-    /// <summary>Progress value 0–100 based on current step.</summary>
-    public static readonly DirectProperty<InstallWizard, double> ProgressProperty =
-        AvaloniaProperty.RegisterDirect<InstallWizard, double>(nameof(Progress),
-            o => o.Progress);
-
-    /// <summary>The currently active step, or null.</summary>
-    public static readonly DirectProperty<InstallWizard, WizardStep?> CurrentStepProperty =
-        AvaloniaProperty.RegisterDirect<InstallWizard, WizardStep?>(nameof(CurrentStep),
-            o => o.CurrentStep);
-
     /// <summary>Progress value 0–100 based on current step.</summary>
     public double Progress
     {
@@ -278,6 +226,10 @@ public class InstallWizard : TemplatedControl
         get;
         private set => SetAndRaise(CurrentStepProperty, ref field, value);
     }
+    
+    /// <summary>The ordered list of wizard steps.</summary>
+    [Content]
+    public AvaloniaList<WizardStep> Steps { get; } = [];
 
     static InstallWizard() { }
 
@@ -286,9 +238,7 @@ public class InstallWizard : TemplatedControl
     {
         base.OnPropertyChanged(change);
         
-        if (change.Property == StepsProperty)
-            OnStepsReplaced();
-        else if (change.Property == CurrentStepIndexProperty)
+        if (change.Property == CurrentStepIndexProperty)
             OnStepIndexChanged();
     }
 
@@ -309,10 +259,24 @@ public class InstallWizard : TemplatedControl
         if (_nextButton is not null) _nextButton.Click += OnNextClicked;
         if (_cancelButton is not null) _cancelButton.Click += OnCancelClicked;
 
-        Localizer.Instance.LocalizationChanged += OnLocalizationChanged;
-
+        AutoAssignStepNumbers();
         RefreshComputedProperties();
         UpdateButtonStates();
+    }
+
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        Steps.CollectionChanged += StepsOnCollectionChanged;
+        
+        base.OnAttachedToVisualTree(e);
+    }
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        Steps.CollectionChanged -= StepsOnCollectionChanged;
+        
+        base.OnDetachedFromVisualTree(e);
     }
 
     /// <summary>Moves to the next step, or raises <see cref="Finished"/> on the last step.</summary>
@@ -335,8 +299,13 @@ public class InstallWizard : TemplatedControl
         if (CurrentStepIndex > 0)
             CurrentStepIndex--;
     }
-
-    private void OnLocalizationChanged(string _) => UpdateButtonStates();
+    
+    private void StepsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        AutoAssignStepNumbers();
+        RefreshComputedProperties();
+        UpdateButtonStates();
+    }
 
     private void OnBackClicked(object? sender, RoutedEventArgs e) => GoBack();
     
@@ -351,13 +320,18 @@ public class InstallWizard : TemplatedControl
         CurrentStep = CurrentStepIndex >= 0 && CurrentStepIndex < Steps.Count
             ? Steps[CurrentStepIndex]
             : null;
-
-        // Update IsActive and StepNumber on each step so the DataTemplate
-        // bindings in the AXAML template can show/hide and number correctly.
+    }
+    
+    private void AutoAssignStepNumbers()
+    {
         for (int i = 0; i < Steps.Count; i++)
         {
-            Steps[i].StepNumber = i + 1;
-            Steps[i].IsActive = i == CurrentStepIndex;
+            if (Steps[i] is not { } step)
+                continue;
+
+            int number = i + 1;
+            if (step.StepNumber != number)
+                step.StepNumber = number;
         }
     }
 
@@ -368,28 +342,19 @@ public class InstallWizard : TemplatedControl
         UpdateButtonStates();
     }
 
-    private void OnStepsReplaced()
-    {
-        // When AXAML reinit replaces the Steps collection with a new one,
-        // reset the index so we don't point past the end of the new list.
-        SetCurrentValue(CurrentStepIndexProperty, 0);
-        RefreshComputedProperties();
-        UpdateButtonStates();
-    }
-
     private void UpdateButtonStates()
     {
         _backButton?.IsEnabled = CurrentStepIndex > 0;
 
-        if (_nextButton is not null)
-        {
-            bool isLast = CurrentStepIndex >= Steps.Count - 1;
-            _nextButton.Content = isLast
-                ? Localizer.Instance.TryGetString("InstallWizard/BtnFinish", out string finish) ? finish : "Finish"
-                : Localizer.Instance.TryGetString("InstallWizard/BtnNext", out string next)
-                    ? next
-                    : NextButtonText;
-        }
+        if (_nextButton is null)
+            return;
+        
+        bool isLast = CurrentStepIndex >= Steps.Count - 1;
+
+        _nextButton.Bind(ContentControl.ContentProperty,
+            isLast
+                ? LocalizeBinding.Create("InstallWizard/BtnFinish", @default: "Finish")
+                : LocalizeBinding.Create("InstallWizard/BtnNext", @default: NextButtonText));
     }
 
     /// <summary>

@@ -1,33 +1,34 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:PleasantUI.Converters"
+                    xmlns:converters1="clr-namespace:PleasantUI.ToolKit.Converters"
+                    xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="20" Width="400">
             <StackPanel Spacing="20">
-                <Timeline>
-                    <TimelineItem Header="Order placed"
-                                  Time="2024-01-01"
-                                  TimeFormat="yyyy-MM-dd"
-                                  Type="Success" />
-                    <TimelineItem Header="Processing"
-                                  Time="2024-01-02"
-                                  TimeFormat="yyyy-MM-dd"
-                                  Type="Ongoing" />
-                    <TimelineItem Header="Shipped"
-                                  Time="2024-01-03"
-                                  TimeFormat="yyyy-MM-dd" />
-                    <TimelineItem Header="Delivered"
-                                  Time="2024-01-04"
-                                  TimeFormat="yyyy-MM-dd"
-                                  Type="Default" />
-                </Timeline>
+                <controls:Timeline>
+                    <controls:TimelineItem Header="Order placed"
+                                           Time="2024-01-01"
+                                           TimeFormat="yyyy-MM-dd"
+                                           Type="Success" />
+                    <controls:TimelineItem Header="Processing"
+                                           Time="2024-01-02"
+                                           TimeFormat="yyyy-MM-dd"
+                                           Type="Ongoing" />
+                    <controls:TimelineItem Header="Shipped"
+                                           Time="2024-01-03"
+                                           TimeFormat="yyyy-MM-dd" />
+                    <controls:TimelineItem Header="Delivered"
+                                           Time="2024-01-04"
+                                           TimeFormat="yyyy-MM-dd"
+                                           Type="Default" />
+                </controls:Timeline>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
 
     <!-- ── Timeline container ─────────────────────────────────────────────── -->
-    <ControlTheme x:Key="{x:Type Timeline}" TargetType="Timeline">
+    <ControlTheme x:Key="{x:Type controls:Timeline}" TargetType="controls:Timeline">
         <Setter Property="Template">
             <ControlTemplate>
                 <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" />
@@ -36,7 +37,7 @@
     </ControlTheme>
 
     <!-- ── TimelineItem ───────────────────────────────────────────────────── -->
-    <ControlTheme x:Key="{x:Type TimelineItem}" TargetType="TimelineItem">
+    <ControlTheme x:Key="{x:Type controls:TimelineItem}" TargetType="controls:TimelineItem">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment"   Value="Top" />
 
@@ -119,7 +120,7 @@
                                Foreground="{DynamicResource TextFillColor3}"
                                TextWrapping="Wrap">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{x:Static converters:TimelineConverters.DateTimeFormat}">
+                            <MultiBinding Converter="{x:Static converters1:TimelineConverters.DateTimeFormat}">
                                 <Binding Path="Time"       RelativeSource="{RelativeSource TemplatedParent}" />
                                 <Binding Path="TimeFormat" RelativeSource="{RelativeSource TemplatedParent}" />
                             </MultiBinding>

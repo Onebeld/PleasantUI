@@ -1,7 +1,9 @@
 using Avalonia;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Templates;
+using Avalonia.Metadata;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Completion state shown in the sidebar indicator when a step is marked completed.
@@ -23,6 +25,7 @@ public enum WizardStepCompletionState
 /// Acts as a lightweight data+content holder — the wizard template
 /// renders each step's content directly, avoiding double-parenting.
 /// </summary>
+[PseudoClasses(":success", ":warning", ":error")]
 public class WizardStep : AvaloniaObject
 {
     /// <summary>Defines the <see cref="Header"/> property.</summary>
@@ -41,10 +44,6 @@ public class WizardStep : AvaloniaObject
     public static readonly StyledProperty<WizardStepCompletionState> CompletionStateProperty =
         AvaloniaProperty.Register<WizardStep, WizardStepCompletionState>(
             nameof(CompletionState), defaultValue: WizardStepCompletionState.Success);
-
-    /// <summary>Defines the <see cref="IsActive"/> property.</summary>
-    public static readonly StyledProperty<bool> IsActiveProperty =
-        AvaloniaProperty.Register<WizardStep, bool>(nameof(IsActive));
 
     /// <summary>Defines the <see cref="StepNumber"/> property.</summary>
     public static readonly StyledProperty<int> StepNumberProperty =
@@ -88,14 +87,7 @@ public class WizardStep : AvaloniaObject
         get => GetValue(CompletionStateProperty);
         set => SetValue(CompletionStateProperty, value);
     }
-
-    /// <summary>Gets or sets whether this is the currently visible step.</summary>
-    public bool IsActive
-    {
-        get => GetValue(IsActiveProperty);
-        set => SetValue(IsActiveProperty, value);
-    }
-
+    
     /// <summary>Gets or sets the 1-based display number shown in the sidebar.</summary>
     public int StepNumber
     {
@@ -108,6 +100,7 @@ public class WizardStep : AvaloniaObject
     /// Use <see cref="ContentTemplate"/> with a plain data object instead of
     /// setting this to a Control directly, to avoid double-parenting on reinit.
     /// </summary>
+    [Content]
     public object? Content
     {
         get => GetValue(ContentProperty);

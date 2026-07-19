@@ -18,7 +18,7 @@ public class PropertyGrid : TemplatedControl
 {
     // ── Template part names ───────────────────────────────────────────────────
 
-    internal const string PART_RowsHost = "PART_RowsHost";
+    private const string PART_RowsHost = "PART_RowsHost";
 
     // ── Styled properties ─────────────────────────────────────────────────────
 

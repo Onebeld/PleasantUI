@@ -191,7 +191,7 @@
                                 Padding="12 6"
                                 Click="BoostyButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PleasantIcon Icon="{StaticResource Boosty}" />
+                                <PleasantIcon Icon="{StaticResource Boosty}" IconHelper.Width="16" IconHelper.Height="16" />
                                 
                                 <TextBlock Text="{Localize About/BoostySupport}"
                                            Foreground="{DynamicResource AccentLightColor1}" />

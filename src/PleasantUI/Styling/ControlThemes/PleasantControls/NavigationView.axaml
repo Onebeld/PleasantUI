@@ -213,33 +213,5 @@
         <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_MarginPanel">
             <Setter Property="Height" Value="60" />
         </Style>
-
-        <!-- Top position: hide the side SplitView pane controls, show horizontal top bar -->
-        <Style Selector="^:top /template/ SplitView#split">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:top /template/ StackPanel#PART_StackPanelButtons">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:top /template/ DockPanel#PART_TopBottomLayout">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-        <Style Selector="^:top /template/ Border#PART_TopBar">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-
-        <!-- Bottom position: hide the side SplitView pane controls, show horizontal bottom bar -->
-        <Style Selector="^:bottom /template/ SplitView#split">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:bottom /template/ StackPanel#PART_StackPanelButtons">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:bottom /template/ DockPanel#PART_TopBottomLayout">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-        <Style Selector="^:bottom /template/ Border#PART_BottomBar">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
     </ControlTheme>
 </ResourceDictionary>

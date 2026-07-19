@@ -109,14 +109,20 @@
                                             Padding="10">
                                         <StackPanel Spacing="5">
                                             <TextBlock Text="BackgroundColor2" />
+                                            
+                                            <Button Content="Control Button 2" />
 
                                             <PleasantBorder BackgroundLevel="Level3" Padding="10">
                                                 <StackPanel Spacing="5">
                                                     <TextBlock Text="BackgroundColor3" />
+                                                    
+                                                    <Button Content="Control Button 3" />
 
                                                     <PleasantBorder BackgroundLevel="Level4" Padding="10">
                                                         <StackPanel Spacing="5">
                                                             <TextBlock Text="BackgroundColor4" />
+                                                            
+                                                            <Button Content="Control Button 4" />
                                                         </StackPanel>
                                                     </PleasantBorder>
                                                 </StackPanel>
@@ -147,22 +153,26 @@
                                             <TextBlock Text="FocusStroke" />
                                         </Border>
                                     </Border>
-
-                                    <TextBlock Text="Critical" />
+                                    
                                     <Border Background="{DynamicResource SystemFillColorCritical}" Padding="5"
-                                            CornerRadius="{DynamicResource ControlCornerRadius}" />
+                                            CornerRadius="{DynamicResource ControlCornerRadius}">
+                                        <TextBlock Text="Critical" Foreground="{ForegroundBased SystemFillColorCritical}" />
+                                    </Border>
 
-                                    <TextBlock Text="Success" />
                                     <Border Background="{DynamicResource SystemFillColorSuccess}" Padding="5"
-                                            CornerRadius="{DynamicResource ControlCornerRadius}" />
-
-                                    <TextBlock Text="Caution" />
+                                            CornerRadius="{DynamicResource ControlCornerRadius}">
+                                        <TextBlock Text="Success" Foreground="{ForegroundBased SystemFillColorSuccess}" />
+                                    </Border>
+                                    
                                     <Border Background="{DynamicResource SystemFillColorCaution}" Padding="5"
-                                            CornerRadius="{DynamicResource ControlCornerRadius}" />
-
-                                    <TextBlock Text="Neutral" />
+                                            CornerRadius="{DynamicResource ControlCornerRadius}">
+                                        <TextBlock Text="Caution" Foreground="{ForegroundBased SystemFillColorCaution}" />
+                                    </Border>
+                                    
                                     <Border Background="{DynamicResource SystemFillColorNeutral}" Padding="5"
-                                            CornerRadius="{DynamicResource ControlCornerRadius}" />
+                                            CornerRadius="{DynamicResource ControlCornerRadius}">
+                                        <TextBlock Text="Neutral" Foreground="{ForegroundBased SystemFillColorNeutral}" />
+                                    </Border>
                                 </StackPanel>
                             </ScrollViewer>
                         </Border>

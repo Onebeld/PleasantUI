@@ -251,4 +251,10 @@
     <data name="ToolKit/CrashReportDialog/Source" xml:space="preserve">
         <value>Источник</value>
     </data>
+    <data name="ToolKit/CrashReportDialog/FailureMessagePrefix" xml:space="preserve">
+        <value>Не удалось отправить отчет: </value>
+    </data>
+    <data name="ToolKit/CrashReportDialog/SuccessMessage" xml:space="preserve">
+        <value>Отчет успешно отправлен. Спасибо!</value>
+    </data>
 </root>

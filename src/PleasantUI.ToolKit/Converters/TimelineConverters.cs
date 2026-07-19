@@ -1,10 +1,11 @@
 using System.Globalization;
 using Avalonia.Data.Converters;
+using PleasantUI.ToolKit.Controls;
 
-namespace PleasantUI.Converters;
+namespace PleasantUI.ToolKit.Converters;
 
 /// <summary>
-/// Converters used by the <see cref="PleasantUI.Controls.Timeline"/> control theme.
+/// Converters used by the <see cref="Timeline"/> control theme.
 /// </summary>
 public static class TimelineConverters
 {

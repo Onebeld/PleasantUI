@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
+             xmlns:installWizard="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.InstallWizardPageView">
     <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="760">
@@ -51,136 +51,112 @@
                         them and Avalonia throws "already has a visual parent".
                         ContentTemplate creates fresh controls each time — safe to reinit.
                     -->
-                <controls:InstallWizard x:Name="DemoWizard"
+                <installWizard:InstallWizard x:Name="DemoWizard"
                                         AppName="{Localize InstallWizard/AppName}"
                                         FooterText="{Localize InstallWizard/FooterText}"
                                         Height="420"
-                                        AppIcon="{StaticResource PleasantUIForeground}"
+                                        AppIcon="{DynamicResource PleasantUIForeground}"
                                         IconHelper.Width="130">
-                    <controls:InstallWizard.Steps>
-
                         <!-- Step 1: Welcome — content via DataTemplate -->
-                        <controls:WizardStep Header="{Localize InstallWizard/Step1Header}"
+                        <installWizard:WizardStep Header="{Localize InstallWizard/Step1Header}"
                                              Description="{Localize InstallWizard/Step1Desc}">
-                            <controls:WizardStep.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="12">
-                                        <TextBlock Text="{Localize InstallWizard/Step1Body}"
-                                                   TextWrapping="Wrap"
-                                                   Foreground="{DynamicResource TextFillColor2}" />
-                                        <CheckBox Content="{Localize InstallWizard/Step1Check}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:WizardStep.ContentTemplate>
-                        </controls:WizardStep>
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{Localize InstallWizard/Step1Body}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                                <CheckBox Content="Test" />
+                            </StackPanel>
+                        </installWizard:WizardStep>
 
                         <!-- Step 2: License -->
-                        <controls:WizardStep Header="{Localize InstallWizard/Step2Header}"
+                        <installWizard:WizardStep Header="{Localize InstallWizard/Step2Header}"
                                              Description="{Localize InstallWizard/Step2Desc}">
-                            <controls:WizardStep.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="12">
-                                        <Border Background="{DynamicResource ControlFillColor2}"
-                                                CornerRadius="{DynamicResource ControlCornerRadius}"
-                                                Padding="12"
-                                                MinHeight="80"
-                                                MaxHeight="260">
-                                            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                                          HorizontalScrollBarVisibility="Disabled">
-                                                <TextBlock Text="{Localize InstallWizard/LicenseText}"
-                                                           TextWrapping="Wrap"
-                                                           FontSize="12"
-                                                           Foreground="{DynamicResource TextFillColor2}" />
-                                            </ScrollViewer>
-                                        </Border>
-                                        <CheckBox Content="{Localize InstallWizard/Step2Check}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:WizardStep.ContentTemplate>
-                        </controls:WizardStep>
+                            <StackPanel Spacing="12">
+                                <Border Background="{DynamicResource ControlFillColor2}"
+                                        CornerRadius="{DynamicResource ControlCornerRadius}"
+                                        Padding="12"
+                                        MinHeight="80"
+                                        MaxHeight="260">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled">
+                                        <TextBlock Text="{Localize InstallWizard/LicenseText}"
+                                                   TextWrapping="Wrap"
+                                                   FontSize="12"
+                                                   Foreground="{DynamicResource TextFillColor2}" />
+                                    </ScrollViewer>
+                                </Border>
+                                <CheckBox Content="{Localize InstallWizard/Step2Check}" />
+                            </StackPanel>
+                        </installWizard:WizardStep>
 
                         <!-- Step 3: Installation type -->
-                        <controls:WizardStep Header="{Localize InstallWizard/Step3Header}"
+                        <installWizard:WizardStep Header="{Localize InstallWizard/Step3Header}"
                                              Description="{Localize InstallWizard/Step3Desc}">
-                            <controls:WizardStep.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="8">
-                                        <RadioButton Content="{Localize InstallWizard/TypeStandard}"
-                                                     IsChecked="True"
-                                                     GroupName="InstallType" />
-                                        <TextBlock Text="{Localize InstallWizard/TypeStandardDesc}"
-                                                   Margin="24 0 0 8"
-                                                   FontSize="12"
-                                                   TextWrapping="Wrap"
-                                                   Foreground="{DynamicResource TextFillColor2}" />
-                                        <RadioButton Content="{Localize InstallWizard/TypeCustom}"
-                                                     GroupName="InstallType" />
-                                        <TextBlock Text="{Localize InstallWizard/TypeCustomDesc}"
-                                                   Margin="24 0 0 0"
-                                                   FontSize="12"
-                                                   TextWrapping="Wrap"
-                                                   Foreground="{DynamicResource TextFillColor2}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:WizardStep.ContentTemplate>
-                        </controls:WizardStep>
+                            <StackPanel Spacing="8">
+                                <RadioButton Content="{Localize InstallWizard/TypeStandard}"
+                                             IsChecked="True"
+                                             GroupName="InstallType" />
+                                <TextBlock Text="{Localize InstallWizard/TypeStandardDesc}"
+                                           Margin="24 0 0 8"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                                <RadioButton Content="{Localize InstallWizard/TypeCustom}"
+                                             GroupName="InstallType" />
+                                <TextBlock Text="{Localize InstallWizard/TypeCustomDesc}"
+                                           Margin="24 0 0 0"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                            </StackPanel>
+                        </installWizard:WizardStep>
 
                         <!-- Step 4: Installing -->
-                        <controls:WizardStep Header="{Localize InstallWizard/Step4Header}"
+                        <installWizard:WizardStep Header="{Localize InstallWizard/Step4Header}"
                                              Description="{Localize InstallWizard/Step4Desc}">
-                            <controls:WizardStep.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="12">
-                                        <TextBlock Text="{Localize InstallWizard/InstallingStatus}"
-                                                   FontSize="12"
-                                                   Foreground="{DynamicResource TextFillColor2}" />
-                                        <ProgressBar IsIndeterminate="True" Height="4" />
-                                        <TextBlock Text="{Localize InstallWizard/InstallingFiles}"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource TextFillColor3}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:WizardStep.ContentTemplate>
-                        </controls:WizardStep>
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{Localize InstallWizard/InstallingStatus}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                                <ProgressBar IsIndeterminate="True" Height="4" />
+                                <TextBlock Text="{Localize InstallWizard/InstallingFiles}"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource TextFillColor3}" />
+                            </StackPanel>
+                        </installWizard:WizardStep>
 
                         <!-- Step 5: Summary -->
-                        <controls:WizardStep Header="{Localize InstallWizard/Step5Header}"
+                        <installWizard:WizardStep Header="{Localize InstallWizard/Step5Header}"
                                              Description="{Localize InstallWizard/Step5Desc}">
-                            <controls:WizardStep.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="12" HorizontalAlignment="Center">
-                                        <Border Width="56" Height="56"
-                                                CornerRadius="28"
-                                                Background="{DynamicResource SystemFillColorSuccess}"
-                                                HorizontalAlignment="Center">
-                                            <!-- Inline path — no DynamicResource, safe in all hosting modes -->
-                                            <Path Data="M10,18 L5,13 L6.4,11.6 L10,15.2 L17.6,7.6 L19,9"
-                                                  Stroke="White"
-                                                  StrokeThickness="2.5"
-                                                  StrokeLineCap="Round"
-                                                  StrokeJoin="Round"
-                                                  Stretch="Uniform"
-                                                  Width="28" Height="28"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
-                                        </Border>
-                                        <TextBlock Text="{Localize InstallWizard/SuccessMessage}"
-                                                   FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   HorizontalAlignment="Center"
-                                                   Foreground="{DynamicResource TextFillColor1}" />
-                                        <TextBlock Text="{Localize InstallWizard/SuccessDetail}"
-                                                   FontSize="12"
-                                                   HorizontalAlignment="Center"
-                                                   TextWrapping="Wrap"
-                                                   Foreground="{DynamicResource TextFillColor2}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:WizardStep.ContentTemplate>
-                        </controls:WizardStep>
-
-                    </controls:InstallWizard.Steps>
-                </controls:InstallWizard>
+                            <StackPanel Spacing="12" HorizontalAlignment="Center">
+                                <Border Width="56" Height="56"
+                                        CornerRadius="28"
+                                        Background="{DynamicResource SystemFillColorSuccess}"
+                                        HorizontalAlignment="Center">
+                                    <!-- Inline path — no DynamicResource, safe in all hosting modes -->
+                                    <Path Data="M10,18 L5,13 L6.4,11.6 L10,15.2 L17.6,7.6 L19,9"
+                                          Stroke="White"
+                                          StrokeThickness="2.5"
+                                          StrokeLineCap="Round"
+                                          StrokeJoin="Round"
+                                          Stretch="Uniform"
+                                          Width="28" Height="28"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                                </Border>
+                                <TextBlock Text="{Localize InstallWizard/SuccessMessage}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource TextFillColor1}" />
+                                <TextBlock Text="{Localize InstallWizard/SuccessDetail}"
+                                           FontSize="12"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           Foreground="{DynamicResource TextFillColor2}" />
+                            </StackPanel>
+                        </installWizard:WizardStep>
+                </installWizard:InstallWizard>
             </StackPanel>
         </Border>
 

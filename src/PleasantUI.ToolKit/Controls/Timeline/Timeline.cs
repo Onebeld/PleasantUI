@@ -6,7 +6,7 @@ using Avalonia.Data;
 using Avalonia.Metadata;
 using Avalonia.VisualTree;
 
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Displays a vertical sequence of events along a connecting axis line.

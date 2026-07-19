@@ -60,7 +60,7 @@
                               Offset="0 6">
                         <DockPanel>
                             <Border DockPanel.Dock="Bottom"
-                                    Background="{DynamicResource BackgroundColor3}"
+                                    Background="{DynamicResource BackgroundColor2}"
                                     IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
                                     Height="80">
                                 <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />

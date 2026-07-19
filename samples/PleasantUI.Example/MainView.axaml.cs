@@ -70,7 +70,6 @@ public partial class MainView : UserControl
             "LogViewerPanel"     => new LogViewerPanelPage(),
             "TerminalPanel"      => new TerminalPanelPage(),
             "TreeViewPanel"      => new TreeViewPanelPage(),
-            "ItemListPanel"      => new ItemListPanelPage(),
             "PropertyGrid"       => new PropertyGridPage(),
             "DownloadPanel"      => new DownloadPanelPage(),
             "CrashReportDialog"  => new CrashReportDialogPage(),

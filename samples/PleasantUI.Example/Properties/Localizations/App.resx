@@ -61,7 +61,6 @@
     <data name="About/CreditsTitle" xml:space="preserve"><value>Credits &amp; Acknowledgments</value></data>
     <data name="About/CreditsText" xml:space="preserve"><value>This project is made possible by the Avalonia community and contributors who help improve it. Special thanks to the Avalonia team for creating such an amazing framework.</value></data>
     <!-- NoticeDialog -->
-    <data name="NoticeDialog/VersionLabel" xml:space="preserve"><value>Version</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Custom themes</value></data>
     <!-- Calendar page -->
@@ -186,8 +185,6 @@
     <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Tap or wait to dismiss — events are tracked.</value></data>
     <!-- MessageBox page -->
     <data name="ShowMessageBox" xml:space="preserve"><value>Show MessageBox</value></data>
-    <data name="MessageBoxTitle" xml:space="preserve"><value>MessageBox</value></data>
-    <data name="MessageBoxText" xml:space="preserve"><value>This is a sample message box dialog.</value></data>
     <data name="MessageBox/Show" xml:space="preserve"><value>Show</value></data>
     <data name="MessageBox/LastResult" xml:space="preserve"><value>Last result:</value></data>
     <data name="MessageBox/DefaultVariant" xml:space="preserve"><value>Default (OK)</value></data>
@@ -214,7 +211,6 @@
     <data name="MessageBox/ErrorDetail" xml:space="preserve"><value>System.InvalidOperationException: Object reference not set to an instance of an object.\n   at SomeMethod() in File.cs:line 42</value></data>
     <data name="MessageBox/DangerTitle" xml:space="preserve"><value>Delete</value></data>
     <data name="MessageBox/DangerText" xml:space="preserve"><value>This action is irreversible. All selected items will be permanently deleted.</value></data>
-    <data name="MessageBox/Ok" xml:space="preserve"><value>OK</value></data>
     <data name="MessageBox/Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="MessageBox/Yes" xml:space="preserve"><value>Yes</value></data>
     <data name="MessageBox/No" xml:space="preserve"><value>No</value></data>
@@ -250,7 +246,6 @@
     <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Processing</value></data>
     <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
     <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Please wait while the operation completes…</value></data>
-    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Permanently delete account</value></data>
     <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>This will remove all your data, settings, and history. This cannot be undone.</value></data>
     <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Delete everything</value></data>
     <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Removes all files, preferences, and account data permanently.</value></data>
@@ -355,10 +350,7 @@
     <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="NoticeDialog/Login" xml:space="preserve"><value>Login</value></data>
     <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>This is a stable release of the application. All features are fully tested and ready for production use.</value></data>
-    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>This is a bugfix release containing important fixes for issues found in the stable version.</value></data>
-    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>This is an alpha release. Features may be incomplete and unstable. Use with caution.</value></data>
     <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>This is a beta release. Features are mostly complete but may still contain bugs.</value></data>
-    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>This is a release candidate. It is close to the final release but may still have issues.</value></data>
     <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>This is a canary build with the latest changes. It may be unstable and is intended for testing purposes only.</value></data>
     <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>This version of the application is in active development. Features may change or be removed in future releases.</value></data>
     <!-- InformationBlock page -->
@@ -489,7 +481,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Back</value></data>
     <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Next</value></data>
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Finish</value></data>
-    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Cancel</value></data>
 
     <!-- Drawer page -->
     <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Drawer</value></data>
@@ -630,8 +621,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Failed</value></data>
     <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
     <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
-    <data name="DownloadPanel/StatusText" xml:space="preserve"><value>Running</value></data>
-
     <!-- TerminalPanel -->
     <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Clear output</value></data>
     <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
@@ -653,8 +642,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="CrashReportDialog/MessageLabel" xml:space="preserve"><value>Message</value></data>
     <data name="CrashReportDialog/GeneralTabLabel" xml:space="preserve"><value>General</value></data>
     <data name="CrashReportDialog/ExceptionTabLabel" xml:space="preserve"><value>Exception</value></data>
-    <data name="CrashReportDialog/ScreenshotTabLabel" xml:space="preserve"><value>Screenshot</value></data>
-    <data name="CrashReportDialog/SendingMessage" xml:space="preserve"><value>Sending report…</value></data>
     <data name="CrashReportDialog/SuccessMessage" xml:space="preserve"><value>Report sent successfully. Thank you!</value></data>
     <data name="CrashReportDialog/FailureMessagePrefix" xml:space="preserve"><value>Failed to send report: </value></data>
     <data name="CrashReportDialog/CrashedText" xml:space="preserve"><value> crashed</value></data>
@@ -687,105 +674,11 @@ The above copyright notice and this permission notice shall be included in all c
 
     <!-- CommandBar page -->
     <data name="CardTitle/CommandBar" xml:space="preserve">
-        <value>OldCommandBar</value>
+        <value>CommandBar</value>
     </data>
     <data name="Card/CommandBar" xml:space="preserve">
         <value>A toolbar with primary commands inline and overflow in a popup menu.</value>
     </data>
-    <data name="CommandBar/Description" xml:space="preserve">
-        <value>OldCommandBar displays primary commands inline and moves overflow items into a popup. Supports dynamic overflow, label positions, toggle buttons, and separators.</value>
-    </data>
-    <data name="CommandBar/BasicTitle" xml:space="preserve">
-        <value>Basic usage</value>
-    </data>
-    <data name="CommandBar/BasicDesc" xml:space="preserve">
-        <value>Click the … button to open the overflow popup. Secondary commands always appear there. Click any button to see the action below.</value>
-    </data>
-    <data name="CommandBar/LabelBottomTitle" xml:space="preserve">
-        <value>Labels below icon (always open)</value>
-    </data>
-    <data name="CommandBar/LabelBottomDesc" xml:space="preserve">
-        <value>Set IsOpen="True" and IsSticky="True" to keep the bar permanently expanded so labels are always visible below each icon.</value>
-    </data>
-    <data name="CommandBar/LabelRightTitle" xml:space="preserve">
-        <value>Labels on the right</value>
-    </data>
-    <data name="CommandBar/LabelRightDesc" xml:space="preserve">
-        <value>Set DefaultLabelPosition="Right" to show labels beside the icon at all times.</value>
-    </data>
-    <data name="CommandBar/DisplayModeTitle" xml:space="preserve">
-        <value>Closed display modes</value>
-    </data>
-    <data name="CommandBar/DisplayModeDesc" xml:space="preserve">
-        <value>ClosedDisplayMode controls what is visible when the bar is closed: Compact shows icons, Minimal shows only the … button.</value>
-    </data>
-    <data name="CommandBar/OverflowTitle" xml:space="preserve">
-        <value>Dynamic overflow</value>
-    </data>
-    <data name="CommandBar/OverflowDesc" xml:space="preserve">
-        <value>When IsDynamicOverflowEnabled is true, primary commands automatically move to the overflow popup when there is not enough space.</value>
-    </data>
-    <data name="CommandBar/ToggleTitle" xml:space="preserve">
-        <value>Toggle buttons</value>
-    </data>
-    <data name="CommandBar/ToggleDesc" xml:space="preserve">
-        <value>OldCommandBarToggleButton supports checked/unchecked states with accent styling. The state is reflected below.</value>
-    </data>
-    <data name="CommandBar/PropertiesTitle" xml:space="preserve">
-        <value>Key properties</value>
-    </data>
-    <data name="CommandBar/LastAction" xml:space="preserve">
-        <value>Last action:</value>
-    </data>
-    <data name="CommandBar/ToggleState" xml:space="preserve">
-        <value>Active:</value>
-    </data>
-    <data name="CommandBar/Save" xml:space="preserve">
-        <value>Save</value>
-    </data>
-    <data name="CommandBar/Copy" xml:space="preserve">
-        <value>Copy</value>
-    </data>
-    <data name="CommandBar/Edit" xml:space="preserve">
-        <value>Edit</value>
-    </data>
-    <data name="CommandBar/Pin" xml:space="preserve">
-        <value>Pin</value>
-    </data>
-    <data name="CommandBar/Delete" xml:space="preserve">
-        <value>Delete</value>
-    </data>
-    <data name="CommandBar/Settings" xml:space="preserve">
-        <value>Settings</value>
-    </data>
-    <data name="CommandBar/Search" xml:space="preserve">
-        <value>Search</value>
-    </data>
-    <data name="CommandBar/Add" xml:space="preserve">
-        <value>Add</value>
-    </data>
-    <data name="CommandBar/Bold" xml:space="preserve">
-        <value>Bold</value>
-    </data>
-    <data name="CommandBar/Italic" xml:space="preserve">
-        <value>Italic</value>
-    </data>
-    <data name="CommandBar/Prop/DefaultLabelPosition" xml:space="preserve">
-        <value>Bottom (default), Right, or Collapsed — controls where labels appear relative to the icon.</value>
-    </data>
-    <data name="CommandBar/Prop/ClosedDisplayMode" xml:space="preserve">
-        <value>Compact, Minimal, or Hidden — controls what is visible when the bar is closed.</value>
-    </data>
-    <data name="CommandBar/Prop/IsDynamicOverflowEnabled" xml:space="preserve">
-        <value>When true, primary commands automatically move to the overflow popup when space is limited.</value>
-    </data>
-    <data name="CommandBar/Prop/ItemsAlignment" xml:space="preserve">
-        <value>Left or Right — controls how primary commands are aligned inside the bar.</value>
-    </data>
-    <data name="CommandBar/Prop/PrimaryCommands" xml:space="preserve">
-        <value>The collection of inline command elements. Also the XAML content property.</value>
-    </data>
-
     <data name="BreadcrumbBar/Description" xml:space="preserve">
         <value>BreadcrumbBar displays the direct path of pages or folders to the current location. Items that overflow the available width are collapsed into an ellipsis flyout.</value>
     </data>
@@ -889,8 +782,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="TerminalPanel/Description" xml:space="preserve"><value>TerminalPanel provides a monospace output area and a command input line. Type a command and press Enter — the demo echoes it back.</value></data>
     <data name="TerminalPanel/SimulateOutput" xml:space="preserve"><value>Simulate output</value></data>
     <data name="TerminalPanel/Clear" xml:space="preserve"><value>Clear</value></data>
-    <data name="TerminalPanel/WelcomeMsg" xml:space="preserve"><value>PleasantUI Terminal Demo&#x0A;Type a command and press Enter.&#x0A;</value></data>
-
     <!-- ── TreeViewPanel ─────────────────────────────────────────────────── -->
     <data name="CardTitle/TreeViewPanel" xml:space="preserve"><value>TreeViewPanel</value></data>
     <data name="Card/TreeViewPanel" xml:space="preserve"><value>A searchable, collapsible tree with section headers and count badges.</value></data>
@@ -903,7 +794,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="TreeViewPanel/DetailDesc" xml:space="preserve"><value>Use the filter box to search across all sections. Click any item to select it.</value></data>
 
     <!-- ── ItemListPanel ─────────────────────────────────────────────────── -->
-    <data name="CardTitle/ItemListPanel" xml:space="preserve"><value>ItemListPanel</value></data>
     <data name="Card/ItemListPanel" xml:space="preserve"><value>A searchable list with multi-select, bulk actions, and loading overlay.</value></data>
     <data name="ItemListPanel/Description" xml:space="preserve"><value>ItemListPanel is a searchable, filterable list with multi-select mode, a bulk-action toolbar, loading overlay, empty state, and a footer slot for pagination.</value></data>
     <data name="ItemListPanel/MultiSelect" xml:space="preserve"><value>Multi-select</value></data>
@@ -911,7 +801,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="ItemListPanel/Clear" xml:space="preserve"><value>Clear items</value></data>
     <data name="ItemListPanel/Reload" xml:space="preserve"><value>Reload items</value></data>
     <data name="ItemListPanel/SearchPlaceholderText" xml:space="preserve"><value>Search files...</value></data>
-    <data name="ItemListPanel/EmptyTitle" xml:space="preserve"><value>No files</value></data>
     <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Add items using the Reload button above.</value></data>
     <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Loading files</value></data>
     <data name="ItemListPanel/LoadingSubtitle" xml:space="preserve"><value>Please wait...</value></data>
@@ -965,5 +854,11 @@ The above copyright notice and this permission notice shall be included in all c
     </data>
     <data name="EnableCustomTitleBar" xml:space="preserve">
         <value>Enable custom title bar</value>
+    </data>
+    <data name="CardTitle/TableView" xml:space="preserve">
+        <value>TableView</value>
+    </data>
+    <data name="CardTitle/NavigationPage" xml:space="preserve">
+        <value>NavigationPage</value>
     </data>
 </root>

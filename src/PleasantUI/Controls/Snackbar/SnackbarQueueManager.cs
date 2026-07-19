@@ -8,18 +8,46 @@ namespace PleasantUI.Controls;
 /// <typeparam name="T">The type of PleasantSnackbar to be managed. Must be a subclass of PleasantSnackbar.</typeparam>
 public class SnackbarQueueManager<T> : EventQueue<T> where T : PleasantSnackbar
 {
+    private readonly Lock _lock = new();
+    private bool _isProcessingDequeued;
+
     /// <summary>
-    /// Called when an item is dequeued from the queue.
-    /// Removes the dequeued snackbar from the parent window and adds the next snackbar in the queue (if any).
+    /// Automatically displays the Snackbar if it is the only one in the queue.
     /// </summary>
-    /// <param name="item">The snackbar that was dequeued.</param>
+    protected override void OnItemEnqueued(T item)
+    {
+        base.OnItemEnqueued(item);
+
+        if (Count == 1)
+            item.CreateHost();
+    }
+
+    /// <summary>
+    /// Closes the current Snackbar and launches the next one from the queue (if there is one).
+    /// </summary>
     protected override void OnItemDequeued(T item)
     {
-        base.OnItemDequeued(item);
+        lock (_lock)
+        {
+            if (_isProcessingDequeued) return;
+            _isProcessingDequeued = true;
+        }
 
-        item.DeleteHost();
+        try
+        {
+            base.OnItemDequeued(item);
 
-        if (Count > 0)
-            Peek().CreateHost();
+            item.DeleteHost();
+
+            if (Count > 0)
+                Peek().CreateHost();
+        }
+        finally
+        {
+            lock (_lock)
+            {
+                _isProcessingDequeued = false;
+            }
+        }
     }
 }

@@ -84,7 +84,6 @@
                 <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/DashboardCard.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantIcon.axaml" />
-                <MergeResourceInclude Source="PleasantControls/ItemListPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PropertyGrid.axaml" />
                 <MergeResourceInclude Source="PleasantControls/TreeViewPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
@@ -109,8 +108,6 @@
                 <MergeResourceInclude Source="PleasantControls/SearchableComboBox.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
-                <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
-                <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantDrawer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PopConfirm.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SelectionList.axaml" />

@@ -1,4 +1,4 @@
-namespace PleasantUI.Controls;
+namespace PleasantUI.ToolKit.Controls;
 
 /// <summary>
 /// Defines how items are laid out in a <see cref="Timeline"/>.
