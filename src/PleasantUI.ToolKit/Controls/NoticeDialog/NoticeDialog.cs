@@ -1,13 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Media;
-using Avalonia.Styling;
+using Avalonia.Controls.Metadata;
 using PleasantUI.Controls;
-using PleasantUI.Core;
-using PleasantUI.Core.Localization;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -16,16 +10,14 @@ namespace PleasantUI.ToolKit.Controls;
 /// </summary>
 public enum NoticeSeverity
 {
-    /// <summary>Informational notice (blue).</summary>
+    /// <summary>Informational notice.</summary>
     Info,
-    /// <summary>Warning notice (yellow/orange).</summary>
+    /// <summary>Warning notice.</summary>
     Warning,
-    /// <summary>Error notice (red).</summary>
+    /// <summary>Error notice.</summary>
     Error,
-    /// <summary>Success notice (green).</summary>
-    Success,
-    /// <summary>Work in progress notice (yellow).</summary>
-    WorkInProgress
+    /// <summary>Success notice.</summary>
+    Success
 }
 
 /// <summary>
@@ -33,6 +25,9 @@ public enum NoticeSeverity
 /// Features a severity-based header with icon, message body, optional footer text,
 /// and customizable action buttons. All text properties support localization keys.
 /// </summary>
+[PseudoClasses(":info", ":warning", ":error", ":success")]
+[TemplatePart("PART_PrimaryButton", typeof(Button))]
+[TemplatePart("PART_SecondaryButton", typeof(Button))]
 public partial class NoticeDialog : ContentDialog
 {
     // ── Styled properties ─────────────────────────────────────────────────────
@@ -60,26 +55,6 @@ public partial class NoticeDialog : ContentDialog
     /// <summary>Defines the <see cref="Severity"/> property.</summary>
     public static readonly StyledProperty<NoticeSeverity> SeverityProperty =
         AvaloniaProperty.Register<NoticeDialog, NoticeSeverity>(nameof(Severity), defaultValue: NoticeSeverity.Info);
-
-    /// <summary>Defines the <see cref="Version"/> property.</summary>
-    public static readonly StyledProperty<string?> VersionProperty =
-        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(Version));
-
-    /// <summary>Defines the <see cref="VersionType"/> property.</summary>
-    public static readonly StyledProperty<string?> VersionTypeProperty =
-        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(VersionType));
-
-    /// <summary>Defines the <see cref="VersionLabel"/> property.</summary>
-    public static readonly StyledProperty<string?> VersionLabelProperty =
-        AvaloniaProperty.Register<NoticeDialog, string?>(nameof(VersionLabel));
-
-    /// <summary>Defines the <see cref="VersionTypeBadgeBackground"/> property.</summary>
-    public static readonly StyledProperty<IBrush?> VersionTypeBadgeBackgroundProperty =
-        AvaloniaProperty.Register<NoticeDialog, IBrush?>(nameof(VersionTypeBadgeBackground));
-
-    /// <summary>Defines the <see cref="VersionTypeEnum"/> property.</summary>
-    public static readonly StyledProperty<PleasantVersionType?> VersionTypeEnumProperty =
-        AvaloniaProperty.Register<NoticeDialog, PleasantVersionType?>(nameof(VersionTypeEnum));
 
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
@@ -125,44 +100,6 @@ public partial class NoticeDialog : ContentDialog
         set => SetValue(SeverityProperty, value);
     }
 
-    /// <summary>Gets or sets the version string to display (e.g., "1.0.0").</summary>
-    public string? Version
-    {
-        get => GetValue(VersionProperty);
-        set => SetValue(VersionProperty, value);
-    }
-
-    /// <summary>Gets or sets the version type description (e.g., "Beta", "Alpha").</summary>
-    public string? VersionType
-    {
-        get => GetValue(VersionTypeProperty);
-        set => SetValue(VersionTypeProperty, value);
-    }
-
-    /// <summary>Gets or sets the label text for the version field (e.g., "Version"). Supports localization keys.</summary>
-    public string? VersionLabel
-    {
-        get => GetValue(VersionLabelProperty);
-        set => SetValue(VersionLabelProperty, value);
-    }
-
-    /// <summary>Gets or sets the background brush for the version type badge.</summary>
-    public IBrush? VersionTypeBadgeBackground
-    {
-        get => GetValue(VersionTypeBadgeBackgroundProperty);
-        set => SetValue(VersionTypeBadgeBackgroundProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the strongly-typed version type enum. When set, badge color is resolved
-    /// from the enum directly (same logic as AboutView), bypassing string normalization.
-    /// </summary>
-    public PleasantVersionType? VersionTypeEnum
-    {
-        get => GetValue(VersionTypeEnumProperty);
-        set => SetValue(VersionTypeEnumProperty, value);
-    }
-
     // ── Events ────────────────────────────────────────────────────────────────
 
     /// <summary>Raised when the primary button is clicked.</summary>
@@ -170,12 +107,11 @@ public partial class NoticeDialog : ContentDialog
 
     /// <summary>Raised when the secondary button is clicked.</summary>
     public event EventHandler? SecondaryButtonClicked;
-
-    // ── Constructor ───────────────────────────────────────────────────────────
+    
+    /// <inheritdoc />
+    protected override Type StyleKeyOverride => typeof(NoticeDialog);
 
     public NoticeDialog() => InitializeComponent();
-
-    // ── Static factory ────────────────────────────────────────────────────────
 
     /// <summary>
     /// Shows a <see cref="NoticeDialog"/> with the specified parameters.
@@ -187,37 +123,29 @@ public partial class NoticeDialog : ContentDialog
     /// <param name="primaryButtonText">Primary button text or localization key. Null hides the button.</param>
     /// <param name="secondaryButtonText">Secondary button text or localization key. Null hides the button.</param>
     /// <param name="severity">Severity level affecting icon and header color.</param>
-    /// <param name="version">Optional version string to display.</param>
-    /// <param name="versionType">Optional version type description (e.g., "Beta", "Alpha").</param>
-    /// <param name="versionLabel">Optional label for version field (e.g., "Version"). Supports localization keys.</param>
     public static Task Show(
-        PleasantUI.Core.Interfaces.IPleasantWindow parent,
+        Core.Interfaces.IPleasantWindow parent,
         string title,
         string message,
         string? noticeFooterText = null,
         string? primaryButtonText = null,
         string? secondaryButtonText = null,
-        NoticeSeverity severity = NoticeSeverity.Info,
-        string? version = null,
-        string? versionType = null,
-        string? versionLabel = null)
+        NoticeSeverity severity = NoticeSeverity.Info)
     {
-        var dialog = new NoticeDialog
+        NoticeDialog dialog = new()
         {
             Title = title,
             Message = message,
             NoticeFooterText = noticeFooterText,
             PrimaryButtonText = primaryButtonText,
             SecondaryButtonText = secondaryButtonText,
-            Severity = severity,
-            Version = version,
-            VersionType = versionType,
-            VersionLabel = versionLabel
+            Severity = severity
         };
 
-        var tcs = new TaskCompletionSource();
+        TaskCompletionSource tcs = new();
         dialog.Closed += (_, _) => tcs.TrySetResult();
         dialog.ShowAsync(parent);
+        
         return tcs.Task;
     }
 }

@@ -5,49 +5,31 @@
     <DataTemplate x:Key="ThemeColorItemTemplate" DataType="{x:Type models1:ThemeColor}">
         <DockPanel>
             <Button DockPanel.Dock="Right"
-                    Theme="{DynamicResource AppBarButtonTheme}"
+                    Margin="2 0 0 0"
+                    Theme="{StaticResource AppBarButtonTheme}"
                     Width="30"
                     Height="30"
                     ToolTip.Tip="{Localize Menu, Default='Menu'}">
                 <Button.Flyout> 
-                    <PleasantMenuFlyout>
+                    <MenuFlyout>
                         <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
-                                  Command="{CompiledBinding CopyColorAsync}">
-                            <MenuItem.Icon>
-                                <PathIcon Width="16" Height="16" Data="{DynamicResource CopyRegular}" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                                  Command="{Binding CopyColorAsync}"
+                                  Icon="{StaticResource CopyRegular}" />
+                        
                         <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
-                                  Command="{CompiledBinding PasteColorAsync}">
-                            <MenuItem.Icon>
-                                <PathIcon Width="16" Height="16" Data="{DynamicResource PasteRegular}" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <Separator />
-
-                        <MenuItem Header="{Localize ChangeMenu, Default='Chan_ge'}"
-                                  Command="{CompiledBinding ChangeColorAsync}">
-                            <MenuItem.Icon>
-                                <PathIcon Width="16" Height="16" Data="{DynamicResource EditRegular}" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </PleasantMenuFlyout>
+                                  Command="{Binding PasteColorAsync}"
+                                  Icon="{StaticResource PasteRegular}" />
+                    </MenuFlyout>
                 </Button.Flyout>
 
-                <PathIcon Data="{DynamicResource MoreRegular}" />
+                <PleasantIcon Icon="{StaticResource MoreRegular}" />
             </Button>
-            <Border DockPanel.Dock="Right"
-                    Background="{DynamicResource CheckeredBackgroundBrush}"
-                    Width="40"
-                    Height="25"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
-                    Margin="0 5 5 5"
-                    ToolTip.Tip="{CompiledBinding Color}">
-                <Border CornerRadius="{DynamicResource ControlCornerRadius}" Background="{CompiledBinding Brush}" />
-            </Border>
+            
+            <ColorPicker DockPanel.Dock="Right"
+                         Color="{Binding Color, Mode=TwoWay, Delay=500}"
+                         ToolTip.Tip="{Binding Color, Mode=OneWay}" />
 
-            <TextBlock Text="{CompiledBinding Name}"
+            <TextBlock Text="{Binding Name}"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"

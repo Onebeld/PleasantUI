@@ -23,9 +23,13 @@ internal class ThemeColor : ViewModelBase
         get => _color;
         set
         {
+            Color previousColor =  _color;
+            
             SetProperty(ref _color, value);
 
             RaisePropertyChanged(nameof(Brush));
+            
+            _eventAggregator.PublishAsync(new ChangedColorMessage(this, value, previousColor));
         }
     }
 
@@ -37,20 +41,6 @@ internal class ThemeColor : ViewModelBase
         _color = color;
 
         _eventAggregator = eventAggregator;
-    }
-
-    public async Task ChangeColorAsync()
-    {
-        TaskCompletionSource<Color?> taskCompletionSource = new();
-
-        await _eventAggregator.PublishAsync(new ChangeColorMessage(Color, taskCompletionSource));
-
-        Color? newColor = await taskCompletionSource.Task.ConfigureAwait(false);
-            
-        if (newColor is null)
-            return;
-
-        await _eventAggregator.PublishAsync(new ChangedColorMessage(this, newColor.Value, Color));
     }
 
     public async Task CopyColorAsync()
@@ -70,5 +60,15 @@ internal class ThemeColor : ViewModelBase
             return;
 
         await _eventAggregator.PublishAsync(new ChangedColorMessage(this, newColor.Value, Color));
+    }
+
+    public void UpdateColorSilent(Color newColor)
+    {
+        if (_color == newColor) return;
+        
+        _color = newColor;
+        
+        RaisePropertyChanged(nameof(Color));
+        RaisePropertyChanged(nameof(Brush));
     }
 }

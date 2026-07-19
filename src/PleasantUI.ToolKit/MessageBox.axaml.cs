@@ -7,11 +7,11 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using PleasantUI.Controls;
-using PleasantUI.Core.Enums;
 using PleasantUI.Core.Extensions;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
-using PleasantUI.Core.Structures;
+using PleasantUI.ToolKit.Enums;
+using PleasantUI.ToolKit.Structures;
 
 namespace PleasantUI.ToolKit;
 
@@ -20,7 +20,7 @@ namespace PleasantUI.ToolKit;
 /// </summary>
 public sealed partial class MessageBox : ContentDialog
 {
-    private MessageBox() => InitializeComponent();
+    public MessageBox() => InitializeComponent();
 
     /// <summary>
     /// Displays a message box and returns the clicked button's result string.
@@ -57,7 +57,7 @@ public sealed partial class MessageBox : ContentDialog
         string title,
         string text,
         Control extraContent,
-        Func<Control, T> valueSelector,
+        Func<Control?, T> valueSelector,
         IReadOnlyList<MessageBoxButton>? buttons = null,
         string? additionalText = null,
         MessageBoxStyle style = MessageBoxStyle.Default,
@@ -90,35 +90,21 @@ public sealed partial class MessageBox : ContentDialog
         string titleValue = Localizer.Instance.TryGetString(title, out string rt) ? rt : title;
         string textValue  = Localizer.Instance.TryGetString(text,  out string rx) ? rx : text;
 
-        // VGUI mode: square corners for the dialog
-        if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
-        {
-            messageBox.CornerRadius = new CornerRadius(0);
-        }
-
         // ── Header ────────────────────────────────────────────────────────────
         if (style == MessageBoxStyle.Danger)
         {
-            var dangerHeader = messageBox.FindControl<Border>("DangerHeader")!;
+            Border dangerHeader = messageBox.FindControl<Border>("DangerHeader")!;
             dangerHeader.IsVisible = true;
             messageBox.FindControl<TextBlock>("DefaultTitle")!.IsVisible = false;
             messageBox.FindControl<TextBlock>("Title")!.Text = titleValue;
-
-            // VGUI mode: square corners for danger header
-            if (PleasantUI.Core.PleasantSettings.Current?.Theme == "VGUI")
-            {
-                dangerHeader.CornerRadius = new CornerRadius(0);
-            }
         }
         else
-        {
             messageBox.FindControl<TextBlock>("DefaultTitle")!.Text = titleValue;
-        }
 
         messageBox.FindControl<TextBlock>("Text")!.Text = textValue;
 
         // ── Extra content slot ────────────────────────────────────────────────
-        var extraSlot = messageBox.FindControl<ContentPresenter>("ExtraContent")!;
+        ContentPresenter extraSlot = messageBox.FindControl<ContentPresenter>("ExtraContent")!;
         Control? slottedControl = null;
 
         if (extraContent is not null)
@@ -130,7 +116,7 @@ public sealed partial class MessageBox : ContentDialog
         }
         else if (!string.IsNullOrWhiteSpace(additionalText))
         {
-            var textBox = new TextBox
+            TextBox textBox = new()
             {
                 Classes       = { "MultilineTextBoxFlat" },
                 Text          = additionalText,
@@ -151,7 +137,7 @@ public sealed partial class MessageBox : ContentDialog
         }
 
         // ── Buttons ───────────────────────────────────────────────────────────
-        var buttonsPanel = messageBox.FindControl<UniformGrid>("Buttons")!;
+        UniformGrid buttonsPanel = messageBox.FindControl<UniformGrid>("Buttons")!;
         string result = "OK";
 
         void AddButton(MessageBoxButton mb)
@@ -227,7 +213,7 @@ public sealed partial class MessageBox : ContentDialog
         }
 
         // ── Result ────────────────────────────────────────────────────────────
-        var tcs = new TaskCompletionSource<TResult>();
+        TaskCompletionSource<TResult> tcs = new();
 
         messageBox.Closed += (_, _) =>
         {

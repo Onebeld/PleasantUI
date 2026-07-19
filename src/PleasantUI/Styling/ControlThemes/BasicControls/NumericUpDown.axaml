@@ -22,18 +22,17 @@
     <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Padding" Value="10 5 15 5" />
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
 
         <Setter Property="Template">
             <ControlTemplate>
                 <ButtonSpinner Name="PART_Spinner"
+                               Background="{TemplateBinding Background}"
                                Padding="0"
                                HorizontalContentAlignment="Stretch"
                                VerticalContentAlignment="Stretch"
@@ -42,10 +41,7 @@
                                DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <TextBox Name="PART_TextBox"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             BorderThickness="0"
-                             Margin="1"
+                             BorderThickness="1"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"
                              PlaceholderText="{TemplateBinding PlaceholderText}"
@@ -58,16 +54,21 @@
                 </ButtonSpinner>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ TextBox#PART_TextBox">
+            <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
+        </Style>
+        <Style Selector="^ /template/ TextBox#PART_TextBox:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
     </ControlTheme>
 
     <ControlTheme x:Key="NumericUpDownWithoutDataValidationErrors" TargetType="NumericUpDown">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="6 5 6 5" />
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
 
@@ -88,9 +89,8 @@
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
                     <TextBox Name="PART_TextBox"
                              Classes="WithoutDataValidation"
-                             Background="#00000000"
-                             BorderBrush="#00000000"
-                             BorderThickness="0"
+                             Background="{ColorToTransparent ControlFillColor2}"
+                             BorderThickness="1"
                              Margin="0"
                              MinWidth="0"
                              Padding="{TemplateBinding Padding}"
@@ -104,5 +104,12 @@
                 </ButtonSpinner>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ TextBox#PART_TextBox">
+            <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
+        </Style>
+        <Style Selector="^ /template/ TextBox#PART_TextBox:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

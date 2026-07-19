@@ -24,8 +24,6 @@ public class PinCodeItem : TemplatedControl
     public static readonly DirectProperty<PinCodeItem, string> DisplayTextProperty =
         AvaloniaProperty.RegisterDirect<PinCodeItem, string>(nameof(DisplayText), o => o.DisplayText);
 
-    private string _displayText = string.Empty;
-
     public string Text
     {
         get => GetValue(TextProperty);
@@ -40,9 +38,9 @@ public class PinCodeItem : TemplatedControl
 
     public string DisplayText
     {
-        get => _displayText;
-        private set => SetAndRaise(DisplayTextProperty, ref _displayText, value);
-    }
+        get;
+        private set => SetAndRaise(DisplayTextProperty, ref field, value);
+    } = string.Empty;
 
     static PinCodeItem()
     {

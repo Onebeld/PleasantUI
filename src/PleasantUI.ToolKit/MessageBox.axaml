@@ -10,7 +10,6 @@
                MinHeight="180"
                x:Class="PleasantUI.ToolKit.MessageBox">
     <Grid RowDefinitions="Auto,*">
-
         <!-- Danger header — hidden by default, shown for MessageBoxStyle.Danger -->
         <Border x:Name="DangerHeader"
                 Grid.Row="0"
@@ -18,24 +17,24 @@
                 Background="{DynamicResource DangerColor}"
                 Padding="20 14">
             <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon Data="{DynamicResource ErrorCircleRegular}"
+                <PathIcon Data="{StaticResource ErrorCircleRegular}"
                           Width="20" Height="20"
                           Foreground="White"
                           VerticalAlignment="Center" />
                 <TextBlock x:Name="Title"
-                           Theme="{DynamicResource SubtitleTextBlockTheme}"
+                           Theme="{StaticResource SubtitleTextBlockTheme}"
                            Foreground="White"
                            TextWrapping="Wrap"
                            VerticalAlignment="Center" />
             </StackPanel>
         </Border>
 
-        <SmoothScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1">
             <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
                 <!-- Default title — hidden when danger header is visible -->
                 <TextBlock Grid.Row="0"
                            x:Name="DefaultTitle"
-                           Theme="{DynamicResource SubtitleTextBlockTheme}"
+                           Theme="{StaticResource SubtitleTextBlockTheme}"
                            TextWrapping="Wrap" />
 
                 <TextBlock Grid.Row="1"
@@ -47,8 +46,9 @@
                 <ContentPresenter x:Name="ExtraContent"
                                   Grid.Row="2"
                                   Margin="0 10 0 0"
-                                  IsVisible="False" />            </Grid>
-        </SmoothScrollViewer>
+                                  IsVisible="False" />           
+            </Grid>
+        </ScrollViewer>
     </Grid>
 
     <ContentDialog.BottomPanelContent>

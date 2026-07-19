@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.Controls"
                     x:ClassModifier="internal">
-
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource BackgroundColor1}">
             <StackPanel Spacing="12">
@@ -27,15 +26,13 @@
 
     <!-- ── BreadcrumbBar button style ────────────────────────────────────── -->
     <ControlTheme x:Key="BreadcrumbBarButtonTheme" TargetType="Button">
-        <Setter Property="Background"                 Value="Transparent" />
-        <Setter Property="BorderBrush"                Value="Transparent" />
-        <Setter Property="BorderThickness"            Value="0" />
-        <Setter Property="Padding"                    Value="{DynamicResource BreadcrumbBarItemButtonPadding}" />
-        <Setter Property="CornerRadius"               Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
+        <Setter Property="Padding" Value="{StaticResource BreadcrumbBarItemButtonPadding}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment"   Value="Center" />
-        <Setter Property="Foreground"                 Value="{DynamicResource TextFillColor2}" />
-        <Setter Property="Cursor"                     Value="Hand" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -43,21 +40,19 @@
         </Setter>
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ClipToBounds="True">
-                    <RippleEffect Name="PART_Ripple">
-                        <ContentPresenter Name="PART_ContentPresenter"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Padding="{TemplateBinding Padding}"
-                                          TextBlock.Foreground="{TemplateBinding Foreground}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </RippleEffect>
-                </Border>
+                <RippleEffect Name="PART_Ripple"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Padding="{TemplateBinding Padding}"
+                                      TextBlock.Foreground="{TemplateBinding Foreground}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
 
@@ -68,7 +63,7 @@
         <!-- Normal (non-last) item hover/press -->
         <Style Selector="^:not(:lastItem)">
             <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
                 <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
             </Style>
             <Style Selector="^:pressed">
@@ -80,7 +75,7 @@
         <!-- Last item — rendered as non-interactive text unless :allowClick -->
         <Style Selector="^:lastItem">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-            <Setter Property="Cursor"     Value="Arrow" />
+            <Setter Property="Cursor" Value="Arrow" />
         </Style>
 
         <Style Selector="^:disabled">
@@ -102,13 +97,13 @@
                     <Flyout x:Key="PART_EllipsisFlyout" Placement="BottomEdgeAlignedLeft">
                         <Flyout.FlyoutPresenterTheme>
                             <ControlTheme TargetType="FlyoutPresenter">
-                                <Setter Property="Background"      Value="{DynamicResource BackgroundColor1}" />
-                                <Setter Property="BorderBrush"     Value="{DynamicResource ControlBorderColor}" />
+                                <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
                                 <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
-                                <Setter Property="CornerRadius"    Value="{DynamicResource ControlCornerRadius}" />
-                                <Setter Property="Padding"         Value="0 4" />
-                                <Setter Property="MinWidth"        Value="120" />
-                                <Setter Property="MaxWidth"        Value="320" />
+                                <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+                                <Setter Property="Padding" Value="0 4" />
+                                <Setter Property="MinWidth" Value="120" />
+                                <Setter Property="MaxWidth" Value="320" />
                                 <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
                                 <Setter Property="Template">
                                     <ControlTemplate>
@@ -120,7 +115,8 @@
                                             <ShadowBorder.Styles>
                                                 <Style>
                                                     <Style.Animations>
-                                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                                                        <Animation Duration="0:0:0.2" FillMode="Forward"
+                                                                   Easing="SineEaseOut">
                                                             <KeyFrame Cue="0%">
                                                                 <Setter Property="TranslateTransform.Y" Value="-80" />
                                                                 <Setter Property="Opacity" Value="0" />
@@ -155,7 +151,7 @@
                 <Button Name="PART_ItemButton"
                         Grid.Column="0"
                         Theme="{StaticResource BreadcrumbBarButtonTheme}"
-                        Padding="{DynamicResource BreadcrumbBarItemButtonPadding}"
+                        Padding="{StaticResource BreadcrumbBarItemButtonPadding}"
                         TemplatedControl.IsTemplateFocusTarget="True"
                         IsTabStop="False">
                     <Grid AutomationProperties.AccessibilityView="Raw">
@@ -165,13 +161,13 @@
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          LineHeight="{DynamicResource BreadcrumbBarItemLineHeight}" />
+                                          LineHeight="{StaticResource BreadcrumbBarItemLineHeight}" />
                         <!-- Ellipsis icon (shown only for the ellipsis item) -->
                         <PathIcon Name="PART_EllipsisTextBlock"
                                   AutomationProperties.AccessibilityView="Raw"
                                   Width="14" Height="14"
-                                  Margin="{DynamicResource BreadcrumbBarEllipsisButtonPadding}"
-                                  Data="{DynamicResource MoreRegular}"
+                                  Margin="{StaticResource BreadcrumbBarEllipsisButtonPadding}"
+                                  Data="{StaticResource MoreRegular}"
                                   IsVisible="False"
                                   VerticalAlignment="Center" />
                     </Grid>
@@ -187,8 +183,8 @@
                                   Foreground="{DynamicResource TextFillColor1}"
                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  LineHeight="{DynamicResource BreadcrumbBarItemLineHeight}"
-                                  Padding="{DynamicResource BreadcrumbBarItemButtonPadding}"
+                                  LineHeight="{StaticResource BreadcrumbBarItemLineHeight}"
+                                  Padding="{StaticResource BreadcrumbBarItemButtonPadding}"
                                   CornerRadius="{TemplateBinding CornerRadius}" />
 
                 <!-- Chevron separator -->
@@ -197,8 +193,8 @@
                           Grid.Column="1"
                           Width="8" Height="8"
                           Foreground="{DynamicResource TextFillColor3}"
-                          Margin="{DynamicResource BreadcrumbBarChevronPadding}"
-                          Data="{DynamicResource ChevronRightRegular}"
+                          Margin="{StaticResource BreadcrumbBarChevronPadding}"
+                          Data="{StaticResource ChevronRightRegular}"
                           VerticalAlignment="Center"
                           HorizontalAlignment="Center" />
             </Grid>
@@ -209,8 +205,8 @@
     <ControlTemplate x:Key="EllipsisDropDownBreadcrumbBarItemTemplate" TargetType="controls:BreadcrumbBarItem">
         <Border Name="LayoutRoot"
                 CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{DynamicResource BreadcrumbBarDropDownItemPadding}"
-                Margin="{DynamicResource BreadcrumbBarDropDownItemMargin}"
+                Padding="{StaticResource BreadcrumbBarDropDownItemPadding}"
+                Margin="{StaticResource BreadcrumbBarDropDownItemMargin}"
                 TemplatedControl.IsTemplateFocusTarget="True"
                 Cursor="Hand">
             <Grid Name="PART_LayoutRoot">
@@ -227,38 +223,37 @@
 
     <!-- ── BreadcrumbBarItem control theme ───────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:BreadcrumbBarItem}" TargetType="controls:BreadcrumbBarItem">
-        <Setter Property="Background"                 Value="Transparent" />
-        <Setter Property="BorderBrush"                Value="Transparent" />
-        <Setter Property="BorderThickness"            Value="0" />
-        <Setter Property="FontFamily"                 Value="{DynamicResource ContentControlThemeFontFamily}" />
-        <Setter Property="FontSize"                   Value="{DynamicResource GlobalFontSize}" />
-        <Setter Property="Foreground"                 Value="{DynamicResource TextFillColor2}" />
-        <Setter Property="HorizontalAlignment"        Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment"          Value="Center" />
-        <Setter Property="VerticalContentAlignment"   Value="Center" />
-        <Setter Property="CornerRadius"               Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="IsTabStop"                  Value="True" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="IsTabStop" Value="True" />
 
         <!-- ── Inline item ──────────────────────────────────────────────── -->
         <Style Selector="^:inline">
             <Setter Property="Template" Value="{DynamicResource InlineBreadcrumbBarItemTemplate}" />
 
             <Style Selector="^ /template/ PathIcon#PART_ChevronTextBlock">
-                <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
+                <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
             </Style>
 
             <!-- Last item: hide button, show static presenter, hide chevron -->
             <Style Selector="^:lastItem">
                 <Style Selector="^:not(:allowClick) /template/ Button#PART_ItemButton">
-                    <Setter Property="IsVisible"                              Value="False" />
+                    <Setter Property="IsVisible" Value="False" />
                     <Setter Property="TemplatedControl.IsTemplateFocusTarget" Value="False" />
                 </Style>
                 <Style Selector="^ /template/ PathIcon#PART_ChevronTextBlock">
                     <Setter Property="IsVisible" Value="False" />
                 </Style>
                 <Style Selector="^:not(:allowClick) /template/ ContentPresenter#PART_LastItemContentPresenter">
-                    <Setter Property="IsVisible"                              Value="True" />
+                    <Setter Property="IsVisible" Value="True" />
                     <Setter Property="TemplatedControl.IsTemplateFocusTarget" Value="True" />
                 </Style>
             </Style>
@@ -276,7 +271,7 @@
 
         <!-- ── Ellipsis drop-down item ─────────────────────────────────── -->
         <Style Selector="^:ellipsisDropDown">
-            <Setter Property="Template" Value="{DynamicResource EllipsisDropDownBreadcrumbBarItemTemplate}" />
+            <Setter Property="Template" Value="{StaticResource EllipsisDropDownBreadcrumbBarItemTemplate}" />
             <Setter Property="Transitions">
                 <Transitions>
                     <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -287,11 +282,11 @@
                 <Setter Property="Background" Value="Transparent" />
             </Style>
             <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-                <Setter Property="Background"             Value="{DynamicResource ControlFillColor1}" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor1}" />
             </Style>
             <Style Selector="^:pressed /template/ Border#LayoutRoot">
-                <Setter Property="Background"             Value="{DynamicResource ControlFillColor2}" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor1}" />
             </Style>
             <Style Selector="^:disabled /template/ Border#LayoutRoot">
@@ -303,9 +298,9 @@
     <!-- ── BreadcrumbBar control theme ───────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:BreadcrumbBar}" TargetType="controls:BreadcrumbBar">
         <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
-        <Setter Property="HorizontalAlignment"          Value="Stretch" />
-        <Setter Property="VerticalAlignment"            Value="Center" />
-        <Setter Property="Focusable"                    Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Focusable" Value="False" />
 
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
@@ -321,5 +316,4 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
-
 </ResourceDictionary>

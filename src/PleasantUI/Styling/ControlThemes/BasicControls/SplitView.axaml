@@ -45,8 +45,7 @@
                 <ControlTemplate>
                     <Grid Name="Container" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="{CompiledBinding $parent[SplitView].TemplateSettings.PaneColumnGridLength}" />
+                            <ColumnDefinition Width="{CompiledBinding $parent[SplitView].TemplateSettings.PaneColumnGridLength}" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -55,7 +54,7 @@
                                 Background="{TemplateBinding PaneBackground}" 
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                ClipToBounds="True"
+                                ClipToBounds="False"
                                 HorizontalAlignment="Left"
                                 ZIndex="100"
                                 CornerRadius="{TemplateBinding CornerRadius}">
@@ -69,7 +68,6 @@
 
                         <Panel Grid.Column="0" Name="ContentRoot">
                             <ContentPresenter x:Name="PART_ContentPresenter"
-                                              Focusable="True"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" />
                             <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False" />
@@ -129,6 +127,18 @@
             </Setter>
             <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].OpenPaneLength}" />
         </Style>
+        
+        <Style Selector="^:overlay:open /template/ Border#PaneLayoutRoot">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="00:00:00.2" Easing="0.1,0.9,0.2,1.0" />
+                    <DoubleTransition Property="Width" Duration="00:00:00.2" Easing="0.1,0.9,0.2,1.0" />
+                </Transitions>
+            </Setter>
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].OpenPaneLength}" />
+        </Style>
+        
         <Style Selector="^:open /template/ Rectangle#LightDismissLayer">
             <Setter Property="Transitions">
                 <Transitions>
@@ -146,6 +156,17 @@
             </Setter>
             <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
         </Style>
+        <Style Selector="^:overlay:closed /template/ Border#PaneLayoutRoot">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Width" Duration="00:00:00.1" Easing="0.1,0.9,0.2,1.0" />
+                    <DoubleTransition Property="Opacity" Duration="00:00:00.2" Easing="0.1,0.9,0.2,1.0" />
+                </Transitions>
+            </Setter>
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="Width" Value="{CompiledBinding $parent[SplitView].TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        
         <Style Selector="^:closed /template/ Rectangle#LightDismissLayer">
             <Setter Property="Transitions">
                 <Transitions>

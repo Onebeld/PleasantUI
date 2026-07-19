@@ -1,6 +1,5 @@
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
@@ -19,8 +18,8 @@ public class PleasantSplashScreen : TemplatedControl
         AvaloniaProperty.Register<PleasantSplashScreen, string?>(nameof(AppName));
 
     /// <summary>Defines the <see cref="AppIcon"/> property.</summary>
-    public static readonly StyledProperty<IImage?> AppIconProperty =
-        AvaloniaProperty.Register<PleasantSplashScreen, IImage?>(nameof(AppIcon));
+    public static readonly StyledProperty<object?> AppIconProperty =
+        AvaloniaProperty.Register<PleasantSplashScreen, object?>(nameof(AppIcon));
 
     /// <summary>Defines the <see cref="SplashContent"/> property.</summary>
     public static readonly StyledProperty<object?> SplashContentProperty =
@@ -41,7 +40,7 @@ public class PleasantSplashScreen : TemplatedControl
     }
 
     /// <summary>Image displayed in the splash screen.</summary>
-    public IImage? AppIcon
+    public object? AppIcon
     {
         get => GetValue(AppIconProperty);
         set => SetValue(AppIconProperty, value);

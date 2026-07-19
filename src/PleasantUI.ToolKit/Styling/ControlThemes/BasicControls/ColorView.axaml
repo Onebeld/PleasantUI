@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=System.Runtime"
                     xmlns:converters="clr-namespace:PleasantUI.ToolKit.Converters"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
@@ -43,7 +42,7 @@
                         <!-- Spectrum Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <PathIcon Data="{DynamicResource BrushRegular}" />
+                                <PathIcon Data="{StaticResource BrushRegular}" />
                             </TabItem.Header>
                             <Grid ColumnDefinitions="Auto,*,Auto"
                                   RowDefinitions="Auto,*" Margin="10">
@@ -94,13 +93,13 @@
                         <!-- Palette Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <PathIcon Data="{DynamicResource PaletteRegular}" />
+                                <PathIcon Data="{StaticResource PaletteRegular}" />
                             </TabItem.Header>
                             <Grid RowDefinitions="*,30">
                                 <ListBox Grid.Row="0"
                                          Margin="0 0 0 5"
                                          ItemsSource="{CompiledBinding ColorPalettes, Source={x:Static PleasantSettings.Current}}"
-                                         SelectedItem="{CompiledBinding $parent[ColorView].Color, Converter={x:Static ColorToUIntConverter.Instance}}">
+                                         SelectedItem="{CompiledBinding $parent[ColorView].Color}">
                                     <ListBox.Styles>
                                         <Style Selector="ListBoxItem">
                                             <Setter Property="Margin" Value="0" />
@@ -108,17 +107,9 @@
                                             <Setter Property="MinWidth" Value="0" />
                                             <Setter Property="MinHeight" Value="0" />
                                             <Setter Property="ContextFlyout">
-                                                <PleasantMenuFlyout>
-                                                    <MenuItem x:Name="DeleteColor" Header="{Localize DeleteMenu, Default='_Delete'}">
-                                                        <MenuItem.Icon>
-                                                            <Viewbox Width="16" Height="16">
-                                                                <Path Data="{DynamicResource DeleteRegular}"
-                                                                      Fill="{DynamicResource TextFillColor1}"
-                                                                      Stretch="Uniform" />
-                                                            </Viewbox>
-                                                        </MenuItem.Icon>
-                                                    </MenuItem>
-                                                </PleasantMenuFlyout>
+                                                <MenuFlyout>
+                                                    <MenuItem x:Name="DeleteColor" Header="{Localize DeleteMenu, Default='_Delete'}" Icon="{StaticResource DeleteRegular}" />
+                                                </MenuFlyout>
                                             </Setter>
                                             <Setter Property="Template">
                                                 <ControlTemplate>
@@ -141,16 +132,16 @@
                                         </Style>
                                     </ListBox.Styles>
                                     <ListBox.ItemTemplate>
-                                        <DataTemplate x:DataType="s:UInt32">
+                                        <DataTemplate x:DataType="Color">
                                             <Border x:Name="BorderSelect"
                                                     AutomationProperties.Name="{CompiledBinding Converter={x:Static converters:ColorPickerConverters.ColorToName}}"
                                                     ToolTip.Tip="{CompiledBinding Converter={x:Static converters:ColorPickerConverters.ColorToName}}"
-                                                    BorderBrush="{CompiledBinding Converter={x:Static ColorConverters.UIntToForeground}}"
+                                                    BorderBrush="{CompiledBinding Converter={x:Static ColorConverters.ForegroundFromLuminanceColor}}"
                                                     HorizontalAlignment="Stretch"
                                                     Width="35"
                                                     Height="55"
                                                     VerticalAlignment="Stretch"
-                                                    Background="{CompiledBinding Converter={x:Static ColorConverters.UIntToBrush}}" />
+                                                    Background="{CompiledBinding Converter={x:Static converters:ColorPickerConverters.ToBrush}}" />
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                     <ListBox.ItemsPanel>
@@ -161,7 +152,7 @@
                                 </ListBox>
 
                                 <TextBlock Grid.Row="0"
-                                           Text="{Localize AddYourNewColor, Default='Add your new color!'}"
+                                           Text="{Localize ToolKit/ThemeEditor/AddYourNewColor, Default='Add your new color!'}"
                                            IsVisible="{CompiledBinding !ColorPalettes.Count, Source={x:Static PleasantSettings.Current}}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
@@ -170,16 +161,15 @@
                                 <Button x:Name="AddColorButton"
                                         Grid.Row="1"
                                         Margin="50 0"
-                                        ToolTip.Tip="{Localize AddColor, Default='Add color'}">
-                                    <PathIcon Data="{DynamicResource AddRegular}"
-                                              Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
+                                        ToolTip.Tip="{Localize ToolKit/ThemeEditor/AddColor, Default='Add color'}">
+                                    <PleasantIcon Icon="{StaticResource AddRegular}" Width="16" Height="16" />
                                 </Button>
                             </Grid>
                         </TabItem>
                         <!-- Components Tab -->
                         <TabItem>
                             <TabItem.Header>
-                                <PathIcon Data="{DynamicResource TuneRegular}" />
+                                <PathIcon Data="{StaticResource TuneRegular}" />
                             </TabItem.Header>
                             <Grid ColumnDefinitions="30,80,*"
                                   Margin="10"
@@ -192,7 +182,7 @@
                                     <!-- Content RGB/HSV names are hard-coded in ColorPicker as well -->
                                     <!-- ToggleButtons are styled to look like a 'SegmentedControl' or 'ButtonGroup' -->
                                     <RadioButton x:Name="RgbToggleButton"
-                                                 Theme="{DynamicResource ButtonedRadioButton}"
+                                                 Theme="{StaticResource ButtonedRadioButton}"
                                                  Grid.Column="0"
                                                  Content="RGB"
                                                  HorizontalAlignment="Stretch"
@@ -203,7 +193,7 @@
                                                  GroupName="ColorMode"
                                                  CornerRadius="999 0 0 999" />
                                     <RadioButton x:Name="HsvToggleButton"
-                                                 Theme="{DynamicResource ButtonedRadioButton}"
+                                                 Theme="{StaticResource ButtonedRadioButton}"
                                                  Grid.Column="1"
                                                  Content="HSV"
                                                  HorizontalAlignment="Stretch"

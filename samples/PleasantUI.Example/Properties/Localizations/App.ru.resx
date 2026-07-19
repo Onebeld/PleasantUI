@@ -15,49 +15,10 @@
         <value>Настройки</value>
     </data>
     <data name="WelcomeToPleasantUI" xml:space="preserve">
-        <value>Добро пожаловать в</value>
+        <value>Добро пожаловать!</value>
     </data>
     <data name="Theme" xml:space="preserve">
         <value>Тема</value>
-    </data>
-    <data name="Theme/Light" xml:space="preserve">
-        <value>Светлая</value>
-    </data>
-    <data name="Theme/Cave" xml:space="preserve">
-        <value>Пещерная</value>
-    </data>
-    <data name="Theme/Cherry" xml:space="preserve">
-        <value>Вишневая</value>
-    </data>
-    <data name="Theme/Custom" xml:space="preserve">
-        <value>Своя</value>
-    </data>
-    <data name="Theme/Dark" xml:space="preserve">
-        <value>Темная</value>
-    </data>
-    <data name="Theme/Ice" xml:space="preserve">
-        <value>Ледяная</value>
-    </data>
-    <data name="Theme/Lunar" xml:space="preserve">
-        <value>Лунная</value>
-    </data>
-    <data name="Theme/VGUI" xml:space="preserve">
-        <value>VGUI</value>
-    </data>
-    <data name="Theme/Sunny" xml:space="preserve">
-        <value>Солнечная</value>
-    </data>
-    <data name="Theme/System" xml:space="preserve">
-        <value>Системная</value>
-    </data>
-    <data name="Theme/Mint" xml:space="preserve">
-        <value>Мятная</value>
-    </data>
-    <data name="Theme/Spruce" xml:space="preserve">
-        <value>Лесная</value>
-    </data>
-    <data name="Theme/Strawberry" xml:space="preserve">
-        <value>Клубничная</value>
     </data>
     <data name="Language" xml:space="preserve">
         <value>Язык</value>
@@ -107,16 +68,12 @@
     <data name="NoticeDialog/SuccessResult" xml:space="preserve"><value>Диалоговое окно успеха закрыто</value></data>
     <data name="NoticeDialog/WipTitle" xml:space="preserve"><value>Версия в разработке</value></data>
     <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>Это стабильный выпуск приложения. Все функции полностью протестированы и готовы к использованию в продакшене.</value></data>
-    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>Это выпуск с исправлениями ошибок, содержащий важные исправления проблем, найденных в стабильной версии.</value></data>
-    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>Это альфа-версия. Функции могут быть неполными и нестабильными. Используйте с осторожностью.</value></data>
     <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>Это бета-версия. Функции в основном завершены, но могут содержать ошибки.</value></data>
-    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>Это кандидат на выпуск. Он близок к финальной версии, но все еще может иметь проблемы.</value></data>
     <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>Это сборка canary с последними изменениями. Она может быть нестабильной и предназначена только для тестирования.</value></data>
     <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>Эта версия приложения находится в активной разработке. Функции могут измениться или быть удалены в будущих выпусках.</value></data>
     <data name="NoticeDialog/CurrentVersion" xml:space="preserve"><value>Текущая версия</value></data>
     <data name="NoticeDialog/WipFooter" xml:space="preserve"><value>- Команда разработки</value></data>
     <data name="NoticeDialog/WipResult" xml:space="preserve"><value>Диалоговое окно в разработке показано</value></data>
-    <data name="NoticeDialog/VersionLabel" xml:space="preserve"><value>Версия</value></data>
     <data name="NoticeDialog/Ok" xml:space="preserve"><value>ОК</value></data>
     <data name="NoticeDialog/Continue" xml:space="preserve"><value>Продолжить</value></data>
     <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Отмена</value></data>
@@ -130,8 +87,6 @@
     <data name="NoticeDialog/Show" xml:space="preserve"><value>Показать</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Пользовательские темы</value></data>
-    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Информация о загрузке</value></data>
-    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Информация об исключении</value></data>
     <data name="PropertyGrid/LabelUrl" xml:space="preserve"><value>URL</value></data>
     <data name="PropertyGrid/LabelFileName" xml:space="preserve"><value>Имя файла</value></data>
     <data name="PropertyGrid/LabelSaveTo" xml:space="preserve"><value>Сохранить в</value></data>
@@ -269,8 +224,6 @@
     <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Нажмите или подождите — события отслеживаются.</value></data>
     <!-- MessageBox page -->
     <data name="ShowMessageBox" xml:space="preserve"><value>Показать MessageBox</value></data>
-    <data name="MessageBoxTitle" xml:space="preserve"><value>Сообщение</value></data>
-    <data name="MessageBoxText" xml:space="preserve"><value>Это пример диалогового окна с сообщением.</value></data>
     <data name="MessageBox/Show" xml:space="preserve"><value>Показать</value></data>
     <data name="MessageBox/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
     <data name="MessageBox/DefaultVariant" xml:space="preserve"><value>По умолчанию (OK)</value></data>
@@ -297,7 +250,6 @@
     <data name="MessageBox/ErrorDetail" xml:space="preserve"><value>System.InvalidOperationException: Ссылка на объект не указывает на экземпляр объекта.\n   at SomeMethod() in File.cs:line 42</value></data>
     <data name="MessageBox/DangerTitle" xml:space="preserve"><value>Удаление</value></data>
     <data name="MessageBox/DangerText" xml:space="preserve"><value>Это действие необратимо. Все выбранные элементы будут удалены навсегда.</value></data>
-    <data name="MessageBox/Ok" xml:space="preserve"><value>OK</value></data>
     <data name="MessageBox/Cancel" xml:space="preserve"><value>Отмена</value></data>
     <data name="MessageBox/Yes" xml:space="preserve"><value>Да</value></data>
     <data name="MessageBox/No" xml:space="preserve"><value>Нет</value></data>
@@ -333,7 +285,6 @@
     <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Обработка</value></data>
     <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
     <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Пожалуйста, подождите завершения операции…</value></data>
-    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Удалить аккаунт навсегда</value></data>
     <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>Это удалит все ваши данные, настройки и историю. Действие необратимо.</value></data>
     <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Удалить всё</value></data>
     <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Удаляет все файлы, настройки и данные аккаунта навсегда.</value></data>
@@ -534,12 +485,6 @@
     <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Назад</value></data>
     <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Далее</value></data>
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Готово</value></data>
-    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Отмена</value></data>
-
-    <!-- PopConfirm -->
-    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Подтвердить</value></data>
-    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Отмена</value></data>
-
     <!-- Drawer page -->
     <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Выдвижная панель</value></data>
     <data name="Card/PleasantDrawer"            xml:space="preserve"><value>Панель, выезжающая с любого края экрана поверх основного содержимого с поддержкой заголовка, подвала и закрытия по клику.</value></data>
@@ -579,22 +524,6 @@
     <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Открыть папку</value></data>
     <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Сохранить файл</value></data>
     <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Открыть несколько файлов</value></data>
-
-    <!-- Docking page -->
-    <data name="CardTitle/Docking"              xml:space="preserve"><value>Докинг</value></data>
-    <data name="Card/Docking"                   xml:space="preserve"><value>Полная система докинга с изменяемыми боковыми панелями, разделёнными видами и перетаскиваемыми инструментами.</value></data>
-    <data name="Docking/Description"            xml:space="preserve"><value>Перетаскивайте кнопки боковой панели между левой и правой панелями. Изменяйте размер панелей, перетаскивая разделители. Щёлкните правой кнопкой мыши по кнопке, чтобы переместить её через контекстное меню.</value></data>
-    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>ПРОВОДНИК</value></data>
-    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>СВОЙСТВА</value></data>
-    <data name="Docking/EditorArea"             xml:space="preserve"><value>Область редактора</value></data>
-    <data name="Docking/DragHint"               xml:space="preserve"><value>Перетащите кнопки боковой панели для перестановки панелей</value></data>
-    <data name="Docking/PropName"               xml:space="preserve"><value>Имя</value></data>
-    <data name="Docking/PropWidth"              xml:space="preserve"><value>Ширина</value></data>
-    <data name="Docking/PropHeight"             xml:space="preserve"><value>Высота</value></data>
-    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Лево — Верх</value></data>
-    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Лево — Низ</value></data>
-    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Право — Верх</value></data>
-    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Право — Низ</value></data>
 
     <!-- PleasantMiniWindow page -->
     <data name="CardTitle/PleasantMiniWindow"   xml:space="preserve"><value>PleasantMiniWindow</value></data>
@@ -695,8 +624,6 @@
     <data name="CrashReportDialog/MessageLabel" xml:space="preserve"><value>Сообщение</value></data>
     <data name="CrashReportDialog/GeneralTabLabel" xml:space="preserve"><value>Общие</value></data>
     <data name="CrashReportDialog/ExceptionTabLabel" xml:space="preserve"><value>Исключение</value></data>
-    <data name="CrashReportDialog/ScreenshotTabLabel" xml:space="preserve"><value>Скриншот</value></data>
-    <data name="CrashReportDialog/SendingMessage" xml:space="preserve"><value>Отправка отчёта…</value></data>
     <data name="CrashReportDialog/SuccessMessage" xml:space="preserve"><value>Отчёт успешно отправлен. Спасибо!</value></data>
     <data name="CrashReportDialog/FailureMessagePrefix" xml:space="preserve"><value>Не удалось отправить отчёт: </value></data>
     <data name="CrashReportDialog/CrashedText" xml:space="preserve"><value> упал</value></data>
@@ -706,4 +633,209 @@
     <data name="CrashReportDialog/VersionLabel" xml:space="preserve"><value>Версия</value></data>
     <data name="CrashReportDialog/UserMessagePlaceholder" xml:space="preserve"><value>Опишите, что вы делали…</value></data>
 
+    <!-- BreadcrumbBar page -->
+    <data name="CardTitle/BreadcrumbBar" xml:space="preserve">
+        <value>BreadcrumbBar</value>
+    </data>
+    <!-- CommandBar page -->
+    <data name="CardTitle/CommandBar" xml:space="preserve">
+        <value>CommandBar</value>
+    </data>
+    <data name="Card/CommandBar" xml:space="preserve">
+        <value>Панель инструментов с основными командами и всплывающим меню переполнения.</value>
+    </data>
+    <data name="BreadcrumbBar/Description" xml:space="preserve">
+        <value>BreadcrumbBar отображает прямой путь к текущей странице или папке. Элементы, не помещающиеся по ширине, сворачиваются в кнопку с многоточием.</value>
+    </data>
+    <data name="BreadcrumbBar/BasicTitle" xml:space="preserve">
+        <value>Базовое использование</value>
+    </data>
+    <data name="BreadcrumbBar/BasicDesc" xml:space="preserve">
+        <value>Объявите дочерние элементы BreadcrumbBarItem напрямую. Нажмите на любой элемент, чтобы вызвать событие ItemClicked.</value>
+    </data>
+    <data name="BreadcrumbBar/LastClicked" xml:space="preserve">
+        <value>Последний клик:</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceTitle" xml:space="preserve">
+        <value>Привязка к ItemsSource</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceDesc" xml:space="preserve">
+        <value>Привяжите ObservableCollection к ItemsSource. Используйте Push / Pop / Reset для изменения пути во время выполнения.</value>
+    </data>
+    <data name="BreadcrumbBar/Push" xml:space="preserve">
+        <value>Добавить</value>
+    </data>
+    <data name="BreadcrumbBar/Pop" xml:space="preserve">
+        <value>Удалить</value>
+    </data>
+    <data name="BreadcrumbBar/Reset" xml:space="preserve">
+        <value>Сбросить</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowTitle" xml:space="preserve">
+        <value>Переполнение / многоточие</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowDesc" xml:space="preserve">
+        <value>Когда элементы не помещаются по ширине, контрол автоматически сворачивает скрытые элементы в кнопку с многоточием. Нажмите её, чтобы увидеть выпадающий список.</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastTitle" xml:space="preserve">
+        <value>Кликабельный последний элемент</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastDesc" xml:space="preserve">
+        <value>Установите IsLastItemClickEnabled="True", чтобы сделать текущий (последний) элемент интерактивным вместо отображения его как обычного текста.</value>
+    </data>
+    <data name="BreadcrumbBar/PropertiesTitle" xml:space="preserve">
+        <value>Ключевые свойства</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemsSource" xml:space="preserve">
+        <value>Привязанная коллекция, используемая как источник данных для пути навигации.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemTemplate" xml:space="preserve">
+        <value>DataTemplate, применяемый к каждому элементу при использовании ItemsSource.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/IsLastItemClickEnabled" xml:space="preserve">
+        <value>Если true, последний элемент отображается как кнопка, а не как обычный текст.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemClicked" xml:space="preserve">
+        <value>Вызывается при нажатии на любой элемент. Аргументы содержат Index (с нуля) и Item (объект данных).</value>
+    </data>
+
+    <data name="FullScreenButton" xml:space="preserve">
+        <value>Кнопка полного экрана</value>
+    </data>
+    <data name="FullScreenButtonDescription" xml:space="preserve">
+        <value>Показать кнопку переключения полного экрана в заголовке окна</value>
+    </data>
+
+    <data name="NavPosition" xml:space="preserve">
+        <value>Позиция навигации</value>
+    </data>
+    <data name="NavPositionDescription" xml:space="preserve">
+        <value>Выберите расположение панели навигации</value>
+    </data>
+    <data name="NavPosition/Left" xml:space="preserve">
+        <value>Слева</value>
+    </data>
+    <data name="NavPosition/Top" xml:space="preserve">
+        <value>Сверху</value>
+    </data>
+    <data name="NavPosition/Bottom" xml:space="preserve">
+        <value>Снизу</value>
+    </data>
+
+    <data name="NoCustomThemes" xml:space="preserve">
+        <value>Нет пользовательских тем</value>
+    </data>
+
+    <!-- ── DashboardCard ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DashboardCard" xml:space="preserve"><value>DashboardCard</value></data>
+    <data name="Card/DashboardCard" xml:space="preserve"><value>Структурированная карточка с заголовком, содержимым и подвалом.</value></data>
+    <data name="DashboardCard/Description" xml:space="preserve"><value>DashboardCard предоставляет структурированный макет карточки с заголовком, подзаголовком, слотом справа в заголовке, прокручиваемой областью содержимого и необязательным подвалом.</value></data>
+    <data name="DashboardCard/BasicTitle" xml:space="preserve"><value>Базовая карточка</value></data>
+    <data name="DashboardCard/BasicDesc" xml:space="preserve"><value>Карточка с заголовком, подзаголовком и произвольным содержимым.</value></data>
+    <data name="DashboardCard/ToolbarTitle" xml:space="preserve"><value>С панелью инструментов в заголовке</value></data>
+    <data name="DashboardCard/ToolbarDesc" xml:space="preserve"><value>Используйте HeaderContent для размещения ComboBox или любого элемента управления в правом слоте заголовка.</value></data>
+    <data name="DashboardCard/FooterTitle" xml:space="preserve"><value>С подвалом</value></data>
+    <data name="DashboardCard/FooterDesc" xml:space="preserve"><value>FooterContent отображает полосу с рамкой в нижней части карточки.</value></data>
+    <data name="DashboardCard/Revenue" xml:space="preserve"><value>Выручка</value></data>
+    <data name="DashboardCard/Last30Days" xml:space="preserve"><value>Последние 30 дней</value></data>
+    <data name="DashboardCard/ChartPlaceholder" xml:space="preserve"><value>Здесь будет график</value></data>
+    <data name="DashboardCard/Downloads" xml:space="preserve"><value>Загрузки</value></data>
+    <data name="DashboardCard/ActiveTransfers" xml:space="preserve"><value>Активные передачи</value></data>
+    <data name="DashboardCard/Today" xml:space="preserve"><value>Сегодня</value></data>
+    <data name="DashboardCard/7Days" xml:space="preserve"><value>7 дней</value></data>
+    <data name="DashboardCard/30Days" xml:space="preserve"><value>30 дней</value></data>
+    <data name="DashboardCard/SystemStatus" xml:space="preserve"><value>Состояние системы</value></data>
+    <data name="DashboardCard/UpdatedJustNow" xml:space="preserve"><value>Обновлено только что</value></data>
+
+    <!-- ── LogViewerPanel ────────────────────────────────────────────────── -->
+    <data name="CardTitle/LogViewerPanel" xml:space="preserve"><value>LogViewerPanel</value></data>
+    <data name="Card/LogViewerPanel" xml:space="preserve"><value>Выдвижная панель с фильтруемыми записями журнала.</value></data>
+    <data name="LogViewerPanel/Description" xml:space="preserve"><value>LogViewerPanel — выдвижная панель с поиском, фильтрами по уровню и источнику, автопрокруткой, копированием и очисткой. Нажмите «Открыть», затем добавляйте записи кнопками.</value></data>
+    <data name="LogViewerPanel/OpenPanel" xml:space="preserve"><value>Открыть журнал</value></data>
+    <data name="LogViewerPanel/AddInfo" xml:space="preserve"><value>Добавить Info</value></data>
+    <data name="LogViewerPanel/AddWarning" xml:space="preserve"><value>Добавить Warning</value></data>
+    <data name="LogViewerPanel/AddError" xml:space="preserve"><value>Добавить Error</value></data>
+    <data name="LogViewerPanel/AddDebug" xml:space="preserve"><value>Добавить Debug</value></data>
+    <data name="LogViewerPanel/Hint" xml:space="preserve"><value>Записи журнала появятся в панели →</value></data>
+
+    <!-- ── TerminalPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TerminalPanel" xml:space="preserve"><value>TerminalPanel</value></data>
+    <data name="Card/TerminalPanel" xml:space="preserve"><value>Терминал с моноширинным выводом и строкой ввода команд.</value></data>
+    <data name="TerminalPanel/Description" xml:space="preserve"><value>TerminalPanel предоставляет моноширинную область вывода и строку ввода команд. Введите команду и нажмите Enter — демо отобразит её обратно.</value></data>
+    <data name="TerminalPanel/SimulateOutput" xml:space="preserve"><value>Симулировать вывод</value></data>
+    <data name="TerminalPanel/Clear" xml:space="preserve"><value>Очистить</value></data>
+    <!-- ── TreeViewPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TreeViewPanel" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="Card/TreeViewPanel" xml:space="preserve"><value>Дерево с поиском, сворачиваемыми секциями и счётчиками.</value></data>
+    <data name="TreeViewPanel/Description" xml:space="preserve"><value>TreeViewPanel содержит сворачиваемые секции TreeViewSection с полем поиска, счётчиками, состоянием загрузки и единым событием SelectionChanged.</value></data>
+    <data name="TreeViewPanel/Documents" xml:space="preserve"><value>Документы</value></data>
+    <data name="TreeViewPanel/Images" xml:space="preserve"><value>Изображения</value></data>
+    <data name="TreeViewPanel/Downloads" xml:space="preserve"><value>Загрузки</value></data>
+    <data name="TreeViewPanel/SelectedItem" xml:space="preserve"><value>Выбранный элемент:</value></data>
+    <data name="TreeViewPanel/DetailTitle" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="TreeViewPanel/DetailDesc" xml:space="preserve"><value>Используйте поле фильтра для поиска по всем секциям. Нажмите на элемент, чтобы выбрать его.</value></data>
+
+    <!-- ── ItemListPanel ─────────────────────────────────────────────────── -->
+    <data name="Card/ItemListPanel" xml:space="preserve"><value>Список с поиском, множественным выбором и оверлеем загрузки.</value></data>
+    <data name="ItemListPanel/Description" xml:space="preserve"><value>ItemListPanel — список с поиском, фильтрацией, режимом множественного выбора, панелью массовых действий, оверлеем загрузки и пустым состоянием.</value></data>
+    <data name="ItemListPanel/MultiSelect" xml:space="preserve"><value>Множественный выбор</value></data>
+    <data name="ItemListPanel/ToggleLoading" xml:space="preserve"><value>Переключить загрузку</value></data>
+    <data name="ItemListPanel/Clear" xml:space="preserve"><value>Очистить</value></data>
+    <data name="ItemListPanel/Reload" xml:space="preserve"><value>Перезагрузить</value></data>
+    <data name="ItemListPanel/SearchPlaceholderText" xml:space="preserve"><value>Поиск файлов...</value></data>
+    <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Добавьте элементы кнопкой «Перезагрузить».</value></data>
+    <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Загрузка файлов</value></data>
+    <data name="ItemListPanel/LoadingSubtitle" xml:space="preserve"><value>Пожалуйста, подождите...</value></data>
+    <data name="ItemListPanel/DeleteSelected" xml:space="preserve"><value>Удалить выбранные</value></data>
+    <data name="ItemListPanel/Selected" xml:space="preserve"><value>Выбрано:</value></data>
+
+    <!-- ── StepDialog ────────────────────────────────────────────────────── -->
+    <data name="CardTitle/StepDialog" xml:space="preserve"><value>StepDialog</value></data>
+    <data name="Card/StepDialog" xml:space="preserve"><value>Модальный диалог с пронумерованными шагами.</value></data>
+    <data name="StepDialog/Description" xml:space="preserve"><value>StepDialog — модальный оверлей с пронумерованными шагами. Каждый шаг имеет заголовок, описание и произвольное содержимое. Поддерживает основную/вторичную кнопки и строку статуса.</value></data>
+    <data name="StepDialog/BasicTitle" xml:space="preserve"><value>Базовый диалог шагов</value></data>
+    <data name="StepDialog/BasicDesc" xml:space="preserve"><value>Три шага с кнопкой «Отмена» и строкой статуса.</value></data>
+    <data name="StepDialog/OpenBasic" xml:space="preserve"><value>Открыть диалог шагов</value></data>
+    <data name="StepDialog/AuthTitle" xml:space="preserve"><value>Поток аутентификации через код устройства</value></data>
+    <data name="StepDialog/AuthDesc" xml:space="preserve"><value>Имитирует аутентификацию через код устройства с блоком кода и кнопкой-ссылкой.</value></data>
+    <data name="StepDialog/OpenAuth" xml:space="preserve"><value>Открыть диалог аутентификации</value></data>
+    <data name="StepDialog/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+
+    <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
+    <data name="CardTitle/PropertyGrid" xml:space="preserve"><value>PropertyGrid</value></data>
+    <data name="Card/PropertyGrid" xml:space="preserve"><value>Двухколоночная сетка для отображения метаданных.</value></data>
+    <data name="PropertyGrid/Description" xml:space="preserve"><value>PropertyGrid отображает метаданные в двухколоночном макете. Строки поддерживают обычный текст, кликабельные ссылки, цветные статусы и пользовательские шаблоны.</value></data>
+    <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Информация о загрузке</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Информация об исключении</value></data>
+
+    <!-- ── DownloadPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DownloadPanel" xml:space="preserve"><value>DownloadPanel</value></data>
+    <data name="Card/DownloadPanel" xml:space="preserve"><value>Визуализация многопоточной загрузки с прогресс-баром и холстом чанков.</value></data>
+    <data name="DownloadPanel/Description" xml:space="preserve"><value>DownloadPanel визуализирует многопоточную загрузку с вкладками, прогресс-баром, холстом чанков и кнопками действий.</value></data>
+    <data name="DownloadPanel/Tick" xml:space="preserve"><value>Шаг прогресса</value></data>
+    <data name="DownloadPanel/PauseResume" xml:space="preserve"><value>Пауза / Продолжить</value></data>
+    <data name="DownloadPanel/ToggleMerge" xml:space="preserve"><value>Переключить слияние</value></data>
+    <data name="DownloadPanel/Reset" xml:space="preserve"><value>Сбросить</value></data>
+
+    <!-- ── CrashReportDialog ─────────────────────────────────────────────── -->
+    <data name="CardTitle/CrashReportDialog" xml:space="preserve"><value>CrashReportDialog</value></data>
+    <data name="Card/CrashReportDialog" xml:space="preserve"><value>Модальный диалог отчёта об ошибке с вкладками и валидацией email.</value></data>
+    <data name="CrashReportDialog/Description" xml:space="preserve"><value>CrashReportDialog — модальный оверлей с тремя вкладками (Общее, Исключение, Скриншот), валидацией email, действиями отправки/сохранения/отмены и встроенной индикацией отправки.</value></data>
+    <data name="CrashReportDialog/BasicTitle" xml:space="preserve"><value>Симуляция отчёта об ошибке</value></data>
+    <data name="CrashReportDialog/BasicDesc" xml:space="preserve"><value>Открывает предзаполненный диалог на основе фиктивного NullReferenceException.</value></data>
+    <data name="CrashReportDialog/OpenBasic" xml:space="preserve"><value>Открыть отчёт об ошибке</value></data>
+    <data name="CrashReportDialog/EmailRequiredTitle" xml:space="preserve"><value>Email обязателен</value></data>
+    <data name="CrashReportDialog/EmailRequiredDesc" xml:space="preserve"><value>IsEmailRequired=True — кнопка «Отправить» заблокирована до ввода корректного email.</value></data>
+    <data name="CrashReportDialog/OpenEmailRequired" xml:space="preserve"><value>Открыть (email обязателен)</value></data>
+    <data name="CrashReportDialog/LastResult" xml:space="preserve"><value>Последний результат:</value></data>
+    
+    <data name="Font" xml:space="preserve">
+        <value>Шрифт</value>
+    </data>
+    <data name="EnableBlur" xml:space="preserve">
+        <value>Включить размытие</value>
+    </data>
+    <data name="EnableCustomTitleBar" xml:space="preserve">
+        <value>Включить пользовательский панель заголовка</value>
+    </data>
 </root>

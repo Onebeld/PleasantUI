@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using PleasantUI.Core.Localization;
@@ -46,8 +45,6 @@ public abstract class LocalizedPage : IPage
     {
         void Notify()
         {
-            Debug.WriteLine($"[LocalizedPage] Invalidating content cache for key={TitleKey} lang={lang}");
-
             // Drop the cached view — next time Content is accessed (on navigation)
             // a fresh view is created that reads the new language immediately.
             _cachedContent = null;

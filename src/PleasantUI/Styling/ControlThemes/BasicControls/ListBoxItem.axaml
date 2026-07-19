@@ -10,7 +10,7 @@
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                 </ListBox>
-                <ListBox ItemContainerTheme="{DynamicResource HorizontalListBoxItem}" Width="250" Height="150">
+                <ListBox ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250" Height="150">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal" />
@@ -34,6 +34,10 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="88" />
         <Setter Property="MinHeight" Value="40" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="(CompositionAnimationBehavior.UseEntranceAnimations)" Value="True" />
+        <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
+        
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -64,7 +68,6 @@
                             VerticalAlignment="Center"
                             Width="3"
                             Height="16"
-                            Margin="1 0 0 0"
                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Background="{DynamicResource AccentLightColor2}" />
                 </Panel>
@@ -125,24 +128,18 @@
     </ControlTheme>
 
     <ControlTheme x:Key="HorizontalListBoxItem" TargetType="ListBoxItem">
-        <ControlTheme.Animations>
-            <Animation Duration="0:0:0.3" FillMode="Forward" Easing="CubicEaseOut">
-                <KeyFrame Cue="0%">
-                    <Setter Property="ScaleTransform.ScaleX" Value="0.8" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="0.8" />
-                    <Setter Property="Opacity" Value="0" />
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                    <Setter Property="Opacity" Value="1" />
-                </KeyFrame>
-            </Animation>
-        </ControlTheme.Animations>
-
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="Opacity" Value="0" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="(CompositionAnimationBehavior.UseEntranceAnimations)" Value="True" />
+        <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
@@ -150,8 +147,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="True"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="5 2 5 5">
+                            CornerRadius="{TemplateBinding CornerRadius}">
                         <RippleEffect x:Name="PART_Ripple">
                             <ContentPresenter Name="PART_ContentPresenter"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -168,7 +164,7 @@
                             MinWidth="16"
                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             VerticalAlignment="Top"
-                            Margin="20 1 20 0 " />
+                            Margin="20 0 20 0" />
                 </Panel>
             </ControlTemplate>
         </Setter>

@@ -20,7 +20,7 @@ public class BindingTranslateConverter : IMultiValueConverter
     }
 
     /// <inheritdoc />
-    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(IList<object?>? values, Type targetType, object? parameter, CultureInfo culture)
     {
         if (values is null || values.Count == 0)
             return string.Empty;
@@ -42,7 +42,7 @@ public class BindingTranslateConverter : IMultiValueConverter
             key = $"{_context}/{key}";
 
         // Collect format args from values[2..], skipping nulls and UnsetValue
-        var args = new List<object>();
+        List<object> args = [];
         for (int i = 2; i < values.Count; i++)
         {
             object? arg = values[i];
@@ -56,12 +56,10 @@ public class BindingTranslateConverter : IMultiValueConverter
                 ? Localizer.Tr(key, args: [.. args])
                 : Localizer.Tr(key);
 
-            System.Diagnostics.Debug.WriteLine($"[BindingTranslateConverter] key=\"{key}\" → \"{result}\" lang={Localizer.Instance.CurrentLanguage}");
             return result;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"[BindingTranslateConverter] ERROR key=\"{key}\": {ex.Message}");
             return Localizer.Tr(key);
         }
     }

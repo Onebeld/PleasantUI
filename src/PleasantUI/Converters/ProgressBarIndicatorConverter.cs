@@ -1,4 +1,3 @@
-using Avalonia.Data;
 using Avalonia.Data.Converters;
 using System.Globalization;
 
@@ -9,8 +8,12 @@ namespace PleasantUI.Converters;
 /// </summary>
 public class ProgressBarIndicatorConverter : IMultiValueConverter
 {
+    /// <summary>
+    /// An instance of the <see cref="ProgressBarIndicatorConverter"/> class object
+    /// </summary>
     public static readonly ProgressBarIndicatorConverter Instance = new();
 
+    /// <inheritdoc/>
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
         if (values.Count < 3)
@@ -24,10 +27,5 @@ public class ProgressBarIndicatorConverter : IMultiValueConverter
 
         double ratio = value / maximum;
         return containerSize * ratio;
-    }
-
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
     }
 }

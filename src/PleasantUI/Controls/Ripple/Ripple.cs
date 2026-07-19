@@ -1,13 +1,19 @@
-﻿using Avalonia.Animation.Easings;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2023 AvaloniaCommunity <https://github.com/AvaloniaCommunity>
+ * SPDX-License-Identifier: MIT
+ *
+ * Derived from:
+ * https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/Ripple.cs
+ */
+
+using Avalonia.Animation.Easings;
 
 namespace PleasantUI.Controls;
 
 /// <summary>
 /// Provides static properties for configuring ripple effects.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/Ripple.cs
-/// </remarks>
 public static class Ripple
 {
 	/// <summary>

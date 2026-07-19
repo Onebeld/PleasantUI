@@ -5,27 +5,30 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.Pages.ControlPages.TextBoxPageView">
     <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340">
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize TextBox}" />
-        <TextBox PlaceholderText="{Localize EnterText}" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Password}" />
-        <TextBox PlaceholderText="{Localize EnterPassword}" PasswordChar="●" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Multiline}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.TextBox}}" />
+        <TextBox PlaceholderText="{Localize {x:Static LocKey.EnterText}}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.TextBox}}" />
+        <MarkedTextBox Mark="#" PlaceholderText="{Localize {x:Static LocKey.EnterText}}" />
+        <MarkedTextBox Mark="{DynamicResource PaletteRegular}" PlaceholderText="{Localize {x:Static LocKey.EnterText}}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.Password}}" />
+        <TextBox PlaceholderText="{Localize {x:Static LocKey.EnterPassword}}" PasswordChar="●" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.Multiline}}" />
         <TextBox Classes="MultilineTextBox"
-                 PlaceholderText="{Localize EnterMultipleLines}"
+                 PlaceholderText="{Localize {x:Static LocKey.EnterMultipleLines}}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  Height="80" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize MultilineFlat}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.MultilineFlat}}" />
         <TextBox Classes="MultilineTextBoxFlat"
                  PlaceholderText="{Localize EnterMultipleLines}"
                  AcceptsReturn="True"
                  TextWrapping="Wrap"
                  Height="80" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize ReadOnly}" />
-        <TextBox Text="{Localize ReadOnlyText}" IsReadOnly="True" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize Disabled}" />
-        <TextBox PlaceholderText="{Localize DisabledInput}" IsEnabled="False" />
-        <TextBlock Theme="{DynamicResource BodyStrongTextBlockTheme}" Text="{Localize NumericUpDown}" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.ReadOnly}}" />
+        <TextBox Text="{Localize {x:Static LocKey.ReadOnlyText}}" IsReadOnly="True" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.Disabled}}" />
+        <TextBox PlaceholderText="{Localize {x:Static LocKey.DisabledInput}}" IsEnabled="False" />
+        <TextBlock Theme="{StaticResource BodyStrongTextBlockTheme}" Text="{Localize {x:Static LocKey.NumericUpDown}}" />
         <NumericUpDown Minimum="0" Maximum="100" Value="42" />
     </StackPanel>
 </UserControl>

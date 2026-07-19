@@ -24,7 +24,7 @@
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
-            <Color x:Key="SystemFillColorCaution">#BF8500</Color>
+            <Color x:Key="SystemFillColorCaution">#ECB500</Color>
             <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
 
             <Color x:Key="DangerColor">#FFD72F1E</Color>
@@ -57,7 +57,7 @@
 
             <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
             <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
-            <Color x:Key="SystemFillColorCaution">#FFCE21</Color>
+            <Color x:Key="SystemFillColorCaution">#ECB500</Color>
             <Color x:Key="SystemFillColorNeutral">#4B6ACA</Color>
 
             <Color x:Key="DangerColor">#FFD72F1E</Color>

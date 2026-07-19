@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
@@ -14,11 +13,11 @@ namespace PleasantUI.Controls;
 [PseudoClasses(":no-image", ":no-subtitle", ":no-timestamp")]
 public class SelectionListItem : ListBoxItem
 {
-    public static readonly StyledProperty<IImage?> ImageProperty =
-        AvaloniaProperty.Register<SelectionListItem, IImage?>(nameof(Image));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<SelectionListItem, object?>(nameof(Icon));
 
-    public static readonly StyledProperty<IDataTemplate?> ImageTemplateProperty =
-        AvaloniaProperty.Register<SelectionListItem, IDataTemplate?>(nameof(ImageTemplate));
+    public static readonly StyledProperty<IDataTemplate?> IconTemplateProperty =
+        AvaloniaProperty.Register<SelectionListItem, IDataTemplate?>(nameof(IconTemplate));
 
     public static readonly StyledProperty<string?> TitleProperty =
         AvaloniaProperty.Register<SelectionListItem, string?>(nameof(Title));
@@ -29,16 +28,16 @@ public class SelectionListItem : ListBoxItem
     public static readonly StyledProperty<string?> TimestampProperty =
         AvaloniaProperty.Register<SelectionListItem, string?>(nameof(Timestamp));
 
-    public IImage? Image
+    public object? Icon
     {
-        get => GetValue(ImageProperty);
-        set => SetValue(ImageProperty, value);
+        get => GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
     }
 
-    public IDataTemplate? ImageTemplate
+    public IDataTemplate? IconTemplate
     {
-        get => GetValue(ImageTemplateProperty);
-        set => SetValue(ImageTemplateProperty, value);
+        get => GetValue(IconTemplateProperty);
+        set => SetValue(IconTemplateProperty, value);
     }
 
     public string? Title
@@ -58,21 +57,25 @@ public class SelectionListItem : ListBoxItem
         get => GetValue(TimestampProperty);
         set => SetValue(TimestampProperty, value);
     }
-
-    static SelectionListItem()
-    {
-        ImageProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-        ImageTemplateProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-        SubtitleProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-        TimestampProperty.Changed.AddClassHandler<SelectionListItem>((i, _) => i.UpdatePseudoClasses());
-    }
-
+    
     /// <summary>
     /// Overrides the style key so Avalonia's theme lookup resolves
     /// <see cref="SelectionListItem"/> instead of the base <see cref="ListBoxItem"/> type.
     /// </summary>
     protected override Type StyleKeyOverride => typeof(SelectionListItem);
 
+    static SelectionListItem() { }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IconProperty || e.Property == IconTemplateProperty || e.Property == SubtitleProperty || e.Property == TimestampProperty)
+            UpdatePseudoClasses();
+    }
+
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -81,7 +84,7 @@ public class SelectionListItem : ListBoxItem
 
     private void UpdatePseudoClasses()
     {
-        PseudoClasses.Set(":no-image",     Image is null && ImageTemplate is null);
+        PseudoClasses.Set(":no-image",     Icon is null && IconTemplate is null);
         PseudoClasses.Set(":no-subtitle",  string.IsNullOrEmpty(Subtitle));
         PseudoClasses.Set(":no-timestamp", string.IsNullOrEmpty(Timestamp));
     }

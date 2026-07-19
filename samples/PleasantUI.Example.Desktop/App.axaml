@@ -1,5 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:dataTemplates="clr-namespace:PleasantUI.Core.DataTemplates;assembly=PleasantUI"
+             xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              x:Class="PleasantUI.Example.Desktop.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,19 +15,27 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://PleasantUI.Example/Assets/Images.axaml" />
                 <ResourceInclude Source="avares://PleasantUI.ToolKit/PleasantUIToolKit.axaml" />
+                <ResourceInclude Source="avares://PleasantUI.DataGrid/DataGrid.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        
+        <dataTemplates:IconTemplateSelector x:Key="IconTemplateSelector">
+            <DataTemplate x:Key="MaterialIcon" DataType="icons:MaterialIconKind">
+                <avalonia:MaterialIcon Kind="{Binding}"
+                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=PleasantIcon}}"
+                                       FontSize="{Binding (IconHelper.IconSize), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
+            </DataTemplate>
+        </dataTemplates:IconTemplateSelector>
     </Application.Resources>
     
     <Application.Styles>
         <PleasantTheme />
-        <StyleInclude Source="avares://PleasantUI.DataGrid/PleasantDataGridTheme.axaml" />
+        
+        <avalonia:MaterialIconStyles />
+        
+        <Style Selector="PleasantIcon">
+            <Setter Property="IconTemplate" Value="{StaticResource IconTemplateSelector}" />
+            <Setter Property="(IconHelper.IconSize)" Value="20" />
+        </Style>
     </Application.Styles>
-
-    <TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon ToolTipText="PleasantUI Example"
-                      Icon="avares://PleasantUI.Example.Desktop/PleasantUIIcon.ico" />
-        </TrayIcons>
-    </TrayIcon.Icons>
 </Application>

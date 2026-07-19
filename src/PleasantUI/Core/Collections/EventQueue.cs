@@ -1,35 +1,52 @@
-﻿namespace PleasantUI.Core.Collections;
+﻿using System.Collections;
+
+namespace PleasantUI.Core.Collections;
 
 /// <summary>
 /// Represents a queue that raises an event when an item is dequeued.
 /// </summary>
 /// <typeparam name="T">The type of elements in the queue.</typeparam>
-public class EventQueue<T> : Queue<T>
+public class EventQueue<T> : IReadOnlyCollection<T>
 {
+    private readonly Queue<T> _internalQueue = new();
+
     /// <summary>
-    /// Occurs when an item is dequeued from the queue.
+    /// Вызывается после того, как элемент был добавлен в очередь.
+    /// </summary>
+    public event EventHandler<T>? Enqueued;
+
+    /// <summary>
+    /// Вызывается после того, как элемент был извлечен из очереди.
     /// </summary>
     public event EventHandler<T>? Dequeued;
 
-    /// <summary>
-    /// Removes and returns the object at the beginning of the queue.
-    /// Raises the <see cref="Dequeued" /> event after dequeuing the item.
-    /// </summary>
-    /// <returns>The object that is removed from the beginning of the queue.</returns>
-    public new T Dequeue()
-    {
-        T item = base.Dequeue();
-        OnItemDequeued(item);
+    public int Count => _internalQueue.Count;
 
+    public void Enqueue(T item)
+    {
+        _internalQueue.Enqueue(item);
+        OnItemEnqueued(item);
+    }
+
+    public T Dequeue()
+    {
+        T item = _internalQueue.Dequeue();
+        OnItemDequeued(item);
         return item;
     }
 
-    /// <summary>
-    /// Raises the <see cref="Dequeued" /> event.
-    /// </summary>
-    /// <param name="item">The item that was dequeued.</param>
+    public T Peek() => _internalQueue.Peek();
+
+    protected virtual void OnItemEnqueued(T item)
+    {
+        Enqueued?.Invoke(this, item);
+    }
+
     protected virtual void OnItemDequeued(T item)
     {
         Dequeued?.Invoke(this, item);
     }
+
+    public IEnumerator<T> GetEnumerator() => _internalQueue.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

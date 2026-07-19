@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
@@ -16,10 +17,11 @@ namespace PleasantUI.Controls;
 /// </summary>
 public class SelectionList : ListBox
 {
+    private TextBlock? _selectionCountText;
+    private TextBlock? _emptyMessageText;
+
     private static readonly FuncTemplate<Panel?> DefaultVerticalPanel =
         new(() => new StackPanel { Orientation = Orientation.Vertical });
-
-    // ── Properties ───────────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="ImageMemberBinding"/> property.</summary>
     public static readonly StyledProperty<BindingBase?> ImageMemberBindingProperty =
@@ -49,8 +51,6 @@ public class SelectionList : ListBox
     /// <summary>Defines the <see cref="ImageTemplate"/> property.</summary>
     public static readonly StyledProperty<IDataTemplate?> ImageTemplateProperty =
         AvaloniaProperty.Register<SelectionList, IDataTemplate?>(nameof(ImageTemplate));
-
-    // ── CLR accessors ────────────────────────────────────────────────────────
 
     /// <summary>Binding path for the image of each item when using <see cref="ItemsControl.ItemsSource"/>.</summary>
     [AssignBinding]
@@ -109,29 +109,18 @@ public class SelectionList : ListBox
         set => SetValue(ImageTemplateProperty, value);
     }
 
-    // ── Template parts ───────────────────────────────────────────────────────
-
-    private TextBlock? _selectionCountText;
-    private TextBlock? _emptyMessageText;
-
-    // ── Static constructor ───────────────────────────────────────────────────
-
-    static SelectionList()
-    {
-        ItemsPanelProperty.OverrideDefaultValue<SelectionList>(DefaultVerticalPanel);
-        SelectionModeProperty.OverrideDefaultValue<SelectionList>(
-            SelectionMode.Multiple | SelectionMode.Toggle);
-
-        OrientationProperty.Changed.AddClassHandler<SelectionList, Orientation>(
-            (s, e) => s.OnOrientationChanged(e.NewValue.Value));
-    }
-
     /// <summary>
     /// Overrides the style key so Avalonia's theme lookup resolves
     /// <see cref="SelectionList"/> instead of the base <see cref="ListBox"/> type.
     /// This ensures our custom ControlTheme is applied rather than the ListBox theme.
     /// </summary>
     protected override Type StyleKeyOverride => typeof(SelectionList);
+
+    static SelectionList()
+    {
+        ItemsPanelProperty.OverrideDefaultValue<SelectionList>(DefaultVerticalPanel);
+        SelectionModeProperty.OverrideDefaultValue<SelectionList>(SelectionMode.Multiple | SelectionMode.Toggle);
+    }
 
     /// <summary>
     /// Initializes a new instance of <see cref="SelectionList"/>.
@@ -145,13 +134,48 @@ public class SelectionList : ListBox
         AttachedToVisualTree += OnAttachedToVisualTree;
     }
 
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == ItemsSourceProperty)
+        {
+            if (e.OldValue is INotifyCollectionChanged oldNcc)
+                oldNcc.CollectionChanged -= OnItemsCollectionChanged;
+            if (e.NewValue is INotifyCollectionChanged newNcc)
+                newNcc.CollectionChanged += OnItemsCollectionChanged;
+
+            UpdateEmptyState();
+        }
+        else if (e.Property == OrientationProperty && e.NewValue is Orientation orientation)
+        {
+            OnOrientationChanged(orientation);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        _selectionCountText = e.NameScope.Find<TextBlock>("PART_SelectionCount");
+        _emptyMessageText = e.NameScope.Find<TextBlock>("PART_EmptyMessage");
+
+        SelectionChanged -= OnSelectionChanged;
+        SelectionChanged += OnSelectionChanged;
+
+        UpdateEmptyState();
+        UpdateSelectionCount();
+    }
+
     private void OnAttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
     {
         AttachedToVisualTree -= OnAttachedToVisualTree;
 
         // Resolve and apply SelectionList control theme
         if (!IsSet(ThemeProperty) &&
-            this.TryFindResource(typeof(SelectionList), ActualThemeVariant, out var listTheme) &&
+            this.TryFindResource(typeof(SelectionList), ActualThemeVariant, out object? listTheme) &&
             listTheme is ControlTheme ct)
         {
             SetCurrentValue(ThemeProperty, ct);
@@ -159,7 +183,7 @@ public class SelectionList : ListBox
 
         // Resolve and apply SelectionListItem container theme
         if (!IsSet(ItemContainerThemeProperty) &&
-            this.TryFindResource(typeof(SelectionListItem), ActualThemeVariant, out var itemTheme) &&
+            this.TryFindResource(typeof(SelectionListItem), ActualThemeVariant, out object? itemTheme) &&
             itemTheme is ControlTheme itemCt)
         {
             SetCurrentValue(ItemContainerThemeProperty, itemCt);
@@ -167,7 +191,8 @@ public class SelectionList : ListBox
     }
 
     /// <inheritdoc />
-    protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)    {
+    protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
+    {
         recycleKey = null;
         return item is not SelectionListItem;
     }
@@ -184,62 +209,24 @@ public class SelectionList : ListBox
         if (container is not SelectionListItem sli) return;
 
         if (ImageMemberBinding is not null)
-            sli.Bind(SelectionListItem.ImageProperty, ImageMemberBinding);
+            sli.Bind(SelectionListItem.IconProperty, ImageMemberBinding);
         if (TitleMemberBinding is not null)
             sli.Bind(SelectionListItem.TitleProperty, TitleMemberBinding);
         if (SubtitleMemberBinding is not null)
             sli.Bind(SelectionListItem.SubtitleProperty, SubtitleMemberBinding);
         if (TimestampMemberBinding is not null)
             sli.Bind(SelectionListItem.TimestampProperty, TimestampMemberBinding);
-        if (ImageTemplate is not null && !sli.IsSet(SelectionListItem.ImageTemplateProperty))
-            sli.SetCurrentValue(SelectionListItem.ImageTemplateProperty, ImageTemplate);
+        if (ImageTemplate is not null && !sli.IsSet(SelectionListItem.IconTemplateProperty))
+            sli.SetCurrentValue(SelectionListItem.IconTemplateProperty, ImageTemplate);
     }
 
-    // ── Template ─────────────────────────────────────────────────────────────
+    private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) => UpdateEmptyState();
 
-    /// <inheritdoc />
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        _selectionCountText = e.NameScope.Find<TextBlock>("PART_SelectionCount");
-        _emptyMessageText   = e.NameScope.Find<TextBlock>("PART_EmptyMessage");
-
-        SelectionChanged -= OnSelectionChanged;
-        SelectionChanged += OnSelectionChanged;
-
-        UpdateEmptyState();
-        UpdateSelectionCount();
-    }
-
-    /// <inheritdoc />
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
-
-        if (change.Property == ItemsSourceProperty)
-        {
-            if (change.OldValue is INotifyCollectionChanged oldNcc)
-                oldNcc.CollectionChanged -= OnItemsCollectionChanged;
-            if (change.NewValue is INotifyCollectionChanged newNcc)
-                newNcc.CollectionChanged += OnItemsCollectionChanged;
-
-            UpdateEmptyState();
-        }
-    }
-
-    // ── Private helpers ──────────────────────────────────────────────────────
-
-    private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        => UpdateEmptyState();
-
-    private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
-        => UpdateSelectionCount();
+    private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e) => UpdateSelectionCount();
 
     private void UpdateEmptyState()
     {
-        if (_emptyMessageText is null) return;
-        _emptyMessageText.IsVisible = !HasItems();
+        _emptyMessageText?.IsVisible = !HasItems();
     }
 
     private void UpdateSelectionCount()
@@ -252,16 +239,20 @@ public class SelectionList : ListBox
 
     private bool HasItems()
     {
-        if (ItemsSource is null) return ItemCount > 0;
-        var e = ItemsSource.GetEnumerator();
+        if (ItemsSource is null)
+            return ItemCount > 0;
+
+        IEnumerator e = ItemsSource.GetEnumerator();
+
         bool has = e.MoveNext();
+
         (e as IDisposable)?.Dispose();
         return has;
     }
 
     private void OnOrientationChanged(Orientation orientation)
     {
-        SetCurrentValue(ItemsPanelProperty, new FuncTemplate<Panel?>(
-            () => new StackPanel { Orientation = orientation }));
+        SetCurrentValue(ItemsPanelProperty,
+            new FuncTemplate<Panel?>(() => new StackPanel { Orientation = orientation }));
     }
 }

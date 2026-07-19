@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
-using System.Linq;
+using Avalonia.Platform;
 
 namespace PleasantUI.Controls;
 
@@ -30,12 +30,12 @@ public class StatusItem
 /// </summary>
 public class PleasantTrayPopup : Window
 {
-    // ── Dismiss ──────────────────────────────────────────────────────────────
+    private Button? _closeButton;
+    private Image? _appIconImage;
+    private ContentPresenter? _appIconPresenter;
 
     /// <summary>Raised when the popup is dismissed (hidden or closed).</summary>
     public event EventHandler? Dismissed;
-
-    // ── Styled properties ─────────────────────────────────────────────────────
 
     public static readonly StyledProperty<CornerRadius> PopupCornerRadiusProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, CornerRadius>(nameof(PopupCornerRadius), new CornerRadius(12));
@@ -55,16 +55,12 @@ public class PleasantTrayPopup : Window
     public static readonly StyledProperty<double> PopupMarginProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, double>(nameof(PopupMargin), 10.0);
 
-    // ── Structured layout toggle ──────────────────────────────────────────────
-
     /// <summary>
     /// When <c>true</c> (default), the template renders the structured header/status/content/footer layout.
     /// Set to <c>false</c> to use fully custom <see cref="ContentControl.Content"/>.
     /// </summary>
     public static readonly StyledProperty<bool> UseStructuredLayoutProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, bool>(nameof(UseStructuredLayout), true);
-
-    // ── Header ────────────────────────────────────────────────────────────────
 
     /// <summary>Icon displayed in the header (e.g. a PathIcon or Image).</summary>
     public static readonly StyledProperty<object?> AppIconProperty =
@@ -90,8 +86,6 @@ public class PleasantTrayPopup : Window
     public static readonly StyledProperty<bool> ShowCloseButtonProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, bool>(nameof(ShowCloseButton), true);
 
-    // ── Status row ────────────────────────────────────────────────────────────
-
     /// <summary>
     /// Optional key/value pairs shown in the status info row below the header.
     /// Each item is a StatusItem with Label and Value properties.
@@ -103,8 +97,6 @@ public class PleasantTrayPopup : Window
     public static readonly StyledProperty<bool> ShowStatusRowProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, bool>(nameof(ShowStatusRow), true);
 
-    // ── Footer ────────────────────────────────────────────────────────────────
-
     /// <summary>Content placed in the footer area (e.g. action buttons).</summary>
     public static readonly StyledProperty<object?> FooterContentProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, object?>(nameof(FooterContent));
@@ -112,8 +104,6 @@ public class PleasantTrayPopup : Window
     /// <summary>Whether the footer section is visible.</summary>
     public static readonly StyledProperty<bool> ShowFooterProperty =
         AvaloniaProperty.Register<PleasantTrayPopup, bool>(nameof(ShowFooter), true);
-
-    // ── Properties ────────────────────────────────────────────────────────────
 
     public CornerRadius PopupCornerRadius
     {
@@ -217,26 +207,18 @@ public class PleasantTrayPopup : Window
         set => SetValue(ShowFooterProperty, value);
     }
 
-    // ── Template parts ────────────────────────────────────────────────────────
-
-    private Button?           _closeButton;
-    private Image?            _appIconImage;
-    private ContentPresenter? _appIconPresenter;
-
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantTrayPopup);
 
-    // ── Constructor ───────────────────────────────────────────────────────────
-
     public PleasantTrayPopup()
     {
-        ShowInTaskbar                     = false;
-        WindowDecorations                 = WindowDecorations.None;
+        ShowInTaskbar = false;
+        WindowDecorations = WindowDecorations.None;
         ExtendClientAreaToDecorationsHint = true;
-        Topmost                           = true;
-        CanResize                         = false;
-        Background                        = Brushes.Transparent;
-        TransparencyLevelHint             =
+        Topmost = true;
+        CanResize = false;
+        Background = Brushes.Transparent;
+        TransparencyLevelHint =
         [
             WindowTransparencyLevel.Transparent,
             WindowTransparencyLevel.None,
@@ -254,8 +236,8 @@ public class PleasantTrayPopup : Window
         if (_closeButton is not null)
             _closeButton.Click -= OnCloseClicked;
 
-        _closeButton      = e.NameScope.Find<Button>("PART_CloseButton");
-        _appIconImage     = e.NameScope.Find<Image>("PART_AppIconImage");
+        _closeButton = e.NameScope.Find<Button>("PART_CloseButton");
+        _appIconImage = e.NameScope.Find<Image>("PART_AppIconImage");
         _appIconPresenter = e.NameScope.Find<ContentPresenter>("PART_AppIconPresenter");
 
         if (_closeButton is not null)
@@ -278,21 +260,19 @@ public class PleasantTrayPopup : Window
         if (_appIconImage is null || _appIconPresenter is null)
             return;
 
-        if (icon is Avalonia.Media.IImage imageSource)
+        if (icon is IImage imageSource)
         {
-            _appIconImage.Source      = imageSource;
-            _appIconImage.IsVisible   = true;
+            _appIconImage.Source = imageSource;
+            _appIconImage.IsVisible = true;
             _appIconPresenter.IsVisible = false;
         }
         else
         {
-            _appIconImage.Source        = null;
-            _appIconImage.IsVisible     = false;
+            _appIconImage.Source = null;
+            _appIconImage.IsVisible = false;
             _appIconPresenter.IsVisible = icon is not null;
         }
     }
-
-    // ── Public API ────────────────────────────────────────────────────────────
 
     /// <summary>
     /// Positions the popup near the system tray (bottom-right of the work area) and shows it.
@@ -301,16 +281,21 @@ public class PleasantTrayPopup : Window
     {
         Measure(new Size(Width > 0 ? Width : 300, double.PositiveInfinity));
 
-        var screen = Screens.Primary;
-        if (screen is null) { Show(); Activate(); return; }
+        Screen? screen = Screens.Primary;
+        if (screen is null)
+        {
+            Show();
+            Activate();
+            return;
+        }
 
-        var    workArea = screen.WorkingArea;
-        double scale    = screen.Scaling;
-        double margin   = PopupMargin;
-        double popupW   = Width > 0 ? Width : 300;
-        double popupH   = DesiredSize.Height > 0 ? DesiredSize.Height : 480;
+        PixelRect workArea = screen.WorkingArea;
+        double scale = screen.Scaling;
+        double margin = PopupMargin;
+        double popupW = Width > 0 ? Width : 300;
+        double popupH = DesiredSize.Height > 0 ? DesiredSize.Height : 480;
 
-        double logicalX = workArea.Right  / scale - popupW - margin;
+        double logicalX = workArea.Right / scale - popupW - margin;
         double logicalY = workArea.Bottom / scale - popupH - margin;
 
         Position = new PixelPoint((int)(logicalX * scale), (int)(logicalY * scale));
@@ -333,8 +318,6 @@ public class PleasantTrayPopup : Window
     {
         return tuples.Select(tuple => new StatusItem(tuple.Label, tuple.Value));
     }
-
-    // ── Private ───────────────────────────────────────────────────────────────
 
     private void OnCloseClicked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         => Dismiss();

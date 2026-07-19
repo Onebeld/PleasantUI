@@ -16,7 +16,7 @@ namespace PleasantUI.Controls.Chrome;
 [TemplatePart("PART_MaximizeButton", typeof(Button))]
 [TemplatePart("PART_MinimizeButton", typeof(Button))]
 [TemplatePart("PART_FullScreenButton", typeof(Button))]
-public class PleasantCaptionButtons : TemplatedControl
+public sealed class PleasantCaptionButtons : TemplatedControl
 {
     /// <summary>
     /// Represents the types of pleasant caption buttons.
@@ -93,41 +93,41 @@ public class PleasantCaptionButtons : TemplatedControl
         if (_fullScreenButton is not null)
             _fullScreenButton.Click += (_, _) => OnToggleFullScreen();
 
-        if (_disposable == null && Host is not null)
+        if (_disposable != null || Host is null)
+            return;
+        
+        _disposable = new CompositeDisposable
         {
-            _disposable = new CompositeDisposable
+            Host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
             {
-                Host.GetObservable(Window.WindowStateProperty).Subscribe(new AnonymousObserver<WindowState>(state =>
-                {
-                    PseudoClasses.Set(":minimized", state == WindowState.Minimized);
-                    PseudoClasses.Set(":normal", state == WindowState.Normal);
-                    PseudoClasses.Set(":maximized", state == WindowState.Maximized);
-                    PseudoClasses.Set(":fullscreen", state == WindowState.FullScreen);
+                PseudoClasses.Set(":minimized", state == WindowState.Minimized);
+                PseudoClasses.Set(":normal", state == WindowState.Normal);
+                PseudoClasses.Set(":maximized", state == WindowState.Maximized);
+                PseudoClasses.Set(":fullscreen", state == WindowState.FullScreen);
 
-                    UpdateButtonVisibility();
-                })),
+                UpdateButtonVisibility();
+            })),
 
-                Host.GetObservable(Window.CanResizeProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
+            Host.GetObservable(Window.CanResizeProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
 
-                Host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(isActive => PseudoClasses.Set(":isactive", !isActive))),
+            Host.GetObservable(WindowBase.IsActiveProperty).Subscribe(new AnonymousObserver<bool>(isActive => PseudoClasses.Set(":isactive", !isActive))),
 
-                Host.GetObservable(PleasantWindow.CaptionButtonsProperty).Subscribe(new AnonymousObserver<Type>(_ => UpdateButtonVisibility())),
+            Host.GetObservable(PleasantWindow.CaptionButtonsProperty).Subscribe(new AnonymousObserver<Type>(_ => UpdateButtonVisibility())),
 
-                Host.GetObservable(PleasantWindow.IsCloseButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
-                Host.GetObservable(PleasantWindow.IsMinimizeButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
-                Host.GetObservable(PleasantWindow.IsRestoreButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
-                Host.GetObservable(PleasantWindow.IsFullScreenButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
-                Host.GetObservable(Window.CanMinimizeProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility()))
-            };
+            Host.GetObservable(PleasantWindow.IsCloseButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
+            Host.GetObservable(PleasantWindow.IsMinimizeButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
+            Host.GetObservable(PleasantWindow.IsRestoreButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
+            Host.GetObservable(PleasantWindow.IsFullScreenButtonVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility())),
+            Host.GetObservable(Window.CanMinimizeProperty).Subscribe(new AnonymousObserver<bool>(_ => UpdateButtonVisibility()))
+        };
 
-            UpdateButtonVisibility();
-        }
+        UpdateButtonVisibility();
     }
 
     /// <summary>
     /// Toggles full-screen mode, restoring the previous window state when leaving full-screen.
     /// </summary>
-    protected virtual void OnToggleFullScreen()
+    private void OnToggleFullScreen()
     {
         if (Host is null) return;
 
@@ -148,7 +148,7 @@ public class PleasantCaptionButtons : TemplatedControl
         if (Host is null || _closeButton is null || _maximizeButton is null || _minimizeButton is null)
             return;
 
-        var state = Host.WindowState;
+        WindowState state = Host.WindowState;
         bool isFullScreen = state == WindowState.FullScreen;
 
         // In fullscreen: only Close and FullScreen button are relevant
@@ -157,8 +157,7 @@ public class PleasantCaptionButtons : TemplatedControl
             _minimizeButton.IsVisible = false;
             _maximizeButton.IsVisible = false;
             _closeButton.IsVisible = Host.IsCloseButtonVisible;
-            if (_fullScreenButton is not null)
-                _fullScreenButton.IsVisible = Host.IsFullScreenButtonVisible;
+            _fullScreenButton?.IsVisible = Host.IsFullScreenButtonVisible;
             return;
         }
 
@@ -167,25 +166,25 @@ public class PleasantCaptionButtons : TemplatedControl
         {
             case Type.None:
                 _closeButton.IsVisible = _maximizeButton.IsVisible = _minimizeButton.IsVisible = false;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
             case Type.Close:
                 _minimizeButton.IsVisible = false;
                 _maximizeButton.IsVisible = false;
                 _closeButton.IsVisible = Host.IsCloseButtonVisible;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
             case Type.CloseAndCollapse:
                 _maximizeButton.IsVisible = false;
                 _minimizeButton.IsVisible = Host.CanMinimize && Host.IsMinimizeButtonVisible;
                 _closeButton.IsVisible = Host.IsCloseButtonVisible;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
             case Type.CloseAndExpand:
                 _minimizeButton.IsVisible = false;
                 _maximizeButton.IsVisible = Host.CanResize && Host.IsRestoreButtonVisible;
                 _closeButton.IsVisible = Host.IsCloseButtonVisible;
-                if (_fullScreenButton is not null) _fullScreenButton.IsVisible = false;
+                _fullScreenButton?.IsVisible = false;
                 return;
         }
 
@@ -193,8 +192,7 @@ public class PleasantCaptionButtons : TemplatedControl
         _closeButton.IsVisible = Host.IsCloseButtonVisible;
         _maximizeButton.IsVisible = Host.CanResize && Host.IsRestoreButtonVisible;
         _minimizeButton.IsVisible = Host.CanMinimize && Host.IsMinimizeButtonVisible;
-        if (_fullScreenButton is not null)
-            _fullScreenButton.IsVisible = Host.IsFullScreenButtonVisible;
+        _fullScreenButton?.IsVisible = Host.IsFullScreenButtonVisible;
     }
 
     /// <summary>

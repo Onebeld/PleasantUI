@@ -23,7 +23,7 @@ public partial class SelectionListPageView : LocalizedUserControl
 
     private static ObservableCollection<SelectionListItem> CreateItems()
     {
-        // Each item gets a colored placeholder panel as its ImageTemplate
+        // Each item gets a colored placeholder panel as its IconTemplate
         // since we have no bundled photo assets — this demonstrates the image slot robustly
         (string title, string subtitle, string timestamp, Color color, string initial)[] data =
         [
@@ -34,19 +34,19 @@ public partial class SelectionListPageView : LocalizedUserControl
             ("Desert Dunes",      "Landscape · Arid",     "2023-11-22 11:20", Color.FromRgb(0xFF, 0x98, 0x00), "D"),
         ];
 
-        var items = new ObservableCollection<SelectionListItem>();
-        foreach (var (title, subtitle, timestamp, color, initial) in data)
+        ObservableCollection<SelectionListItem> items = new();
+        foreach ((string title, string subtitle, string timestamp, Color color, string initial) in data)
         {
-            var item = new SelectionListItem
+            SelectionListItem item = new()
             {
                 Title     = title,
                 Subtitle  = subtitle,
                 Timestamp = timestamp,
             };
 
-            // Build a colored placeholder as the ImageTemplate content
-            var brush = new SolidColorBrush(color);
-            item.ImageTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<object>((_, _) =>
+            // Build a colored placeholder as the IconTemplate content
+            SolidColorBrush brush = new(color);
+            item.IconTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<object>((_, _) =>
                 new Border
                 {
                     Background = brush,

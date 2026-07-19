@@ -3,14 +3,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:PleasantUI.Example.Views"
+             xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             ClipToBounds="False"
              x:Class="PleasantUI.Example.MainView">
     <Panel>
-        <NavigationView x:Name="MainNavigationView">
-
+        <NavigationView x:Name="MainNavigationView" BindWindowSettings="True">
             <NavigationViewItem x:Name="HomeNavItem"
                                 Header="{Localize Home}"
-                                Icon="{x:Static MaterialIcons.HomeOutline}"
+                                Icon="{x:Static icons:MaterialIconKind.HomeOutline}"
                                 IsOpen="True"
                                 SelectOnClose="True">
                 <NavigationViewItem.Content>
@@ -18,73 +19,73 @@
                 </NavigationViewItem.Content>
 
                 <NavigationViewItem Header="{Localize BasicControls}"
-                                    Icon="{x:Static MaterialIcons.ViewGridOutline}">
-                    <NavigationViewItem Tag="Button"        Header="{Localize CardTitle/Button}"        Icon="{x:Static MaterialIcons.ButtonCursor}" />
-                    <NavigationViewItem Tag="Checkbox"      Header="{Localize CardTitle/Checkbox}"      Icon="{x:Static MaterialIcons.CheckboxMarkedOutline}" />
-                    <NavigationViewItem Tag="Progress"      Header="{Localize CardTitle/Progress}"      Icon="{x:Static MaterialIcons.ProgressHelper}" />
-                    <NavigationViewItem Tag="Calendar"      Header="{Localize CardTitle/Calendar}"      Icon="{x:Static MaterialIcons.CalendarOutline}" />
-                    <NavigationViewItem Tag="Carousel"      Header="{Localize CardTitle/Carousel}"      Icon="{x:Static MaterialIcons.ViewCarouselOutline}" />
-                    <NavigationViewItem Tag="ComboBox"      Header="{Localize CardTitle/ComboBox}"      Icon="{x:Static MaterialIcons.ExpandAllOutline}" />
-                    <NavigationViewItem Tag="TextBox"       Header="{Localize CardTitle/TextBox}"       Icon="{x:Static MaterialIcons.FormTextbox}" />
-                    <NavigationViewItem Tag="DataGrid"      Header="{Localize CardTitle/DataGrid}"      Icon="{x:Static MaterialIcons.Grid}" />
-                    <NavigationViewItem Tag="PinCode"       Header="{Localize CardTitle/PinCode}"       Icon="{x:Static MaterialIcons.KeyboardOutline}" />
-                    <NavigationViewItem Tag="SelectionList" Header="{Localize CardTitle/SelectionList}" Icon="{x:Static MaterialIcons.ViewListOutline}" />
+                                    Icon="{x:Static icons:MaterialIconKind.ViewGridOutline}">
+                    <NavigationViewItem Tag="Button"        Header="{Localize CardTitle/Button}"        Icon="{x:Static icons:MaterialIconKind.ButtonCursor}" />
+                    <NavigationViewItem Tag="Checkbox"      Header="{Localize CardTitle/Checkbox}"      Icon="{x:Static icons:MaterialIconKind.CheckboxMarkedOutline}" />
+                    <NavigationViewItem Tag="Progress"      Header="{Localize CardTitle/Progress}"      Icon="{x:Static icons:MaterialIconKind.ProgressHelper}" />
+                    <NavigationViewItem Tag="Calendar"      Header="{Localize CardTitle/Calendar}"      Icon="{x:Static icons:MaterialIconKind.CalendarOutline}" />
+                    <NavigationViewItem Tag="Carousel"      Header="{Localize CardTitle/Carousel}"      Icon="{x:Static icons:MaterialIconKind.ViewCarouselOutline}" />
+                    <NavigationViewItem Tag="ComboBox"      Header="{Localize CardTitle/ComboBox}"      Icon="{x:Static icons:MaterialIconKind.ExpandAllOutline}" />
+                    <NavigationViewItem Tag="TextBox"       Header="{Localize CardTitle/TextBox}"       Icon="{x:Static icons:MaterialIconKind.FormTextbox}" />
+                    <NavigationViewItem Tag="DataGrid"      Header="{Localize CardTitle/DataGrid}"      Icon="{x:Static icons:MaterialIconKind.Grid}" />
+                    <NavigationViewItem Tag="PinCode"       Header="{Localize CardTitle/PinCode}"       Icon="{x:Static icons:MaterialIconKind.KeyboardOutline}" />
+                    <NavigationViewItem Tag="SelectionList" Header="{Localize CardTitle/SelectionList}" Icon="{x:Static icons:MaterialIconKind.ViewListOutline}" />
+                    <NavigationViewItem Tag="TableView" Header="{Localize CardTitle/TableView}" Icon="{x:Static icons:MaterialIconKind.Table}" />
+                    <NavigationViewItem Tag="CommandBar" Header="{Localize CardTitle/CommandBar}" Icon="{x:Static icons:MaterialIconKind.ViewGridOutline}" />
+                    <NavigationViewItem Tag="NavigationPage" Header="{Localize CardTitle/NavigationPage}" Icon="{x:Static icons:MaterialIconKind.Navigation}" />
                 </NavigationViewItem>
 
                 <NavigationViewItem Header="{Localize PleasantControls}"
-                                    Icon="{x:Static MaterialIcons.StarOutline}">
-                    <NavigationViewItem Tag="PleasantSnackbar"   Header="{Localize CardTitle/PleasantSnackbar}"   Icon="{x:Static MaterialIcons.InformationOutline}" />
-                    <NavigationViewItem Tag="InformationBlock"   Header="{Localize CardTitle/InformationBlock}"   Icon="{x:Static MaterialIcons.InformationBoxOutline}" />
-                    <NavigationViewItem Tag="OptionsDisplayItem" Header="{Localize CardTitle/OptionsDisplayItem}" Icon="{x:Static MaterialIcons.ViewListOutline}" />
-                    <NavigationViewItem Tag="PleasantTabView"    Header="{Localize CardTitle/PleasantTabView}"    Icon="{x:Static MaterialIcons.Tab}" />
-                    <NavigationViewItem Tag="PleasantMenu"       Header="{Localize CardTitle/PleasantMenu}"       Icon="{x:Static MaterialIcons.MenuOpen}" />
-                    <NavigationViewItem Tag="Timeline"           Header="{Localize CardTitle/Timeline}"           Icon="{x:Static MaterialIcons.TimelineOutline}" />
-                    <NavigationViewItem Tag="InstallWizard"      Header="{Localize CardTitle/InstallWizard}"      Icon="{x:Static MaterialIcons.WizardHat}" />
-                    <NavigationViewItem Tag="PleasantDrawer"     Header="{Localize CardTitle/PleasantDrawer}"     Icon="{x:Static MaterialIcons.DrawingBox}" />
-                    <NavigationViewItem Tag="PopConfirm"         Header="{Localize CardTitle/PopConfirm}"         Icon="{x:Static MaterialIcons.CheckboxMarkedCircle}" />
-                    <NavigationViewItem Tag="PathPicker"         Header="{Localize CardTitle/PathPicker}"         Icon="{x:Static MaterialIcons.FolderOpenOutline}" />
-                    <NavigationViewItem Tag="PleasantMiniWindow" Header="{Localize CardTitle/PleasantMiniWindow}" Icon="{x:Static MaterialIcons.WindowMinimize}" />
-                    <NavigationViewItem Tag="BreadcrumbBar"      Header="{Localize CardTitle/BreadcrumbBar}"      Icon="{x:Static MaterialIcons.PageNextOutline}" />
-                    <NavigationViewItem Tag="CommandBar"         Header="{Localize CardTitle/CommandBar}"         Icon="{x:Static MaterialIcons.ViewGridOutline}" />
-                    <NavigationViewItem Tag="DashboardCard"      Header="{Localize CardTitle/DashboardCard}"      Icon="{x:Static MaterialIcons.ViewDashboardOutline}" />
-                    <NavigationViewItem Tag="LogViewerPanel"     Header="{Localize CardTitle/LogViewerPanel}"     Icon="{x:Static MaterialIcons.TextBoxOutline}" />
-                    <NavigationViewItem Tag="TerminalPanel"      Header="{Localize CardTitle/TerminalPanel}"      Icon="{x:Static MaterialIcons.ConsoleLine}" />
-                    <NavigationViewItem Tag="TreeViewPanel"      Header="{Localize CardTitle/TreeViewPanel}"      Icon="{x:Static MaterialIcons.FileTreeOutline}" />
-                    <NavigationViewItem Tag="ItemListPanel"      Header="{Localize CardTitle/ItemListPanel}"      Icon="{x:Static MaterialIcons.FormatListBulletedType}" />
-                    <NavigationViewItem Tag="PropertyGrid"       Header="{Localize CardTitle/PropertyGrid}"       Icon="{x:Static MaterialIcons.TableColumnPlusAfter}" />
-                    <NavigationViewItem Tag="DownloadPanel"      Header="{Localize CardTitle/DownloadPanel}"      Icon="{x:Static MaterialIcons.DownloadOutline}" />
-                    <NavigationViewItem Tag="CrashReportDialog"  Header="{Localize CardTitle/CrashReportDialog}"  Icon="{x:Static MaterialIcons.BugOutline}" />
+                                    Icon="{x:Static icons:MaterialIconKind.StarOutline}">
+                    <NavigationViewItem Tag="PleasantSnackbar"   Header="{Localize CardTitle/PleasantSnackbar}"   Icon="{x:Static icons:MaterialIconKind.InformationOutline}"  />
+                    <NavigationViewItem Tag="InformationBlock"   Header="{Localize CardTitle/InformationBlock}"   Icon="{x:Static icons:MaterialIconKind.InformationBoxOutline}" />
+                    <NavigationViewItem Tag="OptionsDisplayItem" Header="{Localize CardTitle/OptionsDisplayItem}" Icon="{x:Static icons:MaterialIconKind.ViewListOutline}" />
+                    <NavigationViewItem Tag="PleasantTabView"    Header="{Localize CardTitle/PleasantTabView}"    Icon="{x:Static icons:MaterialIconKind.Tab}" />
+                    <NavigationViewItem Tag="PleasantMenu"       Header="{Localize CardTitle/PleasantMenu}"       Icon="{x:Static icons:MaterialIconKind.MenuOpen}" />
+                    <NavigationViewItem Tag="Timeline"           Header="{Localize CardTitle/Timeline}"           Icon="{x:Static icons:MaterialIconKind.TimelineOutline}" />
+                    <NavigationViewItem Tag="InstallWizard"      Header="{Localize CardTitle/InstallWizard}"      Icon="{x:Static icons:MaterialIconKind.WizardHat}" />
+                    <NavigationViewItem Tag="PleasantDrawer"     Header="{Localize CardTitle/PleasantDrawer}"     Icon="{x:Static icons:MaterialIconKind.DrawingBox}" />
+                    <NavigationViewItem Tag="PopConfirm"         Header="{Localize CardTitle/PopConfirm}"         Icon="{x:Static icons:MaterialIconKind.CheckboxMarkedCircle}" />
+                    <NavigationViewItem Tag="PathPicker"         Header="{Localize CardTitle/PathPicker}"         Icon="{x:Static icons:MaterialIconKind.FolderOpenOutline}" />
+                    <NavigationViewItem Tag="PleasantMiniWindow" Header="{Localize CardTitle/PleasantMiniWindow}" Icon="{x:Static icons:MaterialIconKind.WindowMinimize}" />
+                    <NavigationViewItem Tag="BreadcrumbBar" Header="{Localize {x:Static LocKey.CardTitle__BreadcrumbBar}}"      Icon="{x:Static icons:MaterialIconKind.PageNextOutline}" />
+                    <NavigationViewItem Tag="DashboardCard"      Header="{Localize CardTitle/DashboardCard}"      Icon="{x:Static icons:MaterialIconKind.ViewDashboardOutline}" />
+                    <NavigationViewItem Tag="LogViewerPanel"     Header="{Localize CardTitle/LogViewerPanel}"     Icon="{x:Static icons:MaterialIconKind.TextBoxOutline}" />
+                    <NavigationViewItem Tag="TerminalPanel"      Header="{Localize CardTitle/TerminalPanel}"      Icon="{x:Static icons:MaterialIconKind.ConsoleLine}" />
+                    <NavigationViewItem Tag="TreeViewPanel"      Header="{Localize CardTitle/TreeViewPanel}"      Icon="{x:Static icons:MaterialIconKind.FileTreeOutline}" />
+                    <NavigationViewItem Tag="PropertyGrid"       Header="{Localize CardTitle/PropertyGrid}"       Icon="{x:Static icons:MaterialIconKind.TableColumnPlusAfter}" />
+                    <NavigationViewItem Tag="DownloadPanel"      Header="{Localize CardTitle/DownloadPanel}"      Icon="{x:Static icons:MaterialIconKind.DownloadOutline}" />
+                    <NavigationViewItem Tag="CrashReportDialog"  Header="{Localize CardTitle/CrashReportDialog}"  Icon="{x:Static icons:MaterialIconKind.BugOutline}" />
                 </NavigationViewItem>
 
                 <NavigationViewItem Header="{Localize ToolKit}"
-                                    Icon="{x:Static MaterialIcons.WrenchOutline}">
-                    <NavigationViewItem Tag="MessageBox"  Header="{Localize CardTitle/MessageBox}"  Icon="{x:Static MaterialIcons.MessageOutline}" />
-                    <NavigationViewItem Tag="NoticeDialog" Header="{Localize CardTitle/NoticeDialog}" Icon="{x:Static MaterialIcons.InformationOutline}" />
-                    <NavigationViewItem Tag="StepDialog"  Header="{Localize CardTitle/StepDialog}"  Icon="{x:Static MaterialIcons.OrderNumericAscending}" />
-                    <NavigationViewItem Tag="Docking"     Header="{Localize CardTitle/Docking}"     Icon="{x:Static MaterialIcons.ViewDashboardOutline}" />
+                                    Icon="{x:Static icons:MaterialIconKind.WrenchOutline}">
+                    <NavigationViewItem Tag="MessageBox"  Header="{Localize CardTitle/MessageBox}"  Icon="{x:Static icons:MaterialIconKind.MessageOutline}" />
+                    <NavigationViewItem Tag="NoticeDialog" Header="{Localize CardTitle/NoticeDialog}" Icon="{x:Static icons:MaterialIconKind.InformationOutline}" />
+                    <NavigationViewItem Tag="StepDialog"  Header="{Localize CardTitle/StepDialog}"  Icon="{x:Static icons:MaterialIconKind.OrderNumericAscending}" />
                 </NavigationViewItem>
             </NavigationViewItem>
-
-            <NavigationViewItem x:Name="AboutNavItem"
-                                Header="{Localize About}"
-                                Icon="{x:Static MaterialIcons.InformationOutline}"
-                                DockPanel.Dock="Bottom">
-                <NavigationViewItem.Content>
-                    <views:AboutView/>
-                </NavigationViewItem.Content>
-            </NavigationViewItem>
-
-            <NavigationViewItem x:Name="SettingsNavItem"
-                                Header="{Localize Settings}"
-                                DockPanel.Dock="Bottom"
-                                Icon="{x:Static MaterialIcons.CogOutline}"
-                                Margin="0 0 0 5">
-                <NavigationViewItem.Content>
-                    <views:SettingsView/>
-                </NavigationViewItem.Content>
-            </NavigationViewItem>
+            
+            <NavigationView.BottomItems>
+                <NavigationViewItem x:Name="SettingsNavItem"
+                                    Header="{Localize Settings}"
+                                    Icon="{x:Static icons:MaterialIconKind.CogOutline}"
+                                    Margin="0 0 0 5">
+                    <NavigationViewItem.Content>
+                        <views:SettingsView/>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItem x:Name="AboutNavItem"
+                                    Header="{Localize About}"
+                                    Icon="{x:Static icons:MaterialIconKind.InformationOutline}">
+                    <NavigationViewItem.Content>
+                        <views:AboutView/>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+            </NavigationView.BottomItems>
         </NavigationView>
-
+        
         <OnFormFactor>
             <OnFormFactor.Default>
                 <Control />

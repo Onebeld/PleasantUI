@@ -29,14 +29,13 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*">
-
+                <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*" TemplatedControl.IsTemplateFocusTarget="True">
                     <ContentPresenter x:Name="PART_ContentPresenter"
                                       Grid.Row="0"
                                       VerticalAlignment="Top"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Margin="{DynamicResource ToggleSwitchTopHeaderMargin}"
+                                      Margin="0 0 0 6"
                                       RecognizesAccessKey="True" />
 
                     <Grid Grid.Row="1"
@@ -44,9 +43,9 @@
                           VerticalAlignment="Top">
 
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="{DynamicResource ToggleSwitchPreContentMargin}" />
+                            <RowDefinition Height="6" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="{DynamicResource ToggleSwitchPostContentMargin}" />
+                            <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -54,15 +53,6 @@
                             <ColumnDefinition Width="12" MaxWidth="12" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
-                        <Grid Grid.Row="0"
-                              Grid.Column="0"
-                              x:Name="SwitchAreaGrid"
-                              Grid.RowSpan="3"
-                              Grid.ColumnSpan="3"
-                              Background="{DynamicResource ToggleSwitchContainerBackground}"
-                              Margin="0,5"
-                              TemplatedControl.IsTemplateFocusTarget="True" />
 
                         <ContentPresenter Grid.Row="0"
                                           x:Name="PART_OffContentPresenter"
@@ -115,13 +105,12 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*">
-
                         <ContentPresenter x:Name="PART_ContentPresenter"
                                           Grid.Row="0"
                                           VerticalAlignment="Top"
                                           Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Margin="{DynamicResource ToggleSwitchTopHeaderMargin}"
+                                          Margin="0 0 0 6"
                                           RecognizesAccessKey="True" />
 
                         <Grid Grid.Row="1"
@@ -129,9 +118,9 @@
                               VerticalAlignment="Top">
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="{DynamicResource ToggleSwitchPreContentMargin}" />
+                                <RowDefinition Height="6" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{DynamicResource ToggleSwitchPostContentMargin}" />
+                                <RowDefinition Height="6" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
@@ -139,15 +128,6 @@
                                 <ColumnDefinition Width="12" MaxWidth="12" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Row="0"
-                                  Grid.Column="0"
-                                  x:Name="SwitchAreaGrid"
-                                  Grid.RowSpan="3"
-                                  Grid.ColumnSpan="3"
-                                  Background="{DynamicResource ToggleSwitchContainerBackground}"
-                                  Margin="0,5"
-                                  TemplatedControl.IsTemplateFocusTarget="True" />
 
                             <ContentPresenter Grid.Row="0"
                                               x:Name="PART_OffContentPresenter"
@@ -216,7 +196,7 @@
         </Style>
 
         <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
-            <Setter Property="Fill" Value="{ForegroundBasedAccent AccentLightColor2}" />
+            <Setter Property="Fill" Value="{ForegroundBased AccentLightColor2}" />
         </Style>
 
         <Style Selector="^ /template/ Border#OuterBorder">

@@ -5,60 +5,56 @@
              xmlns:controls="clr-namespace:PleasantUI.Controls;assembly=PleasantUI"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.PropertyGridPageView">
+    <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+        <TextBlock Text="{Localize PropertyGrid/Description}"
+                   TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
 
-    <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="16 8 16 16" Spacing="16" MaxWidth="680">
+        <!-- Download info -->
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Text="{Localize PropertyGrid/DownloadTitle}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <controls:PropertyGrid RowSpacing="10">
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelUrl}"
+                                          Value="https://example.com/release/v2.1.0/setup.exe"
+                                          ValueKind="Link"
+                                          ToolTipText="https://example.com/release/v2.1.0/setup.exe" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelFileName}" Value="setup_v2.1.0.exe" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelSaveTo}" Value="C:\Users\User\Downloads"
+                                          ValueKind="Link" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelSize}" Value="128.4 MB" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelDownloaded}" Value="54.2 MB  (42%)" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelSpeed}" Value="3.8 MB/s" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelElapsed}" Value="00:00:14" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelTimeLeft}" Value="00:00:19" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelResume}"
+                                          Value="Yes"
+                                          ValueKind="Status"
+                                          ValueBrush="{DynamicResource SystemFillColorSuccess}" />
+                </controls:PropertyGrid>
+            </StackPanel>
+        </Border>
 
-            <TextBlock Text="{Localize PropertyGrid/Description}"
-                       TextWrapping="Wrap" Foreground="{DynamicResource TextFillColor2}" />
-
-            <!-- Download info -->
-            <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
-                <StackPanel Spacing="12">
-                    <TextBlock Text="{Localize PropertyGrid/DownloadTitle}"
-                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
-                    <controls:PropertyGrid RowSpacing="10">
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelUrl}"
-                                              Value="https://example.com/release/v2.1.0/setup.exe"
-                                              ValueKind="Link"
-                                              ToolTipText="https://example.com/release/v2.1.0/setup.exe" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelFileName}"   Value="setup_v2.1.0.exe" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSaveTo}"     Value="C:\Users\User\Downloads"
-                                              ValueKind="Link" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSize}"        Value="128.4 MB" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelDownloaded}"  Value="54.2 MB  (42%)" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSpeed}"       Value="3.8 MB/s" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelElapsed}"     Value="00:00:14" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelTimeLeft}"   Value="00:00:19" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelResume}"
-                                              Value="Yes"
-                                              ValueKind="Status"
-                                              ValueBrush="{DynamicResource SystemFillColorSuccess}" />
-                    </controls:PropertyGrid>
-                </StackPanel>
-            </Border>
-
-            <!-- Exception info -->
-            <Border Background="{DynamicResource ControlFillColor1}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
-                <StackPanel Spacing="12">
-                    <TextBlock Text="{Localize PropertyGrid/ExceptionTitle}"
-                               Theme="{DynamicResource BodyStrongTextBlockTheme}" />
-                    <controls:PropertyGrid RowSpacing="10">
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelApplication}" Value="MyApp" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelVersion}"     Value="2.1.0" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelOccurredAt}" Value="2025-04-09 14:32:01" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelType}"        Value="System.NullReferenceException" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelSource}"      Value="MyApp.Core" />
-                        <controls:PropertyRow Label="{Localize PropertyGrid/LabelStatus}"
-                                              Value="Unhandled"
-                                              ValueKind="Status"
-                                              ValueBrush="{DynamicResource SystemFillColorCritical}" />
-                    </controls:PropertyGrid>
-                </StackPanel>
-            </Border>
-
-        </StackPanel>
-    </SmoothScrollViewer>
+        <!-- Exception info -->
+        <Border Background="{DynamicResource ControlFillColor1}"
+                CornerRadius="{DynamicResource ControlCornerRadius}" Padding="16">
+            <StackPanel Spacing="12">
+                <TextBlock Text="{Localize PropertyGrid/ExceptionTitle}"
+                           Theme="{StaticResource BodyStrongTextBlockTheme}" />
+                <controls:PropertyGrid RowSpacing="10">
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelApplication}" Value="MyApp" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelVersion}" Value="2.1.0" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelOccurredAt}" Value="2025-04-09 14:32:01" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelType}"
+                                          Value="System.NullReferenceException" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelSource}" Value="MyApp.Core" />
+                    <controls:PropertyRow Label="{Localize PropertyGrid/LabelStatus}"
+                                          Value="Unhandled"
+                                          ValueKind="Status"
+                                          ValueBrush="{DynamicResource SystemFillColorCritical}" />
+                </controls:PropertyGrid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </UserControl>

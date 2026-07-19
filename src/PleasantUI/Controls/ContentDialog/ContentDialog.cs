@@ -22,21 +22,18 @@ namespace PleasantUI.Controls;
 public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 {
     private object? _dialogResult;
-    private IInputElement? _lastFocus;
+    private InputElement? _lastFocus;
     private Border? _modalBackground;
     private Panel? _panel;
-        
-    private bool _isClosed;
-    private bool _isClosing;
-    
+
     private AvaloniaList<PleasantPopupElement>? _modalWindows;
-    
+
     /// <summary>
     /// Defines the <see cref="BottomPanelContent" /> property.
     /// </summary>
     public static readonly StyledProperty<object> BottomPanelContentProperty =
         AvaloniaProperty.Register<ContentDialog, object>(nameof(BottomPanelContent));
-    
+
     /// <summary>
     /// Defines the WindowClosed event.
     /// </summary>
@@ -48,7 +45,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </summary>
     public static readonly RoutedEvent WindowOpenedEvent =
         RoutedEvent.Register<ContentDialog, RoutedEventArgs>("WindowOpened", RoutingStrategies.Direct);
-    
+
     /// <summary>
     /// Defines the <see cref="IsClosed"/> property.
     /// </summary>
@@ -61,7 +58,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </summary>
     public static readonly DirectProperty<ContentDialog, bool> IsClosingProperty =
         AvaloniaProperty.RegisterDirect<ContentDialog, bool>(nameof(IsClosing), o => o.IsClosing);
-    
+
     /// <summary>
     /// Defines the <see cref="OpenAnimation"/> property.
     /// </summary>
@@ -94,7 +91,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         get => GetValue(BottomPanelContentProperty);
         set => SetValue(BottomPanelContentProperty, value);
     }
-    
+
     /// <summary>
     /// Gets or sets a value indicating that the window has been closed.
     /// </summary>
@@ -103,8 +100,8 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </value>
     public bool IsClosed
     {
-        get => _isClosed;
-        set => SetAndRaise(IsClosedProperty, ref _isClosed, value);
+        get;
+        set => SetAndRaise(IsClosedProperty, ref field, value);
     }
 
     /// <summary>
@@ -115,10 +112,10 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </value>
     public bool IsClosing
     {
-        get => _isClosing;
-        set => SetAndRaise(IsClosingProperty, ref _isClosing, value);
+        get;
+        set => SetAndRaise(IsClosingProperty, ref field, value);
     }
-    
+
     /// <summary>
     /// Set the animation when opening a modal window.
     /// </summary>
@@ -154,12 +151,17 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         get => GetValue(CloseAnimationProperty);
         set => SetValue(CloseAnimationProperty, value);
     }
-    
+
     /// <summary>
     /// Raised when the modal window is closed.
     /// </summary>
     public event EventHandler? Closed;
-    
+
+    static ContentDialog()
+    {
+        ClipToBoundsProperty.OverrideDefaultValue<ContentDialog>(false);
+    }
+
     /// <summary>
     /// Shows the dialog asynchronously.
     /// </summary>
@@ -178,15 +180,16 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </summary>
     /// <param name="pleasantWindow">The window to show the dialog on.</param>
     /// <returns>A task that represents the asynchronous show operation.</returns>
-    public Task ShowAsync(IPleasantWindow pleasantWindow) => ShowAsyncCoreForTopLevel<object>(pleasantWindow as TopLevel);
-    
+    public Task ShowAsync(IPleasantWindow pleasantWindow) =>
+        ShowAsyncCoreForTopLevel<object>(pleasantWindow as TopLevel);
+
     /// <summary>
     /// Shows the dialog asynchronously on the specified window.
     /// </summary>
     /// <param name="topLevel">The window to show the dialog on.</param>
     /// <returns>A task that represents the asynchronous show operation.</returns>
-    public Task ShowAsync(TopLevel topLevel) => ShowAsyncCoreForTopLevel<object>(topLevel);
-    
+    public Task ShowAsync(TopLevel? topLevel) => ShowAsyncCoreForTopLevel<object>(topLevel);
+
     /// <summary>
     /// Shows the dialog asynchronously.
     /// </summary>
@@ -205,7 +208,8 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// </summary>
     /// <param name="pleasantWindow">The window to show the dialog on.</param>
     /// <returns>A task that represents the asynchronous show operation.</returns>
-    public Task<T?> ShowAsync<T>(IPleasantWindow pleasantWindow) => ShowAsyncCoreForTopLevel<T>(pleasantWindow as TopLevel);
+    public Task<T?> ShowAsync<T>(IPleasantWindow pleasantWindow) =>
+        ShowAsyncCoreForTopLevel<T>(pleasantWindow as TopLevel);
 
     /// <summary>
     /// Shows the dialog asynchronously on the specified window.
@@ -213,7 +217,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     /// <param name="topLevel">The window to show the dialog on.</param>
     /// <returns>A task that represents the asynchronous show operation.</returns>
     public Task<T?> ShowAsync<T>(TopLevel topLevel) => ShowAsyncCoreForTopLevel<T>(topLevel);
-    
+
     /// <summary>
     /// Closes the window.
     /// </summary>
@@ -231,7 +235,7 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         _dialogResult = dialogResult;
         await CloseAsync(false);
     }
-    
+
     private async Task CloseAsync(bool ignoreCancel)
     {
         bool close = true;
@@ -248,11 +252,11 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
                 OnClosed();
 
                 _modalWindows?.Remove(this);
-                
+
                 PseudoClasses.Set(":close", true);
 
                 IsHitTestVisible = false;
-                
+
                 if (_modalBackground != null)
                 {
                     _modalBackground.IsHitTestVisible = false;
@@ -265,10 +269,14 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
 
                 if (_lastFocus is not null)
                 {
+                    if (_lastFocus is Visual { IsEffectivelyVisible: true })
+                    {
+                        _lastFocus.Focus();
+                    }
                     _lastFocus.Focus();
                     _lastFocus = null;
                 }
-                
+
                 base.DeleteCoreForTopLevel();
             }
         }
@@ -277,17 +285,17 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     private async Task<T?> ShowAsyncCoreForTopLevel<T>(TopLevel? topLevel)
     {
         _modalWindows = WindowHelper.GetModalWindows(topLevel);
-        
+
         TaskCompletionSource<T?> taskCompletionSource = new();
 
         _panel = new Panel();
-        
+
         _modalBackground = new Border
         {
             Background = new SolidColorBrush(Color.Parse("#3A000000")),
             Opacity = 0
         };
-        
+
         _panel.Children.Add(_modalBackground);
         _panel.Children.Add(this);
 
@@ -297,14 +305,20 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         base.ShowCoreForTopLevel(topLevel);
 
         _modalWindows?.Add(this);
-        _lastFocus = topLevel?.FocusManager?.GetFocusedElement();
+        _lastFocus = topLevel?.FocusManager.GetFocusedElement() as InputElement;
 
         Closed += (_, _) =>
-{
-    try { taskCompletionSource.TrySetResult(_dialogResult is T result ? result : default); }
-    catch { taskCompletionSource.TrySetResult(default); }
-};
-
+        {
+            try
+            {
+                taskCompletionSource.TrySetResult(_dialogResult is T result ? result : default);
+            }
+            catch
+            {
+                taskCompletionSource.TrySetResult(default);
+            }
+        };
+        
         return await taskCompletionSource.Task;
     }
 
@@ -318,34 +332,45 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
         if (children.Count == 0)
             return (false, null);
 
-        IInputElement? current = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
+        IInputElement? current = TopLevel.GetTopLevel(this)?.FocusManager.GetFocusedElement();
         if (current == null)
             return (false, null);
 
-        if (direction == NavigationDirection.Next)
-            for (int i = 0; i < children.Count; i++)
+        switch (direction)
+        {
+            case NavigationDirection.Next:
             {
-                if (children[i] != current) continue;
+                for (int i = 0; i < children.Count; i++)
+                {
+                    if (children[i] != current) continue;
 
-                if (i == children.Count - 1)
-                    return (true, children[0]);
+                    if (i == children.Count - 1)
+                        return (true, children[0]);
 
-                return (true, children[i + 1]);
+                    return (true, children[i + 1]);
+                }
+
+                break;
             }
-        else if (direction == NavigationDirection.Previous)
-            for (int i = children.Count - 1; i >= 0; i--)
+            case NavigationDirection.Previous:
             {
-                if (children[i] != current) continue;
+                for (int i = children.Count - 1; i >= 0; i--)
+                {
+                    if (children[i] != current) continue;
 
-                if (i == 0)
-                    return (true, children[^1]);
+                    if (i == 0)
+                        return (true, children[^1]);
 
-                return (true, children[i - 1]);
+                    return (true, children[i - 1]);
+                }
+
+                break;
             }
+        }
 
         return (false, null);
     }
-    
+
     /// <summary>
     /// Raises the <see cref="Closed"/> event.
     /// </summary>
@@ -353,36 +378,44 @@ public class ContentDialog : PleasantPopupElement, ICustomKeyboardNavigation
     {
         Closed?.Invoke(this, EventArgs.Empty);
     }
-    
+
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(ContentDialog);
 
     /// <inheritdoc />
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override async void OnLoaded(RoutedEventArgs e)
     {
-        base.OnAttachedToVisualTree(e);
+        base.OnLoaded(e);
 
-        Focus(NavigationMethod.Pointer);
+        try
+        {
+            if (ShowBackgroundAnimation is not null && _modalBackground is not null)
+                _ = ShowBackgroundAnimation.RunAsync(_modalBackground);
+
+            if (OpenAnimation is not null)
+                _ = OpenAnimation.RunAsync(this);
+            
+            FocusFirstElement();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
-
-    /// <inheritdoc />
-protected override async void OnLoaded(RoutedEventArgs e)
-{
-    base.OnLoaded(e);
     
-    try
+    private void FocusFirstElement()
     {
-        if (ShowBackgroundAnimation is not null && _modalBackground is not null)
-            await ShowBackgroundAnimation.RunAsync(_modalBackground);
+        IInputElement? firstElement = this.GetVisualDescendants()
+            .OfType<IInputElement>()
+            .FirstOrDefault(x => x.Focusable && 
+                                 KeyboardNavigation.GetIsTabStop((InputElement)x) && 
+                                 x is { IsEffectivelyVisible: true, IsEffectivelyEnabled: true });
 
-        if (OpenAnimation is not null)
-            await OpenAnimation.RunAsync(this);
+        if (firstElement != null)
+            firstElement.Focus();
+        else
+            Focus();
     }
-    catch (Exception ex)
-    {
-        System.Diagnostics.Debug.WriteLine($"[ContentDialog] Animation error: {ex}");
-    }
-}
 
     private bool ShouldCancelClose(CancelEventArgs? args = null)
     {

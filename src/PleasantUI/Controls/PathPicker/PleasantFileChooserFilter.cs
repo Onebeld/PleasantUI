@@ -14,7 +14,7 @@ public sealed class PleasantFileChooserFilter
     /// <summary>Initializes a new filter entry.</summary>
     public PleasantFileChooserFilter(string name, IReadOnlyList<string> extensions)
     {
-        Name       = name;
+        Name = name;
         Extensions = extensions;
     }
 

@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
                     x:ClassModifier="internal">
-
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="500" Height="320">
             <controls:TerminalPanel Title="Terminal"
@@ -42,7 +41,7 @@
                                             Orientation="Horizontal"
                                             Spacing="8"
                                             VerticalAlignment="Center">
-                                    <PathIcon Data="{DynamicResource CodeBracesRegular}"
+                                    <PathIcon Data="{StaticResource CodeBracesRegular}"
                                               Width="14" Height="14"
                                               VerticalAlignment="Center" />
                                     <TextBlock Text="{TemplateBinding Title}"
@@ -65,42 +64,36 @@
                                             Orientation="Horizontal"
                                             Spacing="4">
                                     <Button Name="PART_ClearButton"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{StaticResource AppBarButtonTheme}"
                                             ToolTip.Tip="{TemplateBinding ClearTooltip}"
                                             Width="28" Height="28" Padding="6">
-                                        <PathIcon Data="{DynamicResource DeleteRegular}"
-                                                  Width="12" Height="12" />
+                                        <PleasantIcon Icon="{StaticResource DeleteRegular}" Width="12" Height="12" />
                                     </Button>
                                     <Button Name="PART_CloseButton"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
+                                            Theme="{StaticResource CloseButtonTheme}"
                                             ToolTip.Tip="{TemplateBinding CloseTooltip}"
                                             Width="28" Height="28" Padding="6"
                                             IsVisible="{TemplateBinding ShowCloseButton}">
-                                        <PathIcon Data="{DynamicResource DismissRegular}"
-                                                  Width="10" Height="10" />
+                                        <PleasantIcon Icon="{StaticResource DismissRegular}" Width="10" Height="10" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- ── Output area ─────────────────────────────── -->
-                        <SmoothScrollViewer Name="PART_ScrollViewer"
-                                            Grid.Row="1"
-                                            VerticalScrollBarVisibility="Auto"
-                                            HorizontalScrollBarVisibility="Auto"
-                                            Padding="10 8">
-                            <TextBox Name="PART_OutputBox"
-                                     Text="{TemplateBinding OutputText}"
-                                     IsReadOnly="True"
-                                     Background="Transparent"
-                                     BorderThickness="0"
-                                     FontFamily="Consolas,Menlo,Monaco,monospace"
-                                     FontSize="12"
-                                     TextWrapping="NoWrap"
-                                     AcceptsReturn="True"
-                                     Foreground="{DynamicResource TextFillColor1}"
-                                     SelectionBrush="{DynamicResource SystemFillColorAttention}" />
-                        </SmoothScrollViewer>
+                        <TextBox Name="PART_OutputBox"
+                                 Grid.Row="1"
+                                 Text="{TemplateBinding OutputText}"
+                                 CornerRadius="0"
+                                 VerticalContentAlignment="Top"
+                                 IsReadOnly="True"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 TextElement.FontFamily="Consolas,Menlo,Monaco,monospace"
+                                 FontSize="12"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="True"
+                                 Foreground="{DynamicResource TextFillColor1}" />
 
                         <!-- ── Input line ──────────────────────────────── -->
                         <Border Grid.Row="2"
@@ -114,14 +107,13 @@
                                            FontFamily="Consolas,Menlo,Monaco,monospace"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Center"
-                                           Foreground="{DynamicResource AccentFillColor1}" />
+                                           Foreground="{DynamicResource TextFillColor1}" />
                                 <TextBox Name="PART_InputBox"
                                          Grid.Column="1"
                                          Text="{TemplateBinding InputText, Mode=TwoWay}"
                                          PlaceholderText="{TemplateBinding InputPlaceholder}"
-                                         FontFamily="Consolas,Menlo,Monaco,monospace"
+                                         TextElement.FontFamily="Consolas,Menlo,Monaco,monospace"
                                          FontSize="12"
-                                         Background="Transparent"
                                          BorderThickness="0"
                                          Padding="8 4" />
                             </Grid>
@@ -130,6 +122,13 @@
                 </Border>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ TextBox#PART_OutputBox:pointerover">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^ /template/ TextBox#PART_OutputBox:focus">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
 
         <!-- Running state: accent status dot -->
         <Style Selector="^:running /template/ Ellipse">

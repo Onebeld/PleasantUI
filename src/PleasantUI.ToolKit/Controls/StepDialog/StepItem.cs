@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -12,12 +11,8 @@ namespace PleasantUI.ToolKit.Controls;
 [PseudoClasses(PC_Completed, PC_Active)]
 public class StepItem : HeaderedContentControl
 {
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    internal const string PC_Completed = ":completed";
-    internal const string PC_Active    = ":active";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
+    private const string PC_Completed = ":completed";
+    private const string PC_Active    = ":active";
 
     /// <summary>Defines the <see cref="StepNumber"/> property.</summary>
     public static readonly StyledProperty<int> StepNumberProperty =
@@ -34,8 +29,6 @@ public class StepItem : HeaderedContentControl
     /// <summary>Defines the <see cref="Description"/> property.</summary>
     public static readonly StyledProperty<string?> DescriptionProperty =
         AvaloniaProperty.Register<StepItem, string?>(nameof(Description));
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the 1-based step number shown in the badge.</summary>
     public int StepNumber
@@ -65,8 +58,7 @@ public class StepItem : HeaderedContentControl
         set => SetValue(DescriptionProperty, value);
     }
 
-    // ── Overrides ─────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);

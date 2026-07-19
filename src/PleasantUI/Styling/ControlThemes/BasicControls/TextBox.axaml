@@ -24,10 +24,10 @@
     <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentColor}" />
-        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBasedAccent AccentColor}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
+        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBased AccentColor}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="10 5 10 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="MinWidth" Value="64" />
@@ -40,41 +40,28 @@
         </Setter> 
 
         <Setter Property="ContextFlyout">
-            <PleasantMenuFlyout Placement="Bottom">
+            <MenuFlyout Placement="Bottom">
                 <MenuItem Header="{Localize CutMenu, Default='C_ut'}"
                           Command="{CompiledBinding $parent[TextBox].Cut}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCut}"
-                          InputGesture="{x:Static TextBox.CutGesture}">
-                    <MenuItem.Icon>
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  Data="{DynamicResource CutRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.CutGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{StaticResource CutRegular}" />
+                
                 <MenuItem Header="{Localize CopyMenu, Default='_Copy'}"
                           Command="{CompiledBinding $parent[TextBox].Copy}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanCopy}"
-                          InputGesture="{x:Static TextBox.CopyGesture}">
-                    <MenuItem.Icon>
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  Data="{DynamicResource CopyRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}" />
-                    </MenuItem.Icon>
-                </MenuItem>
+                          InputGesture="{x:Static TextBox.CopyGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{StaticResource CopyRegular}" />
+                
                 <MenuItem Header="{Localize PasteMenu, Default='_Paste'}"
                           Command="{CompiledBinding $parent[TextBox].Paste}"
                           IsEnabled="{CompiledBinding $parent[TextBox].CanPaste}"
-                          InputGesture="{x:Static TextBox.PasteGesture}">
-                    <MenuItem.Icon>
-                        <PathIcon Width="16"
-                                  Height="16"
-                                  Data="{DynamicResource PasteRegular}"
-                                  Foreground="{DynamicResource TextFillColor1}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </PleasantMenuFlyout>
+                          InputGesture="{x:Static TextBox.PasteGesture}"
+                          Foreground="{DynamicResource TextFillColor1}"
+                          Icon="{StaticResource PasteRegular}" />
+            </MenuFlyout>
         </Setter>
 
         <Setter Property="Template">
@@ -99,7 +86,7 @@
                                            FontWeight="SemiBold"
                                            DockPanel.Dock="Top" />
 
-                                <SmoothScrollViewer
+                                <ScrollViewer
                                     HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                                     <Panel>
@@ -127,12 +114,12 @@
                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Panel>
-                                    <SmoothScrollViewer.Styles>
+                                    <ScrollViewer.Styles>
                                         <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
                                             <Setter Property="Cursor" Value="IBeam" />
                                         </Style>
-                                    </SmoothScrollViewer.Styles>
-                                </SmoothScrollViewer>
+                                    </ScrollViewer.Styles>
+                                </ScrollViewer>
                             </DockPanel>
                             <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" />
                         </Grid>
@@ -144,21 +131,21 @@
         <Style Selector="^.RevealPasswordTextBox[AcceptsReturn=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <ToggleButton Theme="{DynamicResource AppBarToggleButtonTheme}"
+                    <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}"
                                   Padding="4"
                                   Margin="5"
                                   CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                                   IsChecked="{CompiledBinding $parent[TextBox].RevealPassword, Mode=TwoWay}">
                         <ToggleButton.Styles>
-                            <Style Selector="ToggleButton > PathIcon">
-                                <Setter Property="Data" Value="{DynamicResource PasswordBoxRevealButtonIcon}" />
+                            <Style Selector="ToggleButton > PleasantIcon">
+                                <Setter Property="Icon" Value="{StaticResource PasswordBoxRevealButtonIcon}" />
                             </Style>
-                            <Style Selector="ToggleButton:checked > PathIcon">
-                                <Setter Property="Data" Value="{DynamicResource PasswordBoxHideButtonIcon}" />
+                            <Style Selector="ToggleButton:checked > PleasantIcon">
+                                <Setter Property="Icon" Value="{StaticResource PasswordBoxHideButtonIcon}" />
                             </Style>
                         </ToggleButton.Styles>
 
-                        <PathIcon Name="PART_PasswordIcon" Width="14" Height="14" />
+                        <PleasantIcon Name="PART_PasswordIcon" Width="14" Height="14" />
                     </ToggleButton>
                 </Template>
             </Setter>
@@ -167,14 +154,13 @@
         <Style Selector="^.ClearTextBox[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
             <Setter Property="InnerRightContent">
                 <Template>
-                    <Button Theme="{DynamicResource AppBarButtonTheme}"
+                    <Button Theme="{StaticResource AppBarButtonTheme}"
                             Padding="6"
                             Margin="5"
                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Command="{CompiledBinding $parent[TextBox].Clear}">
-                        <PathIcon Width="10"
-                                  Height="10"
-                                  Data="{DynamicResource DismissRegular}" />
+                        <PleasantIcon Width="10" Height="10" IconHelper.Width="10"
+                                      IconHelper.Height="10" Icon="{StaticResource DismissRegular}" />
                     </Button>
                 </Template>
             </Setter>

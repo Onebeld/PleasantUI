@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <ControlTheme x:Key="{x:Type TableViewRow}" TargetType="TableViewRow">
+        <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
+        <Setter Property="Padding" Value="5" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                    <RippleEffect Name="PART_Ripple" Padding="{TemplateBinding Padding}">
+                        <TableViewCellsPresenter Name="PART_CellsPresenter" />
+                    </RippleEffect>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^ /template/ Border#Border">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+            <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled /template/ Border#Border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!-- PointerOver -->
+        <Style Selector="^:pointerover /template/ Border#Border">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
+        </Style>
+
+        <!-- Selected -->
+        <Style Selector="^:selected">
+            <Style Selector="^ /template/ Border#Border">
+                <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
+                <Setter Property="TextElement.Foreground" Value="{ForegroundBased AccentLinearGradientBrush}" />
+                <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+            </Style>
+            <Style Selector="^ /template/ RippleEffect#PART_Ripple">
+                <Setter Property="RippleFill" Value="Black" />
+                <Setter Property="RippleOpacity" Value="0.2" />
+            </Style>
+
+            <!-- Selected Unfocused  -->
+            <Style Selector="^:not(:focus) /template/ Border#Border">
+                <Setter Property="Background" Value="{DynamicResource ControlFillColor3}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColor3}" />
+            </Style>
+
+            <!-- Selected PointerOver  -->
+            <Style Selector="^:pointerover /template/ Border#Border">
+                <Setter Property="Background" Value="{DynamicResource AccentLightColor3}" />
+            </Style>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

@@ -17,15 +17,7 @@ The PleasantUI Example app demonstrates:
 
 ## Why Use PleasantUI?
 
-### 1. **Modern Fluent Design**
-PleasantUI brings Microsoft's Fluent Design language to Avalonia, providing:
-- Rounded corners and smooth animations
-- Layered fill colors with elevation levels
-- Accent color integration
-- Pointer-over and pressed transitions
-- Professional, polished appearance
-
-### 2. **Complete Control Set**
+### 1. **Complete Control Set**
 PleasantUI provides both styled standard controls and custom controls:
 
 **Styled Standard Controls:**
@@ -54,25 +46,25 @@ PleasantUI provides both styled standard controls and custom controls:
 - PopConfirm - Confirmation popup
 - And many more...
 
-### 3. **Built-in Theme Engine**
+### 2. **Built-in Theme Engine**
 - 10 built-in themes (Light, Dark, Mint, Strawberry, Ice, Sunny, Spruce, Cherry, Cave, Lunar)
 - Custom theme support with ThemeEditorWindow
 - Accent color follows OS preference or can be overridden
 - Settings persisted automatically on desktop
 - Reactive theme switching
 
-### 4. **Localization System**
+### 3. **Localization System**
 - `Localizer` singleton with .NET ResourceManager
 - `{Localize Key}` AXAML markup extension for reactive bindings
 - Language switching updates all bound strings instantly
 - Safe lookup with `Localizer.TrDefault(key, fallback)`
 
-### 5. **Cross-Platform**
+### 4. **Cross-Platform**
 - Works on Windows, macOS, Linux, Android, and iOS
 - Platform-specific optimizations (e.g., macOS caption buttons)
 - Adaptive layouts for desktop and mobile
 
-### 6. **AOT-Compatible**
+### 5. **AOT-Compatible**
 - No `rd.xml` required
 - Ready for Native AOT compilation
 - Performance optimized
@@ -98,7 +90,6 @@ PleasantUI.Example/
 ├── Properties/
 │   └── Localizations/         # .resx resource files (en, ru)
 ├── Structures/                # Helper structures (Language)
-├── Styling/                   # Custom styles (VGUIExampleStyles)
 ├── ViewModels/                # ViewModels (MVVM pattern)
 │   ├── AppViewModel.cs        # Main navigation ViewModel
 │   └── Pages/                 # Page-specific ViewModels (SettingsViewModel)
@@ -1226,7 +1217,7 @@ public partial class DashboardView : UserControl
                    Spacing="10"
                    Margin="20,20,20,10">
             <Button Content="{Localize AddVehicle}" 
-                    Theme="{DynamicResource AccentButtonTheme}" />
+                    Theme="{StaticResource AccentButtonTheme}" />
             <Button Content="{Localize Refresh}" />
         </StackPanel>
 

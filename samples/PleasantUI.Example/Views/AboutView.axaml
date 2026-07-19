@@ -2,62 +2,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:MaterialIcons="clr-namespace:PleasantUI.MaterialIcons;assembly=PleasantUI.MaterialIcons"
+             xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PleasantUI.Example.Views.AboutView">
-    <SmoothScrollViewer>
-        <StackPanel Margin="25" Spacing="16">
+    <ScrollViewer>
+        <StackPanel Margin="25" Spacing="16" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
             <!-- Header -->
-            <TextBlock Text="{Localize AboutTitle}"
+            <TextBlock Text="{Localize {x:Static LocKey.AboutTitle}}"
                        Margin="0 0 0 10"
-                       Theme="{DynamicResource TitleTextBlockTheme}" />
+                       Theme="{StaticResource TitleTextBlockTheme}" />
 
             <!-- Hero Section with Logo and Version -->
-            <Border Background="{DynamicResource ControlFillColor1}"
+            <PleasantBorder BackgroundLevel="Level3"
                     CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="20">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <!-- Logo -->
-                    <Border Grid.Column="0"
-                            Background="#B2D3D3"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
-                            Width="80"
-                            Height="80">
-                        <Viewbox Stretch="Uniform" Margin="10">
-                            <Image Source="{DynamicResource PleasantUI}" Width="64" Height="64" />
-                        </Viewbox>
-                    </Border>
+                    <PleasantIcon Icon="{StaticResource PleasantUILogo}" Width="80" Height="80" />
 
                     <!-- Title and Version -->
                     <StackPanel Grid.Column="1" Margin="20 0" VerticalAlignment="Center">
-                        <PathIcon Data="{DynamicResource PleasantUINoLogo}"
+                        <PathIcon Data="{StaticResource PleasantUINoLogo}"
                                   Height="35"
                                   Width="NaN"
                                   HorizontalAlignment="Left" />
                         <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 8 0 0">
                             <TextBlock Foreground="{DynamicResource TextFillColor3}"
                                        FontSize="13"
-                                       Text="{Localize About/License}" />
-                            <TextBlock Foreground="{DynamicResource TextFillColor3}"
-                                       FontSize="13"
-                                       Text="|" />
-                            <TextBlock x:Name="VersionTextBlock"
-                                       FontSize="13"
-                                       Foreground="{DynamicResource AccentTextFillColorPrimary}" />
-                            <Border x:Name="VersionTypeBadge"
-                                    CornerRadius="4"
-                                    Padding="6 3"
-                                    Margin="8 0 0 0">
-                                <TextBlock FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="White" />
-                            </Border>
+                                       Text="{Localize {x:Static LocKey.About__License}}" />
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Author -->
                     <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                        <PathIcon Data="{DynamicResource Onebeld}"
+                        <PathIcon Data="{StaticResource Onebeld}"
                                   Width="120"
                                   Height="NaN"
                                   HorizontalAlignment="Right" />
@@ -68,25 +46,24 @@
                                    Margin="0 5 0 0" />
                     </StackPanel>
                 </Grid>
-            </Border>
+            </PleasantBorder>
 
             <!-- Description Section with Rich Formatting -->
-            <Border Background="{DynamicResource ControlFillColor2}"
+            <PleasantBorder BackgroundLevel="Level3"
                     CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="12">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <PathIcon Data="{DynamicResource InformationCircleOutline}"
-                                  Width="20"
-                                  Height="20"
-                                  Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <PleasantIcon Icon="{x:Static  icons:MaterialIconKind.InformationCircleOutline}"
+                                     Width="16"
+                                     Height="16" />
                         <TextBlock Text="{Localize Description}"
                                    FontWeight="SemiBold"
                                    FontSize="16" />
                     </StackPanel>
 
                     <!-- Multiline description in a styled read-only TextBox -->
-                    <Border Background="{DynamicResource ControlFillColor1}"
+                    <PleasantBorder BackgroundLevel="Level4"
                             CornerRadius="{DynamicResource ControlCornerRadius}"
                             Padding="12">
                         <TextBox Text="{Localize LibraryDescription}"
@@ -98,157 +75,124 @@
                                  Padding="0"
                                  FontSize="14"
                                  LineHeight="22" />
-                    </Border>
+                    </PleasantBorder>
 
                     <!-- Feature Highlights -->
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                        <Grid.Styles>
+                            <Style Selector="PleasantIcon">
+                                <Setter Property="Width" Value="24" />
+                                <Setter Property="Height" Value="24" />
+                                <Setter Property="Margin" Value="0 0 10 0" />
+                                <Setter Property="(IconHelper.IconSize)" Value="24" />
+                                <Setter Property="(Grid.Column)" Value="0" />
+                            </Style>
+                            <Style Selector="TextBlock.Title">
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="FontSize" Value="13" />
+                            </Style>
+                            <Style Selector="TextBlock.Description">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="Foreground" Value="{DynamicResource TextFillColor3}" />
+                            </Style>
+                        </Grid.Styles>
+                        
                         <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{x:Static MaterialIcons.Blur}"
-                                      Width="24"
-                                      Height="24"
-                                      Margin="0 2 10 0"
-                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                            <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Blur}" />
+                            
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Text="{Localize About/FeatureFluentDesign}"
-                                           FontWeight="SemiBold"
-                                           FontSize="13" />
-                                <TextBlock Text="{Localize About/FeatureFluentDesignDesc}"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontSize="12" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureFluentDesign}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureFluentDesignDesc}}" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Column="1" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{x:Static MaterialIcons.ViewDashboardOutline}"
-                                      Width="24"
-                                      Height="24"
-                                      Margin="0 2 10 0"
-                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <Grid Grid.Column="1" Grid.Row="0" ColumnDefinitions="Auto,*" Margin="8 0 0 8">
+                            <PleasantIcon Icon="{x:Static icons:MaterialIconKind.ViewDashboardEditOutline}" />
+                            
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Text="{Localize About/FeatureCustomControls}"
-                                           FontWeight="SemiBold"
-                                           FontSize="13" />
-                                <TextBlock Text="{Localize About/FeatureCustomControlsDesc}"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontSize="12" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureCustomControls}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureCustomControlsDesc}}" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{DynamicResource BrushVariantRegular}"
-                                      Width="24"
-                                      Height="24"
-                                      Margin="0 2 10 0"
-                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0 8">
+                            <PleasantIcon Icon="{x:Static icons:MaterialIconKind.BrushOutline}" />
+                            
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Text="{Localize About/FeatureThemes}"
-                                           FontWeight="SemiBold"
-                                           FontSize="13" />
-                                <TextBlock Text="{Localize About/FeatureThemesDesc}"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontSize="12" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureThemes}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureThemesDesc}}" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{x:Static MaterialIcons.Translate}"
-                                      Width="24"
-                                      Height="24"
-                                      Margin="0 2 10 0"
-                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <Grid Grid.Column="1" Grid.Row="1" ColumnDefinitions="Auto,*" Margin="8 0 0 8">
+                            <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Translate}" />
+                            
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Text="{Localize About/FeatureLocalization}"
-                                           FontWeight="SemiBold"
-                                           FontSize="13" />
-                                <TextBlock Text="{Localize About/FeatureLocalizationDesc}"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontSize="12" />
+                                <TextBlock Classes="Title" Text="{Localize {x:Static LocKey.About__FeatureLocalization}}" />
+                                <TextBlock Classes="Description" Text="{Localize {x:Static LocKey.About__FeatureLocalizationDesc}}" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Column="0" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{DynamicResource FastForward}"
-                                      Width="24"
-                                      Height="24"
-                                      Margin="0 2 10 0"
-                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <Grid Grid.Column="0" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="0 8">
+                            <PleasantIcon Icon="{x:Static icons:MaterialIconKind.FastForward}" />
+                            
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Text="{Localize About/FeatureAOT}"
-                                           FontWeight="SemiBold"
-                                           FontSize="13" />
-                                <TextBlock Text="{Localize About/FeatureAOTDesc}"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontSize="12" />
+                                <TextBlock Classes="Title" Text="{Localize About/FeatureAOT}" />
+                                <TextBlock Classes="Description" Text="{Localize About/FeatureAOTDesc}" />
                             </StackPanel>
                         </Grid>
 
-                        <Grid Grid.Column="1" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="8 0 0 8" Classes="featureItem">
-                            <PathIcon Grid.Column="0" Data="{DynamicResource Laptop}"
-                                      Width="24"
-                                      Height="24"
-                                      Margin="0 2 10 0"
-                                      Foreground="{DynamicResource AccentTextFillColorPrimary}" />
+                        <Grid Grid.Column="1" Grid.Row="2" ColumnDefinitions="Auto,*" Margin="8 0 0 8">
+                            <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Laptop}" />
+                            
                             <StackPanel Grid.Column="1" Spacing="4">
-                                <TextBlock Text="{Localize About/FeatureCrossPlatform}"
-                                           FontWeight="SemiBold"
-                                           FontSize="13" />
-                                <TextBlock Text="{Localize About/FeatureCrossPlatformDesc}"
-                                           TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontSize="12" />
+                                <TextBlock Classes="Title" Text="{Localize About/FeatureCrossPlatform}" />
+                                <TextBlock Classes="Description" Text="{Localize About/FeatureCrossPlatformDesc}" />
                             </StackPanel>
                         </Grid>
                     </Grid>
                 </StackPanel>
-            </Border>
+            </PleasantBorder>
 
             <!-- Links Section -->
             <OptionsDisplayItem Header="{Localize Links}"
-                                Icon="{x:Static MaterialIcons.Link}"
+                                Icon="{x:Static icons:MaterialIconKind.Link}"
                                 Expands="True"
                                 IsExpanded="True">
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="10" Margin="45 0 0 0">
                         <Button x:Name="GitHubButton"
-                                Theme="{DynamicResource AppBarButtonTheme}"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
                                 Padding="12 6"
                                 Click="GitHubButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PathIcon Data="{DynamicResource Github}"
-                                          Width="18"
-                                          Height="18" />
+                                <PleasantIcon Icon="{StaticResource Github}" />
                                 <TextBlock Text="{Localize About/GitHubRepo}"
                                            Foreground="{DynamicResource AccentLightColor1}" />
                             </StackPanel>
                         </Button>
                         <Button x:Name="PatreonButton"
-                                Theme="{DynamicResource AppBarButtonTheme}"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
                                 Padding="12 6"
                                 Click="PatreonButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PathIcon Data="{DynamicResource HeartOutline}"
-                                          Width="18"
-                                          Height="18" />
+                                <PleasantIcon Icon="{StaticResource Patreon}" />
+                                
                                 <TextBlock Text="{Localize About/PatreonSupport}"
                                            Foreground="{DynamicResource AccentLightColor1}" />
                             </StackPanel>
                         </Button>
                         <Button x:Name="BoostyButton"
-                                Theme="{DynamicResource AppBarButtonTheme}"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 HorizontalAlignment="Left"
                                 Padding="12 6"
                                 Click="BoostyButton_Click">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <PathIcon Data="{DynamicResource CurrencyUsd}"
-                                          Width="18"
-                                          Height="18" />
+                                <PleasantIcon Icon="{StaticResource Boosty}" IconHelper.Width="16" IconHelper.Height="16" />
+                                
                                 <TextBlock Text="{Localize About/BoostySupport}"
                                            Foreground="{DynamicResource AccentLightColor1}" />
                             </StackPanel>
@@ -258,15 +202,16 @@
             </OptionsDisplayItem>
 
             <!-- Credits Section -->
-            <Border Background="{DynamicResource ControlFillColor1}"
+            <PleasantBorder BackgroundLevel="Level3"
                     CornerRadius="{DynamicResource ControlCornerRadius}"
                     Padding="16">
                 <StackPanel Spacing="8">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <PathIcon Data="{DynamicResource Heart}"
-                                  Width="18"
-                                  Height="18"
-                                  Foreground="{DynamicResource SystemErrorTextColor}" />
+                        <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Heart}"
+                                     Foreground="{DynamicResource TextFillColor1}"
+                                     Width="16"
+                                     Height="16" />
+                        
                         <TextBlock Text="{Localize About/CreditsTitle}"
                                    FontWeight="SemiBold"
                                    FontSize="14" />
@@ -282,7 +227,7 @@
                              LineHeight="20"
                              Foreground="{DynamicResource TextFillColor3}" />
                 </StackPanel>
-            </Border>
+            </PleasantBorder>
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

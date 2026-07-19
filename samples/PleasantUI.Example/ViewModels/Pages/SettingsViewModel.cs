@@ -1,5 +1,7 @@
-﻿using PleasantUI.Controls;
+﻿using Avalonia.Media;
+using PleasantUI.Controls;
 using PleasantUI.Core;
+using PleasantUI.Core.Helpers;
 using PleasantUI.Core.Localization;
 using PleasantUI.Core.Models;
 using PleasantUI.Example.Structures;
@@ -9,6 +11,8 @@ namespace PleasantUI.Example.ViewModels.Pages;
 
 public partial class SettingsViewModel : ViewModelBase
 {
+    public List<FontFamily> Fonts { get; set; } = FontManagerHelper.GetFontsAlphabetically();
+    
     public SettingsViewModel()
     {
         // Re-raise SelectedLanguage when language changes so the ComboBox stays in sync
@@ -17,7 +21,7 @@ public partial class SettingsViewModel : ViewModelBase
 
     public bool IsFullScreenButtonVisible
     {
-        get => PleasantUiExampleApp.Main is PleasantWindow w && w.IsFullScreenButtonVisible;
+        get => PleasantUiExampleApp.Main is PleasantWindow { IsFullScreenButtonVisible: true };
         set
         {
             if (PleasantUiExampleApp.Main is PleasantWindow w)
@@ -48,8 +52,8 @@ public partial class SettingsViewModel : ViewModelBase
             PleasantUiExampleApp.LanguageKey = value.Key;
             
             // Persist language to settings
-            if (PleasantSettings.Current is not null)
-                PleasantSettings.Current.Language = value.Key;
+            if (AppSettings.Current is not null)
+                AppSettings.Current.Language = value.Key;
             
             Localizer.ChangeLang(value.Key);
             RaisePropertyChanged();
@@ -67,7 +71,6 @@ public partial class SettingsViewModel : ViewModelBase
             if (PleasantSettings.Current is not null)
             {
                 PleasantSettings.Current.Theme = value?.Name ?? "System";
-                System.Diagnostics.Debug.WriteLine($"[SettingsViewModel] Theme changed to {PleasantSettings.Current.Theme}");
             }
         }
     }
@@ -88,8 +91,11 @@ public partial class SettingsViewModel : ViewModelBase
         PleasantTheme.CustomThemes.Add(newCustomTheme);
     }
 
-    public async Task EditThemeAsync(CustomTheme customTheme)
+    public async Task EditThemeAsync(object value)
     {
+        if (value is not CustomTheme customTheme)
+            return;
+        
         CustomTheme? newCustomTheme = await ThemeEditorWindow.EditTheme(PleasantUiExampleApp.Main, customTheme);
 
         if (newCustomTheme is null)
@@ -98,8 +104,11 @@ public partial class SettingsViewModel : ViewModelBase
         PleasantUiExampleApp.PleasantTheme.EditCustomTheme(customTheme, newCustomTheme);
     }
 
-    public void DeleteTheme(CustomTheme customTheme)
+    public void DeleteTheme(object value)
     {
+        if (value is  not CustomTheme customTheme)
+            return;
+        
         PleasantTheme.CustomThemes.Remove(customTheme);
     }
 }

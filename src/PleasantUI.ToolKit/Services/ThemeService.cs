@@ -69,7 +69,8 @@ internal class ThemeService : IThemeService
 
     public void ChangeColor(ThemeColor themeColor, Color newColor, Color previousColor)
     {
-        ExecuteCommand(new ColorChangeCommand(themeColor, ResourceDictionary, previousColor, newColor));
+        if (previousColor != newColor)
+            ExecuteCommand(new ColorChangeCommand(themeColor, ResourceDictionary, previousColor, newColor));
     }
 
     public async Task CopyColorAsync(Color color)

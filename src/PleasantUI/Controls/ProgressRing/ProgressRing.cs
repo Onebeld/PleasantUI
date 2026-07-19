@@ -1,4 +1,13 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2023 ymg2006 <f.partonia@gmail.com>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/ymg2006/FluentAvalonia.ProgressRing/blob/main/FluentAvalonia.ProgressRing/UI/Controls/ProgressRing/ProgressRing.cs 
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
@@ -8,12 +17,16 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A control used to indicate the progress of an operation.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/ymg2006/FluentAvalonia.ProgressRing
-/// </remarks>
 [PseudoClasses(":preserveaspect", ":indeterminate")]
 public class ProgressRing : RangeBase
 {
+    /// <summary>
+    /// Defines the <see cref="ValueAngle" /> property.
+    /// </summary>
+    public static readonly DirectProperty<ProgressRing, double> ValueAngleProperty =
+        AvaloniaProperty.RegisterDirect<ProgressRing, double>(
+            nameof(ValueAngle), o => o.ValueAngle);
+    
     /// <summary>
     /// Defines the <see cref="IsIndeterminate" /> property.
     /// </summary>
@@ -25,12 +38,6 @@ public class ProgressRing : RangeBase
     /// </summary>
     public static readonly StyledProperty<bool> PreserveAspectProperty =
         AvaloniaProperty.Register<ProgressRing, bool>(nameof(PreserveAspect), true);
-
-    /// <summary>
-    /// Defines the <see cref="ValueAngle" /> property.
-    /// </summary>
-    public static readonly StyledProperty<double> ValueAngleProperty =
-        AvaloniaProperty.Register<ProgressRing, double>(nameof(ValueAngle));
 
     /// <summary>
     /// Defines the <see cref="StartAngle" /> property.
@@ -79,8 +86,8 @@ public class ProgressRing : RangeBase
     /// </summary>
     public double ValueAngle
     {
-        get => GetValue(ValueAngleProperty);
-        private set => SetValue(ValueAngleProperty, value);
+        get;
+        set => SetAndRaise(ValueAngleProperty, ref field, value);
     }
 
     /// <summary>
@@ -110,10 +117,7 @@ public class ProgressRing : RangeBase
         set => SetValue(ThicknessProperty, value);
     }
 
-    static ProgressRing()
-    {
-        ValueProperty.Changed.AddClassHandler<ProgressRing>(OnValuePropertyChanged);
-    }
+    static ProgressRing() { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProgressRing" /> class.
@@ -124,26 +128,27 @@ public class ProgressRing : RangeBase
     }
 
     /// <inheritdoc />
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        base.OnPropertyChanged(change);
+        base.OnPropertyChanged(e);
 
-        if (change.Property == IsIndeterminateProperty)
-            PseudoClasses.Set(":indeterminate", change.NewValue as bool? ?? default);
-        else if (change.Property == PreserveAspectProperty)
-            UpdatePseudoClasses(null, change.NewValue as bool? ?? default);
+        if (e.Property == IsIndeterminateProperty)
+            PseudoClasses.Set(":indeterminate", e.GetNewValue<bool>());
+        else if (e.Property == PreserveAspectProperty)
+            UpdatePseudoClasses(null, e.GetNewValue<bool>());
+        else if (e.Property == ValueProperty)
+            OnValuePropertyChanged(e);
     }
 
-    private static void OnValuePropertyChanged(ProgressRing sender, AvaloniaPropertyChangedEventArgs e)
+    private void OnValuePropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
-        sender.ValueAngle = ((double?)e.NewValue ?? 0.0 - sender.Minimum) * (sender.EndAngle - sender.StartAngle) /
-                            (sender.Maximum - sender.Minimum);
+        ValueAngle = (e.GetNewValue<double>() - Minimum) * (EndAngle - StartAngle) / (Maximum - Minimum);
     }
 
-    private void UpdatePseudoClasses(bool? isIndeterminate, bool? preserveAspect)
+    private void UpdatePseudoClasses(bool? isIndeterminate, bool preserveAspect)
     {
         if (isIndeterminate.HasValue) PseudoClasses.Set(":indeterminate", isIndeterminate.Value);
-
-        if (preserveAspect.HasValue) PseudoClasses.Set(":preserveaspect", preserveAspect.Value);
+        
+        PseudoClasses.Set(":preserveaspect", preserveAspect);
     }
 }

@@ -9,6 +9,7 @@
              xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls;assembly=PleasantUI.ToolKit"
              xmlns:example="clr-namespace:PleasantUI.Example"
              xmlns:structures="clr-namespace:PleasantUI.Example.Structures"
+             xmlns:icons="clr-namespace:Material.Icons;assembly=Material.Icons"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PleasantUI.Example.Views.SettingsView"
              x:DataType="pages:SettingsViewModel">
@@ -16,13 +17,14 @@
         <pages:SettingsViewModel />
     </UserControl.DataContext>
 
-    <SmoothScrollViewer>
-        <StackPanel Margin="25" Spacing="5">
+    <ScrollViewer>
+        <StackPanel Margin="25" Spacing="5" CompositionAnimationBehavior.UseImplicitChildrenAnimations="True">
             <TextBlock Text="{Localize Settings}"
                        Margin="0 0 0 10"
-                       Theme="{DynamicResource TitleTextBlockTheme}" />
+                       Theme="{StaticResource TitleTextBlockTheme}" />
             
-            <OptionsDisplayItem Header="{Localize Language}">
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.Language}"
+                Header="{Localize Language}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
                               ItemsSource="{x:Static example:PleasantUiExampleApp.Languages}"
@@ -35,15 +37,46 @@
                     </ComboBox>
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.FormatFont}"
+                                Header="{Localize Font}">
+                <OptionsDisplayItem.ActionButton>
+                    <SearchableComboBox MinWidth="150"
+                              ItemsSource="{Binding Fonts}"
+                              SelectedItem="{Binding Font, Source={x:Static PleasantSettings.Current}}">
+                        <SearchableComboBox.ItemTemplate>
+                            <DataTemplate DataType="FontFamily">
+                                <TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
+                            </DataTemplate>
+                        </SearchableComboBox.ItemTemplate>
+                    </SearchableComboBox>
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
 
-            <OptionsDisplayItem Header="{Localize FullScreenButton, Default='Full Screen Button'}"
+            <OptionsDisplayItem Icon="{StaticResource FullScreenEnterRegular}"
+                                Header="{Localize FullScreenButton, Default='Full Screen Button'}"
                                 Description="{Localize FullScreenButtonDescription, Default='Show a full screen toggle button in the title bar'}">
                 <OptionsDisplayItem.ActionButton>
                     <ToggleSwitch IsChecked="{CompiledBinding IsFullScreenButtonVisible}" />
                 </OptionsDisplayItem.ActionButton>
             </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.Blur}"
+                                Header="{Localize EnableBlur, Default='Enable blur'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch IsChecked="{Binding WindowSettings.EnableBlur, Source={x:Static PleasantSettings.Current}}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
+            
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.WindowMaximize}"
+                                Header="{Localize EnableCustomTitleBar, Default='Enable custom title bar'}">
+                <OptionsDisplayItem.ActionButton>
+                    <ToggleSwitch IsChecked="{Binding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Current}}" />
+                </OptionsDisplayItem.ActionButton>
+            </OptionsDisplayItem>
 
-            <OptionsDisplayItem Header="{Localize NavPosition, Default='Navigation Position'}"
+            <OptionsDisplayItem Icon="{x:Static icons:MaterialIconKind.DockWindow}"
+                Header="{Localize NavPosition, Default='Navigation Position'}"
                                 Description="{Localize NavPositionDescription, Default='Choose where the navigation pane is placed'}">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -59,7 +92,7 @@
             </OptionsDisplayItem>
 
             <OptionsDisplayItem Header="{Localize Theme}"
-                                Icon="{DynamicResource BrushVariantRegular}"
+                                Icon="{StaticResource BrushVariantRegular}"
                                 Expands="True">
                 <OptionsDisplayItem.ActionButton>
                     <ComboBox MinWidth="150"
@@ -84,7 +117,7 @@
                 <OptionsDisplayItem.Content>
                     <StackPanel Spacing="5">
                         <Panel>
-                            <TextBlock Theme="{DynamicResource BaseTextBlockTheme}"
+                            <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
                                        Text="{Localize CustomThemes}"
                                        VerticalAlignment="Center" />
                             
@@ -93,7 +126,7 @@
                                     Command="{CompiledBinding CreateThemeAsync}"
                                     Width="40"
                                     Height="40">
-                                <PathIcon Data="{x:Static MaterialIcons.Plus}" />
+                                <PleasantIcon Icon="{x:Static icons:MaterialIconKind.Plus}" />
                             </Button>
                         </Panel>
 
@@ -122,22 +155,24 @@
                                                             IsVisible="{CompiledBinding $parent[ContentControl].IsPointerOver}"
                                                             Orientation="Horizontal"
                                                             Spacing="5">
-                                                    <Button Theme="{DynamicResource AppBarButtonTheme}"
+                                                    <Button Theme="{StaticResource AppBarButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).EditThemeAsync}"
                                                             CommandParameter="{CompiledBinding}">
-                                                        <PathIcon Data="{x:Static MaterialIcons.PencilOutline}" />
+                                                        <PleasantIcon Icon="{x:Static icons:MaterialIconKind.PencilOutline}"
+                                                                     IconHelper.IconSize="18" />
                                                     </Button>
 
-                                                    <Button Theme="{DynamicResource DangerButtonTheme}"
+                                                    <Button Theme="{StaticResource DangerButtonTheme}"
                                                             Width="30"
                                                             Height="30"
                                                             CornerRadius="{DynamicResource ControlCornerRadius}"
                                                             BorderThickness="0"
                                                             Command="{CompiledBinding $parent[views:SettingsView].((pages:SettingsViewModel)DataContext).DeleteTheme}"
                                                             CommandParameter="{CompiledBinding}">
-                                                        <PathIcon Data="{x:Static MaterialIcons.DeleteOutline}" />
+                                                        <PleasantIcon Icon="{x:Static icons:MaterialIconKind.DeleteOutline}"
+                                                                     IconHelper.IconSize="18" />
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
@@ -156,5 +191,5 @@
                 </OptionsDisplayItem.Content>
             </OptionsDisplayItem>
         </StackPanel>
-    </SmoothScrollViewer>
+    </ScrollViewer>
 </UserControl>

@@ -1,7 +1,17 @@
-﻿using System.Collections.Specialized;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2023 afunc233 <https://github.com/afunc233>
+ * SPDX-License-Identifier: MIT
+ *
+ * Derived from:
+ * https://github.com/afunc233/BilibiliClient/blob/599d7451e9187e7a967cbbb0cdbbd6a428493672/src/BilibiliClient/Controls/VirtualizingWarpPanel.cs
+ */
+
+using System.Collections.Specialized;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Generators;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
@@ -16,9 +26,6 @@ namespace PleasantUI.Controls;
 /// Subsequent ordering happens sequentially from top to bottom or from right to left,
 /// depending on the value of the <see cref="Orientation" /> property.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/afunc233/BilibiliClient/blob/599d7451e9187e7a967cbbb0cdbbd6a428493672/src/BilibiliClient/Controls/VirtualizingWarpPanel.cs
-/// </remarks>
 public class VirtualizingWrapPanel : VirtualizingPanel
 {
     private static readonly Rect InvalidViewport = new(double.PositiveInfinity, double.PositiveInfinity, 0, 0);
@@ -633,7 +640,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
     {
         Control e = GetRealizedElement(index) ??
                     GetItemIsOwnContainer(items, index) ??
-                    GetRecycledElement(items, index) ??
+                    GetRecycledElement(index) ??
                     CreateElementInternal(items, index);
         return e;
     }
@@ -667,7 +674,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
         return null;
     }
 
-    private Control? GetRecycledElement(IReadOnlyList<object?> items, int index)
+    private Control? GetRecycledElement(int index)
     {
         if (_unrealizedFocusedIndex == index && _unrealizedFocusedElement is not null)
         {
@@ -683,7 +690,7 @@ public class VirtualizingWrapPanel : VirtualizingPanel
 
     private Control CreateElementInternal(IReadOnlyList<object?> items, int index)
     {
-        var generator = ItemContainerGenerator!;
+        ItemContainerGenerator generator = ItemContainerGenerator!;
         object? item = items[index];
         Control container = generator.CreateContainer(item, index, null);
         generator.PrepareItemContainer(container, item, index);

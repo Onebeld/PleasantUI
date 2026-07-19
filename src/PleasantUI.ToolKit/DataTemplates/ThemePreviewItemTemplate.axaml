@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:interfaces="clr-namespace:PleasantUI.Core.Models.Interfaces;assembly=PleasantUI"
+                    xmlns:toolKit="clr-namespace:PleasantUI.ToolKit"
+                    xmlns:viewModels="clr-namespace:PleasantUI.ToolKit.ViewModels"
+                    xmlns:userControls="clr-namespace:PleasantUI.ToolKit.UserControls">
+    <DataTemplate x:Key="ThemePreviewItemTemplate" DataType="{x:Type interfaces:ITheme}">
+        <Button Theme="{StaticResource AppBarButtonTheme}"
+                Margin="5"
+                HorizontalContentAlignment="Left"
+                Command="{CompiledBinding $parent[toolKit:ThemeEditorWindow].((viewModels:ThemeEditorViewModel)DataContext)?.GetColorsFromTheme}"
+                CommandParameter="{CompiledBinding}">
+            <StackPanel Spacing="10" Orientation="Horizontal">
+                <ThemePreviewVariantScope
+                    IsVisible="{CompiledBinding ThemeVariant, Converter={x:Static ObjectConverters.IsNotNull}}"
+                    RequestedThemeVariant="{CompiledBinding ThemeVariant}">
+                    <userControls:ThemePreview />
+                </ThemePreviewVariantScope>
+
+                <TextBlock Text="{CompiledBinding Name}" />
+            </StackPanel>
+        </Button>
+    </DataTemplate>
+</ResourceDictionary>

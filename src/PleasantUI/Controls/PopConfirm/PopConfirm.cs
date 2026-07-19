@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -20,28 +18,37 @@ namespace PleasantUI.Controls;
 /// Supports Click and/or Focus trigger modes.
 /// </summary>
 [TemplatePart(PART_ContentPresenter, typeof(ContentPresenter))]
-[TemplatePart(PART_Popup,            typeof(Popup))]
-[TemplatePart(PART_CloseButton,      typeof(Button))]
-[TemplatePart(PART_ConfirmButton,    typeof(Button))]
-[TemplatePart(PART_CancelButton,     typeof(Button))]
+[TemplatePart(PART_Popup, typeof(Popup))]
+[TemplatePart(PART_CloseButton, typeof(Button))]
+[TemplatePart(PART_ConfirmButton, typeof(Button))]
+[TemplatePart(PART_CancelButton, typeof(Button))]
 [PseudoClasses(PC_DropdownOpen)]
 public class PopConfirm : ContentControl
 {
     /// <summary>Template part name for the inner content presenter.</summary>
     public const string PART_ContentPresenter = "PART_ContentPresenter";
+
     /// <summary>Template part name for the confirmation popup.</summary>
-    public const string PART_Popup            = "PART_Popup";
+    public const string PART_Popup = "PART_Popup";
+
     /// <summary>Template part name for the close (×) button.</summary>
-    public const string PART_CloseButton      = "PART_CloseButton";
+    public const string PART_CloseButton = "PART_CloseButton";
+
     /// <summary>Template part name for the confirm button.</summary>
-    public const string PART_ConfirmButton    = "PART_ConfirmButton";
+    public const string PART_ConfirmButton = "PART_ConfirmButton";
+
     /// <summary>Template part name for the cancel button.</summary>
-    public const string PART_CancelButton     = "PART_CancelButton";
+    public const string PART_CancelButton = "PART_CancelButton";
 
     /// <summary>Pseudo-class applied while the popup is open.</summary>
     public const string PC_DropdownOpen = ":dropdownopen";
 
-    // ── Properties ────────────────────────────────────────────────────────────
+    private Button? _closeButton;
+    private Button? _confirmButton;
+    private Button? _cancelButton;
+    private Popup? _popup;
+    private IDisposable? _childChangeDisposable;
+    private bool _suppressButtonClickEvent;
 
     /// <summary>Defines the <see cref="PopupHeader"/> property.</summary>
     public static readonly StyledProperty<object?> PopupHeaderProperty =
@@ -95,8 +102,6 @@ public class PopConfirm : ContentControl
     /// <summary>Defines the <see cref="Icon"/> property.</summary>
     public static readonly StyledProperty<object?> IconProperty =
         AvaloniaProperty.Register<PopConfirm, object?>(nameof(Icon));
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the header content shown inside the popup.</summary>
     public object? PopupHeader
@@ -195,27 +200,20 @@ public class PopConfirm : ContentControl
         set => SetValue(IconProperty, value);
     }
 
-    // ── Private fields ────────────────────────────────────────────────────────
-
-    private Button?      _closeButton;
-    private Button?      _confirmButton;
-    private Button?      _cancelButton;
-    private Popup?       _popup;
-    private IDisposable? _childChangeDisposable;
-    private bool         _suppressButtonClickEvent;
-
-    // ── Static constructor ────────────────────────────────────────────────────
-
     static PopConfirm()
     {
-        IsDropdownOpenProperty.Changed.AddClassHandler<PopConfirm>((p, _) =>
-            p.PseudoClasses.Set(PC_DropdownOpen, p.IsDropdownOpen));
-
-        TriggerModeProperty.Changed.AddClassHandler<PopConfirm, PopConfirmTriggerMode>(
-            (pop, args) => pop.OnTriggerModeChanged(args));
     }
 
-    // ── Template ──────────────────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == IsDropdownOpenProperty)
+            PseudoClasses.Set(PC_DropdownOpen, IsDropdownOpen);
+        else if (e.Property == TriggerModeProperty)
+            OnTriggerModeChanged(e);
+    }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -223,17 +221,17 @@ public class PopConfirm : ContentControl
         base.OnApplyTemplate(e);
 
         // Unsubscribe from previous parts
-        if (_closeButton is not null)   _closeButton.Click   -= OnActionButtonClicked;
-        if (_cancelButton is not null)  _cancelButton.Click  -= OnActionButtonClicked;
+        if (_closeButton is not null) _closeButton.Click -= OnActionButtonClicked;
+        if (_cancelButton is not null) _cancelButton.Click -= OnActionButtonClicked;
         if (_confirmButton is not null) _confirmButton.Click -= OnActionButtonClicked;
 
-        _closeButton   = e.NameScope.Find<Button>(PART_CloseButton);
+        _closeButton = e.NameScope.Find<Button>(PART_CloseButton);
         _confirmButton = e.NameScope.Find<Button>(PART_ConfirmButton);
-        _cancelButton  = e.NameScope.Find<Button>(PART_CancelButton);
-        _popup         = e.NameScope.Find<Popup>(PART_Popup);
+        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
+        _popup = e.NameScope.Find<Popup>(PART_Popup);
 
-        if (_closeButton is not null)   _closeButton.Click   += OnActionButtonClicked;
-        if (_cancelButton is not null)  _cancelButton.Click  += OnActionButtonClicked;
+        if (_closeButton is not null) _closeButton.Click += OnActionButtonClicked;
+        if (_cancelButton is not null) _cancelButton.Click += OnActionButtonClicked;
         if (_confirmButton is not null) _confirmButton.Click += OnActionButtonClicked;
     }
 
@@ -257,11 +255,14 @@ public class PopConfirm : ContentControl
 
     // ── Private ───────────────────────────────────────────────────────────────
 
-    private void OnTriggerModeChanged(AvaloniaPropertyChangedEventArgs<PopConfirmTriggerMode> args)
+    private void OnTriggerModeChanged(AvaloniaPropertyChangedEventArgs args)
     {
-        var child = Presenter?.Child;
+        if (args.NewValue is not PopConfirmTriggerMode mode)
+            return;
+
+        Control? child = Presenter?.Child;
         TeardownChildEventSubscriptions(child);
-        SetupChildEventSubscriptions(child, args.NewValue.Value);
+        SetupChildEventSubscriptions(child, mode);
     }
 
     private void OnChildChanged(Control? newChild)
@@ -284,23 +285,27 @@ public class PopConfirm : ContentControl
 
         if (mode.HasFlag(PopConfirmTriggerMode.Focus))
         {
-            child.AddHandler(GotFocusEvent,  OnMainElementGotFocus);
+            child.AddHandler(GotFocusEvent, OnMainElementGotFocus);
             child.AddHandler(LostFocusEvent, OnMainElementLostFocus);
         }
     }
 
     private void TeardownChildEventSubscriptions(Control? child)
     {
-        if (child is null) return;
+        if (child is null)
+            return;
+        
         child.RemoveHandler(PointerPressedEvent, OnMainElementPressed);
-        if (child is Button btn2) btn2.Click -= OnMainButtonClicked;
-        child.RemoveHandler(GotFocusEvent,  OnMainElementGotFocus);
+        
+        if (child is Button btn2)
+            btn2.Click -= OnMainButtonClicked;
+        
+        child.RemoveHandler(GotFocusEvent, OnMainElementGotFocus);
         child.RemoveHandler(LostFocusEvent, OnMainElementLostFocus);
     }
 
     private void OnMainButtonClicked(object? sender, RoutedEventArgs e)
     {
-        Debug.WriteLine("[PopConfirm] Main button clicked");
         if (!_suppressButtonClickEvent)
             SetCurrentValue(IsDropdownOpenProperty, !IsDropdownOpen);
         _suppressButtonClickEvent = false;
@@ -311,7 +316,6 @@ public class PopConfirm : ContentControl
 
     private void OnMainElementGotFocus(object? sender, RoutedEventArgs e)
     {
-        Debug.WriteLine("[PopConfirm] Got focus");
         // Suppress the click that fires immediately after focus via keyboard
         if (TriggerMode.HasFlag(PopConfirmTriggerMode.Click) &&
             TriggerMode.HasFlag(PopConfirmTriggerMode.Focus))
@@ -323,7 +327,7 @@ public class PopConfirm : ContentControl
     private void OnMainElementLostFocus(object? sender, RoutedEventArgs e)
     {
         // Don't close if focus moved inside the popup
-        var newFocus = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
+        IInputElement? newFocus = TopLevel.GetTopLevel(this)?.FocusManager?.GetFocusedElement();
         if (newFocus is Visual v && (_popup?.IsInsidePopup(v) ?? false)) return;
         SetCurrentValue(IsDropdownOpenProperty, false);
     }
@@ -336,12 +340,10 @@ public class PopConfirm : ContentControl
             return;
         }
 
-        // Support async commands from MVVM Toolkit / Prism that implement
-        // INotifyPropertyChanged — wait for CanExecuteChanged to fire twice
-        // (IsRunning: true → false) before closing.
-        if (sender is Button { Command: { } cmd and (INotifyPropertyChanged or IDisposable) } btn)
+        if (sender is Button { Command: { } cmd } btn)
         {
             int count = 0;
+
             void OnCanExecuteChanged(object? _, EventArgs __)
             {
                 count++;
@@ -350,11 +352,10 @@ public class PopConfirm : ContentControl
                     _popup?.SetCurrentValue(Popup.IsOpenProperty, false);
                 cmd.CanExecuteChanged -= OnCanExecuteChanged;
             }
+
             cmd.CanExecuteChanged += OnCanExecuteChanged;
         }
         else
-        {
             _popup?.SetCurrentValue(Popup.IsOpenProperty, false);
-        }
     }
 }

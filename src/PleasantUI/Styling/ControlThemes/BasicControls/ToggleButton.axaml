@@ -5,7 +5,7 @@
         <Border Padding="70">
             <StackPanel Spacing="5">
                 <ToggleButton Content="Content" />
-                <ToggleButton Theme="{DynamicResource AppBarToggleButtonTheme}" Content="Content" />
+                <ToggleButton Theme="{StaticResource AppBarToggleButtonTheme}" Content="Content" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -15,9 +15,7 @@
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Background" Value="{DynamicResource AccentLinearGradientBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentLightColor1}" />
-            <!--<Setter Property="Foreground"
-                    Value="{CompiledBinding $self.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}" />-->
-            <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
+            <Setter Property="Foreground" Value="{ForegroundBased AccentLightColor2}" />
         </Style>
         <Style Selector="^:checked /template/ RippleEffect#PART_Ripple">
             <Setter Property="RippleFill" Value="Black" />

@@ -2,7 +2,6 @@ using System.Resources;
 using Avalonia;
 using Avalonia.Controls;
 using PleasantUI.Controls;
-using PleasantUI.Core;
 using PleasantUI.Core.Interfaces;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.Structures;
@@ -47,9 +46,9 @@ public class PleasantUiExampleApp : Application
         if (Design.IsDesignMode) return;
 
         // Now PleasantSettings.Current is available — apply persisted language.
-        if (PleasantSettings.Current is not null && !string.IsNullOrEmpty(PleasantSettings.Current.Language))
+        if (AppSettings.Current is not null && !string.IsNullOrEmpty(AppSettings.Current.Language))
         {
-            LanguageKey = PleasantSettings.Current.Language;
+            LanguageKey = AppSettings.Current.Language;
         }
 
         // Re-apply language now that we know the persisted value.

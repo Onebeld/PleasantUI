@@ -3,6 +3,8 @@
                     x:ClassModifier="internal">
     <ControlTheme x:Key="{x:Type RippleEffect}" TargetType="RippleEffect"
                   BasedOn="{StaticResource {x:Type ContentControl}}">
+        <Setter Property="ClipToBounds" Value="False" />
+        
         <Style Selector="^:not(.no-transitions)">
             <Setter Property="UseTransitions" Value="True" />
         </Style>

@@ -93,7 +93,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore (with retry)
         if: steps.tag_check.outputs.exists == 'false'
@@ -103,18 +103,20 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 15
           command: |
-            dotnet restore src/PleasantUI/PleasantUI.csproj
+            dotnet restore generators/PleasantUI.Localization.Generator/PleasantUI.Localization.Generator.csproj
+            dotnet restore analyzers/PleasantUI.Localization.Analyzer/PleasantUI.Localization.Analyzer.csproj
             dotnet restore src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj
-            dotnet restore src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj
             dotnet restore src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj
+            dotnet restore src/PleasantUI/PleasantUI.csproj
 
       - name: Build
         if: steps.tag_check.outputs.exists == 'false'
         run: |
-          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
+          dotnet build generators/PleasantUI.Localization.Generator/PleasantUI.Localization.Generator.csproj --configuration Release --no-restore
+          dotnet build analyzers/PleasantUI.Localization.Analyzer/PleasantUI.Localization.Analyzer.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.DataGrid/PleasantUI.DataGrid.csproj --configuration Release --no-restore
-          dotnet build src/PleasantUI.MaterialIcons/PleasantUI.MaterialIcons.csproj --configuration Release --no-restore
           dotnet build src/PleasantUI.ToolKit/PleasantUI.ToolKit.csproj --configuration Release --no-restore
+          dotnet build src/PleasantUI/PleasantUI.csproj --configuration Release --no-restore
 
       - name: Verify packages exist
         if: steps.tag_check.outputs.exists == 'false'
@@ -123,7 +125,7 @@ jobs:
           find src/ -name "*.nupkg" 2>/dev/null | sort
 
           FAILED=0
-          for project in PleasantUI PleasantUI.DataGrid PleasantUI.MaterialIcons PleasantUI.ToolKit; do
+          for project in PleasantUI PleasantUI.DataGrid PleasantUI.ToolKit; do
             FOUND=$(find "src/$project" -name "*.nupkg" 2>/dev/null | head -1)
             if [ -z "$FOUND" ]; then
               echo "ERROR: No .nupkg found anywhere under src/$project"
@@ -665,7 +667,6 @@ jobs:
             'Always end with a Packages section listing:' \
             '- PleasantUI' \
             '- PleasantUI.DataGrid' \
-            '- PleasantUI.MaterialIcons' \
             '- PleasantUI.ToolKit' \
             '' \
             '---' \
@@ -709,7 +710,6 @@ jobs:
               printf '\n### Packages\n'
               printf '- PleasantUI\n'
               printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.MaterialIcons\n'
               printf '- PleasantUI.ToolKit\n'
             } > /tmp/release_notes.md
             echo "Using simple commit-based release notes (AI generation skipped)."
@@ -729,7 +729,6 @@ jobs:
               printf '\n### Packages\n'
               printf '- PleasantUI\n'
               printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.MaterialIcons\n'
               printf '- PleasantUI.ToolKit\n'
             } > /tmp/release_notes.md
             echo "WARNING: AI release notes generation failed. Used commit-based fallback."
@@ -753,7 +752,6 @@ jobs:
           files: |
             src/PleasantUI/bin/Release/*.nupkg
             src/PleasantUI.DataGrid/bin/Release/*.nupkg
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg
             src/PleasantUI.ToolKit/bin/Release/*.nupkg
 
       - name: Confirm release created
@@ -774,7 +772,6 @@ jobs:
           for pkg in \
             src/PleasantUI/bin/Release/*.nupkg \
             src/PleasantUI.DataGrid/bin/Release/*.nupkg \
-            src/PleasantUI.MaterialIcons/bin/Release/*.nupkg \
             src/PleasantUI.ToolKit/bin/Release/*.nupkg; do
             echo "Pushing $pkg"
             dotnet nuget push "$pkg" \

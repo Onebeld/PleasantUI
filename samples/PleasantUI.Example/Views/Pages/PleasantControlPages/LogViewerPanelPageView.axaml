@@ -5,7 +5,6 @@
              xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls;assembly=PleasantUI.ToolKit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="900"
              x:Class="PleasantUI.Example.Views.Pages.PleasantControlPages.LogViewerPanelPageView">
-
     <Grid RowDefinitions="Auto,*">
         <Border Grid.Row="0" Padding="16 8 16 0">
             <StackPanel Spacing="12" MaxWidth="680">
@@ -16,11 +15,11 @@
                         <Style Selector="Button"><Setter Property="Margin" Value="0 0 8 8" /></Style>
                     </WrapPanel.Styles>
                     <Button x:Name="OpenPanelBtn"  Content="{Localize LogViewerPanel/OpenPanel}"
-                            Theme="{DynamicResource AccentButtonTheme}" />
+                            Theme="{StaticResource AccentButtonTheme}" />
                     <Button x:Name="AddInfoBtn"    Content="{Localize LogViewerPanel/AddInfo}" />
                     <Button x:Name="AddWarningBtn" Content="{Localize LogViewerPanel/AddWarning}" />
                     <Button x:Name="AddErrorBtn"   Content="{Localize LogViewerPanel/AddError}"
-                            Theme="{DynamicResource DangerButtonTheme}" />
+                            Theme="{StaticResource DangerButtonTheme}" />
                     <Button x:Name="AddDebugBtn"   Content="{Localize LogViewerPanel/AddDebug}" />
                 </WrapPanel>
             </StackPanel>
@@ -33,6 +32,7 @@
                            Foreground="{DynamicResource TextFillColor3}" />
             </Border>
             <controls:LogViewerPanel x:Name="LogPanel"
+                                     Margin="10"
                                      Title="{Localize CardTitle/LogViewerPanel}"
                                      PanelWidth="400"
                                      IsOpen="False"

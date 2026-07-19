@@ -16,16 +16,10 @@ namespace PleasantUI.Controls;
 [PseudoClasses(PC_HasToolbar, PC_HasSubtitle)]
 public class DashboardCard : HeaderedContentControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
+    private const string PART_HeaderToolbar = "PART_HeaderToolbar";
 
-    internal const string PART_HeaderToolbar = "PART_HeaderToolbar";
-
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    private const string PC_HasToolbar  = ":hasToolbar";
+    private const string PC_HasToolbar = ":hasToolbar";
     private const string PC_HasSubtitle = ":hasSubtitle";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="Subtitle"/> property.</summary>
     public static readonly StyledProperty<string?> SubtitleProperty =
@@ -54,13 +48,6 @@ public class DashboardCard : HeaderedContentControl
     /// <summary>Defines the <see cref="ShowScrollViewer"/> property.</summary>
     public static readonly StyledProperty<bool> ShowScrollViewerProperty =
         AvaloniaProperty.Register<DashboardCard, bool>(nameof(ShowScrollViewer), defaultValue: true);
-
-    /// <summary>Defines the <see cref="ToolbarItems"/> property.</summary>
-    public static readonly DirectProperty<DashboardCard, AvaloniaList<object>> ToolbarItemsProperty =
-        AvaloniaProperty.RegisterDirect<DashboardCard, AvaloniaList<object>>(
-            nameof(ToolbarItems), o => o.ToolbarItems);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets a subtitle shown below the header.</summary>
     public string? Subtitle
@@ -104,19 +91,14 @@ public class DashboardCard : HeaderedContentControl
         set => SetValue(ContentPaddingProperty, value);
     }
 
-    /// <summary>Gets or sets whether the content area is wrapped in a <see cref="SmoothScrollViewer"/>.</summary>
+    /// <summary>Gets or sets whether the content area is wrapped in a <see cref="ScrollViewer"/>.</summary>
     public bool ShowScrollViewer
     {
         get => GetValue(ShowScrollViewerProperty);
         set => SetValue(ShowScrollViewerProperty, value);
     }
 
-    /// <summary>Gets the collection of toolbar items shown in the header's right slot.</summary>
-    [Content]
-    public AvaloniaList<object> ToolbarItems { get; } = new();
-
-    // ── Overrides ─────────────────────────────────────────────────────────────
-
+    /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -127,15 +109,11 @@ public class DashboardCard : HeaderedContentControl
             PseudoClasses.Set(PC_HasToolbar, change.NewValue is not null);
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        var toolbar = e.NameScope.Find<ItemsControl>(PART_HeaderToolbar);
-        if (toolbar is not null)
-            toolbar.ItemsSource = ToolbarItems;
-
         PseudoClasses.Set(PC_HasSubtitle, Subtitle is not null);
-        PseudoClasses.Set(PC_HasToolbar,  HeaderContent is not null || ToolbarItems.Count > 0);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
-using Avalonia.Media;
+using Material.Icons;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.Interfaces;
 using PleasantUI.Example.Messages;
@@ -18,7 +17,7 @@ public class ControlPageCard : INotifyPropertyChanged
 
     public string TitleKey { get; }
     public string DescriptionKey { get; }
-    public Geometry Icon { get; set; }
+    public MaterialIconKind Icon { get; set; }
     public Func<IPage> Page { get; set; }
 
     public string Title
@@ -43,7 +42,7 @@ public class ControlPageCard : INotifyPropertyChanged
         }
     }
 
-    public ControlPageCard(string titleKey, Geometry icon, string descriptionKey, Func<IPage> page, IEventAggregator eventAggregator)
+    public ControlPageCard(string titleKey, MaterialIconKind icon, string descriptionKey, Func<IPage> page, IEventAggregator eventAggregator)
     {
         _eventAggregator = eventAggregator;
         TitleKey = titleKey;
@@ -55,8 +54,6 @@ public class ControlPageCard : INotifyPropertyChanged
         _title = Resolve(titleKey);
         _description = Resolve(descriptionKey);
 
-        Debug.WriteLine($"[ControlPageCard] Created key={titleKey} title=\"{_title}\"");
-
         Localizer.Instance.LocalizationChanged += OnLanguageChanged;
     }
 
@@ -66,7 +63,6 @@ public class ControlPageCard : INotifyPropertyChanged
         {
             Title = Resolve(TitleKey);
             Description = Resolve(DescriptionKey);
-            Debug.WriteLine($"[ControlPageCard] Updated key={TitleKey} title=\"{_title}\" lang={lang}");
         }
 
         if (Avalonia.Threading.Dispatcher.UIThread.CheckAccess())

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Threading;
@@ -30,8 +29,7 @@ public abstract class LocalizedUserControl : UserControl
 
     protected LocalizedUserControl()
     {
-        var currentLang = Localizer.Instance.CurrentLanguage;
-        Debug.WriteLine($"[{GetType().Name}] Constructor START - CurrentLanguage={currentLang}");
+        string currentLang = Localizer.Instance.CurrentLanguage;
 
         Localizer.Instance.LocalizationChanged += OnLanguageChanged;
 
@@ -46,13 +44,10 @@ public abstract class LocalizedUserControl : UserControl
         {
             ScheduleReinit(currentLang, "constructor-time");
         }
-
-        Debug.WriteLine($"[{GetType().Name}] Constructor END");
     }
 
     private void OnLanguageChanged(string lang)
     {
-        Debug.WriteLine($"[LocalizedUserControl.{GetType().Name}] OnLanguageChanged lang={lang}");
         ScheduleReinit(lang, "OnLanguageChanged");
     }
 
@@ -65,11 +60,8 @@ public abstract class LocalizedUserControl : UserControl
         // Atomically set the flag. If it was already 1, a reinit is already queued — skip.
         if (Interlocked.CompareExchange(ref _reinitPending, 1, 0) != 0)
         {
-            Debug.WriteLine($"[{GetType().Name}] ScheduleReinit({reason}) skipped — already pending");
             return;
         }
-
-        Debug.WriteLine($"[{GetType().Name}] ScheduleReinit({reason}) queued for lang={lang}");
 
         Dispatcher.UIThread.Post(() =>
         {
@@ -77,7 +69,6 @@ public abstract class LocalizedUserControl : UserControl
             // reinit will schedule a new one rather than being silently dropped.
             Interlocked.Exchange(ref _reinitPending, 0);
 
-            Debug.WriteLine($"[{GetType().Name}] Executing reinit for lang={Localizer.Instance.CurrentLanguage}");
             ReinitializeComponent();
         }, DispatcherPriority.Background);
     }
@@ -90,7 +81,7 @@ public abstract class LocalizedUserControl : UserControl
     {
         try
         {
-            var oldDataContext = DataContext;
+            object? oldDataContext = DataContext;
             DataContext = null;
             Content = null;
 
@@ -106,11 +97,10 @@ public abstract class LocalizedUserControl : UserControl
             if (oldDataContext is not null && DataContext is null)
                 DataContext = oldDataContext;
 
-            Debug.WriteLine($"[{GetType().Name}] ReinitializeComponent done, lang={Localizer.Instance.CurrentLanguage}");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Debug.WriteLine($"[{GetType().Name}] ReinitializeComponent failed: {ex.Message}");
+            // ignored
         }
     }
 }

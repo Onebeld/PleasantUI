@@ -7,7 +7,7 @@ namespace PleasantUI.Core.Localization;
 /// </summary>
 public class LocalizeObservable : IObservable<string>
 {
-    private List<IObserver<string>>? _observers = new();
+    private List<IObserver<string>>? _observers = [];
 
     private readonly string _key;
 
@@ -27,13 +27,16 @@ public class LocalizeObservable : IObservable<string>
         
         bool first;
 
-        for (; ; )
+        while (true)
         {
-            if (Volatile.Read(ref _observers) == null)
+            lock (this)
             {
-                observer.OnCompleted();
+                if (Volatile.Read(ref _observers) == null)
+                {
+                    observer.OnCompleted();
                 
-                return EmptyDisposable.Instance;
+                    return EmptyDisposable.Instance;
+                }
             }
 
             lock (this)
@@ -48,9 +51,7 @@ public class LocalizeObservable : IObservable<string>
         }
 
         if (first)
-        {
             Initialize();
-        }
 
         Subscribed(observer);
 
@@ -67,8 +68,11 @@ public class LocalizeObservable : IObservable<string>
     /// </remarks>
     public void Remove(IObserver<string> observer)
     {
-        if (Volatile.Read(ref _observers) is null) return;
-        
+        lock (this)
+        {
+            if (Volatile.Read(ref _observers) is null) return;
+        }
+
         lock (this)
         {
             List<IObserver<string>>? observers = _observers;

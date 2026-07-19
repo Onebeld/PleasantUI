@@ -1,4 +1,13 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2024 PieroCastillo <https://github.com/PieroCastillo>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabView/AuraTabView.cs
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
@@ -10,10 +19,7 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A <see cref="TabControl"/> with a smooth scroll viewer and an additional button to add items.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/PieroCastillo/Aura.UI/blob/master/src/Aura.UI/Controls/AuraTabView/AuraTabView.cs
-/// </remarks>
-[TemplatePart("PART_ScrollViewer", typeof(SmoothScrollViewer))]
+[TemplatePart("PART_ScrollViewer", typeof(ScrollViewer))]
 [TemplatePart("PART_AdderButton", typeof(Button))]
 [TemplatePart("PART_InternalGrid", typeof(Grid))]
 public class PleasantTabView : TabControl
@@ -93,8 +99,6 @@ public class PleasantTabView : TabControl
         AvaloniaProperty.Register<PleasantTabView, ViewMarginType>(nameof(MarginType));
 
     private Grid? _grid;
-    private double _heightRemainingSpace;
-    private double _widthRemainingSpace;
 
     /// <summary>
     /// Gets or sets the reference to the adder button.
@@ -147,8 +151,8 @@ public class PleasantTabView : TabControl
     /// </summary>
     public double HeightRemainingSpace
     {
-        get => _heightRemainingSpace;
-        private set => SetAndRaise(HeightRemainingSpaceProperty, ref _heightRemainingSpace, value);
+        get;
+        private set => SetAndRaise(HeightRemainingSpaceProperty, ref field, value);
     }
 
     /// <summary>
@@ -156,8 +160,8 @@ public class PleasantTabView : TabControl
     /// </summary>
     public double WidthRemainingSpace
     {
-        get => _widthRemainingSpace;
-        private set => SetAndRaise(WidthRemainingSpaceProperty, ref _widthRemainingSpace, value);
+        get;
+        private set => SetAndRaise(WidthRemainingSpaceProperty, ref field, value);
     }
 
     /// <summary>

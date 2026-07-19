@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 
@@ -19,8 +20,6 @@ public class PinCode : TemplatedControl
 {
     private PinCodeItemsControl? _itemsControl;
     private int _currentIndex;
-
-    // ── Properties ────────────────────────────────────────────────────────────
 
     /// <summary>Number of character cells. Default is 4.</summary>
     public static readonly StyledProperty<int> CountProperty =
@@ -45,58 +44,63 @@ public class PinCode : TemplatedControl
     /// <summary>Spacing between cells in pixels. Default is 8.</summary>
     public static readonly StyledProperty<double> SpacingProperty =
         AvaloniaProperty.Register<PinCode, double>(nameof(Spacing), 8);
-
-    private IList<string> _digits = new List<string>(Enumerable.Repeat(string.Empty, 4));
-
-    public int         Count           { get => GetValue(CountProperty);           set => SetValue(CountProperty, value); }
-    public PinCodeMode Mode            { get => GetValue(ModeProperty);            set => SetValue(ModeProperty, value); }
-    public char        PasswordChar    { get => GetValue(PasswordCharProperty);    set => SetValue(PasswordCharProperty, value); }
-    public ICommand?   CompleteCommand { get => GetValue(CompleteCommandProperty); set => SetValue(CompleteCommandProperty, value); }
-    public double      Spacing         { get => GetValue(SpacingProperty);         set => SetValue(SpacingProperty, value); }
-
-    /// <summary>Current entered values — one entry per cell.</summary>
-    public IList<string> Digits
-    {
-        get => _digits;
-        private set
-        {
-            SetAndRaise(DigitsProperty, ref _digits, value);
-            // Keep ItemsControl in sync whenever the list is replaced
-            if (_itemsControl is not null)
-                _itemsControl.ItemsSource = _digits;
-        }
-    }
-
-    // ── Events ────────────────────────────────────────────────────────────────
-
+    
     /// <summary>Raised when all cells have been filled.</summary>
     public static readonly RoutedEvent<PinCodeCompleteEventArgs> CompleteEvent =
         RoutedEvent.Register<PinCode, PinCodeCompleteEventArgs>(nameof(Complete), RoutingStrategies.Bubble);
 
+    public int Count
+    {
+        get => GetValue(CountProperty);
+        set => SetValue(CountProperty, value);
+    }
+
+    public PinCodeMode Mode
+    {
+        get => GetValue(ModeProperty);
+        set => SetValue(ModeProperty, value);
+    }
+
+    public char PasswordChar
+    {
+        get => GetValue(PasswordCharProperty);
+        set => SetValue(PasswordCharProperty, value);
+    }
+
+    public ICommand? CompleteCommand
+    {
+        get => GetValue(CompleteCommandProperty);
+        set => SetValue(CompleteCommandProperty, value);
+    }
+
+    public double Spacing
+    {
+        get => GetValue(SpacingProperty);
+        set => SetValue(SpacingProperty, value);
+    }
+
+    /// <summary>Current entered values — one entry per cell.</summary>
+    public IList<string> Digits
+    {
+        get;
+        private set
+        {
+            SetAndRaise(DigitsProperty, ref field, value);
+            // Keep ItemsControl in sync whenever the list is replaced
+            _itemsControl?.ItemsSource = field;
+        }
+    } = new List<string>(Enumerable.Repeat(string.Empty, 4));
+
     /// <summary>Raised when all cells have been filled.</summary>
     public event EventHandler<PinCodeCompleteEventArgs> Complete
     {
-        add    => AddHandler(CompleteEvent, value);
+        add => AddHandler(CompleteEvent, value);
         remove => RemoveHandler(CompleteEvent, value);
     }
-
-    // ── Static init ───────────────────────────────────────────────────────────
 
     static PinCode()
     {
         FocusableProperty.OverrideDefaultValue<PinCode>(true);
-
-        CountProperty.Changed.AddClassHandler<PinCode, int>((pin, args) =>
-        {
-            int n = args.NewValue.Value;
-            if (n > 0)
-            {
-                pin.Digits = new List<string>(Enumerable.Repeat(string.Empty, n));
-                // If template already applied, refresh ItemsSource
-                if (pin._itemsControl is not null)
-                    pin._itemsControl.ItemsSource = pin.Digits;
-            }
-        });
 
         KeyDownEvent.AddClassHandler<PinCode>((o, e) => o.OnPreviewKeyDown(e), RoutingStrategies.Tunnel);
     }
@@ -107,7 +111,21 @@ public class PinCode : TemplatedControl
         Digits = new List<string>(Enumerable.Repeat(string.Empty, Count));
     }
 
-    // ── Template ──────────────────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == CountProperty && e.NewValue is int count)
+        {
+            if (count <= 0)
+                return;
+
+            Digits = new List<string>(Enumerable.Repeat(string.Empty, count));
+            // If template already applied, refresh ItemsSource
+            _itemsControl?.ItemsSource = Digits;
+        }
+    }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -124,13 +142,11 @@ public class PinCode : TemplatedControl
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PinCode);
 
-    // ── Pointer ───────────────────────────────────────────────────────────────
-
     private void OnControlPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.Source is Control t)
         {
-            var item = t.FindLogicalAncestorOfType<PinCodeItem>();
+            PinCodeItem? item = t.FindLogicalAncestorOfType<PinCodeItem>();
             if (item is not null)
             {
                 item.Focus();
@@ -142,10 +158,9 @@ public class PinCode : TemplatedControl
                 _itemsControl?.ContainerFromIndex(_currentIndex)?.Focus();
             }
         }
+
         e.Handled = true;
     }
-
-    // ── Text input ────────────────────────────────────────────────────────────
 
     /// <inheritdoc />
     protected override void OnTextInput(TextInputEventArgs e)
@@ -157,10 +172,10 @@ public class PinCode : TemplatedControl
         char c = e.Text[0];
         if (!IsValid(c)) return;
 
-        var cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+        PinCodeItem? cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
         if (cell is null) return;
 
-        cell.Text        = e.Text;
+        cell.Text = e.Text;
         cell.PasswordChar = PasswordChar;
         Digits[_currentIndex] = e.Text;
         _currentIndex++;
@@ -174,15 +189,13 @@ public class PinCode : TemplatedControl
         }
     }
 
-    // ── Keyboard ──────────────────────────────────────────────────────────────
-
     private async void OnPreviewKeyDown(KeyEventArgs e)
     {
         // Paste
-        var pasteKeys = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste;
+        List<KeyGesture>? pasteKeys = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste;
         if (pasteKeys?.Any(k => k.Matches(e)) == true)
         {
-            var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+            IClipboard? clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
             if (clipboard is null) return;
 
             // IClipboard implements IAsyncDataTransfer in Avalonia 12
@@ -192,22 +205,24 @@ public class PinCode : TemplatedControl
 
             if (text is not null)
             {
-                var chars = text.Where(IsValid).Take(Count).ToArray();
+                char[] chars = text.Where(IsValid).Take(Count).ToArray();
                 for (int i = 0; i < chars.Length; i++)
                 {
                     Digits[i] = chars[i].ToString();
                     if (_itemsControl?.ContainerFromIndex(i) is PinCodeItem cell)
                     {
-                        cell.Text         = chars[i].ToString();
-                        cell.PasswordChar  = PasswordChar;
+                        cell.Text = chars[i].ToString();
+                        cell.PasswordChar = PasswordChar;
                     }
                 }
+
                 _currentIndex = Math.Min(chars.Length, Count - 1);
                 _itemsControl?.ContainerFromIndex(_currentIndex)?.Focus();
 
                 if (chars.Length == Count)
                     RaiseComplete();
             }
+
             e.Handled = true;
             return;
         }
@@ -217,7 +232,7 @@ public class PinCode : TemplatedControl
             case Key.Back:
             {
                 _currentIndex = Clamp(_currentIndex, 0, Count - 1);
-                var cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+                PinCodeItem? cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
                 if (cell is null) break;
 
                 if (!string.IsNullOrEmpty(Digits[_currentIndex]))
@@ -230,23 +245,35 @@ public class PinCode : TemplatedControl
                 {
                     // Move back and clear previous
                     _currentIndex--;
-                    var prev = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
-                    if (prev is not null) { prev.Text = string.Empty; Digits[_currentIndex] = string.Empty; }
+                    PinCodeItem? prev = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+                    if (prev is not null)
+                    {
+                        prev.Text = string.Empty;
+                        Digits[_currentIndex] = string.Empty;
+                    }
+
                     _itemsControl?.ContainerFromIndex(_currentIndex)?.Focus();
                 }
+
                 e.Handled = true;
                 break;
             }
             case Key.Delete:
             {
                 _currentIndex = Clamp(_currentIndex, 0, Count - 1);
-                var cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
-                if (cell is not null) { cell.Text = string.Empty; Digits[_currentIndex] = string.Empty; }
+                PinCodeItem? cell = _itemsControl?.ContainerFromIndex(_currentIndex) as PinCodeItem;
+                if (cell is not null)
+                {
+                    cell.Text = string.Empty;
+                    Digits[_currentIndex] = string.Empty;
+                }
+
                 if (_currentIndex < Count - 1)
                 {
                     _currentIndex++;
                     _itemsControl?.ContainerFromIndex(_currentIndex)?.Focus();
                 }
+
                 e.Handled = true;
                 break;
             }
@@ -279,14 +306,12 @@ public class PinCode : TemplatedControl
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
     private bool IsValid(char c) => Mode switch
     {
-        PinCodeMode.Digit        => char.IsDigit(c),
-        PinCodeMode.Letter       => char.IsLetter(c),
+        PinCodeMode.Digit => char.IsDigit(c),
+        PinCodeMode.Letter => char.IsLetter(c),
         PinCodeMode.LetterOrDigit => char.IsLetterOrDigit(c),
-        _                        => true
+        _ => true
     };
 
     private void RaiseComplete()

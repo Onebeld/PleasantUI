@@ -3,7 +3,7 @@
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="50">
-            <InformationBlock Content="500" Icon="{DynamicResource PinRegular}" />
+            <InformationBlock Content="500" Icon="{StaticResource PinRegular}" />
         </Border>
     </Design.PreviewWith>
 
@@ -12,6 +12,9 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        <Setter Property="(IconHelper.Width)" Value="14" />
+        <Setter Property="(IconHelper.Height)" Value="14" />
+        <Setter Property="(IconHelper.IconSize)" Value="16" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -20,11 +23,10 @@
                         BorderThickness="1"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="8 5">
-                        <Viewbox Width="14" Height="14">
-                            <Path Data="{TemplateBinding Icon}"
-                                  Fill="{TemplateBinding Foreground}"
-                                  Stretch="Uniform" />
-                        </Viewbox>
+                        <PleasantIcon Icon="{TemplateBinding Icon}"
+                                      Width="{TemplateBinding (IconHelper.Width)}"
+                                      Height="{TemplateBinding (IconHelper.Height)}"
+                                      IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}" />
 
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using PleasantUI.Core.Localization;
 using PleasantUI.Example.ViewModels;
@@ -10,7 +9,6 @@ public partial class HomePageView : UserControl
 {
     public HomePageView()
     {
-        Debug.WriteLine("[HomePageView] Created");
         DataContext = PleasantUiExampleApp.ViewModel;
         InitializeComponent();
 
@@ -30,14 +28,12 @@ public partial class HomePageView : UserControl
         // 2. Background — re-initialize the visual tree as a last-resort failsafe
         Dispatcher.UIThread.Post(() =>
         {
-            Debug.WriteLine($"[HomePageView] Failsafe Normal pass for lang={lang}");
             if (DataContext is AppViewModel vm)
                 vm.ForceRefreshLocalizedTexts();
         }, DispatcherPriority.Normal);
 
         Dispatcher.UIThread.Post(() =>
         {
-            Debug.WriteLine($"[HomePageView] Failsafe Background pass for lang={lang}");
             // Belt-and-suspenders: re-initialize the entire visual tree so any
             // {Localize} or {CompiledBinding} that missed the update gets a fresh read.
             InitializeComponent();

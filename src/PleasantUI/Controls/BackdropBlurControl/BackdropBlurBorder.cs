@@ -1,4 +1,18 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2024 Dani John (rocksdanister) <awoo.git@gmail.com>
+ * SPDX-License-Identifier: MIT
+ *
+ * Modified from original source:
+ * https://github.com/rocksdanister/weather/blob/main/src/Drizzle.UI.Avalonia/UserControls/BackdropBlurControl.cs
+ *
+ * Changes:
+ * 1. Discontinued from use ExperimentalAcrylicMaterial.
+ * 2. Added the ability to set a normal and rounded border.
+ * 3. Added render refresh timer to fix artifact.
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -9,8 +23,6 @@ using SkiaSharp;
 
 namespace PleasantUI.Controls;
 
-// Reference: https://github.com/rocksdanister/weather/blob/main/src/Drizzle.UI.Avalonia/UserControls/BackdropBlurControl.cs
-
 /// <summary>
 /// A control that blurs the background.
 /// </summary>
@@ -19,6 +31,8 @@ namespace PleasantUI.Controls;
 /// </remarks>
 public class BackdropBlurBorder : Decorator
 {
+    private DispatcherTimer? _refreshTimer;
+    
     /// <summary>
     /// Defines the <see cref="TintOpacity"/> property.
     /// </summary>
@@ -55,36 +69,54 @@ public class BackdropBlurBorder : Decorator
     public static readonly StyledProperty<CornerRadius> CornerRadiusProperty =
         AvaloniaProperty.Register<Border, CornerRadius>(nameof(CornerRadius));
     
+    /// <summary>
+    /// Background brush
+    /// </summary>
     public IBrush? Background
     {
         get => GetValue(BackgroundProperty);
         set => SetValue(BackgroundProperty, value);
     }
     
+    /// <summary>
+    /// Border brush
+    /// </summary>
     public IBrush? BorderBrush
     {
         get => GetValue(BorderBrushProperty);
         set => SetValue(BorderBrushProperty, value);
     }
     
+    /// <summary>
+    /// Border thickness
+    /// </summary>
     public Thickness BorderThickness
     {
         get => GetValue(BorderThicknessProperty);
         set => SetValue(BorderThicknessProperty, value);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public double TintOpacity
     {
         get => GetValue(TintOpacityProperty);
         set => SetValue(TintOpacityProperty, value);
     }
 
+    /// <summary>
+    /// Blur radius size
+    /// </summary>
     public double BlurRadius
     {
         get => GetValue(BlurRadiusProperty);
         set => SetValue(BlurRadiusProperty, value);
     }
     
+    /// <summary>
+    /// Corner radius size
+    /// </summary>
     public CornerRadius CornerRadius
     {
         get => GetValue(CornerRadiusProperty);
@@ -103,6 +135,14 @@ public class BackdropBlurBorder : Decorator
         
         AffectsMeasure<BackdropBlurBorder>(BorderThicknessProperty);
     }
+    
+    /// <summary>
+    /// <see cref="BackdropBlurBorder"/> control class constructor
+    /// </summary>
+    public BackdropBlurBorder()
+    {
+        InitializeRefreshTimer();
+    }
 
     /// <inheritdoc />
     public override void Render(DrawingContext context)
@@ -110,10 +150,6 @@ public class BackdropBlurBorder : Decorator
         context.Custom(new BlurBehindRenderOperation(Background, TintOpacity, BlurRadius,
             new Rect(default, Bounds.Size), GetMaxCornerRadius(CornerRadius), GetMaxThickness(BorderThickness),
             BorderBrush));
-
-        // We update every frame because there are artifacts when animating the color of the controls (sharp lines).
-        // This is the best we could find, but expensive
-        Dispatcher.UIThread.InvokeAsync(InvalidateVisual, DispatcherPriority.Background);
     }
 
     /// <summary>
@@ -134,6 +170,39 @@ public class BackdropBlurBorder : Decorator
     protected override Size ArrangeOverride(Size finalSize)
     {
         return LayoutHelper.ArrangeChild(Child, finalSize, Padding, BorderThickness);
+    }
+    
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        StartRefreshTimer();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        StopRefreshTimer();
+    }
+    
+    private void InitializeRefreshTimer()
+    {
+        _refreshTimer = new DispatcherTimer(DispatcherPriority.Render)
+        {
+            Interval = TimeSpan.FromMilliseconds(25)
+        };
+        _refreshTimer.Tick += (_, _) => InvalidateVisual();
+    }
+    
+    private void StartRefreshTimer()
+    {
+        _refreshTimer?.Start();
+    }
+
+    private void StopRefreshTimer()
+    {
+        _refreshTimer?.Stop();
     }
 
     private double GetMaxThickness(Thickness thickness)
@@ -158,34 +227,24 @@ public class BackdropBlurBorder : Decorator
         return max;
     }
 
-    private class BlurBehindRenderOperation : ICustomDrawOperation
+    private class BlurBehindRenderOperation(
+        IBrush? background,
+        double tintOpacity,
+        double blurRadius,
+        Rect bounds,
+        double cornerRadius,
+        double borderThickness,
+        IBrush? borderColor)
+        : ICustomDrawOperation
     {
-        private readonly IBrush? _background;
-        private readonly float _tinyOpacity;
-        private readonly float _blurRadius;
-        private readonly Rect _bounds;
-        private readonly float _cornerRadius;
-        private readonly float _borderThickness;
-        private readonly IBrush? _borderColor;
+        private readonly IBrush? _background = background;
+        private readonly float _tinyOpacity = (float)tintOpacity;
+        private readonly float _blurRadius = (float)blurRadius;
+        private readonly Rect _bounds = bounds;
+        private readonly float _cornerRadius = (float)cornerRadius;
+        private readonly float _borderThickness = (float)borderThickness;
+        private readonly IBrush? _borderColor = borderColor;
 
-        public BlurBehindRenderOperation(
-            IBrush? background,
-            double tintOpacity,
-            double blurRadius,
-            Rect bounds,
-            double cornerRadius,
-            double borderThickness,
-            IBrush? borderColor)
-        {
-            _background = background;
-            _tinyOpacity = (float)tintOpacity;
-            _blurRadius = (float)blurRadius;
-            _bounds = bounds;
-            _cornerRadius = (float)cornerRadius;
-            _borderThickness = (float)borderThickness;
-            _borderColor = borderColor;
-        }
-        
         public bool HitTest(Point p) => _bounds.Contains(p);
 
         public Rect Bounds => _bounds.Inflate(4);
@@ -221,7 +280,7 @@ public class BackdropBlurBorder : Decorator
             if (blurred == null)
                 return;
 
-            using (SKImageFilter? filter = SKImageFilter.CreateBlur(_blurRadius, _blurRadius, SKShaderTileMode.Clamp))
+            using (SKImageFilter filter = SKImageFilter.CreateBlur(_blurRadius, _blurRadius, SKShaderTileMode.Clamp))
             using (SKPaint blurPaint = new())
             {
                 blurPaint.Shader = backdropShader;
@@ -254,6 +313,7 @@ public class BackdropBlurBorder : Decorator
             {
                 blurSnapPaint.Shader = blurSnapShader;
                 blurSnapPaint.IsAntialias = true;
+                
                 lease.SkCanvas.DrawRect(0, 0, width, height, blurSnapPaint);
             }
 

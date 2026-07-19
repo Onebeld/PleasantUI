@@ -5,21 +5,27 @@
 
 <img align="center" src="https://i.imgur.com/Sr3crB8.png">
 
-![Imgur](https://i.imgur.com/7HXbYEo.png)
+![Imgur](https://i.imgur.com/o40rAoq.png)
 
 # PleasantUI
 
 > **Repositories:** [Original (Onebeld)](https://github.com/Onebeld/PleasantUI) · [Fork (ghudulf)](https://github.com/ghudulf/PleasantUI)
 
-PleasantUI is a cross-platform UI theme and control library for [Avalonia](https://github.com/AvaloniaUI/Avalonia), inspired by Microsoft Fluent Design and the WinUI/UWP visual language. It completely re-styles every standard Avalonia control and adds a suite of custom controls, a multi-theme engine with custom theme support, a reactive localization system, and a custom window chrome — all AOT-compatible with no `rd.xml` required.
+PleasantUI is a cross-platform UI theme and control library for [Avalonia](https://github.com/AvaloniaUI/Avalonia), inspired by Microsoft Fluent Design, Google Material Design and the WinUI/UWP visual language. It completely re-styles every standard Avalonia control and adds a suite of custom controls, a multi-theme engine with custom theme support, a reactive localization system, and a custom window chrome — all AOT-compatible with no `rd.xml` required.
 
 The project has been in active development since 2021, originally as part of the [Regul](https://github.com/Onebeld/Regul) and [Regul Save Cleaner](https://github.com/Onebeld/RegulSaveCleaner) projects.
 
+## 🏛️ Philosophy
+
+The philosophy is to provide the user with a _**pleasant**_ experience in using applications built on this library. This library isn't intended to be compared to other design principles or other UI libraries. If the interface looks good, then this library is doing its job.
+
+This library may also contain elements from other design principles or UI libraries if it makes the interface _**pleasant**_ enough (but with due attribution, of course).
+
 ## ✨ Features
 
-### Complete Fluent-style control theming
+### Complete control theming
 
-Every standard Avalonia control gets a full Fluent Design makeover — rounded corners, layered fill colors, smooth pointer-over and pressed transitions, and accent color integration:
+Every standard Avalonia control is receiving a complete overhaul: rounded corners, multi-layered fills, smooth transitions on hover and click, and accent color integration:
 
 | Control | Control | Control |
 |---|---|---|
@@ -47,7 +53,6 @@ Controls built from scratch that go beyond what Avalonia ships:
 | `InformationBlock`                      | Compact pill-shaped label combining an icon and a value                                                                                                                                       | ![Imgur](https://i.imgur.com/SX0BZ2k.png) |
 | `MarkedTextBox` / `MarkedNumericUpDown` | Input controls with inline label/unit markers                                                                                                                                                 | None                                      |
 | `RippleEffect`                          | Material-style ripple click feedback                                                                                                                                                          | ![Imgur](https://i.imgur.com/2WtIPvj.gif) |
-| `SmoothScrollViewer`                    | ScrollViewer with inertia gesture support                                                                                                                                                     | None                                      |
 | `PleasantMiniWindow`                    | Lightweight floating window                                                                                                                                                                   | None                                      |
 | `Timeline`                              | Displays a list of events in chronological order along a vertical axis. Supports four layout modes, custom icons, and five severity types.                                                    | ![Imgur](https://i.imgur.com/DGP3nDR.png) |
 | `InstallWizard`                         | A multi-step installation wizard with a sidebar step list, progress bar, and Back / Next / Cancel navigation.                                                                                 | ![Imgur](https://i.imgur.com/bbgKH3L.png) |
@@ -69,6 +74,7 @@ Controls built from scratch that go beyond what Avalonia ships:
 - `{Localize Key}` AXAML markup extension binds reactively — switching language updates every bound string instantly without reloading views
 - `Localizer.TrDefault(key, fallback)` for safe lookups that fall back to a raw string instead of an error message
 - `LocalizationChanged` event for view models and code-behind to react to language switches
+- A localization key analyzer is included. You won't miss any unused keys in your applications!
 
 ## Packages
 
@@ -147,10 +153,10 @@ Detailed reference docs for each control are in the [`docs/`](docs/) folder:
 Published on NuGet:
 
 ```xml
-<PackageReference Include="PleasantUI" Version="5.2.0" />
-<PackageReference Include="PleasantUI.DataGrid" Version="5.2.0" />
-<PackageReference Include="PleasantUI.MaterialIcons" Version="5.2.0" />
-<PackageReference Include="PleasantUI.ToolKit" Version="5.2.0" />
+<PackageReference Include="PleasantUI" Version="5.3.0" />
+<PackageReference Include="PleasantUI.DataGrid" Version="5.3.0" />
+<PackageReference Include="PleasantUI.MaterialIcons" Version="5.3.0" />
+<PackageReference Include="PleasantUI.ToolKit" Version="5.3.0" />
 ```
 
 
@@ -267,9 +273,9 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 
 ```xml
 <Button Content="Default" />
-<Button Theme="{DynamicResource AccentButtonTheme}" Content="Accent" />
-<Button Theme="{DynamicResource DangerButtonTheme}" Content="Danger" />
-<Button Theme="{DynamicResource AppBarButtonTheme}" Content="AppBar" />
+<Button Theme="{StaticResource AccentButtonTheme}" Content="Accent" />
+<Button Theme="{StaticResource DangerButtonTheme}" Content="Danger" />
+<Button Theme="{StaticResource AppBarButtonTheme}" Content="AppBar" />
 ```
 
 ## 📃 OptionsDisplayItem
@@ -311,9 +317,17 @@ string title = Localizer.TrDefault("DialogTitle", "Confirm");
 
 ## ❤️ Credits
 
-- [Avalonia](https://github.com/AvaloniaUI/Avalonia)
-- Some controls inspired by PieroCastillo's [Aura.UI](https://github.com/PieroCastillo/Aura.UI)
-- [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) by ymg2006
+### Main
+- [Avalonia](https://github.com/AvaloniaUI/Avalonia) under license from MIT
 - Built with [JetBrains Rider](https://www.jetbrains.com/rider/)
+
+### Controls and Code
+- [Aura.UI](https://github.com/PieroCastillo/Aura.UI) (PieroCastillo) - NavigationView and AuraTabView under license from MIT
+- [ProgressRing](https://github.com/ymg2006/FluentAvalonia.ProgressRing) (ymg2006) - under license from MIT
+- [RichTextKit](https://github.com/toptensoftware/RichTextKit) (toptensoftware) - implementation of BinarySearch under license from Apache 2.0
+- [weather](https://github.com/rocksdanister/weather) (rocksdanister) - implementation of BackdropBlurBorder under license from MIT
+- [Xaml.Behaviors.Interactions.Animated](https://github.com/Egolds/Xaml.Behaviors.Interactions.Animated) (Egolds) - implementation of VerticalScrollViewerAnimatedBehavior under license from MIT
+- [BilibiliClient](https://github.com/afunc233/BilibiliClient) (afunc233) - implementation of VirtualizingWrapPanel
+- [Material.Avalonia](https://github.com/AvaloniaCommunity/Material.Avalonia) (CommunityAvalonia) - implementation of Ripple Effect under license from MIT
 
 <img src="https://i.imgur.com/IvbDwuz.png" width="360" align="right"/>

@@ -14,7 +14,6 @@
     <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
 
         <Setter Property="Template">
@@ -47,7 +46,7 @@
 
                                 <Rectangle x:Name="PART_FirstColumnDivider"
                                            Grid.Column="1"
-                                           Fill="{DynamicResource ControlBorderColor}"
+                                           Fill="{TemplateBinding BorderBrush}"
                                            Width="1"
                                            HorizontalAlignment="Center" />
 
@@ -62,7 +61,7 @@
 
                                 <Rectangle x:Name="PART_SecondColumnDivider"
                                            Grid.Column="3"
-                                           Fill="{DynamicResource ControlBorderColor}"
+                                           Fill="{TemplateBinding BorderBrush}"
                                            Width="1"
                                            HorizontalAlignment="Center" />
 
@@ -82,34 +81,9 @@
                                IsLightDismissEnabled="True"
                                PlacementTarget="{TemplateBinding}"
                                Placement="Bottom">
-                            <Popup.Styles>
-                                <Style Selector="Popup[IsOpen=True] > ShadowBorder">
-                                    <Style.Animations>
-                                        <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                            <KeyFrame Cue="0%">
-                                                <Setter Property="ScaleTransform.ScaleY" Value="0.1" />
-                                                <Setter Property="Opacity" Value="0" />
-                                            </KeyFrame>
-                                            <KeyFrame Cue="100%">
-                                                <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                                                <Setter Property="Opacity" Value="1" />
-                                            </KeyFrame>
-                                        </Animation>
-                                    </Style.Animations>
-                                </Style>
-                            </Popup.Styles>
-                            
-                            <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
-                                          Margin="6 4 6 6"
-                                          BlurRadius="5"
-                                          Offset="0 1"
-                                          ShadowColor="#3C000000">
-                                <Border Background="{DynamicResource BackgroundColor1}"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="{DynamicResource ControlBorderThickness}"
-                                        CornerRadius="{DynamicResource ControlCornerRadius}">
-                                    <TimePickerPresenter Name="PART_PickerPresenter" />
-                                </Border>
+                            <ShadowBorder Background="{DynamicResource BackgroundColor1}"
+                                          CornerRadius="{DynamicResource ControlCornerRadius}">
+                                <TimePickerPresenter Name="PART_PickerPresenter" />
                             </ShadowBorder>
                         </Popup>
                     </Grid>
@@ -136,67 +110,67 @@
                         <Grid Name="PART_PickerContainer">
                             <Grid.Styles>
                                 <Style Selector="DateTimePickerPanel > ListBoxItem">
-                                    <Setter Property="Theme" Value="{DynamicResource DateTimePickerItem}" />
+                                    <Setter Property="Theme" Value="{StaticResource DateTimePickerItem}" />
                                 </Style>
                             </Grid.Styles>
 
                             <Panel Name="PART_HourHost" Grid.Column="0">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                                    VerticalScrollBarVisibility="Hidden">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_HourSelector"
                                                          PanelType="Hour"
                                                          ShouldLoop="True"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
-                                <RepeatButton Name="PART_HourUpButton" Theme="{DynamicResource DateTimePickerUpButton}" />
+                                <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_HourDownButton"
-                                              Theme="{DynamicResource DateTimePickerDownButton}" />
+                                              Theme="{StaticResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Panel Name="PART_MinuteHost" Grid.Column="2">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                                    VerticalScrollBarVisibility="Hidden">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_MinuteSelector"
                                                          PanelType="Minute"
                                                          ShouldLoop="True"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_MinuteUpButton"
-                                              Theme="{DynamicResource DateTimePickerUpButton}" />
+                                              Theme="{StaticResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_MinuteDownButton"
-                                              Theme="{DynamicResource DateTimePickerDownButton}" />
+                                              Theme="{StaticResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Panel Name="PART_SecondHost" Grid.Column="4">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                                    VerticalScrollBarVisibility="Hidden">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_SecondSelector"
                                                          PanelType="Minute"
                                                          ShouldLoop="True"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_SecondUpButton"
-                                              Theme="{DynamicResource DateTimePickerUpButton}" />
+                                              Theme="{StaticResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_SecondDownButton"
-                                              Theme="{DynamicResource DateTimePickerDownButton}" />
+                                              Theme="{StaticResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Panel Name="PART_PeriodHost" Grid.Column="6">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                                    VerticalScrollBarVisibility="Hidden">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_PeriodSelector"
                                                          PanelType="TimePeriod"
                                                          ShouldLoop="False"
                                                          ItemHeight="40" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
 
                                 <RepeatButton Name="PART_PeriodUpButton"
-                                              Theme="{DynamicResource DateTimePickerUpButton}" />
+                                              Theme="{StaticResource DateTimePickerUpButton}" />
                                 <RepeatButton Name="PART_PeriodDownButton"
-                                              Theme="{DynamicResource DateTimePickerDownButton}" />
+                                              Theme="{StaticResource DateTimePickerDownButton}" />
                             </Panel>
 
                             <Rectangle Name="HighlightRect"
@@ -238,18 +212,18 @@
                               ColumnDefinitions="*,*">
                             <Button Grid.Column="0"
                                     Name="PART_AcceptButton"
-                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                    Theme="{StaticResource AppBarButtonTheme}"
                                     Margin="2"
                                     Height="40">
-                                <PathIcon Data="{DynamicResource CheckmarkRegular}" Width="14" Height="14" />
+                                <PleasantIcon Icon="{StaticResource CheckmarkRegular}" Width="14" Height="14" />
                             </Button>
 
                             <Button Grid.Column="1"
                                     Name="PART_DismissButton"
-                                    Theme="{DynamicResource AppBarButtonTheme}"
+                                    Theme="{StaticResource AppBarButtonTheme}"
                                     Margin="2"
                                     Height="40">
-                                <PathIcon Data="{DynamicResource DismissRegular}" Width="12" Height="12" />
+                                <PleasantIcon Icon="{StaticResource DismissRegular}" Width="12" Height="12" />
                             </Button>
                         </Grid>
                     </Grid>

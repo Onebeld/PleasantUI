@@ -5,7 +5,6 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
@@ -16,7 +15,7 @@ namespace PleasantUI.Controls;
 public class OptionsDisplayItem : TemplatedControl
 {
     private bool _isPressed;
-    private Border? _layoutRoot;
+    private RippleEffect? _rippleEffect;
     
     /// <summary>
     /// Defines the <see cref="Header" /> property.
@@ -33,8 +32,8 @@ public class OptionsDisplayItem : TemplatedControl
     /// <summary>
     /// Defines the <see cref="Icon" /> property.
     /// </summary>
-    public static readonly StyledProperty<Geometry> IconProperty =
-        AvaloniaProperty.Register<OptionsDisplayItem, Geometry>(nameof(Icon));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<OptionsDisplayItem, object?>(nameof(Icon));
 
     /// <summary>
     /// Defines the <see cref="Navigates" /> property.
@@ -106,7 +105,7 @@ public class OptionsDisplayItem : TemplatedControl
     /// <summary>
     /// Gets or sets the icon geometry.
     /// </summary>
-    public Geometry Icon
+    public object? Icon
     {
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
@@ -190,6 +189,12 @@ public class OptionsDisplayItem : TemplatedControl
         remove => RemoveHandler(NavigationRequestedEvent, value);
     }
 
+    static OptionsDisplayItem()
+    {
+        FocusableProperty.OverrideDefaultValue<OptionsDisplayItem>(true);
+        IsTabStopProperty.OverrideDefaultValue<OptionsDisplayItem>(true);
+    }
+    
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
@@ -224,10 +229,21 @@ public class OptionsDisplayItem : TemplatedControl
     {
         base.OnApplyTemplate(e);
 
-        _layoutRoot = e.NameScope.Find<Border>("LayoutRoot")!;
-        _layoutRoot.PointerPressed += OnLayoutRootPointerPressed;
-        _layoutRoot.PointerReleased += OnLayoutRootPointerReleased;
-        _layoutRoot.PointerCaptureLost += OnLayoutRootPointerCaptureLost;
+        _rippleEffect = e.NameScope.Find<RippleEffect>("PART_Ripple")!;
+        _rippleEffect.PointerPressed += OnLayoutRootPointerPressed;
+        _rippleEffect.PointerReleased += OnLayoutRootPointerReleased;
+        _rippleEffect.PointerCaptureLost += OnLayoutRootPointerCaptureLost;
+    }
+
+    /// <inheritdoc />
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.Enter)
+        {
+            IsExpanded = !IsExpanded;
+        }
     }
 
     private void OnLayoutRootPointerPressed(object? sender, PointerPressedEventArgs e)

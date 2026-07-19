@@ -13,14 +13,14 @@ internal class ColorChangeCommand(
 {
     public void Undo()
     {
-        themeColor.Color = previousColor;
+        themeColor.UpdateColorSilent(previousColor);
 
         ChangeColorInResourceDictionary(themeColor);
     }
 
     public void Redo()
     {
-        themeColor.Color = newColor;
+        themeColor.UpdateColorSilent(newColor);
 
         ChangeColorInResourceDictionary(themeColor);
     }

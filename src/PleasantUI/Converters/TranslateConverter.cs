@@ -11,6 +11,11 @@ namespace PleasantUI.Converters;
 public class TranslateConverter : IMultiValueConverter
 {
     /// <summary>
+    /// An instance of the <see cref="TranslateConverter"/> class object
+    /// </summary>
+    public static readonly TranslateConverter Instance = new();
+    
+    /// <summary>
     /// Converts a list of values to a translated string.
     /// </summary>
     /// <param name="values">

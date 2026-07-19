@@ -5,7 +5,7 @@
                   TargetType="RefreshContainer">
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -17,7 +17,7 @@
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
                     <Grid Name="PART_RefreshVisualizerPresenter" />
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

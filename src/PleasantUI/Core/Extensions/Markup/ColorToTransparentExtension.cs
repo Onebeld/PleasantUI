@@ -16,13 +16,6 @@ public class ColorToTransparentExtension : MarkupExtension
     public object? ResourceKey { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ColorToTransparentExtension"/> class.
-    /// </summary>
-    public ColorToTransparentExtension()
-    {
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="ColorToTransparentExtension"/> class with a specified resource key.
     /// </summary>
     /// <param name="resourceKey">The resource key associated with the color.</param>
@@ -46,7 +39,7 @@ public class ColorToTransparentExtension : MarkupExtension
         MultiBinding multiBinding = new()
         {
             Bindings = { extension },
-            Converter = new ColorToTransparentConverter()
+            Converter = ColorToTransparentMultiConverter.Instance
         };
 
         return multiBinding;

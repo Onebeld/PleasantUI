@@ -11,14 +11,26 @@ public static class LocalizeBinding
     /// <summary>
     /// Creates a one-way binding that updates whenever the app language changes.
     /// </summary>
-    public static Binding Create(string key, string? context = null, string? @default = null, bool menuBar = false)
+    public static BindingBase Create(object? key, string? context = null, string? @default = null, bool menuBar = false)
     {
+        if (key is Enum)
+            key = Localizer.UnsanitizeIdentifier(key.ToString());
+        
         if (!string.IsNullOrWhiteSpace(context))
             key = $"{context}/{key}";
 
-        string resolvedKey = key;
+        string resolvedKey = key?.ToString() ??  string.Empty;
         string? defaultVal = @default;
         bool menu = menuBar;
+
+        LocalizeKeyObservable observable = new(Resolve);
+        
+        return CompiledBinding.Create(
+            (LocalizeKeyObservable value) => value.Value,
+            observable,
+            mode: BindingMode.OneWay,
+            fallbackValue: resolvedKey,
+            targetNullValue: resolvedKey);
 
         string Resolve()
         {
@@ -30,16 +42,6 @@ public static class LocalizeBinding
 
             return expression;
         }
-
-        var observable = new LocalizeKeyObservable(Resolve);
-        return new Binding
-        {
-            Source = observable,
-            Path = nameof(LocalizeKeyObservable.Value),
-            Mode = BindingMode.OneWay,
-            FallbackValue = resolvedKey,
-            TargetNullValue = resolvedKey
-        };
     }
 }
 

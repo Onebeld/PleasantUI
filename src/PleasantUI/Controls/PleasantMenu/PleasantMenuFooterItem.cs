@@ -1,6 +1,5 @@
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
@@ -10,8 +9,8 @@ namespace PleasantUI.Controls;
 public class PleasantMenuFooterItem : AvaloniaObject
 {
     /// <summary>Icon geometry.</summary>
-    public static readonly StyledProperty<Geometry?> IconProperty =
-        AvaloniaProperty.Register<PleasantMenuFooterItem, Geometry?>(nameof(Icon));
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<PleasantMenuFooterItem, object?>(nameof(Icon));
 
     /// <summary>Command invoked when clicked.</summary>
     public static readonly StyledProperty<ICommand?> CommandProperty =
@@ -35,7 +34,7 @@ public class PleasantMenuFooterItem : AvaloniaObject
     public static readonly StyledProperty<bool> AlignRightProperty =
         AvaloniaProperty.Register<PleasantMenuFooterItem, bool>(nameof(AlignRight));
 
-    public Geometry? Icon             { get => GetValue(IconProperty);             set => SetValue(IconProperty, value); }
+    public object? Icon             { get => GetValue(IconProperty);             set => SetValue(IconProperty, value); }
     public ICommand? Command          { get => GetValue(CommandProperty);           set => SetValue(CommandProperty, value); }
     public object?   CommandParameter { get => GetValue(CommandParameterProperty);  set => SetValue(CommandParameterProperty, value); }
     public string?   ToolTip          { get => GetValue(ToolTipProperty);           set => SetValue(ToolTipProperty, value); }

@@ -13,7 +13,7 @@
 
                 <OptionsDisplayItem Header="Header"
                                     Description="This is a description of whatver this does"
-                                    Icon="{DynamicResource CheckmarkRegular}"
+                                    Icon="{StaticResource CheckmarkRegular}"
                                     Content="Hello World">
                     <OptionsDisplayItem.ActionButton>
                         <ComboBox />
@@ -32,66 +32,52 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="Padding" Value="11 0 11 0" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="(IconHelper.Width)" Value="20" />
+        <Setter Property="(IconHelper.Height)" Value="20" />
+        <Setter Property="(IconHelper.IconSize)" Value="22" />
 
         <Setter Property="Template">
             <ControlTemplate>
                 <StackPanel>
-                    <Border Name="LayoutRoot"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            MinHeight="69"
-                            ClipToBounds="True">
-                        <RippleEffect x:Name="PART_Ripple" Padding="12 5">
-                            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                                <Viewbox Name="IconHost"
-                                         Grid.Column="0"
-                                         Grid.Row="0"
-                                         Width="20"
-                                         Height="20"
-                                         Margin="8 4 14 4">
-                                    <Path Stretch="Uniform"
-                                          Data="{TemplateBinding Icon}"
-                                          Fill="{DynamicResource TextFillColor1}" />
-                                </Viewbox>
+                    <RippleEffect x:Name="PART_Ripple"
+                                  Background="{TemplateBinding Background}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  MinHeight="69"
+                                  Padding="12 5"
+                                  TemplatedControl.IsTemplateFocusTarget="True">
+                        <DockPanel>
+                            <PleasantIcon Name="IconHost"
+                                          DockPanel.Dock="Left"
+                                          Width="{TemplateBinding (IconHelper.Width)}"
+                                          Height="{TemplateBinding (IconHelper.Height)}"
+                                          FontSize="{TemplateBinding (IconHelper.FontSize)}"
+                                          IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
+                                          Margin="8 4 14 4"
+                                          Icon="{TemplateBinding Icon}" />
+                            
+                            <PathIcon Name="Chevron"
+                                      DockPanel.Dock="Right"
+                                      Width="12"
+                                      Height="12"
+                                      Margin="11 0 8 0" />
 
-                                <StackPanel Grid.Row="0" Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Margin="6 0 0 0">
-                                    <TextBlock Theme="{DynamicResource BaseTextBlockTheme}"
-                                               Text="{TemplateBinding Header}" />
-                                    <TextBlock Theme="{DynamicResource CaptionTextBlockTheme}"
-                                               Text="{TemplateBinding Description}"
-                                               Foreground="{DynamicResource TextFillColor2}"
-                                               IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
-                                </StackPanel>
+                            <ContentPresenter DockPanel.Dock="Right"
+                                              Content="{TemplateBinding ActionButton}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Right"
+                                              Margin="4 4" />
 
-                                <ContentPresenter Grid.Column="2"
-                                                  Grid.Row="0"
-                                                  Content="{TemplateBinding ActionButton}"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Right"
-                                                  Margin="4 4" />
-
-                                <Viewbox Name="ChevronHost"
-                                         Grid.Column="3"
-                                         Grid.Row="0"
-                                         Width="14"
-                                         Height="14"
-                                         Margin="11 0 8 0">
-                                    <Path Name="Chevron"
-                                          Margin="1"
-                                          Fill="{DynamicResource TextFillColor2}"
-                                          VerticalAlignment="Center"
-                                          HorizontalAlignment="Center"
-                                          Stretch="Uniform" />
-                                </Viewbox>
-                            </Grid>
-                        </RippleEffect>
-                    </Border>
-                    
-                    <Border Name="Separator" Height="1" Background="#20000000" />
+                            <StackPanel VerticalAlignment="Center"
+                                        Margin="6 0 0 0">
+                                <TextBlock Theme="{StaticResource BaseTextBlockTheme}"
+                                           Text="{TemplateBinding Header}" />
+                                <TextBlock Theme="{StaticResource CaptionTextBlockTheme}"
+                                           Text="{TemplateBinding Description}"
+                                           Foreground="{DynamicResource TextFillColor2}"
+                                           IsVisible="{TemplateBinding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </RippleEffect>
 
                     <ContentPresenter Name="ExpandedContentPresenter"
                                       Content="{TemplateBinding Content}"
@@ -100,25 +86,22 @@
                                       HorizontalContentAlignment="Stretch"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch"
-                                      Background="{DynamicResource BackgroundColor3}"
+                                      Background="{DynamicResource ControlFillColor1}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="1 0 1 1"
+                                      Margin="0 2 0 0"
                                       ZIndex="-1"
                                       Padding="12" />
                 </StackPanel>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^ /template/ Viewbox#IconHost">
+        <Style Selector="^ /template/ PleasantIcon#IconHost">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector="^ /template/ Viewbox#ChevronHost">
+        <Style Selector="^ /template/ PathIcon#Chevron">
             <Setter Property="IsVisible" Value="False" />
         </Style>
         <Style Selector="^ /template/ ContentPresenter#ExpandedContentPresenter">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^ /template/ Border#Separator">
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
@@ -126,36 +109,36 @@
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
-        <Style Selector="^ /template/ Border#LayoutRoot">
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple">
             <Setter Property="Transitions">
                 <Transitions>
-                    <BrushTransition Property="Background" Duration="0:0:0.1" /> 
-                </Transitions> 
+                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                </Transitions>
             </Setter>
         </Style>
-        <Style Selector="^ /template/ Border#LayoutRoot:pointerover">
+        <Style Selector="^ /template/ RippleEffect#PART_Ripple:pointerover">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
-        <Style Selector="^:icon /template/ Viewbox#IconHost">
+        <Style Selector="^:icon /template/ PleasantIcon#IconHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 
-        <Style Selector="^:navigates /template/ Viewbox#ChevronHost">
+        <Style Selector="^:navigates /template/ PathIcon#Chevron">
             <Setter Property="IsVisible" Value="True" />
-        </Style>
-        <Style Selector="^:navigates /template/ Path#Chevron">
-            <Setter Property="Data" Value="{DynamicResource ChevronRightRegular}" />
+            <Setter Property="Data" Value="{StaticResource ChevronRightRegular}" />
         </Style>
 
-        <Style Selector="^:expands /template/ Viewbox#ChevronHost">
-            <Setter Property="IsVisible" Value="True" />
+        <Style Selector="^:not(:expands)">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="IsTabStop" Value="False" />
         </Style>
-        <Style Selector="^:expands /template/ Path#Chevron">
-            <Setter Property="Data" Value="{DynamicResource ChevronDownRegular}" />
+        <Style Selector="^:expands /template/ PathIcon#Chevron">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Data" Value="{StaticResource ChevronDownRegular}" />
         </Style>
 
-        <Style Selector="^:expanded /template/ Viewbox#ChevronHost">
+        <Style Selector="^:expanded /template/ PathIcon#Chevron">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0">
@@ -167,7 +150,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^:not(:expanded) /template/ Viewbox#ChevronHost">
+        <Style Selector="^:not(:expanded) /template/ PathIcon#Chevron">
             <Style.Animations>
                 <Animation FillMode="Both" Duration="0:0:0.2" Easing="0,0 0,1">
                     <KeyFrame Cue="0%">
@@ -197,10 +180,7 @@
             <Setter Property="CornerRadius"
                     Value="{CompiledBinding $parent[OptionsDisplayItem].CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Bottom}}" />
         </Style>
-        <Style Selector="^:expanded /template/ Border#Separator">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-        <Style Selector="^:expanded /template/ Border#LayoutRoot">
+        <Style Selector="^:expanded /template/ RippleEffect#PART_Ripple">
             <Setter Property="CornerRadius"
                     Value="{CompiledBinding $parent[OptionsDisplayItem].CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Top}}" />
         </Style>
@@ -209,7 +189,7 @@
             <Setter Property="IsVisible" Value="False" />
         </Style>
 
-        <Style Selector="^:icon /template/ Viewbox#IconHost">
+        <Style Selector="^:icon /template/ PleasantIcon#IconHost">
             <Setter Property="IsVisible" Value="True" />
         </Style>
     </ControlTheme>

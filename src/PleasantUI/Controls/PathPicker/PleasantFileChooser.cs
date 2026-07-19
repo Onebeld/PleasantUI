@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -8,6 +8,8 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace PleasantUI.Controls;
 
 /// <summary>
@@ -15,43 +17,43 @@ namespace PleasantUI.Controls;
 /// All state is exposed as <see cref="AvaloniaProperty"/> so the AXAML template
 /// uses only <c>{TemplateBinding}</c> — no DataContext or x:DataType required.
 /// </summary>
-[TemplatePart(PART_QuickLinks,    typeof(ListBox))]
-[TemplatePart(PART_FileList,      typeof(ListBox))]
-[TemplatePart(PART_LocationBox,   typeof(TextBox))]
-[TemplatePart(PART_FileNameBox,   typeof(TextBox))]
-[TemplatePart(PART_FilterBox,     typeof(TextBox))]
-[TemplatePart(PART_FilterCombo,   typeof(ComboBox))]
-[TemplatePart(PART_OkButton,      typeof(Button))]
-[TemplatePart(PART_CancelButton,  typeof(Button))]
-[TemplatePart(PART_BackButton,    typeof(Button))]
+[TemplatePart(PART_QuickLinks, typeof(ListBox))]
+[TemplatePart(PART_FileList, typeof(ListBox))]
+[TemplatePart(PART_LocationBox, typeof(TextBox))]
+[TemplatePart(PART_FileNameBox, typeof(TextBox))]
+[TemplatePart(PART_FilterBox, typeof(TextBox))]
+[TemplatePart(PART_FilterCombo, typeof(ComboBox))]
+[TemplatePart(PART_OkButton, typeof(Button))]
+[TemplatePart(PART_CancelButton, typeof(Button))]
+[TemplatePart(PART_BackButton, typeof(Button))]
 [TemplatePart(PART_ForwardButton, typeof(Button))]
-[TemplatePart(PART_UpButton,      typeof(Button))]
+[TemplatePart(PART_UpButton, typeof(Button))]
 public class PleasantFileChooser : TemplatedControl
 {
-    /// <summary>Template part: quick-access sidebar list.</summary>
-    public const string PART_QuickLinks    = "PART_QuickLinks";
-    /// <summary>Template part: main file/folder list.</summary>
-    public const string PART_FileList      = "PART_FileList";
-    /// <summary>Template part: current path text box.</summary>
-    public const string PART_LocationBox   = "PART_LocationBox";
-    /// <summary>Template part: file name entry box.</summary>
-    public const string PART_FileNameBox   = "PART_FileNameBox";
-    /// <summary>Template part: name filter text box.</summary>
-    public const string PART_FilterBox     = "PART_FilterBox";
-    /// <summary>Template part: file-type filter combo box.</summary>
-    public const string PART_FilterCombo   = "PART_FilterCombo";
-    /// <summary>Template part: OK / Open / Save button.</summary>
-    public const string PART_OkButton      = "PART_OkButton";
-    /// <summary>Template part: Cancel button.</summary>
-    public const string PART_CancelButton  = "PART_CancelButton";
-    /// <summary>Template part: navigate back button.</summary>
-    public const string PART_BackButton    = "PART_BackButton";
-    /// <summary>Template part: navigate forward button.</summary>
-    public const string PART_ForwardButton = "PART_ForwardButton";
-    /// <summary>Template part: navigate up button.</summary>
-    public const string PART_UpButton      = "PART_UpButton";
+    private const string PART_QuickLinks = "PART_QuickLinks";
+    private const string PART_FileList = "PART_FileList";
+    private const string PART_LocationBox = "PART_LocationBox";
+    private const string PART_FileNameBox = "PART_FileNameBox";
+    private const string PART_FilterBox = "PART_FilterBox";
+    private const string PART_FilterCombo = "PART_FilterCombo";
+    private const string PART_OkButton = "PART_OkButton";
+    private const string PART_CancelButton = "PART_CancelButton";
+    private const string PART_BackButton = "PART_BackButton";
+    private const string PART_ForwardButton = "PART_ForwardButton";
+    private const string PART_UpButton = "PART_UpButton";
 
-    // ── Styled properties (bound via TemplateBinding in AXAML) ────────────────
+    private PleasantFileChooserViewModel? _vm;
+
+    private ListBox? _quickLinks;
+    private ListBox? _fileList;
+    private TextBox? _locationBox;
+    private TextBox? _filterBox;
+    private ComboBox? _filterCombo;
+    private Button? _okButton;
+    private Button? _cancelButton;
+    private Button? _backButton;
+    private Button? _forwardButton;
+    private Button? _upButton;
 
     /// <summary>Defines the <see cref="QuickLinks"/> property.</summary>
     public static readonly StyledProperty<ObservableCollection<PleasantFileChooserItem>> QuickLinksProperty =
@@ -104,8 +106,6 @@ public class PleasantFileChooser : TemplatedControl
     /// <summary>Defines the <see cref="IsLoading"/> property.</summary>
     public static readonly StyledProperty<bool> IsLoadingProperty =
         AvaloniaProperty.Register<PleasantFileChooser, bool>(nameof(IsLoading));
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Quick-access sidebar items.</summary>
     public ObservableCollection<PleasantFileChooserItem> QuickLinks
@@ -191,44 +191,54 @@ public class PleasantFileChooser : TemplatedControl
         private set => SetValue(IsLoadingProperty, value);
     }
 
-    // ── Private fields ────────────────────────────────────────────────────────
+    static PleasantFileChooser() { }
 
-    private PleasantFileChooserViewModel? _vm;
-
-    private ListBox?  _quickLinks;
-    private ListBox?  _fileList;
-    private TextBox?  _locationBox;
-    private TextBox?  _fileNameBox;
-    private TextBox?  _filterBox;
-    private ComboBox? _filterCombo;
-    private Button?   _okButton;
-    private Button?   _cancelButton;
-    private Button?   _backButton;
-    private Button?   _forwardButton;
-    private Button?   _upButton;
-
-    // ── Static constructor ────────────────────────────────────────────────────
-
-    static PleasantFileChooser()
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
     {
+        base.OnPropertyChanged(e);
+
         // Sync control properties → ViewModel when changed from AXAML/code
-        CurrentPathProperty.Changed.AddClassHandler<PleasantFileChooser>(
-            (c, e) => { if (c._vm is not null && e.NewValue is string p) c._vm.Navigate(p); });
-
-        FileNameProperty.Changed.AddClassHandler<PleasantFileChooser>(
-            (c, e) => { if (c._vm is not null && e.NewValue is string n) c._vm.FileName = n; });
-
-        FilterTextProperty.Changed.AddClassHandler<PleasantFileChooser>(
-            (c, e) => { if (c._vm is not null && e.NewValue is string t) c._vm.FilterText = t; });
-
-        SelectedFilterIndexProperty.Changed.AddClassHandler<PleasantFileChooser>(
-            (c, e) => { if (c._vm is not null && e.NewValue is int i) c._vm.SelectedFilterIndex = i; });
+        if (e.Property == CurrentPathProperty)
+        {
+            if (_vm is not null && e.NewValue is string p) _vm.Navigate(p);
+        }
+        else if (e.Property == FileNameProperty)
+        {
+            if (_vm is not null && e.NewValue is string n) _vm.FileName = n;
+        }
+        else if (e.Property == FilterTextProperty)
+        {
+            if (_vm is not null && e.NewValue is string t) _vm.FilterText = t;
+        }
+        else if (e.Property == SelectedFilterIndexProperty)
+        {
+            if (_vm is not null && e.NewValue is int i) _vm.SelectedFilterIndex = i;
+        }
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
+    /// <inheritdoc />
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+        Detach();
+
+        _quickLinks = e.NameScope.Find<ListBox>(PART_QuickLinks);
+        _fileList = e.NameScope.Find<ListBox>(PART_FileList);
+        _locationBox = e.NameScope.Find<TextBox>(PART_LocationBox);
+        _filterBox = e.NameScope.Find<TextBox>(PART_FilterBox);
+        _filterCombo = e.NameScope.Find<ComboBox>(PART_FilterCombo);
+        _okButton = e.NameScope.Find<Button>(PART_OkButton);
+        _cancelButton = e.NameScope.Find<Button>(PART_CancelButton);
+        _backButton = e.NameScope.Find<Button>(PART_BackButton);
+        _forwardButton = e.NameScope.Find<Button>(PART_ForwardButton);
+        _upButton = e.NameScope.Find<Button>(PART_UpButton);
+
+        Attach();
+    }
 
     /// <summary>
-    /// Initialises the chooser with the given ViewModel.
+    /// Initializes the chooser with the given ViewModel.
     /// Syncs all ViewModel state into the control's styled properties.
     /// </summary>
     public void SetViewModel(PleasantFileChooserViewModel vm)
@@ -237,19 +247,19 @@ public class PleasantFileChooser : TemplatedControl
 
         // Populate collections
         QuickLinks.Clear();
-        foreach (var q in vm.QuickLinks) QuickLinks.Add(q);
+        foreach (PleasantFileChooserItem q in vm.QuickLinks) QuickLinks.Add(q);
 
         Filters.Clear();
-        foreach (var f in vm.Filters) Filters.Add(f);
+        foreach (PleasantFileChooserFilter f in vm.Filters) Filters.Add(f);
 
         // Sync scalar state
-        CurrentPath         = vm.CurrentPath;
-        FileName            = vm.FileName;
-        FilterText          = vm.FilterText;
+        CurrentPath = vm.CurrentPath;
+        FileName = vm.FileName;
+        FilterText = vm.FilterText;
         SelectedFilterIndex = vm.SelectedFilterIndex;
-        CanGoBack           = vm.CanGoBack;
-        CanGoForward        = vm.CanGoForward;
-        CanGoUp             = vm.CanGoUp;
+        CanGoBack = vm.CanGoBack;
+        CanGoForward = vm.CanGoForward;
+        CanGoUp = vm.CanGoUp;
 
         // Subscribe to ViewModel property changes → push back to control properties
         vm.PropertyChanged += (_, e) =>
@@ -288,69 +298,46 @@ public class PleasantFileChooser : TemplatedControl
     {
         Items.Clear();
         if (_vm is null) return;
-        foreach (var item in _vm.Items) Items.Add(item);
-    }
-
-    // ── Template ──────────────────────────────────────────────────────────────
-
-    /// <inheritdoc />
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-        Detach();
-
-        _quickLinks    = e.NameScope.Find<ListBox>(PART_QuickLinks);
-        _fileList      = e.NameScope.Find<ListBox>(PART_FileList);
-        _locationBox   = e.NameScope.Find<TextBox>(PART_LocationBox);
-        _fileNameBox   = e.NameScope.Find<TextBox>(PART_FileNameBox);
-        _filterBox     = e.NameScope.Find<TextBox>(PART_FilterBox);
-        _filterCombo   = e.NameScope.Find<ComboBox>(PART_FilterCombo);
-        _okButton      = e.NameScope.Find<Button>(PART_OkButton);
-        _cancelButton  = e.NameScope.Find<Button>(PART_CancelButton);
-        _backButton    = e.NameScope.Find<Button>(PART_BackButton);
-        _forwardButton = e.NameScope.Find<Button>(PART_ForwardButton);
-        _upButton      = e.NameScope.Find<Button>(PART_UpButton);
-
-        Attach();
+        foreach (PleasantFileChooserItem item in _vm.Items) Items.Add(item);
     }
 
     private void Attach()
     {
-        if (_quickLinks    is not null) _quickLinks.SelectionChanged  += OnQuickLinkSelected;
-        if (_fileList      is not null)
+        if (_quickLinks is not null) _quickLinks.SelectionChanged += OnQuickLinkSelected;
+        if (_fileList is not null)
         {
-            _fileList.DoubleTapped      += OnFileListDoubleTapped;
-            _fileList.SelectionChanged  += OnFileListSelectionChanged;
+            _fileList.DoubleTapped += OnFileListDoubleTapped;
+            _fileList.SelectionChanged += OnFileListSelectionChanged;
         }
-        if (_locationBox   is not null) _locationBox.KeyDown          += OnLocationKeyDown;
-        if (_filterBox     is not null) _filterBox.TextChanged        += OnFilterTextChanged;
-        if (_filterCombo   is not null) _filterCombo.SelectionChanged += OnFilterComboChanged;
-        if (_okButton      is not null) _okButton.Click               += OnOkClicked;
-        if (_cancelButton  is not null) _cancelButton.Click           += OnCancelClicked;
-        if (_backButton    is not null) _backButton.Click             += OnBackClicked;
-        if (_forwardButton is not null) _forwardButton.Click          += OnForwardClicked;
-        if (_upButton      is not null) _upButton.Click               += OnUpClicked;
+
+        if (_locationBox is not null) _locationBox.KeyDown += OnLocationKeyDown;
+        if (_filterBox is not null) _filterBox.TextChanged += OnFilterTextChanged;
+        if (_filterCombo is not null) _filterCombo.SelectionChanged += OnFilterComboChanged;
+        if (_okButton is not null) _okButton.Click += OnOkClicked;
+        if (_cancelButton is not null) _cancelButton.Click += OnCancelClicked;
+        if (_backButton is not null) _backButton.Click += OnBackClicked;
+        if (_forwardButton is not null) _forwardButton.Click += OnForwardClicked;
+        if (_upButton is not null) _upButton.Click += OnUpClicked;
     }
 
     private void Detach()
     {
-        if (_quickLinks    is not null) _quickLinks.SelectionChanged  -= OnQuickLinkSelected;
-        if (_fileList      is not null)
+        if (_quickLinks is not null) _quickLinks.SelectionChanged -= OnQuickLinkSelected;
+        if (_fileList is not null)
         {
-            _fileList.DoubleTapped      -= OnFileListDoubleTapped;
-            _fileList.SelectionChanged  -= OnFileListSelectionChanged;
+            _fileList.DoubleTapped -= OnFileListDoubleTapped;
+            _fileList.SelectionChanged -= OnFileListSelectionChanged;
         }
-        if (_locationBox   is not null) _locationBox.KeyDown          -= OnLocationKeyDown;
-        if (_filterBox     is not null) _filterBox.TextChanged        -= OnFilterTextChanged;
-        if (_filterCombo   is not null) _filterCombo.SelectionChanged -= OnFilterComboChanged;
-        if (_okButton      is not null) _okButton.Click               -= OnOkClicked;
-        if (_cancelButton  is not null) _cancelButton.Click           -= OnCancelClicked;
-        if (_backButton    is not null) _backButton.Click             -= OnBackClicked;
-        if (_forwardButton is not null) _forwardButton.Click          -= OnForwardClicked;
-        if (_upButton      is not null) _upButton.Click               -= OnUpClicked;
-    }
 
-    // ── Event handlers ────────────────────────────────────────────────────────
+        if (_locationBox is not null) _locationBox.KeyDown -= OnLocationKeyDown;
+        if (_filterBox is not null) _filterBox.TextChanged -= OnFilterTextChanged;
+        if (_filterCombo is not null) _filterCombo.SelectionChanged -= OnFilterComboChanged;
+        if (_okButton is not null) _okButton.Click -= OnOkClicked;
+        if (_cancelButton is not null) _cancelButton.Click -= OnCancelClicked;
+        if (_backButton is not null) _backButton.Click -= OnBackClicked;
+        if (_forwardButton is not null) _forwardButton.Click -= OnForwardClicked;
+        if (_upButton is not null) _upButton.Click -= OnUpClicked;
+    }
 
     private void OnQuickLinkSelected(object? sender, SelectionChangedEventArgs e)
     {
@@ -370,14 +357,13 @@ public class PleasantFileChooser : TemplatedControl
         if (_vm is null || _fileList is null) return;
 
         _vm.SelectedItems.Clear();
-        var selected = _fileList.SelectedItems;
+        IList? selected = _fileList.SelectedItems;
         if (selected is null) return;
-        foreach (var obj in selected)
+        foreach (object? obj in selected)
         {
             if (obj is PleasantFileChooserItem item)
                 _vm.SelectedItems.Add(item);
         }
-        Debug.WriteLine($"[FileChooser] SelectionChanged → SelectedItems count={_vm.SelectedItems.Count}, FileName=\"{_vm.FileName}\"");
     }
 
     private void OnLocationKeyDown(object? sender, KeyEventArgs e)
@@ -403,13 +389,13 @@ public class PleasantFileChooser : TemplatedControl
 
     private void OnOkClicked(object? sender, RoutedEventArgs e)
     {
-        Debug.WriteLine($"[FileChooser] OkClicked — FileName=\"{_vm?.FileName}\", SelectedItems={_vm?.SelectedItems.Count ?? 0}");
         _vm?.Confirm();
     }
-    private void OnCancelClicked(object? sender, RoutedEventArgs e)  => _vm?.Cancel();
-    private void OnBackClicked(object? sender, RoutedEventArgs e)    => _vm?.GoBack();
+
+    private void OnCancelClicked(object? sender, RoutedEventArgs e) => _vm?.Cancel();
+    private void OnBackClicked(object? sender, RoutedEventArgs e) => _vm?.GoBack();
     private void OnForwardClicked(object? sender, RoutedEventArgs e) => _vm?.GoForward();
-    private void OnUpClicked(object? sender, RoutedEventArgs e)      => _vm?.GoUp();
+    private void OnUpClicked(object? sender, RoutedEventArgs e) => _vm?.GoUp();
 
     // ── Static show API ───────────────────────────────────────────────────────
 
@@ -421,26 +407,26 @@ public class PleasantFileChooser : TemplatedControl
         TopLevel topLevel,
         PleasantFileChooserOptions options)
     {
-        var vm = new PleasantFileChooserViewModel
+        PleasantFileChooserViewModel vm = new()
         {
-            Title         = options.Title ?? "Open",
+            Title = options.Title ?? "Open",
             AllowMultiple = options.AllowMultiple,
-            FoldersOnly   = options.FoldersOnly,
-            ShowHidden    = options.ShowHidden,
-            Filters       = options.Filters ?? [],
-            CurrentPath   = options.InitialDirectory
-                            ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
+            FoldersOnly = options.FoldersOnly,
+            ShowHidden = options.ShowHidden,
+            Filters = options.Filters ?? [],
+            CurrentPath = options.InitialDirectory
+                          ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
         };
 
-        var chooser = new PleasantFileChooser();
+        PleasantFileChooser chooser = new();
         chooser.SetViewModel(vm);
 
-        var tcs    = new TaskCompletionSource<IReadOnlyList<string>?>();
-        var dialog = new ContentDialog
+        TaskCompletionSource<IReadOnlyList<string>?> tcs = new();
+        ContentDialog dialog = new()
         {
-            Content   = chooser,
-            Padding   = new Thickness(0),
-            MaxWidth  = 760,
+            Content = chooser,
+            Padding = new Thickness(0),
+            MaxWidth = 760,
             MaxHeight = 520
         };
 
@@ -449,14 +435,13 @@ public class PleasantFileChooser : TemplatedControl
         {
             if (resultSet) return;
             resultSet = true;
-            Debug.WriteLine($"[FileChooser] CloseRequested — Result=[{string.Join(", ", vm.Result ?? [])}]");
             // Set result BEFORE closing so the ShowAsync continuation's TrySetResult(null) loses the race
             tcs.TrySetResult(vm.Result);
             await dialog.CloseAsync();
         };
 
         await dialog.ShowAsync(topLevel);
-        tcs.TrySetResult(null);  // no-op if CloseRequested already set the result
+        tcs.TrySetResult(null); // no-op if CloseRequested already set the result
         return await tcs.Task;
     }
 }

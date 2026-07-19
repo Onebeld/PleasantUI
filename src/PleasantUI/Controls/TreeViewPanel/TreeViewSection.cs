@@ -4,7 +4,6 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Templates;
 using Avalonia.Media;
 
 namespace PleasantUI.Controls;
@@ -29,8 +28,8 @@ public class TreeViewSection : HeaderedItemsControl
     // ── Styled properties ─────────────────────────────────────────────────────
 
     /// <summary>Defines the <see cref="SectionIcon"/> property.</summary>
-    public static readonly StyledProperty<Geometry?> SectionIconProperty =
-        AvaloniaProperty.Register<TreeViewSection, Geometry?>(nameof(SectionIcon));
+    public static readonly StyledProperty<object?> SectionIconProperty =
+        AvaloniaProperty.Register<TreeViewSection, object?>(nameof(SectionIcon));
 
     /// <summary>Defines the <see cref="IconBackground"/> property.</summary>
     public static readonly StyledProperty<IBrush?> IconBackgroundProperty =
@@ -68,7 +67,7 @@ public class TreeViewSection : HeaderedItemsControl
     // ── CLR accessors ─────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets the icon geometry shown in the section header.</summary>
-    public Geometry? SectionIcon
+    public object? SectionIcon
     {
         get => GetValue(SectionIconProperty);
         set => SetValue(SectionIconProperty, value);
@@ -188,7 +187,7 @@ public class TreeViewSection : HeaderedItemsControl
     {
         if (_listBox is null) return;
         
-        var items = ItemsSource as IEnumerable ?? Items;
+        IEnumerable items = ItemsSource as IEnumerable ?? Items;
         _originalItems = items;
         
         if (string.IsNullOrEmpty(FilterText))
@@ -216,11 +215,11 @@ public class TreeViewSection : HeaderedItemsControl
         _filteredItems ??= new AvaloniaList<object>();
         _filteredItems.Clear();
 
-        foreach (var item in _originalItems)
+        foreach (object? item in _originalItems)
         {
             if (item is not null)
             {
-                var itemString = item.ToString();
+                string? itemString = item.ToString();
                 if (!string.IsNullOrEmpty(itemString) && 
                     itemString.Contains(filterText, StringComparison.OrdinalIgnoreCase))
                 {

@@ -10,10 +10,6 @@ namespace PleasantUI.Example;
 
 public partial class MainView : UserControl
 {
-    // Tracks the last leaf NavigationViewItem that was selected so we can
-    // explicitly deselect it when the user switches to About/Settings.
-    private NavigationViewItem? _lastLeafItem;
-
     public MainView()
     {
         InitializeComponent();
@@ -31,28 +27,22 @@ public partial class MainView : UserControl
     private void OnNavigationSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (DataContext is not AppViewModel vm) return;
-        if (e.AddedItems.Count == 0) return;
-
-        var selected = e.AddedItems[0] as NavigationViewItem;
-        if (selected is null) return;
+        if (e.AddedItems.Count == 0 || e.AddedItems[0] is not NavigationViewItem selected) return;
 
         // Switching to a top-level item (About, Settings, or Home directly) —
         // clear any previously selected leaf so it doesn't stay highlighted.
         if (selected.Tag is null)
         {
-            ClearLastLeaf();
-
-            if (ReferenceEquals(selected, HomeNavItem))
-                vm.BackToHomePage();
-
+            vm.BackToHomePage();
+            
             return;
         }
 
         // Leaf item — navigate to the corresponding page
-        var page = selected.Tag as string switch
+        IPage? page = (selected.Tag as string) switch
         {
             // Basic controls
-            "Button"        => (IPage)new ButtonPage(),
+            "Button"        => new ButtonPage(),
             "Checkbox"      => new CheckBoxPage(),
             "Progress"      => new ProgressPage(),
             "Calendar"      => new CalendarPage(),
@@ -80,7 +70,6 @@ public partial class MainView : UserControl
             "LogViewerPanel"     => new LogViewerPanelPage(),
             "TerminalPanel"      => new TerminalPanelPage(),
             "TreeViewPanel"      => new TreeViewPanelPage(),
-            "ItemListPanel"      => new ItemListPanelPage(),
             "PropertyGrid"       => new PropertyGridPage(),
             "DownloadPanel"      => new DownloadPanelPage(),
             "CrashReportDialog"  => new CrashReportDialogPage(),
@@ -88,35 +77,12 @@ public partial class MainView : UserControl
             "MessageBox"   => new MessageBoxPage(),
             "NoticeDialog" => new NoticeDialogPage(),
             "StepDialog"   => new StepDialogPage(),
-            "Docking"      => new DockingPage(),
+            "TableView" => new TableViewPage(),
             _            => null
         };
 
         if (page is null) return;
 
-        // Deselect the previous leaf before tracking the new one
-        ClearLastLeaf();
-        _lastLeafItem = selected;
-
         vm.ChangePage(page);
-
-        // Redirect SelectedItem back to HomeNavItem so its Content (HomeView)
-        // stays visible, without going through SelectionChanged again.
-        MainNavigationView.SelectionChanged -= OnNavigationSelectionChanged;
-        MainNavigationView.SelectedItem = HomeNavItem;
-        // HomeNavItem must not appear highlighted while a leaf page is active.
-        HomeNavItem.IsSelected = false;
-        // Re-highlight the leaf item — SelectSingleItemCore cleared it when we redirected to HomeNavItem.
-        selected.IsSelected = true;
-        MainNavigationView.SelectionChanged += OnNavigationSelectionChanged;
-    }
-
-    private void ClearLastLeaf()
-    {
-        if (_lastLeafItem is not null)
-        {
-            _lastLeafItem.IsSelected = false;
-            _lastLeafItem = null;
-        }
     }
 }

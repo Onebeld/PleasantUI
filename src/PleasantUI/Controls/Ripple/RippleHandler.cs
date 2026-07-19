@@ -1,13 +1,19 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2025 AvaloniaCommunity <https://github.com/AvaloniaCommunity>
+ * SPDX-License-Identifier: MIT
+ *
+ * Derived from:
+ * https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/RippleHandler.cs
+ */
+
+using Avalonia;
 using Avalonia.Animation.Easings;
 using Avalonia.Media;
 using Avalonia.Rendering.Composition;
 
 namespace PleasantUI.Controls;
 
-/// <remarks>
-/// Reference: https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/RippleHandler.cs
-/// </remarks>
 internal class RippleHandler : CompositionCustomVisualHandler
 {
     public static readonly object FirstStepMessage = new(), SecondStepMessage = new();

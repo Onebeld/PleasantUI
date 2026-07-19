@@ -1,4 +1,13 @@
-﻿using Avalonia;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2025 AvaloniaCommunity <https://github.com/AvaloniaCommunity>
+ * SPDX-License-Identifier: MIT
+ *
+ * Derived from:
+ * https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/RippleEffect.cs
+ */
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -11,9 +20,6 @@ namespace PleasantUI.Controls;
 /// <summary>
 /// A control that provides a ripple effect on pointer interaction.
 /// </summary>
-/// <remarks>
-/// Reference: https://github.com/AvaloniaCommunity/Material.Avalonia/blob/master/Material.Ripple/RippleEffect.cs
-/// </remarks>
 public class RippleEffect : ContentControl
 {
     private CompositionContainerVisual? _container;
@@ -144,7 +150,7 @@ public class RippleEffect : ContentControl
             if (newSize != default)
             {
                 container.Size = newSize;
-                foreach (CompositionVisual? child in container.Children) child.Size = newSize;
+                foreach (CompositionVisual child in container.Children) child.Size = newSize;
             }
         }
     }

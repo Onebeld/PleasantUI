@@ -2,6 +2,7 @@
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using PleasantUI.Core;
 
 namespace PleasantUI.ToolKit.Controls.PleasantColorView;
@@ -33,23 +34,19 @@ public class PleasantColorView : ColorView
 
     private void DeleteColor(object? sender, RoutedEventArgs e)
     {
-        uint color = HsvColor.ToRgb().ToUInt32();
+        Color color = Color;
 
         if (PleasantSettings.Current is not null)
-        {
             PleasantSettings.Current.ColorPalettes.Remove(color);
-        }
 
-        Color = Avalonia.Media.Color.FromUInt32(color);
+        Color = color;
     }
 
     private void AddColor(object? sender, RoutedEventArgs e)
     {
-        uint color = HsvColor.ToRgb().ToUInt32();
-
-        if (PleasantSettings.Current is not null && !PleasantSettings.Current.ColorPalettes.Contains(color))
+        if (PleasantSettings.Current is not null && !PleasantSettings.Current.ColorPalettes.Contains(Color))
         {
-            PleasantSettings.Current.ColorPalettes.Add(color);
+            PleasantSettings.Current.ColorPalettes.Add(Color);
         }
     }
 }

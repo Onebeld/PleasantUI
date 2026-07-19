@@ -14,7 +14,7 @@
                               InputGesture="Ctrl+N">
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
-                                <Path Data="{DynamicResource CheckmarkRegular}"
+                                <Path Data="{StaticResource CheckmarkRegular}"
                                       Fill="{DynamicResource TextFillColor1}"
                                       Stretch="Uniform" />
                             </Viewbox>
@@ -54,6 +54,11 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Padding" Value="11 4 11 5" />
+        <Setter Property="(IconHelper.Width)" Value="14" />
+        <Setter Property="(IconHelper.Height)" Value="14" />
+        <Setter Property="(IconHelper.FontSize)" Value="0" />
+        <Setter Property="(IconHelper.IconSize)" Value="14" />
+        
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -78,13 +83,15 @@
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
                                 </Grid.ColumnDefinitions>
-                                <ContentPresenter Name="PART_IconPresenter"
-                                                  Content="{TemplateBinding Icon}"
-                                                  Width="16"
-                                                  Height="16"
-                                                  Margin="0 0 12 0"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
+                                <PleasantIcon Name="PART_IconPresenter"
+                                             Icon="{TemplateBinding Icon}"
+                                             Width="{TemplateBinding (IconHelper.Width)}"
+                                             Height="{TemplateBinding (IconHelper.Height)}"
+                                             IconHelper.FontSize="{TemplateBinding (IconHelper.FontSize)}"
+                                             IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
+                                             Margin="0 0 12 0"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center" />
 
                                 <ContentPresenter Name="PART_HeaderPresenter"
                                                   Content="{TemplateBinding Header}"
@@ -111,7 +118,7 @@
                                           Margin="24 0 0 0"
                                           Width="10"
                                           Height="10"
-                                          Data="{DynamicResource ChevronRightRegular}" />
+                                          Data="{StaticResource ChevronRightRegular}" />
                             </Grid>
                         </RippleEffect>
                     </Border>
@@ -121,24 +128,6 @@
                            HorizontalOffset="-4"
                            IsLightDismissEnabled="False"
                            IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
-                        <Popup.Styles>
-                            <Style Selector="Popup[IsOpen=True] > ShadowBorder">
-                                <Style.Animations>
-                                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                        <KeyFrame Cue="0%">
-                                            <Setter Property="TranslateTransform.Y"
-                                                    Value="-100" />
-                                            <Setter Property="Opacity" Value="0" />
-                                        </KeyFrame>
-                                        <KeyFrame Cue="100%">
-                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                            <Setter Property="Opacity" Value="1" />
-                                        </KeyFrame>
-                                    </Animation>
-                                </Style.Animations>
-                            </Style>
-                        </Popup.Styles>
-                        
                         <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                       Margin="6 4 6 6"
                                       BlurRadius="5"
@@ -146,19 +135,18 @@
                                       ShadowColor="#3C000000">
                             <Border Background="{DynamicResource BackgroundColor1}"
                                     BorderBrush="{DynamicResource ControlBorderColor}"
-                                    Opacity="0"
                                     BorderThickness="1"
                                     MaxWidth="456"
                                     MinHeight="32"
                                     HorizontalAlignment="Stretch"
                                     CornerRadius="{DynamicResource ControlCornerRadius}">
-                                <SmoothScrollViewer HorizontalScrollBarVisibility="Auto"
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                               VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter Name="PART_ItemsPresenter"
                                                     ItemsPanel="{TemplateBinding ItemsPanel}"
                                                     Margin="0 2 0 2"
                                                     Grid.IsSharedSizeScope="True" />
-                                </SmoothScrollViewer>
+                                </ScrollViewer>
                             </Border>
                         </ShadowBorder>
                     </Popup>

@@ -1,0 +1,99 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+    <Design.PreviewWith>
+        <Border Padding="0 50">
+            <PleasantTitleBar />
+        </Border>
+    </Design.PreviewWith>
+
+    <MenuFlyout x:Key="WindowMenuFlyout">
+        <MenuItem x:Name="PART_ReestablishMenuItem"
+                  Header="{Localize Restore, Default='_Restore'}"
+                  Icon="{StaticResource SquareMultipleRegular}"
+                  IconHelper.FontSize="2"
+                  IconHelper.Width="12"
+                  IconHelper.Height="12" />
+        <MenuItem Name="PART_CollapseMenuItem"
+                  Header="{Localize CollapseMenu, Default='C_ollapse'}" Icon="{StaticResource SubtractRegular}"
+                  IconHelper.Width="12"
+                  IconHelper.Height="12" />
+        <MenuItem Name="PART_ExpandMenuItem"
+                  Header="{Localize ExpandMenu, Default='_Expand'}" Icon="{StaticResource MaximizeRegular}"
+                  IconHelper.Width="12"
+                  IconHelper.Height="12" />
+
+        <Separator Background="{DynamicResource ControlBorderColor}"
+                   Height="1"
+                   Margin="-4 1 -4 1" />
+
+        <MenuItem Name="PART_CloseMenuItem"
+                  Header="{Localize CloseMenu, Default='_Close'}"
+                  Icon="{StaticResource DismissRegular}"
+                  InputGesture="{OnPlatform Default=Alt+F4, macOS=Ctrl+W}"
+                  IconHelper.Width="12"
+                  IconHelper.Height="12"/>
+    </MenuFlyout>
+
+    <ControlTheme x:Key="{x:Type PleasantTitleBar}" TargetType="PleasantTitleBar">
+        <Setter Property="Background" Value="Transparent" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid x:Name="PART_TitleBarGrid" ColumnDefinitions="Auto,Auto,*,Auto">
+                    <Border x:Name="PART_DragWindow"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Background="Transparent"
+                            ContextFlyout="{DynamicResource WindowMenuFlyout}"
+                            WindowDecorationProperties.ElementRole="TitleBar" />
+
+                    <ContentPresenter Grid.Column="0" x:Name="PART_LeftTitleBarContent" />
+
+                    <StackPanel Grid.Column="1" x:Name="PART_TitlePanel"
+                                Orientation="Horizontal"
+                                Margin="5 0 0 0"
+                                Spacing="5"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False">
+                        <PleasantIcon x:Name="PART_DisplayIcon" Width="16" Height="16" Margin="10 0 5 0" />
+
+                        <PleasantIcon x:Name="PART_DisplayTitle" MaxWidth="75" />
+
+                        <TextBlock x:Name="PART_Subtitle"
+                                   FontSize="12"
+                                   Margin="3 0 0 0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColor3}" />
+                    </StackPanel>
+
+                    <ContentPresenter Grid.Column="2" x:Name="PART_TitleBarContent" />
+
+                    <OnPlatform>
+                        <OnPlatform.Default>
+                            <PleasantCaptionButtons Grid.Column="3" x:Name="PART_PleasantCaptionButtons" />
+                        </OnPlatform.Default>
+                        <OnPlatform.macOS>
+                            <PleasantCaptionButtons Grid.Column="3" x:Name="PART_PleasantCaptionButtons"
+                                                    Theme="{StaticResource PleasantCaptionButtonsMacOSStyle}" />
+                        </OnPlatform.macOS>
+                    </OnPlatform>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^:titlebar /template/ StackPanel#PART_TitlePanel">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style Selector="^:compact-titlebar /template/ StackPanel#PART_TitlePanel">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style Selector="^:isactive /template/ PleasantIcon#PART_DisplayTitle">
+            <Setter Property="Opacity" Value="0.7" />
+        </Style>
+        <Style Selector="^:isactive /template/ PleasantIcon#PART_DisplayIcon">
+            <Setter Property="Opacity" Value="0.7" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

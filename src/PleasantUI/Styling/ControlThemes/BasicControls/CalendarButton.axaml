@@ -55,7 +55,7 @@
         <Style Selector="^:selected">
             <Style Selector="^">
                 <Setter Property="Background" Value="{DynamicResource AccentLightColor2}" />
-                <Setter Property="Foreground" Value="{ForegroundBasedAccent AccentLightColor2}" />
+                <Setter Property="Foreground" Value="{ForegroundBased AccentLightColor2}" />
             </Style>
 
             <Style Selector="^:pointerover">

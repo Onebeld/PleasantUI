@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using PleasantUI.Core.GenerationContexts;
+using PleasantUI.Core.Settings.GenerationContexts;
 
 namespace PleasantUI.Core.Settings.Providers;
 

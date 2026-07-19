@@ -5,16 +5,18 @@
         <SelectableTextBlock Text="Preview" />
     </Design.PreviewWith>
 
-    <PleasantMenuFlyout x:Key="SelectableTextBlockContextFlyout" Placement="Bottom">
+    <MenuFlyout x:Key="SelectableTextBlockContextFlyout" Placement="Bottom">
         <MenuItem x:Name="SelectableTextBlockContextFlyoutItem"
                   Header="{Localize CopyMenu, Default='_Copy'}"
                   Command="{CompiledBinding $parent[SelectableTextBlock].Copy}"
                   IsEnabled="{CompiledBinding $parent[SelectableTextBlock].CanCopy}"
                   InputGesture="{x:Static TextBox.CopyGesture}" />
-    </PleasantMenuFlyout>
+    </MenuFlyout>
 
     <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentLightColor3}" />
+        <Setter Property="SelectionForegroundBrush" Value="{ForegroundBased AccentLightColor3}" />
+        <Setter Property="Cursor" Value="Ibeam" />
 
         <Style Selector="^[IsEnabled=True]">
             <Setter Property="Cursor" Value="IBeam" />

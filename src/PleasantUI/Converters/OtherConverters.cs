@@ -15,6 +15,9 @@ public static class OtherConverters
     /// <inheritdoc cref="EnumToBoolConverter" />
     public static readonly EnumToBoolConverter EnumToBool = new();
 
+    /// <inheritdoc cref="BorderGapMaskConverter" />
+    public static readonly BorderGapMaskConverter BorderGapMask = new();
+
     /// <summary>
     /// Converts a <see cref="Bitmap" /> to an <see cref="Image" />
     /// </summary>

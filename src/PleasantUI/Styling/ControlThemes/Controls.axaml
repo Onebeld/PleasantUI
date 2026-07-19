@@ -5,6 +5,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- Basic Controls -->
+                <MergeResourceInclude Source="BasicControls/TableView/TableView.axaml" />
+                <MergeResourceInclude Source="BasicControls/TableView/TableViewCell.axaml" />
+                <MergeResourceInclude Source="BasicControls/TableView/TableViewColumnHeader.axaml" />
+                <MergeResourceInclude Source="BasicControls/TableView/TableViewRow.axaml" />
                 <MergeResourceInclude Source="BasicControls/AdornerLayer.axaml" />
                 <MergeResourceInclude Source="BasicControls/AutoCompleteBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/Button.axaml" />
@@ -18,7 +22,9 @@
                 <MergeResourceInclude Source="BasicControls/CheckBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ComboBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/ComboBoxItem.axaml" />
+                <MergeResourceInclude Source="BasicControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/ContentControl.axaml" />
+                <MergeResourceInclude Source="BasicControls/ContentPage.axaml" />
                 <MergeResourceInclude Source="BasicControls/ContextMenu.axaml" />
                 <MergeResourceInclude Source="BasicControls/DataValidationErrors.axaml" />
                 <MergeResourceInclude Source="BasicControls/DatePicker.axaml" />
@@ -28,6 +34,7 @@
                 <MergeResourceInclude Source="BasicControls/Expander.axaml" />
                 <MergeResourceInclude Source="BasicControls/FlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="BasicControls/GridSplitter.axaml" />
+                <MergeResourceInclude Source="BasicControls/GroupBox.axaml" />
                 <MergeResourceInclude Source="BasicControls/HeaderedContentControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/ItemsControl.axaml" />
                 <MergeResourceInclude Source="BasicControls/Label.axaml" />
@@ -37,10 +44,11 @@
                 <MergeResourceInclude Source="BasicControls/MenuItem.axaml" />
                 <MergeResourceInclude Source="BasicControls/ModalWindowHost.axaml" />
                 <MergeResourceInclude Source="BasicControls/NativeMenuBar.axaml" />
+                <MergeResourceInclude Source="BasicControls/NavigationPage.axaml" />
                 <MergeResourceInclude Source="BasicControls/NotificationCard.axaml" />
                 <MergeResourceInclude Source="BasicControls/NumericUpDown.axaml" />
-                <MergeResourceInclude Source="BasicControls/OverlayPopupHost.axaml" />
                 <MergeResourceInclude Source="BasicControls/PathIcon.axaml" />
+                <MergeResourceInclude Source="BasicControls/PipsPager.axaml" />
                 <MergeResourceInclude Source="BasicControls/PopupRoot.axaml" />
                 <MergeResourceInclude Source="BasicControls/ProgressBar.axaml" />
                 <MergeResourceInclude Source="BasicControls/RadioButton.axaml" />
@@ -71,10 +79,11 @@
                 <MergeResourceInclude Source="BasicControls/WindowNotificationManager.axaml" />
 
                 <!-- Pleasant Controls -->
+                <MergeResourceInclude Source="PleasantControls/Chrome/PleasantCaptionButtons.axaml" />
+                <MergeResourceInclude Source="PleasantControls/Chrome/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/BreadcrumbBar.axaml" />
-                <MergeResourceInclude Source="PleasantControls/CommandBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/DashboardCard.axaml" />
-                <MergeResourceInclude Source="PleasantControls/ItemListPanel.axaml" />
+                <MergeResourceInclude Source="PleasantControls/PleasantIcon.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PropertyGrid.axaml" />
                 <MergeResourceInclude Source="PleasantControls/TreeViewPanel.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ContentDialog.axaml" />
@@ -85,35 +94,32 @@
                 <MergeResourceInclude Source="PleasantControls/PathPicker.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantFileChooser.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantBorder.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantCaptionButtons.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantFlyoutPresenter.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMiniWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTrayPopup.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSnackbar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabItem.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantTabView.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantTitleBar.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantWindow.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantSplashScreen.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantMenu.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PinCode.axaml" />
                 <MergeResourceInclude Source="PleasantControls/ProgressRing.axaml" />
                 <MergeResourceInclude Source="PleasantControls/RippleEffect.axaml" />
-                <MergeResourceInclude Source="PleasantControls/SmoothScrollViewer.axaml" />
+                <MergeResourceInclude Source="PleasantControls/SearchableComboBox.axaml" />
+                <MergeResourceInclude Source="PleasantControls/MarkedNumericUpDown.axaml" />
                 <MergeResourceInclude Source="PleasantControls/MarkedTextBox.axaml" />
-                <MergeResourceInclude Source="PleasantControls/Timeline.axaml" />
-                <MergeResourceInclude Source="PleasantControls/InstallWizard.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PleasantDrawer.axaml" />
                 <MergeResourceInclude Source="PleasantControls/PopConfirm.axaml" />
-                <MergeResourceInclude Source="PleasantControls/PleasantDockingStyles.axaml" />
                 <MergeResourceInclude Source="PleasantControls/SelectionList.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
 
     <Style Selector=":is(Button)">
-        <Style Selector="^ PathIcon">
+        <Style Selector="^ PleasantIcon">
             <Setter Property="Foreground" Value="{CompiledBinding $parent[Button].Foreground}" />
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
 
             <Setter Property="Transitions">
                 <Transitions>
@@ -123,12 +129,148 @@
             <Setter Property="RenderTransform" Value="none" />
         </Style>
 
-        <Style Selector="^:pointerover PathIcon">
+        <Style Selector="^:pointerover PleasantIcon">
             <Setter Property="RenderTransform" Value="scale(1.1)" />
         </Style>
 
-        <Style Selector="^:pressed PathIcon">
+        <Style Selector="^:pressed PleasantIcon">
             <Setter Property="RenderTransform" Value="scale(0.9)" />
         </Style>
+    </Style>
+
+    <Style Selector=":is(ContentDialog)">
+        <Setter Property="OpenAnimation">
+            <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.2">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+        <Setter Property="CloseAnimation">
+            <Animation Duration="0:0:0.05" FillMode="Both">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.05">
+                    <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
+                    <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+
+        <Setter Property="ShowBackgroundAnimation">
+            <Animation Duration="0:0:0.2" FillMode="Both">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.2">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+        <Setter Property="HideBackgroundAnimation">
+            <Animation Duration="0:0:0.05" FillMode="Both">
+                <KeyFrame KeyTime="0:0:0">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame KeyTime="0:0:0.05">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Setter>
+    </Style>
+    
+    <Style Selector=":is(Popup)">
+        <Setter Property="(TextElement.FontFamily)" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
+    </Style>
+    
+    <Style Selector=":is(Popup) ShadowBorder">
+        <Setter Property="Margin" Value="6 4 6 6" />
+        <Setter Property="BlurRadius" Value="5" />
+        <Setter Property="Offset" Value="0 1" />
+        <Setter Property="ShadowColor" Value="#3C000000" />
+        <Setter Property="ClipContentToBounds" Value="True" />
+    </Style>
+
+    <Style Selector=":is(Popup):not(ToolTip Popup)">
+        <Setter Property="(PopupAnimationHelper.IsEnabled)" Value="True" />
+        <Setter Property="(PopupAnimationHelper.Animations)">
+            <PopupPlacementAnimationCollection>
+                <PopupPlacementAnimationCollection.Default>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.Y)"
+                                    Value="-100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.Y)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Default>
+                <PopupPlacementAnimationCollection.Top>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.Y)"
+                                    Value="100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.Y)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Top>
+                <PopupPlacementAnimationCollection.Right>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.X)"
+                                    Value="-100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.X)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Right>
+                <PopupPlacementAnimationCollection.Left>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="SineEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(TranslateTransform.X)"
+                                    Value="100" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(TranslateTransform.X)" Value="0" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Left>
+                <PopupPlacementAnimationCollection.Center>
+                    <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="(ScaleTransform.ScaleY)" Value="0.1" />
+                            <Setter Property="(Visual.Opacity)" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="(ScaleTransform.ScaleY)" Value="1" />
+                            <Setter Property="(Visual.Opacity)" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </PopupPlacementAnimationCollection.Center>
+            </PopupPlacementAnimationCollection>
+        </Setter>
     </Style>
 </Styles>

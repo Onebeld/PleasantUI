@@ -10,7 +10,6 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
 

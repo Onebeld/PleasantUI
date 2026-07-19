@@ -4,7 +4,7 @@
     <Design.PreviewWith>
         <Border Padding="20">
             <StackPanel Spacing="8">
-                <PleasantSnackbar Content="Simple message" />
+                <PleasantSnackbar Content="Simple message" Icon="{StaticResource PasteRegular}" />
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -15,7 +15,6 @@
         <Setter Property="MaxWidth" Value="480" />
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Opacity" Value="0" />
         <Setter Property="Margin" Value="20" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
@@ -24,103 +23,88 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ShadowBorder CornerRadius="99"
+                <ShadowBorder x:Name="PART_Snackbar"
+                              Background="{DynamicResource BackgroundColor1}"
+                              ClipContentToBounds="True"
+                              CornerRadius="99"
                               BlurRadius="5"
                               Offset="0 1"
+                              Padding="5"
                               ShadowColor="#3C000000">
-                    <Border x:Name="PART_Snackbar"
-                            Background="{DynamicResource BackgroundColor1}"
-                            BorderBrush="{DynamicResource ControlBorderColor}"
-                            BorderThickness="1"
-                            CornerRadius="99">
-                        <Border CornerRadius="99"
-                                Margin="-1"
-                                ClipToBounds="True">
-                            <Grid ColumnDefinitions="Auto,*,Auto,Auto"
-                                  VerticalAlignment="Center">
-
-                                <!-- Severity icon pill -->
-                                <Border x:Name="PART_IconBorder"
-                                        Grid.Column="0"
-                                        Background="{DynamicResource SystemFillColorNeutral}"
-                                        Width="30"
-                                        Height="30"
-                                        CornerRadius="99"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        BorderThickness="1"
-                                        Margin="5"
-                                        VerticalAlignment="Center">
-                                    <PathIcon Foreground="{CompiledBinding $parent.Background, Converter={x:Static OtherConverters.ForegroundFromColor}}"
-                                              Data="{TemplateBinding Icon}" />
-                                </Border>
-
-                                <!-- Content area: title + message + action button -->
-                                <Grid x:Name="PART_Grid"
-                                      Grid.Column="1"
-                                      RowDefinitions="Auto,Auto"
-                                      ColumnDefinitions="*,Auto"
-                                      Opacity="0"
+                    <DockPanel VerticalAlignment="Center">
+                        <!-- Severity icon pill -->
+                        <PleasantIcon x:Name="PART_Icon"
+                                      DockPanel.Dock="Left"
+                                      Foreground="{ForegroundBased SystemFillColorNeutral}"
                                       VerticalAlignment="Center"
-                                      Margin="0 6 6 6">
+                                      Width="30"
+                                      Height="30"
+                                      CornerRadius="99"
+                                      Icon="{TemplateBinding Icon}"
+                                      IconHelper.Width="16"
+                                      IconHelper.Height="16" />
+                        
+                        <!-- Close button (only visible when :closable) -->
+                        <Button x:Name="PART_CloseButton"
+                                DockPanel.Dock="Right"
+                                Opacity="0"
+                                Theme="{StaticResource CloseButtonTheme}"
+                                CornerRadius="99"
+                                Width="28" Height="28"
+                                Padding="6"
+                                Margin="5 0 0 0"
+                                VerticalAlignment="Center"
+                                IsVisible="False">
+                            <PleasantIcon Icon="{StaticResource DismissRegular}"
+                                          Width="10"
+                                          Height="10" />
+                        </Button>
 
-                                    <!-- Title (only visible when :titled) -->
-                                    <TextBlock x:Name="PART_Title"
-                                               Grid.Row="0" Grid.Column="0"
-                                               Text="{TemplateBinding Title}"
-                                               FontWeight="SemiBold"
-                                               FontSize="13"
-                                               TextWrapping="NoWrap"
-                                               IsVisible="False" />
+                        <!-- Content area: title + message + action button -->
+                        <Grid x:Name="PART_Grid"
+                              RowDefinitions="Auto,Auto"
+                              ColumnDefinitions="*,Auto"
+                              Opacity="0"
+                              VerticalAlignment="Center"
+                              Margin="5 0 5 0">
 
-                                    <!-- Message — spans both rows, centered when no title -->
-                                    <ContentPresenter x:Name="PART_ContentPresenter"
-                                                      Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                                                      Content="{TemplateBinding Content}"
-                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                      VerticalContentAlignment="Center"
-                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      Margin="{TemplateBinding Padding}"
-                                                      
-                                                      TextAlignment="Start" />
+                            <!-- Title (only visible when :titled) -->
+                            <TextBlock x:Name="PART_Title"
+                                       Grid.Row="0" Grid.Column="0"
+                                       Text="{TemplateBinding Title}"
+                                       FontWeight="SemiBold"
+                                       FontSize="13"
+                                       TextWrapping="NoWrap"
+                                       IsVisible="False" />
 
-                                    <!-- Action button (text button or custom control) -->
-                                    <Button x:Name="PART_Button"
-                                            Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-                                            Theme="{DynamicResource AppBarButtonTheme}"
-                                            Foreground="{DynamicResource AccentLightColor3}"
-                                            CornerRadius="99"
-                                            VerticalAlignment="Center"
-                                            Margin="5 5 0 5" />
+                            <!-- Message — spans both rows, centered when no title -->
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              VerticalContentAlignment="Center"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              TextAlignment="Start" />
 
-                                    <!-- Custom action button slot -->
-                                    <ContentPresenter x:Name="PART_ActionButton"
-                                                      Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-                                                      Content="{TemplateBinding ActionButton}"
-                                                      VerticalContentAlignment="Center"
-                                                      IsVisible="{TemplateBinding ActionButton, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                      Margin="5 5 0 5" />
-                                </Grid>
+                            <!-- Action button (text button or custom control) -->
+                            <Button x:Name="PART_Button"
+                                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                                    Theme="{StaticResource AppBarButtonTheme}"
+                                    Foreground="{DynamicResource AccentLightColor3}"
+                                    CornerRadius="99"
+                                    VerticalAlignment="Center"
+                                    Margin="5 0 -5 0" />
 
-                                <!-- Close button (only visible when :closable) -->
-                                <Button x:Name="PART_CloseButton"
-                                        Grid.Column="2"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
-                                        CornerRadius="99"
-                                        Width="28" Height="28"
-                                        Padding="6"
-                                        VerticalAlignment="Center"
-                                        Margin="0 0 6 0"
-                                        IsVisible="False">
-                                    <PathIcon Data="{DynamicResource DismissRegular}"
-                                              Width="10" Height="10" />
-                                </Button>
-
-                                <!-- Fixed right-edge spacer — always present -->
-                                <Border Grid.Column="3" Width="10" />
-
-                            </Grid>
-                        </Border>
-                    </Border>
+                            <!-- Custom action button slot -->
+                            <ContentPresenter x:Name="PART_ActionButton"
+                                              Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                                              Content="{TemplateBinding ActionButton}"
+                                              VerticalContentAlignment="Center"
+                                              IsVisible="{TemplateBinding ActionButton, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                              Margin="5 0 -5 0" />
+                        </Grid>
+                    </DockPanel>
                 </ShadowBorder>
             </ControlTemplate>
         </Setter>
@@ -158,24 +142,32 @@
         </Style>
 
         <!-- ── Severity icon colours (unchanged) ───────────────────────── -->
-        <Style Selector="^ /template/ Border#PART_IconBorder">
+        <Style Selector="^ /template/ PleasantIcon#PART_Icon">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
-        <Style Selector="^:information /template/ Border#PART_IconBorder">
+        <Style Selector="^:information /template/ PleasantIcon#PART_Icon">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorNeutral}" />
         </Style>
-        <Style Selector="^:success /template/ Border#PART_IconBorder">
+        <Style Selector="^:success /template/ PleasantIcon#PART_Icon">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccess}" />
         </Style>
-        <Style Selector="^:warning /template/ Border#PART_IconBorder">
+        <Style Selector="^:warning /template/ PleasantIcon#PART_Icon">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorCaution}" />
         </Style>
-        <Style Selector="^:error /template/ Border#PART_IconBorder">
+        <Style Selector="^:error /template/ PleasantIcon#PART_Icon">
             <Setter Property="Background" Value="{DynamicResource SystemFillColorCritical}" />
         </Style>
 
         <!-- ── Grid fade-in transition (unchanged) ─────────────────────── -->
         <Style Selector="^ /template/ Grid#PART_Grid">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^ /template/ Button#PART_CloseButton">
             <Setter Property="Transitions">
                 <Transitions>
                     <DoubleTransition Property="Opacity" Duration="0:0:0.1" />

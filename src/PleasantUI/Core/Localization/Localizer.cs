@@ -1,7 +1,7 @@
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
+// ReSharper disable CollectionNeverQueried.Local
 
 namespace PleasantUI.Core.Localization;
 
@@ -15,12 +15,12 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     private const string IndexerName = "Item";
     private const string IndexerArrayName = "Item[]";
 
-    private static readonly List<ResourceManager>? ResourceManagers = new();
+    private static readonly List<ResourceManager>? ResourceManagers = [];
 
     // Strong references to all LocalizeKeyObservable instances — prevents GC from
     // collecting them and silently killing their LocalizationChanged subscriptions.
     private static readonly List<object> AliveObservables = [];
-    private static readonly object ObservableLock = new();
+    private static readonly Lock ObservableLock = new();
 
     private List<ResourceManager>? _resources;
     private int _isChangingLanguage;
@@ -56,27 +56,27 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     {
         get
         {
-            if (_resources == null || !_resources.Any())
+            if (_resources == null || _resources.Count == 0)
                 return "<ERROR! LANGUAGE Resources is empty>";
 
-            string? row = GetExpression(key);
+            string row = GetExpression(key);
 
             if (string.IsNullOrEmpty(row))
                 return $"<ERROR! Not found key \"{key}\">";
 
-            string? ret = row?.Replace(@"\\n", "\n");
+            string ret = row.Replace(@"\\n", "\n");
 
             if (string.IsNullOrEmpty(ret))
                 ret = $"Localize:{key}";
 
-            return ret!;
+            return ret;
         }
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Localizer" /> class.
     /// </summary>
-    public Localizer()
+    private Localizer()
     {
         LoadLanguage();
     }
@@ -88,23 +88,35 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <param name="context">The context of the translation.</param>
     /// <param name="args">The arguments to pass to the translation.</param>
     /// <returns>The translated string.</returns>
-    public static string Tr(string? key, string? context = null, params object[] args)
+    public static string Tr(object? key, string? context = null, params object[] args)
     {
+        key =  UnsanitizeIdentifier(key?.ToString());
+        
         if (key is null)
             return string.Empty;
 
         if (context is not null)
             key = $"{context}/{key}";
 
-        string expression = Instance[key];
+        string expression = Instance[key.ToString() ??  string.Empty];
 
         return string.Format(expression, args);
     }
 
-    public static string TrDefault(string? key, string? defaultString = null, string? context = null, params object[] args)
+    /// <summary>
+    /// Translates the specified key. If the key is not found, the original text will be displayed.
+    /// </summary>
+    /// <param name="key">The key to look up.</param>
+    /// <param name="defaultString">Original text</param>
+    /// <param name="context">The context of the translation.</param>
+    /// <param name="args">The arguments to pass to the translation.</param>
+    /// <returns>The translated string.</returns>
+    public static string TrDefault(object? key, string? defaultString = null, string? context = null, params object[] args)
     {
         if (key is null)
             return defaultString ?? string.Empty;
+
+        key = UnsanitizeIdentifier(key.ToString());
 
         if (context is not null)
             key = $"{context}/{key}";
@@ -141,15 +153,15 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     /// <param name="key">The key to look up.</param>
     /// <param name="expression">The localized string, or null if the key is not found or the resources are empty.</param>
     /// <returns>True if the key is found, false otherwise.</returns>
-    public bool TryGetString(string key, out string expression)
+    public bool TryGetString(object? key, out string expression)
     {
-        if (_resources == null || !_resources.Any())
+        if (_resources == null || _resources.Count == 0)
         {
             expression = "<ERROR! LANGUAGE Resources is empty>";
             return false;
         }
 
-        string? row = GetExpression(key);
+        string row = GetExpression(key);
 
         if (string.IsNullOrEmpty(row))
         {
@@ -157,12 +169,12 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             return false;
         }
 
-        string? ret = row?.Replace(@"\\n", "\n");
+        string ret = row.Replace(@"\\n", "\n");
 
         if (string.IsNullOrEmpty(ret))
             ret = $"Localize:{key}";
 
-        expression = ret!;
+        expression = ret;
         return true;
     }
 
@@ -195,7 +207,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         // after registration doesn't race satellite assembly loading.
         try
         {
-            var culture = CultureInfo.CurrentUICulture;
+            CultureInfo culture = CultureInfo.CurrentUICulture;
             resourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: true);
         }
         catch
@@ -256,7 +268,6 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             language = DefaultLanguage;
 
         Interlocked.Exchange(ref _isChangingLanguage, 1);
-        Debug.WriteLine($"[Localizer] ChangeLanguage → \"{language}\" (subscribers: {LocalizationChanged?.GetInvocationList().Length ?? 0}, observables: {AliveObservables.Count})");
 
         CultureInfo culture = new(language);
         CultureInfo.CurrentCulture = culture;
@@ -282,25 +293,22 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
             }
         }
 
-        Debug.WriteLine($"[Localizer] Resources primed for \"{language}\", firing LocalizationChanged");
-
         LocalizationChanged?.Invoke(language);
 
-        Debug.WriteLine($"[Localizer] ChangeLanguage done → \"{language}\"");
         Interlocked.Exchange(ref _isChangingLanguage, 0);
     }
 
     /// <inheritdoc />
-    public string? GetExpression(string key)
+    public string GetExpression(object? key)
     {
         if (_resources == null) return string.Empty;
-        foreach (ResourceManager? resource in _resources)
+        foreach (ResourceManager resource in _resources)
         {
             string? row;
 
             try
             {
-                row = resource?.GetString(key);
+                row = resource.GetString(key?.ToString() ?? string.Empty);
             }
             catch (MissingManifestResourceException)
             {
@@ -312,6 +320,19 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
         }
 
         return string.Empty;
+    }
+    
+    internal static string? UnsanitizeIdentifier(string? sanitized)
+    {
+        if (string.IsNullOrEmpty(sanitized))
+            return sanitized;
+
+        string clean = sanitized.StartsWith('_') && 
+                       (sanitized.Length == 1 || !char.IsLetter(sanitized[1])) 
+            ? sanitized[1..] 
+            : sanitized;
+
+        return clean.Replace("__", "/");
     }
 
     /// <summary>
@@ -327,7 +348,7 @@ public class Localizer : ILocalizer, INotifyPropertyChanged
     private void LoadLanguage()
     {
         if (ResourceManagers != null)
-            _resources = new List<ResourceManager>(ResourceManagers);
+            _resources = [..ResourceManagers];
 
         InvalidateEvents();
     }

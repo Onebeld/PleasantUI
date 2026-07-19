@@ -1,10 +1,16 @@
-﻿using Avalonia.Layout;
+﻿/*
+ * SPDX-FileCopyrightText: 2026 Dmitry Zhutkov (Onebeld) <onebeld@gmail.com>
+ * SPDX-FileCopyrightText: 2023 afunc233 <https://github.com/afunc233>
+ * SPDX-License-Identifier: MIT
+ *
+ * Derived from:
+ * https://github.com/afunc233/BilibiliClient/blob/599d7451e9187e7a967cbbb0cdbbd6a428493672/src/BilibiliClient/Controls/UVSize.cs
+ */
+
+using Avalonia.Layout;
 
 namespace PleasantUI.Controls.Utils;
 
-/// <remarks>
-/// Reference: https://github.com/afunc233/BilibiliClient/blob/599d7451e9187e7a967cbbb0cdbbd6a428493672/src/BilibiliClient/Controls/UVSize.cs
-/// </remarks>
 internal struct UvSize
 {
     internal UvSize(Orientation orientation, double width, double height)

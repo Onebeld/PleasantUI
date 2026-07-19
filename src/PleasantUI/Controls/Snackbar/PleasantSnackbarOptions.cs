@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
-using Avalonia.Media;
 
 namespace PleasantUI.Controls;
 
@@ -41,7 +40,7 @@ public class PleasantSnackbarOptions
     /// <summary>
     /// Gets or sets the icon displayed in the snackbar.
     /// </summary>
-    public Geometry? Icon { get; set; }
+    public object? Icon { get; set; }
 
     /// <summary>
     /// Gets or sets the type of notification (e.g., Information, Warning, Error, Success).

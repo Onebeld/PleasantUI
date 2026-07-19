@@ -18,6 +18,11 @@ public class Theme : ITheme
     /// </summary>
     public ThemeVariant? ThemeVariant { get; private set; }
 
+    /// <summary>
+    /// Sets the theme variant for theme
+    /// </summary>
+    /// <param name="themeVariant">Theme variant</param>
+    /// <exception cref="ArgumentNullException">Called if theme variant is null</exception>
     public void SetThemeVariant(ThemeVariant? themeVariant)
     {
         ThemeVariant = themeVariant;

@@ -25,7 +25,7 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="ShowButtonSpinner" Value="False" />
+        <Setter Property="ShowButtonSpinner" Value="True" />
         <Setter Property="Padding" Value="6 5 6 5" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
@@ -57,5 +57,12 @@
                 </ButtonSpinner>
             </ControlTemplate>
         </Setter>
+        
+        <Style Selector="^ /template/ MarkedTextBox#PART_TextBox">
+            <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
+        </Style>
+        <Style Selector="^ /template/ MarkedTextBox#PART_TextBox:pointerover">
+            <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

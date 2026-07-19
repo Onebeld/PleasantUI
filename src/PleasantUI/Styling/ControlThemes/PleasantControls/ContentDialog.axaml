@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:PleasantUI.Converters;assembly=PleasantUI"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
         <Border Padding="0">
@@ -9,15 +8,15 @@
                            Margin="50"
                            MinWidth="400"
                            MinHeight="180">
-                <SmoothScrollViewer>
+                <ScrollViewer>
                     <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
                         <TextBlock Text="Message" FontWeight="SemiBold" FontSize="20" />
                         <TextBlock Grid.Row="1" Text="You are cool" Margin="0 10 0 0" />
                     </Grid>
-                </SmoothScrollViewer>
+                </ScrollViewer>
                 <ContentDialog.BottomPanelContent>
                     <UniformGrid Margin="15 0" Rows="0" Columns="2">
-                        <Button Theme="{DynamicResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
+                        <Button Theme="{StaticResource AccentButtonTheme}" Content="OK" VerticalAlignment="Center"
                                 Margin="5" />
 
                         <Button Content="Cancel" VerticalAlignment="Center" Margin="5" />
@@ -28,6 +27,9 @@
     </Design.PreviewWith>
 
     <ControlTheme x:Key="{x:Type ContentDialog}" TargetType="ContentDialog">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ControlBorderThickness}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="MinWidth" Value="300" />
@@ -44,93 +46,33 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              MinWidth="{TemplateBinding MinWidth}"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              KeyboardNavigation.TabNavigation="Cycle"
+                              ClipContentToBounds="True"
                               BlurRadius="60"
                               ShadowColor="#6E000000"
                               Offset="0 6">
-                    <Border CornerRadius="{TemplateBinding CornerRadius}"
-                            Background="{DynamicResource BackgroundColor1}"
-                            BorderBrush="{DynamicResource ControlBorderColor}"
-                            MinWidth="{TemplateBinding MinWidth}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            ClipToBounds="False"
-                            BorderThickness="{DynamicResource ControlBorderThickness}">
-                        <Border ClipToBounds="True"
-                                CornerRadius="{TemplateBinding CornerRadius}">
-                            <Grid RowDefinitions="*,Auto">
-                                <ContentPresenter Grid.Row="0"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        <DockPanel>
+                            <Border DockPanel.Dock="Bottom"
+                                    Background="{DynamicResource BackgroundColor2}"
+                                    IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                    Height="80">
+                                <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />
+                            </Border>
 
-                                <Border Grid.Row="1"
-                                        BorderBrush="{DynamicResource ControlBorderColor}"
-                                        Background="{DynamicResource BackgroundColor3}"
-                                        BorderThickness="0 1 0 0"
-                                        CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static converters:CornerRadiusFilterConverters.Bottom}}"
-                                        IsVisible="{TemplateBinding BottomPanelContent, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                        Height="80">
-                                    <ContentPresenter Content="{TemplateBinding BottomPanelContent}" />
-                                </Border>
-                            </Grid>
-                        </Border>
-                    </Border>
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </DockPanel>
                 </ShadowBorder>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^">
-            <Setter Property="OpenAnimation">
-                <Animation Duration="0:0:0.2" FillMode="Both" Easing="0,0 0,1">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
-                        <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.2">
-                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                        <Setter Property="Opacity" Value="1" />
-                    </KeyFrame>
-                </Animation>
-            </Setter>
-            <Setter Property="CloseAnimation">
-                <Animation Duration="0:0:0.05" FillMode="Both">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                        <Setter Property="Opacity" Value="1" />
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.05">
-                        <Setter Property="ScaleTransform.ScaleX" Value="1.1" />
-                        <Setter Property="ScaleTransform.ScaleY" Value="1.1" />
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                </Animation>
-            </Setter>
-
-            <Setter Property="ShowBackgroundAnimation">
-                <Animation Duration="0:0:0.2" FillMode="Both">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.2">
-                        <Setter Property="Opacity" Value="1" />
-                    </KeyFrame>
-                </Animation>
-            </Setter>
-            <Setter Property="HideBackgroundAnimation">
-                <Animation Duration="0:0:0.05" FillMode="Both">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="Opacity" Value="1" />
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.05">
-                        <Setter Property="Opacity" Value="0" />
-                    </KeyFrame>
-                </Animation>
-            </Setter>
-        </Style>
     </ControlTheme>
 </ResourceDictionary>

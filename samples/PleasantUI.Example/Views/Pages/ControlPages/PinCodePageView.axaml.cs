@@ -43,7 +43,7 @@ public partial class PinCodePageView : LocalizedUserControl
 
     private void OnClearClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        foreach (var pin in new[] { DefaultPin, DigitPin, LetterPin, PasswordPin, SixPin })
+        foreach (PinCode? pin in new[] { DefaultPin, DigitPin, LetterPin, PasswordPin, SixPin })
         {
             for (int i = 0; i < pin.Count; i++)
                 pin.Digits[i] = string.Empty;

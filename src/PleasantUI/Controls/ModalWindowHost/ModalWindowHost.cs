@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Layout;
 using Avalonia.Reactive;
 
 namespace PleasantUI.Controls;
@@ -12,38 +11,6 @@ namespace PleasantUI.Controls;
 public class ModalWindowHost : ContentControl
 {
     private IDisposable? _rootBoundsWatcher;
-
-    /// <summary>
-    /// Defines the <see cref="HorizontalContentAlignment"/> property.
-    /// </summary>
-    public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty =
-        AvaloniaProperty.Register<ModalWindowHost, HorizontalAlignment>(nameof(HorizontalContentAlignment), HorizontalAlignment.Center);
-
-    /// <summary>
-    /// Defines the <see cref="VerticalContentAlignment"/> property.
-    /// </summary>
-    public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
-        AvaloniaProperty.Register<ModalWindowHost, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Center);
-
-    /// <summary>
-    /// Gets or sets the horizontal alignment of the content within the host.
-    /// This controls how the overlay is positioned in the OverlayLayer.
-    /// </summary>
-    public HorizontalAlignment HorizontalContentAlignment
-    {
-        get => GetValue(HorizontalContentAlignmentProperty);
-        set => SetValue(HorizontalContentAlignmentProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the vertical alignment of the content within the host.
-    /// This controls how the overlay is positioned in the OverlayLayer.
-    /// </summary>
-    public VerticalAlignment VerticalContentAlignment
-    {
-        get => GetValue(VerticalContentAlignmentProperty);
-        set => SetValue(VerticalContentAlignmentProperty, value);
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ModalWindowHost"/> class.
@@ -67,7 +34,7 @@ public class ModalWindowHost : ContentControl
     {
         base.OnAttachedToVisualTree(e);
 
-        if (e.Root is Control root)
+        if (e.RootVisual is Control root)
             _rootBoundsWatcher = root.GetObservable(BoundsProperty).Subscribe(new AnonymousObserver<Rect>(_ => OnRootBoundsChanged()));
     }
 

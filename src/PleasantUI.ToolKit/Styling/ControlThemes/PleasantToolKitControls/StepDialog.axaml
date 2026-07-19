@@ -2,28 +2,29 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.ToolKit.Controls"
                     x:ClassModifier="internal">
-
     <Design.PreviewWith>
         <Border Width="500" Height="500" Background="#40000000">
             <controls:StepDialog Title="Sign in with Azure"
+                                 Opacity="1"
                                  Description="Browser authentication failed. Please use the device code flow instead."
                                  StatusMessage="Waiting for authentication to complete..."
                                  SecondaryButtonText="Cancel"
                                  MinDialogWidth="420">
                 <controls:StepItem Header="Open the authentication page">
                     <Button Content="Open microsoft.com/devicelogin"
-                            Theme="{DynamicResource AccentButtonTheme}"
+                            Theme="{StaticResource AccentButtonTheme}"
                             HorizontalAlignment="Left" />
                 </controls:StepItem>
+                <controls:StepItem Header="Select the path">
+                    <TextBox Text="C:\Windows\Azure" />
+                </controls:StepItem>
                 <controls:StepItem Header="Enter this code">
-                    <Border Background="{DynamicResource BackgroundColor3}"
-                            CornerRadius="{DynamicResource ControlCornerRadius}"
-                            Padding="12 8">
-                        <TextBlock Text="ABCD-1234"
-                                   FontFamily="Consolas,Menlo,Monaco,monospace"
-                                   FontSize="18"
-                                   FontWeight="Bold" />
-                    </Border>
+                    <PleasantBorder BackgroundLevel="Level2" CornerRadius="{DynamicResource ControlCornerRadius}" Padding="12 8">
+                        <SelectableTextBlock Text="ABCD-1234"
+                                             FontFamily="Consolas,Menlo,Monaco,monospace"
+                                             FontSize="18"
+                                             FontWeight="Bold" />
+                    </PleasantBorder>
                 </controls:StepItem>
                 <controls:StepItem Header="Complete sign-in in your browser" />
             </controls:StepDialog>
@@ -40,12 +41,13 @@
 
                     <!-- Step number badge -->
                     <Border Grid.Column="0"
-                            Width="28" Height="28"
+                            Width="28"
+                            Height="28"
                             CornerRadius="{DynamicResource RoundedControlCornerRadius}"
                             Background="{DynamicResource AccentLinearGradientBrush}"
                             VerticalAlignment="Top">
                         <TextBlock Text="{TemplateBinding StepNumber}"
-                                   Foreground="{ForegroundBasedAccent AccentLightColor1}"
+                                   Foreground="{ForegroundBased AccentLightColor1}"
                                    FontWeight="SemiBold"
                                    FontSize="12"
                                    HorizontalAlignment="Center"
@@ -90,42 +92,12 @@
         <Setter Property="Opacity"             Value="0" />
         <Setter Property="CornerRadius"        Value="{DynamicResource ControlCornerRadius}" />
 
-        <Setter Property="OpenAnimation">
-            <Animation Duration="0:0:0.2" FillMode="Both" Easing="CubicEaseOut">
-                <KeyFrame Cue="0%">
-                    <Setter Property="ScaleTransform.ScaleX" Value="0.95" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="0.95" />
-                    <Setter Property="Opacity" Value="0" />
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                    <Setter Property="Opacity" Value="1" />
-                </KeyFrame>
-            </Animation>
-        </Setter>
-
-        <Setter Property="CloseAnimation">
-            <Animation Duration="0:0:0.12" FillMode="Both" Easing="CubicEaseIn">
-                <KeyFrame Cue="0%">
-                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
-                    <Setter Property="Opacity" Value="1" />
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="ScaleTransform.ScaleX" Value="0.95" />
-                    <Setter Property="ScaleTransform.ScaleY" Value="0.95" />
-                    <Setter Property="Opacity" Value="0" />
-                </KeyFrame>
-            </Animation>
-        </Setter>
-
         <Setter Property="Template">
             <ControlTemplate>
                 <ShadowBorder CornerRadius="{TemplateBinding CornerRadius}"
-                              BlurRadius="40"
-                              ShadowColor="#5A000000"
-                              Offset="0 8">
+                              BlurRadius="60"
+                              ShadowColor="#6E000000"
+                              Offset="0 6">
                     <Border Background="{DynamicResource BackgroundColor1}"
                             BorderBrush="{DynamicResource ControlBorderColor}"
                             BorderThickness="{DynamicResource ControlBorderThickness}"
@@ -133,7 +105,6 @@
                             MinWidth="{TemplateBinding MinDialogWidth}"
                             ClipToBounds="True">
                         <Grid RowDefinitions="Auto,*,Auto">
-
                             <!-- ── Header ──────────────────────────────── -->
                             <Grid Grid.Row="0"
                                   ColumnDefinitions="*,Auto"
@@ -154,21 +125,20 @@
                                 <!-- Close button -->
                                 <Button Name="PART_CloseButton"
                                         Grid.Column="1"
-                                        Theme="{DynamicResource AppBarButtonTheme}"
+                                        Theme="{StaticResource CloseButtonTheme}"
                                         Width="32" Height="32"
                                         Padding="8"
-                                        VerticalAlignment="Top">
-                                    <PathIcon Data="{DynamicResource DismissRegular}"
-                                              Width="10" Height="10"
-                                              Foreground="{DynamicResource TextFillColor1}" />
+                                        VerticalAlignment="Top"
+                                        ToolTip.Tip="{Localize Close, Default='Close'}">
+                                    <PleasantIcon Icon="{StaticResource DismissRegular}" Width="10" Height="10" />
                                 </Button>
                             </Grid>
 
                             <!-- ── Steps ───────────────────────────────── -->
-                            <SmoothScrollViewer Grid.Row="1"
-                                                HorizontalScrollBarVisibility="Disabled"
-                                                VerticalScrollBarVisibility="Auto"
-                                                MaxHeight="400">
+                            <ScrollViewer Grid.Row="1"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Auto"
+                                          MaxHeight="400">
                                 <StackPanel Margin="24 16" Spacing="0">
                                     <ItemsControl Name="PART_StepsHost">
                                         <ItemsControl.ItemsPanel>
@@ -179,14 +149,12 @@
                                     </ItemsControl>
 
                                     <!-- Status message -->
-                                    <Border Name="PART_StatusRow"
-                                            Background="{DynamicResource BackgroundColor3}"
-                                            BorderBrush="{DynamicResource ControlBorderColor}"
-                                            BorderThickness="{DynamicResource ControlBorderThickness}"
-                                            CornerRadius="{DynamicResource ControlCornerRadius}"
-                                            Padding="12 8"
-                                            Margin="0 16 0 0"
-                                            IsVisible="False">
+                                    <PleasantBorder Name="PART_StatusRow"
+                                                    BackgroundLevel="Level2"
+                                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                                    Padding="12 8"
+                                                    Margin="0 16 0 0"
+                                                    IsVisible="False">
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock Text="ℹ"
                                                        FontSize="14"
@@ -200,9 +168,9 @@
                                                        VerticalAlignment="Center"
                                                        TextWrapping="Wrap" />
                                         </StackPanel>
-                                    </Border>
+                                    </PleasantBorder>
                                 </StackPanel>
-                            </SmoothScrollViewer>
+                            </ScrollViewer>
 
                             <!-- ── Footer buttons ──────────────────────── -->
                             <Border Grid.Row="2"
@@ -215,11 +183,13 @@
                                             HorizontalAlignment="Right">
                                     <Button Name="PART_SecondaryButton"
                                             Content="{TemplateBinding SecondaryButtonText}"
-                                            IsVisible="False" />
+                                            IsVisible="False"
+                                            Padding="15 5" />
                                     <Button Name="PART_PrimaryButton"
                                             Content="{TemplateBinding PrimaryButtonText}"
-                                            Theme="{DynamicResource AccentButtonTheme}"
-                                            IsVisible="False" />
+                                            Theme="{StaticResource AccentButtonTheme}"
+                                            IsVisible="False"
+                                            Padding="15 5" />
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -229,7 +199,7 @@
         </Setter>
 
         <!-- Status message row -->
-        <Style Selector="^:hasStatus /template/ Border#PART_StatusRow">
+        <Style Selector="^:hasStatus /template/ PleasantBorder#PART_StatusRow">
             <Setter Property="IsVisible" Value="True" />
         </Style>
 

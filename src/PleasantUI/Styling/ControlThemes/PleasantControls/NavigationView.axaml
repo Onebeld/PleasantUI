@@ -9,7 +9,7 @@
                         IsFloatingHeader="True">
             <NavigationViewItem Header="Header"
                                 DockPanel.Dock="Top"
-                                Icon="{DynamicResource DeleteRegular}"
+                                Icon="{StaticResource DeleteRegular}"
                                 Title="Item Title"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" IsExpanded="True" Title="SubItem Title" Content="SubItem Content">
@@ -19,7 +19,7 @@
             </NavigationViewItem>
 
             <NavigationViewItem Header="Header" DockPanel.Dock="Top" Title="Item Title"
-                                Icon="{DynamicResource DeleteRegular}"
+                                Icon="{StaticResource DeleteRegular}"
                                 Content="Item Content">
                 <NavigationViewItem Header="Sub Item" Title="SubItem Title" Content="SubItem Content">
                     <NavigationViewItem Header="SubItem 2" Title="SubItem 2 Title" Content="SubItem 2 Content" />
@@ -40,9 +40,10 @@
     <ControlTheme x:Key="{x:Type NavigationView}" TargetType="NavigationView">
         <Setter Property="CompactPaneLength" Value="50" />
         <Setter Property="OpenPaneLength" Value="275" />
+        <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor2}" />
-        <Setter Property="Icon" Value="{DynamicResource MenuRegular}" />
+        <Setter Property="Icon" Value="{StaticResource MenuRegular}" />
         <Setter Property="SelectionMode" Value="AlwaysSelected" />
 
         <Setter Property="TransitionAnimation">
@@ -76,28 +77,40 @@
                     <SplitView Grid.Column="0"
                                Name="split"
                                Grid.ColumnSpan="2"
+                               ClipToBounds="False"
                                IsPaneOpen="{TemplateBinding IsOpen, Mode=TwoWay}"
                                CompactPaneLength="{TemplateBinding CompactPaneLength}"
                                OpenPaneLength="{TemplateBinding OpenPaneLength}"
                                DisplayMode="{TemplateBinding DisplayMode}">
                         <SplitView.Pane>
-                            <Border Name="PART_Border" 
-                                    Padding="0">
-                                <Grid x:Name="PART_SplitViewGrid" RowDefinitions="Auto,Auto,*">
-                                    <Border x:Name="PART_MarginPanel"
-                                            Grid.Row="1"
-                                            Width="{TemplateBinding CompactPaneLength}"
-                                            Height="90" />
+                            <ShadowBorder Name="PART_ShadowBorder"
+                                          BlurRadius="10"
+                                          Offset="1 0"
+                                          ShadowColor="#3C000000"
+                                          IsShadowEnabled="False">
+                                <Border Name="PART_Border"
+                                        Padding="0">
+                                    <Grid x:Name="PART_SplitViewGrid" RowDefinitions="Auto,Auto,*,Auto">
+                                        <Border x:Name="PART_MarginPanel"
+                                                Grid.Row="0"
+                                                Width="{TemplateBinding CompactPaneLength}"
+                                                Height="90" />
+                                        
+                                        <ItemsControl Grid.Row="1" Margin="0 0 0 5"
+                                                      ItemsSource="{TemplateBinding TopItems}" />
 
-                                    <DockPanel x:Name="PART_ItemsPresenterDockPanel" Grid.Row="2">
-                                        <SmoothScrollViewer DockPanel.Dock="Top">
+                                        <ScrollViewer Grid.Row="2">
                                             <ItemsPresenter x:Name="PART_ItemsPresenter"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                            Margin="0 0 0 5" />
-                                        </SmoothScrollViewer>
-                                    </DockPanel>
-                                </Grid>
-                            </Border>
+                                                            Margin="0 0 0 5"
+                                                            KeyboardNavigation.TabNavigation="Once" />
+                                        </ScrollViewer>
+                                        
+                                        <ItemsControl Grid.Row="3" Margin="0 0 0 5"
+                                                      ItemsSource="{TemplateBinding BottomItems}" />
+                                    </Grid>
+                                </Border>
+                            </ShadowBorder>
                         </SplitView.Pane>
 
                         <Border Name="PART_Container"
@@ -105,18 +118,18 @@
                                 ClipToBounds="True">
                             <ContentPresenter Name="PART_SelectedContentPresenter"
                                               Opacity="1"
-                                              Focusable="True"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                              Content="{TemplateBinding SelectedContent}" />
                         </Border>
                     </SplitView>
 
                     <StackPanel Name="PART_StackPanelButtons"
                                 Grid.Column="0"
-                                Margin="5"
+                                Margin="0 5 0 5"
                                 Spacing="5"
                                 Orientation="Vertical">       
                         <Button Name="PART_BackButton"
-                                Theme="{DynamicResource AppBarButtonTheme}"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 ToolTip.Tip="{Localize Back, Default='Back'}"
                                 Command="{TemplateBinding BackButtonCommand}"
                                 Width="40"
@@ -128,11 +141,11 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center" 
                                 IsVisible="{TemplateBinding ShowBackButton}">
-                            <PathIcon Data="{DynamicResource ArrowLeftRegular}"
-                                      Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
+                            <PleasantIcon Icon="{StaticResource ArrowLeftRegular}"
+                                         Foreground="{DynamicResource TextFillColor1}" Width="16" Height="16" />
                         </Button>
                         <Button Name="PART_HeaderItem"
-                                Theme="{DynamicResource AppBarButtonTheme}"
+                                Theme="{StaticResource AppBarButtonTheme}"
                                 ToolTip.Tip="{Localize Menu, Default='Menu'}"
                                 Width="40"
                                 Height="37"
@@ -141,151 +154,64 @@
                                 HorizontalContentAlignment="Center"
                                 ClickMode="Release"
                                 VerticalAlignment="Top" HorizontalAlignment="Center">
-                            <PathIcon Data="{TemplateBinding Icon}"
-                                      Foreground="{DynamicResource TextFillColor1}"
-                                      Width="16" Height="16" />
+                            <PleasantIcon Icon="{TemplateBinding Icon}"
+                                         Foreground="{DynamicResource TextFillColor1}"
+                                         Width="16" Height="16" />
                         </Button>
                     </StackPanel>
-
-                    <!-- Top / Bottom horizontal layout (hidden unless :top or :bottom pseudo-class is active) -->
-                    <DockPanel x:Name="PART_TopBottomLayout"
-                               Grid.Column="0"
-                               Grid.ColumnSpan="2"
-                               IsVisible="False"
-                               LastChildFill="True">
-
-                        <!-- Top bar: items from TopItems collection, never from Items -->
-                        <Border x:Name="PART_TopBar"
-                                DockPanel.Dock="Top"
-                                IsVisible="False"
-                                Background="{DynamicResource BackgroundColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="0 0 0 1">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Disabled">
-                                <ItemsControl x:Name="PART_TopItemsControl"
-                                              ItemsSource="{TemplateBinding TopItems}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="4 0" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.Styles>
-                                        <Style Selector="NavigationViewItem">
-                                            <Setter Property="Theme" Value="{DynamicResource TopBottomNavigationViewItemTheme}" />
-                                        </Style>
-                                    </ItemsControl.Styles>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Border>
-
-                        <!-- Bottom bar: items from BottomItems collection, never from Items -->
-                        <Border x:Name="PART_BottomBar"
-                                DockPanel.Dock="Bottom"
-                                IsVisible="False"
-                                Background="{DynamicResource BackgroundColor1}"
-                                BorderBrush="{DynamicResource ControlBorderColor}"
-                                BorderThickness="0 1 0 0">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Disabled">
-                                <ItemsControl x:Name="PART_BottomItemsControl"
-                                              ItemsSource="{TemplateBinding BottomItems}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="4 0" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.Styles>
-                                        <Style Selector="NavigationViewItem">
-                                            <Setter Property="Theme" Value="{DynamicResource TopBottomNavigationViewItemTheme}" />
-                                        </Style>
-                                    </ItemsControl.Styles>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Border>
-
-                        <!-- Content area for top/bottom layouts -->
-                        <Border Background="{TemplateBinding Background}"
-                                ClipToBounds="True">
-                            <ContentPresenter x:Name="PART_TopBottomContentPresenter"
-                                              Opacity="1"
-                                              Focusable="True"
-                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                        </Border>
-                    </DockPanel>
                 </Grid>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^[IsOpen=true] /template/ Border#PART_Border">
+        <Style Selector="^[IsOpen=true] /template/ ShadowBorder#PART_ShadowBorder">
             <Setter Property="Width" Value="{CompiledBinding $parent[NavigationView].OpenPaneLength}" />
         </Style>
 
-        <Style Selector="^[IsOpen=false] /template/ Border#PART_Border">
+        <Style Selector="^[IsOpen=false] /template/ ShadowBorder#PART_ShadowBorder">
             <Setter Property="Width" Value="{CompiledBinding $parent[NavigationView].CompactPaneLength}" />
+        </Style>
+        
+        <Style Selector="^[DisplayMode=CompactOverlay][IsOpen=True] /template/ ShadowBorder#PART_ShadowBorder">
+            <Setter Property="IsShadowEnabled" Value="True" />
+        </Style>
+        <Style Selector="^[DisplayMode=Overlay][IsOpen=True] /template/ ShadowBorder#PART_ShadowBorder">
+            <Setter Property="IsShadowEnabled" Value="True" />
         </Style>
         
         <Style Selector="^[DisplayMode=CompactOverlay][IsOpen=true] /template/ Border#PART_Border">
             <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
             <Setter Property="CornerRadius" Value="0 8 8 0" />
-            <Setter Property="BorderThickness" Value="0 0 1 0" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay][IsOpen=true] /template/ Border#PART_Border">
             <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
             <Setter Property="CornerRadius" Value="0 8 8 0" />
-            <Setter Property="BorderThickness" Value="0 0 1 0" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderColor}" />
+        </Style>
+        <Style Selector="^[DisplayMode=Overlay][IsOpen=false] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
+            <Setter Property="CornerRadius" Value="0 8 8 0" />
         </Style>
 
         <Style Selector="^ /template/ Border#PART_Container">
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Margin" Value="0 45 5 5" />
+            <Setter Property="Margin" Value="5 5 5 5" />
+        </Style>
+        <Style Selector="^:margin-bar /template/ Border#PART_Container">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="5 45 5 5" />
+        </Style>
+        <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_Container">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="5 45 5 5" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ StackPanel#PART_StackPanelButtons">
             <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="Margin" Value="5 5 0 0" />
         </Style>
         <Style Selector="^[ShowBackButton=False] /template/ Border#PART_MarginPanel">
             <Setter Property="Height" Value="60" />
         </Style>
         <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_MarginPanel">
             <Setter Property="Height" Value="60" />
-        </Style>
-        <Style Selector="^[ContentPanelOffsetDisabled=True] /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="0 0 0 0" />
-            <Setter Property="Margin" Value="0" />
-        </Style>
-        <Style Selector="^[ContentPanelOffsetDisabled=True][DisplayMode=Overlay] /template/ Border#PART_Container">
-            <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Margin" Value="5 45 5 5" />
-        </Style>
-
-        <!-- Top position: hide the side SplitView pane controls, show horizontal top bar -->
-        <Style Selector="^:top /template/ SplitView#split">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:top /template/ StackPanel#PART_StackPanelButtons">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:top /template/ DockPanel#PART_TopBottomLayout">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-        <Style Selector="^:top /template/ Border#PART_TopBar">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-
-        <!-- Bottom position: hide the side SplitView pane controls, show horizontal bottom bar -->
-        <Style Selector="^:bottom /template/ SplitView#split">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:bottom /template/ StackPanel#PART_StackPanelButtons">
-            <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="^:bottom /template/ DockPanel#PART_TopBottomLayout">
-            <Setter Property="IsVisible" Value="True" />
-        </Style>
-        <Style Selector="^:bottom /template/ Border#PART_BottomBar">
-            <Setter Property="IsVisible" Value="True" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

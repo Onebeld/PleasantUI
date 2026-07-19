@@ -135,7 +135,7 @@ public class PropertyRow : TemplatedControl
 
         if (change.Property == ValueKindProperty)
         {
-            var kind = change.GetNewValue<PropertyRowValueKind>();
+            PropertyRowValueKind kind = change.GetNewValue<PropertyRowValueKind>();
             PseudoClasses.Set(PC_Link,   kind == PropertyRowValueKind.Link);
             PseudoClasses.Set(PC_Status, kind == PropertyRowValueKind.Status);
             PseudoClasses.Set(PC_Custom, kind == PropertyRowValueKind.Custom);

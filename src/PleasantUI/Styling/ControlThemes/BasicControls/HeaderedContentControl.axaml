@@ -11,22 +11,21 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Background="{TemplateBinding Background}"
                         Padding="{TemplateBinding Padding}">
-                    <Grid RowDefinitions="Auto,*">
+                    <DockPanel>
                         <ContentPresenter Name="PART_HeaderPresenter"
-                                          Grid.Row="0"
+                                          DockPanel.Dock="Top"
                                           Content="{TemplateBinding Header}"
                                           RecognizesAccessKey="True"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                         <ContentPresenter Name="PART_ContentPresenter"
-                                          Grid.Row="1"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           Content="{TemplateBinding Content}"
                                           RecognizesAccessKey="True"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                    </Grid>
+                    </DockPanel>
                 </Border>
             </ControlTemplate>
         </Setter>

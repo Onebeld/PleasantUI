@@ -2,9 +2,7 @@
 
 internal class EmptyDisposable : IDisposable
 {
-    public static readonly EmptyDisposable Instance = new();
-    
-    private EmptyDisposable() { }
-    
+    public static EmptyDisposable Instance { get; } = new();
+
     public void Dispose() { }
 }

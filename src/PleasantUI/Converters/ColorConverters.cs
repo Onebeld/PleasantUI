@@ -33,10 +33,10 @@ public static class ColorConverters
     /// If the calculated luminance is less than or equal to 0.2, the converter returns a white SolidColorBrush. Otherwise,
     /// it returns a black SolidColorBrush.
     /// </remarks>
-    public static readonly IValueConverter UIntToForeground =
-        new FuncValueConverter<uint, IBrush>(value =>
+    public static readonly IValueConverter ForegroundFromLuminanceColor =
+        new FuncValueConverter<Color, IBrush>(value =>
         {
-            double lum = ColorHelper.GetRelativeLuminance(Color.FromUInt32(value));
+            double lum = ColorHelper.GetRelativeLuminance(value);
             return new SolidColorBrush(lum <= 0.2 ? Colors.White : Colors.Black);
         });
 }

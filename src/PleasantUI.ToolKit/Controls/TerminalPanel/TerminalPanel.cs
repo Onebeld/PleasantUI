@@ -6,7 +6,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using PleasantUI.Controls;
 
 namespace PleasantUI.ToolKit.Controls;
 
@@ -18,7 +17,7 @@ namespace PleasantUI.ToolKit.Controls;
 [TemplatePart(PART_InputBox,     typeof(TextBox))]
 [TemplatePart(PART_ClearButton,  typeof(Button))]
 [TemplatePart(PART_CloseButton,  typeof(Button))]
-[TemplatePart(PART_ScrollViewer, typeof(SmoothScrollViewer))]
+[TemplatePart(PART_ScrollViewer, typeof(ScrollViewer))]
 [PseudoClasses(PC_Running, PC_HasOutput)]
 public class TerminalPanel : TemplatedControl
 {
@@ -196,7 +195,7 @@ public class TerminalPanel : TemplatedControl
     private TextBox?          _inputBox;
     private Button?           _clearButton;
     private Button?           _closeButton;
-    private SmoothScrollViewer? _scrollViewer;
+    private ScrollViewer? _scrollViewer;
 
     private readonly StringBuilder _outputBuffer = new();
     private int _lineCount;
@@ -213,12 +212,11 @@ public class TerminalPanel : TemplatedControl
         _inputBox     = e.NameScope.Find<TextBox>(PART_InputBox);
         _clearButton  = e.NameScope.Find<Button>(PART_ClearButton);
         _closeButton  = e.NameScope.Find<Button>(PART_CloseButton);
-        _scrollViewer = e.NameScope.Find<SmoothScrollViewer>(PART_ScrollViewer);
+        _scrollViewer = e.NameScope.Find<ScrollViewer>(PART_ScrollViewer);
 
         AttachHandlers();
 
-        if (_outputBox is not null)
-            _outputBox.Text = OutputText;
+        _outputBox?.Text = OutputText;
 
         PseudoClasses.Set(PC_Running,   IsRunning);
         PseudoClasses.Set(PC_HasOutput, !string.IsNullOrEmpty(OutputText));
@@ -242,8 +240,7 @@ public class TerminalPanel : TemplatedControl
         }
         else if (change.Property == OutputTextProperty)
         {
-            if (_outputBox is not null)
-                _outputBox.Text = change.GetNewValue<string?>();
+            _outputBox?.Text = change.GetNewValue<string?>();
             PseudoClasses.Set(PC_HasOutput, !string.IsNullOrEmpty(change.GetNewValue<string?>()));
         }
     }
@@ -267,7 +264,7 @@ public class TerminalPanel : TemplatedControl
             _lineCount--;
         }
 
-        var full = _outputBuffer.ToString();
+        string full = _outputBuffer.ToString();
         OutputText = full;
 
         ScrollToEnd();
@@ -307,7 +304,7 @@ public class TerminalPanel : TemplatedControl
     {
         if (e.Key != Key.Enter) return;
 
-        var cmd = InputText?.Trim() ?? string.Empty;
+        string cmd = InputText?.Trim() ?? string.Empty;
         InputText = string.Empty;
 
         if (!string.IsNullOrEmpty(cmd))
@@ -318,7 +315,6 @@ public class TerminalPanel : TemplatedControl
 
     private void ScrollToEnd()
     {
-        if (_scrollViewer is null) return;
-        _scrollViewer.Offset = new Vector(_scrollViewer.Offset.X, double.MaxValue);
+        _scrollViewer?.Offset = new Vector(_scrollViewer.Offset.X, double.MaxValue);
     }
 }

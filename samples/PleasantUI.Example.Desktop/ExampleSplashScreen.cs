@@ -17,7 +17,7 @@ public class ExampleSplashScreen : IPleasantSplashScreen
     public IBrush? Background => null;       // inherits window background
     public int MinimumShowTime => 2000;      // show for at least 2 seconds
 
-    public object? SplashScreenContent => BuildContent();
+    public object SplashScreenContent => BuildContent();
 
     public async Task RunTasks(CancellationToken cancellationToken)
     {
@@ -30,7 +30,7 @@ public class ExampleSplashScreen : IPleasantSplashScreen
     private static object BuildContent()
     {
         // Logo image from app resources
-        var logo = new Image
+        Image logo = new()
         {
             Width  = 96,
             Height = 96,
@@ -44,7 +44,7 @@ public class ExampleSplashScreen : IPleasantSplashScreen
             logo.Source = image;
         }
 
-        var appName = new TextBlock
+        TextBlock appName = new()
         {
             Text              = "PleasantUI",
             FontSize          = 28,
@@ -53,7 +53,7 @@ public class ExampleSplashScreen : IPleasantSplashScreen
             Margin            = new Thickness(0, 16, 0, 0)
         };
 
-        var subtitle = new TextBlock
+        TextBlock subtitle = new()
         {
             Text              = "Example Application",
             FontSize          = 14,
@@ -62,7 +62,7 @@ public class ExampleSplashScreen : IPleasantSplashScreen
             Opacity           = 0.6
         };
 
-        var progress = new ProgressBar
+        ProgressBar progress = new()
         {
             IsIndeterminate   = true,
             Width             = 160,
@@ -71,7 +71,7 @@ public class ExampleSplashScreen : IPleasantSplashScreen
             HorizontalAlignment = HorizontalAlignment.Center
         };
 
-        var panel = new StackPanel
+        StackPanel panel = new()
         {
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment   = VerticalAlignment.Center,

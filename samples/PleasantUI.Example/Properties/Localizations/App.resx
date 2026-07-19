@@ -22,49 +22,10 @@
         <value>Settings</value>
     </data>
     <data name="WelcomeToPleasantUI" xml:space="preserve">
-        <value>Welcome to</value>
+        <value>Welcome!</value>
     </data>
     <data name="Theme" xml:space="preserve">
         <value>Theme</value>
-    </data>
-    <data name="Theme/Light" xml:space="preserve">
-        <value>Light</value>
-    </data>
-    <data name="Theme/System" xml:space="preserve">
-        <value>System</value>
-    </data>
-    <data name="Theme/Dark" xml:space="preserve">
-        <value>Dark</value>
-    </data>
-    <data name="Theme/Mint" xml:space="preserve">
-        <value>Mint</value>
-    </data>
-    <data name="Theme/Strawberry" xml:space="preserve">
-        <value>Strawberry</value>
-    </data>
-    <data name="Theme/Ice" xml:space="preserve">
-        <value>Ice</value>
-    </data>
-    <data name="Theme/Sunny" xml:space="preserve">
-        <value>Sunny</value>
-    </data>
-    <data name="Theme/Spruce" xml:space="preserve">
-        <value>Spruce</value>
-    </data>
-    <data name="Theme/Cherry" xml:space="preserve">
-        <value>Cherry</value>
-    </data>
-    <data name="Theme/Cave" xml:space="preserve">
-        <value>Cave</value>
-    </data>
-    <data name="Theme/Lunar" xml:space="preserve">
-        <value>Lunar</value>
-    </data>
-    <data name="Theme/VGUI" xml:space="preserve">
-        <value>VGUI</value>
-    </data>
-    <data name="Theme/Custom" xml:space="preserve">
-        <value>Custom</value>
     </data>
     <data name="Language" xml:space="preserve">
         <value>Language</value>
@@ -100,41 +61,6 @@
     <data name="About/CreditsTitle" xml:space="preserve"><value>Credits &amp; Acknowledgments</value></data>
     <data name="About/CreditsText" xml:space="preserve"><value>This project is made possible by the Avalonia community and contributors who help improve it. Special thanks to the Avalonia team for creating such an amazing framework.</value></data>
     <!-- NoticeDialog -->
-    <data name="NoticeDialog/InfoTitle" xml:space="preserve"><value>Information</value></data>
-    <data name="NoticeDialog/InfoMessage" xml:space="preserve"><value>Your changes have been saved successfully.</value></data>
-    <data name="NoticeDialog/InfoResult" xml:space="preserve"><value>Info dialog closed</value></data>
-    <data name="NoticeDialog/WarningTitle" xml:space="preserve"><value>Warning</value></data>
-    <data name="NoticeDialog/WarningMessage" xml:space="preserve"><value>The file you are trying to open is larger than 100MB. Opening it may slow down the application.</value></data>
-    <data name="NoticeDialog/WarningResult" xml:space="preserve"><value>Warning dialog closed</value></data>
-    <data name="NoticeDialog/ErrorTitle" xml:space="preserve"><value>Error</value></data>
-    <data name="NoticeDialog/ErrorMessage" xml:space="preserve"><value>An unexpected error occurred while processing your request. Please try again later.</value></data>
-    <data name="NoticeDialog/ErrorResult" xml:space="preserve"><value>Error dialog closed</value></data>
-    <data name="NoticeDialog/SuccessTitle" xml:space="preserve"><value>Success</value></data>
-    <data name="NoticeDialog/SuccessMessage" xml:space="preserve"><value>Your account has been created successfully. You can now log in.</value></data>
-    <data name="NoticeDialog/SuccessResult" xml:space="preserve"><value>Success dialog closed</value></data>
-    <data name="NoticeDialog/WipTitle" xml:space="preserve"><value>Development Version</value></data>
-    <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>This is a stable release of the application. All features are fully tested and ready for production use.</value></data>
-    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>This is a bugfix release containing important fixes for issues found in the stable version.</value></data>
-    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>This is an alpha release. Features may be incomplete and unstable. Use with caution.</value></data>
-    <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>This is a beta release. Features are mostly complete but may still contain bugs.</value></data>
-    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>This is a release candidate. It is close to the final release but may still have issues.</value></data>
-    <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>This is a canary build with the latest changes. It may be unstable and is intended for testing purposes only.</value></data>
-    <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>This version of the application is in active development. Features may change or be removed in future releases.</value></data>
-    <data name="NoticeDialog/CurrentVersion" xml:space="preserve"><value>Current version</value></data>
-    <data name="NoticeDialog/WipFooter" xml:space="preserve"><value>- Development Team</value></data>
-    <data name="NoticeDialog/WipResult" xml:space="preserve"><value>Work in progress dialog shown</value></data>
-    <data name="NoticeDialog/VersionLabel" xml:space="preserve"><value>Version</value></data>
-    <data name="NoticeDialog/Ok" xml:space="preserve"><value>OK</value></data>
-    <data name="NoticeDialog/Continue" xml:space="preserve"><value>Continue</value></data>
-    <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
-    <data name="NoticeDialog/Login" xml:space="preserve"><value>Login</value></data>
-    <data name="NoticeDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
-    <data name="NoticeDialog/InfoDesc" xml:space="preserve"><value>Shows an informational dialog with a single OK button.</value></data>
-    <data name="NoticeDialog/WarningDesc" xml:space="preserve"><value>Shows a warning dialog with Continue and Cancel buttons.</value></data>
-    <data name="NoticeDialog/ErrorDesc" xml:space="preserve"><value>Shows an error dialog with a single OK button.</value></data>
-    <data name="NoticeDialog/SuccessDesc" xml:space="preserve"><value>Shows a success dialog with a Login button.</value></data>
-    <data name="NoticeDialog/WipDesc" xml:space="preserve"><value>Shows a work-in-progress dialog with version information.</value></data>
-    <data name="NoticeDialog/Show" xml:space="preserve"><value>Show</value></data>
     <!-- Settings page -->
     <data name="CustomThemes" xml:space="preserve"><value>Custom themes</value></data>
     <!-- Calendar page -->
@@ -259,8 +185,6 @@
     <data name="Snackbar/WithEventsMsg" xml:space="preserve"><value>Tap or wait to dismiss — events are tracked.</value></data>
     <!-- MessageBox page -->
     <data name="ShowMessageBox" xml:space="preserve"><value>Show MessageBox</value></data>
-    <data name="MessageBoxTitle" xml:space="preserve"><value>MessageBox</value></data>
-    <data name="MessageBoxText" xml:space="preserve"><value>This is a sample message box dialog.</value></data>
     <data name="MessageBox/Show" xml:space="preserve"><value>Show</value></data>
     <data name="MessageBox/LastResult" xml:space="preserve"><value>Last result:</value></data>
     <data name="MessageBox/DefaultVariant" xml:space="preserve"><value>Default (OK)</value></data>
@@ -287,7 +211,6 @@
     <data name="MessageBox/ErrorDetail" xml:space="preserve"><value>System.InvalidOperationException: Object reference not set to an instance of an object.\n   at SomeMethod() in File.cs:line 42</value></data>
     <data name="MessageBox/DangerTitle" xml:space="preserve"><value>Delete</value></data>
     <data name="MessageBox/DangerText" xml:space="preserve"><value>This action is irreversible. All selected items will be permanently deleted.</value></data>
-    <data name="MessageBox/Ok" xml:space="preserve"><value>OK</value></data>
     <data name="MessageBox/Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="MessageBox/Yes" xml:space="preserve"><value>Yes</value></data>
     <data name="MessageBox/No" xml:space="preserve"><value>No</value></data>
@@ -323,7 +246,6 @@
     <data name="PleasantDialog/ProgressTitle" xml:space="preserve"><value>Processing</value></data>
     <data name="PleasantDialog/ProgressSubHeader" xml:space="preserve"><value>0%</value></data>
     <data name="PleasantDialog/ProgressBody" xml:space="preserve"><value>Please wait while the operation completes…</value></data>
-    <data name="PleasantDialog/DangerTitle" xml:space="preserve"><value>Permanently delete account</value></data>
     <data name="PleasantDialog/DangerBody" xml:space="preserve"><value>This will remove all your data, settings, and history. This cannot be undone.</value></data>
     <data name="PleasantDialog/DangerCmd1" xml:space="preserve"><value>Delete everything</value></data>
     <data name="PleasantDialog/DangerCmd1Desc" xml:space="preserve"><value>Removes all files, preferences, and account data permanently.</value></data>
@@ -428,10 +350,7 @@
     <data name="NoticeDialog/Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="NoticeDialog/Login" xml:space="preserve"><value>Login</value></data>
     <data name="NoticeDialog/WipStableMessage" xml:space="preserve"><value>This is a stable release of the application. All features are fully tested and ready for production use.</value></data>
-    <data name="NoticeDialog/WipBugfixMessage" xml:space="preserve"><value>This is a bugfix release containing important fixes for issues found in the stable version.</value></data>
-    <data name="NoticeDialog/WipAlphaMessage" xml:space="preserve"><value>This is an alpha release. Features may be incomplete and unstable. Use with caution.</value></data>
     <data name="NoticeDialog/WipBetaMessage" xml:space="preserve"><value>This is a beta release. Features are mostly complete but may still contain bugs.</value></data>
-    <data name="NoticeDialog/WipRcMessage" xml:space="preserve"><value>This is a release candidate. It is close to the final release but may still have issues.</value></data>
     <data name="NoticeDialog/WipCanaryMessage" xml:space="preserve"><value>This is a canary build with the latest changes. It may be unstable and is intended for testing purposes only.</value></data>
     <data name="NoticeDialog/WipDefaultMessage" xml:space="preserve"><value>This version of the application is in active development. Features may change or be removed in future releases.</value></data>
     <!-- InformationBlock page -->
@@ -562,11 +481,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="InstallWizard/BtnBack" xml:space="preserve"><value>Back</value></data>
     <data name="InstallWizard/BtnNext" xml:space="preserve"><value>Next</value></data>
     <data name="InstallWizard/BtnFinish" xml:space="preserve"><value>Finish</value></data>
-    <data name="InstallWizard/BtnCancel" xml:space="preserve"><value>Cancel</value></data>
-
-    <!-- PopConfirm -->
-    <data name="PopConfirm/Confirm" xml:space="preserve"><value>Confirm</value></data>
-    <data name="PopConfirm/Cancel"  xml:space="preserve"><value>Cancel</value></data>
 
     <!-- Drawer page -->
     <data name="CardTitle/PleasantDrawer"       xml:space="preserve"><value>Drawer</value></data>
@@ -607,22 +521,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="PathPicker/OpenFolder"          xml:space="preserve"><value>Open folder</value></data>
     <data name="PathPicker/SaveFile"            xml:space="preserve"><value>Save file</value></data>
     <data name="PathPicker/MultiFile"           xml:space="preserve"><value>Open multiple files</value></data>
-
-    <!-- Docking page -->
-    <data name="CardTitle/Docking"              xml:space="preserve"><value>Docking</value></data>
-    <data name="Card/Docking"                   xml:space="preserve"><value>A full docking system with resizable sidebars, split views, and drag-and-drop tool panels.</value></data>
-    <data name="Docking/Description"            xml:space="preserve"><value>Drag the sidebar buttons between the left and right bars. Resize panels by dragging the dividers. Right-click a button to move it via the context menu.</value></data>
-    <data name="Docking/ExplorerPanel"          xml:space="preserve"><value>EXPLORER</value></data>
-    <data name="Docking/PropertiesPanel"        xml:space="preserve"><value>PROPERTIES</value></data>
-    <data name="Docking/EditorArea"             xml:space="preserve"><value>Editor area</value></data>
-    <data name="Docking/DragHint"               xml:space="preserve"><value>Drag sidebar buttons to rearrange panels</value></data>
-    <data name="Docking/PropName"               xml:space="preserve"><value>Name</value></data>
-    <data name="Docking/PropWidth"              xml:space="preserve"><value>Width</value></data>
-    <data name="Docking/PropHeight"             xml:space="preserve"><value>Height</value></data>
-    <data name="Docking/AreaLeftTop"            xml:space="preserve"><value>Left — Upper</value></data>
-    <data name="Docking/AreaLeftBottom"         xml:space="preserve"><value>Left — Lower</value></data>
-    <data name="Docking/AreaRightTop"           xml:space="preserve"><value>Right — Upper</value></data>
-    <data name="Docking/AreaRightBottom"        xml:space="preserve"><value>Right — Lower</value></data>
 
     <!-- PleasantMiniWindow page -->
     <data name="CardTitle/PleasantMiniWindow"   xml:space="preserve"><value>PleasantMiniWindow</value></data>
@@ -678,7 +576,6 @@ The above copyright notice and this permission notice shall be included in all c
 
     <!-- PropertyGrid -->
     <data name="PropertyGrid/DownloadTitle" xml:space="preserve"><value>Download info</value></data>
-    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Exception info</value></data>
     <data name="PropertyGrid/LabelUrl" xml:space="preserve"><value>URL</value></data>
     <data name="PropertyGrid/LabelFileName" xml:space="preserve"><value>File name</value></data>
     <data name="PropertyGrid/LabelSaveTo" xml:space="preserve"><value>Save to</value></data>
@@ -724,8 +621,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="DownloadPanel/ChunkFailedText" xml:space="preserve"><value>Failed</value></data>
     <data name="DownloadPanel/ChunkPausedText" xml:space="preserve"><value>Paused</value></data>
     <data name="DownloadPanel/ChunkUnknownText" xml:space="preserve"><value>Unknown</value></data>
-    <data name="DownloadPanel/StatusText" xml:space="preserve"><value>Running</value></data>
-
     <!-- TerminalPanel -->
     <data name="TerminalPanel/ClearTooltip" xml:space="preserve"><value>Clear output</value></data>
     <data name="TerminalPanel/CloseTooltip" xml:space="preserve"><value>Close</value></data>
@@ -747,8 +642,6 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="CrashReportDialog/MessageLabel" xml:space="preserve"><value>Message</value></data>
     <data name="CrashReportDialog/GeneralTabLabel" xml:space="preserve"><value>General</value></data>
     <data name="CrashReportDialog/ExceptionTabLabel" xml:space="preserve"><value>Exception</value></data>
-    <data name="CrashReportDialog/ScreenshotTabLabel" xml:space="preserve"><value>Screenshot</value></data>
-    <data name="CrashReportDialog/SendingMessage" xml:space="preserve"><value>Sending report…</value></data>
     <data name="CrashReportDialog/SuccessMessage" xml:space="preserve"><value>Report sent successfully. Thank you!</value></data>
     <data name="CrashReportDialog/FailureMessagePrefix" xml:space="preserve"><value>Failed to send report: </value></data>
     <data name="CrashReportDialog/CrashedText" xml:space="preserve"><value> crashed</value></data>
@@ -758,4 +651,214 @@ The above copyright notice and this permission notice shall be included in all c
     <data name="CrashReportDialog/VersionLabel" xml:space="preserve"><value>Version</value></data>
     <data name="CrashReportDialog/UserMessagePlaceholder" xml:space="preserve"><value>Describe what you were doing…</value></data>
 
+    <!-- ── DashboardCard ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DashboardCard" xml:space="preserve"><value>DashboardCard</value></data>
+    <data name="Card/DashboardCard" xml:space="preserve"><value>A structured card with header, content, and footer slots.</value></data>
+    <data name="DashboardCard/Description" xml:space="preserve"><value>DashboardCard provides a structured card layout with a title, optional subtitle, right-side header slot (e.g. a time-range picker), scrollable content area, and an optional footer.</value></data>
+    <data name="DashboardCard/BasicTitle" xml:space="preserve"><value>Basic card</value></data>
+    <data name="DashboardCard/BasicDesc" xml:space="preserve"><value>A card with a title, subtitle, and arbitrary content.</value></data>
+    <data name="DashboardCard/ToolbarTitle" xml:space="preserve"><value>With header toolbar</value></data>
+    <data name="DashboardCard/ToolbarDesc" xml:space="preserve"><value>Use HeaderContent to place a ComboBox or any control in the header's right slot.</value></data>
+    <data name="DashboardCard/FooterTitle" xml:space="preserve"><value>With footer</value></data>
+    <data name="DashboardCard/FooterDesc" xml:space="preserve"><value>FooterContent renders a bordered strip at the bottom of the card.</value></data>
+    <data name="DashboardCard/Revenue" xml:space="preserve"><value>Revenue</value></data>
+    <data name="DashboardCard/Last30Days" xml:space="preserve"><value>Last 30 days</value></data>
+    <data name="DashboardCard/ChartPlaceholder" xml:space="preserve"><value>Chart content goes here</value></data>
+    <data name="DashboardCard/Downloads" xml:space="preserve"><value>Downloads</value></data>
+    <data name="DashboardCard/ActiveTransfers" xml:space="preserve"><value>Active transfers</value></data>
+    <data name="DashboardCard/Today" xml:space="preserve"><value>Today</value></data>
+    <data name="DashboardCard/7Days" xml:space="preserve"><value>7 days</value></data>
+    <data name="DashboardCard/30Days" xml:space="preserve"><value>30 days</value></data>
+    <data name="DashboardCard/SystemStatus" xml:space="preserve"><value>System Status</value></data>
+    <data name="DashboardCard/UpdatedJustNow" xml:space="preserve"><value>Updated just now</value></data>
+
+    <!-- CommandBar page -->
+    <data name="CardTitle/CommandBar" xml:space="preserve">
+        <value>CommandBar</value>
+    </data>
+    <data name="Card/CommandBar" xml:space="preserve">
+        <value>A toolbar with primary commands inline and overflow in a popup menu.</value>
+    </data>
+    <data name="BreadcrumbBar/Description" xml:space="preserve">
+        <value>BreadcrumbBar displays the direct path of pages or folders to the current location. Items that overflow the available width are collapsed into an ellipsis flyout.</value>
+    </data>
+    <data name="BreadcrumbBar/BasicTitle" xml:space="preserve">
+        <value>Basic usage</value>
+    </data>
+    <data name="BreadcrumbBar/BasicDesc" xml:space="preserve">
+        <value>Declare BreadcrumbBarItem children directly. Click any item to raise the ItemClicked event.</value>
+    </data>
+    <data name="BreadcrumbBar/LastClicked" xml:space="preserve">
+        <value>Last clicked:</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceTitle" xml:space="preserve">
+        <value>Bound to ItemsSource</value>
+    </data>
+    <data name="BreadcrumbBar/ItemsSourceDesc" xml:space="preserve">
+        <value>Bind an ObservableCollection to ItemsSource. Use Push / Pop / Reset to modify the path at runtime.</value>
+    </data>
+    <data name="BreadcrumbBar/Push" xml:space="preserve">
+        <value>Push</value>
+    </data>
+    <data name="BreadcrumbBar/Pop" xml:space="preserve">
+        <value>Pop</value>
+    </data>
+    <data name="BreadcrumbBar/Reset" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowTitle" xml:space="preserve">
+        <value>Overflow / ellipsis</value>
+    </data>
+    <data name="BreadcrumbBar/OverflowDesc" xml:space="preserve">
+        <value>When items exceed the available width the control automatically collapses hidden items into an ellipsis button. Click it to see the flyout.</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastTitle" xml:space="preserve">
+        <value>Clickable last item</value>
+    </data>
+    <data name="BreadcrumbBar/ClickableLastDesc" xml:space="preserve">
+        <value>Set IsLastItemClickEnabled="True" to make the current (last) item interactive instead of rendering it as plain text.</value>
+    </data>
+    <data name="BreadcrumbBar/PropertiesTitle" xml:space="preserve">
+        <value>Key properties</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemsSource" xml:space="preserve">
+        <value>Bound collection used as the data source for the breadcrumb trail.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemTemplate" xml:space="preserve">
+        <value>DataTemplate applied to each item when using ItemsSource.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/IsLastItemClickEnabled" xml:space="preserve">
+        <value>When true the last item is rendered as a clickable button instead of plain text.</value>
+    </data>
+    <data name="BreadcrumbBar/Prop/ItemClicked" xml:space="preserve">
+        <value>Raised when any item is clicked. Args expose Index (zero-based) and Item (the data object).</value>
+    </data>
+
+    <data name="FullScreenButton" xml:space="preserve">
+        <value>Full Screen Button</value>
+    </data>
+    <data name="FullScreenButtonDescription" xml:space="preserve">
+        <value>Show a full screen toggle button in the title bar</value>
+    </data>
+
+    <data name="NavPosition" xml:space="preserve">
+        <value>Navigation Position</value>
+    </data>
+    <data name="NavPositionDescription" xml:space="preserve">
+        <value>Choose where the navigation pane is placed</value>
+    </data>
+    <data name="NavPosition/Left" xml:space="preserve">
+        <value>Left</value>
+    </data>
+    <data name="NavPosition/Top" xml:space="preserve">
+        <value>Top</value>
+    </data>
+    <data name="NavPosition/Bottom" xml:space="preserve">
+        <value>Bottom</value>
+    </data>
+
+    <data name="NoCustomThemes" xml:space="preserve">
+        <value>No custom themes</value>
+    </data>
+
+    <data name="CardTitle/BreadcrumbBar" xml:space="preserve">
+        <value>BreadcrumbBar</value>
+    </data>
+
+    <!-- ── LogViewerPanel ────────────────────────────────────────────────── -->
+    <data name="CardTitle/LogViewerPanel" xml:space="preserve"><value>LogViewerPanel</value></data>
+    <data name="Card/LogViewerPanel" xml:space="preserve"><value>A slide-in panel with filterable, searchable log entries.</value></data>
+    <data name="LogViewerPanel/Description" xml:space="preserve"><value>LogViewerPanel is a slide-in panel with search, level/source filters, auto-scroll, copy-all, and clear. Click Open to show it, then add entries with the buttons.</value></data>
+    <data name="LogViewerPanel/OpenPanel" xml:space="preserve"><value>Open Log Panel</value></data>
+    <data name="LogViewerPanel/AddInfo" xml:space="preserve"><value>Add Info</value></data>
+    <data name="LogViewerPanel/AddWarning" xml:space="preserve"><value>Add Warning</value></data>
+    <data name="LogViewerPanel/AddError" xml:space="preserve"><value>Add Error</value></data>
+    <data name="LogViewerPanel/AddDebug" xml:space="preserve"><value>Add Debug</value></data>
+    <data name="LogViewerPanel/Hint" xml:space="preserve"><value>Log entries will appear in the panel →</value></data>
+
+    <!-- ── TerminalPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TerminalPanel" xml:space="preserve"><value>TerminalPanel</value></data>
+    <data name="Card/TerminalPanel" xml:space="preserve"><value>A terminal with monospace output and a command input line.</value></data>
+    <data name="TerminalPanel/Description" xml:space="preserve"><value>TerminalPanel provides a monospace output area and a command input line. Type a command and press Enter — the demo echoes it back.</value></data>
+    <data name="TerminalPanel/SimulateOutput" xml:space="preserve"><value>Simulate output</value></data>
+    <data name="TerminalPanel/Clear" xml:space="preserve"><value>Clear</value></data>
+    <!-- ── TreeViewPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/TreeViewPanel" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="Card/TreeViewPanel" xml:space="preserve"><value>A searchable, collapsible tree with section headers and count badges.</value></data>
+    <data name="TreeViewPanel/Description" xml:space="preserve"><value>TreeViewPanel hosts collapsible TreeViewSection groups with a search/filter box, count badges, loading states, and a unified SelectionChanged event.</value></data>
+    <data name="TreeViewPanel/Documents" xml:space="preserve"><value>Documents</value></data>
+    <data name="TreeViewPanel/Images" xml:space="preserve"><value>Images</value></data>
+    <data name="TreeViewPanel/Downloads" xml:space="preserve"><value>Downloads</value></data>
+    <data name="TreeViewPanel/SelectedItem" xml:space="preserve"><value>Selected item:</value></data>
+    <data name="TreeViewPanel/DetailTitle" xml:space="preserve"><value>TreeViewPanel</value></data>
+    <data name="TreeViewPanel/DetailDesc" xml:space="preserve"><value>Use the filter box to search across all sections. Click any item to select it.</value></data>
+
+    <!-- ── ItemListPanel ─────────────────────────────────────────────────── -->
+    <data name="Card/ItemListPanel" xml:space="preserve"><value>A searchable list with multi-select, bulk actions, and loading overlay.</value></data>
+    <data name="ItemListPanel/Description" xml:space="preserve"><value>ItemListPanel is a searchable, filterable list with multi-select mode, a bulk-action toolbar, loading overlay, empty state, and a footer slot for pagination.</value></data>
+    <data name="ItemListPanel/MultiSelect" xml:space="preserve"><value>Multi-select</value></data>
+    <data name="ItemListPanel/ToggleLoading" xml:space="preserve"><value>Toggle loading</value></data>
+    <data name="ItemListPanel/Clear" xml:space="preserve"><value>Clear items</value></data>
+    <data name="ItemListPanel/Reload" xml:space="preserve"><value>Reload items</value></data>
+    <data name="ItemListPanel/SearchPlaceholderText" xml:space="preserve"><value>Search files...</value></data>
+    <data name="ItemListPanel/EmptySubtitle" xml:space="preserve"><value>Add items using the Reload button above.</value></data>
+    <data name="ItemListPanel/LoadingTitle" xml:space="preserve"><value>Loading files</value></data>
+    <data name="ItemListPanel/LoadingSubtitle" xml:space="preserve"><value>Please wait...</value></data>
+    <data name="ItemListPanel/DeleteSelected" xml:space="preserve"><value>Delete selected</value></data>
+    <data name="ItemListPanel/Selected" xml:space="preserve"><value>Selected:</value></data>
+
+    <!-- ── StepDialog ────────────────────────────────────────────────────── -->
+    <data name="CardTitle/StepDialog" xml:space="preserve"><value>StepDialog</value></data>
+    <data name="Card/StepDialog" xml:space="preserve"><value>A modal dialog that presents numbered steps with content slots.</value></data>
+    <data name="StepDialog/Description" xml:space="preserve"><value>StepDialog is a modal overlay that presents a sequence of numbered StepItem steps. Each step has a header, optional description, and arbitrary content. Supports primary/secondary buttons and a status message.</value></data>
+    <data name="StepDialog/BasicTitle" xml:space="preserve"><value>Basic step dialog</value></data>
+    <data name="StepDialog/BasicDesc" xml:space="preserve"><value>Three steps with a secondary Cancel button and a status message.</value></data>
+    <data name="StepDialog/OpenBasic" xml:space="preserve"><value>Open step dialog</value></data>
+    <data name="StepDialog/AuthTitle" xml:space="preserve"><value>Device code auth flow</value></data>
+    <data name="StepDialog/AuthDesc" xml:space="preserve"><value>Mimics the device-code authentication pattern with a code block and a link button.</value></data>
+    <data name="StepDialog/OpenAuth" xml:space="preserve"><value>Open auth dialog</value></data>
+    <data name="StepDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
+
+    <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
+    <data name="CardTitle/PropertyGrid" xml:space="preserve"><value>PropertyGrid</value></data>
+    <data name="Card/PropertyGrid" xml:space="preserve"><value>A two-column label/value grid for displaying metadata.</value></data>
+    <data name="PropertyGrid/Description" xml:space="preserve"><value>PropertyGrid displays key-value metadata in a two-column layout. Rows support plain text, clickable links, colored status values, and custom templates.</value></data>
+    <data name="PropertyGrid/ExceptionTitle" xml:space="preserve"><value>Exception info</value></data>
+
+    <!-- ── DownloadPanel ─────────────────────────────────────────────────── -->
+    <data name="CardTitle/DownloadPanel" xml:space="preserve"><value>DownloadPanel</value></data>
+    <data name="Card/DownloadPanel" xml:space="preserve"><value>Visualizes a multi-chunk download with progress bar and chunk canvas.</value></data>
+    <data name="DownloadPanel/Description" xml:space="preserve"><value>DownloadPanel visualizes a multi-chunk download with a tab strip, progress bar, chunk canvas, and action buttons. Use the controls below to simulate a download.</value></data>
+    <data name="DownloadPanel/Tick" xml:space="preserve"><value>Tick progress</value></data>
+    <data name="DownloadPanel/PauseResume" xml:space="preserve"><value>Pause / Resume</value></data>
+    <data name="DownloadPanel/ToggleMerge" xml:space="preserve"><value>Toggle merge</value></data>
+    <data name="DownloadPanel/Reset" xml:space="preserve"><value>Reset</value></data>
+
+    <!-- ── CrashReportDialog ─────────────────────────────────────────────── -->
+    <data name="CardTitle/CrashReportDialog" xml:space="preserve"><value>CrashReportDialog</value></data>
+    <data name="Card/CrashReportDialog" xml:space="preserve"><value>A Fluent-styled modal crash report with tabs, email validation, and send/save actions.</value></data>
+    <data name="CrashReportDialog/Description" xml:space="preserve"><value>CrashReportDialog is a modal overlay with three tabs (General, Exception, Screenshot), email validation, send/save/cancel actions, and inline send-progress feedback.</value></data>
+    <data name="CrashReportDialog/BasicTitle" xml:space="preserve"><value>Simulate a crash report</value></data>
+    <data name="CrashReportDialog/BasicDesc" xml:space="preserve"><value>Opens a pre-populated dialog from a fake NullReferenceException.</value></data>
+    <data name="CrashReportDialog/OpenBasic" xml:space="preserve"><value>Open crash report</value></data>
+    <data name="CrashReportDialog/EmailRequiredTitle" xml:space="preserve"><value>Email required</value></data>
+    <data name="CrashReportDialog/EmailRequiredDesc" xml:space="preserve"><value>IsEmailRequired=True — the Send button is blocked until a valid email is entered.</value></data>
+    <data name="CrashReportDialog/OpenEmailRequired" xml:space="preserve"><value>Open (email required)</value></data>
+    <data name="CrashReportDialog/LastResult" xml:space="preserve"><value>Last result:</value></data>
+    
+    <data name="Font" xml:space="preserve">
+        <value>Font</value>
+    </data>
+    <data name="EnableBlur" xml:space="preserve">
+        <value>Enable blur</value>
+    </data>
+    <data name="EnableCustomTitleBar" xml:space="preserve">
+        <value>Enable custom title bar</value>
+    </data>
+    <data name="CardTitle/TableView" xml:space="preserve">
+        <value>TableView</value>
+    </data>
+    <data name="CardTitle/NavigationPage" xml:space="preserve">
+        <value>NavigationPage</value>
+    </data>
 </root>

@@ -75,7 +75,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlFillColor1}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTodayHighlighted" Value="True" />
-        <Setter Property="Padding" Value="10 0 0 0" />
+        <Setter Property="Padding" Value="10 0 10 0" />
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -112,7 +112,7 @@
                                        Grid.Column="1" />
 
                             <Button Name="PART_Button"
-                                    Theme="{DynamicResource CalendarDatePickerButton}"
+                                    Theme="{StaticResource CalendarDatePickerButton}"
                                     CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static CornerRadiusFilterConverters.Right}}"
                                     Grid.Column="2"
                                     Focusable="False" />
@@ -122,24 +122,6 @@
                                    PlacementTarget="{TemplateBinding}"
                                    IsLightDismissEnabled="True"
                                    Placement="Bottom">
-                                <Popup.Styles>
-                                    <Style Selector="Popup[IsOpen=True] > ShadowBorder">
-                                        <Style.Animations>
-                                            <Animation Duration="0:0:0.2" FillMode="Forward" Easing="CubicEaseOut">
-                                                <KeyFrame Cue="0%">
-                                                    <Setter Property="TranslateTransform.Y"
-                                                            Value="-100" />
-                                                    <Setter Property="Opacity" Value="0" />
-                                                </KeyFrame>
-                                                <KeyFrame Cue="100%">
-                                                    <Setter Property="TranslateTransform.Y" Value="0" />
-                                                    <Setter Property="Opacity" Value="1" />
-                                                </KeyFrame>
-                                            </Animation>
-                                        </Style.Animations>
-                                    </Style>
-                                </Popup.Styles>
-                                
                                 <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
                                               Margin="6 4 6 6"
                                               BlurRadius="5"

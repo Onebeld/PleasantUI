@@ -23,6 +23,8 @@ public class RemoveLocalizeObserver : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
+        
         IObserver<string>? observer = _observer;
         Interlocked.Exchange(ref _parent, null)?.Remove(observer!);
         _observer = null;

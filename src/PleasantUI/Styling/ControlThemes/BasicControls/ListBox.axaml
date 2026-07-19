@@ -10,7 +10,7 @@
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
                 </ListBox>
-                <ListBox Classes="Horizontal" ItemContainerTheme="{DynamicResource HorizontalListBoxItem}" Width="250"
+                <ListBox Classes="Horizontal" ItemContainerTheme="{StaticResource HorizontalListBoxItem}" Width="250"
                          Height="150">
                     <ListBoxItem>Test</ListBoxItem>
                     <ListBoxItem>Test</ListBoxItem>
@@ -26,18 +26,25 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+        </Setter>
+        
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="border"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                    <SmoothScrollViewer Background="{TemplateBinding Background}"
-                                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                    <ScrollViewer Background="{TemplateBinding Background}"
+                                  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         ItemsPanel="{TemplateBinding ItemsPanel}"
                                         Margin="{TemplateBinding Padding}" />
-                    </SmoothScrollViewer>
+                    </ScrollViewer>
                 </Border>
             </ControlTemplate>
         </Setter>

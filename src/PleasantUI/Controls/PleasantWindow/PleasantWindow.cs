@@ -3,10 +3,12 @@ using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Reactive;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using PleasantUI.Controls.Chrome;
+using PleasantUI.Core.Internal;
 
 namespace PleasantUI.Controls;
 
@@ -285,6 +287,17 @@ public class PleasantWindow : PleasantWindowBase
     /// <inheritdoc />
     protected override Type StyleKeyOverride => typeof(PleasantWindow);
 
+    public PleasantWindow()
+    {
+        KeyBindings.Add(new KeyBinding
+        {
+            Gesture = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) 
+                ? new KeyGesture(Key.W, KeyModifiers.Meta)
+                : new KeyGesture(Key.F4, KeyModifiers.Alt),
+            Command = new InternalCommand(Close)
+        });
+    }
+
     /// <inheritdoc />
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -297,7 +310,6 @@ public class PleasantWindow : PleasantWindowBase
 
         this.GetObservable(WindowStateProperty)
             .Subscribe(new AnonymousObserver<WindowState>(x => ChangeDecorations(EnableCustomTitleBar, x)));
- 
     }
 
     /// <inheritdoc />
@@ -350,7 +362,7 @@ public class PleasantWindow : PleasantWindowBase
         _splashLayer.Children.Add(_splashOverlay);
         _splashLayer.IsVisible = true;
 
-        var startTime = Environment.TickCount64;
+        long startTime = Environment.TickCount64;
 
         try
         {
@@ -372,9 +384,10 @@ public class PleasantWindow : PleasantWindowBase
         // Fade out on the UI thread
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            if (_splashOverlay is null) return;
+            if (_splashOverlay is null || _splashCts is null || _splashCts.IsCancellationRequested) 
+                return;
 
-            var fadeOut = new Animation
+            Animation fadeOut = new()
             {
                 Duration = TimeSpan.FromMilliseconds(350),
                 FillMode = FillMode.Forward,
@@ -385,7 +398,7 @@ public class PleasantWindow : PleasantWindowBase
                 }
             };
 
-            await fadeOut.RunAsync(_splashOverlay);
+            await fadeOut.RunAsync(_splashOverlay, _splashCts.Token);
 
             _splashLayer.Children.Clear();
             _splashLayer.IsVisible = false;

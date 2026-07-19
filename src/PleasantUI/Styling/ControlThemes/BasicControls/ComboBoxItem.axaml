@@ -44,31 +44,28 @@
         
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="LayoutRoot"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Margin="5,2,5,2"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ClipToBounds="True"
-                        TemplatedControl.IsTemplateFocusTarget="True">
-                    <RippleEffect x:Name="PART_Ripple">
-                        <Panel>
-                            <Border Name="Pill" Theme="{DynamicResource ComboBoxItemPillBorder}" />
+                <RippleEffect x:Name="PART_Ripple"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              Margin="5,2,5,2"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              TemplatedControl.IsTemplateFocusTarget="True">
+                    <Panel>
+                        <Border Name="Pill" Theme="{StaticResource ComboBoxItemPillBorder}" />
 
-                            <ContentPresenter Name="ContentPresenter"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              TextBlock.Foreground="{TemplateBinding Foreground}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Margin="{TemplateBinding Padding}"
-                                              Background="{x:Null}"
-                                              BorderBrush="{x:Null}"
-                                              BorderThickness="0" />
-                        </Panel>
-                    </RippleEffect>
-                </Border>
+                        <ContentPresenter Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"
+                                          Background="{x:Null}"
+                                          BorderBrush="{x:Null}"
+                                          BorderThickness="0" />
+                    </Panel>
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
 
