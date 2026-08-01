@@ -1,11 +1,11 @@
 name: Publish Package
-
-#on:
-#  push:
-#    branches: [ "main", "master" ]
-#    paths:
+  
+  #on:
+  #  push:
+  #    branches: [ "main", "master" ]
+  #    paths:
 #      - 'build/Package.props'
-    
+
 on:
   workflow_dispatch:
     inputs:
@@ -446,10 +446,10 @@ jobs:
           sleep 65
 
       - name: Build merge-A prompt (passes 1-4)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        run: |
+          if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
           # all printf — no heredoc to avoid YAML indent issues
-          printf '%s\n' \
+          run: |
+            printf '%s\n' \
             'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
             'Below are raw per-batch findings from analysis passes 1-4 of this release.' \
             '' \
@@ -463,7 +463,7 @@ jobs:
             '' \
             '---' \
             > /tmp/prompt-merge-a.txt
-          {
+            {
             printf '## Pass 1 — Commits, changed files, public API\n'
             cat /tmp/pass-1.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 2 — Diff batch 1\n'
@@ -472,274 +472,178 @@ jobs:
             cat /tmp/pass-3.txt 2>/dev/null || printf '(no output)\n'
             printf '\n## Pass 4 — Diff batch 3\n'
             cat /tmp/pass-4.txt 2>/dev/null || printf '(no output)\n'
-          } >> /tmp/prompt-merge-a.txt
-          printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
+            } >> /tmp/prompt-merge-a.txt
+            printf 'merge-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-a.txt)"
 
-      - name: AI merge-A (passes 1-4)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        id: ai_merge_a
-        continue-on-error: true
-        uses: actions/ai-inference@v1
-        with:
-          model: openai/gpt-4o-mini
-          max-tokens: 8000
-          prompt-file: /tmp/prompt-merge-a.txt
+            - name: AI merge-A (passes 1-4)
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              id: ai_merge_a
+              continue-on-error: true
+              uses: actions/ai-inference@v1
+              with:
+                model: openai/gpt-4o-mini
+                max-tokens: 8000
+                prompt-file: /tmp/prompt-merge-a.txt
 
-      - name: Save merge-A response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_a.conclusion == 'success'
-        run: |
-          cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt || true
-          sleep 65
+            - name: Save merge-A response
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_a.conclusion == 'success'
+              run: |
+                cp "${{ steps.ai_merge_a.outputs.response-file }}" /tmp/merge-a.txt || true
+                sleep 65
 
-      - name: Compress merge-A output
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        run: |
-          # all printf — no heredoc to avoid YAML indent issues
-          printf '%s\n' \
-            'You are compressing a change-log summary for PleasantUI.' \
-            'Rewrite the input as a TIGHT structured list. Rules:' \
-            '- One bullet per distinct change. Max 12 words per bullet.' \
-            '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
-            '- Preserve ALL items — do not drop any finding.' \
-            '- No prose, no headers, no blank lines between bullets.' \
-            '- Output ONLY the bullet list, nothing else.' \
-            '---' \
-            > /tmp/prompt-compress-a.txt
-          cat /tmp/merge-a.txt >> /tmp/prompt-compress-a.txt
-          printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
+            - name: Compress merge-A output
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              run: |
+                printf '%s\n' \
+                  'You are compressing a change-log summary for PleasantUI.' \
+                  'Rewrite the input as a TIGHT structured list. Rules:' \
+                  '- One bullet per distinct change. Max 12 words per bullet.' \
+                  '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
+                  '- Preserve ALL items — do not drop any finding.' \
+                  '- No prose, no headers, no blank lines between bullets.' \
+                  '- Output ONLY the bullet list, nothing else.' \
+                  '---' \
+                  > /tmp/prompt-compress-a.txt
+                cat /tmp/merge-a.txt 2>/dev/null >> /tmp/prompt-compress-a.txt || true
+                printf 'compress-A prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-a.txt)"
 
-      - name: AI compress-A
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        id: ai_compress_a
-        continue-on-error: true
-        uses: actions/ai-inference@v1
-        with:
-          model: openai/gpt-4o-mini
-          max-tokens: 8000
-          prompt-file: /tmp/prompt-compress-a.txt
+            - name: AI compress-A
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              id: ai_compress_a
+              continue-on-error: true
+              uses: actions/ai-inference@v1
+              with:
+                model: openai/gpt-4o-mini
+                max-tokens: 8000
+                prompt-file: /tmp/prompt-compress-a.txt
 
-      - name: Save compress-A response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_a.conclusion == 'success'
-        run: |
-          cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt || true
-          sleep 65
+            - name: Save compress-A response
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_a.conclusion == 'success'
+              run: |
+                cp "${{ steps.ai_compress_a.outputs.response-file }}" /tmp/compress-a.txt || true
+                sleep 65
 
-      - name: Build merge-B prompt (passes 5-8)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        run: |
-          # all printf — no heredoc to avoid YAML indent issues
-          printf '%s\n' \
-            'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are raw per-batch findings from analysis passes 5-8 of this release.' \
-            '' \
-            'Your task: produce a LOSSLESS intermediate summary.' \
-            '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
-            '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
-            '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
-            '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
-            '- Each bullet: `- [FileName] <concise fact>`' \
-            '- This output feeds a final merge step — completeness is critical.' \
-            '' \
-            '---' \
-            > /tmp/prompt-merge-b.txt
-          {
-            printf '## Pass 5 — Diff batch 4\n'
-            cat /tmp/pass-5.txt 2>/dev/null || printf '(no output)\n'
-            printf '\n## Pass 6 — Diff batch 5\n'
-            cat /tmp/pass-6.txt 2>/dev/null || printf '(no output)\n'
-            printf '\n## Pass 7 — Diff batch 6\n'
-            cat /tmp/pass-7.txt 2>/dev/null || printf '(no output)\n'
-            printf '\n## Pass 8 — Diff batch 7\n'
-            cat /tmp/pass-8.txt 2>/dev/null || printf '(no output)\n'
-          } >> /tmp/prompt-merge-b.txt
-          printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
+            - name: Build merge-B prompt (passes 5-8)
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              run: |
+                printf '%s\n' \
+                  'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
+                  'Below are raw per-batch findings from analysis passes 5-8 of this release.' \
+                  '' \
+                  'Your task: produce a LOSSLESS intermediate summary.' \
+                  '- Keep EVERY distinct finding. Do not drop or merge away any item.' \
+                  '- Deduplicate only exact duplicates (same file, same change mentioned twice).' \
+                  '- Be concise per bullet (one sentence max) but preserve all facts: names, types, behaviours.' \
+                  '- Group under: **New Controls / Features** | **Improvements** | **Bug Fixes** | **Breaking Changes**' \
+                  '- Each bullet: `- [FileName] <concise fact>`' \
+                  '- This output feeds a final merge step — completeness is critical.' \
+                  '' \
+                  '---' \
+                  > /tmp/prompt-merge-b.txt
+                {
+                  printf '## Pass 5 — Diff batch 4\n'
+                  cat /tmp/pass-5.txt 2>/dev/null || printf '(no output)\n'
+                  printf '\n## Pass 6 — Diff batch 5\n'
+                  cat /tmp/pass-6.txt 2>/dev/null || printf '(no output)\n'
+                  printf '\n## Pass 7 — Diff batch 6\n'
+                  cat /tmp/pass-7.txt 2>/dev/null || printf '(no output)\n'
+                  printf '\n## Pass 8 — Diff batch 7\n'
+                  cat /tmp/pass-8.txt 2>/dev/null || printf '(no output)\n'
+                } >> /tmp/prompt-merge-b.txt
+                printf 'merge-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-merge-b.txt)"
 
-      - name: AI merge-B (passes 5-8)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        id: ai_merge_b
-        continue-on-error: true
-        uses: actions/ai-inference@v1
-        with:
-          model: openai/gpt-4o-mini
-          max-tokens: 8000
-          prompt-file: /tmp/prompt-merge-b.txt
+            - name: AI merge-B (passes 5-8)
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              id: ai_merge_b
+              continue-on-error: true
+              uses: actions/ai-inference@v1
+              with:
+                model: openai/gpt-4o-mini
+                max-tokens: 8000
+                prompt-file: /tmp/prompt-merge-b.txt
 
-      - name: Save merge-B response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_b.conclusion == 'success'
-        run: |
-          cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt || true
-          sleep 65
+            - name: Save merge-B response
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge_b.conclusion == 'success'
+              run: |
+                cp "${{ steps.ai_merge_b.outputs.response-file }}" /tmp/merge-b.txt || true
+                sleep 65
 
-      - name: Compress merge-B output
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        run: |
-          # all printf — no heredoc to avoid YAML indent issues
-          printf '%s\n' \
-            'You are compressing a change-log summary for PleasantUI.' \
-            'Rewrite the input as a TIGHT structured list. Rules:' \
-            '- One bullet per distinct change. Max 12 words per bullet.' \
-            '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
-            '- Preserve ALL items — do not drop any finding.' \
-            '- No prose, no headers, no blank lines between bullets.' \
-            '- Output ONLY the bullet list, nothing else.' \
-            '---' \
-            > /tmp/prompt-compress-b.txt
-          cat /tmp/merge-b.txt >> /tmp/prompt-compress-b.txt
-          printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
+            - name: Compress merge-B output
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              run: |
+                printf '%s\n' \
+                  'You are compressing a change-log summary for PleasantUI.' \
+                  'Rewrite the input as a TIGHT structured list. Rules:' \
+                  '- One bullet per distinct change. Max 12 words per bullet.' \
+                  '- Format: `- [Category] FileName: <fact>` where Category is one of: New | Improved | Fixed | Breaking' \
+                  '- Preserve ALL items — do not drop any finding.' \
+                  '- No prose, no headers, no blank lines between bullets.' \
+                  '- Output ONLY the bullet list, nothing else.' \
+                  '---' \
+                  > /tmp/prompt-compress-b.txt
+                cat /tmp/merge-b.txt 2>/dev/null >> /tmp/prompt-compress-b.txt || true
+                printf 'compress-B prompt: %d bytes\n' "$(wc -c < /tmp/prompt-compress-b.txt)"
 
-      - name: AI compress-B
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        id: ai_compress_b
-        continue-on-error: true
-        uses: actions/ai-inference@v1
-        with:
-          model: openai/gpt-4o-mini
-          max-tokens: 8000
-          prompt-file: /tmp/prompt-compress-b.txt
+            - name: AI compress-B
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
+              id: ai_compress_b
+              continue-on-error: true
+              uses: actions/ai-inference@v1
+              with:
+                model: openai/gpt-4o-mini
+                max-tokens: 8000
+                prompt-file: /tmp/prompt-compress-b.txt
 
-      - name: Save compress-B response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_b.conclusion == 'success'
-        run: |
-          cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt || true
-          sleep 65
+            - name: Save compress-B response
+              if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_compress_b.conclusion == 'success'
+              run: |
+                cp "${{ steps.ai_compress_b.outputs.response-file }}" /tmp/compress-b.txt || true
+                sleep 65
 
-      - name: Build final merge prompt (compress-A + compress-B)
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        run: |
-          # all printf — no heredoc to avoid YAML indent issues
-          IS_PRERELEASE="${{ steps.version.outputs.prerelease }}"
-          VERSION="v${{ steps.version.outputs.version }}"
-
-          printf '%s\n' \
-            'You are a senior technical writer for PleasantUI — a cross-platform UI theme and control library for Avalonia (.NET).' \
-            'Below are two compressed change lists covering the COMPLETE diff of this release.' \
-            'Each line is one distinct change. Together they represent every change in this release.' \
-            '' \
-            '## Critical rules' \
-            '- You MUST include every single bullet from BOTH lists in your output.' \
-            '- Read ALL bullets before writing. Do not stop after the first section.' \
-            '- Deduplicate only true duplicates (same file + same change in both lists).' \
-            '- When the same item appears in both, use the more detailed description.' \
-            '- Use markdown: ### section headers, bullet lists, inline code.' \
-            '- Do NOT invent anything not present in the lists.' \
-            '- After writing, mentally verify: does every input bullet appear somewhere in the output?' \
-            > /tmp/prompt-final.txt
-
-          if [[ "$VERSION" == *-fix ]]; then
-            printf '%s\n' \
-              '' \
-              '## Release type: BUG FIX RELEASE' \
-              "This is a bug fix release ($VERSION). Adjust the tone accordingly:" \
-              '- Open with a clear statement that this is a bug fix release addressing specific issues.' \
-              '- Focus on the Bug Fixes section — this should be the primary highlight.' \
-              '- Use language like "fixes", "corrects", "resolves", "addresses".' \
-              '- If there are improvements, frame them as refinements or stability improvements.' \
-              '- Emphasize that no breaking changes are included (unless explicitly listed).' \
-              '- This is a stable release suitable for production deployment.' \
-              >> /tmp/prompt-final.txt
-          elif [ "$IS_PRERELEASE" = 'true' ]; then
-            printf '%s\n' \
-              '' \
-              '## Release type: PRE-RELEASE' \
-              "This is a pre-release build ($VERSION). Adjust the tone accordingly:" \
-              '- Open with a short pre-release notice: features may be incomplete, APIs may change.' \
-              '- Mark experimental or in-progress items with *(experimental)* or *(preview)*.' \
-              '- Use language like "introduces", "adds initial support for", "work in progress".' \
-              >> /tmp/prompt-final.txt
-          else
-            printf '%s\n' \
-              '' \
-              '## Release type: STABLE RELEASE' \
-              "This is a stable release ($VERSION). Adjust the tone accordingly:" \
-              '- Write with confidence. Features are production-ready.' \
-              '- Use language like "adds", "improves", "fixes", "introduces".' \
-              '- No experimental caveats unless explicitly noted in the lists.' \
-              >> /tmp/prompt-final.txt
-          fi
-
-          printf '%s\n' \
-            '' \
-            '## Required output sections (include only those with content):' \
-            '### What is New' \
-            '### Improvements' \
-            '### Bug Fixes' \
-            '### Breaking Changes' \
-            '### Packages' \
-            '' \
-            'Always end with a Packages section listing:' \
-            '- PleasantUI' \
-            '- PleasantUI.DataGrid' \
-            '- PleasantUI.ToolKit' \
-            '' \
-            '---' \
-            >> /tmp/prompt-final.txt
-
-          {
-            printf '## Compressed list A (passes 1-4: commits, API, diff batches 1-3)\n'
-            cat /tmp/compress-a.txt 2>/dev/null || printf '(no output)\n'
-            printf '\n## Compressed list B (passes 5-8: diff batches 4-7)\n'
-            cat /tmp/compress-b.txt 2>/dev/null || printf '(no output)\n'
-          } >> /tmp/prompt-final.txt
-
-          printf 'Final merge prompt: %d bytes\n' "$(wc -c < /tmp/prompt-final.txt)"
-
-      - name: AI final merge — write release notes
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true'
-        id: ai_merge
-        continue-on-error: true
-        uses: actions/ai-inference@v1
-        with:
-          model: openai/gpt-4.1
-          max-tokens: 8000
-          prompt-file: /tmp/prompt-final.txt
-
-      - name: Save final merge response
-        if: steps.tag_check.outputs.exists == 'false' && github.event.inputs.skip_ai_notes != 'true' && steps.ai_merge.conclusion == 'success'
-        run: cp "${{ steps.ai_merge.outputs.response-file }}" /tmp/final-merge.txt || true
-      - name: Write release notes to file
-        if: steps.tag_check.outputs.exists == 'false'
-        id: notes_file
-        run: |
-          AI_FAILED=""
-          if [ '${{ github.event.inputs.skip_ai_notes }}' == 'true' ]; then
-            # Generate simple release notes from commits
-            {
-              printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
-              printf '### Commits\n\n'
-              git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
-              printf '\n### Changed Files\n\n'
-              git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || printf '- No files changed\n'
-              printf '\n### Packages\n'
-              printf '- PleasantUI\n'
-              printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.ToolKit\n'
-            } > /tmp/release_notes.md
-            echo "Using simple commit-based release notes (AI generation skipped)."
-          elif [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
-            cp /tmp/final-merge.txt /tmp/release_notes.md
-            echo "Using final merged AI-generated release notes."
-          else
-            AI_FAILED="true"
-            # Fallback: generate simple release notes from commits when AI fails
-            {
-              printf '> **Note:** AI-generated release notes failed. Using commit history instead.\n\n'
-              printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
-              printf '### Commits\n\n'
-              git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || printf '- No commits found\n'
-              printf '\n### Changed Files\n\n'
-              git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || printf '- No files changed\n'
-              printf '\n### Packages\n'
-              printf '- PleasantUI\n'
-              printf '- PleasantUI.DataGrid\n'
-              printf '- PleasantUI.ToolKit\n'
-            } > /tmp/release_notes.md
-            echo "WARNING: AI release notes generation failed. Used commit-based fallback."
-          fi
-
-          echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
-          if [ -n "$AI_FAILED" ]; then
-            echo "::warning::AI release notes generation failed - using commit-based fallback"
-          fi
+            - name: Write release notes to file
+              if: steps.tag_check.outputs.exists == 'false'
+              id: notes_file
+              run: |
+                AI_FAILED=""
+                if [ '${{ github.event.inputs.skip_ai_notes }}' == 'true' ]; then
+                  # Generate simple release notes from commits
+                  {
+                    printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
+                    printf '### Commits\n\n'
+                    git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || echo "- No commits found"
+                    printf '\n### Changed Files\n\n'
+                    git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || echo "- No files changed"
+                    printf '\n### Packages\n'
+                    printf '- PleasantUI\n'
+                    printf '- PleasantUI.DataGrid\n'
+                    printf '- PleasantUI.ToolKit\n'
+                  } > /tmp/release_notes.md
+                  echo "Using simple commit-based release notes (AI generation skipped)."
+                elif [ -f /tmp/final-merge.txt ] && [ -s /tmp/final-merge.txt ]; then
+                  cp /tmp/final-merge.txt /tmp/release_notes.md
+                  echo "Using final merged AI-generated release notes."
+                else
+                  AI_FAILED="true"
+                  # Fallback: generate simple release notes from commits when AI fails
+                  {
+                    printf '> **Note:** AI-generated release notes failed. Using commit history instead.\n\n'
+                    printf '## Changes in v%s\n\n' '${{ steps.version.outputs.version }}'
+                    printf '### Commits\n\n'
+                    git log "${{ steps.collect.outputs.range }}" --pretty=format:"- %h %s (%an)" || echo "- No commits found"
+                    printf '\n### Changed Files\n\n'
+                    git diff --name-only "${{ steps.collect.outputs.range }}" | head -50 | sed 's/^/- /' || echo "- No files changed"
+                    printf '\n### Packages\n'
+                    printf '- PleasantUI\n'
+                    printf '- PleasantUI.DataGrid\n'
+                    printf '- PleasantUI.ToolKit\n'
+                  } > /tmp/release_notes.md
+                  echo "WARNING: AI release notes generation failed. Used commit-based fallback."
+                fi
+            
+                echo "path=/tmp/release_notes.md" >> $GITHUB_OUTPUT
+                if [ -n "$AI_FAILED" ]; then
+                  echo "::warning::AI release notes generation failed - using commit-based fallback"
+                fi
 
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
