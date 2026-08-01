@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Media.Imaging;
 using Avalonia.Reactive;
 using PleasantUI.Core.Internal.Reactive;
 using Path = Avalonia.Controls.Shapes.Path;
@@ -274,15 +275,30 @@ public class PleasantTitleBar : TemplatedControl
 
     private void SetDisplayIcon(object? obj)
     {
-        if (_displayIcon is null || obj is WindowIcon)
+        if (_host is null)
             return;
+        
+        if (_host.DisplayIcon is not null)
+            _displayIcon?.Icon = _host.DisplayIcon;
+        else if (_host.Icon is not null)
+        {
+            using MemoryStream stream = new();
+            _host.Icon.Save(stream);
+            stream.Position = 0;
 
-        _displayIcon.Icon = obj;
+            _displayIcon?.Icon = new Bitmap(stream);
+        }
     }
 
     private void SetDisplayTitle(object? obj)
     {
-        _displayTitle?.Icon = obj;
+        if (_host is null)
+            return;
+        
+        if (_host.DisplayTitle is not null)
+            _displayTitle?.Icon = _host.DisplayTitle;
+        else
+            _displayTitle?.Icon = _host.Title;
     }
 
     private void PopulateTitleBar()

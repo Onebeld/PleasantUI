@@ -53,11 +53,6 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -66,6 +61,12 @@
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}">
+                    <RippleEffect.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </RippleEffect.Transitions>
+                    
                     <DockPanel>
                         <Border x:Name="ExpandCollapseChevronBorder"
                                 DockPanel.Dock="Right"

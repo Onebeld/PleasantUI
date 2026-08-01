@@ -38,30 +38,28 @@
         <Setter Property="(CompositionAnimationBehavior.UseEntranceAnimations)" Value="True" />
         <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
         
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions> 
-        </Setter>
-        
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="2"
-                            ClipToBounds="True">
-                        <RippleEffect x:Name="PART_Ripple">
-                            <ContentPresenter Name="PART_ContentPresenter"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Content="{TemplateBinding Content}"
-                                              Padding="{TemplateBinding Padding}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                        </RippleEffect>
-                    </Border>
+                    <RippleEffect x:Name="PART_Ripple"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Margin="2">
+                        <RippleEffect.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.1" />
+                            </Transitions>
+                        </RippleEffect.Transitions>
+
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Padding="{TemplateBinding Padding}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </RippleEffect>
 
                     <Border Name="SelectionIndicator"
                             HorizontalAlignment="Left"
@@ -134,29 +132,28 @@
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="(CompositionAnimationBehavior.UseEntranceAnimations)" Value="True" />
         <Setter Property="(CompositionAnimationBehavior.UseImplicitAnimations)" Value="True" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
         
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            ClipToBounds="True"
-                            CornerRadius="{TemplateBinding CornerRadius}">
-                        <RippleEffect x:Name="PART_Ripple">
-                            <ContentPresenter Name="PART_ContentPresenter"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Content="{TemplateBinding Content}"
-                                              Padding="{TemplateBinding Padding}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                        </RippleEffect>
-                    </Border>
+                    <RippleEffect x:Name="PART_Ripple"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  CornerRadius="{TemplateBinding CornerRadius}">
+                        <RippleEffect.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.1" />
+                            </Transitions>
+                        </RippleEffect.Transitions>
+                        
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Padding="{TemplateBinding Padding}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                    </RippleEffect>
 
                     <Border Name="SelectionIndicator"
                             Background="{DynamicResource AccentLightColor2}"

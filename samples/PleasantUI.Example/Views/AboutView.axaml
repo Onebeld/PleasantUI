@@ -36,7 +36,7 @@
                     <!-- Author -->
                     <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <PathIcon Data="{StaticResource Onebeld}"
-                                  Width="120"
+                                  Width="180"
                                   Height="NaN"
                                   HorizontalAlignment="Right" />
                         <TextBlock Text="Dmitry Zhutkov"

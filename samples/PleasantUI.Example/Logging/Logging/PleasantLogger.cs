@@ -19,8 +19,14 @@ public class PleasantLogger : IDisposable
         
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
         AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+        TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
         
         Log.Information("The logger has been initialized");
+    }
+
+    private void TaskSchedulerOnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        Log.Error(e.Exception, "An unhandled exception occurred in task");
     }
 
     /// <inheritdoc/>
@@ -36,6 +42,9 @@ public class PleasantLogger : IDisposable
     
     private static void CurrentDomainOnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
     {
+        if (e.Exception is TaskCanceledException)
+            return;
+        
         StackTrace stackTrace = new(1, true);
         Log.Error($"An handled exception occurred\n{e.Exception.GetType()}: {e.Exception.Message}\n{stackTrace}");
     }

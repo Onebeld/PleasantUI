@@ -26,11 +26,6 @@
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="Padding" Value="11 5 11 7" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -42,6 +37,12 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         ClipToBounds="True"
                         TemplatedControl.IsTemplateFocusTarget="True">
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Border.Transitions>
+                    
                     <RippleEffect x:Name="PART_Ripple">
                         <Panel>
                             <Border Name="Pill" Theme="{StaticResource ComboBoxItemPillBorder}" />
@@ -144,11 +145,6 @@
                 <VirtualizingStackPanel />
             </ItemsPanelTemplate>
         </Setter>
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -170,7 +166,13 @@
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       MinWidth="64"
-                                      CornerRadius="{TemplateBinding CornerRadius}" />
+                                      CornerRadius="{TemplateBinding CornerRadius}">
+                            <RippleEffect.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                                </Transitions>
+                            </RippleEffect.Transitions>
+                        </RippleEffect>
 
                         <TextBlock x:Name="PlaceholderTextBlock"
                                    Grid.Row="1"

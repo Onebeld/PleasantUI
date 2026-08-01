@@ -37,11 +37,6 @@
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor1}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor2}" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -51,6 +46,12 @@
                               BorderThickness="{TemplateBinding BorderThickness}"
                               CornerRadius="{TemplateBinding CornerRadius}"
                               Padding="{TemplateBinding Padding}">
+                    <RippleEffect.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </RippleEffect.Transitions>
+                    
                     <ContentPresenter Name="PART_ContentPresenter"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       Content="{TemplateBinding Content}"

@@ -191,7 +191,7 @@
     </Style>
     
     <Style Selector=":is(Popup)">
-        <Setter Property="(TextElement.FontFamily)" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
+        <Setter Property="(TextElement.FontFamily)" Value="{DynamicResource GlobalFontFamily}" />
     </Style>
     
     <Style Selector=":is(Popup) ShadowBorder">

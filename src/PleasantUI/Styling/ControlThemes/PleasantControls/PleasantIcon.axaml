@@ -10,7 +10,7 @@
         </Setter>
 
         <Setter Property="Template">
-            <ControlTemplate>
+            <ControlTemplate TargetType="PleasantIcon">
                 <ContentPresenter Name="PART_ContentPresenter"
                                   Background="{TemplateBinding Background}"
                                   Foreground="{TemplateBinding Foreground}"
@@ -28,7 +28,8 @@
                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
                         </DataTemplate>
                         <DataTemplate DataType="IImage">
-                            <Image Source="{Binding}" Width="{Binding (IconHelper.Width), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" Height="{Binding (IconHelper.Height), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
+                            <Image Source="{Binding}" Width="{Binding (IconHelper.Width), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" 
+                                   Height="{Binding (IconHelper.Height), RelativeSource={RelativeSource AncestorType=PleasantIcon}}" />
                         </DataTemplate>
                     </ContentPresenter.DataTemplates>
                 </ContentPresenter>

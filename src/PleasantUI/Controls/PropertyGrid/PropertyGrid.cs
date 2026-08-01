@@ -1,9 +1,7 @@
-using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Collections;
-using Avalonia.Controls;
-using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Layout;
 using Avalonia.Metadata;
 
 namespace PleasantUI.Controls;
@@ -13,39 +11,23 @@ namespace PleasantUI.Controls;
 /// The left column shows labels and the right column shows values — which can be plain text,
 /// clickable links, colored status text, or arbitrary templated content.
 /// </summary>
-[TemplatePart(PART_RowsHost, typeof(ItemsControl))]
 public class PropertyGrid : TemplatedControl
 {
-    // ── Template part names ───────────────────────────────────────────────────
-
-    private const string PART_RowsHost = "PART_RowsHost";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
-
-    /// <summary>Defines the <see cref="LabelColumnWidth"/> property.</summary>
-    public static readonly StyledProperty<GridLength> LabelColumnWidthProperty =
-        AvaloniaProperty.Register<PropertyGrid, GridLength>(nameof(LabelColumnWidth),
-            defaultValue: GridLength.Auto);
-
     /// <summary>Defines the <see cref="RowSpacing"/> property.</summary>
     public static readonly StyledProperty<double> RowSpacingProperty =
         AvaloniaProperty.Register<PropertyGrid, double>(nameof(RowSpacing), defaultValue: 10);
-
-    // ── Direct properties ─────────────────────────────────────────────────────
+    
+    /// <summary>Defines the <see cref="ValueHorizontalAlignment"/> property.</summary>
+    public static readonly StyledProperty<HorizontalAlignment> ValueHorizontalAlignmentProperty =
+        AvaloniaProperty.Register<PropertyGrid, HorizontalAlignment>(
+            nameof(ValueHorizontalAlignment),
+            defaultValue: HorizontalAlignment.Left,
+            inherits: true); // Наследуется дочерними элементами
 
     /// <summary>Defines the <see cref="Rows"/> direct property.</summary>
     public static readonly DirectProperty<PropertyGrid, AvaloniaList<PropertyRow>> RowsProperty =
         AvaloniaProperty.RegisterDirect<PropertyGrid, AvaloniaList<PropertyRow>>(
             nameof(Rows), o => o.Rows);
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
-
-    /// <summary>Gets or sets the width of the label column.</summary>
-    public GridLength LabelColumnWidth
-    {
-        get => GetValue(LabelColumnWidthProperty);
-        set => SetValue(LabelColumnWidthProperty, value);
-    }
 
     /// <summary>Gets or sets the vertical spacing between rows.</summary>
     public double RowSpacing
@@ -53,37 +35,15 @@ public class PropertyGrid : TemplatedControl
         get => GetValue(RowSpacingProperty);
         set => SetValue(RowSpacingProperty, value);
     }
+    
+    /// <summary>Gets or sets the horizontal alignment of the row values.</summary>
+    public HorizontalAlignment ValueHorizontalAlignment
+    {
+        get => GetValue(ValueHorizontalAlignmentProperty);
+        set => SetValue(ValueHorizontalAlignmentProperty, value);
+    }
 
     /// <summary>Gets the collection of property rows.</summary>
     [Content]
-    public AvaloniaList<PropertyRow> Rows { get; } = new();
-
-    // ── Private state ─────────────────────────────────────────────────────────
-
-    private ItemsControl? _rowsHost;
-
-    // ── Constructor ───────────────────────────────────────────────────────────
-
-    public PropertyGrid()
-    {
-        Rows.CollectionChanged += OnRowsChanged;
-    }
-
-    // ── Template ──────────────────────────────────────────────────────────────
-
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {
-        base.OnApplyTemplate(e);
-
-        _rowsHost = e.NameScope.Find<ItemsControl>(PART_RowsHost);
-
-        _rowsHost?.ItemsSource = Rows;
-    }
-
-    // ── Private helpers ───────────────────────────────────────────────────────
-
-    private void OnRowsChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        _rowsHost?.ItemsSource = Rows;
-    }
+    public AvaloniaList<PropertyRow> Rows { get; } = [];
 }

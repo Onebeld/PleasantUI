@@ -7,58 +7,57 @@
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions> 
-        </Setter> 
-        
+
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="PART_LayoutRoot"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                    <RippleEffect x:Name="PART_Ripple">
-                        <Panel>
-                            <ContentPresenter Name="PART_HeaderPresenter"
-                                              Content="{TemplateBinding Header}"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Stretch"
-                                              Margin="{TemplateBinding Padding}">
-                                <ContentPresenter.DataTemplates>
-                                    <DataTemplate DataType="system:String">
-                                        <AccessText Text="{CompiledBinding}" />
-                                    </DataTemplate>
-                                </ContentPresenter.DataTemplates>
-                            </ContentPresenter>
-                            <Popup Name="PART_Popup"
-                                   WindowManagerAddShadowHint="False"
-                                   MinWidth="{CompiledBinding $parent[TextBox].Bounds.Width}"
-                                   IsLightDismissEnabled="True"
-                                   IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
-                                   OverlayInputPassThroughElement="{CompiledBinding $parent[Menu]}">
-                                <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
-                                              Background="{DynamicResource BackgroundColor1}"
-                                              HorizontalAlignment="Stretch"
-                                              MaxWidth="456"
-                                              MinHeight="32"
-                                              Margin="6 4 6 6"
-                                              BlurRadius="5"
-                                              Offset="0 1"
-                                              ShadowColor="#3C000000">
-                                    <ScrollViewer>
-                                        <ItemsPresenter Name="PART_ItemsPresenter"
-                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                        Margin="0 2 0 2"
-                                                        Grid.IsSharedSizeScope="True" />
-                                    </ScrollViewer>
-                                </ShadowBorder>
-                            </Popup>
-                        </Panel>
-                    </RippleEffect>
-                </Border>
+                <RippleEffect x:Name="PART_Ripple"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                    <RippleEffect.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </RippleEffect.Transitions>
+
+                    <Panel>
+                        <ContentPresenter Name="PART_HeaderPresenter"
+                                          Content="{TemplateBinding Header}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Stretch"
+                                          Margin="{TemplateBinding Padding}">
+                            <ContentPresenter.DataTemplates>
+                                <DataTemplate DataType="system:String">
+                                    <AccessText Text="{CompiledBinding}" />
+                                </DataTemplate>
+                            </ContentPresenter.DataTemplates>
+                        </ContentPresenter>
+                        <Popup Name="PART_Popup"
+                               WindowManagerAddShadowHint="False"
+                               MinWidth="{CompiledBinding $parent[TextBox].Bounds.Width}"
+                               IsLightDismissEnabled="True"
+                               IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                               OverlayInputPassThroughElement="{CompiledBinding $parent[Menu]}">
+                            <ShadowBorder CornerRadius="{DynamicResource ControlCornerRadius}"
+                                          Background="{DynamicResource BackgroundColor1}"
+                                          HorizontalAlignment="Stretch"
+                                          MaxWidth="456"
+                                          MinHeight="32"
+                                          Margin="6 4 6 6"
+                                          BlurRadius="5"
+                                          Offset="0 1"
+                                          ShadowColor="#3C000000">
+                                <ScrollViewer>
+                                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    Margin="0 2 0 2"
+                                                    Grid.IsSharedSizeScope="True" />
+                                </ScrollViewer>
+                            </ShadowBorder>
+                        </Popup>
+                    </Panel>
+                </RippleEffect>
             </ControlTemplate>
         </Setter>
 
@@ -66,12 +65,12 @@
             <Setter Property="RippleFill" Value="{DynamicResource ControlFillColor3}" />
         </Style>
 
-        <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+        <Style Selector="^:selected /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 
         <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
-        <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+        <Style Selector="^:pressed /template/ RippleEffect#PART_Ripple">
             <Setter Property="Background" Value="{DynamicResource ControlFillColor2}" />
         </Style>
 

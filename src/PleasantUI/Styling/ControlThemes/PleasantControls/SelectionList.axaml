@@ -9,11 +9,6 @@
         <Setter Property="Padding" Value="8" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
         
         <Setter Property="Template">
             <ControlTemplate TargetType="controls:SelectionListItem">
@@ -25,6 +20,12 @@
                         Padding="{TemplateBinding Padding}"
                         Margin="2"
                         ClipToBounds="True">
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Border.Transitions>
+                    
                     <Grid ColumnDefinitions="Auto,*">
                         <!-- Image / icon area — hidden by :no-image pseudo-class -->
                         <Border Name="ImageBorder"

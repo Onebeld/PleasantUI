@@ -303,6 +303,9 @@ public class PleasantTheme : Styles
             case nameof(PleasantSettings.Current.AccentColor):
                 UpdateAccentColors(PleasantSettings.Current.AccentColor);
                 break;
+            case nameof(PleasantSettings.Current.Font):
+                Resources["GlobalFontFamily"] = PleasantSettings.Current.Font;
+                break;
         }
     }
 
@@ -332,6 +335,8 @@ public class PleasantTheme : Styles
     {
         if (PleasantSettings.Current is null)
             throw new NullReferenceException("PleasantSettings.Current is null.");
+        
+        Resources["GlobalFontFamily"] = PleasantSettings.Current.Font;
 
         ThemeVariant? themeVariant = PleasantSettings.Current.Theme switch
         {

@@ -15,7 +15,7 @@
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize PropertyGrid/DownloadTitle}"
                            Theme="{StaticResource BodyStrongTextBlockTheme}" />
-                <controls:PropertyGrid RowSpacing="10">
+                <controls:PropertyGrid Grid.IsSharedSizeScope="True" RowSpacing="10">
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelUrl}"
                                           Value="https://example.com/release/v2.1.0/setup.exe"
                                           ValueKind="Link"
@@ -42,7 +42,7 @@
             <StackPanel Spacing="12">
                 <TextBlock Text="{Localize PropertyGrid/ExceptionTitle}"
                            Theme="{StaticResource BodyStrongTextBlockTheme}" />
-                <controls:PropertyGrid RowSpacing="10">
+                <controls:PropertyGrid RowSpacing="10" ValueHorizontalAlignment="Right">
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelApplication}" Value="MyApp" />
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelVersion}" Value="2.1.0" />
                     <controls:PropertyRow Label="{Localize PropertyGrid/LabelOccurredAt}" Value="2025-04-09 14:32:01" />

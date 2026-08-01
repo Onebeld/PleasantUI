@@ -53,6 +53,7 @@
                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                               BorderThickness="{TemplateBinding BorderThickness}"
+                              Padding="{TemplateBinding Padding}"
                               KeyboardNavigation.TabNavigation="Cycle"
                               ClipContentToBounds="True"
                               BlurRadius="60"

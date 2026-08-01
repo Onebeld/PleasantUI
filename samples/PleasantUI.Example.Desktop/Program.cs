@@ -1,7 +1,10 @@
 ﻿using System.Text;
 using Avalonia;
+using Avalonia.Logging;
 using PleasantUI.Example.Logging.Logging;
 using Serilog;
+using Serilog.Templates;
+using Serilog.Templates.Themes;
 
 namespace PleasantUI.Example.Desktop;
 
@@ -19,8 +22,19 @@ class Program
         
         bool createLogFile = !File.Exists(FileName);
         
+        var expressionTemplate = new ExpressionTemplate(
+            "[{@t:HH:mm:ss} {@l}]" +
+            "{#if Area is not null} [{Area}]{#end}" +
+            "{#if @p.SourceContext is not null} ({@p.SourceContext}){#end}" +
+            " {@m}\n" +
+            "{@x}",
+            theme: TemplateTheme.Code
+        );
+        
         using PleasantLogger logger = new(
-            new LoggerConfiguration().WriteTo.File(FileName, outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level}] | {Message:lj}{NewLine}{Exception}")
+            new LoggerConfiguration()
+                .WriteTo.File(FileName, outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level}] | {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Console(expressionTemplate)
         );
         
         if (createLogFile)
@@ -61,7 +75,12 @@ class Program
                 OverlayPopups = true
             });
 
-        appBuilder.LogToSerilog();
+        appBuilder.LogToSerilog(LogEventLevel.Debug, LogArea.Binding,
+            LogArea.Property,
+            LogArea.Animations,
+            LogArea.Control,
+            LogArea.Fonts,
+            LogArea.Platform);
 
         return appBuilder;
     }
