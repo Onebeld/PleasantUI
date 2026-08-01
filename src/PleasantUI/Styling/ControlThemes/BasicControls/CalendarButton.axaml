@@ -19,28 +19,27 @@
         <Setter Property="Margin" Value="1" />
         <Setter Property="Width" Value="70" />
         <Setter Property="Height" Value="70" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Panel>
-                    <Border Name="Root"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderThickness="0"
-                            ClipToBounds="True">
-                        <ContentPresenter Name="Content"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}" />
-                    </Border>
-                </Panel>
+                <Border Name="Root"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        BorderThickness="0"
+                        ClipToBounds="True">
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Border.Transitions>
+                    
+                    <ContentPresenter Name="Content"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" />
+                </Border>
             </ControlTemplate>
         </Setter>
 

@@ -58,70 +58,70 @@
         <Setter Property="(IconHelper.Height)" Value="14" />
         <Setter Property="(IconHelper.FontSize)" Value="0" />
         <Setter Property="(IconHelper.IconSize)" Value="14" />
-        
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions> 
-        </Setter>
-        
+
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                    <Border Name="PART_LayoutRoot"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Margin="4 2"
-                            ClipToBounds="True">
-                        <RippleEffect x:Name="PART_Ripple" Padding="{TemplateBinding Padding}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIcon" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
-                                </Grid.ColumnDefinitions>
-                                <PleasantIcon Name="PART_IconPresenter"
-                                             Icon="{TemplateBinding Icon}"
-                                             Width="{TemplateBinding (IconHelper.Width)}"
-                                             Height="{TemplateBinding (IconHelper.Height)}"
-                                             IconHelper.FontSize="{TemplateBinding (IconHelper.FontSize)}"
-                                             IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
-                                             Margin="0 0 12 0"
-                                             HorizontalAlignment="Center"
-                                             VerticalAlignment="Center" />
+                    <RippleEffect x:Name="PART_Ripple"
+                                  Padding="{TemplateBinding Padding}"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Margin="4 2">
+                        <RippleEffect.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.1" />
+                            </Transitions>
+                        </RippleEffect.Transitions>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIcon" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <PleasantIcon Name="PART_IconPresenter"
+                                          Icon="{TemplateBinding Icon}"
+                                          Width="{TemplateBinding (IconHelper.Width)}"
+                                          Height="{TemplateBinding (IconHelper.Height)}"
+                                          IconHelper.FontSize="{TemplateBinding (IconHelper.FontSize)}"
+                                          IconHelper.IconSize="{TemplateBinding (IconHelper.IconSize)}"
+                                          Margin="0 0 12 0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
 
-                                <ContentPresenter Name="PART_HeaderPresenter"
-                                                  Content="{TemplateBinding Header}"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Stretch"
-                                                  Grid.Column="1">
-                                    <ContentPresenter.DataTemplates>
-                                        <DataTemplate DataType="system:String">
-                                            <AccessText Text="{CompiledBinding}" />
-                                        </DataTemplate>
-                                    </ContentPresenter.DataTemplates>
-                                </ContentPresenter>
-                                <TextBlock x:Name="PART_InputGestureText"
-                                           Grid.Column="2"
-                                           Margin="24 0 0 0"
-                                           Text="{TemplateBinding InputGesture, Converter={x:Static MenuConverters.KeyGesture}}"
-                                           HorizontalAlignment="Right"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource TextFillColor3}"
-                                           FontWeight="SemiBold"
-                                           VerticalAlignment="Center" />
+                            <ContentPresenter Name="PART_HeaderPresenter"
+                                              Content="{TemplateBinding Header}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Stretch"
+                                              Grid.Column="1">
+                                <ContentPresenter.DataTemplates>
+                                    <DataTemplate DataType="system:String">
+                                        <AccessText Text="{CompiledBinding}" />
+                                    </DataTemplate>
+                                </ContentPresenter.DataTemplates>
+                            </ContentPresenter>
+                            <TextBlock x:Name="PART_InputGestureText"
+                                       Grid.Column="2"
+                                       Margin="24 0 0 0"
+                                       Text="{TemplateBinding InputGesture, Converter={x:Static MenuConverters.KeyGesture}}"
+                                       HorizontalAlignment="Right"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource TextFillColor3}"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center" />
 
-                                <PathIcon Name="PART_ChevronIcon" Grid.Column="3"
-                                          Margin="24 0 0 0"
-                                          Width="10"
-                                          Height="10"
-                                          Data="{StaticResource ChevronRightRegular}" />
-                            </Grid>
-                        </RippleEffect>
-                    </Border>
+                            <PathIcon Name="PART_ChevronIcon" Grid.Column="3"
+                                      Margin="24 0 0 0"
+                                      Width="10"
+                                      Height="10"
+                                      Data="{StaticResource ChevronRightRegular}" />
+                        </Grid>
+                    </RippleEffect>
+
                     <Popup Name="PART_Popup"
                            WindowManagerAddShadowHint="False"
                            Placement="Right"
@@ -132,22 +132,18 @@
                                       Margin="6 4 6 6"
                                       BlurRadius="5"
                                       Offset="0 1"
-                                      ShadowColor="#3C000000">
-                            <Border Background="{DynamicResource BackgroundColor1}"
-                                    BorderBrush="{DynamicResource ControlBorderColor}"
-                                    BorderThickness="1"
-                                    MaxWidth="456"
-                                    MinHeight="32"
-                                    HorizontalAlignment="Stretch"
-                                    CornerRadius="{DynamicResource ControlCornerRadius}">
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                              VerticalScrollBarVisibility="Auto">
-                                    <ItemsPresenter Name="PART_ItemsPresenter"
-                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    Margin="0 2 0 2"
-                                                    Grid.IsSharedSizeScope="True" />
-                                </ScrollViewer>
-                            </Border>
+                                      ShadowColor="#3C000000"
+                                      Background="{DynamicResource BackgroundColor1}"
+                                      MaxWidth="456"
+                                      MinHeight="32"
+                                      HorizontalAlignment="Stretch">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter Name="PART_ItemsPresenter"
+                                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                Margin="0 2 0 2"
+                                                Grid.IsSharedSizeScope="True" />
+                            </ScrollViewer>
                         </ShadowBorder>
                     </Popup>
                 </Panel>

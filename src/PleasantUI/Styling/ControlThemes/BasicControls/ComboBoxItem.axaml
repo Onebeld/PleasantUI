@@ -36,11 +36,6 @@
                 </Border>
             </FocusAdornerTemplate>
         </Setter>
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions> 
-        </Setter>
         
         <Setter Property="Template">
             <ControlTemplate>
@@ -51,6 +46,12 @@
                               Margin="5,2,5,2"
                               CornerRadius="{TemplateBinding CornerRadius}"
                               TemplatedControl.IsTemplateFocusTarget="True">
+                    <RippleEffect.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </RippleEffect.Transitions>
+                    
                     <Panel>
                         <Border Name="Pill" Theme="{StaticResource ComboBoxItemPillBorder}" />
 

@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:PleasantUI.Controls"
                     x:ClassModifier="internal">
-
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource BackgroundColor1}" Width="400">
             <controls:PropertyGrid>
@@ -17,19 +16,24 @@
         </Border>
     </Design.PreviewWith>
 
-    <!-- ── PropertyRow ───────────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:PropertyRow}" TargetType="controls:PropertyRow">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
 
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid ColumnDefinitions="Auto,16,*">
-
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="PropertyGridLabelColumnGroup" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
                     <!-- Label -->
                     <TextBlock Grid.Column="0"
                                Text="{TemplateBinding Label}"
                                Foreground="{DynamicResource TextFillColor2}"
                                FontSize="{StaticResource GlobalFontSize}"
+                               HorizontalAlignment="Left"
                                VerticalAlignment="Center" />
 
                     <!-- Value: plain text (default) -->
@@ -39,6 +43,7 @@
                                FontSize="{StaticResource GlobalFontSize}"
                                TextTrimming="CharacterEllipsis"
                                VerticalAlignment="Center"
+                               HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
                                ToolTip.Tip="{TemplateBinding ToolTipText}" />
 
                     <!-- Value: link button -->
@@ -47,10 +52,12 @@
                             Content="{TemplateBinding Value}"
                             Command="{TemplateBinding LinkCommand}"
                             CommandParameter="{TemplateBinding LinkCommandParameter}"
+                            CornerRadius="4"
                             Theme="{StaticResource AppBarButtonTheme}"
-                            Padding="5 0"
+                            Padding="0"
                             HorizontalContentAlignment="Left"
                             VerticalContentAlignment="Center"
+                            HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
                             Cursor="Hand"
                             IsVisible="False"
                             ToolTip.Tip="{TemplateBinding ToolTipText}">
@@ -60,7 +67,6 @@
                                 <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextFillColor1}" />
                             </Style>
                             <Style Selector="Button:pointerover /template/ ContentPresenter">
-                                <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentFillColor1}" />
                                 <Setter Property="TextBlock.TextDecorations" Value="Underline" />
                             </Style>
                         </Button.Styles>
@@ -74,6 +80,7 @@
                                Foreground="{TemplateBinding ValueBrush}"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
+                               HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
                                IsVisible="False"
                                ToolTip.Tip="{TemplateBinding ToolTipText}" />
 
@@ -83,6 +90,7 @@
                                       Content="{TemplateBinding Value}"
                                       ContentTemplate="{TemplateBinding ValueTemplate}"
                                       VerticalAlignment="Center"
+                                      HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
                                       IsVisible="False" />
                 </Grid>
             </ControlTemplate>
@@ -113,7 +121,6 @@
         </Style>
     </ControlTheme>
 
-    <!-- ── PropertyGrid ──────────────────────────────────────────────────── -->
     <ControlTheme x:Key="{x:Type controls:PropertyGrid}" TargetType="controls:PropertyGrid">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="RowSpacing" Value="10" />
@@ -122,11 +129,10 @@
             <ControlTemplate>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Auto">
-                    <ItemsControl Name="PART_RowsHost">
+                    <ItemsControl Name="PART_RowsHost" ItemsSource="{TemplateBinding Rows}" Grid.IsSharedSizeScope="True">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel
-                                    Spacing="{Binding RowSpacing, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" />
+                                <StackPanel Spacing="{Binding RowSpacing, RelativeSource={RelativeSource AncestorType=controls:PropertyGrid}}" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
@@ -134,5 +140,4 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
-
 </ResourceDictionary>

@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Layout;
 using Avalonia.Media;
 
 namespace PleasantUI.Controls;
@@ -15,10 +16,13 @@ public enum PropertyRowValueKind
 {
     /// <summary>Plain text label.</summary>
     Text,
+
     /// <summary>Clickable hyperlink-style button.</summary>
     Link,
+
     /// <summary>Colored status text (uses <see cref="PropertyRow.ValueBrush"/>).</summary>
     Status,
+
     /// <summary>Arbitrary content via <see cref="PropertyRow.ValueTemplate"/>.</summary>
     Custom
 }
@@ -29,13 +33,9 @@ public enum PropertyRowValueKind
 [PseudoClasses(PC_Link, PC_Status, PC_Custom)]
 public class PropertyRow : TemplatedControl
 {
-    // ── Pseudo-class names ────────────────────────────────────────────────────
-
-    internal const string PC_Link   = ":link";
-    internal const string PC_Status = ":status";
-    internal const string PC_Custom = ":custom";
-
-    // ── Styled properties ─────────────────────────────────────────────────────
+    private const string PC_Link = ":link";
+    private const string PC_Status = ":status";
+    private const string PC_Custom = ":custom";
 
     /// <summary>Defines the <see cref="Label"/> property.</summary>
     public static readonly StyledProperty<string?> LabelProperty =
@@ -68,8 +68,10 @@ public class PropertyRow : TemplatedControl
     /// <summary>Defines the <see cref="ToolTipText"/> property.</summary>
     public static readonly StyledProperty<string?> ToolTipTextProperty =
         AvaloniaProperty.Register<PropertyRow, string?>(nameof(ToolTipText));
-
-    // ── CLR accessors ─────────────────────────────────────────────────────────
+    
+    /// <summary>Defines the <see cref="ValueHorizontalAlignment"/> property.</summary>
+    public static readonly StyledProperty<HorizontalAlignment> ValueHorizontalAlignmentProperty =
+        PropertyGrid.ValueHorizontalAlignmentProperty.AddOwner<PropertyRow>();
 
     /// <summary>Gets or sets the label shown in the left column.</summary>
     public string? Label
@@ -90,6 +92,13 @@ public class PropertyRow : TemplatedControl
     {
         get => GetValue(ValueTemplateProperty);
         set => SetValue(ValueTemplateProperty, value);
+    }
+    
+    /// <summary>Gets or sets the horizontal alignment of the row value.</summary>
+    public HorizontalAlignment ValueHorizontalAlignment
+    {
+        get => GetValue(ValueHorizontalAlignmentProperty);
+        set => SetValue(ValueHorizontalAlignmentProperty, value);
     }
 
     /// <summary>Gets or sets how the value is rendered.</summary>
@@ -127,8 +136,7 @@ public class PropertyRow : TemplatedControl
         set => SetValue(ToolTipTextProperty, value);
     }
 
-    // ── Overrides ─────────────────────────────────────────────────────────────
-
+    /// <inheritdoc/>
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -136,7 +144,8 @@ public class PropertyRow : TemplatedControl
         if (change.Property == ValueKindProperty)
         {
             PropertyRowValueKind kind = change.GetNewValue<PropertyRowValueKind>();
-            PseudoClasses.Set(PC_Link,   kind == PropertyRowValueKind.Link);
+
+            PseudoClasses.Set(PC_Link, kind == PropertyRowValueKind.Link);
             PseudoClasses.Set(PC_Status, kind == PropertyRowValueKind.Status);
             PseudoClasses.Set(PC_Custom, kind == PropertyRowValueKind.Custom);
         }

@@ -13,7 +13,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Rendering.Composition;
-using Avalonia.Threading;
 
 namespace PleasantUI.Controls;
 
@@ -23,15 +22,14 @@ namespace PleasantUI.Controls;
 public class RippleEffect : ContentControl
 {
     private CompositionContainerVisual? _container;
-    private bool _isCancelled;
-    private CompositionCustomVisual? _last;
-    private byte _pointers;
+    private readonly List<CompositionCustomVisual> _activeRipples = new();
+    private CancellationTokenSource? _detachCts;
     
 	/// <summary>
 	/// Defines the <see cref="RippleFill" /> property.
 	/// </summary>
-	public static readonly StyledProperty<IBrush> RippleFillProperty =
-        AvaloniaProperty.Register<RippleEffect, IBrush>(nameof(RippleFill), inherits: true,
+	public static readonly StyledProperty<IBrush?> RippleFillProperty =
+        AvaloniaProperty.Register<RippleEffect, IBrush?>(nameof(RippleFill), inherits: true,
             defaultValue: Brushes.White);
 
 	/// <summary>
@@ -61,7 +59,7 @@ public class RippleEffect : ContentControl
     /// <summary>
     /// Gets or sets the brush used to fill the ripple.
     /// </summary>
-    public IBrush RippleFill
+    public IBrush? RippleFill
     {
         get => GetValue(RippleFillProperty);
         set => SetValue(RippleFillProperty, value);
@@ -124,6 +122,8 @@ public class RippleEffect : ContentControl
     {
         base.OnAttachedToVisualTree(e);
 
+        _detachCts = new CancellationTokenSource();
+
         CompositionVisual thisVisual = ElementComposition.GetElementVisual(this)!;
         _container = thisVisual.Compositor.CreateContainerVisual();
         _container.Size = new Vector(Bounds.Width, Bounds.Height);
@@ -134,6 +134,15 @@ public class RippleEffect : ContentControl
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
+        
+        _detachCts?.Cancel();
+        _detachCts?.Dispose();
+        _detachCts = null;
+        
+        _activeRipples.Clear();
+
+        if (_container is { } container)
+            container.Children.Clear();
 
         _container = null;
         ElementComposition.SetElementChildVisual(this, null);
@@ -160,68 +169,59 @@ public class RippleEffect : ContentControl
         (double x, double y) = e.GetPosition(this);
         if (_container is null || x < 0 || x > Bounds.Width || y < 0 || y > Bounds.Height) return;
 
-        _isCancelled = false;
-
         if (!IsAllowedRaiseRipple)
             return;
 
-        if (_pointers != 0)
-            return;
+        CompositionCustomVisual? r = CreateRipple(x, y, RaiseRippleCenter);
+        if (r is null) return;
 
-        // Only first pointer can arrive a ripple
-        _pointers++;
-        CompositionCustomVisual r = CreateRipple(x, y, RaiseRippleCenter);
-        _last = r;
-
-        // Attach ripple instance to canvas
+        _activeRipples.Add(r);
         _container.Children.Add(r);
         r.SendHandlerMessage(RippleHandler.FirstStepMessage);
-
-        if (_isCancelled) RemoveLastRipple();
     }
 
-    private void LostFocusHandler(object? sender, RoutedEventArgs e)
+    private void LostFocusHandler(object? sender, RoutedEventArgs e) => RemoveAllRipples();
+
+    private void PointerReleasedHandler(object? sender, PointerReleasedEventArgs e) => RemoveAllRipples();
+
+    private void PointerCaptureLostHandler(object? sender, PointerCaptureLostEventArgs e) => RemoveAllRipples();
+
+    private void RemoveAllRipples()
     {
-        _isCancelled = true;
-        RemoveLastRipple();
+        if (_activeRipples.Count == 0) return;
+
+        for (int i = _activeRipples.Count - 1; i >= 0; i--)
+        {
+            CompositionCustomVisual ripple = _activeRipples[i];
+            _ = OnReleaseHandlerAsync(ripple);
+        }
+    
+        _activeRipples.Clear();
     }
 
-    private void PointerReleasedHandler(object? sender, PointerReleasedEventArgs e)
-    {
-        _isCancelled = true;
-        RemoveLastRipple();
-    }
-
-    private void PointerCaptureLostHandler(object? sender, PointerCaptureLostEventArgs e)
-    {
-        _isCancelled = true;
-        RemoveLastRipple();
-    }
-
-    private void RemoveLastRipple()
-    {
-        if (_last == null)
-            return;
-
-        _pointers--;
-
-        // This way to handle pointer released is pretty tricky
-        // could have more better way to improve
-        OnReleaseHandler(_last);
-        _last = null;
-    }
-
-    private void OnReleaseHandler(CompositionCustomVisual r)
+    private async Task OnReleaseHandlerAsync(CompositionCustomVisual r)
     {
         // Fade out ripple
         r.SendHandlerMessage(RippleHandler.SecondStepMessage);
 
         // Remove ripple from canvas to finalize ripple instance
         CompositionContainerVisual? container = _container;
-        DispatcherTimer.RunOnce(() => { container?.Children.Remove(r); }, Ripple.Duration, DispatcherPriority.Render);
+        CancellationToken token = _detachCts?.Token ?? CancellationToken.None;
+
+        try
+        {
+            await Task.Delay(Ripple.Duration, token);
+
+            if (!token.IsCancellationRequested && container is not null)
+                container.Children.Remove(r);
+        }
+        catch (OperationCanceledException)
+        {
+            
+        }
     }
 
-    private CompositionCustomVisual CreateRipple(double x, double y, bool center)
+    private CompositionCustomVisual? CreateRipple(double x, double y, bool center)
     {
         double w = Bounds.Width;
         double h = Bounds.Height;
@@ -232,17 +232,23 @@ public class RippleEffect : ContentControl
             x = w / 2;
             y = h / 2;
         }
+        
+        IBrush fillBrush = RippleFill ?? Brushes.White;
+        IImmutableBrush immutableFill = fillBrush.ToImmutable();
 
         RippleHandler handler = new(
-            RippleFill.ToImmutable(),
+            immutableFill,
             Ripple.Easing,
             Ripple.Duration,
             RippleOpacity,
             CornerRadius,
             x, y, w, h, t);
 
-        CompositionCustomVisual visual =
-            ElementComposition.GetElementVisual(this)!.Compositor.CreateCustomVisual(handler);
+        CompositionVisual? elementVisual = ElementComposition.GetElementVisual(this);
+        if (elementVisual is null)
+            return null;
+        
+        CompositionCustomVisual visual = elementVisual.Compositor.CreateCustomVisual(handler);
         visual.Size = new Vector(Bounds.Width, Bounds.Height);
         return visual;
     }

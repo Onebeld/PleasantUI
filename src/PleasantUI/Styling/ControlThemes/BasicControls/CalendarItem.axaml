@@ -23,12 +23,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -39,6 +33,12 @@
                               CornerRadius="{TemplateBinding CornerRadius}"
                               Margin="{TemplateBinding Margin}"
                               Padding="{TemplateBinding Padding}">
+                    <RippleEffect.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </RippleEffect.Transitions>
+                    
                     <ContentPresenter Name="Text" 
                                       Content="{TemplateBinding Content}"
                                       HorizontalContentAlignment="Stretch"

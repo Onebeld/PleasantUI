@@ -5,7 +5,7 @@
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />
         <Setter Property="FontSize" Value="{StaticResource GlobalFontSize}" />
-        <Setter Property="FontFamily" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
         
         <Setter Property="Template">
             <ControlTemplate>

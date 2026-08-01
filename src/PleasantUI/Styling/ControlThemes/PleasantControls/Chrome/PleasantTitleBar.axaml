@@ -56,9 +56,16 @@
                                 Spacing="5"
                                 VerticalAlignment="Center"
                                 IsHitTestVisible="False">
-                        <PleasantIcon x:Name="PART_DisplayIcon" Width="16" Height="16" Margin="10 0 5 0" />
+                        <PleasantIcon x:Name="PART_DisplayIcon"
+                                      RenderOptions.BitmapInterpolationMode="HighQuality"
+                                      Width="16"
+                                      Height="16"
+                                      Margin="10 0 5 0" />
 
-                        <PleasantIcon x:Name="PART_DisplayTitle" MaxWidth="75" />
+                        <PleasantIcon x:Name="PART_DisplayTitle"
+                                      RenderOptions.BitmapInterpolationMode="HighQuality"
+                                      MaxHeight="10"
+                                      MaxWidth="75" />
 
                         <TextBlock x:Name="PART_Subtitle"
                                    FontSize="12"

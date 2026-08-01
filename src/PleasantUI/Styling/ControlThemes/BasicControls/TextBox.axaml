@@ -33,11 +33,6 @@
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions> 
-        </Setter> 
 
         <Setter Property="ContextFlyout">
             <MenuFlyout Placement="Bottom">
@@ -71,7 +66,13 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            IsHitTestVisible="False" />
+                            IsHitTestVisible="False">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.1" />
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
 
                     <DataValidationErrors>
                         <Grid ColumnDefinitions="Auto,*,Auto">

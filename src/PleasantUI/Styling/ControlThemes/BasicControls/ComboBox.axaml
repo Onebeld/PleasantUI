@@ -44,11 +44,6 @@
                 <VirtualizingStackPanel />
             </ItemsPanelTemplate>
         </Setter>
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
         
         <Setter Property="Template">
             <ControlTemplate>
@@ -68,7 +63,13 @@
                                       Grid.ColumnSpan="2"
                                       Background="{TemplateBinding Background}"
                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                      MinWidth="64" />
+                                      MinWidth="64">
+                            <RippleEffect.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                                </Transitions>
+                            </RippleEffect.Transitions>
+                        </RippleEffect>
 
                         <TextBlock x:Name="PlaceholderTextBlock"
                                    Grid.Row="1"

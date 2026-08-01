@@ -15,11 +15,6 @@
         <Setter Property="Margin" Value="0 1 1 1" />
         <Setter Property="Background" Value="{ColorToTransparent ControlFillColor2}" />
         <Setter Property="CornerRadius" Value="{DynamicResource RoundedControlCornerRadius}" />
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1" />
-            </Transitions>
-        </Setter>
 
         <Setter Property="Template">
             <ControlTemplate>
@@ -27,6 +22,12 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Background="{TemplateBinding Background}">
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Border.Transitions>
+                    
                     <Grid Width="35"
                           Height="24"
                           HorizontalAlignment="Center"

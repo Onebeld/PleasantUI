@@ -31,20 +31,20 @@
                     <Button Name="PART_FullScreenButton"
                             IsVisible="False"
                             WindowDecorationProperties.ElementRole="FullScreenButton">
-                        <PleasantIcon Width="10" Height="10" />
+                        <PleasantIcon Width="10" Height="10" RenderOptions.BitmapInterpolationMode="HighQuality" />
                     </Button>
                     <Button Name="PART_MinimizeButton"
                             WindowDecorationProperties.ElementRole="MinimizeButton">
-                        <PleasantIcon Icon="{StaticResource SubtractRegular}" Width="10" Height="10" />
+                        <PleasantIcon Icon="{StaticResource SubtractRegular}" RenderOptions.BitmapInterpolationMode="HighQuality" Width="10" Height="10" />
                     </Button>
                     <Button Name="PART_MaximizeButton"
                             WindowDecorationProperties.ElementRole="MaximizeButton">
-                        <PleasantIcon Width="10" Height="10" />
+                        <PleasantIcon Width="10" Height="10" RenderOptions.BitmapInterpolationMode="HighQuality" />
                     </Button>
                     <Button Name="PART_CloseButton"
                             WindowDecorationProperties.ElementRole="CloseButton"
                             Theme="{StaticResource CloseButtonTheme}">
-                        <PleasantIcon Icon="{StaticResource DismissRegular}" Width="10" Height="10" />
+                        <PleasantIcon Icon="{StaticResource DismissRegular}" RenderOptions.BitmapInterpolationMode="HighQuality" Width="10" Height="10" />
                     </Button>
                 </StackPanel>
             </ControlTemplate>

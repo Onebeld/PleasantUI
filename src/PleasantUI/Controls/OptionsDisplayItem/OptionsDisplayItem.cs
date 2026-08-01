@@ -5,6 +5,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Metadata;
 
 namespace PleasantUI.Controls;
 
@@ -150,6 +151,7 @@ public class OptionsDisplayItem : TemplatedControl
     /// <value>
     /// The content of the property.
     /// </value>
+    [Content]
     public object? Content
     {
         get => GetValue(ContentProperty);

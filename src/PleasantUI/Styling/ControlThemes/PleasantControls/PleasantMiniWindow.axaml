@@ -12,7 +12,7 @@
                 Value="{CompiledBinding WindowSettings.EnableCustomTitleBar, Source={x:Static PleasantSettings.Current}}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor1}" />
         <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource BackgroundColor1}" />
-        <Setter Property="FontFamily" Value="{Binding Font, Source={x:Static PleasantSettings.Current}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="8" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColor1}" />

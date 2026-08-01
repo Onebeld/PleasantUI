@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PleasantUI.Controls;
+using Serilog;
 
 namespace PleasantUI.Example.Desktop;
 
@@ -21,6 +22,11 @@ public class App : PleasantUiExampleApp
     {
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
             return;
+
+        Avalonia.Threading.Dispatcher.UIThread.UnhandledException += (sender, args) =>
+        {
+            Log.Error(args.Exception, "Unhandled UI exception");
+        };
         
         if (Design.IsDesignMode)
         {

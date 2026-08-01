@@ -10,8 +10,8 @@
     <Import Project="..\..\build\Package.props" />
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="12.1.0" />
-        <PackageReference Include="Avalonia.Skia" Version="12.1.0" />
+        <PackageReference Include="Avalonia" Version="12.1.1" />
+        <PackageReference Include="Avalonia.Skia" Version="12.1.1" />
     </ItemGroup>
 
     <ItemGroup>
